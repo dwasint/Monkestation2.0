@@ -372,9 +372,10 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/computer/cryopod, 32)
 			mob_occupant.transferItemToLoc(item_content, control_computer, force = TRUE, silent = TRUE)
 			item_content.dropped(mob_occupant)
 			control_computer.frozen_item += item_content
-			for(var/list/stored as anything in control_computer.frozen_crew)
-				if(stored["name"] == stored_name)
-					stored["items"] += item_content
+			if(control_computer)
+				for(var/list/stored as anything in control_computer.frozen_crew)
+					if(stored["name"] == stored_name)
+						stored["items"] += item_content
 		else
 			mob_occupant.transferItemToLoc(item_content, drop_location(), force = TRUE, silent = TRUE)
 
