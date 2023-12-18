@@ -5,6 +5,8 @@
 /atom/proc/set_light(l_outer_range, l_inner_range, l_power, l_falloff_curve = LIGHTING_DEFAULT_FALLOFF_CURVE, l_color = NONSENSICAL_VALUE, l_on)
 	if(!isnum(l_power) && !isnull(l_power))
 		return
+	if(l_outer_range > 0 && l_outer_range < MINIMUM_USEFUL_LIGHT_RANGE)
+		l_outer_range = MINIMUM_USEFUL_LIGHT_RANGE //Brings the range up to 1.4, which is just barely brighter than the soft lighting that surrounds players.
 	if(SEND_SIGNAL(src, COMSIG_ATOM_SET_LIGHT, l_inner_range, l_outer_range, l_power, l_falloff_curve, l_color, l_on) & COMPONENT_BLOCK_LIGHT_UPDATE)
 		return
 
@@ -50,7 +52,7 @@
 		if (light) // Update the light or create it if it does not exist.
 			light.update(.)
 		else
-			light = new/atom/movable/light(src, .)
+			light = new/datum/light_source(src, .)
 
 
 /**
@@ -62,9 +64,10 @@
 /atom/proc/set_opacity(new_opacity)
 	if (new_opacity == opacity)
 		return
+	SEND_SIGNAL(src, COMSIG_ATOM_SET_OPACITY, new_opacity)
 	. = opacity
 	opacity = new_opacity
-	SEND_SIGNAL(src, COMSIG_ATOM_SET_OPACITY, .)
+
 
 /atom/movable/set_opacity(new_opacity)
 	. = ..()
@@ -119,14 +122,6 @@
 
 /// Setter for the light range of this atom.
 /atom/proc/set_light_range(new_inner_range, new_outer_range)
-	if(new_outer_range > 0 && new_outer_range < MINIMUM_USEFUL_LIGHT_RANGE)
-		new_outer_range = MINIMUM_USEFUL_LIGHT_RANGE //Brings the range up to 1, which is just barely brighter than the soft lighting that surrounds players.
-	new_outer_range = clamp(round(new_outer_range), 0, 5)
-
-	if(new_inner_range > 0 && new_inner_range < MINIMUM_USEFUL_LIGHT_RANGE)
-		new_inner_range = MINIMUM_USEFUL_LIGHT_RANGE //Brings the range up to 1, which is just barely brighter than the soft lighting that surrounds players.
-	new_inner_range = clamp(round(new_inner_range), 0, 5)
-
 	if(isnull(new_inner_range) && new_outer_range)
 		new_inner_range = new_outer_range/4
 	if(isnull(new_outer_range) && new_inner_range)
