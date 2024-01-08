@@ -259,6 +259,14 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 				tgui.ui_interact(usr)
 			return TRUE
 
+		if ("open_spellbook")
+			if(parent.open_spellbook_ui)
+				parent.open_spellbook_ui.ui_interact(usr)
+			else
+				var/datum/spellbook_manager/tgui = new(usr)
+				tgui.ui_interact(usr)
+			return TRUE
+
 		if ("set_color_preference")
 			var/requested_preference_key = params["preference"]
 

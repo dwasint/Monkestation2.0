@@ -83,6 +83,7 @@ GLOBAL_LIST_INIT(blacklisted_automated_baseturfs, typecacheof(list(
 	var/old_rcd_memory = rcd_memory
 	var/old_explosion_throw_details = explosion_throw_details
 	var/old_opacity = opacity
+	var/list/old_leylines = leylines
 	// I'm so sorry brother
 	// This is used for a starlight optimization
 	var/old_light_range = light_outer_range
@@ -131,6 +132,7 @@ GLOBAL_LIST_INIT(blacklisted_automated_baseturfs, typecacheof(list(
 	new_turf.rcd_memory = old_rcd_memory
 	new_turf.explosion_throw_details = old_explosion_throw_details
 	new_turf.explosive_resistance += old_explosive_resistance
+	new_turf.leylines = old_leylines
 
 	lighting_corner_NE = old_lighting_corner_NE
 	lighting_corner_SE = old_lighting_corner_SE
