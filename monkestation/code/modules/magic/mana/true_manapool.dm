@@ -104,30 +104,38 @@
 	if (ethereal_recharge_rate != 0)
 		adjust_mana(ethereal_recharge_rate * seconds_per_tick, attunements_to_generate)
 
-	switch (transfer_method)
-		if (MANA_SEQUENTIAL)
-			for (var/datum/mana_pool/iterated_pool as anything in transferring_to)
-				if (amount <= 0 || donation_budget_this_tick <= 0)
-					break
-				if (transferring_to[iterated_pool] & MANA_POOL_SKIP_NEXT_TRANSFER)
-					transferring_to[iterated_pool] &= ~MANA_POOL_SKIP_NEXT_TRANSFER
-					continue
+	if(isliving(parent) && amount < parent?.mana_overload_threshold)
+		var/turf/turf = get_turf(parent)
+		if(length(turf.leylines))
+			for(var/datum/mana_pool/leyline/leyline as anything in turf.leylines)
+				var/sane_distance = 1  + turf.distance_from_leyline
+				leyline.transfer_specific_mana(src, get_transfer_rate_for(leyline) / sane_distance)
 
-				transfer_mana_to(iterated_pool, seconds_per_tick)
+	else
+		switch (transfer_method)
+			if (MANA_SEQUENTIAL)
+				for (var/datum/mana_pool/iterated_pool as anything in transferring_to)
+					if (amount <= 0 || donation_budget_this_tick <= 0)
+						break
+					if (transferring_to[iterated_pool] & MANA_POOL_SKIP_NEXT_TRANSFER)
+						transferring_to[iterated_pool] &= ~MANA_POOL_SKIP_NEXT_TRANSFER
+						continue
 
-		if (MANA_DISPERSE_EVENLY)
-			var/mana_to_disperse = SAFE_DIVIDE(donation_budget_this_tick, length(transferring_to))
+					transfer_mana_to(iterated_pool, seconds_per_tick)
 
-			for (var/datum/mana_pool/iterated_pool as anything in transferring_to)
-				if (transferring_to[iterated_pool] & MANA_POOL_SKIP_NEXT_TRANSFER)
-					transferring_to[iterated_pool] &= ~MANA_POOL_SKIP_NEXT_TRANSFER
-					continue
+			if (MANA_DISPERSE_EVENLY)
+				var/mana_to_disperse = SAFE_DIVIDE(donation_budget_this_tick, length(transferring_to))
 
-				transfer_specific_mana(iterated_pool, mana_to_disperse)
-			// ...
+				for (var/datum/mana_pool/iterated_pool as anything in transferring_to)
+					if (transferring_to[iterated_pool] & MANA_POOL_SKIP_NEXT_TRANSFER)
+						transferring_to[iterated_pool] &= ~MANA_POOL_SKIP_NEXT_TRANSFER
+						continue
+
+					transfer_specific_mana(iterated_pool, mana_to_disperse)
+				// ...
 
 	if (parent)
-		if (amount < parent.mana_overload_threshold)
+		if (amount > parent.mana_overload_threshold)
 			var/effect_mult = (((amount / parent.mana_overload_threshold) - 1) * parent.mana_overload_coefficient)
 			parent.process_mana_overload(effect_mult, seconds_per_tick)
 		else if (parent.mana_overloaded)
@@ -246,15 +254,15 @@
 
 	if (!isnull(incoming_attunements))
 
-		/*var/ratio
+		var/ratio
 		if (src.amount == 0)
 			ratio = MANA_POOL_REPLACE_ALL_ATTUNEMENTS
 		else
-			ratio = amount/src.amount*/
+			ratio = amount / src.amount
 
-		/*for (var/iterated_attunement as anything in incoming_attunements)
+		for (var/iterated_attunement as anything in incoming_attunements)
 		// equation formed in desmos, dosent work
-			attunements[iterated_attunement] += (((incoming_attunements[iterated_attunement]) - attunements[iterated_attunement]) * (ratio/2)) */
+			attunements[iterated_attunement] += (((incoming_attunements[iterated_attunement]) - attunements[iterated_attunement]) * (ratio/2))
 
 	var/result = clamp(src.amount + amount, 0, maximum_mana_capacity)
 	. = result - src.amount // Return the amount that was used
