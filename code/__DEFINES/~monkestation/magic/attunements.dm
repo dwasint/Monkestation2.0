@@ -25,6 +25,10 @@
 #define MAGIC_ELEMENT_WATER /datum/attunement/water
 #define MAGIC_ELEMENT_LIFE /datum/attunement/life
 #define MAGIC_ELEMENT_ELECTRIC /datum/attunement/electric
+#define MAGIC_ELEMENT_DARKNESS /datum/attunement/dark
+#define MAGIC_ELEMENT_BLOOD /datum/attunement/blood
+#define MAGIC_ELEMENT_TIME /datum/attunement/time
+#define MAGIC_ELEMENT_DEATH /datum/attunement/death
 // When other elements are used, add them here
 
 // Alignments

@@ -143,3 +143,11 @@ GLOBAL_LIST_INIT(default_attunements, create_default_attunement_list())
 	desc = "A unique and nigh-impossible element to master by all but those with either endless lifespans, or non-euclidian existence. Measured by all civilizations, and the defining aspect of countless realms and systems. You know exactly what this is, and shouldn't need any further description."
 
 	alignments = list(MAGIC_ALIGNMENT_LAW = 2)
+
+/datum/attunement/death
+	name = "Death"
+	desc = "The most taboo element in the universe, Death magic exerts control over death itself, most who practice this end up falling into utter madness."
+
+	alignments = list(
+		MAGIC_ALIGNMENT_EVIL = 2,
+	)

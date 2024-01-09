@@ -22,7 +22,7 @@ GLOBAL_LIST_EMPTY_TYPED(all_leylines, /datum/mana_pool/leyline)
 /// The lines of latent energy that run under the universe. Available to all people in the game. Should be high capacity, but slow to recharge.
 /datum/mana_pool/leyline
 	var/datum/leyline_variable/leyline_intensity/intensity
-	var/list/datum/leyline_variable/attunement_theme/themes
+	var/datum/leyline_variable/attunement_theme/theme
 
 	maximum_mana_capacity = LEYLINE_BASE_CAPACITY
 
@@ -36,10 +36,8 @@ GLOBAL_LIST_EMPTY_TYPED(all_leylines, /datum/mana_pool/leyline)
 /datum/mana_pool/leyline/New()
 	GLOB.all_leylines += src
 	intensity = generate_initial_intensity()
-	themes = generate_initial_themes()
-
-	for (var/datum/leyline_variable/attunement_theme/theme as anything in themes)
-		theme.adjust_attunements(attunements_to_generate)
+	theme = generate_initial_themes()
+	theme.adjust_attunements(attunements_to_generate)
 
 	maximum_mana_capacity *= (intensity.overall_mult)
 	softcap = maximum_mana_capacity
@@ -66,7 +64,7 @@ GLOBAL_LIST_EMPTY_TYPED(all_leylines, /datum/mana_pool/leyline)
 
 /datum/mana_pool/leyline/Destroy(force, ...)
 	QDEL_NULL(intensity)
-	QDEL_LIST(themes)
+	QDEL_NULL(theme)
 
 	GLOB.all_leylines -= src
 

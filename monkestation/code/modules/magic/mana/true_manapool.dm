@@ -116,7 +116,7 @@
 				transfer_mana_to(iterated_pool, seconds_per_tick)
 
 		if (MANA_DISPERSE_EVENLY)
-			var/mana_to_disperse = (donation_budget_this_tick / length(transferring_to))
+			var/mana_to_disperse = SAFE_DIVIDE(donation_budget_this_tick, length(transferring_to))
 
 			for (var/datum/mana_pool/iterated_pool as anything in transferring_to)
 				if (transferring_to[iterated_pool] & MANA_POOL_SKIP_NEXT_TRANSFER)
@@ -133,7 +133,7 @@
 		else if (parent.mana_overloaded)
 			parent.stop_mana_overload()
 
-	if (amount < softcap)
+	if (amount > softcap)
 	// exponential decay
 	// exponentially decays amount when amount surpasses softcap, with [exponential_decay_divisor] being the (inverse) decay factor
 	// can only decay however much amount we are over softcap

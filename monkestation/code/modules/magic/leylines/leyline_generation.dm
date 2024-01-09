@@ -14,25 +14,27 @@
 	switch(stuck_dir)
 		if(NORTH)
 			starting_y = 255
+			ending_y = 1
 			stuck_axis = "Y"
 		if(SOUTH)
 			starting_y = 1
+			ending_y = 255
 			stuck_axis = "Y"
 		if(EAST)
 			starting_x = 1
+			ending_x = 255
 			stuck_axis = "X"
 		if(WEST)
 			starting_x = 255
+			ending_x = 1
 			stuck_axis = "X"
 
 	switch(stuck_axis)
 		if("X")
 			starting_y = rand(1, 255)
-			ending_x = rand(2, 254)
 			ending_y = rand(1, 255)
 		if("Y")
 			starting_x = rand(1, 255)
-			ending_y = rand(2, 254)
 			ending_x = rand(1, 255)
 
 	var/station_z = SSmapping.levels_by_trait(ZTRAIT_STATION)[1]
@@ -48,7 +50,8 @@
 	var/thickness = intensity.thickness
 
 	var/turf/starting = data[1]
-	starting.Beam(data[2])
+
+	starting.Beam(data[2], icon_state = "bsa_beam", beam_color = theme.beam_color)
 
 	for(var/turf/turf as anything in line_turfs)
 		for(var/z in SSmapping.levels_by_trait(ZTRAIT_STATION))

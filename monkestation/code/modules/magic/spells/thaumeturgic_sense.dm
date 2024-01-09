@@ -9,10 +9,12 @@
 	var/mana_precision
 	var/attunement_precision
 	var/datum/thaumatergic_sense_tgui_handler/ui_handler
+
 /datum/action/cooldown/spell/thaumatergic_sense/New(Target, original, pool_discernment = 0, mana_precision = 1, attunement_precision = 1)
 	. = ..()
 	src.pool_discernment = pool_discernment
 	src.attunement_precision = attunement_precision
+
 /datum/action/cooldown/spell/thaumatergic_sense/can_cast_spell(feedback)
 	. = ..()
 	if (!.) return FALSE
