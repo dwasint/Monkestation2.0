@@ -17,3 +17,8 @@
 
 #define MANA_POOL_SKIP_NEXT_TRANSFER (1<<0)
 #define MANA_POOL_INTRINSIC (1<<1)
+
+
+#define RITUAL_STORAGE (1<<0)
+#define RITUAL_LINK (1<<1)
+#define RITUAL_AREA (1<<2)
