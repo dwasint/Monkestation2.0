@@ -1,5 +1,5 @@
 /datum/config_entry/flag/demos_enabled
-	default = FALSE
+	default = TRUE
 
 SUBSYSTEM_DEF(demo)
 	name = "Demo"
@@ -20,7 +20,7 @@ SUBSYSTEM_DEF(demo)
 	var/list/chat_list = list()
 
 /datum/controller/subsystem/demo/proc/write_chat(target, message)
-	if(!demo_started && !chat_list || !CONFIG_GET(flag/demos_enabled))
+	if(!demo_started && !chat_list)
 		return
 	var/list/target_list
 	if(target == GLOB.clients || target == world)
@@ -61,8 +61,6 @@ SUBSYSTEM_DEF(demo)
 		chat_list[++chat_list.len] = list(world.time, target_list, message_str, is_text)
 
 /datum/controller/subsystem/demo/Initialize()
-	if(!CONFIG_GET(flag/demos_enabled))
-		return SS_INIT_NO_NEED
 	dummy_observer = new
 	dummy_observer.forceMove(null)
 	dummy_observer.key = dummy_observer.ckey = ckey
@@ -99,20 +97,14 @@ SUBSYSTEM_DEF(demo)
 	return SS_INIT_SUCCESS
 
 /datum/controller/subsystem/demo/fire()
-	if(!CONFIG_GET(flag/demos_enabled))
-		return
 	if(demo_started)
 		last_size = text2num(call(DEMO_WRITER, "demo_flush")())
 
 /datum/controller/subsystem/demo/proc/flush()
-	if(!CONFIG_GET(flag/demos_enabled))
-		return
 	if(demo_started)
 		last_size = text2num(call(DEMO_WRITER, "demo_flush")())
 
 /datum/controller/subsystem/demo/Shutdown()
-	if(!CONFIG_GET(flag/demos_enabled))
-		return
 	call(DEMO_WRITER, "demo_end")()
 
 /datum/controller/subsystem/demo/stat_entry(msg)
@@ -125,8 +117,6 @@ SUBSYSTEM_DEF(demo)
 	return "[round(size / 1000000, 0.01)]MB"
 
 /datum/controller/subsystem/demo/proc/embed_resource(res, path)
-	if(!CONFIG_GET(flag/demos_enabled))
-		return
 	res = fcopy_rsc(res)
 	if(!demo_started)
 		if(embed_list)
