@@ -32,7 +32,7 @@
 	layer = LOBBY_BACKGROUND_LAYER
 	icon = 'icons/hud/lobby/background_monke.dmi'
 	icon_state = "background"
-	screen_loc = "TOP,CENTER:-61"
+	screen_loc = "TOP,CENTER:-122"
 
 /atom/movable/screen/lobby/button
 	///Is the button currently enabled?
@@ -164,7 +164,7 @@
 
 ///Shown when the game has started
 /atom/movable/screen/lobby/button/join
-	screen_loc = "TOP:-54,CENTER:-35"
+	screen_loc = "TOP:-104,CENTER:-70"
 	icon = 'icons/hud/lobby/join.dmi'
 	icon_state = "" //Default to not visible
 	base_icon_state = "join_game"
@@ -264,7 +264,7 @@
 	icon = 'icons/hud/lobby/bottom_buttons.dmi'
 	icon_state = "patreon"
 	base_icon_state = "patreon"
-	screen_loc = "TOP:-126,CENTER:86"
+	screen_loc = "TOP:-256,CENTER:172"
 
 /atom/movable/screen/lobby/button/patreon_link/Click(location, control, params)
 	. = ..()
@@ -278,7 +278,7 @@
 	icon = 'icons/hud/lobby/bottom_buttons.dmi'
 	icon_state = "intents"
 	base_icon_state = "intents"
-	screen_loc = "TOP:-126,CENTER:62"
+	screen_loc = "TOP:-256,CENTER:124"
 
 /atom/movable/screen/lobby/button/intents/Click(location, control, params)
 	. = ..()
@@ -291,7 +291,7 @@
 	icon = 'icons/hud/lobby/bottom_buttons.dmi'
 	icon_state = "discord"
 	base_icon_state = "discord"
-	screen_loc = "TOP:-126,CENTER:38"
+	screen_loc = "TOP:-256,CENTER:76"
 
 /atom/movable/screen/lobby/button/discord/Click(location, control, params)
 	. = ..()
@@ -303,7 +303,7 @@
 	icon = 'icons/hud/lobby/bottom_buttons.dmi'
 	icon_state = "info"
 	base_icon_state = "info"
-	screen_loc = "TOP:-126,CENTER:14"
+	screen_loc = "TOP:-256,CENTER:28"
 
 /atom/movable/screen/lobby/button/twitch/Click(location, control, params)
 	. = ..()
@@ -317,7 +317,7 @@
 	icon = 'icons/hud/lobby/bottom_buttons.dmi'
 	icon_state = "settings"
 	base_icon_state = "settings"
-	screen_loc = "TOP:-126,CENTER:-10"
+	screen_loc = "TOP:-256,CENTER:-20"
 
 /atom/movable/screen/lobby/button/settings/Click(location, control, params)
 	. = ..()
@@ -333,7 +333,7 @@
 	icon = 'icons/hud/lobby/bottom_buttons.dmi'
 	icon_state = "volume"
 	base_icon_state = "volume"
-	screen_loc = "TOP:-126,CENTER:-34"
+	screen_loc = "TOP:-256,CENTER:-68"
 
 /atom/movable/screen/lobby/button/volume/Click(location, control, params)
 	. = ..()
@@ -349,14 +349,14 @@
 	icon = 'icons/hud/lobby/changelog.dmi'
 	icon_state = "changelog"
 	base_icon_state = "changelog"
-	screen_loc ="TOP:-98,CENTER:+45"
+	screen_loc ="TOP:-196,CENTER:+90"
 
 
 /atom/movable/screen/lobby/button/crew_manifest
 	icon = 'icons/hud/lobby/manifest.dmi'
 	icon_state = "manifest"
 	base_icon_state = "manifest"
-	screen_loc = "TOP:-98,CENTER:-9"
+	screen_loc = "TOP:-196,CENTER:-18"
 
 /atom/movable/screen/lobby/button/crew_manifest/Click(location, control, params)
 	. = ..()
@@ -373,7 +373,7 @@
 	icon = 'icons/hud/lobby/poll.dmi'
 	icon_state = "poll"
 	base_icon_state = "poll"
-	screen_loc = "TOP:-98,CENTER:-40"
+	screen_loc = "TOP:-196,CENTER:-80"
 
 	var/new_poll = FALSE
 
