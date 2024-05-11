@@ -287,7 +287,7 @@ GLOBAL_LIST_EMPTY(tram_doors)
 /obj/machinery/crossing_signal/northwest
 	icon_state = "crossing-base-right"
 	signal_direction = XING_SIGNAL_DIRECTION_WEST
-	pixel_x = -32
+	pixel_x = -64
 	pixel_y = -1
 
 /obj/machinery/crossing_signal/northeast
@@ -299,7 +299,7 @@ GLOBAL_LIST_EMPTY(tram_doors)
 /obj/machinery/crossing_signal/southwest
 	icon_state = "crossing-base-right"
 	signal_direction = XING_SIGNAL_DIRECTION_WEST
-	pixel_x = -32
+	pixel_x = -64
 	pixel_y = 20
 
 /obj/machinery/crossing_signal/southeast
@@ -329,7 +329,7 @@ GLOBAL_LIST_EMPTY(tram_doors)
 /obj/machinery/static_signal/northwest
 	icon_state = "static-right-on"
 	base_icon_state = "static-right-"
-	pixel_x = -32
+	pixel_x = -64
 	pixel_y = -1
 
 /obj/machinery/static_signal/northeast
@@ -339,7 +339,7 @@ GLOBAL_LIST_EMPTY(tram_doors)
 /obj/machinery/static_signal/southwest
 	icon_state = "static-right-on"
 	base_icon_state = "static-right-"
-	pixel_x = -32
+	pixel_x = -64
 	pixel_y = 20
 
 /obj/machinery/static_signal/southeast

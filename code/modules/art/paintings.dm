@@ -690,7 +690,7 @@
 /obj/structure/sign/painting/large/proc/finalize_size()
 	switch(dir)
 		if(SOUTH)
-			pixel_y = -32
+			pixel_y = -64
 			bound_width = 64
 		if(NORTH)
 			bound_width = 64

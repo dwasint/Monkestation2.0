@@ -570,7 +570,7 @@
 		accessory = GLOB.wings_list[initial(accessory.name)] //get the singleton instance
 		var/image/img = image(icon = accessory.icon, icon_state = "m_wingsopen_[accessory.icon_state]_BEHIND") //Process the HUD elements
 		img.transform *= 0.5
-		img.pixel_x = -32
+		img.pixel_x = -64
 		if(radial_wings[accessory.name])
 			stack_trace("Different wing types with repeated names. Please fix as this may cause issues.")
 		else

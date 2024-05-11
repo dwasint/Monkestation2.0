@@ -153,7 +153,7 @@ GLOBAL_VAR_INIT(bsa_unlock, FALSE)
 	var/ex_power = 3
 	var/power_used_per_shot = 2000000 //enough to kil standard apc - todo : make this use wires instead and scale explosion power with it
 	var/ready
-	pixel_y = -32
+	pixel_y = -64
 	pixel_x = -192
 	bound_width = 352
 	bound_x = -192

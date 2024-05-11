@@ -96,8 +96,8 @@
 	icon = 'icons/effects/96x96.dmi'
 	color = RUNE_COLOR_BURNTORANGE
 	icon_state = "rune_large"
-	pixel_x = -32 //So the big ol' 96x96 sprite shows up right
-	pixel_y = -32
+	pixel_x = -64 //So the big ol' 96x96 sprite shows up right
+	pixel_y = -64
 
 	/// non-cultists can also use this rune :)
 	cult_override = TRUE

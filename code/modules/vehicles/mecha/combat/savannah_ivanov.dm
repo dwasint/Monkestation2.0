@@ -350,8 +350,8 @@
 	icon = 'icons/mob/telegraphing/telegraph_96x96.dmi'
 	icon_state = "target_largebox"
 	layer = BELOW_MOB_LAYER
-	pixel_x = -32
-	pixel_y = -32
+	pixel_x = -64
+	pixel_y = -64
 	alpha = 0
 	///reference to mecha following
 	var/obj/vehicle/sealed/mecha/mecha

@@ -98,4 +98,4 @@
 	name = "Bubblegum"
 	image_icon = 'icons/mob/simple/lavaland/96x96megafauna.dmi'
 	image_state = "bubblegum"
-	image_pixel_x = -32
+	image_pixel_x = -64

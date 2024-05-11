@@ -219,8 +219,8 @@
 				current_size = STAGE_TWO
 				icon = 'icons/effects/96x96.dmi'
 				icon_state = "[singularity_icon_variant]_s3"
-				pixel_x = -32
-				pixel_y = -32
+				pixel_x = -64
+				pixel_y = -64
 				new_grav_pull = 6
 				new_consume_range = 1
 				dissipate_delay = 5

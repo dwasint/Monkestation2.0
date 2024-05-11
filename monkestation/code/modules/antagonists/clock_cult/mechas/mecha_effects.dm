@@ -3,8 +3,8 @@
 	desc = "You feel standing on this would end poorly."
 	icon = 'icons/effects/96x96.dmi'
 	icon_state = "judicial_marker"
-	pixel_x = -32
-	pixel_y = -32
+	pixel_x = -64
+	pixel_y = -64
 	layer = BELOW_MOB_LAYER
 
 /obj/effect/judicial_mark/Initialize(mapload)

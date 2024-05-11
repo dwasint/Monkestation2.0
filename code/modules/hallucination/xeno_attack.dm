@@ -90,8 +90,8 @@
 /obj/effect/client_image_holder/hallucination/xeno/proc/set_leaping()
 	image_icon = 'icons/mob/nonhuman-player/alienleap.dmi'
 	image_state = "alienh_leap"
-	image_pixel_x = -32
-	image_pixel_y = -32
+	image_pixel_x = -64
+	image_pixel_y = -64
 	update_appearance(UPDATE_ICON)
 
 /// Resets our icon to our initial state.

@@ -7,8 +7,8 @@ GLOBAL_LIST_INIT(science_goggles_wearers, list())
 	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
 	icon_state = ""
 	color = COLOR_GREEN
-	pixel_x = -32
-	pixel_y = -32
+	pixel_x = -64
+	pixel_y = -64
 	opacity = 0
 	anchored = 0
 	density = 0

@@ -123,14 +123,14 @@
 	hit_effect.dir = user.dir
 	switch(user.dir)
 		if(NORTH)
-			hit_effect.pixel_x = -32
+			hit_effect.pixel_x = -64
 		if(SOUTH)
-			hit_effect.pixel_x = -32
+			hit_effect.pixel_x = -64
 			hit_effect.pixel_y = -64
 		if(EAST)
-			hit_effect.pixel_y = -32
+			hit_effect.pixel_y = -64
 		if(WEST)
-			hit_effect.pixel_y = -32
+			hit_effect.pixel_y = -64
 			hit_effect.pixel_x = -64
 
 	QDEL_IN(hit_effect, 3)

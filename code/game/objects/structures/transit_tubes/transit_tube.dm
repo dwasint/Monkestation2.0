@@ -148,11 +148,11 @@
 			if(NORTH)
 				tube_overlay.pixel_y = 32
 			if(SOUTH)
-				tube_overlay.pixel_y = -32
+				tube_overlay.pixel_y = -64
 			if(EAST)
 				tube_overlay.pixel_x = 32
 			if(WEST)
-				tube_overlay.pixel_x = -32
+				tube_overlay.pixel_x = -64
 	else
 		tube_overlay.icon_state = "decorative"
 

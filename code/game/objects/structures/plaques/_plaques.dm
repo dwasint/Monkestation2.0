@@ -197,11 +197,11 @@
 	if(dir & NORTH)
 		placed_plaque.pixel_y = 32
 	else if(dir & SOUTH)
-		placed_plaque.pixel_y = -32
+		placed_plaque.pixel_y = -64
 	if(dir & EAST)
 		placed_plaque.pixel_x = 32
 	else if(dir & WEST)
-		placed_plaque.pixel_x = -32
+		placed_plaque.pixel_x = -64
 	user.visible_message(span_notice("[user] fastens [src] to [target_turf]."), \
 		span_notice("You attach [src] to [target_turf]."))
 	playsound(target_turf, 'sound/items/deconstruct.ogg', 50, TRUE)

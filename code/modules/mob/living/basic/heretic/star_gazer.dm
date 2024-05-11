@@ -4,8 +4,8 @@
 	icon = 'icons/mob/nonhuman-player/96x96eldritch_mobs.dmi'
 	icon_state = "star_gazer"
 	icon_living = "star_gazer"
-	pixel_x = -32
-	base_pixel_x = -32
+	pixel_x = -64
+	base_pixel_x = -64
 	mob_biotypes = MOB_HUMANOID | MOB_EPIC
 	response_help_continuous = "passes through"
 	response_help_simple = "pass through"

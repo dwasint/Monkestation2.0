@@ -129,12 +129,12 @@ mob
 		// Testing image underlays
 		underlays += image(icon='old_or_unused.dmi',icon_state="red")
 		underlays += image(icon='old_or_unused.dmi',icon_state="red", pixel_x = 32)
-		underlays += image(icon='old_or_unused.dmi',icon_state="red", pixel_x = -32)
+		underlays += image(icon='old_or_unused.dmi',icon_state="red", pixel_x = -64)
 
 		// Testing image overlays
-		add_overlay(image(icon='old_or_unused.dmi',icon_state="green", pixel_x = 32, pixel_y = -32))
+		add_overlay(image(icon='old_or_unused.dmi',icon_state="green", pixel_x = 32, pixel_y = -64))
 		add_overlay(image(icon='old_or_unused.dmi',icon_state="green", pixel_x = 32, pixel_y = 32))
-		add_overlay(image(icon='old_or_unused.dmi',icon_state="green", pixel_x = -32, pixel_y = -32))
+		add_overlay(image(icon='old_or_unused.dmi',icon_state="green", pixel_x = -64, pixel_y = -64))
 
 		// Testing icon file overlays (defaults to mob's state)
 		add_overlay('_flat_demoIcons2.dmi')
@@ -148,7 +148,7 @@ mob
 		add_overlay(I)
 
 		// Testing dynamic image overlays
-		I=image(icon=I,pixel_x = -32, pixel_y = 32)
+		I=image(icon=I,pixel_x = -64, pixel_y = 32)
 		add_overlay(I)
 
 		// Testing object types (and layers)
@@ -202,8 +202,8 @@ mob
 /obj/effect/overlay_test
 	icon = 'old_or_unused.dmi'
 	icon_state = "blue"
-	pixel_x = -24
-	pixel_y = 24
+	pixel_x = -48
+	pixel_y = 48
 	layer = TURF_LAYER // Should appear below the rest of the overlays
 
 world
@@ -993,8 +993,8 @@ world
 
 	var/image/text_image = new(loc = A)
 	text_image.maptext = MAPTEXT("<span style='font-size: 24pt'>[letter]</span>")
-	text_image.pixel_x = 7
-	text_image.pixel_y = 5
+	text_image.pixel_x = 14
+	text_image.pixel_y = 10
 	qdel(atom_icon)
 	return text_image
 
@@ -1448,7 +1448,7 @@ GLOBAL_LIST_EMPTY(transformation_animation_objects)
 	cut_overlay(overlay_image)
 
 /// Perform a shake on an atom, resets its position afterwards
-/atom/proc/Shake(pixelshiftx = 2, pixelshifty = 2, duration = 2.5 SECONDS, shake_interval = 0.02 SECONDS)
+/atom/proc/Shake(pixelshiftx = 4, pixelshifty = 4, duration = 2.5 SECONDS, shake_interval = 0.02 SECONDS)
 	var/initialpixelx = pixel_x
 	var/initialpixely = pixel_y
 	animate(src, pixel_x = initialpixelx + rand(-pixelshiftx,pixelshiftx), pixel_y = initialpixelx + rand(-pixelshifty,pixelshifty), time = shake_interval, flags = ANIMATION_PARALLEL)

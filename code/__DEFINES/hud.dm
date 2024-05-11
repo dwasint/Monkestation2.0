@@ -34,7 +34,7 @@
 	Therefore, the top right corner (except during admin shenanigans) is at "15,15"
 */
 
-/proc/ui_hand_position(i) //values based on old hand ui positions (CENTER:-/+16,SOUTH:5)
+/proc/ui_hand_position(i) //values based on old hand ui positions (CENTER:-/+16,SOUTH:10)
 	var/x_off = i % 2 ? 0 : -1
 	var/y_off = round((i-1) / 2)
 	return"CENTER+[x_off]:16,SOUTH+[y_off]:5"
@@ -49,164 +49,164 @@
 	return "CENTER+[x_off]:16,SOUTH+[y_off+1]:5"
 
 //Lower left, persistent menu
-#define ui_inventory "WEST:6,SOUTH:5"
+#define ui_inventory "WEST:6,SOUTH:10"
 
 //Middle left indicators
-#define ui_lingchemdisplay "WEST,CENTER-1:15"
-#define ui_lingstingdisplay "WEST:6,CENTER-3:11"
+#define ui_lingchemdisplay "WEST,CENTER-1:30"
+#define ui_lingstingdisplay "WEST:12,CENTER-3:22"
 
 //Lower center, persistent menu
-#define ui_sstore1 "CENTER-5:10,SOUTH:5"
-#define ui_id "CENTER-4:12,SOUTH:5"
-#define ui_belt "CENTER-3:14,SOUTH:5"
-#define ui_back "CENTER-2:14,SOUTH:5"
-#define ui_storage1 "CENTER+1:18,SOUTH:5"
-#define ui_storage2 "CENTER+2:20,SOUTH:5"
-#define ui_combo "CENTER+4:24,SOUTH+1:7" //combo meter for martial arts
+#define ui_sstore1 "CENTER-5:20,SOUTH:10"
+#define ui_id "CENTER-4:24,SOUTH:10"
+#define ui_belt "CENTER-3:28,SOUTH:10"
+#define ui_back "CENTER-2:28,SOUTH:10"
+#define ui_storage1 "CENTER+1:36,SOUTH:10"
+#define ui_storage2 "CENTER+2:40,SOUTH:10"
+#define ui_combo "CENTER+4:48,SOUTH+1:14" //combo meter for martial arts
 
 //Lower right, persistent menu
-#define ui_drop_throw "EAST-1:28,SOUTH+1:7"
-#define ui_above_movement "EAST-2:26,SOUTH+1:7"
-#define ui_above_intent "EAST-3:24, SOUTH+1:7"
-#define ui_movi "EAST-2:26,SOUTH:5"
-#define ui_acti "EAST-3:24,SOUTH:5"
-#define ui_combat_toggle "EAST-3:24,SOUTH:5"
-#define ui_zonesel "EAST-1:28,SOUTH:5"
-#define ui_acti_alt "EAST-1:28,SOUTH:5" //alternative intent switcher for when the interface is hidden (F12)
-#define ui_crafting "EAST-4:22,SOUTH:5"
-#define ui_building "EAST-4:22,SOUTH:21"
-#define ui_language_menu "EAST-4:6,SOUTH:21"
-#define ui_navigate_menu "EAST-4:22,SOUTH:5"
+#define ui_drop_throw "EAST-1:56,SOUTH+1:14"
+#define ui_above_movement "EAST-2:52,SOUTH+1:14"
+#define ui_above_intent "EAST-3:48, SOUTH+1:14"
+#define ui_movi "EAST-2:52,SOUTH:10"
+#define ui_acti "EAST-3:48,SOUTH:10"
+#define ui_combat_toggle "EAST-3:48,SOUTH:10"
+#define ui_zonesel "EAST-1:56,SOUTH:10"
+#define ui_acti_alt "EAST-1:56,SOUTH:10" //alternative intent switcher for when the interface is hidden (F12)
+#define ui_crafting "EAST-4:44,SOUTH:10"
+#define ui_building "EAST-4:44,SOUTH:42"
+#define ui_language_menu "EAST-4:24,SOUTH:42"
+#define ui_navigate_menu "EAST-4:24,SOUTH:10"
 
 //Upper-middle right (alerts)
-#define ui_alert1 "EAST-1:28,CENTER+5:27"
-#define ui_alert2 "EAST-1:28,CENTER+4:25"
-#define ui_alert3 "EAST-1:28,CENTER+3:23"
-#define ui_alert4 "EAST-1:28,CENTER+2:21"
-#define ui_alert5 "EAST-1:28,CENTER+1:19"
+#define ui_alert1 "EAST-1:56,CENTER+5:54"
+#define ui_alert2 "EAST-1:56,CENTER+4:50"
+#define ui_alert3 "EAST-1:56,CENTER+3:46"
+#define ui_alert4 "EAST-1:56,CENTER+2:42"
+#define ui_alert5 "EAST-1:56,CENTER+1:38"
 
 //Upper left (action buttons)
-#define ui_action_palette "WEST+0:23,NORTH-1:5"
+#define ui_action_palette "WEST+0:46,NORTH-1:10"
 #define ui_action_palette_offset(north_offset) ("WEST+0:23,NORTH-[1+north_offset]:5")
 
-#define ui_palette_scroll "WEST+1:8,NORTH-6:28"
+#define ui_palette_scroll "WEST+1:16,NORTH-6:56"
 #define ui_palette_scroll_offset(north_offset) ("WEST+1:8,NORTH-[6+north_offset]:28")
 
 //Middle right (status indicators)
-#define ui_healthdoll "EAST-1:28,CENTER-2:17"
-#define ui_health "EAST-1:28,CENTER-1:19"
-#define ui_internal "EAST-1:28,CENTER+1:21"
-#define ui_mood "EAST-1:28,CENTER:21"
-#define ui_spacesuit "EAST-1:28,CENTER-4:14"
-#define ui_stamina "EAST-1:28,CENTER-3:14"
+#define ui_healthdoll "EAST-1:56,CENTER-2:34"
+#define ui_health "EAST-1:56,CENTER-1:38"
+#define ui_internal "EAST-1:56,CENTER+1:42"
+#define ui_mood "EAST-1:56,CENTER:42"
+#define ui_spacesuit "EAST-1:56,CENTER-4:28"
+#define ui_stamina "EAST-1:56,CENTER-3:28"
 
 //Pop-up inventory
-#define ui_shoes "WEST+1:8,SOUTH:5"
-#define ui_iclothing "WEST:6,SOUTH+1:7"
-#define ui_oclothing "WEST+1:8,SOUTH+1:7"
-#define ui_gloves "WEST+2:10,SOUTH+1:7"
-#define ui_glasses "WEST:6,SOUTH+3:11"
-#define ui_mask "WEST+1:8,SOUTH+2:9"
-#define ui_ears "WEST+2:10,SOUTH+2:9"
-#define ui_neck "WEST:6,SOUTH+2:9"
-#define ui_head "WEST+1:8,SOUTH+3:11"
+#define ui_shoes "WEST+1:16,SOUTH:10"
+#define ui_iclothing "WEST:12,SOUTH+1:14"
+#define ui_oclothing "WEST+1:16,SOUTH+1:14"
+#define ui_gloves "WEST+2:20,SOUTH+1:14"
+#define ui_glasses "WEST:12,SOUTH+3:22"
+#define ui_mask "WEST+1:16,SOUTH+2:18"
+#define ui_ears "WEST+2:20,SOUTH+2:18"
+#define ui_neck "WEST:12,SOUTH+2:18"
+#define ui_head "WEST+1:16,SOUTH+3:22"
 
 //Generic living
-#define ui_living_pull "EAST-1:28,CENTER-3:15"
-#define ui_living_healthdoll "EAST-1:28,CENTER-1:15"
+#define ui_living_pull "EAST-1:56,CENTER-3:30"
+#define ui_living_healthdoll "EAST-1:56,CENTER-1:30"
 
 //Monkeys
-#define ui_monkey_head "CENTER-5:13,SOUTH:5"
-#define ui_monkey_mask "CENTER-4:14,SOUTH:5"
-#define ui_monkey_neck "CENTER-3:15,SOUTH:5"
-#define ui_monkey_back "CENTER-2:16,SOUTH:5"
+#define ui_monkey_head "CENTER-5:26,SOUTH:10"
+#define ui_monkey_mask "CENTER-4:28,SOUTH:10"
+#define ui_monkey_neck "CENTER-3:30,SOUTH:10"
+#define ui_monkey_back "CENTER-2:32,SOUTH:10"
 
 //Drones
-#define ui_drone_drop "CENTER+1:18,SOUTH:5"
-#define ui_drone_pull "CENTER+2:2,SOUTH:5"
-#define ui_drone_storage "CENTER-2:14,SOUTH:5"
-#define ui_drone_head "CENTER-3:14,SOUTH:5"
+#define ui_drone_drop "CENTER+1:36,SOUTH:10"
+#define ui_drone_pull "CENTER+2:4,SOUTH:10"
+#define ui_drone_storage "CENTER-2:28,SOUTH:10"
+#define ui_drone_head "CENTER-3:28,SOUTH:10"
 
 //Cyborgs
-#define ui_borg_health "EAST-1:28,CENTER-1:15"
-#define ui_borg_pull "EAST-2:26,SOUTH+1:7"
-#define ui_borg_radio "EAST-1:28,SOUTH+1:7"
-#define ui_borg_intents "EAST-2:26,SOUTH:5"
-#define ui_borg_lamp "CENTER-3:16, SOUTH:5"
-#define ui_borg_tablet "CENTER-4:16, SOUTH:5"
-#define ui_inv1 "CENTER-2:16,SOUTH:5"
-#define ui_inv2 "CENTER-1 :16,SOUTH:5"
-#define ui_inv3 "CENTER :16,SOUTH:5"
-#define ui_borg_module "CENTER+1:16,SOUTH:5"
-#define ui_borg_store "CENTER+2:16,SOUTH:5"
-#define ui_borg_camera "CENTER+3:21,SOUTH:5"
-#define ui_borg_alerts "CENTER+4:21,SOUTH:5"
-#define ui_borg_language_menu "CENTER+4:19,SOUTH+1:6"
-#define ui_borg_navigate_menu "CENTER+4:19,SOUTH+1:6"
+#define ui_borg_health "EAST-1:56,CENTER-1:30"
+#define ui_borg_pull "EAST-2:52,SOUTH+1:14"
+#define ui_borg_radio "EAST-1:56,SOUTH+1:14"
+#define ui_borg_intents "EAST-2:52,SOUTH:10"
+#define ui_borg_lamp "CENTER-3:32, SOUTH:10"
+#define ui_borg_tablet "CENTER-4:32, SOUTH:10"
+#define ui_inv1 "CENTER-2:32,SOUTH:10"
+#define ui_inv2 "CENTER-1 :32,SOUTH:10"
+#define ui_inv3 "CENTER :32,SOUTH:10"
+#define ui_borg_module "CENTER+1:32,SOUTH:10"
+#define ui_borg_store "CENTER+2:32,SOUTH:10"
+#define ui_borg_camera "CENTER+3:42,SOUTH:10"
+#define ui_borg_alerts "CENTER+4:42,SOUTH:10"
+#define ui_borg_language_menu "CENTER+4:38,SOUTH+1:12"
+#define ui_borg_navigate_menu "CENTER+4:38,SOUTH+1:12"
 
 //Aliens
-#define ui_alien_health "EAST,CENTER-1:15"
-#define ui_alienplasmadisplay "EAST,CENTER-2:15"
-#define ui_alien_queen_finder "EAST,CENTER-3:15"
-#define ui_alien_storage_r "CENTER+1:18,SOUTH:5"
-#define ui_alien_language_menu "EAST-4:20,SOUTH:5"
-#define ui_alien_navigate_menu "EAST-4:20,SOUTH:5"
+#define ui_alien_health "EAST,CENTER-1:30"
+#define ui_alienplasmadisplay "EAST,CENTER-2:30"
+#define ui_alien_queen_finder "EAST,CENTER-3:30"
+#define ui_alien_storage_r "CENTER+1:36,SOUTH:10"
+#define ui_alien_language_menu "EAST-4:40,SOUTH:10"
+#define ui_alien_navigate_menu "EAST-4:40,SOUTH:10"
 
 //AI
-#define ui_ai_core "BOTTOM:6,RIGHT-4"
-#define ui_ai_shuttle "BOTTOM:6,RIGHT-3"
-#define ui_ai_announcement "BOTTOM:6,RIGHT-2"
-#define ui_ai_state_laws "BOTTOM:6,RIGHT-1"
-#define ui_ai_mod_int "BOTTOM:6,RIGHT"
-#define ui_ai_language_menu "BOTTOM+1:8,RIGHT-1:30"
+#define ui_ai_core "BOTTOM:12,RIGHT-8"
+#define ui_ai_shuttle "BOTTOM:12,RIGHT-6"
+#define ui_ai_announcement "BOTTOM:12,RIGHT-4"
+#define ui_ai_state_laws "BOTTOM:12,RIGHT-2"
+#define ui_ai_mod_int "BOTTOM:12,RIGHT"
+#define ui_ai_language_menu "BOTTOM+1:16,RIGHT-1:60"
 
-#define ui_ai_crew_monitor "BOTTOM:6,CENTER-1"
-#define ui_ai_crew_manifest "BOTTOM:6,CENTER"
-#define ui_ai_alerts "BOTTOM:6,CENTER+1"
+#define ui_ai_crew_monitor "BOTTOM:12,CENTER-2"
+#define ui_ai_crew_manifest "BOTTOM:12,CENTER"
+#define ui_ai_alerts "BOTTOM:12,CENTER+2"
 
-#define ui_ai_view_images "BOTTOM:6,LEFT+4"
-#define ui_ai_camera_list "BOTTOM:6,LEFT+3"
-#define ui_ai_track_with_camera "BOTTOM:6,LEFT+2"
-#define ui_ai_camera_light "BOTTOM:6,LEFT+1"
-#define ui_ai_sensor "BOTTOM:6,LEFT"
-#define ui_ai_multicam "BOTTOM+1:6,LEFT+1"
-#define ui_ai_add_multicam "BOTTOM+1:6,LEFT"
-#define ui_ai_take_picture "BOTTOM+2:6,LEFT"
+#define ui_ai_view_images "BOTTOM:12,LEFT+8"
+#define ui_ai_camera_list "BOTTOM:12,LEFT+6"
+#define ui_ai_track_with_camera "BOTTOM:12,LEFT+4"
+#define ui_ai_camera_light "BOTTOM:12,LEFT+2"
+#define ui_ai_sensor "BOTTOM:12,LEFT"
+#define ui_ai_multicam "BOTTOM+1:12,LEFT+2"
+#define ui_ai_add_multicam "BOTTOM+1:12,LEFT"
+#define ui_ai_take_picture "BOTTOM+2:12,LEFT"
 
 
 //pAI
-#define ui_pai_software "SOUTH:6,WEST"
-#define ui_pai_shell "SOUTH:6,WEST+1"
-#define ui_pai_chassis "SOUTH:6,WEST+2"
-#define ui_pai_rest "SOUTH:6,WEST+3"
-#define ui_pai_light "SOUTH:6,WEST+4"
-#define ui_pai_state_laws "SOUTH:6,WEST+5"
-#define ui_pai_crew_manifest "SOUTH:6,WEST+6"
-#define ui_pai_host_monitor "SOUTH:6,WEST+7"
-#define ui_pai_internal_gps "SOUTH:6,WEST+8"
-#define ui_pai_mod_int "SOUTH:6,WEST+9"
-#define ui_pai_newscaster "SOUTH:6,WEST+10"
-#define ui_pai_take_picture "SOUTH:6,WEST+11"
-#define ui_pai_view_images "SOUTH:6,WEST+12"
-#define ui_pai_radio "SOUTH:6,WEST+13"
-#define ui_pai_language_menu "SOUTH+1:8,WEST+12:31"
-#define ui_pai_navigate_menu "SOUTH+1:8,WEST+12:31"
+#define ui_pai_software "SOUTH:12,WEST"
+#define ui_pai_shell "SOUTH:12,WEST+2"
+#define ui_pai_chassis "SOUTH:12,WEST+4"
+#define ui_pai_rest "SOUTH:12,WEST+6"
+#define ui_pai_light "SOUTH:12,WEST+8"
+#define ui_pai_state_laws "SOUTH:12,WEST+10"
+#define ui_pai_crew_manifest "SOUTH:12,WEST+12"
+#define ui_pai_host_monitor "SOUTH:12,WEST+14"
+#define ui_pai_internal_gps "SOUTH:12,WEST+16"
+#define ui_pai_mod_int "SOUTH:12,WEST+18"
+#define ui_pai_newscaster "SOUTH:12,WEST+20"
+#define ui_pai_take_picture "SOUTH:12,WEST+22"
+#define ui_pai_view_images "SOUTH:12,WEST+24"
+#define ui_pai_radio "SOUTH:12,WEST+26"
+#define ui_pai_language_menu "SOUTH+1:16,WEST+12:62"
+#define ui_pai_navigate_menu "SOUTH+1:16,WEST+12:62"
 
 //Ghosts
-#define ui_ghost_spawners_menu "SOUTH:6,CENTER-3:24"
-#define ui_ghost_orbit "SOUTH:6,CENTER-2:24"
-#define ui_ghost_reenter_corpse "SOUTH:6,CENTER-1:24"
-#define ui_ghost_teleport "SOUTH:6,CENTER:24"
-#define ui_ghost_pai "SOUTH: 6, CENTER+1:24"
-#define ui_ghost_minigames "SOUTH: 6, CENTER+2:24"
-#define ui_ghost_language_menu "SOUTH: 22, CENTER+3:8"
+#define ui_ghost_spawners_menu "SOUTH:12,CENTER-3:48"
+#define ui_ghost_orbit "SOUTH:12,CENTER-2:48"
+#define ui_ghost_reenter_corpse "SOUTH:12,CENTER-1:48"
+#define ui_ghost_teleport "SOUTH:12,CENTER:48"
+#define ui_ghost_pai "SOUTH: 12, CENTER+1:48"
+#define ui_ghost_minigames "SOUTH: 12, CENTER+2:48"
+#define ui_ghost_language_menu "SOUTH: 44, CENTER+3:16"
 
 //Team finder
 
 #define ui_team_finder "CENTER,CENTER"
 
 //Blobbernauts
-#define ui_blobbernaut_overmind_health "EAST-1:28,CENTER+0:19"
+#define ui_blobbernaut_overmind_health "EAST-1:56,CENTER+0:38"
 
 // Defines relating to action button positions
 

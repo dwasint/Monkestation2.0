@@ -145,8 +145,8 @@
 	desc = "It looks like it's going to be... the Syndicate logo?"
 	icon = 'icons/effects/96x96.dmi'
 	icon_state = "traitor_rune_outline"
-	pixel_x = -32
-	pixel_y = -32
+	pixel_x = -64
+	pixel_y = -64
 	gender = NEUTER
 	mergeable_decal = FALSE
 	resistance_flags = FIRE_PROOF | UNACIDABLE | ACID_PROOF

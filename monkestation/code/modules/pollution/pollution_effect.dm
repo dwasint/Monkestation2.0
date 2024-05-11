@@ -1,8 +1,8 @@
 /obj/effect/abstract/pollution
 	icon = 'icons/effects/96x96.dmi'
 	icon_state = "smoke-static"
-	pixel_x = -32
-	pixel_y = -32
+	pixel_x = -64
+	pixel_y = -64
 	anchored = TRUE
 	plane = ABOVE_GAME_PLANE
 	layer = FLY_LAYER

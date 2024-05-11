@@ -155,7 +155,7 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/structure/window/reinforced/survival_pod/spawne
 	icon = 'icons/obj/lavaland/pod_computer.dmi'
 	anchored = TRUE
 	density = TRUE
-	pixel_y = -32
+	pixel_y = -64
 
 /obj/item/gps/computer/wrench_act(mob/living/user, obj/item/I)
 	..()

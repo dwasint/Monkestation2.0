@@ -10,8 +10,8 @@
 	plane = ABOVE_GAME_PLANE
 	anchored = TRUE
 	density = TRUE
-	pixel_x = -32
-	pixel_y = -32
+	pixel_x = -64
+	pixel_y = -64
 	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF
 	light_outer_range = 8
 	light_color = LIGHT_COLOR_LAVA
@@ -82,8 +82,8 @@
 	icon_state = "gate_blocker"
 	layer = EDGED_TURF_LAYER
 	plane = GAME_PLANE_UPPER
-	pixel_x = -32
-	pixel_y = -32
+	pixel_x = -64
+	pixel_y = -64
 	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
 	opacity = TRUE
 	anchored = TRUE
@@ -197,8 +197,8 @@ GLOBAL_DATUM(necropolis_gate, /obj/structure/necropolis_gate/legion_gate)
 	icon_state = "gate_dais"
 	flags_1 = ON_BORDER_1
 	appearance_flags = 0
-	pixel_x = -32
-	pixel_y = -32
+	pixel_x = -64
+	pixel_y = -64
 
 /obj/effect/temp_visual/necropolis
 	icon = 'icons/effects/96x96.dmi'
@@ -206,8 +206,8 @@ GLOBAL_DATUM(necropolis_gate, /obj/structure/necropolis_gate/legion_gate)
 	appearance_flags = 0
 	duration = 6
 	layer = EDGED_TURF_LAYER
-	pixel_x = -32
-	pixel_y = -32
+	pixel_x = -64
+	pixel_y = -64
 
 /obj/effect/temp_visual/necropolis/open
 	icon_state = "door_opening"

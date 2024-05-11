@@ -195,8 +195,8 @@
 	icon_state = "landing"
 	layer = BELOW_MOB_LAYER
 	plane = GAME_PLANE
-	pixel_x = -32
-	pixel_y = -32
+	pixel_x = -64
+	pixel_y = -64
 	color = "#FF0000"
 	duration = 10
 
@@ -205,7 +205,7 @@
 	icon_state = "dragon"
 	layer = ABOVE_ALL_MOB_LAYER
 	plane = GAME_PLANE_UPPER_FOV_HIDDEN
-	pixel_x = -32
+	pixel_x = -64
 	duration = 10
 	randomdir = FALSE
 

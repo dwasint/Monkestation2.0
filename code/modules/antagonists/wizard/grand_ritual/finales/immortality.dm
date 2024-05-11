@@ -257,8 +257,8 @@
 	icon = 'icons/effects/96x96.dmi'
 	icon_state = "boh_tear"
 	color = COLOR_PALE_GREEN
-	pixel_x = -32
-	pixel_y = -32
+	pixel_x = -64
+	pixel_y = -64
 
 /obj/effect/temp_visual/immortality_blast/Initialize(mapload)
 	. = ..()

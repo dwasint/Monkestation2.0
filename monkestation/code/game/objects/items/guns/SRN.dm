@@ -119,8 +119,8 @@
 	icon_state = "boh_tear"
 	anchored = TRUE
 	appearance_flags = LONG_GLIDE
-	pixel_x = -32
-	pixel_y = -32
+	pixel_x = -64
+	pixel_y = -64
 	obj_flags = CAN_BE_HIT | DANGEROUS_POSSESSION
 	resistance_flags = INDESTRUCTIBLE | LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF | FREEZE_PROOF
 	flags_1 = SUPERMATTER_IGNORES_1

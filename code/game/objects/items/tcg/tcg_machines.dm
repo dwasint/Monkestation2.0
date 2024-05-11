@@ -213,7 +213,7 @@ GLOBAL_LIST_EMPTY(tcgcard_machine_radial_choices)
 
 	var/obj/effect/overlay/status_display_text/stats_display = new(src, pos_y, stats, text_color, text_color, x_offset)
 
-	stats_display.pixel_y = -32
+	stats_display.pixel_y = -64
 	stats_display.pixel_z = 32
 	vis_contents += stats_display
 	return stats_display

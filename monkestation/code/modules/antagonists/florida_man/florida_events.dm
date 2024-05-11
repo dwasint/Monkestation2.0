@@ -84,7 +84,7 @@
 	icon_state = "beamin"
 	layer = ABOVE_MOB_LAYER
 	mouse_opacity = 0
-	pixel_x = -32
+	pixel_x = -64
 	pixel_y = 0
 
 /obj/effect/holy/Initialize()

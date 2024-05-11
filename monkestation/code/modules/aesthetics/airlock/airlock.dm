@@ -192,12 +192,12 @@
 					floorlight.pixel_y = 32
 				if (SOUTH)
 					floorlight.pixel_x = 0
-					floorlight.pixel_y = -32
+					floorlight.pixel_y = -64
 				if (EAST)
 					floorlight.pixel_x = 32
 					floorlight.pixel_y = 0
 				if (WEST)
-					floorlight.pixel_x = -32
+					floorlight.pixel_x = -64
 					floorlight.pixel_y = 0
 			. += floorlight
 

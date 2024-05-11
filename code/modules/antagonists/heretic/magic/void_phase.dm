@@ -63,13 +63,13 @@
 	icon_state = "void_blink_in"
 	alpha = 150
 	duration = 6
-	pixel_x = -32
-	pixel_y = -32
+	pixel_x = -64
+	pixel_y = -64
 
 /obj/effect/temp_visual/voidout
 	icon = 'icons/effects/96x96.dmi'
 	icon_state = "void_blink_out"
 	alpha = 150
 	duration = 6
-	pixel_x = -32
-	pixel_y = -32
+	pixel_x = -64
+	pixel_y = -64

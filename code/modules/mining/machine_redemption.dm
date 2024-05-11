@@ -395,15 +395,15 @@
 	switch(input_dir)
 		if(NORTH)
 			ore_input.pixel_y = 32
-			ore_output.pixel_y = -32
+			ore_output.pixel_y = -64
 		if(SOUTH)
-			ore_input.pixel_y = -32
+			ore_input.pixel_y = -64
 			ore_output.pixel_y = 32
 		if(EAST)
 			ore_input.pixel_x = 32
-			ore_output.pixel_x = -32
+			ore_output.pixel_x = -64
 		if(WEST)
-			ore_input.pixel_x = -32
+			ore_input.pixel_x = -64
 			ore_output.pixel_x = 32
 
 	ore_input.color = COLOR_MODERATE_BLUE

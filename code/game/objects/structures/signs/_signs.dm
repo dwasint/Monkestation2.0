@@ -201,11 +201,11 @@
 	if(dir & NORTH)
 		placed_sign.pixel_y = 32
 	else if(dir & SOUTH)
-		placed_sign.pixel_y = -32
+		placed_sign.pixel_y = -64
 	if(dir & EAST)
 		placed_sign.pixel_x = 32
 	else if(dir & WEST)
-		placed_sign.pixel_x = -32
+		placed_sign.pixel_x = -64
 	user.visible_message(span_notice("[user] fastens [src] to [target_turf]."), \
 		span_notice("You attach the sign to [target_turf]."))
 	playsound(target_turf, 'sound/items/deconstruct.ogg', 50, TRUE)

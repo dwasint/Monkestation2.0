@@ -12,8 +12,8 @@ GLOBAL_VAR_INIT(ratvar_risen, FALSE)
 	max_integrity = 1000
 	icon = 'icons/effects/96x96.dmi'
 	icon_state = "clockwork_gateway_components"
-	pixel_x = -32
-	pixel_y = -32
+	pixel_x = -64
+	pixel_y = -64
 	immune_to_servant_attacks = TRUE
 	layer = BELOW_MOB_LAYER
 	can_rotate = FALSE

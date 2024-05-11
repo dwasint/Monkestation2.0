@@ -231,7 +231,7 @@
 			back_spear_overlay = mutable_appearance('monkestation/icons/effects/hardlightspear.dmi', "spear5", MOB_SHIELD_LAYER)
 		if(6)
 			back_spear_overlay = mutable_appearance('monkestation/icons/effects/hardlightspear.dmi', "spear6", MOB_SHIELD_LAYER)
-	back_spear_overlay.pixel_x = -32
+	back_spear_overlay.pixel_x = -64
 	. += back_spear_overlay
 
 /obj/item/gun/magic/hardlight_spear/process_fire(atom/target, mob/living/user, message = TRUE, params = null, zone_override = "", bonus_spread = 0)

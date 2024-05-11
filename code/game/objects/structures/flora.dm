@@ -371,7 +371,7 @@
 
 /obj/structure/flora/tree/jungle/small
 	pixel_y = 0
-	pixel_x = -32
+	pixel_x = -64
 	icon = 'icons/obj/flora/jungletreesmall.dmi'
 	icon_state = "tree1"
 

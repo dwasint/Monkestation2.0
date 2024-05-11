@@ -69,7 +69,7 @@
 	density = TRUE
 	anchored = TRUE
 	active_power_usage = BASE_MACHINE_ACTIVE_CONSUMPTION * 5
-	pixel_x = -32
+	pixel_x = -64
 	pixel_y = -64
 	light_outer_range = 3
 	light_power = 1.5
