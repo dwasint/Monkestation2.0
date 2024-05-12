@@ -99,8 +99,8 @@ Buildable meters
 		setDir(_dir)
 
 	update()
-	pixel_x += rand(-5, 5)
-	pixel_y += rand(-5, 5)
+	pixel_x += rand(-10, 10)
+	pixel_y += rand(-10, 10)
 
 	//Flipping handled manually due to custom handling for trinary pipes
 	AddComponent(/datum/component/simple_rotation, ROTATION_NO_FLIPPING)

@@ -716,20 +716,20 @@
 	switch(dir)
 		if(EAST)
 			transform = transform.Turn(90)
-			pixel_x += 29
-			pixel_y += 29
+			pixel_x += 58
+			pixel_y += 58
 		if(WEST)
 			transform = transform.Turn(-90)
 		if(NORTH)
-			pixel_y += 29
+			pixel_y += 58
 
 /obj/structure/sign/painting/large/Exited(atom/movable/movable, atom/newloc)
 	if(movable == current_canvas)
 		switch(dir)
 			if(EAST)
 				transform = transform.Turn(-90)
-				pixel_x -= 29
-				pixel_y -= 29
+				pixel_x -= 58
+				pixel_y -= 58
 			if(WEST)
 				transform = transform.Turn(90)
 			if(NORTH)

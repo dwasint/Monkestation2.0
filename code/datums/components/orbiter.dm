@@ -118,7 +118,7 @@
 	if(ismob(orbiter))
 		var/mob/orbiter_mob = orbiter
 		orbiter_mob.updating_glide_size = TRUE
-		orbiter_mob.glide_size = 8
+		orbiter_mob.glide_size = 16
 
 	REMOVE_TRAIT(orbiter, TRAIT_NO_FLOATING_ANIM, ORBITING_TRAIT)
 

@@ -9,8 +9,8 @@
 	greyscale_config_inhand_left = /datum/greyscale_config/sneakers_inhand_left
 	greyscale_config_inhand_right = /datum/greyscale_config/sneakers_inhand_right
 	worn_icon = 'icons/mob/large-worn-icons/64x64/feet.dmi'
-	worn_x_dimension = 64
-	worn_y_dimension = 64
+	worn_x_dimension = 128
+	worn_y_dimension = 128
 	clothing_flags = LARGE_WORN_ICON
 	actions_types = list(/datum/action/item_action/wheelys)
 	///False means wheels are not popped out

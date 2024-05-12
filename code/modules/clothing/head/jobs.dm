@@ -246,7 +246,7 @@
 	var/prefix_index = findtext(raw_message, prefix)
 	if(prefix_index != 1)
 		return FALSE
-	
+
 	var/the_phrase = trim_left(replacetext(raw_message, prefix, ""))
 	var/obj/item/result = items_by_phrase[the_phrase]
 	if(!result)
@@ -359,8 +359,8 @@
 	desc = "Wearing this makes you want to shout \"Down and give me twenty!\" at someone."
 	icon_state = "hosshako"
 	worn_icon = 'icons/mob/large-worn-icons/64x64/head.dmi'
-	worn_x_dimension = 64
-	worn_y_dimension = 64
+	worn_x_dimension = 128
+	worn_y_dimension = 128
 
 /obj/item/clothing/head/hats/hos/beret
 	name = "head of security's beret"

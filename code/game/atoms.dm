@@ -1634,8 +1634,8 @@
 			created_atom.pixel_x = pixel_x
 			created_atom.pixel_y = pixel_y
 			if(i > 1)
-				created_atom.pixel_x += rand(-8,8)
-				created_atom.pixel_y += rand(-8,8)
+				created_atom.pixel_x += rand(-16,16)
+				created_atom.pixel_y += rand(-16,16)
 			created_atom.OnCreatedFromProcessing(user, process_item, chosen_option, src)
 			to_chat(user, span_notice("You manage to create [chosen_option[TOOL_PROCESSING_AMOUNT]] [initial(atom_to_create.gender) == PLURAL ? "[initial(atom_to_create.name)]" : "[initial(atom_to_create.name)][plural_s(initial(atom_to_create.name))]"] from [src]."))
 			created_atoms.Add(created_atom)

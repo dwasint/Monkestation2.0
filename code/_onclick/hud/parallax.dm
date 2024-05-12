@@ -1,5 +1,5 @@
 
-#define PARALLAX_ICON_SIZE 672 // monkestation edit
+#define PARALLAX_ICON_SIZE 1344 // monkestation edit
 /datum/hud/proc/create_parallax(mob/viewmob)
 	var/mob/screenmob = viewmob || mymob
 	var/client/C = screenmob.client
