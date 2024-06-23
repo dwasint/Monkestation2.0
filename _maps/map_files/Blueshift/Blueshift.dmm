@@ -68922,10 +68922,6 @@
 	},
 /turf/open/floor/grass,
 /area/station/service/cafeteria)
-"nzi" = (
-/obj/machinery/suit_storage_unit/open,
-/turf/open/floor/iron/dark,
-/area/station/engineering/break_room)
 "nzm" = (
 /obj/machinery/power/apc/auto_name/directional/north,
 /obj/structure/cable,
@@ -90239,6 +90235,7 @@
 /area/station/maintenance/clown_chamber)
 "rCC" = (
 /obj/structure/closet/secure_closet/engineering_personal,
+/obj/item/inducer,
 /turf/open/floor/iron/dark,
 /area/station/engineering/break_room)
 "rCE" = (
@@ -115763,6 +115760,7 @@
 /obj/structure/closet/secure_closet/engineering_personal,
 /obj/machinery/newscaster/directional/north,
 /obj/machinery/light/directional/north,
+/obj/item/inducer,
 /turf/open/floor/iron/dark,
 /area/station/engineering/break_room)
 "wtv" = (
@@ -120325,6 +120323,7 @@
 "xph" = (
 /obj/structure/closet/secure_closet/engineering_personal,
 /obj/machinery/light/directional/south,
+/obj/item/inducer,
 /turf/open/floor/iron/dark,
 /area/station/engineering/break_room)
 "xpn" = (
@@ -153197,7 +153196,7 @@ jCu
 rtN
 mQU
 vya
-nzi
+aiC
 lzd
 lKz
 jcQ
@@ -154220,7 +154219,7 @@ iji
 syJ
 ioW
 owf
-nzi
+aiC
 jzj
 fmM
 lBB
