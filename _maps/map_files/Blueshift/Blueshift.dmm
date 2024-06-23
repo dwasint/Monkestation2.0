@@ -26872,6 +26872,14 @@
 	},
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer4,
 /obj/effect/spawner/random/contraband/prison,
+/obj/item/clothing/under/rank/prisoner/skirt,
+/obj/item/clothing/under/rank/prisoner/skirt,
+/obj/item/clothing/under/rank/prisoner/skirt,
+/obj/item/clothing/under/rank/prisoner/skirt,
+/obj/item/clothing/under/rank/prisoner,
+/obj/item/clothing/under/rank/prisoner,
+/obj/item/clothing/under/rank/prisoner,
+/obj/item/clothing/under/rank/prisoner,
 /turf/open/floor/iron/kitchen{
 	dir = 1
 	},
