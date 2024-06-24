@@ -675,6 +675,7 @@
 /area/station/command/heads_quarters/hop)
 "agZ" = (
 /obj/effect/turf_decal/bot,
+/obj/machinery/computer/order_console/bitrunning,
 /turf/open/floor/iron,
 /area/station/security/prison/upper)
 "ahd" = (
@@ -803,6 +804,9 @@
 /area/station/security/checkpoint/science/research)
 "aiu" = (
 /obj/item/radio/intercom/directional/north,
+/obj/machinery/vending/hydroseeds{
+	slogan_delay = 700
+	},
 /turf/open/floor/iron/dark,
 /area/station/security/prison/garden)
 "aiC" = (
@@ -25260,7 +25264,7 @@
 /turf/open/floor/iron/freezer,
 /area/station/science/xenobiology)
 "eQc" = (
-/obj/machinery/computer/order_console/bitrunning,
+/obj/structure/decorative/shelf,
 /turf/open/floor/iron/smooth_edge{
 	dir = 1
 	},
