@@ -38534,7 +38534,6 @@
 /obj/machinery/light/small/blacklight/directional/west,
 /obj/structure/trash_pile,
 /obj/effect/spawner/random/trash/garbage,
-/obj/machinery/power/apc/auto_name/directional/west,
 /obj/structure/cable,
 /turf/open/floor/iron/dark/small,
 /area/station/security/prison/upper)
