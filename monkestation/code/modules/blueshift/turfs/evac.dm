@@ -342,3 +342,32 @@
 
 /obj/structure/window/reinforced/shuttle/spaceship/unanchored
 	anchored = FALSE
+
+// Used for Ringworm near-station asteroids
+/turf/open/misc/asteroid/moon/airless
+	initial_gas_mix = AIRLESS_ATMOS
+	worm_chance = 0
+
+/turf/closed/mineral/random/stationside/moon
+	baseturfs = /turf/open/misc/asteroid/moon/airless
+
+/turf/closed/mineral/random/high_chance/moon
+	baseturfs = /turf/open/misc/asteroid/moon/airless
+
+/turf/closed/mineral/random/labormineral/moon
+	baseturfs = /turf/open/misc/asteroid/moon/airless
+
+/turf/open/misc/asteroid/moon
+	name = "lunar surface"
+	baseturfs = /turf/open/misc/asteroid/moon
+	icon = 'icons/turf/floors.dmi'
+	icon_state = "moon"
+	base_icon_state = "moon"
+	floor_variance = 40
+	dig_result = /obj/item/stack/ore/glass/basalt
+
+/turf/open/misc/asteroid/moon/dug //When you want one of these to be already dug.
+	dug = TRUE
+	floor_variance = 0
+	base_icon_state = "moon_dug"
+	icon_state = "moon_dug"
