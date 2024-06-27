@@ -57717,7 +57717,7 @@
 /obj/effect/turf_decal/tile/dark_green/half/contrasted{
 	dir = 8
 	},
-/obj/machinery/computer/nanite_cloud_controller,
+/obj/machinery/nanite_programmer,
 /turf/open/floor/iron/dark/side{
 	dir = 5
 	},
