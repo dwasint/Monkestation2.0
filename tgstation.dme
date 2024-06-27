@@ -6361,6 +6361,8 @@
 #include "monkestation\code\modules\blueshift\items\nif_hud.dm"
 #include "monkestation\code\modules\blueshift\items\oxygen_candle.dm"
 #include "monkestation\code\modules\blueshift\items\pepperbell.dm"
+#include "monkestation\code\modules\blueshift\items\pizza.dm"
+#include "monkestation\code\modules\blueshift\items\plushies.dm"
 #include "monkestation\code\modules\blueshift\items\retractable_armor.dm"
 #include "monkestation\code\modules\blueshift\items\skillchip.dm"
 #include "monkestation\code\modules\blueshift\items\soul_catcher.dm"

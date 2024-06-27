@@ -74,7 +74,7 @@
 /mob/living/basic/lizard/tegu
 	name = "tegu"
 	desc = "That's a tegu."
-	icon = 'monkestation/code/modules/blueshift/icons/pets.dmi'
+	icon = 'monkestation/code/modules/blueshift/icons/mob/pets.dmi'
 	icon_state = "tegu"
 	icon_living = "tegu"
 	icon_dead = "tegu_dead"
@@ -114,7 +114,7 @@
 /mob/living/basic/pet/dog/markus
 	name = "\proper Markus"
 	desc = "The supply department's overfed yet still beloved dog."
-	icon = 'monkestation/code/modules/blueshift/icons/pets.dmi'
+	icon = 'monkestation/code/modules/blueshift/icons/mob/pets.dmi'
 	icon_state = "markus"
 	icon_dead = "markus_dead"
 	icon_living = "markus"
