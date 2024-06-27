@@ -13939,6 +13939,10 @@
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /turf/open/floor/pod,
 /area/station/service/chapel/funeral)
+"ebv" = (
+/obj/machinery/light/directional/south,
+/turf/open/floor/wood,
+/area/station/service/hydroponics/upper)
 "ebz" = (
 /obj/structure/table/wood,
 /obj/item/flashlight/lamp/green{
@@ -13963,6 +13967,11 @@
 /obj/effect/landmark/event_spawn,
 /turf/open/floor/iron/smooth_large,
 /area/station/engineering/atmos)
+"ecj" = (
+/obj/structure/closet/secure_closet/hydroponics,
+/obj/machinery/light/directional/north,
+/turf/open/floor/wood,
+/area/station/service/hydroponics/upper)
 "ecl" = (
 /obj/structure/table,
 /obj/machinery/requests_console/directional/west{
@@ -17183,7 +17192,7 @@
 /area/station/security/office)
 "eWh" = (
 /obj/effect/spawner/liquids_spawner,
-/turf/open/floor/iron/pool,
+/turf/open/floor/lowered/iron/pool,
 /area/station/common/pool)
 "eWi" = (
 /obj/structure/window/reinforced/spawner/directional/south,
@@ -21773,7 +21782,7 @@
 /area/station/hallway/primary/fore)
 "grt" = (
 /obj/effect/spawner/liquids_spawner,
-/turf/open/floor/iron/pool,
+/turf/open/floor/lowered/iron/pool,
 /area/station/security/prison)
 "grA" = (
 /obj/structure/cable,
@@ -22161,7 +22170,7 @@
 "gwE" = (
 /obj/item/toy/beach_ball/branded,
 /obj/effect/spawner/liquids_spawner,
-/turf/open/floor/iron/pool,
+/turf/open/floor/lowered/iron/pool,
 /area/station/common/pool)
 "gwF" = (
 /obj/effect/turf_decal/trimline/red/filled/line,
@@ -23673,6 +23682,10 @@
 	},
 /turf/open/floor/iron/dark,
 /area/station/security/brig)
+"gSF" = (
+/obj/machinery/light/directional/south,
+/turf/open/floor/grass,
+/area/station/service/hydroponics/upper)
 "gSI" = (
 /obj/effect/turf_decal/trimline/green/filled/line,
 /obj/structure/cable,
@@ -32056,7 +32069,7 @@
 "jji" = (
 /obj/structure/sign/poster/contraband/crocin_pool/directional/south,
 /obj/effect/spawner/liquids_spawner,
-/turf/open/floor/iron/pool,
+/turf/open/floor/lowered/iron/pool,
 /area/station/common/pool)
 "jjw" = (
 /obj/structure/table/wood,
@@ -35330,9 +35343,7 @@
 "kdK" = (
 /obj/structure/railing,
 /obj/effect/spawner/liquids_spawner,
-/turf/open/floor/iron/stairs/old{
-	dir = 8
-	},
+/turf/open/floor/lowered/iron/pool,
 /area/station/security/prison)
 "kdN" = (
 /obj/effect/turf_decal/bot,
@@ -39408,6 +39419,10 @@
 	},
 /turf/open/floor/iron/dark/smooth_large,
 /area/station/science/auxlab/firing_range)
+"lhZ" = (
+/obj/machinery/light/directional/north,
+/turf/open/floor/grass,
+/area/station/service/hydroponics/upper)
 "lig" = (
 /obj/machinery/door/firedoor,
 /obj/machinery/door/airlock/atmos/glass{
@@ -40848,7 +40863,7 @@
 "lDu" = (
 /obj/item/toy/beach_ball/branded,
 /obj/effect/spawner/liquids_spawner,
-/turf/open/floor/iron/pool,
+/turf/open/floor/lowered/iron/pool,
 /area/station/security/prison)
 "lDz" = (
 /obj/effect/turf_decal/trimline/purple/filled/line{
@@ -49613,7 +49628,7 @@
 "nZT" = (
 /obj/machinery/light/floor/has_bulb,
 /obj/effect/spawner/liquids_spawner,
-/turf/open/floor/iron/pool,
+/turf/open/floor/lowered/iron/pool,
 /area/station/common/pool)
 "nZU" = (
 /obj/effect/turf_decal/tile/green/diagonal_centre,
@@ -51988,7 +52003,7 @@
 	network = list("ss13","prison")
 	},
 /obj/effect/spawner/liquids_spawner,
-/turf/open/floor/iron/pool,
+/turf/open/floor/lowered/iron/pool,
 /area/station/security/prison)
 "oIv" = (
 /obj/structure/flora/grass/jungle,
@@ -69098,7 +69113,7 @@
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/structure/fake_stairs/wood/directional/east,
-/turf/open/space/basic,
+/turf/open/floor/wood/large,
 /area/station/service/barber)
 "tne" = (
 /obj/machinery/door/firedoor,
@@ -71107,7 +71122,7 @@
 "tOr" = (
 /obj/effect/spawner/liquids_spawner,
 /obj/machinery/light/cold/directional/south,
-/turf/open/floor/iron/pool,
+/turf/open/floor/lowered/iron/pool,
 /area/station/security/prison)
 "tOs" = (
 /obj/structure/sign/warning/pods/directional/south,
@@ -76088,9 +76103,7 @@
 "viA" = (
 /obj/effect/spawner/liquids_spawner,
 /obj/structure/railing,
-/turf/open/floor/iron/stairs{
-	dir = 4
-	},
+/turf/open/floor/lowered/iron/pool,
 /area/station/common/pool)
 "vjb" = (
 /obj/machinery/atmospherics/pipe/smart/simple/scrubbers/visible{
@@ -85225,7 +85238,7 @@
 "xNH" = (
 /obj/effect/spawner/liquids_spawner,
 /obj/machinery/light/cold/directional/south,
-/turf/open/floor/iron/pool,
+/turf/open/floor/lowered/iron/pool,
 /area/station/common/pool)
 "xNL" = (
 /obj/structure/cable,
@@ -125776,7 +125789,7 @@ jpR
 kwK
 dLi
 wGI
-eKx
+ebv
 jpR
 ykd
 jlf
@@ -126801,7 +126814,7 @@ aXl
 nRG
 uEF
 jpR
-muX
+ecj
 eKx
 vxA
 nzw
@@ -127828,7 +127841,7 @@ hGr
 hGr
 pzh
 jpR
-fop
+lhZ
 fop
 mFR
 wkm
@@ -128089,7 +128102,7 @@ fop
 fop
 mFR
 fop
-fop
+gSF
 jpR
 uKN
 bQf
