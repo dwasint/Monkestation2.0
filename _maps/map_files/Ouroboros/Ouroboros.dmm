@@ -372,7 +372,7 @@
 /area/station/hallway/primary/starboard)
 "afS" = (
 /obj/structure/cable,
-/obj/machinery/light/floor,
+/obj/machinery/light/floor/has_bulb,
 /turf/open/floor/engine,
 /area/station/engineering/supermatter)
 "afW" = (
@@ -13672,7 +13672,7 @@
 /area/station/cargo/office)
 "edQ" = (
 /mob/living/basic/slime,
-/obj/machinery/light/floor,
+/obj/machinery/light/floor/has_bulb,
 /obj/machinery/duct,
 /turf/open/floor/engine,
 /area/station/science/xenobiology)
@@ -18363,7 +18363,7 @@
 /turf/open/floor/engine,
 /area/station/engineering/main)
 "fwP" = (
-/obj/machinery/light/floor,
+/obj/machinery/light/floor/has_bulb,
 /obj/effect/turf_decal/box/white,
 /turf/open/floor/engine,
 /area/station/science/xenobiology)
@@ -18567,7 +18567,7 @@
 /turf/open/floor/iron,
 /area/station/common/cryopods)
 "fCO" = (
-/obj/machinery/light/floor,
+/obj/machinery/light/floor/has_bulb,
 /obj/effect/turf_decal/trimline/neutral,
 /turf/open/floor/engine,
 /area/station/engineering/atmos/upper)
@@ -20045,7 +20045,7 @@
 /turf/open/floor/iron/dark/smooth_large,
 /area/station/service/hydroponics)
 "fZM" = (
-/obj/machinery/light/floor,
+/obj/machinery/light/floor/has_bulb,
 /obj/effect/spawner/liquids_spawner,
 /turf/open/floor/lowered/iron/pool/cobble,
 /area/station/common/spa)
@@ -20828,7 +20828,7 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 1
 	},
-/obj/machinery/light/floor,
+/obj/machinery/light/floor/has_bulb,
 /obj/effect/turf_decal/trimline/neutral,
 /obj/effect/turf_decal/trimline/neutral,
 /obj/effect/turf_decal/tile/yellow/half/contrasted{
@@ -24256,7 +24256,7 @@
 /turf/open/floor/plating,
 /area/station/maintenance/port/central)
 "hnc" = (
-/obj/machinery/light/floor,
+/obj/machinery/light/floor/has_bulb,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/effect/turf_decal/trimline/neutral,
 /obj/effect/turf_decal/trimline/neutral,
@@ -26840,7 +26840,7 @@
 "hZH" = (
 /obj/effect/decal/cleanable/dirt/dust,
 /obj/effect/turf_decal/box/white,
-/obj/machinery/light/floor,
+/obj/machinery/light/floor/has_bulb,
 /turf/open/floor/engine,
 /area/station/science/xenobiology)
 "hZO" = (
@@ -31198,7 +31198,7 @@
 /turf/open/floor/iron/checker,
 /area/station/maintenance/abandon_diner)
 "jnr" = (
-/obj/machinery/light/floor,
+/obj/machinery/light/floor/has_bulb,
 /obj/effect/turf_decal/siding/dark_blue/corner{
 	dir = 1
 	},
@@ -31215,7 +31215,7 @@
 "jnK" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
-/obj/machinery/light/floor,
+/obj/machinery/light/floor/has_bulb,
 /obj/effect/turf_decal/siding/dark_blue/corner{
 	dir = 8
 	},
@@ -38318,7 +38318,7 @@
 /turf/closed/wall,
 /area/station/medical/patients_rooms)
 "low" = (
-/obj/machinery/light/floor,
+/obj/machinery/light/floor/has_bulb,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/effect/turf_decal/trimline/neutral,
 /obj/effect/turf_decal/trimline/neutral,
@@ -39002,7 +39002,7 @@
 /turf/open/floor/engine,
 /area/station/science/xenobiology)
 "lAy" = (
-/obj/machinery/light/floor,
+/obj/machinery/light/floor/has_bulb,
 /obj/effect/turf_decal/siding/dark_blue/corner{
 	dir = 4
 	},
@@ -39413,7 +39413,7 @@
 /area/station/hallway/primary/central)
 "lGG" = (
 /obj/effect/turf_decal/box/white,
-/obj/machinery/light/floor,
+/obj/machinery/light/floor/has_bulb,
 /turf/open/floor/engine,
 /area/station/science/xenobiology)
 "lGL" = (
@@ -48111,7 +48111,7 @@
 /turf/open/floor/plating,
 /area/station/engineering/supermatter/room)
 "ohu" = (
-/obj/machinery/light/floor,
+/obj/machinery/light/floor/has_bulb,
 /obj/machinery/atmospherics/pipe/smart/simple/yellow/visible/layer2,
 /turf/open/floor/iron,
 /area/station/engineering/atmos)
@@ -62519,7 +62519,7 @@
 /area/station/service/theater)
 "sCT" = (
 /obj/effect/turf_decal/box/white,
-/obj/machinery/light/floor,
+/obj/machinery/light/floor/has_bulb,
 /mob/living/basic/slime,
 /turf/open/floor/engine,
 /area/station/science/xenobiology)
@@ -63109,7 +63109,7 @@
 /area/station/science/robotics/lab)
 "sLK" = (
 /obj/effect/spawner/liquids_spawner,
-/obj/machinery/light/floor,
+/obj/machinery/light/floor/has_bulb,
 /turf/open/floor/lowered/iron/pool/cobble,
 /area/station/service/salon)
 "sLR" = (
@@ -71862,7 +71862,7 @@
 /area/station/maintenance/abandon_surgery)
 "vrF" = (
 /obj/effect/turf_decal/box/white,
-/obj/machinery/light/floor,
+/obj/machinery/light/floor/has_bulb,
 /obj/machinery/duct,
 /turf/open/floor/engine,
 /area/station/science/xenobiology)
@@ -78946,7 +78946,7 @@
 "xve" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
-/obj/machinery/light/floor,
+/obj/machinery/light/floor/has_bulb,
 /obj/effect/turf_decal/siding/dark_blue/corner,
 /obj/structure/disposalpipe/segment{
 	dir = 9
@@ -80879,7 +80879,7 @@
 /turf/open/floor/engine/hull,
 /area/space/nearstation)
 "yac" = (
-/obj/machinery/light/floor,
+/obj/machinery/light/floor/has_bulb,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /turf/open/floor/iron,
 /area/station/engineering/atmos)
