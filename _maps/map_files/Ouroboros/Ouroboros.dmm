@@ -2334,7 +2334,7 @@
 /turf/open/floor/plating,
 /area/station/maintenance/starboard/fore)
 "aKA" = (
-/obj/machinery/light/floor,
+/obj/machinery/light/floor/has_bulb,
 /obj/effect/turf_decal/box/white,
 /turf/open/floor/engine,
 /area/station/science/xenobiology)
@@ -12086,7 +12086,7 @@
 /area/station/engineering/atmos)
 "dIo" = (
 /obj/effect/turf_decal/box/white,
-/obj/machinery/light/floor,
+/obj/machinery/light/floor/has_bulb,
 /turf/open/floor/engine,
 /area/station/science/xenobiology)
 "dIz" = (
@@ -17781,7 +17781,7 @@
 /area/station/science/research)
 "fnJ" = (
 /obj/effect/spawner/liquids_spawner,
-/obj/machinery/light/floor,
+/obj/machinery/light/floor/has_bulb,
 /turf/open/floor/lowered/iron/pool/cobble,
 /area/station/service/salon)
 "fnL" = (
@@ -20044,7 +20044,7 @@
 /area/station/maintenance/solars/port/fore)
 "fZa" = (
 /obj/effect/turf_decal/box/white,
-/obj/machinery/light/floor,
+/obj/machinery/light/floor/has_bulb,
 /obj/machinery/duct,
 /turf/open/floor/engine,
 /area/station/science/xenobiology)
@@ -26004,7 +26004,7 @@
 /turf/open/floor/iron/dark/small,
 /area/station/bitrunning/den)
 "hOS" = (
-/obj/machinery/light/floor,
+/obj/machinery/light/floor/has_bulb,
 /obj/effect/turf_decal/siding/dark_blue/corner{
 	dir = 4
 	},
@@ -26727,7 +26727,7 @@
 /area/station/science/ordnance)
 "hXM" = (
 /mob/living/basic/slime,
-/obj/machinery/light/floor,
+/obj/machinery/light/floor/has_bulb,
 /obj/machinery/duct,
 /turf/open/floor/engine,
 /area/station/science/xenobiology)
@@ -26741,7 +26741,7 @@
 /turf/open/floor/iron/dark,
 /area/station/medical/morgue)
 "hXS" = (
-/obj/machinery/light/floor,
+/obj/machinery/light/floor/has_bulb,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /turf/open/floor/iron,
 /area/station/engineering/atmos)
@@ -37714,7 +37714,7 @@
 "lfS" = (
 /obj/effect/decal/cleanable/dirt/dust,
 /obj/effect/turf_decal/box/white,
-/obj/machinery/light/floor,
+/obj/machinery/light/floor/has_bulb,
 /turf/open/floor/engine,
 /area/station/science/xenobiology)
 "lfV" = (
@@ -40441,7 +40441,7 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 1
 	},
-/obj/machinery/light/floor,
+/obj/machinery/light/floor/has_bulb,
 /obj/effect/turf_decal/trimline/neutral,
 /obj/effect/turf_decal/trimline/neutral,
 /obj/effect/turf_decal/tile/yellow/half/contrasted{
@@ -45452,7 +45452,7 @@
 /area/station/engineering/atmos/hfr_room)
 "nqN" = (
 /obj/structure/cable,
-/obj/machinery/light/floor,
+/obj/machinery/light/floor/has_bulb,
 /turf/open/floor/engine,
 /area/station/engineering/supermatter)
 "nqS" = (
@@ -54559,7 +54559,7 @@
 /turf/open/floor/iron/dark,
 /area/station/maintenance/disposal/incinerator)
 "qfT" = (
-/obj/machinery/light/floor,
+/obj/machinery/light/floor/has_bulb,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/effect/turf_decal/trimline/neutral,
 /obj/effect/turf_decal/trimline/neutral,
@@ -56958,7 +56958,7 @@
 "qSZ" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
-/obj/machinery/light/floor,
+/obj/machinery/light/floor/has_bulb,
 /obj/effect/turf_decal/siding/dark_blue/corner,
 /obj/structure/disposalpipe/segment{
 	dir = 9
@@ -58628,7 +58628,7 @@
 "rvt" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
-/obj/machinery/light/floor,
+/obj/machinery/light/floor/has_bulb,
 /obj/effect/turf_decal/siding/dark_blue/corner{
 	dir = 8
 	},
@@ -70183,7 +70183,7 @@
 /turf/open/floor/iron/white,
 /area/station/medical/medbay/lobby)
 "uRK" = (
-/obj/machinery/light/floor,
+/obj/machinery/light/floor/has_bulb,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/effect/turf_decal/trimline/neutral,
 /obj/effect/turf_decal/trimline/neutral,
@@ -72452,7 +72452,7 @@
 /turf/open/floor/iron/kitchen,
 /area/station/service/kitchen)
 "vAv" = (
-/obj/machinery/light/floor,
+/obj/machinery/light/floor/has_bulb,
 /obj/effect/turf_decal/trimline/neutral,
 /turf/open/floor/engine,
 /area/station/engineering/atmos/upper)
@@ -72750,7 +72750,7 @@
 /area/station/medical/morgue)
 "vDB" = (
 /obj/effect/turf_decal/box/white,
-/obj/machinery/light/floor,
+/obj/machinery/light/floor/has_bulb,
 /mob/living/basic/slime,
 /turf/open/floor/engine,
 /area/station/science/xenobiology)
@@ -73051,7 +73051,7 @@
 /turf/open/floor/iron/dark/smooth_large,
 /area/station/common/carpshop)
 "vGh" = (
-/obj/machinery/light/floor,
+/obj/machinery/light/floor/has_bulb,
 /obj/effect/turf_decal/siding/dark_blue/corner{
 	dir = 1
 	},
@@ -75566,7 +75566,7 @@
 /turf/open/floor/iron/dark,
 /area/station/cargo/miningoffice)
 "wrJ" = (
-/obj/machinery/light/floor,
+/obj/machinery/light/floor/has_bulb,
 /obj/effect/spawner/liquids_spawner,
 /turf/open/floor/lowered/iron/pool/cobble,
 /area/station/common/spa)
@@ -76658,7 +76658,7 @@
 /turf/open/floor/plating,
 /area/station/maintenance/starboard/greater)
 "wHX" = (
-/obj/machinery/light/floor,
+/obj/machinery/light/floor/has_bulb,
 /obj/machinery/atmospherics/pipe/smart/simple/yellow/visible/layer2,
 /turf/open/floor/iron,
 /area/station/engineering/atmos)
