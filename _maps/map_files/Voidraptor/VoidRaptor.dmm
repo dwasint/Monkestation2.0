@@ -13242,12 +13242,11 @@
 /turf/open/floor/carpet/green,
 /area/station/commons/dorms)
 "dSa" = (
-/obj/structure/rack,
 /obj/effect/turf_decal/stripes/line{
 	dir = 4
 	},
 /obj/effect/turf_decal/delivery,
-/obj/effect/spawner/random/armory/bulletproof_helmet,
+/obj/machinery/dish_drive/bullet,
 /turf/open/floor/engine,
 /area/station/ai_monitored/security/armory)
 "dSc" = (
@@ -31183,7 +31182,6 @@
 /turf/open/floor/carpet/black,
 /area/station/command/heads_quarters/qm)
 "iWZ" = (
-/obj/structure/table/reinforced,
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
 	},
@@ -31192,7 +31190,7 @@
 	},
 /obj/item/storage/secure/safe/directional/east,
 /obj/effect/turf_decal/delivery,
-/obj/effect/spawner/random/armory/bulletproof_armor,
+/obj/machinery/ammo_workbench/unlocked,
 /turf/open/floor/engine,
 /area/station/ai_monitored/security/armory)
 "iXg" = (
@@ -80294,6 +80292,7 @@
 	dir = 4
 	},
 /obj/effect/turf_decal/delivery,
+/obj/effect/spawner/random/armory/bulletproof_helmet,
 /turf/open/floor/engine,
 /area/station/ai_monitored/security/armory)
 "wrH" = (
@@ -80506,13 +80505,14 @@
 /turf/open/floor/iron/showroomfloor,
 /area/station/medical/coldroom)
 "wtg" = (
-/obj/structure/rack,
 /obj/structure/window/reinforced/spawner/directional/south,
 /obj/effect/turf_decal/stripes/line{
 	dir = 4
 	},
 /obj/effect/turf_decal/delivery,
+/obj/structure/rack,
 /obj/effect/spawner/random/armory/riot_helmet,
+/obj/effect/spawner/random/armory/bulletproof_armor,
 /turf/open/floor/engine,
 /area/station/ai_monitored/security/armory)
 "wtJ" = (

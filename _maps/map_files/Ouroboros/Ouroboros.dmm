@@ -77919,7 +77919,7 @@
 	dir = 8
 	},
 /obj/effect/turf_decal/bot,
-/obj/machinery/ammo_workbench,
+/obj/machinery/ammo_workbench/unlocked,
 /turf/open/floor/engine,
 /area/station/ai_monitored/security/armory)
 "xac" = (

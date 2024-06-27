@@ -35,6 +35,14 @@
 	cost = CARGO_CRATE_VALUE * 11 // 6 for the lathe, 3 for the organics printer, 2 for the rest of the stuff
 	contains = list(
 		/obj/item/flatpacked_machine,
+		/obj/item/flatpacked_machine/ore_silo,
+		/obj/item/flatpacked_machine/wind_turbine,
+		/obj/item/flatpacked_machine/wind_turbine,
+		/obj/item/stack/cable_coil/five,
+		/obj/item/stack/cable_coil/five,
+		/obj/item/stack/cable_coil/five,
+		/obj/item/stack/cable_coil/five,
+		/obj/item/stack/cable_coil/five,
 		/obj/item/flatpacked_machine/organics_printer,
 		/obj/item/flatpacked_machine/gps_beacon,
 		/obj/item/stack/sheet/plastic_wall_panel/fifty,
