@@ -48509,10 +48509,6 @@
 	},
 /turf/open/floor/iron/smooth_large,
 /area/station/cargo/sorting)
-"nLH" = (
-/obj/structure/lattice,
-/turf/closed/wall/r_wall,
-/area/station/bitrunning/den)
 "nLM" = (
 /obj/machinery/rnd/production/circuit_imprinter/department/science,
 /obj/structure/disposalpipe/segment{
@@ -137040,7 +137036,7 @@ xXo
 xXo
 xXo
 xXo
-nLH
+ulU
 aRc
 vaG
 iva
