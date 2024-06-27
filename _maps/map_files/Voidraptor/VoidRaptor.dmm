@@ -11441,6 +11441,16 @@
 /obj/effect/turf_decal/bot,
 /turf/open/floor/pod/dark,
 /area/station/engineering/storage/tech)
+"dtH" = (
+/obj/effect/turf_decal/trimline/yellow/filled/line{
+	dir = 1
+	},
+/obj/item/stock_parts/cell/high,
+/obj/item/integrated_circuit/chemical,
+/obj/item/multitool,
+/obj/structure/chemical_manufacturer,
+/turf/open/floor/iron/freezer,
+/area/station/medical/chemistry)
 "dtK" = (
 /obj/structure/disposalpipe/segment,
 /obj/effect/decal/cleanable/dirt,
@@ -26689,6 +26699,10 @@
 /obj/effect/turf_decal/trimline/yellow/filled/line{
 	dir = 9
 	},
+/obj/item/stock_parts/cell/high,
+/obj/item/integrated_circuit/chemical,
+/obj/item/multitool,
+/obj/structure/chemical_manufacturer,
 /turf/open/floor/iron/freezer,
 /area/station/medical/chemistry)
 "hKp" = (
@@ -117081,7 +117095,7 @@ abQ
 vvS
 fiN
 fiN
-vXr
+dtH
 goS
 goS
 goS
