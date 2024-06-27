@@ -2057,6 +2057,10 @@
 /obj/effect/turf_decal/trimline/green/filled/corner{
 	dir = 8
 	},
+/obj/item/botanical_lexicon,
+/obj/item/botanical_lexicon,
+/obj/item/botanical_lexicon,
+/obj/item/botanical_lexicon,
 /turf/open/floor/iron/dark/corner{
 	dir = 1
 	},
@@ -84395,6 +84399,10 @@
 	name = "hallway camera"
 	},
 /obj/machinery/feed_machine,
+/obj/item/chicken_book,
+/obj/item/chicken_book,
+/obj/item/chicken_book,
+/obj/item/chicken_book,
 /turf/open/floor/iron/dark/side{
 	dir = 1
 	},

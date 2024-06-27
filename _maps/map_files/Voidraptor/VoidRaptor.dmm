@@ -3875,6 +3875,11 @@
 /obj/item/storage/bag/egg,
 /obj/item/storage/bag/egg,
 /obj/item/storage/bag/egg,
+/obj/item/chicken_book,
+/obj/item/chicken_book,
+/obj/item/chicken_book,
+/obj/item/chicken_book,
+/obj/item/chicken_book,
 /turf/open/floor/wood,
 /area/station/service/hydroponics/upper)
 "bdb" = (
@@ -49570,7 +49575,7 @@
 	icon_state = "hologram_on";
 	layer = 2.8;
 	light_color = "#2cb2e8";
-	light_range = 2;
+	light_outer_range = 2;
 	mouse_opacity = 0;
 	name = "holographic projection";
 	pixel_x = -32;
@@ -49582,7 +49587,7 @@
 	icon_state = "hologram_whiteship";
 	layer = 4;
 	light_color = "#2cb2e8";
-	light_range = 7;
+	light_outer_range = 7;
 	name = "Ship Hologram";
 	pixel_x = -32;
 	pixel_y = 27
@@ -77991,6 +77996,11 @@
 	name = "service camera"
 	},
 /obj/effect/turf_decal/bot,
+/obj/item/botanical_lexicon,
+/obj/item/botanical_lexicon,
+/obj/item/botanical_lexicon,
+/obj/item/botanical_lexicon,
+/obj/item/botanical_lexicon,
 /turf/open/floor/iron/edge{
 	dir = 8
 	},
