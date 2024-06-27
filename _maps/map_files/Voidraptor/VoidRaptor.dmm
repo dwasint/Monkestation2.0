@@ -10039,6 +10039,7 @@
 /area/station/hallway/primary/fore)
 "cZW" = (
 /obj/effect/turf_decal/trimline/yellow/filled/line,
+/obj/machinery/vending/mechcomp,
 /turf/open/floor/iron/textured_edge{
 	dir = 1
 	},
@@ -82531,7 +82532,7 @@
 	dir = 1
 	},
 /obj/effect/turf_decal/bot_red,
-/obj/structure/table,
+/obj/machinery/vending/mechcomp,
 /turf/open/floor/iron/dark/textured,
 /area/station/science/robotics/lab)
 "wVD" = (
