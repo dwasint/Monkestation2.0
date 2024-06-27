@@ -1071,7 +1071,7 @@
 "apD" = (
 /obj/machinery/light/floor/has_bulb,
 /obj/effect/spawner/liquids_spawner,
-/turf/open/floor/lowered/iron/pool,
+/turf/open/floor/iron/pool,
 /area/station/common/pool)
 "apF" = (
 /obj/effect/turf_decal/delivery,
@@ -17211,7 +17211,7 @@
 /area/station/security/office)
 "eWh" = (
 /obj/effect/spawner/liquids_spawner,
-/turf/open/floor/lowered/iron/pool,
+/turf/open/floor/iron/pool,
 /area/station/common/pool)
 "eWi" = (
 /obj/structure/window/reinforced/spawner/directional/south,
@@ -21780,7 +21780,7 @@
 /area/station/hallway/primary/fore)
 "grt" = (
 /obj/effect/spawner/liquids_spawner,
-/turf/open/floor/lowered/iron/pool,
+/turf/open/floor/iron/pool,
 /area/station/security/prison)
 "grA" = (
 /obj/structure/cable,
@@ -22168,7 +22168,7 @@
 "gwE" = (
 /obj/item/toy/beach_ball/branded,
 /obj/effect/spawner/liquids_spawner,
-/turf/open/floor/lowered/iron/pool,
+/turf/open/floor/iron/pool,
 /area/station/common/pool)
 "gwF" = (
 /obj/effect/turf_decal/trimline/red/filled/line,
@@ -32046,7 +32046,7 @@
 "jji" = (
 /obj/structure/sign/poster/contraband/crocin_pool/directional/south,
 /obj/effect/spawner/liquids_spawner,
-/turf/open/floor/lowered/iron/pool,
+/turf/open/floor/iron/pool,
 /area/station/common/pool)
 "jjw" = (
 /obj/structure/table/wood,
@@ -39538,12 +39538,13 @@
 /area/station/service/janitor)
 "lkj" = (
 /obj/docking_port/stationary{
-	dir = 8;
 	dwidth = 1;
 	height = 13;
 	name = "arrivals";
-	shuttle_id = "arrivals_stationary";
-	width = 5
+	shuttle_id = "arrival_stationary";
+	width = 5;
+	roundstart_template = /datum/map_template/shuttle/arrival/nova;
+	dir = 8
 	},
 /turf/open/space/basic,
 /area/space/nearstation)
@@ -40876,7 +40877,7 @@
 "lDu" = (
 /obj/item/toy/beach_ball/branded,
 /obj/effect/spawner/liquids_spawner,
-/turf/open/floor/lowered/iron/pool,
+/turf/open/floor/iron/pool,
 /area/station/security/prison)
 "lDz" = (
 /obj/effect/turf_decal/trimline/purple/filled/line{
@@ -52048,7 +52049,7 @@
 	network = list("ss13","prison")
 	},
 /obj/effect/spawner/liquids_spawner,
-/turf/open/floor/lowered/iron/pool,
+/turf/open/floor/iron/pool,
 /area/station/security/prison)
 "oIv" = (
 /obj/structure/flora/grass/jungle,
@@ -71046,7 +71047,7 @@
 "tOr" = (
 /obj/effect/spawner/liquids_spawner,
 /obj/machinery/light/cold/directional/south,
-/turf/open/floor/lowered/iron/pool,
+/turf/open/floor/iron/pool,
 /area/station/security/prison)
 "tOs" = (
 /obj/structure/sign/warning/pods/directional/south,
@@ -85231,7 +85232,7 @@
 "xNH" = (
 /obj/effect/spawner/liquids_spawner,
 /obj/machinery/light/cold/directional/south,
-/turf/open/floor/lowered/iron/pool,
+/turf/open/floor/iron/pool,
 /area/station/common/pool)
 "xNL" = (
 /obj/structure/cable,

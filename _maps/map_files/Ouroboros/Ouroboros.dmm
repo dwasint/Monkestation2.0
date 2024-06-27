@@ -28678,12 +28678,13 @@
 /area/station/security/interrogation)
 "iAD" = (
 /obj/docking_port/stationary{
-	dir = 2;
 	dwidth = 1;
 	height = 13;
-	name = "SS13: Arrivals Ferry Bay";
-	shuttle_id = "arrivals_stationary";
-	width = 5
+	name = "arrivals";
+	shuttle_id = "arrival_stationary";
+	width = 5;
+	roundstart_template = /datum/map_template/shuttle/arrival/nova;
+	dir = 2
 	},
 /turf/open/space/openspace,
 /area/space/nearstation)
