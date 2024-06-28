@@ -7826,8 +7826,6 @@
 /obj/machinery/door/airlock/maintenance_hatch{
 	name = "Maintenance Hatch"
 	},
-/obj/effect/mapping_helpers/airlock/access/any/supply/maintenance,
-/obj/effect/mapping_helpers/airlock/access/any/service/maintenance,
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
@@ -18191,7 +18189,6 @@
 /obj/machinery/door/airlock/maintenance_hatch{
 	name = "Barbershop Maintenance"
 	},
-/obj/effect/mapping_helpers/airlock/access/any/service/general,
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
@@ -22121,8 +22118,6 @@
 /turf/open/floor/iron,
 /area/station/hallway/secondary/command)
 "gEQ" = (
-/obj/effect/mapping_helpers/airlock/access/any/supply/maintenance,
-/obj/effect/mapping_helpers/airlock/access/any/service/maintenance,
 /obj/machinery/door/airlock/hatch{
 	name = "Maintenance Hatch"
 	},
@@ -23768,8 +23763,6 @@
 /turf/open/floor/carpet/green,
 /area/station/security/courtroom)
 "hfz" = (
-/obj/effect/mapping_helpers/airlock/access/any/supply/maintenance,
-/obj/effect/mapping_helpers/airlock/access/any/service/maintenance,
 /obj/machinery/door/airlock/maintenance_hatch{
 	name = "Diner Overlook Maintenance"
 	},
@@ -43594,8 +43587,6 @@
 /turf/open/floor/iron/dark/small,
 /area/station/command/gateway)
 "mPp" = (
-/obj/effect/mapping_helpers/airlock/access/any/supply/maintenance,
-/obj/effect/mapping_helpers/airlock/access/any/service/maintenance,
 /obj/machinery/door/airlock/hatch{
 	name = "Maintenance Hatch"
 	},
@@ -48086,7 +48077,6 @@
 /turf/open/openspace,
 /area/station/service/hydroponics/upper)
 "ogl" = (
-/obj/effect/mapping_helpers/airlock/access/any/supply/maintenance,
 /obj/machinery/door/airlock/maintenance_hatch{
 	name = "Diner Maintenance"
 	},
@@ -48094,7 +48084,6 @@
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/structure/cable,
-/obj/effect/mapping_helpers/airlock/access/any/service/maintenance,
 /turf/open/floor/plating,
 /area/station/maintenance/port/greater)
 "ogm" = (
@@ -48848,8 +48837,6 @@
 /turf/open/floor/wood,
 /area/station/maintenance/starboard/fore)
 "orZ" = (
-/obj/effect/mapping_helpers/airlock/access/any/supply/maintenance,
-/obj/effect/mapping_helpers/airlock/access/any/service/maintenance,
 /obj/structure/barricade/wooden/crude,
 /obj/effect/mapping_helpers/airlock/welded,
 /obj/machinery/door/airlock/mining{
@@ -49231,7 +49218,6 @@
 /obj/machinery/door/airlock/maintenance_hatch{
 	name = "Chapel Maintenance"
 	},
-/obj/effect/mapping_helpers/airlock/access/any/service/maintenance,
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
@@ -55041,8 +55027,6 @@
 /turf/open/floor/iron/solarpanel/airless,
 /area/station/solars/starboard/fore)
 "qmo" = (
-/obj/effect/mapping_helpers/airlock/access/any/supply/maintenance,
-/obj/effect/mapping_helpers/airlock/access/any/service/maintenance,
 /obj/machinery/door/airlock/hatch{
 	name = "Maintenance Hatch"
 	},
@@ -57495,8 +57479,6 @@
 /turf/open/floor/iron/dark/smooth_large,
 /area/station/service/hydroponics)
 "rbO" = (
-/obj/effect/mapping_helpers/airlock/access/any/supply/maintenance,
-/obj/effect/mapping_helpers/airlock/access/any/service/maintenance,
 /obj/machinery/door/airlock/hatch{
 	name = "Maintenance Hatch"
 	},
@@ -60216,7 +60198,6 @@
 /obj/machinery/door/airlock/maintenance_hatch{
 	name = "Kitchen Freezer Maintenance"
 	},
-/obj/effect/mapping_helpers/airlock/access/any/supply/maintenance,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/structure/cable,
@@ -60848,8 +60829,6 @@
 /turf/open/floor/circuit,
 /area/station/ai_monitored/turret_protected/ai)
 "scu" = (
-/obj/effect/mapping_helpers/airlock/access/any/supply/maintenance,
-/obj/effect/mapping_helpers/airlock/access/any/service/maintenance,
 /obj/machinery/door/airlock/hatch{
 	name = "Maintenance Hatch"
 	},
@@ -63202,6 +63181,16 @@
 	},
 /turf/open/floor/iron/dark/smooth_edge,
 /area/station/security/execution/education)
+"sLq" = (
+/obj/machinery/door/airlock/hatch{
+	name = "Maintenance Hatch"
+	},
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/obj/structure/cable,
+/turf/open/floor/plating,
+/area/station/maintenance/port/aft)
 "sLr" = (
 /obj/effect/turf_decal/trimline/blue/filled/line{
 	dir = 4
@@ -66583,7 +66572,6 @@
 /turf/open/floor/carpet/purple,
 /area/station/command/heads_quarters/rd)
 "tPv" = (
-/obj/effect/mapping_helpers/airlock/access/any/service/maintenance,
 /obj/machinery/door/airlock/hatch{
 	name = "Maintenance Hatch"
 	},
@@ -66650,7 +66638,6 @@
 /area/station/science/ordnance)
 "tQc" = (
 /obj/effect/mapping_helpers/airlock/access/any/supply/maintenance,
-/obj/effect/mapping_helpers/airlock/access/any/service/maintenance,
 /obj/machinery/door/airlock/maintenance/external{
 	name = "Auxiliary Chemical Lab"
 	},
@@ -76309,8 +76296,6 @@
 /turf/open/floor/iron/dark/smooth_large,
 /area/station/medical/storage)
 "wAV" = (
-/obj/effect/mapping_helpers/airlock/access/any/supply/maintenance,
-/obj/effect/mapping_helpers/airlock/access/any/service/maintenance,
 /obj/machinery/door/airlock/maintenance/external{
 	name = "Storage Room"
 	},
@@ -77187,7 +77172,6 @@
 	},
 /area/station/service/barber)
 "wNk" = (
-/obj/effect/mapping_helpers/airlock/access/any/service/maintenance,
 /obj/machinery/door/airlock/hatch{
 	name = "Maintenance Hatch"
 	},
@@ -81418,8 +81402,6 @@
 /turf/open/floor/plating,
 /area/station/maintenance/port/aft)
 "ygF" = (
-/obj/effect/mapping_helpers/airlock/access/any/supply/maintenance,
-/obj/effect/mapping_helpers/airlock/access/any/service/maintenance,
 /obj/machinery/door/airlock/hatch{
 	name = "Maintenance Hatch"
 	},
@@ -110249,7 +110231,7 @@ jIw
 qIF
 qVB
 twB
-tfy
+sLq
 gfP
 gfP
 tzq
@@ -172440,7 +172422,7 @@ mfQ
 eDt
 fCe
 fCe
-tfy
+sLq
 raG
 lfs
 cBJ

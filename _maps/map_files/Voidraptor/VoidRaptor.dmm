@@ -28980,13 +28980,6 @@
 /obj/structure/window/fulltile,
 /turf/open/floor/grass,
 /area/station/service/theater)
-"irF" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 5
-	},
-/obj/effect/turf_decal/tile/purple/diagonal_centre,
-/turf/open/floor/iron/white/diagonal,
-/area/station/science/xenobiology)
 "irO" = (
 /obj/machinery/corral_corner{
 	mapping_id = "3"
@@ -58644,13 +58637,6 @@
 	dir = 1
 	},
 /area/station/hallway/primary/fore)
-"qtI" = (
-/obj/effect/turf_decal/tile/purple/diagonal_centre,
-/obj/effect/turf_decal/stripes/line{
-	dir = 1
-	},
-/turf/open/floor/iron/white/diagonal,
-/area/station/science/xenobiology)
 "qtL" = (
 /turf/closed/mineral,
 /area/space/nearstation)
@@ -75419,13 +75405,8 @@
 /turf/open/floor/wood/large,
 /area/station/service/library)
 "uWl" = (
-/obj/effect/turf_decal/stripes/line{
-	dir = 9
-	},
-/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer2,
-/obj/effect/turf_decal/tile/purple/diagonal_centre,
 /obj/machinery/firealarm/directional/west,
-/turf/open/floor/iron/white/diagonal,
+/turf/closed/wall/r_wall,
 /area/station/science/xenobiology)
 "uWo" = (
 /obj/machinery/status_display/evac/directional/north,
@@ -81714,6 +81695,9 @@
 /obj/item/seeds/grass,
 /obj/item/seeds/pumpkin,
 /obj/item/seeds/tomato,
+/obj/item/food/grown/onion,
+/obj/item/food/breadslice/plain,
+/obj/item/food/grown/potato,
 /turf/open/floor/grass,
 /area/station/security/prison/garden)
 "wJP" = (
@@ -84477,6 +84461,9 @@
 	dir = 4
 	},
 /obj/effect/turf_decal/tile/purple/diagonal_centre,
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer2{
+	dir = 8
+	},
 /turf/open/floor/iron/white/diagonal,
 /area/station/science/xenobiology)
 "xAr" = (
@@ -108576,7 +108563,7 @@ tAl
 qBt
 uiw
 xXU
-qtI
+oMs
 xAo
 agi
 fmb
@@ -108833,7 +108820,7 @@ uiw
 sYU
 uiw
 xXU
-irF
+oMs
 qbI
 dnE
 oMs
