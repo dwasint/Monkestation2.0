@@ -1,5 +1,6 @@
 
 /datum/map_generator/cave_generator/forest
+	buildmode_name = "Forest Generator"
 	weighted_open_turf_types = list(/turf/open/misc/asteroid/forest = 1)
 	weighted_closed_turf_types = list(/turf/closed/mineral/random/forest = 1)
 	flora_spawn_chance = 35
