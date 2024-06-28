@@ -55927,6 +55927,7 @@
 	c_tag = "Robotics - Augmentation Theatre";
 	network = list("ss13","rd")
 	},
+/obj/item/surgery_tray,
 /turf/open/floor/iron/showroomfloor,
 /area/station/science/robotics/augments)
 "qzA" = (
@@ -56352,6 +56353,7 @@
 	dir = 1
 	},
 /obj/machinery/light_switch/directional/west,
+/obj/structure/reagent_dispensers/fueltank/large,
 /turf/open/floor/iron/dark/side{
 	dir = 8
 	},
@@ -65573,6 +65575,15 @@
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /turf/open/floor/iron,
 /area/station/hallway/primary/central/aft)
+"txj" = (
+/obj/effect/turf_decal/tile/dark_red{
+	dir = 1
+	},
+/obj/machinery/autolathe,
+/turf/open/floor/iron/dark/side{
+	dir = 1
+	},
+/area/station/science/robotics/mechbay)
 "txq" = (
 /obj/effect/turf_decal/siding/wood{
 	dir = 1
@@ -110445,7 +110456,7 @@ foo
 vZy
 mdT
 oHE
-wov
+txj
 ebD
 iAX
 aAK

@@ -37724,6 +37724,7 @@
 "kJi" = (
 /obj/machinery/holopad,
 /obj/effect/turf_decal/bot,
+/obj/machinery/autolathe,
 /turf/open/floor/iron/dark/textured_large,
 /area/station/science/robotics/lab)
 "kJk" = (
@@ -43044,13 +43045,13 @@
 /turf/open/floor/iron/white/small,
 /area/station/common/pool)
 "mhn" = (
-/obj/machinery/recharge_station,
 /obj/structure/cable,
 /obj/machinery/power/apc/auto_name/directional/west,
 /obj/effect/turf_decal/trimline/purple/filled/line{
 	dir = 10
 	},
 /obj/effect/turf_decal/box,
+/obj/structure/reagent_dispensers/fueltank/large,
 /turf/open/floor/iron/dark/textured,
 /area/station/science/robotics/mechbay)
 "mhx" = (
@@ -70852,7 +70853,7 @@
 /area/station/command/heads_quarters/qm)
 "tJJ" = (
 /obj/structure/fake_stairs/wood/directional/east,
-/turf/open/space/basic,
+/turf/open/floor/wood/large,
 /area/station/service/barber)
 "tJM" = (
 /obj/machinery/power/shuttle_engine/heater{
@@ -78548,6 +78549,7 @@
 /obj/effect/turf_decal/tile/dark_red/half/contrasted{
 	dir = 8
 	},
+/obj/item/surgery_tray,
 /turf/open/floor/iron/dark/textured_edge{
 	dir = 4
 	},
