@@ -57767,6 +57767,7 @@
 /obj/effect/turf_decal/trimline/purple/filled/line,
 /obj/effect/turf_decal/bot,
 /obj/machinery/computer/slime_market,
+/obj/machinery/airalarm/directional/south,
 /turf/open/floor/iron/white/textured_edge{
 	dir = 1
 	},
