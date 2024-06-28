@@ -54,7 +54,7 @@
 	///Base chance of spawning flora
 	var/flora_spawn_chance = 2
 	///Base chance of spawning features
-	var/feature_spawn_chance = 0.15
+	var/feature_spawn_chance = 0.25
 	///Unique ID for this spawner
 	var/string_gen
 
@@ -83,10 +83,19 @@
 		weighted_megafauna_spawn_list = GLOB.megafauna_spawn_list
 	megafauna_spawn_list = expand_weights(weighted_megafauna_spawn_list)
 	if(!weighted_flora_spawn_list)
-		weighted_flora_spawn_list = list(/obj/structure/flora/ash/leaf_shroom = 2 , /obj/structure/flora/ash/cap_shroom = 2 , /obj/structure/flora/ash/stem_shroom = 2 , /obj/structure/flora/ash/cacti = 1, /obj/structure/flora/ash/tall_shroom = 2, /obj/structure/flora/ash/seraka = 2)
+		weighted_flora_spawn_list = list(
+			/obj/structure/flora/ash/leaf_shroom = 2,
+			/obj/structure/flora/ash/cap_shroom = 2,
+			/obj/structure/flora/ash/stem_shroom = 2,
+			/obj/structure/flora/ash/cacti = 1,
+			/obj/structure/flora/ash/tall_shroom = 2,
+			/obj/structure/flora/ash/seraka = 2,
+		)
 	flora_spawn_list = expand_weights(weighted_flora_spawn_list)
 	if(!weighted_feature_spawn_list)
-		weighted_feature_spawn_list = list(/obj/structure/geyser/random = 1)
+		weighted_feature_spawn_list = list(
+			/obj/structure/geyser/random = 1,
+		)
 	feature_spawn_list = expand_weights(weighted_feature_spawn_list)
 	open_turf_types = expand_weights(weighted_open_turf_types)
 	closed_turf_types = expand_weights(weighted_closed_turf_types)
@@ -103,14 +112,7 @@
 	var/start_time = REALTIMEOFDAY
 	string_gen = rustg_cnoise_generate("[initial_closed_chance]", "[smoothing_iterations]", "[birth_limit]", "[death_limit]", "[world.maxx]", "[world.maxy]") //Generate the raw CA data
 
-	// Area var pullouts to make accessing in the loop faster
-	var/flora_allowed = (generate_in.area_flags & FLORA_ALLOWED) && length(flora_spawn_list)
-	var/feature_allowed = (generate_in.area_flags & FLORA_ALLOWED) && length(feature_spawn_list)
-	var/mobs_allowed = (generate_in.area_flags & MOB_SPAWN_ALLOWED) && length(mob_spawn_list)
-	var/megas_allowed = (generate_in.area_flags & MEGAFAUNA_SPAWN_ALLOWED) && length(megafauna_spawn_list)
-
-	for(var/i in turfs) //Go through all the turfs and generate them
-		var/turf/gen_turf = i
+	for(var/turf/gen_turf as anything in turfs) //Go through all the turfs and generate them
 
 		var/closed = string_gen[world.maxx * (gen_turf.y - 1) + gen_turf.x] != "0"
 		var/turf/new_turf = pick(closed ? closed_turf_types : open_turf_types)
@@ -162,8 +164,8 @@
 		var/datum/biome/selected_biome
 
 		// Here comes the meat of the biome code.
-		var/drift_x = clamp((gen_turf.x + rand(-BIOME_RANDOM_SQUARE_DRIFT, BIOME_RANDOM_SQUARE_DRIFT)), 1, world.maxx) // / perlin_zoom
-		var/drift_y = clamp((gen_turf.y + rand(-BIOME_RANDOM_SQUARE_DRIFT, BIOME_RANDOM_SQUARE_DRIFT)), 2, world.maxy) // / perlin_zoom
+		var/drift_x = clamp(((gen_turf.x + rand(-BIOME_RANDOM_SQUARE_DRIFT, BIOME_RANDOM_SQUARE_DRIFT)) / perlin_zoom), 1, world.maxx)
+		var/drift_y = clamp(((gen_turf.y + rand(-BIOME_RANDOM_SQUARE_DRIFT, BIOME_RANDOM_SQUARE_DRIFT)) / perlin_zoom), 2, world.maxy)
 
 		// Where we go in the generated string (generated outside of the loop for s p e e d)
 		var/coordinate = world.maxx * (drift_y - 1) + drift_x
@@ -223,35 +225,40 @@
 		// If we've spawned something yet
 		var/spawned_something = FALSE
 
-		///Spawning isn't done in procs to save on overhead on the 60k turfs we're going through.
-		//FLORA SPAWNING HERE
-		if(flora_allowed && prob(flora_spawn_chance))
-			var/flora_type = pick(flora_spawn_list)
-			new flora_type(new_turf)
-			spawned_something = TRUE
-
-		//FEATURE SPAWNING HERE
-		if(feature_allowed && prob(feature_spawn_chance))
-			var/can_spawn = TRUE
-
-			var/atom/picked_feature = pick(feature_spawn_list)
-
-			for(var/obj/structure/existing_feature in range(7, new_turf))
-				if(istype(existing_feature, picked_feature))
-					can_spawn = FALSE
-					break
-
-			if(can_spawn)
-				new picked_feature(new_turf)
+		if(!(target_turf.turf_flags & TURF_BLOCKS_POPULATE_TERRAIN_FLORAFEATURES))
+			///Spawning isn't done in procs to save on overhead on the 60k turfs we're going through.
+			//FLORA SPAWNING HERE
+			if(flora_allowed && prob(flora_spawn_chance))
+				var/flora_type = pick(flora_spawn_list)
+				new flora_type(target_turf)
 				spawned_something = TRUE
+
+			//FEATURE SPAWNING HERE
+			//we may have generated something from the flora list on the target turf, so let's not place
+			//a feature here if that's the case (because it would look stupid)
+			if(feature_allowed && !spawned_something && prob(feature_spawn_chance))
+				var/can_spawn = TRUE
+
+				var/atom/picked_feature = pick(feature_spawn_list)
+
+				for(var/obj/structure/existing_feature in range(7, target_turf))
+					if(istype(existing_feature, picked_feature))
+						can_spawn = FALSE
+						break
+
+				if(can_spawn)
+					new picked_feature(target_turf)
+					spawned_something = TRUE
 
 		//MOB SPAWNING HERE
 		if(mobs_allowed && !spawned_something && prob(mob_spawn_chance))
 			var/atom/picked_mob = pick(mob_spawn_list)
+			var/is_megafauna = FALSE
 
 			if(picked_mob == SPAWN_MEGAFAUNA)
 				if(megas_allowed) //this is danger. it's boss time.
 					picked_mob = pick(megafauna_spawn_list)
+					is_megafauna = TRUE
 				else //this is not danger, don't spawn a boss, spawn something else
 					picked_mob = pick(mob_spawn_no_mega_list) //What if we used 100% of the brain...and did something (slightly) less shit than a while loop?
 
@@ -259,19 +266,22 @@
 
 			// prevents tendrils spawning in each other's collapse range
 			if(ispath(picked_mob, /obj/structure/spawner/lavaland))
-				for(var/obj/structure/spawner/lavaland/spawn_blocker in range(2, new_turf))
+				for(var/obj/structure/spawner/lavaland/spawn_blocker in range(2, target_turf))
 					can_spawn = FALSE
 					break
 			// if the random is not a tendril (hopefully meaning it is a mob), avoid spawning if there's another one within 12 tiles
 			else
-				var/list/things_in_range = range(12, new_turf)
+				var/list/things_in_range = range(12, target_turf)
 				for(var/mob/living/mob_blocker in things_in_range)
 					if(ismining(mob_blocker))
 						can_spawn = FALSE
 						break
+				// Also block spawns if there's a random lavaland mob spawner nearby and it's not a mega
+				if(!is_megafauna)
+					can_spawn = can_spawn && !(locate(/obj/effect/spawner/random/lavaland_mob) in things_in_range)
 			//if there's a megafauna within standard view don't spawn anything at all (This isn't really consistent, I don't know why we do this. you do you tho)
 			if(can_spawn)
-				for(var/mob/living/simple_animal/hostile/megafauna/found_fauna in range(7, new_turf))
+				for(var/mob/living/simple_animal/hostile/megafauna/found_fauna in range(7, target_turf))
 					can_spawn = FALSE
 					break
 
@@ -280,11 +290,11 @@
 					weighted_megafauna_spawn_list.Remove(picked_mob)
 					megafauna_spawn_list = expand_weights(weighted_megafauna_spawn_list)
 					megas_allowed = megas_allowed && length(megafauna_spawn_list)
-				new picked_mob(new_turf)
+				new picked_mob(target_turf)
 				spawned_something = TRUE
 		CHECK_TICK
 
-	var/message = "[name] finished in [(REALTIMEOFDAY - start_time)/10]s!"
+	var/message = "[name] terrain population finished in [(REALTIMEOFDAY - start_time)/10]s!"
 	to_chat(world, span_boldannounce("[message]"))
 	log_world(message)
 
