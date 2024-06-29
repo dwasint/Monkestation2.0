@@ -20,6 +20,7 @@
 	weather_additional_events = list("thunder" = list(3, /datum/weather_event/thunder), "wind" = list(4, /datum/weather_event/wind))
 	weather_warnings = list("siren" = null, "message" = FALSE)
 	fire_smothering_strength = 6
+	eclipse = TRUE
 
 /datum/particle_weather/rain_storm
 	name = "Rain Storm"
@@ -43,3 +44,4 @@
 	weather_additional_events = list("thunder" = list(6, /datum/weather_event/thunder), "wind" = list(8, /datum/weather_event/wind))
 	weather_warnings = list("siren" = null, "message" = FALSE)
 	fire_smothering_strength = 6
+	eclipse = TRUE

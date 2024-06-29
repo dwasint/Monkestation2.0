@@ -68,11 +68,13 @@
 	baseturfs = /turf/open/openspace/forest
 	initial_gas_mix = FOREST_DEFAULT_ATMOS
 	planetary_atmos = TRUE
+	baseturfs = null
 
 /turf/open/misc/dirt/forest
 	desc = "Hard-packed dirt - much too hard to plant seeds in."
 	initial_gas_mix = FOREST_DEFAULT_ATMOS
 	planetary_atmos = TRUE
+	baseturfs = /turf/baseturf_bottom
 
 /turf/open/misc/sandy_dirt/forest
 	initial_gas_mix = FOREST_DEFAULT_ATMOS

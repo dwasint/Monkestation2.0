@@ -6,3 +6,6 @@
 /datum/map_config
 	/// Are we allowing space even if we're planetary?
 	var/allow_space_when_planetary = FALSE
+
+/datum/config_entry/flag/eclipse
+	default = FALSE

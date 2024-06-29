@@ -96,3 +96,26 @@
 
 /obj/item/flatpacked_machine/organics_printer/give_manufacturer_examine()
 	AddElement(/datum/element/manufacturer_examine, COMPANY_KAHRAMAN)
+
+
+/obj/structure/closet/crate/colony_starter/PopulateContents()
+	new /obj/item/flatpacked_machine(src)
+	new /obj/item/flatpacked_machine/ore_silo(src)
+	new /obj/item/flatpacked_machine/wind_turbine(src)
+	new /obj/item/flatpacked_machine/wind_turbine(src)
+	new /obj/item/stack/cable_coil/five(src)
+	new /obj/item/stack/cable_coil/five(src)
+	new /obj/item/stack/cable_coil/five(src)
+	new /obj/item/stack/cable_coil/five(src)
+	new /obj/item/stack/cable_coil/five(src)
+	new /obj/item/flatpacked_machine/organics_printer(src)
+	new /obj/item/flatpacked_machine/gps_beacon(src)
+	new /obj/item/stack/sheet/plastic_wall_panel/fifty(src)
+	new /obj/item/stack/rods/twentyfive(src)
+	new /obj/item/stack/sheet/iron/twenty(src)
+	new /obj/item/flatpacked_machine/airlock_kit_manual(src)
+	new /obj/item/flatpacked_machine/airlock_kit_manual(src)
+	new /obj/item/wallframe/apc(src)
+	new /obj/item/electronics/apc(src)
+	new /obj/item/stock_parts/cell/high(src)
+

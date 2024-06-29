@@ -189,6 +189,14 @@ GLOBAL_LIST_EMPTY(siren_objects)
 
 	var/last_message = ""
 
+	var/plane_type = "Default"
+	var/eclipse = FALSE
+
+/datum/particle_weather/New(plane_type)
+	. = ..()
+	if(plane_type)
+		src.plane_type = plane_type
+
 /datum/particle_weather/proc/severity_mod()
 	return severity / max_severity
 
@@ -224,11 +232,13 @@ GLOBAL_LIST_EMPTY(siren_objects)
 	addtimer(CALLBACK(src, PROC_REF(wind_down)), weather_duration)
 	weather_warnings()
 	if(particle_effect_type)
-		SSparticle_weather.set_particle_effect(new particle_effect_type);
+		SSparticle_weather.set_particle_effect(new particle_effect_type, plane_type);
 
 	if(weather_special_effect)
-		SSparticle_weather.weather_special_effect = new weather_special_effect(src)
-
+		if(plane_type == "Default")
+			SSparticle_weather.weather_special_effect = new weather_special_effect(src)
+		else if(plane_type == "Eclipse")
+			SSparticle_weather.weather_special_effect_eclipse = new weather_special_effect(src)
 	change_severity()
 
 
@@ -247,8 +257,12 @@ GLOBAL_LIST_EMPTY(siren_objects)
 
 	severity += wind_severity
 
-	if(SSparticle_weather.particle_effect)
-		SSparticle_weather.particle_effect.animate_severity(severity_mod())
+	if(plane_type == "Default")
+		if(SSparticle_weather.particle_effect)
+			SSparticle_weather.particle_effect.animate_severity(severity_mod())
+	else if(plane_type == "Eclipse")
+		if(SSparticle_weather.particle_effect_eclipse)
+			SSparticle_weather.particle_effect_eclipse.animate_severity(severity_mod())
 
 	if(last_message != scale_range_pick(min_severity, max_severity, severity, weather_messages))
 		messaged_mobs = list()
@@ -258,15 +272,19 @@ GLOBAL_LIST_EMPTY(siren_objects)
 
 /datum/particle_weather/proc/wind_down()
 	severity = 0
-	if(SSparticle_weather.particle_effect)
-		SSparticle_weather.particle_effect.animate_severity(severity_mod())
+	if(plane_type == "Default")
+		if(SSparticle_weather.particle_effect)
+			SSparticle_weather.particle_effect.animate_severity(severity_mod())
+	else if(plane_type == "Eclipse")
+		if(SSparticle_weather.particle_effect_eclipse)
+			SSparticle_weather.particle_effect_eclipse.animate_severity(severity_mod())
 
 		//Wait for the last particle to fade, then qdel yourself
 		addtimer(CALLBACK(src, PROC_REF(end)), SSparticle_weather.particle_effect.lifespan + SSparticle_weather.particle_effect.fade)
 
 /datum/particle_weather/proc/end()
 	running = FALSE
-	SSparticle_weather.stop_weather()
+	SSparticle_weather.stop_weather(plane_type)
 
 /datum/particle_weather/proc/can_weather(mob/living/mob_to_check)
 	var/turf/mob_turf = get_turf(mob_to_check)
