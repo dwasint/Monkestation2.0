@@ -108,6 +108,8 @@
 	new /obj/item/stack/cable_coil/five(src)
 	new /obj/item/stack/cable_coil/five(src)
 	new /obj/item/stack/cable_coil/five(src)
+	new /obj/item/stack/cable_coil/five(src)
+	new /obj/item/stack/cable_coil/five(src)
 	new /obj/item/flatpacked_machine/organics_printer(src)
 	new /obj/item/flatpacked_machine/gps_beacon(src)
 	new /obj/item/stack/sheet/plastic_wall_panel/fifty(src)
@@ -118,4 +120,7 @@
 	new /obj/item/wallframe/apc(src)
 	new /obj/item/electronics/apc(src)
 	new /obj/item/stock_parts/cell/high(src)
-
+	new /obj/item/wallframe/frontier_medstation(src)
+	new /obj/item/screwdriver/omni_drill(src)
+	new /obj/item/multitool(src)
+	new /obj/item/crowbar(src)
