@@ -45,8 +45,8 @@ SUBSYSTEM_DEF(particle_weather)
 	if(!running_weather && next_hit && COOLDOWN_FINISHED(src, next_weather_start))
 		run_weather(next_hit)
 
-	if(!running_eclipse_weather && next_hit && COOLDOWN_FINISHED(src, next_weather_start_eclipse))
-		run_weather(next_hit, eclipse = TRUE)
+	if(!running_eclipse_weather && next_hit_eclipse && COOLDOWN_FINISHED(src, next_weather_start_eclipse))
+		run_weather(next_hit_eclipse, eclipse = TRUE)
 
 	if(!running_weather && !next_hit && length(elligble_weathers))
 		for(var/our_event in elligble_weathers)
