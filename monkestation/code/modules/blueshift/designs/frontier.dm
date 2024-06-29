@@ -441,6 +441,7 @@
 		"flatpack_ore_silo",
 		"flatpack_turbine_team_fortress_two",
 		"flatpack_bootleg_teg",
+		"flatpack_ore_thumper",
 	)
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 5000000000000000) // God save you
 	hidden = TRUE
@@ -770,3 +771,22 @@
 		RND_CATEGORY_INITIAL,
 		RND_CATEGORY_TOOLS + RND_SUBCATEGORY_TOOLS_MINING,
 	)
+
+/datum/design/flatpack_ore_thumper
+	name = "Flat-Packed Ore Thumper"
+	desc = "A frame with a heavy block of metal suspended atop a pipe. \
+		Must be deployed outdoors and given a wired power connection. \
+		Forces pressurized gas into the ground which brings up buried resources."
+	id = "flatpack_ore_thumper"
+	build_type = COLONY_FABRICATOR
+	materials = list(
+		/datum/material/iron = SHEET_MATERIAL_AMOUNT * 7.5,
+		/datum/material/glass = SHEET_MATERIAL_AMOUNT * 3,
+		/datum/material/gold = SHEET_MATERIAL_AMOUNT,
+	)
+	build_path = /obj/item/flatpacked_machine/ore_thumper
+	category = list(
+		RND_CATEGORY_INITIAL,
+		FABRICATOR_CATEGORY_FLATPACK_MACHINES + FABRICATOR_SUBCATEGORY_MATERIALS,
+	)
+	construction_time = 15 SECONDS
