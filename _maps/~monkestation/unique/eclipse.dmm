@@ -2,6 +2,10 @@
 "a" = (
 /turf/open/genturf,
 /area/forestplanet/outdoors/unexplored/deep)
+"b" = (
+/obj/machinery/portable_atmospherics/canister/oxygen,
+/turf/open/misc/asteroid/forest,
+/area/forestplanet/outdoors)
 "c" = (
 /obj/effect/turf_decal/weather/dirt{
 	dir = 9
@@ -55,6 +59,10 @@
 /obj/effect/turf_decal/weather/dirt,
 /turf/open/openspace/forest,
 /area/forestplanet/outdoors)
+"z" = (
+/obj/effect/mob_spawn/ghost_role/human/hermit,
+/turf/open/misc/asteroid/forest,
+/area/forestplanet/outdoors)
 "A" = (
 /turf/open/misc/dirt/forest,
 /area/forestplanet/outdoors)
@@ -69,6 +77,10 @@
 	dir = 8
 	},
 /turf/open/openspace/forest,
+/area/forestplanet/outdoors)
+"E" = (
+/obj/structure/closet/crate/colony_starter,
+/turf/open/misc/asteroid/forest,
 /area/forestplanet/outdoors)
 "G" = (
 /obj/effect/turf_decal/weather/dirt{
@@ -78625,9 +78637,9 @@ W
 W
 W
 W
-W
-W
-W
+J
+J
+J
 j
 A
 A
@@ -78881,9 +78893,9 @@ W
 W
 W
 W
-W
-W
-W
+z
+J
+J
 J
 f
 H
@@ -79137,10 +79149,10 @@ W
 W
 W
 W
-W
-W
-W
-W
+z
+J
+J
+J
 j
 A
 A
@@ -79394,10 +79406,10 @@ W
 W
 W
 W
-W
-W
-W
-W
+J
+E
+b
+J
 j
 A
 c
@@ -79651,9 +79663,9 @@ W
 W
 W
 W
-W
-W
-W
+z
+J
+J
 J
 f
 A
@@ -79909,8 +79921,8 @@ W
 W
 W
 W
-W
-W
+z
+J
 j
 A
 A
