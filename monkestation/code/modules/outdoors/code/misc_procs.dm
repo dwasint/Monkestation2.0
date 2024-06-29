@@ -1,11 +1,18 @@
 /mob/living/carbon/proc/handle_weather(delta_time = 1)
 	var/turf/turf = get_turf(src)
-	// Check if we're supposed to be something affected by weather
-	if(!SSparticle_weather.running_weather || !(turf.turf_flags & TURF_WEATHER))
+	if(SSmapping.level_has_all_traits(turf.z, list(ZTRAIT_ECLIPSE)))
+		if(!SSparticle_weather.running_eclipse_weather || !(turf.turf_flags & TURF_WEATHER))
 		current_weather_effect_type = null
+		else
+			current_weather_effect_type = SSparticle_weather.running_eclipse_weather
+		SSparticle_weather.running_eclipse_weather.process_mob_effect(src, delta_time)
 	else
-		current_weather_effect_type = SSparticle_weather.running_weather
-	SSparticle_weather.running_weather.process_mob_effect(src, delta_time)
+		// Check if we're supposed to be something affected by weather
+		if(!SSparticle_weather.running_weather || !(turf.turf_flags & TURF_WEATHER))
+			current_weather_effect_type = null
+		else
+			current_weather_effect_type = SSparticle_weather.running_weather
+		SSparticle_weather.running_weather.process_mob_effect(src, delta_time)
 
 /// Play sound for all on-map clients on a given Z-level. Good for ambient sounds.
 /proc/playsound_z(z, soundin, volume = 100, _mixer_channel)
