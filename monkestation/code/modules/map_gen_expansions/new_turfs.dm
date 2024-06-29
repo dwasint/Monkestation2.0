@@ -37,6 +37,7 @@
 /turf/open/misc/asteroid/forest/getDug()
 	. = ..()
 	AddComponent(/datum/component/simple_farm)
+	new /obj/item/stack/ore/glass(src)
 
 /turf/open/misc/asteroid/forest/mushroom
 	name = "mushroom floor"
