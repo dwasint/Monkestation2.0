@@ -38,7 +38,7 @@
 	. = ..()
 	AddComponent(/datum/component/simple_farm)
 	new /obj/item/stack/ore/glass(src)
-	icon = 'icons/turf/floors.dmi'
+	icon_state = base_icon_state
 
 /turf/open/misc/asteroid/forest/mushroom
 	name = "mushroom floor"
