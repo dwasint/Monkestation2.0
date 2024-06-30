@@ -55,6 +55,10 @@
 	light_power = 0.50
 	light_color = COLOR_VERY_LIGHT_GRAY
 
+/turf/open/misc/asteroid/forest/mushroom/getDug()
+	. = ..()
+	icon_state = base_icon_state
+
 /turf/open/misc/asteroid/forest/mushroom/blue
 	icon_state = "mushroom_blue"
 	base_icon_state = "mushroom_blue"
