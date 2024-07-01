@@ -32,4 +32,4 @@
 	name = "Mushroom Caves"
 	map_generator = /datum/map_generator/cave_generator/forest/mushroom
 
-	sound_environment = SOUND_ENVIROMENT_CAVE
+	sound_environment = SOUND_ENVIRONMENT_CAVE
