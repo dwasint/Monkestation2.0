@@ -549,16 +549,6 @@
 	attack_verb_simple = list("weh", "weh softly", "stutter")
 	//squeak_override = list('modular_nova/modules/emotes/sound/voice/weh.ogg' = 1)
 
-// Donation reward for Gofawful5
-/obj/item/toy/plush/nova/tracy
-	name = "creature plushie"
-	desc = "An astonishingly well-endowed catfox plushie... It seems content."
-	icon_state = "plush_tracy"
-	attack_verb_continuous = list("expands")
-	attack_verb_simple = list("expand")
-	//squeak_override = list('modular_nova/modules/customization/game/objects/items/sound/tracymrowr.ogg' = 1)
-	gender = FEMALE
-
 //Donation reward for Frixit
 /obj/item/toy/plush/nova/plushie_synthia
 	name = "adventurous synth plushie"
