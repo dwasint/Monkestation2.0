@@ -5,8 +5,8 @@
 	flags_1 = NONE
 	area_flags = UNIQUE_AREA | FLORA_ALLOWED
 	//ambience_index = AMBIENCE_ICEMOON
-	sound_environment = SOUND_AREA_ICEMOON
-	ambient_buzz = 'sound/ambience/magma.ogg'
+	sound_environment = SOUND_ENVIRONMENT_PLAIN
+	ambient_buzz = 'monkestation/code/modules/outdoors/sound/weather/forest_ambience.ogg'
 	name = "Forest Planet"
 	icon_state = "explored"
 	always_unpowered = TRUE
@@ -32,3 +32,4 @@
 	name = "Mushroom Caves"
 	map_generator = /datum/map_generator/cave_generator/forest/mushroom
 
+	sound_environment = SOUND_ENVIROMENT_CAVE

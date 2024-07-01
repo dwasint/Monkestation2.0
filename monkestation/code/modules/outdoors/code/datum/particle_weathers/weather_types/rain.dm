@@ -6,6 +6,7 @@
 
 	scale_vol_with_severity = TRUE
 	weather_sounds = list(/datum/looping_sound/rain)
+	indoor_weather_sounds = list(/datum/looping_sound/indoor_rain)
 	weather_messages = list("The rain cools your skin.", "The rain bluring your eyes.")
 
 	damage_type = TOX
@@ -30,6 +31,7 @@
 
 	scale_vol_with_severity = TRUE
 	weather_sounds = list(/datum/looping_sound/rain)
+	indoor_weather_sounds = list(/datum/looping_sound/indoor_rain)
 	weather_messages = list("The rain cools your skin.", "The storm is really picking up!")
 
 	damage_type = TOX

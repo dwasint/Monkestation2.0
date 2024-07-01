@@ -239,6 +239,8 @@ GLOBAL_LIST_EMPTY(station_turfs)
 /turf/proc/on_change_area(area/old_area, area/new_area)
 	transfer_area_lighting(old_area, new_area)
 	GLOB.SUNLIGHT_QUEUE_WORK += src
+	if(outdoor_effect)
+		GLOB.SUNLIGHT_QUEUE_UPDATE += outdoor_effect
 
 /turf/proc/multiz_turf_del(turf/T, dir)
 	SEND_SIGNAL(src, COMSIG_TURF_MULTIZ_DEL, T, dir)
