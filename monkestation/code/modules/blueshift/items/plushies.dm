@@ -37,38 +37,6 @@
 	special_desc_jobs = list(JOB_ASSISTANT, JOB_HEAD_OF_SECURITY)
 	special_desc = "There's a pocket under the coat hiding a tiny picture of the medcat plushie and a tinier ribbon diamond ring. D'awww."
 
-/obj/item/toy/plush/nova/sechound
-	name = "sec-hound plushie"
-	desc = "An adorable stuffed toy of a SecHound, the trusty Nanotrasen sponsored security borg!"
-	icon_state = "plushie_securityk9"
-	attack_verb_continuous = list("beeps", "boops", "pings")
-	attack_verb_simple = list("beep", "boop", "ping")
-	//squeak_override = list('sound/machines/beep.ogg' = 1)
-
-/obj/item/toy/plush/nova/medihound
-	name = "medi-hound plushie"
-	desc = "An adorable stuffed toy of a medihound."
-	icon_state = "plushie_medihound"
-	attack_verb_continuous = list("beeps", "boops", "pings")
-	attack_verb_simple = list("beep", "boop", "ping")
-	//squeak_override = list('sound/machines/beep.ogg' = 1)
-
-/obj/item/toy/plush/nova/engihound
-	name = "engi-hound plushie"
-	desc = "An adorable stuffed toy of a engihound."
-	icon_state = "plushie_engihound"
-	attack_verb_continuous = list("beeps", "boops", "pings")
-	attack_verb_simple = list("beep", "boop", "ping")
-	//squeak_override = list('sound/machines/beep.ogg' = 1)
-
-/obj/item/toy/plush/nova/scrubpuppy
-	name = "scrub-puppy plushie"
-	desc = "An adorable stuffed toy of a Scrubpuppy, the hard-working pup who keeps the station clean!"
-	icon_state = "plushie_scrubpuppy"
-	attack_verb_continuous = list("beeps", "boops", "pings")
-	attack_verb_simple = list("beep", "boop", "ping")
-	//squeak_override = list('sound/machines/beep.ogg' = 1)
-
 /obj/item/toy/plush/nova/meddrake
 	name = "medi-drake plushie"
 	desc = "An adorable stuffed toy of a Medidrake."
@@ -204,14 +172,6 @@
 	attack_verb_continuous = list("beeps", "sneeds", "swords")
 	attack_verb_simple = list("beep", "sneed", "sword")
 	//squeak_override = list('modular_nova/modules/emotes/sound/emotes/synth_yes.ogg' = 1,'modular_nova/modules/emotes/sound/emotes/synth_no.ogg' = 1)
-
-/obj/item/toy/plush/nova/lizzyplush
-	name = "odd yoga lizzy plushie"
-	desc = "Brought to you by Nanotrasen Wellness Program is the Yoga Odd Lizzy! He smells vaguely of blueberries, and likely resembles a horrible lover."
-	icon_state = "plushie_lizzy"
-	attack_verb_continuous = list("wehs")
-	attack_verb_simple = list("weh")
-	//squeak_override = list('modular_nova/modules/emotes/sound/voice/weh.ogg' = 1)
 
 /obj/item/toy/plush/nova/mechanic_fox
 	name = "mechanist fox plushie"
