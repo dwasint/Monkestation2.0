@@ -25,3 +25,5 @@
 #define DEFAULT_HIDING_AGGRO_RANGE 2
 /// The default chance to get out of hiding for every random hiding subtree process.
 #define DEFAULT_RANDOM_STOP_HIDING_CHANCE 2
+
+#define BB_TEMPORARY_TARGET "BB_targetting_temporary"
