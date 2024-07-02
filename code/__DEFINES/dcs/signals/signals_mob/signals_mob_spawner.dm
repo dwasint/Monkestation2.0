@@ -9,3 +9,4 @@
 #define COMSIG_GHOSTROLE_SPAWNED "ghostrole_spawned"
 
 #define COMSIG_SPAWNER_STOP_SPAWNING "stop_spawner_spawn"
+#define COMSIG_SPAWNER_START_SPAWNING "start_spawner_spawn"

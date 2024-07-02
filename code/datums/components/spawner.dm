@@ -32,6 +32,7 @@
 	src.spawn_distance_exclude = spawn_distance_exclude
 
 	RegisterSignal(parent, COMSIG_QDELETING, PROC_REF(stop_spawning))
+	RegisterSignal(parent, COMSIG_SPAWNER_START_SPAWNING, PROC_REF(start_spawning))
 	RegisterSignal(parent, COMSIG_SPAWNER_STOP_SPAWNING, PROC_REF(stop_spawning))
 	START_PROCESSING((spawn_time < 2 SECONDS ? SSfastprocess : SSprocessing), src)
 
@@ -44,6 +45,11 @@
 
 	STOP_PROCESSING(SSprocessing, src)
 	spawned_things = list()
+
+/datum/component/spawner/proc/start_spawning(force)
+	SIGNAL_HANDLER
+
+	START_PROCESSING((spawn_time < 2 SECONDS ? SSfastprocess : SSprocessing), src)
 
 /// Try to create a new mob
 /datum/component/spawner/proc/try_spawn_mob()
