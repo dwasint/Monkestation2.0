@@ -551,6 +551,7 @@
 			if(!istype(the_person))
 				if(issilicon(the_person))
 					self_paid = FALSE
+				SStgui.update_uis(src)
 				return
 
 			if(console_state == IRN_CONSOLE)
@@ -562,6 +563,7 @@
 				return
 
 			self_paid = !self_paid
+			SStgui.update_uis(src)
 
 #undef MAX_AMMO_AMOUNT
 #undef CARGO_CONSOLE
