@@ -402,6 +402,7 @@
 	if(!ui)
 		ui = new(user, src, "CargoImportConsole")
 		ui.open()
+		ui.set_autoupdate(FALSE)
 
 /datum/component/armament/company_imports/select_armament(mob/user, datum/armament_entry/company_import/armament_entry)
 	var/datum/bank_account/buyer = SSeconomy.get_dep_account(ACCOUNT_CAR)
