@@ -16,8 +16,8 @@ TODO LIST:
 /obj/structure/plasma_extraction_hub
 	name = "plasma extraction hub"
 	desc = "The hub to a connection of pipes. If there aren't any, then get building!"
-	icon = 'icons/obj/machines/mining_machines.dmi'
-	icon_state = "ore_redemption"
+	icon = 'monkestation/code/modules/map_gen_expansions/icons/plasma_extractor.dmi'
+	icon_state = "extractor-middle-center"
 	anchored = TRUE
 	density = TRUE
 	resistance_flags = LAVA_PROOF | FIRE_PROOF | UNACIDABLE | INDESTRUCTIBLE

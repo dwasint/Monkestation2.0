@@ -4,6 +4,7 @@
  * This was split into its own file just cause the readability sucked.
  */
 /obj/structure/plasma_extraction_hub/part/pipe/main
+	icon_state = "extractor-bottom-center"
 	///Reference to the plasma hud bar to show how much concentrated plasma has been collected.
 	var/obj/effect/bar_hud_display/plasma_bar/display_panel_ref
 	///A number representing the percentage of plasma that has been mined.
@@ -42,13 +43,29 @@
 				new_part = new /obj/structure/plasma_extraction_hub/part/pipe(spawned_turf)
 				new_part.setDir(EAST)
 				hub_parts += new_part
+				new_part.icon_state = "extractor-middle-right"
 			//west
 			if(6)
 				new_part = new /obj/structure/plasma_extraction_hub/part/pipe(spawned_turf)
 				new_part.setDir(WEST)
 				hub_parts += new_part
+				new_part.icon_state = "extractor-middle-left"
 			else
 				new_part = new/obj/structure/plasma_extraction_hub/part(spawned_turf)
+				switch(count)
+					if(9)
+						new_part.icon_state = "extractor-bottom-left"
+					if(7)
+						new_part.icon_state = "extractor-bottom-right"
+					if(5)
+						new_part.icon_state = "extractor-middle-center"
+					if(3)
+						new_part.icon_state = "extractor-top-left"
+					if(2)
+						new_part.icon_state = "extractor-top-center"
+					if(1)
+						new_part.icon_state = "extractor-top-right"
+
 		new_part.pipe_owner = src
 
 /obj/structure/plasma_extraction_hub/part/pipe/main/interact(mob/user)

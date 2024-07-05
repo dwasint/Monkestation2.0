@@ -10,6 +10,8 @@
 	move_resist = MOVE_FORCE_STRONG
 	dir = NONE // we will set the direction ourselves in placement.
 
+	pixel_y = 8
+
 	///The extraction hub pipenet we're connected to, which also has us in their own list.
 	var/obj/structure/plasma_extraction_hub/part/pipe/connected_hub
 	///The state of the pipe, in construction steps.
@@ -41,6 +43,12 @@
 	. = ..()
 	if(ISDIAGONALDIR(dir)) //overlays are only placed on straight pipes.
 		return
+
+	if(pipe_state == PIPE_STATE_FINE)
+		var/mutable_appearance/pipe_connector = mutable_appearance(icon, "pipe-connector", src, plane)
+		pipe_connector.pixel_y += 7
+		. += pipe_connector
+
 	switch(pipe_status)
 		if(PIPE_STATUS_OFF)
 			. += "[base_icon_state]_red"
