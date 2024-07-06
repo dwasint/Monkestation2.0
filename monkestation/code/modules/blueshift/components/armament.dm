@@ -133,13 +133,16 @@
 			if(!check)
 				return
 			select_armament(usr, check)
+			SStgui.update_uis(src)
 		if("buy_ammo")
 			var/check = check_item(params["armament_ref"])
 			if(!check)
 				return
 			buy_ammo(usr, check, params["quantity"])
+			SStgui.update_uis(src)
 		if("eject_card")
 			eject_card(usr)
+			SStgui.update_uis(src)
 
 /datum/component/armament/proc/buy_ammo(mob/user, datum/armament_entry/armament_entry, quantity = 1)
 	if(!armament_entry.magazine)
