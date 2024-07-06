@@ -15021,6 +15021,9 @@
 	dir = 1
 	},
 /obj/item/radio/intercom/directional/south,
+/obj/machinery/computer/department_orders/science{
+	dir = 1
+	},
 /turf/open/floor/wood/large,
 /area/station/science/breakroom)
 "ewL" = (
@@ -47232,12 +47235,12 @@
 /turf/open/floor/iron,
 /area/station/maintenance/port/aft)
 "nTA" = (
-/obj/machinery/modular_computer/preset/cargochat/service{
-	dir = 8
-	},
 /obj/effect/turf_decal/tile/green/diagonal_centre,
 /obj/effect/turf_decal/box,
 /obj/machinery/newscaster/directional/east,
+/obj/machinery/computer/department_orders/service{
+	dir = 8
+	},
 /turf/open/floor/iron/dark/diagonal,
 /area/station/hallway/secondary/service)
 "nTG" = (
@@ -55106,13 +55109,13 @@
 /turf/open/floor/engine,
 /area/station/science/xenobiology)
 "qnL" = (
-/obj/machinery/modular_computer/preset/cargochat/medical{
-	dir = 8
-	},
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
 	},
 /obj/effect/turf_decal/box,
+/obj/machinery/computer/department_orders/medical{
+	dir = 8
+	},
 /turf/open/floor/iron/dark/smooth_large,
 /area/station/medical/storage)
 "qnQ" = (
@@ -62751,6 +62754,9 @@
 	},
 /obj/effect/turf_decal/bot,
 /obj/effect/turf_decal/stripes/line{
+	dir = 1
+	},
+/obj/machinery/computer/department_orders/security{
 	dir = 1
 	},
 /turf/open/floor/engine,
@@ -80716,11 +80722,11 @@
 /turf/open/floor/plating,
 /area/station/maintenance/port/fore)
 "xVC" = (
-/obj/machinery/modular_computer/preset/cargochat/engineering{
-	dir = 8
-	},
 /obj/effect/turf_decal/box,
 /obj/item/radio/intercom/directional/east,
+/obj/machinery/computer/department_orders/engineering{
+	dir = 8
+	},
 /turf/open/floor/iron/dark/smooth_large,
 /area/station/engineering/lobby)
 "xVJ" = (
