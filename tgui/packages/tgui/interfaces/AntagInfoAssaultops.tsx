@@ -1,6 +1,5 @@
 // THIS IS A SKYRAT UI FILE
 import { BooleanLike } from 'common/react';
-import { useState } from 'react';
 
 import { useBackend } from '../backend';
 import {
@@ -52,7 +51,7 @@ type Info = {
 };
 
 export const AntagInfoAssaultops = (props) => {
-  const [tab, setTab] = useState(1);
+  const [tab, setTab] = useSharedState('tab', 1);
   const { data } = useBackend<Info>();
   const { required_keys, uploaded_keys, objectives } = data;
   return (
