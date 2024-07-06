@@ -758,18 +758,6 @@
 	name = "Prisoner Locker";
 	req_access = list("syndicate")
 	},
-/obj/item/clothing/shoes/sneakers/crimson,
-/obj/item/clothing/shoes/sneakers/crimson,
-/obj/item/clothing/shoes/sneakers/crimson,
-/obj/item/clothing/shoes/sneakers/crimson,
-/obj/item/clothing/shoes/sneakers/crimson,
-/obj/item/clothing/shoes/sneakers/crimson,
-/obj/item/clothing/shoes/sneakers/crimson,
-/obj/item/clothing/shoes/sneakers/crimson,
-/obj/item/clothing/shoes/sneakers/crimson,
-/obj/item/clothing/shoes/sneakers/crimson,
-/obj/item/clothing/shoes/sneakers/crimson,
-/obj/item/clothing/shoes/sneakers/crimson,
 /obj/item/clothing/under/rank/prisoner/skirt/syndicate,
 /obj/item/clothing/under/rank/prisoner/skirt/syndicate,
 /obj/item/clothing/under/rank/prisoner/skirt/syndicate,
