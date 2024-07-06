@@ -302,7 +302,7 @@
 	var/list/weighted_candidates = return_antag_rep_weight(candidates)
 
 	for(var/i in 1 to antag_count)
-		if(!length(candidates))
+		if(!length(weighted_candidates))
 			break
 
 		var/client/mob_client = pick_n_take_weighted(weighted_candidates)
