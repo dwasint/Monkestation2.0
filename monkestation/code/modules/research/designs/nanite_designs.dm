@@ -143,6 +143,14 @@
 	program_type = /datum/nanite_program/regenerative_advanced
 	category = list("Medical Nanites")
 
+/datum/design/nanites/oxygen_rush
+	name = "Alveolic Deoxidation"
+	desc = "The nanites deoxidze the carbon dioxide carried within the blood inside of the host's lungs through rapid electrical stimulus. \
+			However, this process is extremely dangerous, leaving carbon deposits within the lungs as well as causing severe organ damage."
+	id = "oxygen_rush_nanites"
+	program_type = /datum/nanite_program/oxygen_rush
+	category = list("Medical Nanites")
+
 /datum/design/nanites/temperature
 	name = "Temperature Adjustment"
 	desc = "The nanites adjust the host's internal temperature to an ideal level."
@@ -467,6 +475,13 @@
 	desc = "The nanites suppress the production of serotonin inside the host's brain, creating an artificial state of depression."
 	id = "bad_mood_nanites"
 	program_type = /datum/nanite_program/bad_mood
+	category = list("Suppression Nanites")
+
+/datum/design/nanites/conversation_filter
+	name = "Conversation Filter"
+	desc = "The nanites pre-process words, granting the ability to filter out certain phrases."
+	id = "word_filter_nanites"
+	program_type = /datum/nanite_program/conversation_filter
 	category = list("Suppression Nanites")
 
 ////////////////////SENSOR NANITES//////////////////////////////////////
