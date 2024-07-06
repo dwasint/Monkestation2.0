@@ -244,11 +244,13 @@
 					role_name_text = lowertext(cast_control.name),
 				)
 		else
-			if(length(weighted_candidates))
-				var/client/picked_client = pick_n_take_weighted(weighted_candidates)
-				var/mob/picked_mob = picked_client.mob
-				log_storyteller("Picked antag event mob: [picked_mob], special role: [picked_mob.mind?.special_role ? picked_mob.mind.special_role : "none"]")
-				candidates |= picked_mob
+			if(!length(weighted_candidates))
+				break
+			var/client/picked_client = pick_n_take_weighted(weighted_candidates)
+			var/mob/picked_mob = picked_client.mob
+			log_storyteller("Picked antag event mob: [picked_mob], special role: [picked_mob.mind?.special_role ? picked_mob.mind.special_role : "none"]")
+			candidates |= picked_mob
+
 
 	for(var/i in 1 to antag_count)
 		if(!length(candidates))
