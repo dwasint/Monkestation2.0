@@ -6168,7 +6168,9 @@
 "bSz" = (
 /obj/structure/table/wood,
 /obj/item/radio/intercom/directional/west,
-/obj/item/radio/radio_mic,
+/obj/item/radio/radio_mic{
+	density = 0
+	},
 /turf/open/floor/cult,
 /area/station/service/library/private)
 "bSS" = (
