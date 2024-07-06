@@ -1,7 +1,7 @@
 // THIS IS A SKYRAT UI FILE
 import { BooleanLike } from 'common/react';
 
-import { useBackend } from '../backend';
+import { useBackend, useSharedState } from '../backend';
 import {
   Box,
   Button,
