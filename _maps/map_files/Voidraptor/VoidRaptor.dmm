@@ -38703,7 +38703,7 @@
 	pixel_x = -4;
 	pixel_y = 3
 	},
-/obj/item/stamp/cmo{
+/obj/item/stamp/head/cmo{
 	pixel_y = 3
 	},
 /obj/structure/table/reinforced/rglass,
@@ -40013,7 +40013,7 @@
 	pixel_x = -3;
 	pixel_y = 4
 	},
-/obj/item/stamp/hos{
+/obj/item/stamp/head/hos{
 	pixel_x = -3;
 	pixel_y = 4
 	},
@@ -42575,7 +42575,7 @@
 	pixel_x = 5;
 	pixel_y = 4
 	},
-/obj/item/stamp/qm{
+/obj/item/stamp/head/qm{
 	pixel_x = 5;
 	pixel_y = 4
 	},
@@ -44164,7 +44164,7 @@
 /obj/item/folder/white{
 	pixel_y = 4
 	},
-/obj/item/stamp/rd{
+/obj/item/stamp/head/rd{
 	pixel_y = 4
 	},
 /turf/open/floor/carpet/purple,
@@ -53865,7 +53865,7 @@
 	pixel_x = 4;
 	pixel_y = 4
 	},
-/obj/item/stamp/hop{
+/obj/item/stamp/head/hop{
 	pixel_x = 4;
 	pixel_y = 4
 	},
@@ -61408,7 +61408,7 @@
 /obj/item/folder/blue{
 	pixel_x = 4
 	},
-/obj/item/stamp/captain{
+/obj/item/stamp/head/captain{
 	pixel_x = 4
 	},
 /obj/item/stamp/denied{
@@ -71704,7 +71704,7 @@
 	pixel_x = -2;
 	pixel_y = 3
 	},
-/obj/item/stamp/ce{
+/obj/item/stamp/head/ce{
 	pixel_x = -2;
 	pixel_y = 3
 	},

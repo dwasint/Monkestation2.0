@@ -7119,7 +7119,7 @@
 /obj/effect/mapping_helpers/requests_console/supplies,
 /obj/effect/mapping_helpers/requests_console/announcement,
 /obj/effect/mapping_helpers/requests_console/information,
-/obj/item/stamp/hop{
+/obj/item/stamp/head/hop{
 	pixel_y = 12
 	},
 /obj/item/stamp{
@@ -14164,7 +14164,7 @@
 "ekC" = (
 /obj/structure/table/reinforced/rglass,
 /obj/item/folder/white,
-/obj/item/stamp/cmo{
+/obj/item/stamp/head/cmo{
 	pixel_y = 7;
 	pixel_x = 8
 	},
@@ -20149,7 +20149,7 @@
 	pixel_y = 12;
 	pixel_x = 5
 	},
-/obj/item/stamp/qm{
+/obj/item/stamp/head/qm{
 	pixel_y = 5
 	},
 /obj/item/stamp{
@@ -35444,7 +35444,7 @@
 /obj/item/folder/yellow{
 	pixel_x = -3
 	},
-/obj/item/stamp/ce,
+/obj/item/stamp/head/ce,
 /obj/machinery/button/door/directional/west{
 	id = "CEShutter";
 	name = "Privacy Shutters Control";
@@ -51955,7 +51955,7 @@
 	pixel_x = -4;
 	pixel_y = 4
 	},
-/obj/item/stamp/rd,
+/obj/item/stamp/head/rd,
 /obj/machinery/light/cold/directional/west,
 /turf/open/floor/carpet/purple,
 /area/station/command/heads_quarters/rd)
@@ -55495,7 +55495,7 @@
 /obj/item/folder/blue{
 	pixel_y = -13
 	},
-/obj/item/stamp/captain{
+/obj/item/stamp/head/captain{
 	pixel_y = -10;
 	pixel_x = -3
 	},
@@ -55864,7 +55864,7 @@
 	dir = 1
 	},
 /obj/item/folder/red,
-/obj/item/stamp/hos,
+/obj/item/stamp/head/hos,
 /obj/item/paper_bin{
 	pixel_x = 16;
 	pixel_y = 7
