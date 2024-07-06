@@ -93,3 +93,14 @@
 			if (L.client)
 				L.client.images |= infectedMob.pathogen
 		return
+
+	if(disease_flags & DISEASE_DORMANT)
+		GLOB.infected_contact_mobs |= infectedMob
+		if (!infectedMob.pathogen)
+			infectedMob.pathogen = image('monkestation/code/modules/virology/icons/effects.dmi',"pathogen_blood-old2","pathogen_contact")
+			infectedMob.pathogen.plane = HUD_PLANE
+			infectedMob.pathogen.appearance_flags = RESET_COLOR|RESET_ALPHA
+		for (var/mob/living/L in GLOB.science_goggles_wearers)
+			if (L.client)
+				L.client.images |= infectedMob.pathogen
+		return

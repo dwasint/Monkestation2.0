@@ -453,6 +453,10 @@
 	visible_message("\The [src] prints a growth dish.")
 	spawn(10)
 		var/obj/item/weapon/virusdish/dish = new/obj/item/weapon/virusdish(src.loc)
+		if(D.disease_flags & DISEASE_DORMANT)
+			visible_message("Activating Virus Sample")
+			D.disease_flags &= ~DISEASE_DORMANT
+			D.randomize_spread()
 		dish.contained_virus = D.Copy()
 		dish.contained_virus.infectionchance = dish.contained_virus.infectionchance_base
 		dish.update_appearance()
