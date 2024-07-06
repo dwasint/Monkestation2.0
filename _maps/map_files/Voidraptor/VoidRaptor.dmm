@@ -9065,11 +9065,12 @@
 /obj/structure/displaycase/forsale{
 	pixel_y = 8
 	},
-/obj/structure/railing{
-	dir = 6
-	},
 /obj/effect/turf_decal/siding/green{
 	dir = 6
+	},
+/obj/structure/railing,
+/obj/structure/railing{
+	dir = 4
 	},
 /turf/open/floor/wood/large,
 /area/station/hallway/primary/central/fore)
@@ -12598,11 +12599,12 @@
 /obj/structure/displaycase/forsale{
 	pixel_y = 8
 	},
-/obj/structure/railing{
-	dir = 10
-	},
 /obj/effect/turf_decal/siding/green{
 	dir = 10
+	},
+/obj/structure/railing,
+/obj/structure/railing{
+	dir = 8
 	},
 /turf/open/floor/wood/large,
 /area/station/hallway/primary/central/fore)
@@ -40918,11 +40920,14 @@
 /obj/structure/displaycase/forsale{
 	pixel_y = 8
 	},
-/obj/structure/railing{
-	dir = 5
-	},
 /obj/effect/turf_decal/siding/green{
 	dir = 5
+	},
+/obj/structure/railing{
+	dir = 1
+	},
+/obj/structure/railing{
+	dir = 4
 	},
 /turf/open/floor/wood/large,
 /area/station/hallway/primary/central/fore)
@@ -49395,11 +49400,14 @@
 /obj/structure/displaycase/forsale{
 	pixel_y = 8
 	},
-/obj/structure/railing{
-	dir = 9
-	},
 /obj/effect/turf_decal/siding/green{
 	dir = 9
+	},
+/obj/structure/railing{
+	dir = 1
+	},
+/obj/structure/railing{
+	dir = 8
 	},
 /turf/open/floor/wood/large,
 /area/station/hallway/primary/central/fore)
