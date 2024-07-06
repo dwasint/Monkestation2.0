@@ -244,13 +244,14 @@
 					role_name_text = lowertext(cast_control.name),
 				)
 		else
-			var/client/picked_client = pick_n_take_weighted(weighted_candidates)
-			var/mob/picked_mob = picked_client.mob
-			log_storyteller("Picked antag event mob: [picked_mob], special role: [picked_mob.mind?.special_role ? picked_mob.mind.special_role : "none"]")
-			candidates |= picked_mob
+			if(length(weighted_candidates))
+				var/client/picked_client = pick_n_take_weighted(weighted_candidates)
+				var/mob/picked_mob = picked_client.mob
+				log_storyteller("Picked antag event mob: [picked_mob], special role: [picked_mob.mind?.special_role ? picked_mob.mind.special_role : "none"]")
+				candidates |= picked_mob
 
 	for(var/i in 1 to antag_count)
-		if(!length(weighted_candidates))
+		if(!length(candidates))
 			message_admins("A roleset event got fewer antags then its antag_count and may not function correctly.")
 			break
 
