@@ -186,7 +186,6 @@ GLOBAL_LIST_INIT(inspectable_diseases, list())
 		"subID",
 		"uniqueID",
 		"childID",
-		"symptoms",
 		"stageprob",
 		"antigen",
 		)
@@ -198,6 +197,12 @@ GLOBAL_LIST_INIT(inspectable_diseases, list())
 			var/list/L = val
 			val = L.Copy()
 		D.vars[V] = val
+
+	var/list/new_symptoms = list()
+	for(var/datum/symptom/symptom as anything in symptoms)
+		new_symptoms += symptom.Copy()
+	D.symptoms = new_symptoms
+
 	return D
 
 /datum/disease/proc/after_add()
