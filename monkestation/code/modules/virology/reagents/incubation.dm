@@ -25,6 +25,7 @@
 	if(istype(parent, /obj/item/weapon/virusdish))
 		var/obj/item/weapon/virusdish/dish = parent
 		dish.analysed = FALSE
+		dish.contained_virus.disease_flags &= ~DISEASE_ANALYZED
 		dish.info = "OUTDATED : [dish.info]"
 		dish.update_appearance()
 	if(machine)

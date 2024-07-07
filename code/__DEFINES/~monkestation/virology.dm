@@ -50,3 +50,4 @@
 
 #define DISEASE_DORMANT (1 << 3)
 #define DISEASE_COPYSTAGE (1<<4)
+#define DISEASE_ANALYZED (1<<5)

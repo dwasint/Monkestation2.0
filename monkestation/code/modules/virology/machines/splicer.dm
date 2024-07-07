@@ -207,7 +207,7 @@
 	qdel(dish)
 	dish = null
 	update_icon()
-	flick("splicer_scan", src)
+	flick_overlay("splicer_scan", src)
 
 /obj/machinery/computer/diseasesplicer/proc/eject_dish()
 	if(!dish)

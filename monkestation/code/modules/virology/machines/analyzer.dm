@@ -129,6 +129,7 @@
 		popup.set_content(dish.info)
 		popup.open()
 		dish.analysed = TRUE
+		dish.contained_virus.disease_flags |= DISEASE_ANALYZED
 		dish.update_appearance()
 		dish.forceMove(loc)
 		dish = null
