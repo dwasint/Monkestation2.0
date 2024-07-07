@@ -193,7 +193,7 @@
 		disease.makerandom(list(50,90),list(10,100),anti,bad,src)
 
 		disease.disease_flags |= DISEASE_DORMANT
-		disease.spread_flags &= ~(DISEASE_SPREAD_AIRBORNE | DISEASE_SPREAD_CONTACT_FLUIDS | DISEASE_SPREAD_CONTACT_SKIN)
+		disease.spread_flags &= ~(DISEASE_SPREAD_AIRBORNE | DISEASE_SPREAD_CONTACT_FLUIDS | DISEASE_SPREAD_CONTACT_SKIN | DISEASE_SPREAD_BLOOD)
 
 		spawned.infect_disease(disease, TRUE, "Random Dormant Disease [key_name(src)]")
 

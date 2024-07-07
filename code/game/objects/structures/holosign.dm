@@ -193,8 +193,8 @@
 		icon_state = "holo_medical-deny"
 
 /obj/structure/holosign/barrier/medical/proc/CheckHuman(mob/living/carbon/human/sickboi)
-	var/threat = sickboi.check_virus()
-	if(get_disease_severity_value(threat) > get_disease_severity_value(DISEASE_SEVERITY_MINOR))
+	var/threat = sickboi.check_virus_new()
+	if(threat > DISEASE_HOLOSIGN_BLOCK)
 		return FALSE
 	return TRUE
 
