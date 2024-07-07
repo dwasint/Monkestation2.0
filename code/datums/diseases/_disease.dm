@@ -191,6 +191,9 @@ GLOBAL_LIST_INIT(inspectable_diseases, list())
 		)
 
 	var/datum/disease/D = copy_type ? new copy_type() : new type()
+	if(disease_flags & DISEASE_COPYSTAGE)
+		D.stage = stage
+
 	for(var/V in copy_vars)
 		var/val = vars[V]
 		if(islist(val))

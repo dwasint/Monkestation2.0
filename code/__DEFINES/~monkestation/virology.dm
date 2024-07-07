@@ -49,3 +49,4 @@
 #define DISEASE_ANXIETY "anxiety"
 
 #define DISEASE_DORMANT (1 << 3)
+#define DISEASE_COPYSTAGE (1<<4)

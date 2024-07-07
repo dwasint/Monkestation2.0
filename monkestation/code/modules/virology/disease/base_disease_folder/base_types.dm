@@ -23,6 +23,7 @@
 	stageprob = 10
 	stage_variance = 0
 	can_kill = list("Virus")
+	disease_flags = parent_type::disease_flags | DISEASE_COPYSTAGE
 
 /datum/disease/advanced/prion//very fast progression, but very slow spread_flags and resets to stage 1.
 	form = "Prion"
