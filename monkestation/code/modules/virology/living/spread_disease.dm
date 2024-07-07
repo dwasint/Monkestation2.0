@@ -41,7 +41,7 @@
 		if (D.infectionchance > 5)
 			D.infectionchance = max(5, D.infectionchance - 5)//The virus gets weaker as it jumps from people to people
 
-		D.stage = clamp(D.stage+D.stage_variance, 1, D.max_stages)
+		D.stage = clamp(stage + D.stage_variance, 1, D.max_stages)
 		D.log += "<br />[ROUND_TIME()] Infected [key_name(src)] [notes]. Infection chance now [D.infectionchance]%"
 
 		LAZYADD(diseases, D)

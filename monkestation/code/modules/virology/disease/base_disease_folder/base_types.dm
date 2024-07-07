@@ -6,6 +6,7 @@
 	stageprob = 10
 	stage_variance = -1
 	can_kill = list("Bacteria")
+	disease_flags = parent_type::disease_flags | DISEASE_COPYSTAGE
 
 /datum/disease/advanced/bacteria//faster spread_flags and progression, but only 3 stages max, and reset to stage 1 on every spread_flags
 	form = "Bacteria"
