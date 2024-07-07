@@ -226,6 +226,7 @@
 
 	data["on"] = on
 	data["can_focus"] = can_focus
+	data["focus_stage"] = effect_focus
 	var/list/dish_ui_data = list()
 	data["dishes"] = dish_ui_data
 

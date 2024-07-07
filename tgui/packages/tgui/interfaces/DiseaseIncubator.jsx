@@ -12,7 +12,7 @@ import { Window } from '../layouts';
 
 export const DiseaseIncubator = (props) => {
   const { act, data } = useBackend();
-  const { dishes = [], on = 0 } = data;
+  const { dishes = [], on = 0, focus_stage } = data;
 
   return (
     <Window width={475} height={575}>
@@ -113,7 +113,9 @@ export const DiseaseIncubator = (props) => {
                       {dish.symptom_data.map((symptom, symptomIndex) => (
                         <LabeledList.Item key={symptomIndex}>
                           <Collapsible
-                            color="good"
+                            color={
+                              focus_stage === symptom.stage ? 'good' : 'average'
+                            }
                             key={symptomIndex}
                             title={symptom.name || 'Unnamed Symptom'}
                           >
