@@ -7564,6 +7564,7 @@
 #include "monkestation\code\modules\virology\disease\premades\flu.dm"
 #include "monkestation\code\modules\virology\disease\premades\heart_attack.dm"
 #include "monkestation\code\modules\virology\disease\premades\transformations.dm"
+#include "monkestation\code\modules\virology\disease\symptom_cracker\cracker_puzzle.dm"
 #include "monkestation\code\modules\virology\disease\symtoms\_symptom.dm"
 #include "monkestation\code\modules\virology\disease\symtoms\animation_procs.dm"
 #include "monkestation\code\modules\virology\disease\symtoms\stage1.dm"
