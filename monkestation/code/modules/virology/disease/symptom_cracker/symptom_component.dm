@@ -65,7 +65,7 @@
 
 /datum/component/symptom_genes/proc/add_new_symptom(datum/species/host_species)
 	if(!length(built_symptoms))
-		for(var/datum/symptom/symptom as anything in subtypesof(/datum/symptom))
+		for(var/datum/symptom/symptom as anything in subtypesof(/datum/symptom) - /datum/symptom/heal)
 			if(symptom.restricted)
 				continue
 			built_symptoms |= symptom

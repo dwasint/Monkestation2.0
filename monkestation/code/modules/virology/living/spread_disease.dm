@@ -26,7 +26,7 @@
 	if(!(disease.infectable_biotypes & mob_biotypes))
 		return
 
-	if(!disease.spread_flags)
+	if(!disease.spread_flags && !(disease.disease_flags & DISEASE_DORMANT))
 		return FALSE
 
 	for(var/datum/disease/advanced/D as anything in diseases)
