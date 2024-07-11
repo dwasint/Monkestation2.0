@@ -15,14 +15,21 @@
 	///blocking message
 	var/blocking_message = null
 
-/datum/cracker_puzzle/New(grid_size = 5, difficulty = 1)
+	var/datum/parent
+
+/datum/cracker_puzzle/New(grid_size = 5, difficulty = 1, datum/parent)
 	src.grid_size = grid_size
 	src.difficulty = difficulty
-	generate_sequence()
+	src.parent = parent
 
 	generate_combination_strings()
+	generate_sequence()
 
-/datum/cracker_puzzle/proc/generate_combination_strings
+/datum/cracker_puzzle/Destroy(force, ...)
+	. = ..()
+	parent = null
+
+/datum/cracker_puzzle/proc/generate_combination_strings()
 	combinations = list()
 	for(var/i = 1 to 7)
 		combinations += "[pick(GLOB.alphabet_upper)][pick(GLOB.numerals)]"
@@ -89,6 +96,7 @@
 
 /datum/cracker_puzzle/proc/success()
 	blocking_message = "Succeeded"
+	SEND_SIGNAL(parent, COMSIG_CRACKER_PUZZLE_SUCCESS)
 
 /datum/cracker_puzzle/proc/vertical_check()
 	if(length(buffer) <= 1)
@@ -127,11 +135,52 @@
 
 	blocking_message = "Failed"
 	addtimer(CALLBACK(src, PROC_REF(clear_block), 3 SECONDS))
+	SEND_SIGNAL(parent, COMSIG_CRACKER_PUZZLE_FAILURE)
 
 	generate_sequence()
 
 /datum/cracker_puzzle/proc/clear_block()
 	blocking_message = null
+
+
+/datum/cracker_puzzle/ui_interact(mob/user, datum/tgui/ui)
+	. = ..()
+
+	ui = SStgui.try_update_ui(user, src, ui)
+	if(!ui)
+		ui = new(user, src, "CrackerPuzzle", "Genetic Sequence")
+		ui.open()
+
+/datum/cracker_puzzle/ui_state()
+	return GLOB.always_state
+
+/datum/cracker_puzzle/ui_data(mob/user)
+	var/list/data = list()
+
+	var/horiztonal = 0
+	if(length(buffer))
+		horiztonal = buffer[length(buffer)][1]
+
+	var/vertical = 0
+	if(length(buffer))
+		vertical = buffer[length(buffer)][2]
+
+	data["grid"] = grid
+	data["buffer"] = buffer
+	data["sequence"] = sequence
+	data["is_vertical"] = is_vertical
+	data["horizontal_loc"] = horiztonal
+	data["vertical_loc"] = vertical
+	data["blocking_message"] = blocking_message
+
+	return data
+
+/datum/cracker_puzzle/ui_act(action, list/params, datum/tgui/ui, datum/ui_state/state)
+	. = ..()
+
+	switch(action)
+		if("press_button")
+			check_press(params["x"], params["y"])
 
 /obj/item/test_cracker
 	var/datum/cracker_puzzle/puzzle
