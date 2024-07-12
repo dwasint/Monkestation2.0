@@ -2061,7 +2061,7 @@
 /area/centcom/syndicate_mothership)
 "aft" = (
 /turf/closed/indestructible/riveted,
-/area/space)
+/area/centcom/central_command_areas/retirement_yard)
 "afu" = (
 /obj/structure/hedge,
 /turf/open/floor/iron/dark,
@@ -15695,7 +15695,7 @@
 /area/centcom/central_command_areas/admin)
 "aOE" = (
 /turf/closed/indestructible/fakeglass,
-/area/space)
+/area/centcom/central_command_areas/retirement_yard)
 "aOF" = (
 /obj/effect/turf_decal/tile/neutral/fourcorners,
 /obj/structure/table/wood,
