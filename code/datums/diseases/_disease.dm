@@ -22,7 +22,7 @@ GLOBAL_LIST_INIT(inspectable_diseases, list())
 
 	//Other
 	var/list/viable_mobtypes = list() //typepaths of viable mobs
-	var/mob/living/carbon/affected_mob = null
+	var/mob/living/affected_mob = null
 	var/list/cures = list() //list of cures if the disease has the CURABLE flag, these are reagent ids
 	/// The probability of spreading through the air every second
 	var/infectivity = 41

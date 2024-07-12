@@ -19,7 +19,7 @@
 				new /obj/effect/pathogen_cloud/core(get_turf(src), src, airborne_viruses)
 				strength -= 40
 
-/mob/living/carbon/infect_disease(datum/disease/advanced/disease, forced = FALSE, notes = "", decay = TRUE)
+/mob/living/infect_disease(datum/disease/advanced/disease, forced = FALSE, notes = "", decay = TRUE)
 	if(!istype(disease))
 		return FALSE
 
@@ -53,6 +53,15 @@
 		log_virus("[key_name(src)] was infected by virus: [D.admin_details()] at [loc_name(loc)]")
 
 		D.AddToGoggleView(src)
+
+		if(GLOB.static_plague_team)
+			var/datum/team/plague_rat/plague = GLOB.static_plague_team
+			if (plague && ("[D.uniqueID]-[D.subID]" == plague.disease_id))
+				var/datum/objective/plague/O = locate() in plague.objectives
+				if (O && !istype(src, /mob/living/basic/mouse/plague))
+					O.total_infections++
+				plague.update_hud_icons()
+
 	return TRUE
 
 /mob/dead/new_player/proc/DiseaseCarrierCheck(mob/living/carbon/human/H)

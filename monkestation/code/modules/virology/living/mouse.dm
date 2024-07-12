@@ -55,3 +55,9 @@
 /mob/living/basic/mouse/Life(seconds_per_tick, times_fired)
 	. = ..()
 	handle_virus_updates(seconds_per_tick)
+
+	breath_airborne_diseases()
+
+	for (var/mob/living/basic/mouse/M in range(1,src))
+		if(Adjacent(M))
+			share_contact_diseases(M)//Mice automatically share contact diseases among themselves

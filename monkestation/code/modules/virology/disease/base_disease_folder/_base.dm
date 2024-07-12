@@ -199,9 +199,10 @@ GLOBAL_LIST_INIT(virusDB, list())
 
 	var/list/immune_data = GetImmuneData(mob)
 
-	for(var/datum/symptom/e in symptoms)
-		if (e.can_run_effect(immune_data[1], seconds_per_tick))
-			e.run_effect(mob, src)
+	if(!istype(mob, /mob/living/basic/mouse/plague)) //plague mice don't trigger effects to not kill em
+		for(var/datum/symptom/e in symptoms)
+			if (e.can_run_effect(immune_data[1], seconds_per_tick))
+				e.run_effect(mob, src)
 
 	//fever is a reaction of the body's immune system to the infection. The higher the antibody concentration (and the disease still not cured), the higher the fever
 	if (mob.bodytemperature < BODYTEMP_HEAT_DAMAGE_LIMIT)//but we won't go all the way to burning up just because of a fever, probably

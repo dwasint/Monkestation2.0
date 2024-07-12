@@ -54,20 +54,23 @@
 		if(vertical)
 			var/vertical_spot = rand(1, grid_size)
 			var/list/horizontal_cut = grid[vertical_spot]
+			sequence += horizontal_cut[last_vertical_sequence_spot]
 			var/horizontal_choice = rand(1, grid_size)
 			last_sequence_spot = horizontal_choice
-			sequence += horizontal_cut[last_vertical_sequence_spot]
 
 			vertical = FALSE
 
 		else
 			if(!last_sequence_spot)
+				///grabs the horizontal slice of the grid
 				var/horizontal_spot = rand(1, grid_size)
 				var/list/horizontal_cut = grid[horizontal_spot]
-				last_sequence_spot = horizontal_spot
-				var/vertical_spot =  rand(1, grid_size)
+
+				last_sequence_spot = horizontal_spot //sets the last slice position
+
+				var/vertical_spot =  rand(1, grid_size)// we randomize the selection inside the slice
 				sequence += horizontal_cut[vertical_spot]
-				last_vertical_sequence_spot = vertical_spot
+				last_vertical_sequence_spot = vertical_spot //set the last vertical spot to this
 			else
 				var/list/choices = grid[last_sequence_spot]
 				var/grid_selection = rand(1, grid_size)
@@ -181,47 +184,3 @@
 	switch(action)
 		if("press_button")
 			check_press(params["x"], params["y"])
-
-/obj/item/test_cracker
-	var/datum/cracker_puzzle/puzzle
-
-/obj/item/test_cracker/Initialize(mapload)
-	. = ..()
-	puzzle = new(5, 2)
-
-/obj/item/test_cracker/ui_interact(mob/user, datum/tgui/ui)
-	. = ..()
-
-	ui = SStgui.try_update_ui(user, src, ui)
-	if(!ui)
-		ui = new(user, src, "CrackerPuzzle", name)
-		ui.open()
-
-/obj/item/test_cracker/ui_data(mob/user)
-	. = ..()
-	var/list/data = list()
-
-	var/horiztonal = 0
-	if(length(puzzle.buffer))
-		horiztonal = puzzle.buffer[length(puzzle.buffer)][1]
-
-	var/vertical = 0
-	if(length(puzzle.buffer))
-		vertical = puzzle.buffer[length(puzzle.buffer)][2]
-
-	data["grid"] = puzzle.grid
-	data["buffer"] = puzzle.buffer
-	data["sequence"] = puzzle.sequence
-	data["is_vertical"] = puzzle.is_vertical
-	data["horizontal_loc"] = horiztonal
-	data["vertical_loc"] = vertical
-	data["blocking_message"] = puzzle.blocking_message
-
-	return data
-
-/obj/item/test_cracker/ui_act(action, list/params, datum/tgui/ui, datum/ui_state/state)
-	. = ..()
-
-	switch(action)
-		if("press_button")
-			puzzle.check_press(params["x"], params["y"])
