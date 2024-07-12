@@ -65,7 +65,7 @@
 
 /datum/component/symptom_genes/proc/add_new_symptom(datum/species/host_species)
 	if(!length(built_symptoms))
-		for(var/datum/symptom/symptom as anything in subtypesof(/datum/symptom) - /datum/symptom/heal)
+		for(var/datum/symptom/symptom as anything in subtypesof(/datum/symptom))
 			if(symptom.restricted)
 				continue
 			built_symptoms |= symptom
@@ -107,6 +107,7 @@
 
 
 /datum/component/symptom_genes/proc/on_puzzle_fail()
+	playsound(current_user, 'sound/machines/defib_failed.ogg', 50, FALSE)
 	current_choice = null
 	current_user = null
 	SStgui.close_uis(puzzle)
@@ -114,6 +115,7 @@
 	qdel(puzzle)
 
 /datum/component/symptom_genes/proc/on_puzzle_success()
+	playsound(current_user, 'sound/machines/defib_success.ogg', 50, FALSE)
 	var/mob/living/carbon/human/human = parent
 	var/uncapped = FALSE
 	if(human.mind)
@@ -135,6 +137,7 @@
 
 
 	var/obj/item/disk/disease/d = new /obj/item/disk/disease(get_turf(current_user))
+	current_user.put_in_hands(d)
 
 	d.effect = created_symptom
 	d.update_desc()
