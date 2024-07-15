@@ -17,6 +17,8 @@
 
 	var/mob/current_user
 
+	var/obj/item/extrapolator/current_extrapolator
+
 /datum/component/symptom_genes/Initialize(datum/species/host_species, symptom_count = 3)
 	. = ..()
 	if(!ishuman(parent))
@@ -37,6 +39,7 @@
 /datum/component/symptom_genes/Destroy(force, silent)
 	. = ..()
 	current_user = null
+	current_extrapolator = null
 	if(puzzle)
 		SStgui.close_uis(puzzle)
 		UnregisterSignal(puzzle, list(COMSIG_CRACKER_PUZZLE_FAILURE, COMSIG_CRACKER_PUZZLE_SUCCESS))
@@ -80,7 +83,7 @@
 	symptom_type_name[initial(new_symptom.name)] = new_symptom
 	return TRUE
 
-/datum/component/symptom_genes/proc/on_extrapolate(datum/source, mob/user)
+/datum/component/symptom_genes/proc/on_extrapolate(datum/source, mob/user, obj/item/extrapolator/extrapolator)
 	SIGNAL_HANDLER
 
 	if(!user)
@@ -89,15 +92,17 @@
 	if(!user.can_interact_with(parent))
 		return FALSE
 
-	INVOKE_ASYNC(src, PROC_REF(try_extrapolate), user)
+	INVOKE_ASYNC(src, PROC_REF(try_extrapolate), user, extrapolator)
 	return TRUE
 
-/datum/component/symptom_genes/proc/try_extrapolate(mob/user)
+/datum/component/symptom_genes/proc/try_extrapolate(mob/user, obj/item/extrapolator/extrapolator)
 	var/symptom_choice = tgui_input_list(user, "Choose a Symptom", "Genetic Symptoms", symptom_type_name)
 	if(!symptom_choice)
 		return
 	current_choice = symptom_type_name[symptom_choice]
 	current_user = user
+
+	current_extrapolator = extrapolator
 
 	puzzle = new(difficulty = text2num(initial(current_choice.badness)) + 1, parent = src)
 
@@ -110,6 +115,7 @@
 	playsound(current_user, 'sound/machines/defib_failed.ogg', 50, FALSE)
 	current_choice = null
 	current_user = null
+	current_extrapolator = null
 	SStgui.close_uis(puzzle)
 	UnregisterSignal(src, list(COMSIG_CRACKER_PUZZLE_FAILURE, COMSIG_CRACKER_PUZZLE_SUCCESS))
 	qdel(puzzle)
@@ -147,6 +153,9 @@
 	symptom_types -= current_choice
 	symptom_type_name -= initial(current_choice.name)
 	current_choice = null
+	if(prob(created_symptom.badness) * 15)
+		current_extrapolator.generate_varient()
+	current_extrapolator = null
 
 	UnregisterSignal(src, list(COMSIG_CRACKER_PUZZLE_FAILURE, COMSIG_CRACKER_PUZZLE_SUCCESS))
 	SStgui.close_uis(puzzle)

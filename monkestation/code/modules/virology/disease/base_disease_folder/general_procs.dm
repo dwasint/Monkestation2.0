@@ -39,6 +39,7 @@
 			)
 		var/datum/symptom/e = new_effect(text2num(selected_badness), i)
 		symptoms += e
+		SEND_SIGNAL(e, COMSIG_SYMPTOM_ATTACH, src)
 		log += "<br />[ROUND_TIME()] Added effect [e.name] ([e.chance]% Occurence)."
 
 	//slightly randomized infection chance
@@ -104,3 +105,18 @@
 			if (L.client)
 				L.client.images |= infectedMob.pathogen
 		return
+
+
+///why do we do essentially a lazy fetching of parent?
+///No real reason. This is already being set in spread and infect, however incase affected_mob isn't present this fixes.
+///better to have as its not needed for mainline disease processing as mob is passed from the mob itself.
+/datum/disease/proc/return_parent()
+	if(!affected_mob)
+		for(var/mob/living/mob in GLOB.infected_contact_mobs)
+			for(var/datum/disease/disease as anything in mob.diseases)
+				if(disease != src)
+					continue
+				affected_mob = mob
+				return mob
+		return null
+	return affected_mob

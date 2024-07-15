@@ -361,10 +361,10 @@
 	if(M.fire_stacks < 0)
 		M.adjust_fire_stacks(min(absorption_coeff, -M.fire_stacks))
 		base += multiplier
-	if(M.reagents.has_reagent(/datum/reagent/water/holywater, needs_metabolizing = FALSE))
+	if(M.reagents?.has_reagent(/datum/reagent/water/holywater, needs_metabolizing = FALSE))
 		M.reagents.remove_reagent(/datum/reagent/water/holywater, 0.5 * absorption_coeff)
 		base += multiplier * 0.75
-	else if(M.reagents.has_reagent(/datum/reagent/water, needs_metabolizing = FALSE))
+	else if(M.reagents?.has_reagent(/datum/reagent/water, needs_metabolizing = FALSE))
 		M.reagents.remove_reagent(/datum/reagent/water, 0.5 * absorption_coeff)
 		base += multiplier * 0.5
 	return base
@@ -461,7 +461,7 @@
 		if(gases[/datum/gas/plasma])
 			base += power * min(MAX_HEAL_COEFFICIENT_INTERNALS, gases[/datum/gas/plasma][MOLES] * HEALING_PER_MOL)
 	// Check for reagents in bloodstream
-	if(diseased_mob.reagents.has_reagent(/datum/reagent/toxin/plasma, needs_metabolizing = TRUE))
+	if(diseased_mob.reagents?.has_reagent(/datum/reagent/toxin/plasma, needs_metabolizing = TRUE))
 		base += power * MAX_HEAL_COEFFICIENT_BLOODSTREAM //Determines how much the symptom heals if injected or ingested
 	return base
 

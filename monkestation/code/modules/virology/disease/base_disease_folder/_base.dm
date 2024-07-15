@@ -138,6 +138,8 @@ GLOBAL_LIST_INIT(virusDB, list())
 
 
 /datum/disease/proc/activate(mob/living/mob, starved = FALSE, seconds_per_tick)
+	if(!affected_mob)
+		return_parent()
 	if((mob.stat == DEAD) && !process_dead)
 		return
 

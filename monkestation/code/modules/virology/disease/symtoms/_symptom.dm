@@ -29,6 +29,9 @@
 	var/max_count = -1
 		// How many times the effect should be allowed to activate. If -1, always activate.
 
+	var/datum/symptom_varient/attached_varient
+		// This is our attached varient used for updating desc and Symptom copy code.
+
 
 /datum/symptom/proc/minormutate()
 	if (prob(20))
@@ -47,6 +50,7 @@
 	if(count < 1)
 		first_activate(mob, disease)
 	activate(mob, disease)
+	SEND_SIGNAL(src, COMSIG_SYMPTOM_TRIGGER)
 	count += 1
 
 ///this runs the first time its activated
@@ -72,3 +76,12 @@
 /datum/symptom/proc/disable_effect(mob/living/mob, datum/disease/advanced/disease)
 	if (count > 0)
 		deactivate(mob, disease)
+
+
+/datum/symptom/proc/update_name()
+	var/name_string = ""
+	if(attached_varient)
+		name_string += "[attached_varient.name] "
+	name_string += initial(name)
+
+	name = name_string

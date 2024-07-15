@@ -32,6 +32,8 @@
 		f = new_random_effect(min(5,text2num(symptom.badness)+1), max(0,text2num(symptom.badness)-1), symptom.stage, symptom.type)
 	else
 		f = new_random_effect(min(5,text2num(symptom.badness)+2), max(0,text2num(symptom.badness)-3), symptom.stage, symptom.type)//badness is slightly more likely to go down than up.
+	var/datum/symptom/old = symptoms[i]
+	SEND_SIGNAL(old, COMSIG_SYMPTOM_DETACH)
 	symptoms[i] = f
 	log += "<br />[ROUND_TIME()] Mutated effect [symptom.name] [symptom.chance]% into [f.name] [f.chance]%."
 	update_global_log()

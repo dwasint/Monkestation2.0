@@ -203,7 +203,10 @@ GLOBAL_LIST_INIT(inspectable_diseases, list())
 
 	var/list/new_symptoms = list()
 	for(var/datum/symptom/symptom as anything in symptoms)
-		new_symptoms += symptom.Copy()
+		var/datum/symptom/copied_symptom = symptom.Copy()
+		new_symptoms += copied_symptom
+		SEND_SIGNAL(copied_symptom, COMSIG_SYMPTOM_ATTACH, D)
+
 	D.symptoms = new_symptoms
 
 	return D
