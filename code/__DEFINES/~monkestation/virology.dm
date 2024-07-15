@@ -58,3 +58,5 @@
 #define COMSIG_SYMPTOM_ATTACH "symptom_attach"
 #define COMSIG_SYMPTOM_DETACH "symptom_detach"
 #define COMSIG_SYMPTOM_TRIGGER "symptom_trigger"
+
+#define COMSIG_CARBON_TAKE_BRUTE_DAMAGE "carbon_take_brute"
