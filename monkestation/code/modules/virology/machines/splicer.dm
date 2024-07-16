@@ -45,8 +45,8 @@
 		var/obj/item/disk/disease/disk = I
 		visible_message(span_notice("[user] swipes \the [disk] against \the [src]."), span_notice("You swipe \the [disk] against \the [src], copying the data into the machine's buffer."))
 		memorybank = disk.effect
-		var/image/disk = image(icon, src, "splicer_disk")
-		flick_overlay_global("splicer_disk", GLOB.clients, 2 SECONDS)
+		var/image/disk_icon = image(icon, src, "splicer_disk")
+		flick_overlay_global(disk_icon, GLOB.clients, 2 SECONDS)
 		addtimer(CALLBACK(src, TYPE_PROC_REF(/atom, update_icon)), 2, TIMER_OVERRIDE | TIMER_UNIQUE)
 
 	attack_hand(user)
