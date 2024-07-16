@@ -7610,6 +7610,7 @@
 #include "monkestation\code\modules\virology\immune_systems\_immune_system.dm"
 #include "monkestation\code\modules\virology\items\_base_item_additions.dm"
 #include "monkestation\code\modules\virology\items\antibodyscanner.dm"
+#include "monkestation\code\modules\virology\items\bio_hazard_deployable.dm"
 #include "monkestation\code\modules\virology\items\disease_disk.dm"
 #include "monkestation\code\modules\virology\items\extrapolator.dm"
 #include "monkestation\code\modules\virology\items\mousecubes.dm"
