@@ -122,13 +122,11 @@
 	. = ..()
 	if(!(machine_stat & (BROKEN|NOPOWER)))
 		if(on)
-			var/mutable_appearance/centrifuge_light = emissive_appearance(icon,"centrifuge_light",src)
+			var/mutable_appearance/centrifuge_light = emissive_appearance(icon,"centrifuge-emisisve",src)
 			.+= centrifuge_light
 			var/mutable_appearance/centrifuge_glow = emissive_appearance(icon,"centrifuge_glow",src)
 			centrifuge_glow.blend_mode = BLEND_ADD
 			.+= centrifuge_glow
-			var/mutable_appearance/centrifuge_light_n = mutable_appearance(icon,"centrifuge_light",src)
-			.+= centrifuge_light_n
 			var/mutable_appearance/centrifuge_glow_n = mutable_appearance(icon,"centrifuge_glow",src)
 			centrifuge_glow.blend_mode = BLEND_ADD
 			.+= centrifuge_glow_n

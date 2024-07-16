@@ -413,6 +413,7 @@
 				overlays += reagents_light_n
 				overlays += reagents_light
 
+		/*
 		if (dish_datum.updates_new & INCUBATOR_DISH_MAJOR)
 			if (!(dish_datum.updates & INCUBATOR_DISH_MAJOR))
 				dish_datum.updates += INCUBATOR_DISH_MAJOR
@@ -451,6 +452,7 @@
 
 				overlays += effect_light_n
 				overlays += effect_light
+			*/
 
 	return overlays
 
