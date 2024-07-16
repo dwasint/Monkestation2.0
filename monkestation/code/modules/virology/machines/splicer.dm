@@ -45,6 +45,7 @@
 		var/obj/item/disk/disease/disk = I
 		visible_message(span_notice("[user] swipes \the [disk] against \the [src]."), span_notice("You swipe \the [disk] against \the [src], copying the data into the machine's buffer."))
 		memorybank = disk.effect
+		var/image/disk = image(icon, src, "splicer_disk")
 		flick_overlay_global("splicer_disk", GLOB.clients, 2 SECONDS)
 		addtimer(CALLBACK(src, TYPE_PROC_REF(/atom, update_icon)), 2, TIMER_OVERRIDE | TIMER_UNIQUE)
 
@@ -121,7 +122,8 @@
 		burning--
 		if(!burning)
 			update_icon()
-			flick_overlay_global("splicer_print", GLOB.clients, 2 SECONDS)
+			var/image/print = image(icon, src, "splicer_print")
+			flick_overlay_global(print, GLOB.clients, 2 SECONDS)
 			var/obj/item/disk/disease/d = new /obj/item/disk/disease(src)
 			if(analysed)
 				d.name = "\improper [memorybank.name] GNA disk (Stage: [memorybank.stage])"
@@ -191,7 +193,8 @@
 	qdel(dish)
 	dish = null
 	update_icon()
-	flick_overlay_global("splicer_scan", GLOB.clients, 2 SECONDS)
+	var/image/scan = image(icon, src, "splicer_scan")
+	flick_overlay_global(scan, GLOB.clients, 2 SECONDS)
 
 /obj/machinery/computer/diseasesplicer/proc/eject_dish()
 	if(!dish)
