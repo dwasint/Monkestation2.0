@@ -27,6 +27,7 @@
 		COMSIG_ATOM_ENTERED = PROC_REF(on_entered),
 	)
 	AddElement(/datum/element/connect_loc, connections)
+	AddElement(/datum/element/elevation, 4)
 
 /obj/machinery/health_scanner_floor/proc/generate_maptext(mob/living/carbon/stepper)
 	var/health_precent = stepper.health
