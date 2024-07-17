@@ -7594,6 +7594,7 @@
 #include "monkestation\code\modules\virology\disease\symptom_cracker\symptom_component.dm"
 #include "monkestation\code\modules\virology\disease\symptom_varients\base.dm"
 #include "monkestation\code\modules\virology\disease\symptom_varients\bluespace.dm"
+#include "monkestation\code\modules\virology\disease\symptom_varients\recursive.dm"
 #include "monkestation\code\modules\virology\disease\symptom_varients\reflexive.dm"
 #include "monkestation\code\modules\virology\disease\symtoms\_symptom.dm"
 #include "monkestation\code\modules\virology\disease\symtoms\animation_procs.dm"
