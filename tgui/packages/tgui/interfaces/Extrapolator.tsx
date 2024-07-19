@@ -1,9 +1,9 @@
 import { useBackend, useLocalState } from '../backend';
 import { Window } from '../layouts';
-import { Section, Button, Tabs, LabeledList } from '../components';
+import { Section, Button, Tabs, LabeledList, Stack } from '../components';
 
 type ExtrapolatorData = {
-  varients: [];
+  varients: string[];
   diseases: DiseaseListData[];
 };
 
@@ -23,7 +23,6 @@ export const Extrapolator = (props) => {
   const { varients, diseases } = data;
 
   // State for selected disease and symptom
-  // State for selected disease and symptom
   const [selectedDisease, setSelectedDisease] = useLocalState<string | ''>(
     'selectedDisease',
     '',
@@ -33,71 +32,72 @@ export const Extrapolator = (props) => {
     '',
   );
 
-  // Handler for variant button click
-  const handleVariantClick = (
-    diseaseRef: string,
-    symptomName: string,
-    variantName: string,
-  ) => {
-    act('submitVariant', { diseaseRef, symptomName, variantName });
-  };
-
   return (
-    <Window>
+    <Window title="Extrapolator" width={600} height={200}>
       <Window.Content>
-        <Section title="Diseases">
-          <Tabs>
-            {diseases.map((disease) => (
-              <Tabs.Tab
-                key={disease.ref}
-                selected={selectedDisease === disease.ref}
-                onClick={() => setSelectedDisease(disease.ref)}
-              >
-                {disease.name}
-              </Tabs.Tab>
-            ))}
-          </Tabs>
-        </Section>
-
-        {selectedDisease && (
-          <Section title="Symptoms">
-            <Tabs>
-              {diseases
-                .find((disease) => disease.ref === selectedDisease)
-                ?.symptoms.map((symptom) => (
+        <Stack grow>
+          <Stack.Item>
+            <Section title="Diseases">
+              <Tabs vertical>
+                {diseases.map((disease) => (
                   <Tabs.Tab
-                    key={symptom.ref}
-                    selected={selectedSymptom === symptom.ref}
-                    onClick={() => setSelectedSymptom(symptom.ref)}
+                    key={disease.ref}
+                    selected={selectedDisease === disease.ref}
+                    onClick={() => setSelectedDisease(disease.ref)}
                   >
-                    {symptom.name}
+                    {disease.name}
                   </Tabs.Tab>
                 ))}
-            </Tabs>
-          </Section>
-        )}
+              </Tabs>
+            </Section>
+          </Stack.Item>
 
-        {selectedSymptom && (
-          <Section title="varients">
-            <LabeledList>
-              {varients.map((variant, index) => (
-                <LabeledList.Item key={index}>
-                  <Button
-                    onClick={() =>
-                      act('add_varient', {
-                        varient_name: variant,
-                        disease_ref: selectedDisease,
-                        symptom_ref: selectedSymptom,
-                      })
-                    }
-                  >
-                    {variant}
-                  </Button>
-                </LabeledList.Item>
-              ))}
-            </LabeledList>
-          </Section>
-        )}
+          {selectedDisease && (
+            <Stack.Item>
+              <Section title="Symptoms">
+                <Tabs vertical>
+                  {diseases
+                    .find((disease) => disease.ref === selectedDisease)
+                    ?.symptoms.map((symptom) => (
+                      <Tabs.Tab
+                        key={symptom.ref}
+                        selected={selectedSymptom === symptom.ref}
+                        onClick={() => setSelectedSymptom(symptom.ref)}
+                      >
+                        {symptom.name}
+                      </Tabs.Tab>
+                    ))}
+                </Tabs>
+              </Section>
+            </Stack.Item>
+          )}
+
+          {selectedSymptom && (
+            <Stack.Item>
+              <Stack grow>
+                <Section title="Variants">
+                  <LabeledList>
+                    {varients.map((variant, index) => (
+                      <LabeledList.Item key={index}>
+                        <Button
+                          onClick={() =>
+                            act('add_varient', {
+                              varient_name: variant,
+                              disease_ref: selectedDisease,
+                              symptom_ref: selectedSymptom,
+                            })
+                          }
+                        >
+                          {variant}
+                        </Button>
+                      </LabeledList.Item>
+                    ))}
+                  </LabeledList>
+                </Section>
+              </Stack>
+            </Stack.Item>
+          )}
+        </Stack>
       </Window.Content>
     </Window>
   );
