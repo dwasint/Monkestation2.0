@@ -24,6 +24,8 @@
 
 	var/datum/weakref/user_data
 
+	var/atom/last_attacked_target
+
 /obj/item/extrapolator/Initialize(mapload)
 	. = ..()
 	scanner = new(src)
@@ -112,42 +114,25 @@
 /obj/item/extrapolator/proc/try_disease_modification(mob/user, atom/target)
 	if(!isliving(target) && !istype(target, /obj/item/weapon/virusdish))
 		return
-	var/list/named_list = list()
-	for(var/datum/symptom_varient/varient as anything in stored_varient_types)
-		named_list |= initial(varient.name)
 
-	var/choice = tgui_input_list(user, "Stored Varients", src.name, named_list)
-
-	if(!choice)
-		return
-
-	var/datum/symptom_varient/new_varient
-	for(var/datum/symptom_varient/listed_varient as anything in stored_varient_types)
-		if(initial(listed_varient.name) != choice)
-			continue
-		new_varient = listed_varient
-
-	if(istype(target, /obj/item/weapon/virusdish))
-		var/obj/item/weapon/virusdish/dish = target
+	last_attacked_target = target
+	if(istype(last_attacked_target, /obj/item/weapon/virusdish))
+		var/obj/item/weapon/virusdish/dish = last_attacked_target
 		if(!dish.contained_virus)
 			return
-		try_symptom_change(user, dish.contained_virus, new_varient)
+	ui_interact(user, should_open = TRUE)
+	last_attacked_target = null
 
-	else
-		var/mob/living/living = target
-		if(!length(living.diseases))
-			return
 
-		var/datum/disease/disease_choice = tgui_input_list(user, "Choose a disease to splice", src.name, living.diseases)
-		if(!disease_choice)
-			return
+/obj/item/extrapolator/proc/try_symptom_change(mob/user, datum/weakref/choice_ref, datum/symptom_varient/new_varient, datum/weakref/symptom_ref)
+	if(!stored_varient_types[new_varient])
+		return
 
-		try_symptom_change(user, disease_choice, new_varient)
-
-/obj/item/extrapolator/proc/try_symptom_change(mob/user, datum/disease/advanced/choice, datum/symptom_varient/new_varient)
-	var/datum/symptom/symptom = tgui_input_list(user, "Choose a symptom to modify", src.name, choice.symptoms)
+	var/datum/symptom/symptom = symptom_ref.resolve()
 	if(!symptom)
 		return
+	var/datum/disease/choice = choice_ref.resolve()
+
 	if(symptom.attached_varient)
 		say("ERROR: Symptom is already a varient strain!")
 		return
@@ -174,5 +159,57 @@
 	else
 		stored_varient_types[varient]++
 
+/obj/item/extrapolator/ui_interact(mob/user, datum/tgui/ui, should_open = FALSE)
+	. = ..()
+	if(!should_open)
+		return
 
+	ui = SStgui.try_update_ui(user, src, ui)
+	if (!ui)
+		ui = new(user, src, "Extrapolator")
+		ui.open()
+
+/obj/item/extrapolator/ui_data(mob/user)
+	var/list/data = list()
+
+	var/list/named_list = list()
+	for(var/datum/symptom_varient/varient as anything in stored_varient_types)
+		named_list |= initial(varient.name)
+
+	var/list/diseases = list()
+	if(istype(last_attacked_target, /obj/item/weapon/virusdish))
+		var/obj/item/weapon/virusdish/dish = last_attacked_target
+		if(!dish.contained_virus)
+			return
+		var/list/symptom_data = list()
+		for(var/datum/symptom/symptom as anything in dish.contained_virus.symptoms)
+			symptom_data |= list(list("name" = symptom.name, "ref" = ref(WEAKREF(symptom))))
+		diseases |= list(list("name" = dish.contained_virus.name(), "ref" = ref(WEAKREF(dish.contained_virus)), "symptoms" = symptom_data))
+	else
+		var/mob/living/target = last_attacked_target
+		for(var/datum/disease/disease as anything in target.diseases)
+			var/list/symptom_data = list()
+			for(var/datum/symptom/symptom as anything in disease.symptoms)
+				symptom_data |= list(list("name" = symptom.name, "ref" = ref(WEAKREF(symptom))))
+			diseases |= list(list("name" = disease.name(), "ref" = ref(WEAKREF(disease)), "symptoms" = symptom_data))
+	data["varients"] = named_list
+	data["diseases"] = diseases
+
+	return data
+
+
+/obj/item/extrapolator/ui_act(action, list/params, datum/tgui/ui, datum/ui_state/state)
+	. = ..()
+	switch(action)
+		if("add_varient")
+			var/datum/symptom_varient/new_varient
+			for(var/datum/symptom_varient/listed_varient as anything in stored_varient_types)
+				if(listed_varient.name != params["varient_name"])
+					continue
+				new_varient = listed_varient
+				break
+
+			var/datum/weakref/diease_ref = locate(params["disease_ref"])
+			var/datum/weakref/symptom_ref = locate(params["symptom_ref"])
+			try_symptom_change(usr, diease_ref, new_varient, symptom_ref)
 //TODO: Add a UI for the splicing instead of a series of tgui inputs this would make it far nicer
