@@ -173,7 +173,7 @@
 		for(var/i in roundstart_experience)
 			spawned_human.mind.adjust_experience(i, roundstart_experience[i], TRUE)
 
-	if(prob(15))
+	if(prob(25))
 		var/virus_choice = pick(subtypesof(/datum/disease/advanced)- typesof(/datum/disease/advanced/premade))
 		var/list/anti = list(
 			ANTIGEN_BLOOD	= 2,

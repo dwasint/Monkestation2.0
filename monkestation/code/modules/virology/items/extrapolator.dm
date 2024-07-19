@@ -145,7 +145,7 @@
 	new_varient = new new_varient(symptom, choice)
 
 	symptom.attached_varient = new_varient
-
+	symptom.update_name()
 
 /obj/item/extrapolator/proc/generate_varient()
 	var/list/weighted_list = list()

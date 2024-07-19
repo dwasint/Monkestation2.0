@@ -20,6 +20,8 @@
 /obj/machinery/health_scanner_floor/Initialize(mapload)
 	. = ..()
 
+	AddElement(/datum/element/repackable, item_to_pack_into = /obj/item/flatpacked_machine/generic, repacking_time = 3 SECONDS, generic_repack = TRUE)
+
 	maptext_obj = new(src)
 	vis_contents += maptext_obj
 

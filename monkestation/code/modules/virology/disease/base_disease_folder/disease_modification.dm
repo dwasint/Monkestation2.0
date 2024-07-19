@@ -63,24 +63,6 @@
 	if(specified_stage)
 		stage_incubation(specified_stage, mutatechance, reagents, machine, incubator)
 
-	if(reagents.has_reagent(/datum/reagent/toxin/mutagen,  0.5) && reagents.has_reagent(/datum/reagent/consumable/nutriment/protein, 0.5)) //there is probably a better way then this.
-		if(reagents.remove_reagent(/datum/reagent/toxin/mutagen, 0.5) && reagents.remove_reagent(/datum/reagent/consumable/nutriment/protein, 0.5))
-			log += "<br />[ROUND_TIME()] Robustness Strengthening (Mutagen and Protein in [incubator])"
-			var/change = rand(1,5)
-			robustness = min(100,robustness + change)
-			if(machine)
-				machine.update_minor(incubator, 0, change, 0.1)
-		return
-
-	if(reagents.has_reagent(/datum/reagent/toxin/mutagen, 0.5) && reagents.has_reagent(/datum/reagent/medicine/antipathogenic/spaceacillin, 0.5))
-		if(reagents.remove_reagent(/datum/reagent/toxin/mutagen, 0.5) && reagents.remove_reagent(/datum/reagent/medicine/antipathogenic/spaceacillin, 0.5))
-			log += "<br />[ROUND_TIME()] Robustness Weakening (Mutagen and spaceacillin in [incubator])"
-			var/change = rand(1,5)
-			robustness = max(0,robustness - change)
-			if(machine)
-				machine.update_minor(incubator ,0, -change, -0.1)
-		return
-
 	for(var/datum/reagent/reagent as anything in reagents.reagent_list)
 		if(prob(mutatechance))
 			reagent.disease_incubate(incubator, src, machine)
@@ -92,14 +74,6 @@
 		if(e.stage != specified_stage)
 			continue
 		symptoms_at_stage |= e
-
-	if(reagents.has_reagent(/datum/reagent/toxin/mutagen,  0.5) && reagents.has_reagent(/datum/reagent/consumable/nutriment/protein, 0.5)) //there is probably a better way then this. removed by regular proc
-		for(var/datum/symptom/symptom as anything in symptoms_at_stage)
-			symptom.multiplier_tweak(0.1)
-
-	if(reagents.has_reagent(/datum/reagent/toxin/mutagen, 0.5) && reagents.has_reagent(/datum/reagent/medicine/antipathogenic/spaceacillin, 0.5))
-		for(var/datum/symptom/symptom as anything in symptoms_at_stage)
-			symptom.multiplier_tweak(-0.1)
 
 	for(var/datum/reagent/reagent as anything in reagents.reagent_list)
 		if(prob(mutatechance))

@@ -19,8 +19,8 @@
 	if(machine)
 		machine.update_minor(parent, change)
 
-/datum/reagent/uranium/uraniumvirusfood/disease_incubate(atom/movable/parent, datum/disease/disease, obj/machinery/disease2/incubator/machine)
-	disease.log += "<br />[ROUND_TIME()] Antigen Mutation (Decaying Uranium Gel in [parent])"
+/datum/reagent/uranium/uraniumvirusfood/unstable/disease_incubate(atom/movable/parent, datum/disease/disease, obj/machinery/disease2/incubator/machine)
+	disease.log += "<br />[ROUND_TIME()] Antigen Mutation (Unstable Uranium Gel in [parent])"
 	disease.antigenmutate()
 	if(istype(parent, /obj/item/weapon/virusdish))
 		var/obj/item/weapon/virusdish/dish = parent
@@ -30,3 +30,17 @@
 		dish.update_appearance()
 	if(machine)
 		machine.update_major(parent)
+
+/datum/reagent/uranium/uraniumvirusfood/disease_incubate(atom/movable/parent, datum/disease/disease, obj/machinery/disease2/incubator/machine)
+	disease.log += "<br />[ROUND_TIME()] Robustness Decrease (Decaying Uranium Gel in [parent])"
+	var/change = rand(1,5)
+	disease.robustness = max(0, disease.robustness - change)
+	if(machine)
+		machine.update_minor(parent,-change)
+
+/datum/reagent/uranium/uraniumvirusfood/stable/disease_incubate(atom/movable/parent, datum/disease/disease, obj/machinery/disease2/incubator/machine)
+	disease.log += "<br />[ROUND_TIME()] Robustness Strengthening (Stable Uranium Gel in [parent])"
+	var/change = rand(1,5)
+	disease.robustness = min(100, disease.robustness + change)
+	if(machine)
+		machine.update_minor(machine, 0, change, 0.1)

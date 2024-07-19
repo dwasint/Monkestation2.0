@@ -161,10 +161,10 @@
 		return
 
 	for (var/A in antigen)
-		antibodies[A] = min(antibodies[A] + 10 * amount, 100)
+		antibodies[A] = min(antibodies[A] + 5 * amount, 100)
 	if(decay)
 		addtimer(CALLBACK(src, PROC_REF(decay_vaccine), antigen, amount), decay)
 
 /datum/immune_system/proc/decay_vaccine(list/antigens, amount = 1)
 	for (var/A in antigens)
-		antibodies[A] = max(antibodies[A] - 5 * amount, 10)
+		antibodies[A] = max(antibodies[A] - 2.5 * amount, 10)
