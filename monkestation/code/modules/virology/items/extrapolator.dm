@@ -22,6 +22,8 @@
 
 	var/list/stored_varient_types = list()
 
+	var/datum/weakref/user_data
+
 /obj/item/extrapolator/Initialize(mapload)
 	. = ..()
 	scanner = new(src)
@@ -29,6 +31,7 @@
 /obj/item/extrapolator/Destroy()
 	qdel(scanner)
 	scanner = null
+	user_data = null
 	return ..()
 
 /obj/item/extrapolator/attackby(obj/item/W, mob/user, params)
@@ -69,20 +72,31 @@
 	. = ..()
 	if(!proximity_flag && !scan)
 		return
+	if(isliving(target))
+		user_data = WEAKREF(target)
 	if(scanner)
 		if(!scan)
 			if(length(stored_varient_types))
 				try_disease_modification(user, target)
-		else if(!target.extrapolator_act(user, src, scan))
-
-			if(scan)
-				to_chat(user, "<span class='notice'>the extrapolator fails to return any data</span>")
+		switch(target.extrapolator_act(user, src, scan))
+			if(FALSE)
+				if(scan)
+					to_chat(user, "<span class='notice'>the extrapolator fails to return any data</span>")
+			if(TRUE)
+				to_chat(user, span_notice("You store [target]'s blood sample in [src]."))
 
 	else
 		to_chat(user, "<span class='warning'>the extrapolator has no scanner installed</span>")
 
-
 /obj/item/extrapolator/attack_self(mob/user)
+	. = ..()
+	if(scan)
+		var/atom/resolved_target = user_data?.resolve()
+		if(!resolved_target)
+			return
+		resolved_target?.extrapolator_act(user, src, scan)
+
+/obj/item/extrapolator/attack_self_secondary(mob/user, modifiers)
 	. = ..()
 	playsound(src, 'sound/machines/click.ogg', 50, 1)
 	if(scan)
