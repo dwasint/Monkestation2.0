@@ -153,7 +153,7 @@
 	symptom_types -= current_choice
 	symptom_type_name -= initial(current_choice.name)
 	current_choice = null
-	if(prob(created_symptom.badness) * 15)
+	if(prob(created_symptom.badness) * (15 * current_extrapolator.scanner.rating))
 		current_extrapolator.generate_varient()
 	current_extrapolator = null
 

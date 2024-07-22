@@ -81,6 +81,9 @@
 	if (overloaded)
 		return TRUE
 
+	if(HAS_TRAIT(host, TRAIT_VIRUSIMMUNE))
+		return FALSE
+
 	for (var/antigen in disease.antigen)
 		if ((antibodies[antigen]) >= disease.strength)
 			return FALSE
