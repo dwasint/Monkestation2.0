@@ -40,6 +40,7 @@ GLOBAL_VAR_INIT(static_plague_team, null)
 
 		plague.spread_flags = DISEASE_SPREAD_BLOOD|DISEASE_SPREAD_CONTACT_FLUIDS|DISEASE_SPREAD_CONTACT_SKIN|DISEASE_SPREAD_AIRBORNE //gotta ensure that our mice can spread that disease
 
+		plague.infectivity = 75
 		plague.color = "#ADAEAA"
 		plague.pattern = 3
 		plague.pattern_color = "#EE9A9C"

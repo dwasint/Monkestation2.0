@@ -24,10 +24,10 @@
 	invasion = rats_rats_we_are_the_rats.invasion
 
 	if (invasion)
-		for(var/datum/antagonist/plague_rat/M in rats_rats_we_are_the_rats.members)
-			var/datum/mind/mouse_mind = M.owner
-			mouse_mind.current.forceMove(invasion)
+		for(var/datum/mind/M in rats_rats_we_are_the_rats.members)
+			M.current.forceMove(invasion)
 	owner.current.infect_disease(plague,1, "Plague Mice")
+	ADD_TRAIT(owner.current, TRAIT_VENTCRAWLER_ALWAYS, INNATE_TRAIT)
 
 	return ..()
 

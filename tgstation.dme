@@ -7594,6 +7594,7 @@
 #include "monkestation\code\modules\virology\disease\base_disease_folder\general_procs.dm"
 #include "monkestation\code\modules\virology\disease\base_disease_folder\logging.dm"
 #include "monkestation\code\modules\virology\disease\plague_rat\antagonist.dm"
+#include "monkestation\code\modules\virology\disease\plague_rat\event.dm"
 #include "monkestation\code\modules\virology\disease\plague_rat\objective.dm"
 #include "monkestation\code\modules\virology\disease\plague_rat\plague_rat.dm"
 #include "monkestation\code\modules\virology\disease\plague_rat\team.dm"
