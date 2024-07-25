@@ -53361,10 +53361,6 @@
 	},
 /turf/open/floor/iron/white,
 /area/station/medical/medbay/central)
-"sOp" = (
-/obj/structure/lattice,
-/turf/closed/wall,
-/area/station/maintenance/aft/greater)
 "sOF" = (
 /obj/structure/light_construct/directional/east,
 /turf/open/floor/stone,
@@ -57301,10 +57297,6 @@
 	},
 /turf/open/floor/iron,
 /area/station/security/courtroom)
-"ugF" = (
-/obj/structure/lattice,
-/turf/closed/wall/r_wall,
-/area/station/medical/pathology)
 "ugJ" = (
 /obj/structure/disposalpipe/segment,
 /obj/machinery/light/small/directional/west,
@@ -85316,7 +85308,7 @@ vVz
 tZS
 xjH
 nBF
-ugF
+xjH
 xjH
 llk
 tzP
@@ -86591,7 +86583,7 @@ xjH
 hVN
 xjH
 xjH
-sOp
+tSw
 tSw
 tSw
 gAf
