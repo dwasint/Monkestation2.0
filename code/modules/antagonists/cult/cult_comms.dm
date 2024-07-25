@@ -120,23 +120,6 @@
 
 	addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(poll_cultists_for_leader), nominee, team), 10 SECONDS)
 
-///Start the poll for Cult Leaeder.
-/proc/start_poll_cultists_for_leader(mob/living/nominee, datum/team/cult/team)
-	if(world.time < CULT_POLL_WAIT)
-		to_chat(nominee, "It would be premature to select a leader while everyone is still settling in, try again in [DisplayTimeText(CULT_POLL_WAIT-world.time)].")
-		return
-	team.cult_vote_called = TRUE
-	for(var/datum/mind/team_member as anything in team.members)
-		if(!team_member.current)
-			continue
-		team_member.current.update_mob_action_buttons()
-		if(team_member.current.incapacitated())
-			continue
-		SEND_SOUND(team_member.current, 'sound/hallucinations/im_here1.ogg')
-		to_chat(team_member.current, span_cultlarge("Acolyte [nominee] has asserted that [nominee.p_theyre()] worthy of leading the cult. A vote will be called shortly."))
-
-	addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(poll_cultists_for_leader), nominee, team), 10 SECONDS)
-
 ///Polls all Cultists on whether the person putting themselves forward should be made the Cult Leader, if they can actually be such.
 /proc/poll_cultists_for_leader(mob/living/nominee, datum/team/cult/team)
 	if(QDELETED(nominee) || nominee.incapacitated())
@@ -202,9 +185,11 @@
 		return FALSE
 
 	team.cult_vote_called = FALSE
-	var/datum/antagonist/cult/cult_datum = nominee.mind.has_antag_datum(/datum/antagonist/cult)
-	if(!cult_datum.make_cult_leader())
-		CRASH("[cult_datum.owner.current] was supposed to turn into the leader, but they didn't for some reason. This isn't supposed to happen unless an Admin messed with it.")
+	team.cult_master = nominee
+	var/datum/antagonist/cult/cultist = nominee.mind.has_antag_datum(/datum/antagonist/cult)
+	cultist?.silent = TRUE
+	cultist?.on_removal()
+	nominee.mind.add_antag_datum(/datum/antagonist/cult/master)
 	return TRUE
 
 /datum/action/innate/cult/master/IsAvailable(feedback = FALSE)
