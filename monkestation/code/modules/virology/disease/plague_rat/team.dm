@@ -44,7 +44,7 @@ GLOBAL_VAR_INIT(static_plague_team, null)
 		plague.color = "#ADAEAA"
 		plague.pattern = 3
 		plague.pattern_color = "#EE9A9C"
-		//plague.max_stage = 4 //4 stages, unlocks the really dangerous symptoms rather than just DNA Degradation
+		plague.max_stage = 4 //4 stages, unlocks the really dangerous symptoms rather than just DNA Degradation
 		plague.speed = 2 //Takes about 100 seconds to advance to the next stage, max stage in 5 minutes
 
 		plague.makerandom(list(90,100),list(40,75),anti,bad,null)
