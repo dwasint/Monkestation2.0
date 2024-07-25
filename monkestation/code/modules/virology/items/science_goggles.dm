@@ -1,36 +1,15 @@
-
-/obj/item/clothing/glasses/science
-	///are we toggled
-	var/toggled = FALSE
-
-/obj/item/clothing/glasses/science/attack_self(mob/user, modifiers)
-	. = ..()
-	playsound(user, 'sound/items/weeoo1.ogg', 50, 1)
-	to_chat(user, "You turn [src] [toggled ? "Off" : "On"]")
-	toggled = !toggled
-	if(!ishuman(user))
-		return
-	var/mob/living/carbon/human/human = user
-	if(toggled && human.glasses == src)
-		enable(user)
-
 /obj/item/clothing/glasses/science/proc/enable(mob/M)
-	if (toggled)
-		M.virusView()
-
+	M.virusView()
 
 /obj/item/clothing/glasses/science/proc/disable(mob/M)
 	M.stopvirusView()
-
 
 /obj/item/clothing/glasses/science/equipped(mob/M, slot)
 	..()
 	if(slot != ITEM_SLOT_EYES)
 		return
-	if(toggled)
-		enable(M)
-		RegisterSignal(M, COMSIG_MOB_UNEQUIPPED_ITEM, PROC_REF(clear_effects))
-
+	enable(M)
+	RegisterSignal(M, COMSIG_MOB_UNEQUIPPED_ITEM, PROC_REF(clear_effects))
 
 /obj/item/clothing/glasses/science/proc/clear_effects(mob/living/source, obj/item/dropped_item)
 	SIGNAL_HANDLER
@@ -41,7 +20,6 @@
 		return
 	disable(source)
 	UnregisterSignal(source, list(COMSIG_MOB_UNEQUIPPED_ITEM))
-
 
 /mob/proc/virusView()
 	if(!client)

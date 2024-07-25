@@ -22,7 +22,7 @@
 	src.difficulty = difficulty
 	src.parent = parent
 
-	generate_combination_strings()
+	//generate_combination_strings()
 	generate_sequence()
 
 /datum/cracker_puzzle/Destroy(force, ...)
