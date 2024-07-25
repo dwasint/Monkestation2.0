@@ -17,11 +17,11 @@
 /obj/item/clothing/glasses/science/proc/enable(mob/M)
 	if (toggled)
 		M.virusView()
-		
+
 
 /obj/item/clothing/glasses/science/proc/disable(mob/M)
 	M.stopvirusView()
-	
+
 
 /obj/item/clothing/glasses/science/equipped(mob/M, slot)
 	..()
@@ -36,7 +36,7 @@
 	SIGNAL_HANDLER
 	if(dropped_item != src)
 		return
-		
+
 	if (!source.client)
 		return
 	disable(source)
@@ -55,7 +55,7 @@
 			client.images |= L.pathogen
 	for (var/obj/effect/pathogen_cloud/C as anything in GLOB.pathogen_clouds)
 		if (C.pathogen)
-			client.images |= C.pathogen	
+			client.images |= C.pathogen
 	for (var/obj/effect/decal/cleanable/C in GLOB.infected_cleanables)
 		if (C.pathogen)
 			client.images |= C.pathogen
