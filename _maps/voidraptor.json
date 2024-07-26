@@ -5,7 +5,7 @@
 	"map_file": "VoidRaptor.dmm",
 	"shuttles": {
 		"emergency": "emergency_nova",
-		"ferry": "ferry_nova",
+		"ferry": "ferry_fancy",
 		"mining": "mining_nova_large",
 		"cargo": "cargo_nova_delta",
 		"whiteship": "whiteship_delta"

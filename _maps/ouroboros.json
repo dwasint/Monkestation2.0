@@ -5,7 +5,7 @@
 	"map_file": "Ouroboros.dmm",
 	"shuttles": {
 		"emergency": "emergency_nova",
-		"ferry": "ferry_nova",
+		"ferry": "ferry_fancy",
 		"mining": "mining_nova_large",
 		"cargo": "cargo_ouroboros",
 		"whiteship": "whiteship_ouroboros"
