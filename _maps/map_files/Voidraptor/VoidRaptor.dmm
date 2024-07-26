@@ -5986,7 +5986,6 @@
 	department = "Atmospherics";
 	name = "Atmospherics Requests Console"
 	},
-/obj/effect/mapping_helpers/requests_console/supplies,
 /obj/effect/mapping_helpers/requests_console/assistance,
 /turf/open/floor/iron/textured_edge{
 	dir = 8
@@ -6965,7 +6964,6 @@
 	name = "Quartermaster's Requests Console"
 	},
 /obj/effect/mapping_helpers/requests_console/announcement,
-/obj/effect/mapping_helpers/requests_console/supplies,
 /turf/open/floor/carpet/black,
 /area/station/command/heads_quarters/qm)
 "cdL" = (
@@ -13674,7 +13672,6 @@
 	pixel_x = 6;
 	pixel_y = 4
 	},
-/obj/effect/mapping_helpers/requests_console/supplies,
 /obj/effect/mapping_helpers/requests_console/assistance,
 /obj/machinery/light/warm/directional/south,
 /obj/machinery/camera/directional/south{
@@ -20896,7 +20893,6 @@
 	name = "Robotics Requests Console"
 	},
 /obj/effect/mapping_helpers/requests_console/ore_update,
-/obj/effect/mapping_helpers/requests_console/supplies,
 /obj/effect/turf_decal/tile/dark_red/half/contrasted{
 	dir = 1
 	},
@@ -27580,7 +27576,6 @@
 	department = "Chapel";
 	name = "Chapel Requests console"
 	},
-/obj/effect/mapping_helpers/requests_console/supplies,
 /turf/open/floor/pod/dark,
 /area/station/service/chapel)
 "hXI" = (
@@ -33539,7 +33534,6 @@
 	department = "Hydroponics";
 	name = "Hydroponics Requests Console"
 	},
-/obj/effect/mapping_helpers/requests_console/supplies,
 /obj/effect/turf_decal/trimline/green/mid_joiner{
 	dir = 1
 	},
@@ -40609,7 +40603,6 @@
 	department = "Atmospherics";
 	name = "Atmospherics Requests Console"
 	},
-/obj/effect/mapping_helpers/requests_console/supplies,
 /obj/effect/mapping_helpers/requests_console/assistance,
 /obj/structure/closet/radiation,
 /obj/item/clothing/glasses/meson,
@@ -45782,7 +45775,6 @@
 	department = "Chapel";
 	name = "Chapel Requests console"
 	},
-/obj/effect/mapping_helpers/requests_console/supplies,
 /obj/structure/closet,
 /obj/item/storage/backpack/cultpack,
 /obj/item/clothing/head/chaplain/nun_hood,
@@ -49314,7 +49306,6 @@
 	department = "Cargo Bay";
 	name = "Cargo Bay Requests Console"
 	},
-/obj/effect/mapping_helpers/requests_console/supplies,
 /obj/machinery/camera/directional/north{
 	c_tag = "Cargo - Office";
 	name = "cargo camera"
@@ -60156,7 +60147,6 @@
 	department = "Service Hall";
 	name = "Service Hall Requests Console"
 	},
-/obj/effect/mapping_helpers/requests_console/supplies,
 /obj/item/radio/headset/headset_srv{
 	pixel_x = -11;
 	pixel_y = 4
@@ -70128,7 +70118,6 @@
 	name = "Chief Engineer's Requests Console"
 	},
 /obj/effect/mapping_helpers/requests_console/announcement,
-/obj/effect/mapping_helpers/requests_console/supplies,
 /obj/effect/mapping_helpers/requests_console/assistance,
 /obj/effect/turf_decal/bot,
 /turf/open/floor/carpet/orange,
@@ -71910,7 +71899,6 @@
 	pixel_x = 8;
 	pixel_y = -1
 	},
-/obj/effect/mapping_helpers/requests_console/supplies,
 /obj/effect/turf_decal/tile/bar/opposingcorners,
 /obj/item/reagent_containers/cup/glass/bottle/champagne{
 	pixel_y = -2
@@ -76339,7 +76327,6 @@
 	dir = 6
 	},
 /obj/structure/table/reinforced,
-/obj/effect/mapping_helpers/requests_console/supplies,
 /obj/effect/mapping_helpers/requests_console/assistance,
 /obj/item/storage/medkit/fire{
 	pixel_x = -2;
@@ -85638,7 +85625,6 @@
 	department = "Atmospherics";
 	name = "Atmospherics Requests Console"
 	},
-/obj/effect/mapping_helpers/requests_console/supplies,
 /obj/effect/mapping_helpers/requests_console/assistance,
 /obj/effect/turf_decal/trimline/yellow/filled/line{
 	dir = 5

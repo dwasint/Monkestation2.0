@@ -290,7 +290,6 @@
 /obj/effect/mapping_helpers/requests_console/assistance,
 /obj/effect/mapping_helpers/requests_console/information,
 /obj/effect/mapping_helpers/requests_console/announcement,
-/obj/effect/mapping_helpers/requests_console/supplies,
 /obj/effect/turf_decal/tile/yellow/half/contrasted{
 	dir = 4
 	},
@@ -4166,7 +4165,6 @@
 	},
 /obj/effect/turf_decal/bot_white,
 /obj/machinery/requests_console/auto_name/directional/east,
-/obj/effect/mapping_helpers/requests_console/supplies,
 /obj/effect/mapping_helpers/requests_console/assistance,
 /obj/item/toy/figure/bartender{
 	pixel_y = 18
@@ -4808,7 +4806,6 @@
 /obj/item/storage/box/mousetraps,
 /obj/machinery/requests_console/auto_name/directional/south,
 /obj/effect/mapping_helpers/requests_console/assistance,
-/obj/effect/mapping_helpers/requests_console/supplies,
 /turf/open/floor/iron/dark/side{
 	dir = 10
 	},
@@ -7127,7 +7124,6 @@
 	},
 /obj/machinery/requests_console/auto_name/directional/south,
 /obj/effect/mapping_helpers/requests_console/assistance,
-/obj/effect/mapping_helpers/requests_console/supplies,
 /obj/effect/mapping_helpers/requests_console/announcement,
 /obj/effect/mapping_helpers/requests_console/information,
 /obj/item/stamp/head/hop{
@@ -12744,7 +12740,6 @@
 /area/station/maintenance/abandon_diner)
 "dRo" = (
 /obj/machinery/requests_console/auto_name/directional/east,
-/obj/effect/mapping_helpers/requests_console/supplies,
 /obj/effect/mapping_helpers/requests_console/assistance,
 /obj/effect/mapping_helpers/requests_console/ore_update,
 /obj/machinery/light/warm/directional/east,
@@ -13137,7 +13132,6 @@
 /obj/structure/table,
 /obj/effect/mapping_helpers/requests_console/assistance,
 /obj/effect/mapping_helpers/requests_console/ore_update,
-/obj/effect/mapping_helpers/requests_console/supplies,
 /obj/machinery/requests_console/auto_name/directional/east,
 /turf/open/floor/iron/small,
 /area/station/science/robotics/lab)
@@ -18041,7 +18035,6 @@
 /obj/effect/mapping_helpers/requests_console/ore_update,
 /obj/effect/mapping_helpers/requests_console/assistance,
 /obj/effect/mapping_helpers/requests_console/information,
-/obj/effect/mapping_helpers/requests_console/supplies,
 /obj/machinery/camera/directional/south{
 	c_tag = "Science - Research Desk";
 	network = list("ss13","rd")
@@ -18317,7 +18310,6 @@
 /obj/structure/table/wood,
 /obj/machinery/requests_console/auto_name/directional/north,
 /obj/effect/mapping_helpers/requests_console/assistance,
-/obj/effect/mapping_helpers/requests_console/supplies,
 /obj/effect/mapping_helpers/requests_console/announcement,
 /obj/effect/mapping_helpers/requests_console/information,
 /obj/machinery/light/warm/directional/east,
@@ -43597,7 +43589,6 @@
 /obj/effect/turf_decal/siding/wood,
 /obj/machinery/requests_console/auto_name/directional/south,
 /obj/effect/mapping_helpers/requests_console/information,
-/obj/effect/mapping_helpers/requests_console/supplies,
 /obj/effect/mapping_helpers/requests_console/assistance,
 /obj/effect/mapping_helpers/requests_console/announcement,
 /turf/open/floor/wood,
@@ -46484,7 +46475,6 @@
 /obj/structure/table,
 /obj/machinery/requests_console/auto_name/directional/west,
 /obj/effect/mapping_helpers/requests_console/assistance,
-/obj/effect/mapping_helpers/requests_console/supplies,
 /obj/machinery/newscaster/directional/south,
 /turf/open/floor/iron/kitchen,
 /area/station/service/kitchen)
@@ -46910,7 +46900,6 @@
 "nNF" = (
 /obj/machinery/requests_console/auto_name/directional/east,
 /obj/effect/mapping_helpers/requests_console/assistance,
-/obj/effect/mapping_helpers/requests_console/supplies,
 /obj/effect/mapping_helpers/requests_console/announcement,
 /obj/effect/mapping_helpers/requests_console/information,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
@@ -57396,7 +57385,6 @@
 	dir = 1
 	},
 /obj/effect/mapping_helpers/requests_console/assistance,
-/obj/effect/mapping_helpers/requests_console/supplies,
 /obj/effect/mapping_helpers/requests_console/ore_update,
 /obj/machinery/requests_console/auto_name/directional/south,
 /turf/open/floor/iron/dark/smooth_large,
@@ -58891,7 +58879,6 @@
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/effect/mapping_helpers/requests_console/assistance,
 /obj/effect/mapping_helpers/requests_console/ore_update,
-/obj/effect/mapping_helpers/requests_console/supplies,
 /obj/effect/mapping_helpers/requests_console/announcement,
 /obj/effect/mapping_helpers/requests_console/information,
 /obj/machinery/requests_console/auto_name/directional/west,
@@ -70136,7 +70123,6 @@
 	},
 /obj/machinery/requests_console/auto_name/directional/south,
 /obj/effect/mapping_helpers/requests_console/assistance,
-/obj/effect/mapping_helpers/requests_console/supplies,
 /obj/item/toy/figure/miner{
 	pixel_y = 13;
 	pixel_x = 7
@@ -74163,7 +74149,6 @@
 /obj/effect/turf_decal/tile/blue/fourcorners,
 /obj/effect/mapping_helpers/requests_console/assistance,
 /obj/effect/mapping_helpers/requests_console/information,
-/obj/effect/mapping_helpers/requests_console/supplies,
 /obj/effect/mapping_helpers/requests_console/announcement,
 /obj/effect/mapping_helpers/requests_console/ore_update,
 /obj/machinery/camera/motion/directional/east{
@@ -75032,7 +75017,6 @@
 /obj/machinery/requests_console/auto_name/directional/east,
 /obj/effect/mapping_helpers/requests_console/assistance,
 /obj/effect/mapping_helpers/requests_console/ore_update,
-/obj/effect/mapping_helpers/requests_console/supplies,
 /obj/machinery/light/warm/directional/east,
 /turf/open/openspace,
 /area/station/cargo/office)
@@ -75930,7 +75914,6 @@
 	dir = 8
 	},
 /obj/machinery/requests_console/auto_name/directional/south,
-/obj/effect/mapping_helpers/requests_console/supplies,
 /obj/effect/mapping_helpers/requests_console/assistance,
 /obj/structure/table,
 /obj/machinery/plantgenes{
@@ -76010,7 +75993,6 @@
 /obj/effect/turf_decal/bot,
 /obj/machinery/light/cold/directional/south,
 /obj/machinery/requests_console/auto_name/directional/south,
-/obj/effect/mapping_helpers/requests_console/supplies,
 /obj/effect/mapping_helpers/requests_console/assistance,
 /turf/open/floor/iron/dark/smooth_large,
 /area/station/medical/paramedic)
@@ -77404,7 +77386,6 @@
 /obj/machinery/requests_console/auto_name/directional/north,
 /obj/effect/mapping_helpers/requests_console/assistance,
 /obj/effect/mapping_helpers/requests_console/ore_update,
-/obj/effect/mapping_helpers/requests_console/supplies,
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer4,
 /turf/open/floor/iron,
 /area/station/engineering/atmos/office)
