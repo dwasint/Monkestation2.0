@@ -19113,16 +19113,16 @@
 /area/station/hallway/primary/aft)
 "fAV" = (
 /obj/effect/turf_decal/stripes/line{
-	dir = 1
+	dir = 9
 	},
 /obj/docking_port/stationary{
 	dheight = 3;
-	dir = 2;
+	dir = 8;
 	dwidth = 8;
 	height = 11;
 	name = "Port Bay 2";
 	shuttle_id = "ferry_home";
-	width = 20
+	width = 5
 	},
 /turf/open/floor/iron/textured_large,
 /area/station/command/cc_dock)
@@ -113218,7 +113218,7 @@ uVO
 fKb
 nlO
 qfV
-fAV
+pmU
 hPi
 vkP
 hPi
@@ -114503,7 +114503,7 @@ hPi
 hPi
 hPi
 hPi
-rJY
+fAV
 hPi
 hPi
 hPi
