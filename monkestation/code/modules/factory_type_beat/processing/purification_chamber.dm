@@ -59,6 +59,9 @@
 	var/stop_processing_check = FALSE
 	var/boulders_concurrent = boulders_processing_max ///How many boulders can we touch this process() call
 	for(var/obj/item/potential_boulder as anything in boulders_contained)
+		if(oxygen_input)
+			oxygen_input.air_contents.remove_specific(/datum/gas/oxygen, REQUIRED_OXYGEN_MOLES)
+
 		if(QDELETED(potential_boulder))
 			boulders_contained -= potential_boulder
 			break
