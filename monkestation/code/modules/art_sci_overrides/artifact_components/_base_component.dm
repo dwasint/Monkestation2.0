@@ -72,6 +72,8 @@
 	var/datum/artifact_fault/chosen_fault
 	///the amount of freebies we get
 	var/freebies = 3
+	///if we have a special examine IE borgers
+	var/explict_examine
 
 /datum/component/artifact/Initialize(forced_origin = null)
 	. = ..()
@@ -180,7 +182,7 @@
 		holder.visible_message(span_notice("[holder] [activation_message]"))
 	active = TRUE
 	holder.add_overlay(act_effect)
-	add_event_to_buffer(parent,  data = "has been activated!", log_key = "ARTIFACT")
+	logger.Log(LOG_CATEGORY_ARTIFACT, "[parent] has been activated")
 	effect_activate(silent)
 	return TRUE
 
@@ -193,7 +195,7 @@
 		holder.visible_message(span_notice("[holder] [deactivation_message]"))
 	active = FALSE
 	holder.cut_overlay(act_effect)
-	add_event_to_buffer(parent,  data = "has been deactivated!", log_key = "ARTIFACT")
+	logger.Log(LOG_CATEGORY_ARTIFACT, "[parent] has been deactivated")
 	effect_deactivate(silent)
 
 /datum/component/artifact/proc/process_stimuli(stimuli, stimuli_value, triggers_faults = TRUE)
@@ -211,6 +213,7 @@
 				continue
 			checked_fault = TRUE
 			if(prob(chosen_fault.trigger_chance))
+				logger.Log(LOG_CATEGORY_ARTIFACT, "[parent]'s fault has been triggered, trigger type [chosen_fault].")
 				chosen_fault.on_trigger(src)
 				if(chosen_fault.visible_message)
 					holder.visible_message("[holder] [chosen_fault.visible_message]")
@@ -229,7 +232,8 @@
 		artifact_activate()
 
 /datum/component/artifact/proc/stimulate_from_turf_heat(turf/target)
-	process_stimuli(STIMULUS_HEAT, target.return_air().temperature, FALSE)
+	if(!QDELETED(target))
+		process_stimuli(STIMULUS_HEAT, target.return_air().temperature, FALSE)
 
 /datum/component/artifact/proc/stimulate_from_rad_act(intensity)
 	process_stimuli(STIMULUS_RADIATION, intensity)

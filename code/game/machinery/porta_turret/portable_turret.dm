@@ -1063,7 +1063,7 @@ DEFINE_BITFIELD(turret_flags, list(
 	icon = 'icons/obj/machines/turret_control.dmi'
 	icon_state = "control_frame"
 	result_path = /obj/machinery/turretid
-	custom_materials = list(/datum/material/iron=MINERAL_MATERIAL_AMOUNT)
+	custom_materials = list(/datum/material/iron= SHEET_MATERIAL_AMOUNT)
 	pixel_shift = 29
 
 /obj/item/gun/proc/get_turret_properties()
@@ -1092,7 +1092,7 @@ DEFINE_BITFIELD(turret_flags, list(
 
 /obj/item/gun/ballistic/get_turret_properties()
 	. = ..()
-	var/obj/item/ammo_box/mag = mag_type
+	var/obj/item/ammo_box/mag = accepted_magazine_type
 	var/obj/item/ammo_casing/primary_ammo = initial(mag.ammo_type)
 
 	.["base_icon_state"] = "syndie"

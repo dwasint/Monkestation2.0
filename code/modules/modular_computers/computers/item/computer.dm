@@ -1,5 +1,3 @@
-GLOBAL_LIST_EMPTY(TabletMessengers) // a list of all active messengers, similar to GLOB.PDAs (used primarily with ntmessenger.dm)
-
 // This is the base type of computer
 // Other types expand it - tablets and laptops are subtypes
 // consoles use "procssor" item that is held inside it.
@@ -12,7 +10,7 @@ GLOBAL_LIST_EMPTY(TabletMessengers) // a list of all active messengers, similar 
 	integrity_failure = 0.5
 	max_integrity = 100
 	armor_type = /datum/armor/item_modular_computer
-	light_system = MOVABLE_LIGHT_DIRECTIONAL
+	light_system = OVERLAY_LIGHT_DIRECTIONAL
 
 	///The ID currently stored in the computer.
 	var/obj/item/card/id/computer_id_slot
@@ -135,26 +133,22 @@ GLOBAL_LIST_EMPTY(TabletMessengers) // a list of all active messengers, similar 
 	if(internal_cell)
 		internal_cell = new internal_cell(src)
 
-	update_appearance()
-	register_context()
-	Add_Messenger()
 	install_default_programs()
+	register_context()
+	update_appearance()
 
 /obj/item/modular_computer/proc/install_default_programs()
 	SHOULD_CALL_PARENT(FALSE)
 	for(var/programs in default_programs + starting_programs)
-		var/datum/computer_file/program/program_type = new programs
+		var/datum/computer_file/program_type = new programs
 		store_file(program_type)
 
 /obj/item/modular_computer/Destroy()
 	STOP_PROCESSING(SSobj, src)
-	wipe_program(forced = TRUE)
-	for(var/datum/computer_file/program/idle as anything in idle_threads)
-		idle.kill_program(TRUE)
+	close_all_programs()
 	//Some components will actually try and interact with this, so let's do it later
 	QDEL_NULL(soundloop)
 	QDEL_LIST(stored_files)
-	Remove_Messenger()
 
 	if(istype(inserted_disk))
 		QDEL_NULL(inserted_disk)
@@ -457,7 +451,7 @@ GLOBAL_LIST_EMPTY(TabletMessengers) // a list of all active messengers, similar 
 		enabled = TRUE
 		update_appearance()
 		if(open_ui)
-			ui_interact(user)
+			update_tablet_open_uis(user)
 		return TRUE
 	else // Unpowered
 		if(issynth)
@@ -480,20 +474,14 @@ GLOBAL_LIST_EMPTY(TabletMessengers) // a list of all active messengers, similar 
 		active_program.event_networkfailure(FALSE) // Active program requires NTNet to run but we've just lost connection. Crash.
 
 	for(var/datum/computer_file/program/idle_programs as anything in idle_threads)
-		if(idle_programs.program_state == PROGRAM_STATE_KILLED)
-			idle_threads.Remove(idle_programs)
-			continue
 		idle_programs.process_tick(seconds_per_tick)
 		idle_programs.ntnet_status = get_ntnet_status()
 		if(idle_programs.requires_ntnet && !idle_programs.ntnet_status)
 			idle_programs.event_networkfailure(TRUE)
 
 	if(active_program)
-		if(active_program.program_state == PROGRAM_STATE_KILLED)
-			active_program = null
-		else
-			active_program.process_tick(seconds_per_tick)
-			active_program.ntnet_status = get_ntnet_status()
+		active_program.process_tick(seconds_per_tick)
+		active_program.ntnet_status = get_ntnet_status()
 
 	handle_power(seconds_per_tick) // Handles all computer power interaction
 
@@ -575,23 +563,7 @@ GLOBAL_LIST_EMPTY(TabletMessengers) // a list of all active messengers, similar 
 	data["PC_showexitprogram"] = !!active_program // Hides "Exit Program" button on mainscreen
 	return data
 
-///Wipes the computer's current program. Doesn't handle any of the niceties around doing this
-/obj/item/modular_computer/proc/wipe_program(forced)
-	if(!active_program)
-		return
-	active_program.kill_program(forced)
-	active_program = null
-
-// Relays kill program request to currently active program. Use this to quit current program.
-/obj/item/modular_computer/proc/kill_program(forced = FALSE)
-	wipe_program(forced)
-	var/mob/user = usr
-	if(user && istype(user))
-		//Here to prevent programs sleeping in destroy
-		INVOKE_ASYNC(src, TYPE_PROC_REF(/datum, ui_interact), user) // Re-open the UI on this computer. It should show the main screen now.
-	update_appearance()
-
-/obj/item/modular_computer/proc/open_program(mob/user, datum/computer_file/program/program)
+/obj/item/modular_computer/proc/open_program(mob/user, datum/computer_file/program/program, open_ui = TRUE)
 	if(program.computer != src)
 		CRASH("tried to open program that does not belong to this computer")
 
@@ -601,11 +573,12 @@ GLOBAL_LIST_EMPTY(TabletMessengers) // a list of all active messengers, similar 
 
 	// The program is already running. Resume it.
 	if(program in idle_threads)
-		program.program_state = PROGRAM_STATE_ACTIVE
 		active_program = program
 		program.alert_pending = FALSE
 		idle_threads.Remove(program)
-		update_appearance()
+		if(open_ui)
+			update_tablet_open_uis(user)
+		update_appearance(UPDATE_ICON)
 		return TRUE
 
 	if(!program.is_supported_by_hardware(hardware_flag, 1, user))
@@ -624,8 +597,9 @@ GLOBAL_LIST_EMPTY(TabletMessengers) // a list of all active messengers, similar 
 
 	active_program = program
 	program.alert_pending = FALSE
-	update_appearance()
-	ui_interact(user)
+	if(open_ui)
+		update_tablet_open_uis(user)
+	update_appearance(UPDATE_ICON)
 	return TRUE
 
 // Returns 0 for No Signal, 1 for Low Signal and 2 for Good Signal. 3 is for wired connection (always-on)
@@ -657,16 +631,34 @@ GLOBAL_LIST_EMPTY(TabletMessengers) // a list of all active messengers, similar 
 
 	return SSmodular_computers.add_log("[src]: [text]")
 
-/obj/item/modular_computer/proc/shutdown_computer(loud = 1)
-	kill_program(forced = TRUE)
-	for(var/datum/computer_file/program/idle_program in idle_threads)
-		idle_program.kill_program(forced = TRUE)
+/obj/item/modular_computer/proc/close_all_programs()
+	active_program = null
+	for(var/datum/computer_file/program/idle as anything in idle_threads)
+		idle_threads.Remove(idle)
+
+/obj/item/modular_computer/proc/shutdown_computer(loud = TRUE)
+	close_all_programs()
 	if(looping_sound)
 		soundloop.stop()
 	if(physical && loud)
 		physical.visible_message(span_notice("\The [src] shuts down."))
 	enabled = FALSE
 	update_appearance()
+
+///Imprints name and job into the modular computer, and calls back to necessary functions.
+///Acts as a replacement to directly setting the imprints fields. All fields are optional, the proc will try to fill in missing gaps.
+/obj/item/modular_computer/proc/imprint_id(name = null, job_name = null)
+	saved_identification = name || computer_id_slot?.registered_name || saved_identification
+	saved_job = job_name || computer_id_slot?.assignment || saved_job
+	SEND_SIGNAL(src, COMSIG_MODULAR_PDA_IMPRINT_UPDATED, saved_identification, saved_job)
+	UpdateDisplay()
+
+///Resets the imprinted name and job back to null.
+/obj/item/modular_computer/proc/reset_imprint()
+	saved_identification = null
+	saved_job = null
+	SEND_SIGNAL(src, COMSIG_MODULAR_PDA_IMPRINT_RESET)
+	UpdateDisplay()
 
 /obj/item/modular_computer/ui_action_click(mob/user, actiontype)
 	if(istype(actiontype, /datum/action/item_action/toggle_computer_light))
@@ -743,12 +735,25 @@ GLOBAL_LIST_EMPTY(TabletMessengers) // a list of all active messengers, similar 
 		to_chat(user, span_notice("You plug \the [attacking_item] to \the [src]."))
 		return
 
+	if(istype(attacking_item, /obj/item/photo))
+		var/obj/item/photo/attacking_photo = attacking_item
+		if(store_file(new /datum/computer_file/picture(attacking_photo.picture)))
+			balloon_alert(user, "photo scanned")
+		else
+			balloon_alert(user, "no space!")
+		return
+
 	// Check if any Applications need it
 	for(var/datum/computer_file/item_holding_app as anything in stored_files)
 		if(item_holding_app.application_attackby(attacking_item, user))
 			return
 
 	if(istype(attacking_item, /obj/item/paper))
+		//MONKESTATION EDIT START
+		// Don't allow plastic cards (including the spare ID safe code biscuits!) to be inserted
+		if(istype(attacking_item, /obj/item/paper/paperslip/corporate))
+			return
+		//MONKESTATION EDIT END
 		if(stored_paper >= max_paper)
 			balloon_alert(user, "no more room!")
 			return
@@ -839,8 +844,6 @@ GLOBAL_LIST_EMPTY(TabletMessengers) // a list of all active messengers, similar 
 		return physical.Adjacent(neighbor)
 	return ..()
 
-/obj/item/modular_computer/proc/Add_Messenger()
-	GLOB.TabletMessengers += src
-
-/obj/item/modular_computer/proc/Remove_Messenger()
-	GLOB.TabletMessengers -= src
+///Returns a string of what to send at the end of messenger's messages.
+/obj/item/modular_computer/proc/get_messenger_ending()
+	return "Sent from my PDA"

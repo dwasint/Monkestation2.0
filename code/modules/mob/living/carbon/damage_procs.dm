@@ -101,6 +101,8 @@
 		take_overall_damage(brute = amount, updating_health = updating_health, required_bodytype = required_bodytype)
 	else
 		heal_overall_damage(brute = abs(amount), required_bodytype = required_bodytype, updating_health = updating_health)
+	if(amount < 0)
+		SEND_SIGNAL(src, COMSIG_CARBON_TAKE_BRUTE_DAMAGE, amount)
 	return amount
 
 /mob/living/carbon/setBruteLoss(amount, updating_health = TRUE, forced = FALSE, required_bodytype)
@@ -244,8 +246,8 @@
  *
  * It automatically updates health status
  */
-/mob/living/carbon/heal_bodypart_damage(brute = 0, burn = 0, updating_health = TRUE, required_bodytype)
-	var/list/obj/item/bodypart/parts = get_damaged_bodyparts(brute, burn, required_bodytype)
+/mob/living/carbon/heal_bodypart_damage(brute = 0, burn = 0, updating_health = TRUE, required_bodytype = NONE, target_zone = null)
+	var/list/obj/item/bodypart/parts = get_damaged_bodyparts(brute, burn, required_bodytype, target_zone)
 	if(!parts.len)
 		return
 	var/obj/item/bodypart/picked = pick(parts)

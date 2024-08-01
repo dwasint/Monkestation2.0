@@ -9,6 +9,12 @@ GLOBAL_LIST_INIT(guardian_radial_images, setup_guardian_radial())
 		option.info = span_boldnotice(initial(guardian_path.creator_desc))
 		.[guardian_path] = option
 
+	//MONKESTATION EDIT START
+	// Hack to change Timestop Guardian's radial icon, since it's in a different DMI
+	var/datum/radial_menu_choice/timestop_opt = .[/mob/living/basic/guardian/standard/timestop]
+	timestop_opt.image = image(icon = 'monkestation/icons/bloodsuckers/timestop_guardian.dmi', icon_state = "timestop")
+	//MONKESTATION EDIT END
+
 /// An item which grants you your very own soul buddy
 /obj/item/guardian_creator
 	name = "enchanted deck of tarot cards"
@@ -87,15 +93,18 @@ GLOBAL_LIST_INIT(guardian_radial_images, setup_guardian_radial())
 	used = TRUE
 	to_chat(user, use_message)
 	var/guardian_type_name = random ? "Random" : capitalize(initial(guardian_path.creator_name))
-	var/list/mob/dead/observer/candidates = poll_ghost_candidates(
+	var/list/mob/dead/observer/candidates = SSpolling.poll_ghost_candidates(
 		"Do you want to play as [user.real_name]'s [guardian_type_name] [mob_name]?",
-		jobban_type = ROLE_PAI,
+		check_jobban = ROLE_PAI,
 		poll_time = 10 SECONDS,
 		ignore_category = POLL_IGNORE_HOLOPARASITE,
+		pic_source = guardian_path,
+		role_name_text = "guardian spirit"
 	)
 	if(LAZYLEN(candidates))
 		var/mob/dead/observer/candidate = pick(candidates)
 		spawn_guardian(user, candidate, guardian_path)
+		SEND_SIGNAL(src, COMSIG_TRAITOR_ITEM_USED(type))
 	else
 		to_chat(user, failure_message)
 		used = FALSE

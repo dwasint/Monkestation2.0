@@ -1,5 +1,10 @@
 import { multiline } from 'common/string';
-import { CheckboxInput, FeatureChoiced, FeatureDropdownInput, FeatureToggle } from '../base';
+import {
+  CheckboxInput,
+  FeatureChoiced,
+  FeatureDropdownInput,
+  FeatureToggle,
+} from '../base';
 
 export const sound_ambience: FeatureToggle = {
   name: 'Enable ambience',
@@ -70,3 +75,13 @@ export const sound_achievement: FeatureChoiced = {
   `,
   component: FeatureDropdownInput,
 };
+
+// monke edit start - AI vox announcement toggle
+export const sound_vox: FeatureToggle = {
+  name: 'Enable AI VOX announcements',
+  category: 'SOUND',
+  subcategory: 'IC',
+  description: 'When enabled, hear AI VOX (text-to-speech) announcements.',
+  component: CheckboxInput,
+};
+// monke edit end

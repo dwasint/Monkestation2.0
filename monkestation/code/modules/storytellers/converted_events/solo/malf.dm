@@ -10,12 +10,15 @@
 		JOB_SCIENTIST,
 		JOB_ROBOTICIST,
 		JOB_SECURITY_OFFICER,
+		JOB_SECURITY_ASSISTANT,
 		JOB_WARDEN,
+		JOB_BRIG_PHYSICIAN,
 	)
+	shared_occurence_type = SHARED_HIGH_THREAT
 	maximum_antags = 1
 	exclusive_roles = list(JOB_AI)
 	required_enemies = 4
-	weight = 2
+	weight = 6
 	min_players = 35
 	max_occurrences = 1
 
@@ -37,6 +40,7 @@
 /datum/round_event_control/antagonist/solo/malf/midround
 	name = "Malfunctioning AI Midround"
 	antag_flag = ROLE_MALF_MIDROUND
+	weight = 2
 
 /datum/round_event_control/antagonist/solo/malf/roundstart
 	name = "Roundstart Malf AI"

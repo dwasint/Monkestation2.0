@@ -270,6 +270,14 @@ GLOBAL_LIST_INIT(malf_modules, subtypesof(/datum/ai_module))
 		owner_AI.doomsday_device.start()
 		for(var/obj/item/pinpointer/nuke/P in GLOB.pinpointer_list)
 			P.switch_mode_to(TRACK_MALF_AI) //Pinpointers start tracking the AI wherever it goes
+
+		notify_ghosts(
+			"[owner_AI] has activated a Doomsday Device!",
+			source = owner_AI,
+			header = "DOOOOOOM!!!",
+			action = NOTIFY_ORBIT,
+		)
+
 		qdel(src)
 
 /obj/machinery/doomsday_device
@@ -324,13 +332,12 @@ GLOBAL_LIST_INIT(malf_modules, subtypesof(/datum/ai_module))
 		borg.lamp_doom = TRUE
 		borg.toggle_headlamp(FALSE, TRUE) //forces borg lamp to update
 
-
 /obj/machinery/doomsday_device/proc/seconds_remaining()
 	. = max(0, (round((detonation_timer - world.time) / 10)))
 
 /obj/machinery/doomsday_device/process()
 	var/turf/T = get_turf(src)
-	if(!T || !is_station_level(T.z))
+	if(!T || !is_station_level(T.z) || is_safe_level(T.z)) // monkesation edit: allow escaping nuke by going to safe z-levels
 		minor_announce("DOOMSDAY DEVICE OUT OF STATION RANGE, ABORTING", "ERROR ER0RR $R0RRO$!R41.%%!!(%$^^__+ @#F0E4", TRUE)
 		owner.ShutOffDoomsdayDevice()
 		return
@@ -348,7 +355,7 @@ GLOBAL_LIST_INIT(malf_modules, subtypesof(/datum/ai_module))
 		next_announce += DOOMSDAY_ANNOUNCE_INTERVAL
 
 /obj/machinery/doomsday_device/proc/trigger_doomsday()
-	callback_on_everyone_on_z(SSmapping.levels_by_trait(ZTRAIT_STATION), CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(bring_doomsday)), src)
+	callback_on_everyone_on_z(SSmapping.levels_by_trait(ZTRAIT_STATION) - SSmapping.levels_by_trait(ZTRAIT_FORCED_SAFETY), CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(bring_doomsday)), src) // monkesation edit: allow escaping nuke by going to safe z-levels
 	to_chat(world, span_bold("The AI cleansed the station of life with [src]!"))
 	SSticker.force_ending = FORCE_END_ROUND
 

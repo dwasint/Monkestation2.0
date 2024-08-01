@@ -135,11 +135,23 @@
 	database_id = MEDAL_COSMOS_ASCENSION
 	icon = "cosmicascend"
 
+/datum/award/achievement/misc/moon_ascension
+	name = "The Last Act"
+	desc = "You managed to become the ringleader and slay the lie."
+	database_id = MEDAL_MOON_ASCENSION
+	icon = "moonascend"
+
 /datum/award/achievement/misc/grand_ritual_finale
 	name = "Archmage"
 	desc = "Made a big impression on the station with your phenomenal cosmic power."
 	database_id = MEDAL_ARCHMAGE
 	icon = "archmage"
+
+/datum/award/achievement/misc/knock_ascension
+	name = "Secrets behind the Spider Door"
+	desc = "You managed to open a gate into the mansus."
+	database_id = MEDAL_KNOCK_ASCENSION
+	icon = "knockascend"
 
 /datum/award/achievement/misc/toolbox_soul
 	name = "SOUL'd Out"

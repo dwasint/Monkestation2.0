@@ -36,6 +36,10 @@
 	var/list/firealarms = list()
 	///Alarm type to count of sources. Not usable for ^ because we handle fires differently
 	var/list/active_alarms = list()
+	/// The current alarm fault status
+	var/fault_status = AREA_FAULT_NONE
+	/// The source machinery for the area's fault status
+	var/fault_location
 	///List of all lights in our area
 	var/list/lights = list()
 	///We use this just for fire alarms, because they're area based right now so one alarm going poof shouldn't prevent you from clearing your alarms listing. Fire alarms and fire locks will set and clear alarms.
@@ -203,13 +207,22 @@ GLOBAL_LIST_EMPTY(teleportlocs)
 	power_change() // all machines set to current power level, also updates icon
 	update_beauty()
 
-/area/proc/RunGeneration()
+/// Generate turfs, including cool cave wall gen
+/area/proc/RunTerrainGeneration()
 	if(map_generator)
 		map_generator = new map_generator()
 		var/list/turfs = list()
 		for(var/turf/T in contents)
 			turfs += T
 		map_generator.generate_terrain(turfs, src)
+
+/// Populate the previously generated terrain with mobs and objects
+/area/proc/RunTerrainPopulation()
+	if(map_generator)
+		var/list/turfs = list()
+		for(var/turf/T in contents)
+			turfs += T
+		map_generator.populate_terrain(turfs, src)
 
 /area/proc/test_gen()
 	if(map_generator)
@@ -316,10 +329,15 @@ GLOBAL_LIST_EMPTY(teleportlocs)
  *
  * Allows interested parties (lights and fire alarms) to react
  */
-/area/proc/set_fire_effect(new_fire)
+/area/proc/set_fire_effect(new_fire, fault_type, fault_source)
 	if(new_fire == fire)
 		return
 	fire = new_fire
+	fault_status = fault_type
+	if(fire)
+		fault_location = fault_source
+	else
+		fault_location = null
 	SEND_SIGNAL(src, COMSIG_AREA_FIRE_CHANGED, fire)
 
 /**
@@ -455,6 +473,13 @@ GLOBAL_LIST_EMPTY(teleportlocs)
 
 	if(ambient_buzz != old_area.ambient_buzz)
 		L.refresh_looping_ambience()
+
+	if(isliving(arrived))
+		if(SSparticle_weather.running_eclipse_weather || SSparticle_weather.running_weather)
+			if(SSparticle_weather.running_eclipse_weather && SSmapping.level_has_all_traits(arrived.z, list(ZTRAIT_ECLIPSE)))
+				SSparticle_weather.running_eclipse_weather.weather_sound_effect(arrived)
+			if(SSparticle_weather.running_weather && SSmapping.level_has_all_traits(arrived.z, list(ZTRAIT_STATION)))
+				SSparticle_weather.running_weather.weather_sound_effect(arrived)
 
 ///Tries to play looping ambience to the mobs.
 /mob/proc/refresh_looping_ambience()

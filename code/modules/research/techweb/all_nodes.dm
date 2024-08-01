@@ -49,6 +49,7 @@
 		"extinguisher",
 		"fax",
 		"fishing_rod",
+		"fishing_portal_generator",
 		"flashlight",
 		"fluid_ducts",
 		"foam_dart",
@@ -97,6 +98,8 @@
 		"sec_beanbag_slug",
 		"sec_dart",
 		"buckshot_shell",
+		"sec_buckshot_shell",
+		"sec_shotgun_slug",
 		"shotgun_slug",
 		"sec_Islug",
 		"sec_rshot",
@@ -104,7 +107,6 @@
 		"shaker",
 		"shot_glass",
 		"signaler",
-		"slime_scanner",
 		"solar_panel",
 		"solar_tracker",
 		"space_heater",
@@ -245,9 +247,11 @@
 		"razor",
 		"screwdriver",
 		"secateurs",
+		"chicken_carrier",
 		"shovel",
 		"spade",
 		"spraycan",
+		"spraycan_gun", // MONKESTATION ADDITION (monkestation/code/game/objects/items/spraycan_gun.dm)
 		"tile_sprayer",
 		"tscanner",
 		"welding_helmet",
@@ -296,7 +300,14 @@
 		"swab",
 		"syringe",
 		"xlarge_beaker",
-		"vial",
+		"tube",
+		"synth_eyes",
+		"synth_tongue",
+		"synth_liver",
+		"synth_lungs",
+		"synth_stomach",
+		"synth_ears",
+		"synth_heart",
 	)
 
 /datum/techweb_node/basic_circuitry
@@ -377,7 +388,14 @@
 		"component_printer",
 		"integrated_circuit",
 		"module_duplicator",
-		"usb_cable"
+		"usb_cable",
+		"chemical_synthesizer",
+		"weighted_splitter",
+		"chemical_splitter",
+		"chemical_mixer",
+		"chemical_filter",
+		"chemical_injector_bci",
+		"internal_chemical_tank",
 	)
 
 /////////////////////////Biotech/////////////////////////
@@ -432,6 +450,7 @@
 		"piercesyringe",
 		"plasmarefiller",
 		"smoke_machine",
+		"sleeper",
 	)
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 5000)
 	discount_experiments = list(/datum/experiment/scanning/random/material/meat = 2000,
@@ -466,13 +485,19 @@
 		"gibber",
 		"griddle",
 		"microwave",
-		"monkey_recycler",
 		"oven",
 		"processor",
 		"range", // should be in a further node, probably
 		"reagentgrinder",
 		"smartfridge",
 		"stove",
+		"biomass_recycler",
+		"corral_corner",
+		"slime_extract_requestor",
+		"slime_market_pad",
+		"slime_market",
+		"slimevac",
+
 	)
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 4000)
 	discount_experiments = list(/datum/experiment/scanning/random/cytology = 3000) //Big discount to reinforce doing it.
@@ -487,6 +512,7 @@
 	design_ids = list(
 		"surgery_heal_brute_upgrade",
 		"surgery_heal_burn_upgrade",
+		"surgery_filter_upgrade", // monke edit: improved blood filter surgery
 	)
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 1000)
 
@@ -502,6 +528,7 @@
 		"surgery_heal_combo",
 		"surgery_lobotomy",
 		"surgery_wing_reconstruction",
+		"surgery_filter_upgrade_femto", // monke edit: advanced blood filter surgery
 	)
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 1500)
 
@@ -606,6 +633,8 @@
 		"thermomachine",
 		"w-recycler",
 		"welding_goggles",
+		"teg",
+		"teg-circ",
 	)
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 12500)
 	discount_experiments = list(/datum/experiment/scanning/random/material/easy = 7500)
@@ -697,7 +726,6 @@
 		"beacon",
 		"bluespace_crystal",
 		"telesci_gps",
-		"xenobioconsole",
 	)
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 2500)
 
@@ -1145,8 +1173,10 @@
 		"idcard",
 		"libraryconsole",
 		"mining",
+		"photobooth",
 		"rdcamera",
 		"seccamera",
+		"security_photobooth",
 	)
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 2000)
 
@@ -1407,6 +1437,7 @@
 		"superresonator",
 		"triggermod",
 		"mining_scanner",
+		"mat_analyzer",
 	)//e a r l y    g a  m e)
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 2500)
 
@@ -1463,6 +1494,32 @@
 	discount_experiments = list(/datum/experiment/scanning/random/plants/traits = 2000,
 								/datum/experiment/scanning/random/plants/wild = 2000)
 
+/datum/techweb_node/fishing
+	id = "fishing"
+	display_name = "Fishing Technology"
+	description = "Cutting edge fishing advancements."
+	prereq_ids = list("base")
+	design_ids = list(
+		"fishing_rod_tech",
+		"stabilized_hook",
+		"fish_analyzer",
+	)
+	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 2000)
+	required_experiments = list(/datum/experiment/scanning/fish)
+
+/datum/techweb_node/fishing
+	id = "fishing"
+	display_name = "Fishing Technology"
+	description = "Cutting edge fishing advancements."
+	prereq_ids = list("base")
+	design_ids = list(
+		"fishing_rod_tech",
+		"stabilized_hook",
+		"fish_analyzer",
+	)
+	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 2000)
+	required_experiments = list(/datum/experiment/scanning/fish)
+
 /datum/techweb_node/exp_tools
 	id = "exp_tools"
 	display_name = "Experimental Tools"
@@ -1503,6 +1560,8 @@
 	description = "Unlocks new designs that improve rapid devices."
 	prereq_ids = list("adv_engi")
 	design_ids = list(
+		"rcd_upgrade_anti_interrupt",
+		"rcd_upgrade_cooling",
 		"rcd_upgrade_frames",
 		"rcd_upgrade_furnishing",
 		"rcd_upgrade_simple_circuits",
@@ -1702,6 +1761,7 @@
 		"mod_defib",
 		"mod_threadripper",
 		"mod_surgicalprocessor",
+		"mod_statusreadout",
 	)
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 3500)
 
@@ -2213,6 +2273,7 @@
 			continue
 		boost_item_paths |= item.item //allows deconning to unlock.
 
+	boost_item_paths |= /obj/item/malf_upgrade // MONKESTATION ADDITION -- The malf upgrade disk can now be used to get illegal technology
 
 ////////////////////////B.E.P.I.S. Locked Techs////////////////////////
 /datum/techweb_node/light_apps
@@ -2327,6 +2388,3 @@
 		"stabilized_hook",
 		"fish_analyzer",
 	)
-	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 2500)
-	hidden = TRUE
-	experimental = TRUE

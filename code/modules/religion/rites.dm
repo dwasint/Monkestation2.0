@@ -129,7 +129,7 @@
 	..()
 	var/altar_turf = get_turf(religious_tool)
 	var/blessing = pick(
-		/obj/item/organ/internal/cyberimp/arm/surgery,
+		/obj/item/organ/internal/cyberimp/arm/item_set/surgery,
 		/obj/item/organ/internal/cyberimp/eyes/hud/diagnostic,
 		/obj/item/organ/internal/cyberimp/eyes/hud/medical,
 		/obj/item/organ/internal/cyberimp/mouth/breathing_tube,
@@ -531,7 +531,7 @@
 	if(!used_for_blade.use(5))//use 5 of the material
 		return
 	var/obj/item/ceremonial_blade/blade = new(altar_turf)
-	blade.set_custom_materials(list(GET_MATERIAL_REF(material_used) = MINERAL_MATERIAL_AMOUNT * 5))
+	blade.set_custom_materials(list(GET_MATERIAL_REF(material_used) = SHEET_MATERIAL_AMOUNT * 5))
 	return TRUE
 
 /datum/religion_rites/unbreakable

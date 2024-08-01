@@ -23,6 +23,14 @@
 		save_loadout[loadout] = entry
 
 	var/list/special_save_loadout = SANITIZE_LIST(save_data["special_loadout_list"])
+
+	var/list/texted_special_save_loadouts = list()
+	for(var/header as anything in special_save_loadout)
+		texted_special_save_loadouts |= header
+		texted_special_save_loadouts[header] = list()
+		for(var/num as anything in special_save_loadout[header])
+			texted_special_save_loadouts[header] |= "[num]"
+
 	for(var/loadout in special_save_loadout["unusual"])
 		special_save_loadout["unusual"] -= loadout
 
@@ -32,7 +40,7 @@
 
 	alt_job_titles = save_data["alt_job_titles"]
 	loadout_list = sanitize_loadout_list(save_loadout)
-	special_loadout_list = special_save_loadout
+	special_loadout_list = texted_special_save_loadouts
 
 	if(needs_update >= 0)
 		update_character_monkestation(needs_update, save_data) // needs_update == savefile_version if we need an update (positive integer)
@@ -58,6 +66,7 @@
 	if(token_month)
 		savefile.set_entry("token_month", token_month)
 	savefile.set_entry("lootboxes_owned", lootboxes_owned)
+	savefile.set_entry("antag_rep", antag_rep)
 
 /datum/preferences/proc/load_preferences_monkestation()
 	load_jobxp_preferences()
@@ -72,4 +81,5 @@
 
 	token_month = savefile.get_entry("token_month", token_month)
 	lootboxes_owned = savefile.get_entry("lootboxes_owned", lootboxes_owned)
+	antag_rep = savefile.get_entry("antag_rep", antag_rep)
 

@@ -121,6 +121,8 @@
 	if("[params["unusual_placement"]]" in preferences.special_loadout_list["unusual"])
 		preferences.special_loadout_list["unusual"] -= params["unusual_placement"]
 		preferences.save_preferences()
+		var/datum/tgui/ui = SStgui.get_open_ui(user, preferences)
+		ui.send_update()
 		return
 
 	if(!islist(preferences.special_loadout_list["unusual"]))
@@ -152,6 +154,11 @@
 				continue
 		if(item.donator_only) //These checks are also performed in the backend.
 			if((!preferences.parent.patreon?.is_donator() && !preferences.parent.twitch?.is_donator()) && !is_admin(preferences.parent))
+				formatted_list.len--
+				continue
+
+		if(item.admin_only) //These checks are also performed in the backend.
+			if(!is_admin(preferences.parent))
 				formatted_list.len--
 				continue
 

@@ -33,6 +33,9 @@ SUBSYSTEM_DEF(mapping)
 	/// List of z level (as number) -> plane offset of that z level
 	/// Used to maintain the plane cube
 	var/list/z_level_to_plane_offset = list()
+	/// List of z level (as number) -> list of all z levels vertically connected to ours
+	/// Useful for fast grouping lookups and such
+	var/list/z_level_to_stack = list()
 	/// List of z level (as number) -> The lowest plane offset in that z stack
 	var/list/z_level_to_lowest_plane_offset = list()
 	// This pair allows for easy conversion between an offset plane, and its true representation
@@ -158,9 +161,11 @@ SUBSYSTEM_DEF(mapping)
 
 #endif
 	// Run map generation after ruin generation to prevent issues
-	run_map_generation()
+	run_map_terrain_generation()
 	// Generate our rivers, we do this here so the map doesn't load on top of them
 	setup_rivers()
+	// now that the terrain is generated, including rivers, we can safely populate it with objects and mobs
+	run_map_terrain_population()
 	// Add the first transit level
 	var/datum/space_level/base_transit = add_reservation_zlevel()
 	require_area_resort()
@@ -439,6 +444,7 @@ Used by the AI doomsday and the self-destruct nuke.
 			template.weight = (template.weight / 2)
 			if(template.stock <= 0)
 				template.spawned = TRUE
+			log_world("Loading random room template [template.name] ([template.type]) at [AREACOORD(R)]")
 			template.stationinitload(get_turf(R), centered = template.centerspawner)
 		SSmapping.random_room_spawners -= R
 		qdel(R)
@@ -459,6 +465,7 @@ Used by the AI doomsday and the self-destruct nuke.
 			possible_engine_templates[engine_candidate] = engine_candidate.weight
 		if(possible_engine_templates.len)
 			var/datum/map_template/random_room/random_engines/template = pick_weight(possible_engine_templates)
+			log_world("Loading random engine template [template.name] ([template.type]) at [AREACOORD(engine_spawner)]")
 			template.stationinitload(get_turf(engine_spawner), centered = template.centerspawner)
 		SSmapping.random_engine_spawners -= engine_spawner
 		qdel(engine_spawner)
@@ -480,6 +487,7 @@ Used by the AI doomsday and the self-destruct nuke.
 			possible_bar_templates[bar_candidate] = bar_candidate.weight
 		if(possible_bar_templates.len)
 			var/datum/map_template/random_room/random_bar/template = pick_weight(possible_bar_templates)
+			log_world("Loading random bar template [template.name] ([template.type]) at [AREACOORD(bar_spawner)]")
 			template.stationinitload(get_turf(bar_spawner), centered = template.centerspawner)
 		SSmapping.random_bar_spawners -= bar_spawner
 		qdel(bar_spawner)
@@ -500,6 +508,7 @@ Used by the AI doomsday and the self-destruct nuke.
 			possible_arena_templates[arena_candidate] = arena_candidate.weight
 		if(possible_arena_templates.len)
 			var/datum/map_template/random_room/random_arena/template = pick_weight(possible_arena_templates)
+			log_world("Loading random arena template [template.name] ([template.type]) at [AREACOORD(arena_spawner)]")
 			template.stationinitload(get_turf(arena_spawner), centered = template.centerspawner)
 		SSmapping.random_arena_spawners -= arena_spawner
 		qdel(arena_spawner)
@@ -545,6 +554,8 @@ Used by the AI doomsday and the self-destruct nuke.
 		LoadGroup(FailedZs, "Trench", "map_files/Mining", "Oshan.dmm", default_traits = ZTRAITS_TRENCH)
 	else if (!isnull(config.minetype) && config.minetype != "none")
 		INIT_ANNOUNCE("WARNING: An unknown minetype '[config.minetype]' was set! This is being ignored! Update the maploader code!")
+	if(CONFIG_GET(flag/eclipse))
+		LoadGroup(FailedZs, "Eclipse", "~monkestation/unique", "eclipse.dmm", traits = ZTRAITS_ECLIPSE)
 #endif
 
 	if(LAZYLEN(FailedZs)) //but seriously, unless the server's filesystem is messed up this will never happen
@@ -582,9 +593,15 @@ GLOBAL_LIST_EMPTY(the_station_areas)
 	if(!GLOB.the_station_areas.len)
 		log_world("ERROR: Station areas list failed to generate!")
 
-/datum/controller/subsystem/mapping/proc/run_map_generation()
+/// Generate the turfs of the area
+/datum/controller/subsystem/mapping/proc/run_map_terrain_generation()
 	for(var/area/A as anything in GLOB.areas)
-		A.RunGeneration()
+		A.RunTerrainGeneration()
+
+/// Populate the turfs of the area
+/datum/controller/subsystem/mapping/proc/run_map_terrain_population()
+	for(var/area/A as anything in GLOB.areas)
+		A.RunTerrainPopulation()
 
 /datum/controller/subsystem/mapping/proc/maprotate()
 	if(map_voted || SSmapping.next_map_config) //If voted or set by other means.
@@ -937,8 +954,11 @@ GLOBAL_LIST_EMPTY(the_station_areas)
 	// We are guarenteed that we'll always grow bottom up
 	// Suck it jannies
 	z_level_to_plane_offset.len += 1
-	z_level_to_lowest_plane_offset += 1
+	z_level_to_lowest_plane_offset.len += 1
 	gravity_by_z_level.len += 1
+	z_level_to_stack.len += 1
+	// Bare minimum we have ourselves
+	z_level_to_stack[z_value] = list(z_value)
 	// 0's the default value, we'll update it later if required
 	z_level_to_plane_offset[z_value] = 0
 	z_level_to_lowest_plane_offset[z_value] = 0
@@ -988,6 +1008,7 @@ GLOBAL_LIST_EMPTY(the_station_areas)
 	/// Updates the lowest offset value
 	for(var/datum/space_level/level_to_update in levels_checked)
 		z_level_to_lowest_plane_offset[level_to_update.z_value] = plane_offset
+		z_level_to_stack[level_to_update.z_value] = z_stack
 
 	// This can be affected by offsets, so we need to update it
 	// PAIN
@@ -1045,6 +1066,13 @@ GLOBAL_LIST_EMPTY(the_station_areas)
 				true_to_offset_planes[string_real] = list()
 
 			true_to_offset_planes[string_real] |= offset_plane
+
+/// Takes a turf or a z level, and returns a list of all the z levels that are connected to it
+/datum/controller/subsystem/mapping/proc/get_connected_levels(turf/connected)
+	var/z_level = connected
+	if(isturf(z_level))
+		z_level = connected.z
+	return z_level_to_stack[z_level]
 
 /datum/controller/subsystem/mapping/proc/lazy_load_template(template_key, force = FALSE)
 	RETURN_TYPE(/datum/turf_reservation)

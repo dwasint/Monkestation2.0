@@ -24,7 +24,7 @@
 	bubble_icon = "machine"
 	speech_span = SPAN_ROBOT
 	faction = list(FACTION_NEUTRAL, FACTION_SILICON, FACTION_TURRET)
-	light_system = MOVABLE_LIGHT
+	light_system = OVERLAY_LIGHT
 	light_outer_range = 3
 	light_power = 0.9
 
@@ -45,8 +45,8 @@
 	///All initial access this bot started with.
 	var/list/prev_access = list()
 
-	///Bot-related mode flags on the Bot indicating how they will act. BOT_MODE_ON | BOT_MODE_AUTOPATROL | BOT_MODE_REMOTE_ENABLED | BOT_MODE_GHOST_CONTROLLABLE
-	var/bot_mode_flags = BOT_MODE_ON | BOT_MODE_REMOTE_ENABLED | BOT_MODE_GHOST_CONTROLLABLE
+	///Bot-related mode flags on the Bot indicating how they will act. BOT_MODE_ON | BOT_MODE_AUTOPATROL | BOT_MODE_REMOTE_ENABLED | BOT_MODE_GHOST_CONTROLLABLE | BOT_MODE_ROUNDSTART_POSSESSION
+	var/bot_mode_flags = BOT_MODE_ON | BOT_MODE_REMOTE_ENABLED | BOT_MODE_GHOST_CONTROLLABLE | BOT_MODE_ROUNDSTART_POSSESSION
 
 	///Bot-related cover flags on the Bot to deal with what has been done to their cover, including emagging. BOT_COVER_OPEN | BOT_COVER_LOCKED | BOT_COVER_EMAGGED | BOT_COVER_HACKED
 	var/bot_cover_flags = BOT_COVER_LOCKED
@@ -187,10 +187,10 @@
 		path_hud.add_atom_to_hud(src)
 		path_hud.show_to(src)
 
-	if(HAS_TRAIT(SSstation, STATION_TRAIT_BOTS_GLITCHED))
+	if(HAS_TRAIT(SSstation, STATION_TRAIT_BOTS_GLITCHED) && !SSticker.HasRoundStarted()) // monkestation edit: only glitch roundstart bots
 		randomize_language_if_on_station()
 
-	if(mapload && is_station_level(z) && (bot_mode_flags & BOT_MODE_GHOST_CONTROLLABLE))
+	if(mapload && is_station_level(z) && bot_mode_flags & BOT_MODE_GHOST_CONTROLLABLE && bot_mode_flags & BOT_MODE_ROUNDSTART_POSSESSION)
 		enable_possession(mapload)
 
 /mob/living/simple_animal/bot/Destroy()
@@ -244,13 +244,16 @@
 
 /// Allows renaming the bot to something else
 /mob/living/simple_animal/bot/proc/rename(mob/user)
-	var/new_name = sanitize_name(reject_bad_text(tgui_input_text(
-		user = user,
-		message = "This machine is designated [real_name]. Would you like to update its registration?",
-		title = "Name change",
-		default = real_name,
-		max_length = MAX_NAME_LEN,
-	)))
+	var/new_name = sanitize_name(
+		reject_bad_text(tgui_input_text(
+			user = user,
+			message = "This machine is designated [real_name]. Would you like to update its registration?",
+			title = "Name change",
+			default = real_name,
+			max_length = MAX_NAME_LEN,
+		)),
+		allow_numbers = TRUE
+	)
 	if (isnull(new_name) || QDELETED(src))
 		return
 	if (key && user != src)
@@ -659,6 +662,9 @@ Pass a positive integer as an argument to override a bot's default speed.
 		access_card.set_access(prev_access)
 
 /mob/living/simple_animal/bot/proc/call_bot(caller, turf/waypoint, message = TRUE)
+	if(isAI(caller) && calling_ai && calling_ai != src) //Prevents an override if another AI is controlling this bot.
+		return FALSE
+
 	bot_reset() //Reset a bot before setting it to call mode.
 
 	//For giving the bot temporary all-access. This method is bad and makes me feel bad. Refactoring access to a component is for another PR.
@@ -687,6 +693,8 @@ Pass a positive integer as an argument to override a bot's default speed.
 		calling_ai = null
 		set_path(null)
 
+	return TRUE
+
 /mob/living/simple_animal/bot/proc/call_mode() //Handles preparing a bot for a call, as well as calling the move proc.
 //Handles the bot's movement during a call.
 	var/success = bot_move(ai_waypoint, 3)
@@ -706,6 +714,8 @@ Pass a positive integer as an argument to override a bot's default speed.
 	set_path(null)
 	summon_target = null
 	pathset = FALSE
+	if(QDELETED(access_card))
+		access_card = new /obj/item/card/id/advanced/simple_bot(src)
 	access_card.set_access(prev_access)
 	tries = 0
 	mode = BOT_IDLE

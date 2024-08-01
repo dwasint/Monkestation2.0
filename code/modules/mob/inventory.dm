@@ -1,4 +1,4 @@
-//These procs handle putting s tuff in your hands
+//These procs handle putting stuff in your hands
 //as they handle all relevant stuff like adding it to the player's screen and updating their overlays.
 
 ///Returns the thing we're currently holding
@@ -448,7 +448,7 @@
 	if(!I)
 		to_chat(src, span_warning("You are not holding anything to equip!"))
 		return
-	if (temporarilyRemoveItemFromInventory(, idrop = FALSE) && !QDELETED(I))
+	if (temporarilyRemoveItemFromInventory(I) && !QDELETED(I))
 		if(I.equip_to_best_slot(src))
 			return
 		if(put_in_active_hand(I))

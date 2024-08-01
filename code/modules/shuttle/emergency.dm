@@ -313,6 +313,11 @@
 	var/sound_played = 0 //If the launch sound has been sent to all players on the shuttle itself
 	var/hijack_status = NOT_BEGUN
 
+/obj/docking_port/mobile/emergency/Initialize(mapload)
+	. = ..()
+
+	setup_shuttle_events()
+
 /obj/docking_port/mobile/emergency/canDock(obj/docking_port/stationary/S)
 	return SHUTTLE_CAN_DOCK //If the emergency shuttle can't move, the whole game breaks, so it will force itself to land even if it has to crush a few departments in the process
 
@@ -356,7 +361,13 @@
 	else
 		SSshuttle.emergency_last_call_loc = null
 
-	priority_announce("The emergency shuttle has been called. [red_alert ? "Red Alert state confirmed: Dispatching priority shuttle. " : "" ]It will arrive in [timeLeft(600)] minutes.[reason][SSshuttle.emergency_last_call_loc ? "\n\nCall signal traced. Results can be viewed on any communications console." : "" ][SSshuttle.admin_emergency_no_recall ? "\n\nWarning: Shuttle recall subroutines disabled; Recall not possible." : ""]", null, ANNOUNCER_SHUTTLECALLED, "Priority")
+	priority_announce(
+		text = "The emergency shuttle has been called. [red_alert ? "Red Alert state confirmed: Dispatching priority shuttle. " : "" ]It will arrive in [(timeLeft(60 SECONDS))] minutes.[reason][SSshuttle.emergency_last_call_loc ? "\n\nCall signal traced. Results can be viewed on any communications console." : "" ][SSshuttle.admin_emergency_no_recall ? "\n\nWarning: Shuttle recall subroutines disabled; Recall not possible." : ""]",
+		title = "Emergency Shuttle Dispatched",
+		sound = ANNOUNCER_SHUTTLECALLED,
+		sender_override = "Emergency Shuttle Uplink Alert",
+		color_override = "orange",
+		)
 
 /obj/docking_port/mobile/emergency/cancel(area/signalOrigin)
 	if(mode != SHUTTLE_CALL)
@@ -371,7 +382,13 @@
 		SSshuttle.emergency_last_call_loc = signalOrigin
 	else
 		SSshuttle.emergency_last_call_loc = null
-	priority_announce("The emergency shuttle has been recalled.[SSshuttle.emergency_last_call_loc ? " Recall signal traced. Results can be viewed on any communications console." : "" ]", null, ANNOUNCER_SHUTTLERECALLED, "Priority")
+	priority_announce(
+		text = "The emergency shuttle has been recalled.[SSshuttle.emergency_last_call_loc ? " Recall signal traced. Results can be viewed on any communications console." : "" ]",
+		title = "Emergency Shuttle Recalled",
+		sound = ANNOUNCER_SHUTTLERECALLED,
+		sender_override = "Emergency Shuttle Uplink Alert",
+		color_override = "orange",
+		)
 
 	SSticker.emergency_reason = null
 
@@ -460,8 +477,15 @@
 				mode = SHUTTLE_DOCKED
 				setTimer(SSshuttle.emergency_dock_time)
 				send2adminchat("Server", "The Emergency Shuttle has docked with the station.")
-				priority_announce("[SSshuttle.emergency] has docked with the station. You have [timeLeft(600)] minutes to board the Emergency Shuttle.", null, ANNOUNCER_SHUTTLEDOCK, "Priority")
+				priority_announce(
+					text = "[SSshuttle.emergency] has docked with the station. You have [DisplayTimeText(SSshuttle.emergency_dock_time)] to board the emergency shuttle.",
+					title = "Emergency Shuttle Arrival",
+					sound = ANNOUNCER_SHUTTLEDOCK,
+					sender_override = "Emergency Shuttle Uplink Alert",
+					color_override = "orange",
+				)
 				ShuttleDBStuff()
+				addtimer(CALLBACK(src, PROC_REF(announce_shuttle_events)), 20 SECONDS)
 
 
 		if(SHUTTLE_DOCKED)
@@ -511,8 +535,17 @@
 				mode = SHUTTLE_ESCAPE
 				launch_status = ENDGAME_LAUNCHED
 				setTimer(SSshuttle.emergency_escape_time * engine_coeff)
-				priority_announce("The Emergency Shuttle has left the station. Estimate [timeLeft(600)] minutes until the shuttle docks at Central Command.", null, null, "Priority")
+				priority_announce(
+					text = "The emergency shuttle has left the station. Estimate [timeLeft(60 SECONDS)] minutes until the shuttle docks at [command_name()].",
+					title = "Emergency Shuttle Departure",
+					sender_override = "Emergency Shuttle Uplink Alert",
+					color_override = "orange",
+				)
 				INVOKE_ASYNC(SSticker, TYPE_PROC_REF(/datum/controller/subsystem/ticker, poll_hearts))
+				//Tell the events we're starting, so they can time their spawns or do some other stuff
+				for(var/datum/shuttle_event/event as anything in event_list)
+					event.start_up_event(SSshuttle.emergency_escape_time * engine_coeff)
+
 				SSmapping.mapvote() //If no map vote has been run yet, start one.
 
 		if(SHUTTLE_STRANDED, SHUTTLE_DISABLED)
@@ -540,6 +573,8 @@
 							if(istype(M, /obj/docking_port/mobile/pod))
 								M.parallax_slowdown()
 
+			process_events()
+
 			if(time_left <= 0)
 				//move each escape pod to its corresponding escape dock
 				for(var/obj/docking_port/mobile/port as anything in SSshuttle.mobile_docking_ports)
@@ -553,7 +588,7 @@
 					destination_dock = "emergency_syndicate"
 					minor_announce("Corruption detected in \
 						shuttle navigation protocols. Please contact your \
-						supervisor.", "SYSTEM ERROR:", alert=TRUE)
+						supervisor.", "SYSTEM ERROR:", sound_override = 'sound/misc/announce_syndi.ogg')
 
 				dock_id(destination_dock)
 				mode = SHUTTLE_ENDGAME
@@ -566,7 +601,22 @@
 	mode = SHUTTLE_ESCAPE
 	launch_status = ENDGAME_LAUNCHED
 	setTimer(SSshuttle.emergency_escape_time)
-	priority_announce("The Emergency Shuttle is preparing for direct jump. Estimate [timeLeft(600)] minutes until the shuttle docks at Central Command.", null, null, "Priority")
+	priority_announce(
+		text = "The emergency shuttle is preparing for direct jump. Estimate [timeLeft(60 SECONDS)] minutes until the shuttle docks at [command_name()].",
+		title = "Emergency Shuttle Transit Failure",
+		sender_override = "Emergency Shuttle Uplink Alert",
+		color_override = "orange",
+	)
+
+///Generate a list of events to run during the departure
+/obj/docking_port/mobile/emergency/proc/setup_shuttle_events()
+	var/list/names = list()
+	for(var/datum/shuttle_event/event as anything in subtypesof(/datum/shuttle_event))
+		if(prob(initial(event.event_probability)))
+			event_list.Add(new event(src))
+			names += initial(event.name)
+	if(LAZYLEN(names))
+		log_game("[capitalize(name)] has selected the following shuttle events: [english_list(names)].")
 
 /obj/docking_port/mobile/monastery
 	name = "monastery pod"

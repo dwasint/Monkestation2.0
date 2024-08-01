@@ -132,9 +132,10 @@
 	. = ..()
 	if(!.)
 		return
-	if(!HAS_TRAIT(owner, TRAIT_SLEEPIMMUNE))
-		ADD_TRAIT(owner, TRAIT_KNOCKEDOUT, TRAIT_STATUS_EFFECT(id))
+	if(HAS_TRAIT(owner, TRAIT_SLEEPIMMUNE))
 		tick_interval = -1
+	else
+		ADD_TRAIT(owner, TRAIT_KNOCKEDOUT, TRAIT_STATUS_EFFECT(id))
 	RegisterSignal(owner, SIGNAL_ADDTRAIT(TRAIT_SLEEPIMMUNE), PROC_REF(on_owner_insomniac))
 	RegisterSignal(owner, SIGNAL_REMOVETRAIT(TRAIT_SLEEPIMMUNE), PROC_REF(on_owner_sleepy))
 
@@ -254,7 +255,7 @@
 	. = ..()
 	if(!.)
 		return
-	owner.add_traits(list(TRAIT_IMMOBILIZED, TRAIT_HANDS_BLOCKED), TRAIT_STATUS_EFFECT(id))
+	owner.add_traits(list(TRAIT_IMMOBILIZED, TRAIT_HANDS_BLOCKED, TRAIT_STASIS), TRAIT_STATUS_EFFECT(id))
 	owner.add_filter("stasis_status_ripple", 2, list("type" = "ripple", "flags" = WAVE_BOUNDED, "radius" = 0, "size" = 2))
 	var/filter = owner.get_filter("stasis_status_ripple")
 	animate(filter, radius = 0, time = 0.2 SECONDS, size = 2, easing = JUMP_EASING, loop = -1, flags = ANIMATION_PARALLEL)
@@ -267,7 +268,7 @@
 	update_time_of_death()
 
 /datum/status_effect/grouped/stasis/on_remove()
-	owner.remove_traits(list(TRAIT_IMMOBILIZED, TRAIT_HANDS_BLOCKED), TRAIT_STATUS_EFFECT(id))
+	owner.remove_traits(list(TRAIT_IMMOBILIZED, TRAIT_HANDS_BLOCKED, TRAIT_STASIS), TRAIT_STATUS_EFFECT(id))
 	owner.remove_filter("stasis_status_ripple")
 	update_time_of_death()
 	if(iscarbon(owner))
@@ -640,6 +641,7 @@
 	duration = 150
 	status_type = STATUS_EFFECT_REFRESH
 	alert_type = /atom/movable/screen/alert/status_effect/convulsing
+	show_duration = TRUE
 
 /datum/status_effect/convulsing/on_creation(mob/living/zappy_boy)
 	. = ..()
@@ -924,3 +926,25 @@
 
 /datum/status_effect/teleport_madness/tick()
 	dump_in_space(owner)
+
+/datum/status_effect/careful_driving
+	id = "careful_driving"
+	alert_type = /atom/movable/screen/alert/status_effect/careful_driving
+	duration = 5 SECONDS
+	status_type = STATUS_EFFECT_REPLACE
+
+/datum/status_effect/careful_driving/on_apply()
+	. = ..()
+	owner.add_movespeed_modifier(/datum/movespeed_modifier/careful_driving, update = TRUE)
+
+/datum/status_effect/careful_driving/on_remove()
+	. = ..()
+	owner.remove_movespeed_modifier(/datum/movespeed_modifier/careful_driving, update = TRUE)
+
+/atom/movable/screen/alert/status_effect/careful_driving
+	name = "Careful Driving"
+	desc = "That was close! You almost ran that one over!"
+	icon_state = "paralysis"
+
+/datum/movespeed_modifier/careful_driving
+	multiplicative_slowdown = 3

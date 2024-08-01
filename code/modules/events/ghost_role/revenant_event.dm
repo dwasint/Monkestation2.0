@@ -29,8 +29,8 @@
 			message_admins("Event attempted to spawn a revenant, but there were only [deadMobs]/[REVENANT_SPAWN_THRESHOLD] dead mobs.")
 			return WAITING_FOR_SOMETHING
 
-	var/list/candidates = get_candidates(ROLE_REVENANT, ROLE_REVENANT)
-	if(!candidates.len)
+	var/list/candidates = SSpolling.poll_ghost_candidates(check_jobban = ROLE_REVENANT, role = ROLE_REVENANT, pic_source = /mob/living/basic/revenant)
+	if(!length(candidates))
 		return NOT_ENOUGH_PLAYERS
 
 	var/mob/dead/observer/selected = pick_n_take(candidates)
@@ -54,7 +54,7 @@
 		return MAP_ERROR
 
 	var/mob/living/basic/revenant/revvie = new(pick(spawn_locs))
-	selected.mind.transfer_to(revvie)
+	revvie.key = selected.key
 	message_admins("[ADMIN_LOOKUPFLW(revvie)] has been made into a revenant by an event.")
 	revvie.log_message("was spawned as a revenant by an event.", LOG_GAME)
 	spawned_mobs += revvie

@@ -13,6 +13,7 @@
 
 #define isgenerator(A) (istype(A, /generator))
 
+#define isimage(A) (istype(A, /image))
 //Turfs
 //#define isturf(A) (istype(A, /turf)) This is actually a byond built-in. Added here for completeness sake.
 
@@ -100,6 +101,7 @@ GLOBAL_LIST_INIT(turfs_openspace, typecacheof(list(
 #define isipc(A) (is_species(A, /datum/species/ipc))
 #define isgoblin(A) (is_species(A, /datum/species/goblin)) //Monkestation Addition
 #define isfloran(A) (is_species(A, /datum/species/floran)) //Monkestation Addition
+#define isarachnid(A) (is_species(A, /datum/species/arachnid)) //Monkestation Addition
 
 
 //More carbon mobs
@@ -154,11 +156,13 @@ GLOBAL_LIST_INIT(turfs_openspace, typecacheof(list(
 
 #define isrevenant(A) (istype(A, /mob/living/basic/revenant))
 
-#define isbot(A) (istype(A, /mob/living/simple_animal/bot))
+#define isbot(A) (istype(A, /mob/living/simple_animal/bot) || istype(A, /mob/living/basic/bot))
+
+#define isbasicbot(A) (istype(A, /mob/living/basic/bot))
 
 #define ismouse(A) (istype(A, /mob/living/basic/mouse))
 
-#define isslime(A) (istype(A, /mob/living/simple_animal/slime))
+#define isslime(A) (istype(A, /mob/living/basic/slime))
 
 #define isdrone(A) (istype(A, /mob/living/basic/drone))
 
@@ -301,3 +305,4 @@ GLOBAL_LIST_INIT(book_types, typecacheof(list(
 #define is_multi_tile_object(atom) (atom.bound_width > world.icon_size || atom.bound_height > world.icon_size)
 
 #define isartifact(thing) (istype(thing, /obj/structure/artifact) || istype(thing, /obj/item/melee/artifact) || istype(thing, /obj/item/gun/magic/artifact) || istype(thing, /obj/item/stock_parts/cell/artifact))
+#define iswater(A) (istype(A, /turf/open/water))

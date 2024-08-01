@@ -44,7 +44,7 @@ ARTIFACT_SETUP(/obj/structure/artifact, SSobj)
 
 /obj/structure/artifact/lamp
 	assoc_comp = /datum/component/artifact/lamp
-	light_system = MOVABLE_LIGHT
+	light_system = OVERLAY_LIGHT
 	light_on = FALSE
 
 /obj/structure/artifact/repulsor
@@ -55,3 +55,21 @@ ARTIFACT_SETUP(/obj/structure/artifact, SSobj)
 
 /obj/structure/artifact/borger
 	assoc_comp = /datum/component/artifact/borger
+
+/obj/structure/artifact/emotegen
+	assoc_comp = /datum/component/artifact/emotegen
+
+/obj/structure/artifact/surgery
+	assoc_comp = /datum/component/artifact/surgery
+
+/obj/structure/artifact/smoke
+	assoc_comp = /datum/component/artifact/smoke
+
+/obj/structure/artifact/smoke/toxin
+	assoc_comp = /datum/component/artifact/smoke/toxin
+
+/obj/structure/artifact/smoke/flesh
+	assoc_comp = /datum/component/artifact/smoke/flesh
+
+/obj/structure/artifact/smoke/exotic
+	assoc_comp = /datum/component/artifact/smoke/exotic

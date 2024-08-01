@@ -228,6 +228,16 @@
 	)
 	departmental_flags = DEPARTMENT_BITFLAG_ENGINEERING | DEPARTMENT_BITFLAG_SCIENCE
 
+/datum/design/board/sleeper
+	name = "Sleeper Board"
+	desc = "The circuit board for a sleeper."
+	id = "sleeper"
+	build_path = /obj/item/circuitboard/machine/sleeper
+	category = list(
+		RND_CATEGORY_MACHINE + RND_SUBCATEGORY_MACHINE_MEDICAL
+	)
+	departmental_flags = DEPARTMENT_BITFLAG_ENGINEERING | DEPARTMENT_BITFLAG_MEDICAL
+
 /datum/design/board/cryotube
 	name = "Cryotube Board"
 	desc = "The circuit board for a cryotube."
@@ -303,6 +313,26 @@
 	desc = "Allows for the construction of circuit boards used to build an Enhanced Interrogation Chamber."
 	id = "hypnochair"
 	build_path = /obj/item/circuitboard/machine/hypnochair
+	category = list(
+		RND_CATEGORY_MACHINE + RND_SUBCATEGORY_MACHINE_SECURITY
+	)
+	departmental_flags = DEPARTMENT_BITFLAG_SECURITY
+
+/datum/design/board/photobooth
+	name = "Photobooth Board"
+	desc = "The circuit board for a photobooth."
+	id = "photobooth"
+	build_path = /obj/item/circuitboard/machine/photobooth
+	category = list(
+		RND_CATEGORY_MACHINE + RND_SUBCATEGORY_MACHINE_SERVICE
+	)
+	departmental_flags = DEPARTMENT_BITFLAG_SERVICE
+
+/datum/design/board/security_photobooth
+	name = "Security Photobooth Board"
+	desc = "The circuit board for a security photobooth."
+	id = "security_photobooth"
+	build_path = /obj/item/circuitboard/machine/photobooth/security
 	category = list(
 		RND_CATEGORY_MACHINE + RND_SUBCATEGORY_MACHINE_SECURITY
 	)
@@ -522,16 +552,6 @@
 	)
 	departmental_flags = DEPARTMENT_BITFLAG_SERVICE | DEPARTMENT_BITFLAG_MEDICAL | DEPARTMENT_BITFLAG_SCIENCE
 
-/datum/design/board/monkey_recycler
-	name = "Monkey Recycler Board"
-	desc = "The circuit board for a monkey recycler."
-	id = "monkey_recycler"
-	build_path = /obj/item/circuitboard/machine/monkey_recycler
-	category = list(
-		RND_CATEGORY_MACHINE + RND_SUBCATEGORY_MACHINE_RESEARCH
-	)
-	departmental_flags = DEPARTMENT_BITFLAG_SCIENCE
-
 /datum/design/board/seed_extractor
 	name = "Seed Extractor Board"
 	desc = "The circuit board for a seed extractor."
@@ -616,7 +636,7 @@
 	name = "Weapon Recharger Board"
 	desc = "The circuit board for a Weapon Recharger."
 	id = "recharger"
-	materials = list(/datum/material/glass = 1000, /datum/material/gold = 2000)
+	materials = list(/datum/material/glass =HALF_SHEET_MATERIAL_AMOUNT, /datum/material/gold =SHEET_MATERIAL_AMOUNT)
 	build_path = /obj/item/circuitboard/machine/recharger
 	category = list(
 		RND_CATEGORY_MACHINE + RND_SUBCATEGORY_MACHINE_SECURITY
@@ -1116,3 +1136,13 @@
 		RND_CATEGORY_MACHINE + RND_SUBCATEGORY_MACHINE_RESEARCH
 	)
 	departmental_flags = DEPARTMENT_BITFLAG_SCIENCE
+
+/datum/design/board/fishing_portal_generator
+	name = "Fishing Portal Generator Board"
+	desc = "The circuit board for the fishing portal generator"
+	id = "fishing_portal_generator"
+	build_path = /obj/item/circuitboard/machine/fishing_portal_generator
+	category = list(
+		RND_CATEGORY_MACHINE + RND_SUBCATEGORY_MACHINE_SERVICE
+	)
+	departmental_flags = DEPARTMENT_BITFLAG_SERVICE | DEPARTMENT_BITFLAG_CARGO | DEPARTMENT_BITFLAG_SCIENCE

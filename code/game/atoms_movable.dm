@@ -138,7 +138,7 @@
 	if (blocks_emissive)
 		if (blocks_emissive == EMISSIVE_BLOCK_UNIQUE)
 			render_target = ref(src)
-			em_block = new(src, render_target)
+			em_block = new(null, src)
 			overlays += em_block
 			if(managed_overlays)
 				if(islist(managed_overlays))
@@ -171,10 +171,12 @@
 	if(opacity)
 		AddElement(/datum/element/light_blocking)
 	switch(light_system)
-		if(MOVABLE_LIGHT)
+		if(OVERLAY_LIGHT)
 			AddComponent(/datum/component/overlay_lighting)
-		if(MOVABLE_LIGHT_DIRECTIONAL)
+		if(OVERLAY_LIGHT_DIRECTIONAL)
 			AddComponent(/datum/component/overlay_lighting, is_directional = TRUE)
+		if(MOVABLE_LIGHT_BEAM)
+			AddComponent(/datum/component/overlay_lighting, is_directional = TRUE, is_beam = TRUE)
 
 /atom/movable/Destroy(force)
 	QDEL_NULL(language_holder)
@@ -209,7 +211,7 @@
 		move_packet = null
 
 	if(spatial_grid_key)
-		SSspatial_grid.force_remove_from_cell(src)
+		SSspatial_grid.force_remove_from_grid(src)
 
 	LAZYCLEARLIST(client_mobs_in_contents)
 
@@ -241,9 +243,11 @@
 	// This saves several hundred milliseconds of init time.
 	if (blocks_emissive)
 		if (blocks_emissive == EMISSIVE_BLOCK_UNIQUE)
-			if(!em_block && !QDELETED(src))
+			if(em_block)
+				SET_PLANE(em_block, EMISSIVE_PLANE, src)
+			else if(!QDELETED(src))
 				render_target = ref(src)
-				em_block = new(src, render_target)
+				em_block = new(null, src)
 			return em_block
 		// Implied else if (blocks_emissive == EMISSIVE_BLOCK_NONE) -> return
 	// EMISSIVE_BLOCK_GENERIC == 0
@@ -259,7 +263,7 @@
 	SET_PLANE(underlay_appearance, PLANE_SPACE, generate_for)
 	if(!generate_for.render_target)
 		generate_for.render_target = ref(generate_for)
-	var/atom/movable/render_step/emissive_blocker/em_block = new(null, generate_for.render_target)
+	var/atom/movable/render_step/emissive_blocker/em_block = new(null, generate_for)
 	underlay_appearance.overlays += em_block
 	// We used it because it's convienient and easy, but it's gotta go now or it'll hang refs
 	QDEL_NULL(em_block)
@@ -576,14 +580,15 @@
 	if(!only_pulling && pulledby && moving_diagonally != FIRST_DIAG_STEP && (get_dist(src, pulledby) > 1 || z != pulledby.z)) //separated from our puller and not in the middle of a diagonal move.
 		pulledby.stop_pulling()
 
-/atom/movable/proc/set_glide_size(target = 8)
+/atom/movable/proc/set_glide_size(target = 8, recursed = FALSE)
 	if (HAS_TRAIT(src, TRAIT_NO_GLIDE))
 		return
 	SEND_SIGNAL(src, COMSIG_MOVABLE_UPDATE_GLIDE_SIZE, target)
 	glide_size = target
 
-	for(var/mob/buckled_mob as anything in buckled_mobs)
-		buckled_mob.set_glide_size(target)
+	if(!recursed)
+		for(var/mob/buckled_mob as anything in buckled_mobs)
+			buckled_mob.set_glide_size(target, TRUE)
 
 /**
  * meant for movement with zero side effects. only use for objects that are supposed to move "invisibly" (like camera mobs or ghosts)
@@ -639,8 +644,13 @@
 			if(SEND_SIGNAL(src, COMSIG_MOVABLE_PRE_MOVE, entering_loc) & COMPONENT_MOVABLE_BLOCK_PRE_MOVE)
 				return
 	else // Else just try to enter the single destination.
-		if(!newloc.Enter(src))
-			return
+		if(isliving(src))
+			var/mob/living/living = src
+			if(!newloc.Enter(src) && !living.buckled)
+				return
+		else
+			if(!newloc.Enter(src))
+				return
 		if(SEND_SIGNAL(src, COMSIG_MOVABLE_PRE_MOVE, newloc) & COMPONENT_MOVABLE_BLOCK_PRE_MOVE)
 			return
 
@@ -813,6 +823,7 @@
 	if (!moving_diagonally && client_mobs_in_contents)
 		update_parallax_contents()
 
+	SSdemo.mark_dirty(src) //Monkestation Edit: REPLAYS
 	SEND_SIGNAL(src, COMSIG_MOVABLE_MOVED, old_loc, movement_dir, forced, old_locs, momentum_change)
 
 	if(old_loc)
@@ -1462,6 +1473,10 @@
 
 /// Gets or creates the relevant language holder. For mindless atoms, gets the local one. For atom with mind, gets the mind one.
 /atom/movable/proc/get_language_holder(get_minds = TRUE)
+	if(QDELING(src))
+		CRASH("get_language_holder() called on a QDELing atom, \
+			this will try to re-instantiate the language holder that's about to be deleted, which is bad.")
+
 	if(!language_holder)
 		language_holder = new initial_language_holder(src)
 	return language_holder
@@ -1623,6 +1638,7 @@
 
 /atom/movable/vv_get_dropdown()
 	. = ..()
+	VV_DROPDOWN_OPTION(VV_HK_EDIT_MOVABLE_PHYSICS, "Edit Movable Physics")
 	VV_DROPDOWN_OPTION(VV_HK_EDIT_PARTICLES, "Edit Particles")
 	VV_DROPDOWN_OPTION(VV_HK_EDIT_DISPLACEMENT_LARGE, "Edit Large Displacement")
 	VV_DROPDOWN_OPTION(VV_HK_DEADCHAT_PLAYS, "Start/Stop Deadchat Plays")
@@ -1651,6 +1667,10 @@
 				apply_displacement_icon(/obj/effect/distortion/large)
 			else
 				return
+
+	if(href_list[VV_HK_EDIT_MOVABLE_PHYSICS] && check_rights(R_VAREDIT))
+		var/client/C = usr.client
+		C?.open_movable_physics_editor(src)
 
 	if(href_list[VV_HK_DEADCHAT_PLAYS] && check_rights(R_FUN))
 		if(tgui_alert(usr, "Allow deadchat to control [src] via chat commands?", "Deadchat Plays [src]", list("Allow", "Cancel")) != "Allow")

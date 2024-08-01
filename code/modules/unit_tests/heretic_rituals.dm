@@ -63,6 +63,8 @@
 		var/list/created_atoms = list()
 		for(var/ritual_item_path in knowledge.required_atoms)
 			var/amount_to_create = knowledge.required_atoms[ritual_item_path]
+			if(islist(ritual_item_path))
+				ritual_item_path = pick(ritual_item_path)
 			for(var/i in 1 to amount_to_create)
 				created_atoms += new ritual_item_path(get_turf(our_heretic))
 
@@ -108,7 +110,8 @@
 			// There are atoms around the rune still, and there shouldn't be.
 			// All component atoms were consumed, and all resulting atoms were cleaned up.
 			// This means the ritual may have messed up somewhere. Throw a fail and clean them up so we can keep testing.
-			TEST_FAIL("Heretic rituals: ([knowledge.type]) After completing the ritual, there were non-result atoms remaining on the rune. ([thing] - [thing.type])")
+			if(!istype(thing, /obj/effect/name_tag))
+				TEST_FAIL("Heretic rituals: ([knowledge.type]) After completing the ritual, there were non-result atoms remaining on the rune. ([thing] - [thing.type])")
 			nearby_atoms -= thing
 			qdel(thing)
 

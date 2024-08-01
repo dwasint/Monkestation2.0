@@ -157,7 +157,7 @@
 		var/obj/item/thrown_item = thrown_thing
 		if(thrown_item.throw_verb)
 			verb_text = thrown_item.throw_verb
-	visible_message(span_danger("[src] [plural_s(verb_text)] [thrown_thing][power_throw ? " really hard!" : "."]"), \
+	visible_message(span_danger("[src] [verb_text][plural_s(verb_text)] [thrown_thing][power_throw ? " really hard!" : "."]"), \
 					span_danger("You [verb_text] [thrown_thing][power_throw ? " really hard!" : "."]"))
 	log_message("has thrown [thrown_thing] [power_throw > 0 ? "really hard" : ""]", LOG_ATTACK)
 	var/extra_throw_range = HAS_TRAIT(src, TRAIT_THROWINGARM) ? 2 : 0
@@ -223,16 +223,7 @@
 		buckled.user_unbuckle_mob(src,src)
 
 /mob/living/carbon/resist_fire()
-	adjust_fire_stacks(-5)
-	Paralyze(60, ignore_canstun = TRUE)
-	spin(32,2)
-	visible_message(span_danger("[src] rolls on the floor, trying to put [p_them()]self out!"), \
-		span_notice("You stop, drop, and roll!"))
-	sleep(3 SECONDS)
-	if(fire_stacks <= 0 && !QDELETED(src))
-		visible_message(span_danger("[src] successfully extinguishes [p_them()]self!"), \
-			span_notice("You extinguish yourself."))
-	return
+	return !!apply_status_effect(/datum/status_effect/stop_drop_roll)
 
 /mob/living/carbon/resist_restraints()
 	var/obj/item/I = null
@@ -373,7 +364,45 @@
 		return 0
 	return ..()
 
-/mob/living/carbon/proc/vomit(lost_nutrition = 10, blood = FALSE, stun = TRUE, distance = 1, message = TRUE, vomit_type = VOMIT_TOXIC, harm = TRUE, force = FALSE, purge_ratio = 0.1)
+/mob/living/proc/vomit(lost_nutrition = 10, blood = FALSE, stun = TRUE, distance = 1, message = TRUE, vomit_type = VOMIT_TOXIC, harm = TRUE, force = FALSE, purge_ratio = 0.1)
+	if((HAS_TRAIT(src, TRAIT_NOHUNGER) || HAS_TRAIT(src, TRAIT_TOXINLOVER)) && !force)
+		return TRUE
+	var/starting_dir = dir
+	if(nutrition < 100 && !blood && !force)
+		if(message)
+			visible_message(span_warning("[src] dry heaves!"), \
+							span_userdanger("You try to throw up, but there's nothing in your stomach!"))
+		if(stun)
+			Stun(20 SECONDS)
+		return TRUE
+	if(message)
+		visible_message(span_danger("[src] throws up!"), span_userdanger("You throw up!"))
+		if(!isflyperson(src))
+			add_mood_event("vomit", /datum/mood_event/vomit)
+
+	if(stun)
+		Stun(8 SECONDS)
+
+	playsound(get_turf(src), 'sound/effects/splat.ogg', 50, TRUE)
+	var/turf/T = get_turf(src)
+	if(!blood)
+		adjust_nutrition(-lost_nutrition)
+		adjustToxLoss(-3)
+	for(var/i=0 to distance)
+		if(blood)
+			if(T)
+				add_splatter_floor(T)
+			if(harm)
+				adjustBruteLoss(3)
+		else
+			if(T)
+				T.add_vomit_floor(src, vomit_type, purge_ratio) //toxic barf looks different || call purge when doing detoxicfication to pump more chems out of the stomach.
+		T = get_step(T, starting_dir)
+		if (T?.is_blocked_turf())
+			break
+	return TRUE
+
+/mob/living/carbon/vomit(lost_nutrition = 10, blood = FALSE, stun = TRUE, distance = 1, message = TRUE, vomit_type = VOMIT_TOXIC, harm = TRUE, force = FALSE, purge_ratio = 0.1)
 	if((HAS_TRAIT(src, TRAIT_NOHUNGER) || HAS_TRAIT(src, TRAIT_TOXINLOVER)) && !force)
 		return TRUE
 
@@ -509,12 +538,21 @@
 	if((stam < max * STAMINA_EXHAUSTION_THRESHOLD_MODIFIER) && !is_exhausted)
 		ADD_TRAIT(src, TRAIT_EXHAUSTED, STAMINA)
 		ADD_TRAIT(src, TRAIT_NO_SPRINT, STAMINA)
+		add_movespeed_modifier(/datum/movespeed_modifier/exhaustion)
+
 	if((stam < max * STAMINA_STUN_THRESHOLD_MODIFIER) && !is_stam_stunned && stat <= SOFT_CRIT)
 		stamina_stun()
-	if(is_exhausted && (stam > max * STAMINA_EXHAUSTION_THRESHOLD_MODIFIER))
+
+	if(is_exhausted && (stam > max * STAMINA_EXHAUSTION_THRESHOLD_MODIFIER_EXIT))
 		REMOVE_TRAIT(src, TRAIT_EXHAUSTED, STAMINA)
 		REMOVE_TRAIT(src, TRAIT_NO_SPRINT, STAMINA)
+		remove_movespeed_modifier(/datum/movespeed_modifier/exhaustion)
+
 	update_stamina_hud()
+
+/datum/movespeed_modifier/exhaustion
+	id = "exhaustion"
+	multiplicative_slowdown = STAMINA_EXHAUSTION_MOVESPEED_SLOWDOWN
 
 /mob/living/carbon/update_sight()
 	if(!client)
@@ -555,7 +593,7 @@
 			set_invis_see(min(glasses.invis_view, see_invisible))
 		if(!isnull(glasses.lighting_cutoff))
 			lighting_cutoff = max(lighting_cutoff, glasses.lighting_cutoff)
-		if(!isnull(glasses.color_cutoffs))
+		if(length(glasses.color_cutoffs))
 			lighting_color_cutoffs = blend_cutoff_colors(lighting_color_cutoffs, glasses.color_cutoffs)
 
 
@@ -885,7 +923,7 @@
 		set_handcuffed(null)
 		update_handcuffed()
 
-	stamina.adjust(stamina.maximum)
+	stamina.revitalize(forced = TRUE)
 	return ..()
 
 /mob/living/carbon/can_be_revived()
@@ -1007,6 +1045,9 @@
 
 /proc/cmp_organ_slot_asc(slot_a, slot_b)
 	return GLOB.organ_process_order.Find(slot_a) - GLOB.organ_process_order.Find(slot_b)
+
+/mob/living/carbon/proc/get_footprint_sprite()
+	return FOOTPRINT_SPRITE_PAWS
 
 /mob/living/carbon/vv_get_dropdown()
 	. = ..()
@@ -1352,3 +1393,13 @@
 	our_splatter.blood_dna_info = get_blood_dna_list()
 	var/turf/targ = get_ranged_target_turf(src, splatter_direction, splatter_strength)
 	our_splatter.fly_towards(targ, splatter_strength)
+
+/mob/living/carbon/ominous_nosebleed()
+	var/obj/item/bodypart/head = get_bodypart(BODY_ZONE_HEAD)
+	if(isnull(head))
+		return ..()
+	if(HAS_TRAIT(src, TRAIT_NOBLOOD))
+		to_chat(src, span_notice("You get a headache."))
+		return
+	head.adjustBleedStacks(5)
+	visible_message(span_notice("[src] gets a nosebleed."), span_warning("You get a nosebleed."))

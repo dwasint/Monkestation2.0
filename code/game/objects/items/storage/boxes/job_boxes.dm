@@ -62,6 +62,7 @@
 /obj/item/storage/box/survival/mining/PopulateContents()
 	..()
 	new /obj/item/crowbar/red(src)
+	new /obj/item/healthanalyzer/simple/miner(src)
 
 // Engineer survival box
 /obj/item/storage/box/survival/engineer
@@ -290,6 +291,8 @@
 /obj/item/storage/box/skillchips/science/PopulateContents()
 	new/obj/item/skillchip/job/roboticist(src)
 	new/obj/item/skillchip/job/roboticist(src)
+	new/obj/item/skillchip/cyberjacker(src)
+	new/obj/item/skillchip/cyberjacker(src)
 
 /obj/item/storage/box/skillchips/engineering
 	name = "box of engineering job skillchips"

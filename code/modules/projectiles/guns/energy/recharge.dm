@@ -48,7 +48,7 @@
 		// calls dropped().
 		addtimer(CALLBACK(src, PROC_REF(empty_if_not_held)), 0.1 SECONDS)
 
-/obj/item/gun/energy/recharge/handle_chamber()
+/obj/item/gun/energy/recharge/handle_chamber(mob/living/user, empty_chamber = TRUE, from_firing = TRUE, chamber_next_round = TRUE)
 	. = ..()
 	attempt_reload()
 
@@ -108,7 +108,7 @@
 	inhand_icon_state = "crossbow"
 	no_charge_state = "crossbow_empty"
 	w_class = WEIGHT_CLASS_SMALL
-	custom_materials = list(/datum/material/iron=2000)
+	custom_materials = list(/datum/material/iron=SHEET_MATERIAL_AMOUNT)
 	suppressed = TRUE
 	ammo_type = list(/obj/item/ammo_casing/energy/bolt)
 	recharge_time = 2 SECONDS
@@ -133,6 +133,6 @@
 	base_icon_state = "crossbowlarge"
 	no_charge_state = "crossbowlarge_empty"
 	w_class = WEIGHT_CLASS_BULKY
-	custom_materials = list(/datum/material/iron=4000)
+	custom_materials = list(/datum/material/iron=SHEET_MATERIAL_AMOUNT*2)
 	suppressed = null
 	ammo_type = list(/obj/item/ammo_casing/energy/bolt/large)

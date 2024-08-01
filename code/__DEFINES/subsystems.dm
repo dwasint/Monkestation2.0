@@ -20,7 +20,7 @@
  *
  * make sure you add an update to the schema_version stable in the db changelog
  */
-#define DB_MINOR_VERSION 23
+#define DB_MINOR_VERSION 24
 
 
 //! ## Timing subsystem
@@ -134,6 +134,7 @@
 #define INIT_ORDER_BLACKBOX 94
 #define INIT_ORDER_SERVER_MAINT 93
 #define INIT_ORDER_METRICS 91
+#define INIT_ORDER_OW 90
 #define INIT_ORDER_INPUT 85
 #define INIT_ORDER_SOUNDS 83
 #define INIT_ORDER_INSTRUMENTS 82
@@ -148,10 +149,10 @@
 #define INIT_ORDER_EVENTS 70
 #define INIT_ORDER_IDACCESS 66
 #define INIT_ORDER_JOBS 65 // Must init before atoms, to set up properly the dynamic job lists.
-#define INIT_ORDER_MEDIA_TRACKS 60
+#define INIT_ORDER_TICKER 60 // monkestation edit: ticker needs to start before media_tracks before it loads tracks, since ticker loads and adds lobby tracks from config
+#define INIT_ORDER_MEDIA_TRACKS 59 // monkestation edit: see INIT_ORDER_TICKER
 #define INIT_ORDER_AI_MOVEMENT 56 //We need the movement setup
 #define INIT_ORDER_AI_CONTROLLERS 55 //So the controller can get the ref
-#define INIT_ORDER_TICKER 55
 #define INIT_ORDER_TCG 55
 #define INIT_ORDER_MAPPING 50
 #define INIT_ORDER_EARLY_ASSETS 48
@@ -163,6 +164,7 @@
 #define INIT_ORDER_RESTAURANT 34
 #define INIT_ORDER_POLLUTION 32
 #define INIT_ORDER_ATOMS 30
+#define INIT_ORDER_ARMAMENTS 27
 #define INIT_ORDER_LANGUAGE 25
 #define INIT_ORDER_MACHINES 20
 #define INIT_ORDER_SKILLS 15
@@ -186,6 +188,7 @@
 #define INIT_ORDER_MINOR_MAPPING -40
 #define INIT_ORDER_PATH -50
 #define INIT_ORDER_EXPLOSIONS -69
+#define INIT_ORDER_REPLAYS -94
 #define INIT_ORDER_HOTSPOTS -95 ///only called on oshan so just call it near the end.
 #define INIT_ORDER_TWITCH -96
 #define INIT_ORDER_STATPANELS -97
@@ -197,7 +200,6 @@
 // If the subsystem isn't listed here it's either DEFAULT or PROCESS (if it's a processing subsystem child)
 #define FIRE_PRIORITY_PING 10
 #define FIRE_PRIORITY_TWITCH 10
-#define FIRE_PRIORITY_IDLE_NPC 10
 #define FIRE_PRIORITY_SERVER_MAINT 10
 #define FIRE_PRIORITY_RESEARCH 10
 #define FIRE_PRIORITY_VIS 10
@@ -213,6 +215,7 @@
 #define FIRE_PRIORITY_NPC_ACTIONS 22
 #define FIRE_PRIORITY_PATHFINDING 23
 #define FIRE_PRIORITY_CLIFF_FALLING 24
+#define FIRE_PRIORITY_MOVABLE_PHYSICS 24
 #define FIRE_PRIORITY_PROCESS 25
 #define FIRE_PRIORITY_THROWING 25
 #define FIRE_PRIORITY_REAGENTS 26
@@ -349,3 +352,4 @@
 #define SSLIQUIDS_RUN_TYPE_FIRE 5
 #define SSLIQUIDS_RUN_TYPE_OCEAN 6
 #define SSLIQUIDS_RUN_TYPE_TEMPERATURE 7
+#define SSLIQUIDS_RUN_TYPE_CACHED_EDGES 8

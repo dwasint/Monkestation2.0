@@ -24,6 +24,7 @@
 	obj_damage = 10
 	melee_damage_lower = 13
 	melee_damage_upper = 15
+	melee_attack_cooldown = CLICK_CD_MELEE
 	attack_verb_continuous = "slashes"
 	attack_verb_simple = "slash"
 	attack_sound = 'sound/weapons/bladeslice.ogg'
@@ -103,7 +104,7 @@
 		"All rise for [name], ascendant to the throne in \the [get_area(src)].",
 		source = src,
 		action = NOTIFY_ORBIT,
-		flashwindow = FALSE,
+		notify_flags = NOTIFY_CATEGORY_NOFLASH,
 		header = "Sentient Rat Created",
 	)
 

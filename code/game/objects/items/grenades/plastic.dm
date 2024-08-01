@@ -40,11 +40,11 @@
 	. = ..()
 	AddElement(/datum/element/empprotection, EMP_PROTECT_WIRES)
 	plastic_overlay = mutable_appearance(icon, "[inhand_icon_state]2", HIGH_OBJ_LAYER)
-	wires = new /datum/wires/explosive/c4(src)
+	set_wires(new /datum/wires/explosive/c4(src))
 
 /obj/item/grenade/c4/Destroy()
 	qdel(wires)
-	wires = null
+	set_wires(null)
 	target = null
 	return ..()
 
@@ -117,9 +117,24 @@
 		target = bomb_target
 		active = TRUE
 
+		//MONKESTATION EDIT START - This code should've been a call to `log_bomber`. Anyways, this
+		//now calls a targetted variant of `log_bomber`
+		/*
 		message_admins("[ADMIN_LOOKUPFLW(user)] planted [name] on [target.name] at [ADMIN_VERBOSEJMP(target)] with [det_time] second fuse")
 		user.log_message("planted [name] on [target.name] with a [det_time] second fuse.", LOG_ATTACK)
-		notify_ghosts("[user] has planted \a [src] on [target] with a [det_time] second fuse!", source = bomb_target, action = (isturf(target) ? NOTIFY_JUMP : NOTIFY_ORBIT), flashwindow = FALSE, header = "Explosive Planted")
+		*/ //MONKESTATION EDIT ORIGINAL
+		log_bomber_targeted(user, "planted", src, target, "with [det_time] second fuse")
+		//MONKESTATION EDIT END
+		var/icon/target_icon = icon(bomb_target.icon, bomb_target.icon_state)
+		target_icon.Blend(icon(icon, icon_state), ICON_OVERLAY)
+		var/image/bomb_target_image = image(target_icon)
+		notify_ghosts(
+			"[user] has planted \a [src] on [target] with a [det_time] second fuse!",
+			source = bomb_target_image,
+			action = (isturf(target) ? NOTIFY_JUMP : NOTIFY_ORBIT),
+			notify_flags = NOTIFY_CATEGORY_NOFLASH,
+			header = "Explosive Planted",
+		)
 
 		moveToNullspace() //Yep
 

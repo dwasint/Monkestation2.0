@@ -99,7 +99,7 @@
 
 /obj/machinery/syndicatebomb/Initialize(mapload)
 	. = ..()
-	wires = new /datum/wires/syndicatebomb(src)
+	set_wires(new /datum/wires/syndicatebomb(src))
 	if(payload)
 		payload = new payload(src)
 	update_appearance()
@@ -251,7 +251,12 @@
 	if(isnull(payload) || istype(payload, /obj/machinery/syndicatebomb/training))
 		return
 
-	notify_ghosts("\A [src] has been activated at [get_area(src)]!", source = src, action = NOTIFY_ORBIT, flashwindow = FALSE, header = "Bomb Planted")
+	notify_ghosts(
+		"\A [src] has been activated at [get_area(src)]!",
+		source = src,
+		action = NOTIFY_ORBIT,
+		header = "Bomb Planted",
+	)
 	user.add_mob_memory(/datum/memory/bomb_planted/syndicate, antagonist = src)
 	log_bomber(user, "has primed a", src, "for detonation (Payload: [payload.name])")
 	payload.adminlog = "The [name] that [key_name(user)] had primed detonated!"

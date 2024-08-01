@@ -184,16 +184,18 @@ GLOBAL_LIST_EMPTY(security_officer_distribution)
 		partners += partner.real_name
 
 	if (partners.len)
-		for (var/obj/item/modular_computer/pda as anything in GLOB.TabletMessengers)
-			if (pda.saved_identification in partners)
-				targets += pda
+		for(var/messenger_ref in GLOB.pda_messengers)
+			var/datum/computer_file/program/messenger/messenger = GLOB.pda_messengers[messenger_ref]
+			if(!(messenger.computer?.saved_identification in partners))
+				continue
+			targets += messenger
 
 	if (!targets.len)
 		return
 
-	var/datum/signal/subspace/messaging/tablet_msg/signal = new(announcement_system, list(
-		"name" = "Security Department Update",
-		"job" = "Automated Announcement System",
+	var/datum/signal/subspace/messaging/tablet_message/signal = new(announcement_system, list(
+		"fakename" = "Security Department Update",
+		"fakejob" = "Automated Announcement System",
 		"message" = "Officer [officer.real_name] has been assigned to your department, [department].",
 		"targets" = targets,
 		"automated" = TRUE,
@@ -226,7 +228,6 @@ GLOBAL_LIST_EMPTY(security_officer_distribution)
 	backpack_contents = list(
 		/obj/item/evidencebag = 1,
 		/obj/item/ammo_box/magazine/m35/rubber = 2, //monkestation edit: Paco sec
-		/obj/item/ammo_box/magazine/m35 = 1, //monkestation edit: Paco sec
 		)
 	belt = /obj/item/modular_computer/pda/security
 	ears = /obj/item/radio/headset/headset_sec/alt
@@ -260,7 +261,7 @@ GLOBAL_LIST_EMPTY(security_officer_distribution)
 
 /obj/item/radio/headset/headset_sec/alt/department/Initialize(mapload)
 	. = ..()
-	wires = new/datum/wires/radio(src)
+	set_wires(new/datum/wires/radio(src))
 	secure_radio_connections = list()
 	recalculateChannels()
 
