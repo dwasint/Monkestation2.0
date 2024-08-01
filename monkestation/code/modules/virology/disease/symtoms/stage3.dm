@@ -65,7 +65,7 @@ GLOBAL_LIST_INIT(disease_hivemind_users, list())
 		var/mob/living/carbon/human/H = mob
 		H.adjustOrganLoss(ORGAN_SLOT_BRAIN, 5, 50)
 	else
-		mob.setCloneLoss(50)
+		mob.setToxLoss(50)
 
 /datum/symptom/hallucinations
 	name = "Hallucinational Syndrome"
