@@ -262,7 +262,7 @@ GLOBAL_LIST_EMPTY(cached_mixer_channels)
 	UNTIL(fully_created)
 	if("[CHANNEL_LOBBYMUSIC]" in prefs.channel_volume)
 		if(prefs.channel_volume["[CHANNEL_LOBBYMUSIC]"] != 0)
-			vol *= prefs.channel_volume["[CHANNEL_LOBBYMUSIC]"] * 0.01
+			vol = prefs.channel_volume["[CHANNEL_LOBBYMUSIC]"]
 			vol *= prefs.channel_volume["[CHANNEL_MASTER_VOLUME]"] * 0.01
 
 	if((prefs && (!prefs.read_preference(/datum/preference/toggle/sound_lobby))) || CONFIG_GET(flag/disallow_title_music))
