@@ -1,6 +1,7 @@
 /obj/machinery/bouldertech/crusher
 	name = "crusher"
 	desc = "Crushes clumps of ore into dirty dust which needs to be enriched."
+	icon_state = "crusher"
 	allows_boulders = FALSE
 	holds_minerals = TRUE
 	processable_materials = list(
@@ -39,8 +40,10 @@
 	for(var/datum/material/material as anything in clump.custom_materials)
 		var/quantity = clump.custom_materials[material]
 		var/obj/item/processing/dirty_dust/dust = new(get_step(src, export_side))
+		dust.custom_materials = list()
 		dust.custom_materials += material
 		dust.custom_materials[material] = quantity
+		dust.set_colors()
 
 	qdel(clump)
 	playsound(loc, 'sound/weapons/drill.ogg', 50, TRUE, SHORT_RANGE_SOUND_EXTRARANGE)

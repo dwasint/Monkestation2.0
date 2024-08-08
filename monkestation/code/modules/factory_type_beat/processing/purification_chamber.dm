@@ -2,6 +2,7 @@
 /obj/machinery/bouldertech/purification_chamber
 	name = "purification chamber"
 	desc = "Uses a large amount of oxygen to purify ores into clumps."
+	icon_state = "purification_chamber"
 	holds_minerals = TRUE
 	processable_materials = list(
 		/datum/material/iron,
@@ -97,8 +98,11 @@
 	for(var/datum/material/material as anything in shard.custom_materials)
 		var/quantity = shard.custom_materials[material]
 		var/obj/item/processing/clumps/dust = new(get_step(src, export_side))
+		dust.custom_materials = list()
 		dust.custom_materials += material
 		dust.custom_materials[material] = quantity
+		dust.set_colors()
+
 	qdel(shard)
 	playsound(loc, 'sound/weapons/drill.ogg', 50, TRUE, SHORT_RANGE_SOUND_EXTRARANGE)
 	update_boulder_count()
@@ -108,8 +112,10 @@
 		var/quantity = boulder.custom_materials[material]
 		for(var/i = 1 to 3)
 			var/obj/item/processing/clumps/dust = new(get_step(src, export_side))
+			dust.custom_materials = list()
 			dust.custom_materials += material
 			dust.custom_materials[material] = quantity
+			dust.set_colors()
 
 	qdel(boulder)
 	playsound(loc, 'sound/weapons/drill.ogg', 50, TRUE, SHORT_RANGE_SOUND_EXTRARANGE)
@@ -140,6 +146,8 @@
 
 /obj/machinery/portable_atmospherics/purification_input
 	name = "external purification oxygen tank"
+	icon = 'monkestation/code/modules/factory_type_beat/icons/mining_machines.dmi'
+	icon_state = "air_pump"
 	pressure_resistance = 7 * ONE_ATMOSPHERE
 	volume = 2000
 	density = TRUE

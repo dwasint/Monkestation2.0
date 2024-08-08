@@ -1,6 +1,7 @@
 /obj/machinery/bouldertech/enricher
 	name = "enrichment chamber"
 	desc = "enriches boulders into dust which can then de smelted at a smelter for double the materials."
+	icon_state = "enricher"
 	holds_minerals = TRUE
 	processable_materials = list(
 		/datum/material/iron,
@@ -60,8 +61,10 @@
 		var/quantity = boulder.custom_materials[material]
 		for(var/i = 1 to 2)
 			var/obj/item/processing/refined_dust/dust = new(get_step(src, export_side))
+			dust.custom_materials = list()
 			dust.custom_materials += material
 			dust.custom_materials[material] = quantity
+			dust.set_colors()
 	qdel(boulder)
 	playsound(loc, 'sound/weapons/drill.ogg', 50, TRUE, SHORT_RANGE_SOUND_EXTRARANGE)
 	update_boulder_count()
@@ -70,8 +73,10 @@
 	for(var/datum/material/material as anything in dirty_dust.custom_materials)
 		var/quantity = dirty_dust.custom_materials[material]
 		var/obj/item/processing/refined_dust/dust = new(get_step(src, export_side))
+		dust.custom_materials = list()
 		dust.custom_materials += material
 		dust.custom_materials[material] = quantity
+		dust.set_colors()
 	qdel(dirty_dust)
 	playsound(loc, 'sound/weapons/drill.ogg', 50, TRUE, SHORT_RANGE_SOUND_EXTRARANGE)
 	update_boulder_count()
