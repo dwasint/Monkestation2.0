@@ -45,6 +45,8 @@
 	if(!anchored)
 		return PROCESS_KILL
 
+	if(next_allowed_process > world.time)
+		return
 
 	if(reagents.total_volume < brine_per_use)
 		return
@@ -55,7 +57,10 @@
 	var/stop_processing_check = FALSE
 	var/boulders_concurrent = boulders_processing_max ///How many boulders can we touch this process() call
 	for(var/obj/item/potential_boulder as anything in boulders_contained)
-		reagents.remove_all(brine_per_use)
+
+		if(istype(potential_boulder, /obj/item/processing/amalgam))
+			next_allowed_process = world.time + 30 SECONDS
+			visible_message(span_danger("The machine gets clogged with [potential_boulder]! Disabling it for 30 Seconds."))
 
 		if(QDELETED(potential_boulder))
 			boulders_contained -= potential_boulder
@@ -100,6 +105,7 @@
 		dust.set_colors()
 
 	crystal_inside = FALSE
+	reagents.remove_all(brine_per_use)
 	qdel(clump)
 	playsound(loc, 'sound/weapons/drill.ogg', 50, TRUE, SHORT_RANGE_SOUND_EXTRARANGE)
 	update_boulder_count()
@@ -111,17 +117,22 @@
 		return FALSE
 	if(istype(mover, /obj/item/processing/crystals))
 		return TRUE
+	if(istype(mover, /obj/item/processing/amalgam))
+		return TRUE
 	return ..()
 
 /obj/machinery/bouldertech/chemical_injector/return_extras()
 	var/list/boulders_contained = list()
 	for(var/obj/item/processing/crystals/boulder in contents)
 		boulders_contained += boulder
-	boulders_contained += return_extras()
+	for(var/obj/item/processing/amalgam/amalgam in contents)
+		boulders_contained += amalgam
 	return boulders_contained
 
 /obj/machinery/bouldertech/chemical_injector/check_extras(obj/item/item)
 	if(istype(item, /obj/item/processing/crystals))
+		return TRUE
+	if(istype(item, /obj/item/processing/amalgam))
 		return TRUE
 	return FALSE
 
@@ -135,6 +146,7 @@
 			dust.custom_materials[material] = quantity
 			dust.set_colors()
 
+	reagents.remove_all(brine_per_use)
 	qdel(boulder)
 	playsound(loc, 'sound/weapons/drill.ogg', 50, TRUE, SHORT_RANGE_SOUND_EXTRARANGE)
 	update_boulder_count()

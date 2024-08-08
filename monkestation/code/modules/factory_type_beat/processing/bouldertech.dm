@@ -39,6 +39,7 @@
 	var/export_side = EAST
 	///do we allow boulders
 	var/allows_boulders = TRUE
+	var/next_allowed_process = 0
 
 /obj/machinery/bouldertech/Initialize(mapload)
 	. = ..()

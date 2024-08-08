@@ -46,3 +46,14 @@
 
 /datum/reagent/brine
 	name = "Brine"
+
+
+/obj/item/processing/amalgam
+	name = "ore amalgam"
+	desc = "Pretty useless and jams up your processing."
+	icon_state = "amalgam"
+
+/obj/item/processing/ruined_shard
+	name = "ruined shard"
+	desc = "Pretty useless and jams up your processing."
+	icon_state = "cracked_crystal"

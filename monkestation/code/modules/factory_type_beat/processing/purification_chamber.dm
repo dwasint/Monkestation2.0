@@ -134,7 +134,6 @@
 	var/list/boulders_contained = list()
 	for(var/obj/item/processing/shards/boulder in contents)
 		boulders_contained += boulder
-	boulders_contained += return_extras()
 	return boulders_contained
 
 /obj/machinery/bouldertech/purification_chamber/check_extras(obj/item/item)

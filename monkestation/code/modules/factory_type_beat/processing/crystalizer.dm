@@ -71,6 +71,8 @@
 			dust.custom_materials += material
 			dust.custom_materials[material] = quantity
 			dust.set_colors()
+	if(prob(15))
+		new /obj/item/processing/amalgam(get_step(src, export_side))
 
 	playsound(loc, 'sound/weapons/drill.ogg', 50, TRUE, SHORT_RANGE_SOUND_EXTRARANGE)
 	update_boulder_count()
