@@ -113,4 +113,4 @@
 	if(reagent)
 		inside_turf.liquids.liquid_group.transfer_specific_reagents(target.recipient_reagents_holder, amount, reagent)
 	else
-		inside_turf.liquids.liquid_group.transfer_specific_reagents(target.recipient_reagents_holder, amount, reagents_to_check = list(datum/reagent/brine))
+		inside_turf.liquids.liquid_group.transfer_specific_reagents(target.recipient_reagents_holder, amount, reagents_to_check = list(/datum/reagent/brine))
