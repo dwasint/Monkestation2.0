@@ -28,6 +28,11 @@
 /obj/item/mcobject/flusher/proc/flush(datum/mcmessage/input)
 	if(!trunk || !COOLDOWN_FINISHED(src, flush_cd) || !input?.cmd)
 		return
+
+	if(QDELETED(trunk))
+		trunk = null
+		return
+
 	var/count = 0
 	for(var/atom/movable/listed_movable in src.loc)
 		if(listed_movable.anchored)

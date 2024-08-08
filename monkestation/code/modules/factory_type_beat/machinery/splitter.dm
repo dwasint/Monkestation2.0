@@ -16,7 +16,7 @@
 	var/static/list/loc_connections = list(
 		COMSIG_ATOM_ENTERED = PROC_REF(try_split),
 	)
-	AddComponent(/datum/component/connect_loc_behalf, parent, loc_connections)
+	AddComponent(/datum/component/connect_loc_behalf, src, loc_connections)
 	AddComponent(/datum/component/simple_rotation)
 
 /obj/structure/belt_splitter/Destroy()
