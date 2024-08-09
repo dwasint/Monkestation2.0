@@ -185,7 +185,7 @@
 		return
 	if(on_work)
 		return
-	if(!use_power_from_net(active_power_usage))
+	if(!directly_use_power(active_power_usage))
 		on = FALSE
 		say("Not enough energy!")
 		return
