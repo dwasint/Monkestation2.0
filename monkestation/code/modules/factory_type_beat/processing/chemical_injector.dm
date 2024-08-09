@@ -103,6 +103,7 @@
 		dust.custom_materials += material
 		dust.custom_materials[material] = quantity
 		dust.set_colors()
+		dust.forceMove(get_step(src, export_side))
 
 	crystal_inside = FALSE
 	reagents.remove_all(brine_per_use)
@@ -140,11 +141,12 @@
 	for(var/datum/material/material as anything in boulder.custom_materials)
 		var/quantity = boulder.custom_materials[material]
 		for(var/i = 1 to 4)
-			var/obj/item/processing/shards/dust = new(get_step(src, export_side))
+			var/obj/item/processing/shards/dust = new(get_turf(src))
 			dust.custom_materials = list()
 			dust.custom_materials += material
 			dust.custom_materials[material] = quantity
 			dust.set_colors()
+			dust.forceMove(get_step(src, export_side))
 
 	reagents.remove_all(brine_per_use)
 	qdel(boulder)

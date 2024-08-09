@@ -20,7 +20,7 @@
 		/datum/material/bananium,
 		/datum/material/plastic,
 	)
-	var/maximum_volume = 1000
+	var/maximum_volume = 50
 	var/crystalized_reagent = 50
 	var/processes_left = 3
 	var/crystal_in_progress = FALSE
@@ -66,11 +66,12 @@
 		for(var/item in slurry.data["materials"])
 			var/material = item
 			var/quantity = slurry.data["materials"][material]
-			var/obj/item/processing/crystals/dust = new(get_step(src, export_side))
+			var/obj/item/processing/crystals/dust = new(get_turf(src))
 			dust.custom_materials = list()
 			dust.custom_materials += material
 			dust.custom_materials[material] = quantity
 			dust.set_colors()
+			dust.forceMove(get_step(src, export_side))
 	if(prob(15))
 		new /obj/item/processing/amalgam(get_step(src, export_side))
 
@@ -83,7 +84,7 @@
 /datum/component/plumbing/material_crystalizer/send_request(dir)
 	var/atom/movable/host = parent
 	var/reagents_left = host.reagents.maximum_volume - host.reagents.total_volume
-	process_request(amount = max(reagents_left - 500, 0), reagent = /datum/reagent/processing/clean_slurry, dir = dir)
+	process_request(amount = reagents_left, reagent = /datum/reagent/processing/clean_slurry, dir = dir)
 
 ///check who can give us what we want, and how many each of them will give us
 /datum/component/plumbing/material_crystalizer/process_request(amount = MACHINE_REAGENT_TRANSFER, reagent, dir)

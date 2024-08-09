@@ -97,11 +97,12 @@
 /obj/machinery/bouldertech/purification_chamber/proc/process_shard(obj/item/processing/shards/shard)
 	for(var/datum/material/material as anything in shard.custom_materials)
 		var/quantity = shard.custom_materials[material]
-		var/obj/item/processing/clumps/dust = new(get_step(src, export_side))
+		var/obj/item/processing/clumps/dust = new(get_turf(src))
 		dust.custom_materials = list()
 		dust.custom_materials += material
 		dust.custom_materials[material] = quantity
 		dust.set_colors()
+		dust.forceMove(get_step(src, export_side))
 
 	qdel(shard)
 	playsound(loc, 'sound/weapons/drill.ogg', 50, TRUE, SHORT_RANGE_SOUND_EXTRARANGE)
@@ -111,11 +112,12 @@
 	for(var/datum/material/material as anything in boulder.custom_materials)
 		var/quantity = boulder.custom_materials[material]
 		for(var/i = 1 to 3)
-			var/obj/item/processing/clumps/dust = new(get_step(src, export_side))
+			var/obj/item/processing/clumps/dust = new(get_turf(src))
 			dust.custom_materials = list()
 			dust.custom_materials += material
 			dust.custom_materials[material] = quantity
 			dust.set_colors()
+			dust.forceMove(get_step(src, export_side))
 
 	qdel(boulder)
 	playsound(loc, 'sound/weapons/drill.ogg', 50, TRUE, SHORT_RANGE_SOUND_EXTRARANGE)

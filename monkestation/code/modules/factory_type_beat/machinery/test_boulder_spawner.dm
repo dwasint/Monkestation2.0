@@ -17,4 +17,5 @@
 		STOP_PROCESSING(SSobj, src)
 
 /obj/structure/test_boulder_spawner/process(seconds_per_tick)
-	new /obj/item/boulder/gulag_expanded(get_step(src, spawn_dir))
+	var/atom/movable/new_item = new /obj/item/boulder/gulag_expanded(get_turf(src))
+	new_item.forceMove(get_step(src, spawn_dir))

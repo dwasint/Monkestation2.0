@@ -39,11 +39,12 @@
 /obj/machinery/bouldertech/crusher/proc/process_clump(obj/item/processing/clumps/clump)
 	for(var/datum/material/material as anything in clump.custom_materials)
 		var/quantity = clump.custom_materials[material]
-		var/obj/item/processing/dirty_dust/dust = new(get_step(src, export_side))
+		var/obj/item/processing/dirty_dust/dust  = new(get_turf(src))
 		dust.custom_materials = list()
 		dust.custom_materials += material
 		dust.custom_materials[material] = quantity
 		dust.set_colors()
+		dust.forceMove(get_step(src, export_side))
 
 	qdel(clump)
 	playsound(loc, 'sound/weapons/drill.ogg', 50, TRUE, SHORT_RANGE_SOUND_EXTRARANGE)

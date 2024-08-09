@@ -46,6 +46,7 @@
 	register_context()
 	if(holds_minerals)
 		silo_materials = AddComponent(/datum/component/remote_materials, mapload)
+	AddComponent(/datum/component/simple_rotation)
 
 /obj/machinery/bouldertech/LateInitialize()
 	. = ..()
@@ -63,10 +64,7 @@
 
 /obj/machinery/bouldertech/update_icon_state()
 	. = ..()
-	if(anchored)
-		icon_state ="[initial(icon_state)]"
-	else
-		icon_state ="[initial(icon_state)]-off"
+	icon_state ="[initial(icon_state)]"
 
 /obj/machinery/bouldertech/wrench_act(mob/living/user, obj/item/tool)
 	. = ..()
@@ -296,6 +294,11 @@
 	STOP_PROCESSING(SSmachines, src)
 	balloon_alert_to_viewers("clear!")
 	playsound(loc, 'sound/machines/ping.ogg', 50, FALSE)
+	return TRUE
+
+/obj/machinery/bouldertech/can_drop_off()
+	if(length(boulders_contained) >= boulders_held_max)
+		return FALSE
 	return TRUE
 
 /**

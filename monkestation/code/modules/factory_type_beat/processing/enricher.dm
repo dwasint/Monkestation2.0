@@ -60,11 +60,12 @@
 	for(var/datum/material/material as anything in boulder.custom_materials)
 		var/quantity = boulder.custom_materials[material]
 		for(var/i = 1 to 2)
-			var/obj/item/processing/refined_dust/dust = new(get_step(src, export_side))
+			var/obj/item/processing/refined_dust/dust = new(get_turf(src))
 			dust.custom_materials = list()
 			dust.custom_materials += material
 			dust.custom_materials[material] = quantity
 			dust.set_colors()
+			dust.forceMove(get_step(src, export_side))
 	qdel(boulder)
 	playsound(loc, 'sound/weapons/drill.ogg', 50, TRUE, SHORT_RANGE_SOUND_EXTRARANGE)
 	update_boulder_count()
@@ -72,11 +73,12 @@
 /obj/machinery/bouldertech/enricher/proc/process_dirty_dust(obj/item/processing/dirty_dust/dirty_dust)
 	for(var/datum/material/material as anything in dirty_dust.custom_materials)
 		var/quantity = dirty_dust.custom_materials[material]
-		var/obj/item/processing/refined_dust/dust = new(get_step(src, export_side))
+		var/obj/item/processing/refined_dust/dust  = new(get_turf(src))
 		dust.custom_materials = list()
 		dust.custom_materials += material
 		dust.custom_materials[material] = quantity
 		dust.set_colors()
+		dust.forceMove(get_step(src, export_side))
 	qdel(dirty_dust)
 	playsound(loc, 'sound/weapons/drill.ogg', 50, TRUE, SHORT_RANGE_SOUND_EXTRARANGE)
 	update_boulder_count()

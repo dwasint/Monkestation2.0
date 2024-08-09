@@ -46,6 +46,7 @@
 		if(!slurry.data["materials"])
 			continue
 
+		reagents.remove_all_type(slurry.type, slurry.volume)
 		reagents.add_reagent(/datum/reagent/processing/clean_slurry, slurry.volume, slurry.data)
 		reagents.remove_all_type(slurry.type, slurry.volume)
 		processed = TRUE
@@ -80,12 +81,15 @@
 	var/datum/reagent/processing/requested_reagent
 
 	for(var/datum/reagent/listed as anything in host.reagents.reagent_list)
+		if(istype(reagent, /datum/reagent/processing/clean_slurry))
+			return
+
+	for(var/datum/reagent/listed as anything in host.reagents.reagent_list)
 		if(!reagent)
 			break
 		if(reagent == listed.type)
 			requested_reagent = listed
 			break
-
 	//find all valid suppliers in the duct
 	var/list/valid_suppliers = list()
 	for(var/datum/component/plumbing/supplier as anything in net.suppliers)
@@ -121,7 +125,7 @@
 
 /datum/component/plumbing/chemical_washer_water
 	demand_connects = SOUTH
-	demand_color = COLOR_YELLOW
+	demand_color = COLOR_BLUE
 
 	ducting_layer = SECOND_DUCT_LAYER
 
