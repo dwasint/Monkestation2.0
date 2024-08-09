@@ -190,6 +190,9 @@
 		say("Not enough energy!")
 		return
 	if(isitem(target))
+		if(isliving(usr))
+			var/mob/living/location = usr
+			location.dropItemToGround(target)
 		start_work(target)
 
 /// Second take and drop proc from [take and drop procs loop]:
