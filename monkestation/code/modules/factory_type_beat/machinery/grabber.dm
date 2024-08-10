@@ -27,7 +27,9 @@
 	/// Obj inside manipulator.
 	var/datum/weakref/containment_obj
 	/// Other manipulator component.
-	var/obj/effect/manipulator_hand
+	var/obj/effect/big_manipulator_hand/manipulator_hand
+	///are we hacked?
+	var/hacked = FALSE
 
 /obj/machinery/big_manipulator/Initialize(mapload)
 	. = ..()
@@ -145,15 +147,23 @@
 /obj/machinery/big_manipulator/proc/rotate_big_hand()
 	switch(take_here)
 		if(NORTH)
+			manipulator_hand.item_x = 64
+			manipulator_hand.item_y = 32
 			take_here = EAST
 			drop_here = WEST
 		if(EAST)
+			manipulator_hand.item_x = 32
+			manipulator_hand.item_y = 0
 			take_here = SOUTH
 			drop_here = NORTH
 		if(SOUTH)
+			manipulator_hand.item_x = 0
+			manipulator_hand.item_y = 32
 			take_here = WEST
 			drop_here = EAST
 		if(WEST)
+			manipulator_hand.item_x = -32
+			manipulator_hand.item_y = 0
 			take_here = NORTH
 			drop_here = SOUTH
 	manipulator_hand.dir = take_here
@@ -168,6 +178,10 @@
 /// Pre take and drop proc from [take and drop procs loop]:
 /// Check if we have item on take_turf to start take and drop loop
 /obj/machinery/big_manipulator/proc/is_work_check()
+	if(hacked)
+		for(var/mob/living/take_item in take_turf.contents)
+			try_take_thing(take_turf, take_item)
+			break
 	for(var/obj/item/take_item in take_turf.contents)
 		try_take_thing(take_turf, take_item)
 		break
@@ -189,10 +203,7 @@
 		on = FALSE
 		say("Not enough energy!")
 		return
-	if(isitem(target))
-		if(isliving(usr))
-			var/mob/living/location = usr
-			location.dropItemToGround(target)
+	if(isitem(target) || (isliving(target) && hacked))
 		start_work(target)
 
 /// Second take and drop proc from [take and drop procs loop]:
@@ -200,6 +211,8 @@
 /obj/machinery/big_manipulator/proc/start_work(atom/movable/target)
 	target.forceMove(src)
 	containment_obj = WEAKREF(target)
+	manipulator_hand.picked = target
+	manipulator_hand.update_appearance()
 	on_work = TRUE
 	do_rotate_animation(1)
 	addtimer(CALLBACK(src, PROC_REF(drop_thing), target), working_speed)
@@ -211,6 +224,8 @@
 		addtimer(CALLBACK(src, PROC_REF(drop_thing), target), working_speed)
 		return
 	target.forceMove(drop_turf)
+	manipulator_hand.picked = null
+	manipulator_hand.update_appearance()
 	do_rotate_animation(0)
 	addtimer(CALLBACK(src, PROC_REF(end_work)), working_speed)
 
@@ -265,9 +280,27 @@
 	icon_state = "hand"
 	layer = LOW_ITEM_LAYER
 	anchored = TRUE
+	appearance_flags = KEEP_TOGETHER | LONG_GLIDE | TILE_BOUND | PIXEL_SCALE
 	greyscale_config = /datum/greyscale_config/manipulator_hand
 	pixel_x = -32
 	pixel_y = -32
+
+	///item offset x
+	var/item_x = 32
+	var/item_y = 64
+	var/atom/movable/picked
+
+/obj/effect/big_manipulator_hand/update_overlays()
+	. = ..()
+	if(picked)
+		var/mutable_appearance/ma = mutable_appearance(picked.icon, picked.icon_state, picked.layer, src, appearance_flags = KEEP_TOGETHER)
+		ma.color = picked.color
+		ma.appearance = picked.appearance
+		ma.appearance_flags = appearance_flags
+		ma.plane = plane
+		ma.pixel_x = item_x
+		ma.pixel_y = item_y
+		. += ma
 
 /datum/design/board/big_manipulator
 	name = "Big Manipulator Board"

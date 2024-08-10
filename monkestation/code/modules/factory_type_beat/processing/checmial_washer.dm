@@ -45,10 +45,11 @@
 
 		if(!slurry.data["materials"])
 			continue
+		var/list/slurry_data = slurry.data
+		var/slurry_volume = slurry.volume
 
 		reagents.remove_all_type(slurry.type, slurry.volume)
-		reagents.add_reagent(/datum/reagent/processing/clean_slurry, slurry.volume, slurry.data)
-		reagents.remove_all_type(slurry.type, slurry.volume)
+		reagents.add_reagent(/datum/reagent/processing/clean_slurry, slurry_volume, slurry_data)
 		processed = TRUE
 
 

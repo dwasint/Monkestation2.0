@@ -98,7 +98,7 @@
 /obj/machinery/bouldertech/chemical_injector/proc/process_crystal(obj/item/processing/crystals/clump)
 	for(var/datum/material/material as anything in clump.custom_materials)
 		var/quantity = clump.custom_materials[material]
-		var/obj/item/processing/shards/dust = new(get_step(src, export_side))
+		var/obj/item/processing/shards/dust = new(get_turf(src))
 		dust.custom_materials = list()
 		dust.custom_materials += material
 		dust.custom_materials[material] = quantity

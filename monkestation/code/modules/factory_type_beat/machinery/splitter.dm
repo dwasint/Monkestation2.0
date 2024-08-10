@@ -22,16 +22,34 @@
 /obj/structure/belt_splitter/Destroy()
 	. = ..()
 
+/obj/structure/belt_splitter/setDir()
+	. = ..()
+	rebuild_directions()
+
+/obj/structure/belt_splitter/wrench_act(mob/living/user, obj/item/tool)
+	. = ..()
+	default_unfasten_wrench(user, tool)
+	return TOOL_ACT_TOOLTYPE_SUCCESS
+
+/obj/structure/belt_splitter/proc/rebuild_directions()
+	direction_order = list(NORTH, EAST, SOUTH, WEST)
+	direction_order -= dir
+
 /obj/structure/belt_splitter/proc/try_split(datum/source, atom/movable/arrived, atom/old_loc, list/atom/old_locs)
 	if(arrived.anchored)
 		return
-	var/direction = direction_order[current_split_number]
-	current_split_number++
-	if(current_split_number > length(direction_order))
-		current_split_number = 1
-	if(direction == dir)
-		direction = direction_order[current_split_number]
+	var/not_passed = TRUE
+	var/failed_attempts = 0
+	while(not_passed && failed_attempts < 10)
+		failed_attempts++
+		var/direction = direction_order[current_split_number]
+		current_split_number++
+		if(current_split_number > length(direction_order))
+			current_split_number = 1
+		if(direction == dir)
+			direction = direction_order[current_split_number]
 
-	if(!(locate(/obj/machinery/conveyor) in get_step(src, direction)))
-		return
-	arrived.forceMove(get_step(src, direction))
+		if(!(locate(/obj/machinery/conveyor) in get_step(src, direction)))
+			continue
+		arrived.forceMove(get_step(src, direction))
+		not_passed = FALSE

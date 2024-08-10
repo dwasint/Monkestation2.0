@@ -1738,16 +1738,19 @@
 /obj/machinery/electroplater,
 /turf/open/floor/iron,
 /area/station/commons/storage/primary)
-"hA" = (
-/obj/machinery/bouldertech/crusher,
-/turf/open/floor/plating,
-/area/station/construction)
 "hD" = (
 /obj/structure/closet/secure_closet/chemical/heisenberg{
 	locked = 0
 	},
 /turf/open/floor/iron,
 /area/station/medical/chemistry)
+"hJ" = (
+/obj/machinery/conveyor{
+	dir = 4;
+	id = "debug"
+	},
+/turf/open/floor/plating,
+/area/station/construction)
 "ii" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 4
@@ -1775,10 +1778,7 @@
 /turf/open/floor/plating,
 /area/station/engineering/atmos)
 "jF" = (
-/obj/machinery/conveyor{
-	dir = 4;
-	id = "debug"
-	},
+/obj/machinery/bouldertech/crusher,
 /turf/open/floor/plating,
 /area/station/construction)
 "jU" = (
@@ -2105,7 +2105,10 @@
 /turf/open/floor/iron/dark,
 /area/station/science/explab)
 "vh" = (
-/obj/machinery/bouldertech/refinery/smelter,
+/obj/machinery/conveyor{
+	dir = 1;
+	id = "debug"
+	},
 /turf/open/floor/plating,
 /area/station/construction)
 "vm" = (
@@ -2159,7 +2162,7 @@
 /area/station/bitrunning/den)
 "yx" = (
 /obj/machinery/conveyor{
-	dir = 5;
+	dir = 8;
 	id = "debug"
 	},
 /turf/open/floor/plating,
@@ -2180,10 +2183,6 @@
 /obj/machinery/light/directional/north,
 /turf/open/floor/iron,
 /area/station/hallway/secondary/entry)
-"yJ" = (
-/obj/machinery/bouldertech/enricher,
-/turf/open/floor/plating,
-/area/station/construction)
 "yK" = (
 /obj/structure/fans/tiny/invisible,
 /obj/effect/turf_decal/stripes/line{
@@ -2196,24 +2195,32 @@
 /obj/machinery/power/rtg/debug,
 /turf/open/floor/plating/airless,
 /area/space/nearstation)
+"yT" = (
+/obj/machinery/conveyor{
+	dir = 2;
+	id = "debug"
+	},
+/turf/open/floor/plating,
+/area/station/construction)
 "zo" = (
 /obj/machinery/power/apc/auto_name/directional/south,
 /obj/structure/cable,
 /turf/open/floor/iron,
 /area/station/engineering/atmos)
 "Aa" = (
-/obj/machinery/conveyor{
-	dir = 8;
-	id = "debug"
-	},
-/turf/open/floor/plating,
-/area/station/construction)
+/obj/machinery/big_manipulator,
+/turf/open/floor/iron,
+/area/station/commons/storage/primary)
 "AP" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden{
 	dir = 8
 	},
 /turf/open/floor/iron,
 /area/station/science)
+"AR" = (
+/obj/machinery/bouldertech/refinery/smelter,
+/turf/open/floor/plating,
+/area/station/construction)
 "AY" = (
 /obj/effect/landmark/start/assistant,
 /turf/open/floor/iron,
@@ -2337,7 +2344,7 @@
 /area/station/command/bridge)
 "EN" = (
 /obj/machinery/conveyor{
-	dir = 1;
+	dir = 5;
 	id = "debug"
 	},
 /turf/open/floor/plating,
@@ -2356,13 +2363,6 @@
 	},
 /turf/open/floor/iron,
 /area/station/medical/chemistry)
-"Fi" = (
-/obj/machinery/conveyor{
-	dir = 2;
-	id = "debug"
-	},
-/turf/open/floor/plating,
-/area/station/construction)
 "GB" = (
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
@@ -2442,6 +2442,10 @@
 /obj/machinery/light/directional/south,
 /turf/open/floor/plating,
 /area/station/engineering/atmos)
+"Li" = (
+/obj/machinery/bouldertech/enricher,
+/turf/open/floor/plating,
+/area/station/construction)
 "Lq" = (
 /turf/open/floor/circuit/green,
 /area/station/bitrunning/den)
@@ -6217,9 +6221,9 @@ dn
 dn
 dn
 Oc
-Fi
-Fi
-Fi
+yT
+yT
+yT
 dL
 sr
 nn
@@ -6308,7 +6312,7 @@ yy
 dn
 dn
 dn
-Aa
+yx
 XE
 yy
 yy
@@ -6400,7 +6404,7 @@ dn
 dn
 dn
 Rx
-Aa
+yx
 dn
 Jn
 Jn
@@ -6492,7 +6496,7 @@ dn
 rU
 pt
 rr
-Aa
+yx
 dn
 dn
 dn
@@ -6578,13 +6582,13 @@ bE
 bE
 cN
 EA
-yx
 EN
-EN
-EN
-EN
+vh
+vh
+vh
+vh
 Cc
-Aa
+yx
 XE
 yy
 yy
@@ -6670,16 +6674,16 @@ lX
 bE
 cN
 cY
-jF
+hJ
 DL
 DL
 DL
 DL
-Aa
-Aa
+yx
+yx
 dn
-hA
-hA
+jF
+jF
 dZ
 cN
 Tt
@@ -6763,12 +6767,12 @@ bE
 cN
 cY
 tY
-Fi
-Fi
-Fi
-Fi
+yT
+yT
+yT
+yT
 Lx
-Aa
+yx
 dn
 dn
 dn
@@ -6860,7 +6864,7 @@ yy
 yy
 yy
 yy
-Aa
+yx
 XE
 yy
 yy
@@ -6952,10 +6956,10 @@ Hr
 Hr
 Hr
 Hr
-Aa
+yx
 dn
-yJ
-yJ
+Li
+Li
 dL
 cN
 Tt
@@ -7039,15 +7043,15 @@ bE
 ef
 cY
 dn
-Fi
-Fi
-Fi
-Fi
-Fi
+yT
+yT
+yT
+yT
+yT
 Lx
 dn
-vh
-vh
+AR
+AR
 dL
 cN
 Tt
@@ -7597,7 +7601,7 @@ dJ
 dI
 dJ
 dJ
-dJ
+Aa
 dJ
 dJ
 ny
@@ -7688,9 +7692,9 @@ hr
 oE
 dI
 dJ
+Aa
 dJ
-dJ
-dJ
+Aa
 dJ
 dO
 cS
@@ -7781,7 +7785,7 @@ dJ
 dI
 dJ
 dJ
-dJ
+Aa
 dJ
 dJ
 jU

@@ -10,6 +10,7 @@
 	active_power_usage = 0
 	amount = 100
 	anchored = FALSE
+	reagent_id = /datum/reagent/water
 	/// Reagents that this can dispense, overrides the default list on init
 	var/static/list/synthesizable_reagents = list(
 		/datum/reagent/water,
