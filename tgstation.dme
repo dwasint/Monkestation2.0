@@ -6756,6 +6756,7 @@
 #include "monkestation\code\modules\events\wizard\summon_gifts.dm"
 #include "monkestation\code\modules\factory_type_beat\boulder.dm"
 #include "monkestation\code\modules\factory_type_beat\circuits.dm"
+#include "monkestation\code\modules\factory_type_beat\debug.dm"
 #include "monkestation\code\modules\factory_type_beat\effects.dm"
 #include "monkestation\code\modules\factory_type_beat\ore_vent.dm"
 #include "monkestation\code\modules\factory_type_beat\ss_ore_gen.dm"

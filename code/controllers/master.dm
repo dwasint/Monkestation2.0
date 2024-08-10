@@ -252,6 +252,7 @@ GLOBAL_REAL(Master, /datum/controller/master)
 	var/msg = "Initializations complete within [time] second[time == 1 ? "" : "s"]!"
 	to_chat(world, span_boldannounce("[msg]"))
 	log_world(msg)
+	count_lists()
 
 	// monkestation edit below
 	// basically, most songs end around the 5 minute mark,
