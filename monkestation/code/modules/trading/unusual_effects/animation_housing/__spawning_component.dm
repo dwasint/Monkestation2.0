@@ -124,7 +124,9 @@
 			spawned = new(get_turf(source_object))
 		else
 			spawned = pick(dead_particles)
-			spawned.forceMove(get_turf(source_object))
+			var/turf/turf = get_turf(source_object)
+			if(turf)
+				spawned.forceMove(turf)
 			spawned.alpha = 255
 			dead_particles -= spawned
 
