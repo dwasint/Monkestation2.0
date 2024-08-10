@@ -40,6 +40,7 @@
 	///do we allow boulders
 	var/allows_boulders = TRUE
 	var/next_allowed_process = 0
+	var/process_string
 
 /obj/machinery/bouldertech/Initialize(mapload)
 	. = ..()
@@ -56,6 +57,18 @@
 		COMSIG_ATOM_ENTERED = PROC_REF(on_entered),
 	)
 	AddElement(/datum/element/connect_loc, loc_connections)
+
+/obj/machinery/bouldertech/add_context(atom/source, list/context, obj/item/held_item, mob/user)
+	var/processable = "Accepts: "
+	if(allows_boulders)
+		processable += "Boulders"
+	if(process_string)
+		if(allows_boulders)
+			processable += ", "
+		processable += process_string
+
+	context[SCREENTIP_CONTEXT_MISC] = processable
+	return CONTEXTUAL_SCREENTIP_SET
 
 /obj/machinery/bouldertech/Destroy()
 	boulders_contained = null

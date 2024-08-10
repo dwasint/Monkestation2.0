@@ -4,6 +4,7 @@
 	icon_state = "chemical_injection"
 	allows_boulders = FALSE
 	holds_minerals = TRUE
+	process_string = "Brine"
 	processable_materials = list(
 		/datum/material/iron,
 		/datum/material/titanium,

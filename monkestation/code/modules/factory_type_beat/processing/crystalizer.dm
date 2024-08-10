@@ -4,6 +4,7 @@
 	icon_state = "crystalizer"
 	allows_boulders = FALSE
 	holds_minerals = TRUE
+	process_string = "Clean Slurry"
 	processable_materials = list(
 		/datum/material/iron,
 		/datum/material/titanium,

@@ -4,6 +4,7 @@
 	desc = "Uses a large amount of oxygen to purify ores into clumps."
 	icon_state = "purification_chamber"
 	holds_minerals = TRUE
+	process_string = "Shards"
 	processable_materials = list(
 		/datum/material/iron,
 		/datum/material/titanium,

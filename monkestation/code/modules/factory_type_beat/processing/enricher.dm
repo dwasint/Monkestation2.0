@@ -3,6 +3,7 @@
 	desc = "enriches boulders into dust which can then de smelted at a smelter for double the materials."
 	icon_state = "enricher"
 	holds_minerals = TRUE
+	process_string = "Dirty Dust"
 	processable_materials = list(
 		/datum/material/iron,
 		/datum/material/titanium,

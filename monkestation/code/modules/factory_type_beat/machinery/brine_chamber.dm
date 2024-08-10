@@ -8,6 +8,33 @@
 	can_atmos_pass = ATMOS_PASS_NO
 
 
+//pain
+/obj/structure/brine_chamber/proc/assert_sprite()
+	var/obj/structure/brine_chamber/above = locate(/obj/structure/brine_chamber) in get_step(src, NORTH)
+	var/obj/structure/brine_chamber/below = locate(/obj/structure/brine_chamber) in get_step(src, SOUTH)
+	var/obj/structure/brine_chamber/left = locate(/obj/structure/brine_chamber) in get_step(src, WEST)
+	var/obj/structure/brine_chamber/right = locate(/obj/structure/brine_chamber) in get_step(src, EAST)
+
+	if(!above && !below)
+		icon_state = "brine_chamber"
+		return
+	if(above && below)
+		icon_state = "brine_chamber_vertical"
+		return
+	if((above || below) && (left || right))
+		icon_state = "brine_corner"
+		if(above && left)
+			dir = NORTH
+		if(above && right)
+			dir = SOUTH
+		if(below && left)
+			dir = WEST
+		if(below && right)
+			dir = EAST
+
+/obj/structure/brine_chamber/controller/assert_sprite()
+	return
+
 /obj/structure/brine_chamber/Initialize(mapload)
 	. = ..()
 	AddElement(/datum/element/give_turf_traits, string_list(list(TRAIT_BLOCK_LIQUID_SPREAD)))
@@ -36,6 +63,8 @@
 			break
 		var/obj/structure/brine_chamber/new_piece = new (spawned_turf)
 		walls += new_piece
+	for(var/obj/structure/brine_chamber/chamber as anything in walls)
+		chamber.assert_sprite()
 
 	create_reagents(3000, TRANSPARENT)
 	AddComponent(/datum/component/plumbing/brine_controller)
@@ -79,6 +108,7 @@
 /datum/component/plumbing/brine_controller
 	supply_connects = SOUTH
 	supply_color = COLOR_GREEN
+	extend_pipe_to_edge = TRUE
 
 	ducting_layer = FOURTH_DUCT_LAYER
 

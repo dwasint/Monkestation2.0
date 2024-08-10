@@ -2,6 +2,8 @@
 	name = "chemical infuser"
 	desc = "An afront to both chemists and atmospheric technicans."
 
+	layer = BELOW_OBJ_LAYER
+
 	icon_state = "reaction_chamber"
 	icon = 'icons/obj/plumbing/plumbers.dmi'
 

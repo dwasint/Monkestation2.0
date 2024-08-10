@@ -3,6 +3,7 @@
 	desc = "Crushes shards when infused with brine."
 	icon_state = "dissolution"
 	holds_minerals = TRUE
+	process_string = "Sulfuric Acid"
 	processable_materials = list(
 		/datum/material/iron,
 		/datum/material/titanium,

@@ -4,6 +4,7 @@
 	icon_state = "washer"
 	allows_boulders = FALSE
 	holds_minerals = TRUE
+	process_string = "Water, Dirty Slurry"
 	processable_materials = list(
 		/datum/material/iron,
 		/datum/material/titanium,
