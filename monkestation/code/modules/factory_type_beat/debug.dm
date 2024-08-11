@@ -18,7 +18,6 @@ SUBSYSTEM_DEF(memory_stats)
 
 
 /datum/controller/subsystem/memory_stats/fire(resumed)
-	. = ..()
 	var/memory_summary = call_ext("memorystats", "get_memory_stats")()
 	var/file = file("data/mem_stat/[GLOB.round_id]-memstat.txt")
 
