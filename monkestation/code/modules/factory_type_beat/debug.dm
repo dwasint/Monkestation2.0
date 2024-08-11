@@ -8,6 +8,17 @@
 	WRITE_FILE(file, list_count)
 
 
+/proc/save_types()
+	var/datum/D
+	var/atom/A
+	var/list/counts = new
+	for(A) counts[A.type] = (counts[A.type]||0) + 1
+	for(D) counts[D.type] = (counts[D.type]||0) + 1
+
+	var/F = file("data/type_tracker/[GLOB.round_id]-stat_track.txt")
+	for(var/i in counts)
+		WRITE_FILE(F, "[i]\t[counts[i]]\n")
+
 SUBSYSTEM_DEF(memory_stats)
 	name = "Mem Stats"
 	init_order = INIT_ORDER_AIR

@@ -249,6 +249,7 @@ GLOBAL_LIST_INIT(round_end_images, world.file2list("data/image_urls.txt")) // MO
 	CHECK_TICK
 
 	count_lists()
+	save_types()
 
 	handle_hearts()
 	set_observer_default_invisibility(0, span_warning("The round is over! You are now visible to the living."))
