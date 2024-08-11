@@ -30,6 +30,8 @@
 	var/obj/effect/big_manipulator_hand/manipulator_hand
 	///are we hacked?
 	var/hacked = FALSE
+	///our installed filter
+	var/obj/item/manipulator_filter/filter
 
 /obj/machinery/big_manipulator/Initialize(mapload)
 	. = ..()
@@ -41,6 +43,9 @@
 
 /obj/machinery/big_manipulator/Destroy(force)
 	. = ..()
+	if(filter)
+		filter.forceMove(get_turf(src))
+		filter = null
 	qdel(manipulator_hand)
 	if(isnull(containment_obj))
 		return
@@ -48,6 +53,7 @@
 	if(isnull(obj_resolve))
 		return
 	obj_resolve.forceMove(get_turf(obj_resolve))
+
 
 /obj/machinery/big_manipulator/Moved(atom/old_loc, movement_dir, forced, list/old_locs, momentum_change)
 	. = ..()
@@ -178,13 +184,31 @@
 /// Pre take and drop proc from [take and drop procs loop]:
 /// Check if we have item on take_turf to start take and drop loop
 /obj/machinery/big_manipulator/proc/is_work_check()
+	if(filter)
+		var/atom/movable = filter_return()
+		if(movable)
+			try_take_thing(take_turf, movable)
+		return
+
 	if(hacked)
 		for(var/mob/living/take_item in take_turf.contents)
 			try_take_thing(take_turf, take_item)
 			break
+	for(var/obj/take_item in take_turf.contents)
+		if(take_item.anchored)
+			continue
+		try_take_thing(take_turf, take_item)
+		break
 	for(var/obj/item/take_item in take_turf.contents)
 		try_take_thing(take_turf, take_item)
 		break
+
+/obj/machinery/big_manipulator/proc/filter_return()
+	if(!filter)
+		return null
+	for(var/atom/movable/listed in take_turf.contents)
+		if(filter.check_filter(listed))
+			return listed
 
 /// First take and drop proc from [take and drop procs loop]:
 /// Check if we can take item from take_turf to work with him. This proc also calling from ATOM_ENTERED signal.
@@ -203,8 +227,19 @@
 		on = FALSE
 		say("Not enough energy!")
 		return
-	if(isitem(target) || (isliving(target) && hacked))
+
+	if(filter)
+		if(passes_filter(target))
+			start_work(target)
+		return
+
+	if(isitem(target) || (isliving(target) && hacked) || (isobj(target) && !target.anchored))
 		start_work(target)
+
+/obj/machinery/big_manipulator/proc/passes_filter(atom/movable/target)
+	if(!filter)
+		return FALSE
+	return filter.check_filter(target)
 
 /// Second take and drop proc from [take and drop procs loop]:
 /// Taking our item and start manipulator hand rotate animation.
@@ -252,6 +287,13 @@
 	if(!ui)
 		ui = new(user, src, "BigManipulator")
 		ui.open()
+
+/obj/machinery/big_manipulator/AltClick(mob/user)
+	. = ..()
+	if(!filter)
+		return
+	filter.forceMove(get_turf(src))
+	filter = null
 
 /obj/machinery/big_manipulator/ui_data(mob/user)
 	var/list/data = list()
@@ -337,3 +379,126 @@
 
 /obj/machinery/proc/can_drop_off()
 	return TRUE
+
+
+/obj/item/manipulator_filter
+	name = "manipulator filter"
+	desc = "A filter specifically designed to work inside of a manipulator."
+
+	icon = 'monkestation/code/modules/factory_type_beat/icons/items.dmi'
+	icon_state = "filter"
+
+	var/list/filtered_items = list()
+	var/max_filtered_items = 5
+
+
+/obj/item/manipulator_filter/afterattack(atom/target, mob/user, proximity_flag, click_parameters)
+	if(istype(target, /obj/machinery/big_manipulator))
+		try_attach(target)
+		return
+
+	if(target == src)
+		return ..()
+	if(!proximity_flag)
+		return ..()
+	if(!ismovable(target))
+		return ..()
+	if(istype(target, /obj/effect/decal/conveyor_sorter))
+		return
+	if(is_type_in_list(target, filtered_items))
+		to_chat(user, span_warning("[target] is already in [src]'s sorting list!"))
+		return
+	if(length(filtered_items) >= max_filtered_items)
+		to_chat(user, span_warning("[src] already has [max_filtered_items] things within the sorting list!"))
+		return
+	filtered_items += target.type
+	to_chat(user, span_notice("[target] has been added to [src]'s sorting list."))
+
+/obj/item/manipulator_filter/examine(mob/user)
+	. = ..()
+	. += span_notice("This sorter can sort up to <b>[max_filtered_items]</b> Items.")
+	. += span_notice("Use Alt-Click to reset the sorting list.")
+	. += span_notice("Attack things to attempt to add to the sorting list.")
+
+/obj/item/manipulator_filter/AltClick(mob/user)
+	visible_message("[src] pings, resetting its sorting list!")
+	playsound(src, 'sound/machines/ping.ogg', 30, TRUE)
+	filtered_items = list()
+
+/obj/item/manipulator_filter/proc/try_attach(obj/machinery/big_manipulator/target)
+	if(target.filter)
+		return FALSE
+	target.filter = src
+	src.forceMove(target)
+	return TRUE
+
+/obj/item/manipulator_filter/proc/check_filter(atom/movable/target)
+	if(target.type in filtered_items)
+		return TRUE
+	return FALSE
+
+
+/obj/item/manipulator_filter/cargo
+	name = "manipulator filter"
+	desc = "A filter specifically designed to work inside of a manipulator."
+
+/obj/item/manipulator_filter/cargo/afterattack(atom/target, mob/user, proximity_flag, click_parameters)
+	if(istype(target, /obj/machinery/big_manipulator))
+		try_attach(target)
+		return
+
+/obj/item/manipulator_filter/attack_self(mob/user, modifiers)
+	. = ..()
+	var/choice = tgui_input_list(user, "Add a destination to check", name, GLOB.TAGGERLOCATIONS - filtered_items)
+	if(!choice)
+		return
+
+	if(length(filtered_items) >= max_filtered_items)
+		return
+
+	filtered_items |= choice
+
+/obj/item/manipulator_filter/cargo/check_filter(atom/movable/target)
+	if(istype(target, /obj/item/delivery))
+		var/obj/item/delivery/item = target
+		var/name_tag = GLOB.TAGGERLOCATIONS[item.sort_tag]
+		if(name_tag in filtered_items)
+			return TRUE
+
+	if(istype(target, /obj/item/mail))
+		var/obj/item/mail/item = target
+		var/name_tag = GLOB.TAGGERLOCATIONS[item.sort_tag]
+		if(name_tag in filtered_items)
+			return TRUE
+
+	if(SEND_SIGNAL(target, COMSIG_FILTER_CHECK, filtered_items))
+		return TRUE
+
+	return FALSE
+
+
+/obj/item/manipulator_filter/internal_filter
+	name = "internal filter"
+	desc = "Checks the contents inside of an object and if it matches any of the filters grabs the object"
+
+/obj/item/manipulator_filter/internal_filter/check_filter(atom/movable/target)
+	for(var/atom/movable/listed in target.contents)
+		if(listed.type in filtered_items)
+			return TRUE
+	return FALSE
+
+
+/proc/departmental_destination_to_tag(destination)
+	switch(destination)
+		if(/area/station/engineering/main)
+			return "Engineering"
+		if(/area/station/science/research)
+			return "Research"
+		if(/area/station/hallway/secondary/service)
+			return  "Hydroponics"
+		if(/area/station/service/bar/atrium)
+			return "Bar"
+		if(/area/station/security/office, /area/station/security/brig, /area/station/security/brig/upper)
+			return "Security"
+		if(/area/station/medical/medbay/central, /area/station/medical/medbay, /area/station/medical/treatment_center, /area/station/medical/storage)
+			return "Medbay"

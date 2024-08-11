@@ -400,6 +400,7 @@
 #include "code\__DEFINES\~monkestation\blackboard.dm"
 #include "code\__DEFINES\~monkestation\blueshift.dm"
 #include "code\__DEFINES\~monkestation\botany.dm"
+#include "code\__DEFINES\~monkestation\cargo.dm"
 #include "code\__DEFINES\~monkestation\chat.dm"
 #include "code\__DEFINES\~monkestation\clock_cult.dm"
 #include "code\__DEFINES\~monkestation\colors.dm"
