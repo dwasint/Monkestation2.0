@@ -20,9 +20,24 @@
 		COMSIG_ATOM_ENTERED = PROC_REF(on_entered),
 	)
 	AddElement(/datum/element/connect_loc, loc_connections)
+	AddComponent(/datum/component/hovering_information, /datum/hover_data/assembler)
+	register_context()
 
 	if(!length(crafting_recipes))
 		create_recipes()
+
+/obj/machinery/assembler/add_context(atom/source, list/context, obj/item/held_item, mob/user)
+	. = ..()
+	if(chosen_recipe)
+		var/processable = "Accepts: "
+		var/comma = FALSE
+		for(var/atom/atom as anything in chosen_recipe.reqs)
+			if(comma)
+				processable += ", "
+			processable += initial(atom.name)
+			comma = !comma
+		context[SCREENTIP_CONTEXT_MISC] = processable
+		return CONTEXTUAL_SCREENTIP_SET
 
 /obj/machinery/assembler/examine(mob/user)
 	. = ..()
@@ -230,3 +245,41 @@
 	I.forceMove(get_turf(src))
 	crafting = FALSE
 	check_recipe_state()
+
+
+/datum/hover_data/assembler
+	var/obj/effect/overlay/hover/recipe_icon
+	var/last_type
+
+/datum/hover_data/assembler/New(datum/component/hovering_information, atom/parent)
+	. = ..()
+	recipe_icon = new(null)
+	recipe_icon.maptext_width = 64
+	recipe_icon.maptext_y = 32
+	recipe_icon.maptext_x = -4
+	recipe_icon.alpha = 125
+
+/datum/hover_data/assembler/setup_data(obj/machinery/assembler/source, mob/enterer)
+	. = ..()
+	if(!source.chosen_recipe)
+		return
+	if(last_type != source.chosen_recipe.result)
+		update_image(source)
+	var/image/new_image = new(source)
+	new_image.appearance = recipe_icon.appearance
+	SET_PLANE_EXPLICIT(new_image, new_image.plane, source)
+	if(!isturf(source.loc))
+		new_image.loc = source.loc
+	else
+		new_image.loc = source
+	add_client_image(new_image, enterer.client)
+
+/datum/hover_data/assembler/proc/update_image(obj/machinery/assembler/source)
+	if(!source.chosen_recipe)
+		return
+	last_type = source.chosen_recipe.result
+
+	var/atom/atom = source.chosen_recipe.result
+
+	recipe_icon.icon = initial(atom.icon)
+	recipe_icon.icon_state = initial(atom.icon_state)
