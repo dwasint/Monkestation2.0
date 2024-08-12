@@ -106,6 +106,10 @@
 
 	if((atom_movable.type in reqs))
 		return TRUE
+	if(isstack(atom_movable))
+		var/obj/item/stack/stack = atom_movable
+		if((stack.merge_type in reqs))
+			return TRUE
 
 	return FALSE
 
@@ -129,6 +133,8 @@
 		start_craft()
 
 /obj/machinery/assembler/proc/start_craft()
+	if(crafting)
+		return
 	crafting = TRUE
 
 	if(!machine_do_after_visable(src, chosen_recipe.time * speed_multiplier * 3))
@@ -203,13 +209,14 @@
 
 	var/atom/movable/I
 	if(ispath(chosen_recipe.result, /obj/item/stack))
-		I = new chosen_recipe.result (get_turf(src), chosen_recipe.result_amount || 1)
+		I = new chosen_recipe.result (src, chosen_recipe.result_amount || 1)
 	else
-		I = new chosen_recipe.result (get_turf(src))
+		I = new chosen_recipe.result ((src)
 		if(I.atom_storage && chosen_recipe.delete_contents)
 			for(var/obj/item/thing in I)
 				qdel(thing)
 	I.CheckParts(stored_parts, chosen_recipe)
 
+	I.forceMove(get_turf(src))
 	crafting = FALSE
 	check_recipe_state()
