@@ -82,7 +82,12 @@
 /obj/machinery/assembler/proc/check_item(atom/movable/atom_movable)
 	if(!chosen_recipe)
 		return
-	if(!(atom_movable.type in chosen_recipe.reqs) || !(atom_movable.type in chosen_recipe.parts))
+	if(isstack(atom_movable))
+		var/obj/item/stack/stack = atom_movable
+		if(!(stack.merge_type in chosen_recipe.reqs))
+			return FALSE
+
+	if((!(atom_movable.type in chosen_recipe.reqs) || !(atom_movable.type in chosen_recipe.parts)) && !isstack(atom_movable))
 		return FALSE
 
 	var/list/reqs = chosen_recipe.reqs.Copy()
@@ -211,7 +216,7 @@
 	if(ispath(chosen_recipe.result, /obj/item/stack))
 		I = new chosen_recipe.result (src, chosen_recipe.result_amount || 1)
 	else
-		I = new chosen_recipe.result ((src)
+		I = new chosen_recipe.result (src)
 		if(I.atom_storage && chosen_recipe.delete_contents)
 			for(var/obj/item/thing in I)
 				qdel(thing)
