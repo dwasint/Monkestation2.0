@@ -24,7 +24,12 @@
 	if(!length(crafting_recipes))
 		create_recipes()
 
-
+/obj/machinery/assembler/examine(mob/user)
+	. = ..()
+	if(chosen_recipe)
+		. += span_notice(chosen_recipe.name)
+		for(var/atom/atom as anything in chosen_recipe.reqs)
+			. += span_notice("[initial(atom.name)]: [chosen_recipe.reqs[atom]]")
 
 /obj/machinery/assembler/proc/create_recipes()
 	for(var/datum/crafting_recipe/recipe as anything in subtypesof(/datum/crafting_recipe))
