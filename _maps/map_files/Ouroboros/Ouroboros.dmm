@@ -55430,11 +55430,6 @@
 	},
 /turf/open/floor/iron,
 /area/station/commons/vacant_room/commissary)
-"qpA" = (
-/obj/structure/cable,
-/obj/structure/lattice/catwalk,
-/turf/open/space/basic,
-/area/space/nearstation)
 "qpE" = (
 /obj/effect/landmark/event_spawn,
 /turf/open/floor/iron,
@@ -79220,6 +79215,11 @@
 /obj/item/radio/intercom/directional/north,
 /turf/open/floor/iron/dark/diagonal,
 /area/station/commons/fitness/recreation)
+"xsV" = (
+/obj/structure/cable,
+/obj/structure/lattice/catwalk,
+/turf/open/space/basic,
+/area/space/nearstation)
 "xsW" = (
 /obj/structure/disposalpipe/segment{
 	dir = 4
@@ -103715,8 +103715,8 @@ exB
 inF
 obu
 pWu
-qpA
-qpA
+xsV
+xsV
 pWu
 npN
 pWu
