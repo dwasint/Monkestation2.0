@@ -96,20 +96,12 @@
 				reqs[item.type] -= stack.amount
 				if(reqs[item.type] <= 0)
 					reqs -= item.type
-			if(item in parts)
-				parts[item.type] -= stack.amount
-				if(parts[item.type] <= 0)
-					parts -= item.type
 		else
 			if(item in reqs)
 				reqs[item.type]--
 				if(reqs[item.type] <= 0)
 					reqs -= item.type
-			if(item in parts)
-				parts[item.type]--
-				if(parts[item.type] <= 0)
-					parts -= item.type
-	if(!length(parts) && !length(reqs))
+	if(!length(reqs))
 		return FALSE
 
 	if((atom_movable.type in reqs))
