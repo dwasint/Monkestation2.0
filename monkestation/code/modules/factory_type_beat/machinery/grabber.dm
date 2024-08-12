@@ -344,16 +344,6 @@
 		ma.pixel_y = item_y
 		. += ma
 
-/datum/design/board/big_manipulator
-	name = "Big Manipulator Board"
-	desc = "The circuit board for a big manipulator."
-	id = "big_manipulator"
-	build_path = /obj/item/circuitboard/machine/big_manipulator
-	category = list(
-		RND_CATEGORY_MACHINE + RND_SUBCATEGORY_MACHINE_ENGINEERING
-	)
-	departmental_flags = DEPARTMENT_BITFLAG_SCIENCE | DEPARTMENT_BITFLAG_ENGINEERING | DEPARTMENT_BITFLAG_CARGO | DEPARTMENT_BITFLAG_SERVICE
-
 /obj/item/circuitboard/machine/big_manipulator
 	name = "Big Manipulator"
 	greyscale_colors = CIRCUIT_COLOR_ENGINEERING
