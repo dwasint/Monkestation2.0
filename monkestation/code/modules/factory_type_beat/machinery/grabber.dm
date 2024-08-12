@@ -32,6 +32,9 @@
 	var/hacked = FALSE
 	///our installed filter
 	var/obj/item/manipulator_filter/filter
+	///our failed attempts
+	var/failed_attempts = 0
+	var/atom/movable/failed_item
 
 /obj/machinery/big_manipulator/Initialize(mapload)
 	. = ..()
@@ -43,6 +46,7 @@
 
 /obj/machinery/big_manipulator/Destroy(force)
 	. = ..()
+	failed_item = null
 	if(filter)
 		filter.forceMove(get_turf(src))
 		filter = null
@@ -199,9 +203,6 @@
 			continue
 		try_take_thing(take_turf, take_item)
 		break
-	for(var/obj/item/take_item in take_turf.contents)
-		try_take_thing(take_turf, take_item)
-		break
 
 /obj/machinery/big_manipulator/proc/filter_return()
 	if(!filter)
@@ -214,6 +215,9 @@
 /// Check if we can take item from take_turf to work with him. This proc also calling from ATOM_ENTERED signal.
 /obj/machinery/big_manipulator/proc/try_take_thing(datum/source, atom/movable/target)
 	SIGNAL_HANDLER
+	if(target == failed_item)
+		failed_item = null
+		return
 
 	if(!on)
 		return
@@ -227,6 +231,7 @@
 		on = FALSE
 		say("Not enough energy!")
 		return
+	failed_item = null
 
 	if(filter)
 		if(passes_filter(target))
@@ -255,9 +260,15 @@
 /// Third take and drop proc from [take and drop procs loop]:
 /// Drop our item and start manipulator hand backward animation.
 /obj/machinery/big_manipulator/proc/drop_thing(atom/movable/target)
-	if(!drop_turf.can_drop_off())
+	if(!drop_turf.can_drop_off(target))
+		failed_attempts++
+		if(failed_attempts >= 10)
+			do_rotate_animation(0)
+			addtimer(CALLBACK(src, PROC_REF(end_work_failed), target), working_speed)
+			return
 		addtimer(CALLBACK(src, PROC_REF(drop_thing), target), working_speed)
 		return
+	failed_attempts = 0
 	target.forceMove(drop_turf)
 	manipulator_hand.picked = null
 	manipulator_hand.update_appearance()
@@ -268,6 +279,15 @@
 /// Finishes work and begins to look for a new item for [take and drop procs loop].
 /obj/machinery/big_manipulator/proc/end_work()
 	on_work = FALSE
+	is_work_check()
+
+/obj/machinery/big_manipulator/proc/end_work_failed(atom/movable/target)
+	target.forceMove(take_turf)
+	failed_item = target
+	manipulator_hand.picked = null
+	manipulator_hand.update_appearance()
+	on_work = FALSE
+	failed_attempts = 0
 	is_work_check()
 
 /// Rotates manipulator hand 90 degrees.
@@ -352,22 +372,22 @@
 		/datum/stock_part/manipulator = 1,
 		)
 
-/turf/proc/can_drop_off()
+/turf/proc/can_drop_off(atom/movable/target)
 	if(isclosedturf(src))
 		return FALSE
 	for(var/obj/structure/listed in contents)
-		if(!listed.can_drop_off())
+		if(!listed.can_drop_off(target))
 			return FALSE
 	for(var/obj/machinery/listed in contents)
-		if(!listed.can_drop_off())
+		if(!listed.can_drop_off(target))
 			return FALSE
 
 	return TRUE
 
-/obj/structure/proc/can_drop_off()
+/obj/structure/proc/can_drop_off(atom/movable/target)
 	return TRUE
 
-/obj/machinery/proc/can_drop_off()
+/obj/machinery/proc/can_drop_off(atom/movable/target)
 	return TRUE
 
 
