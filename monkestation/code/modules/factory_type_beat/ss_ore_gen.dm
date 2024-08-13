@@ -26,7 +26,6 @@ SUBSYSTEM_DEF(ore_generation)
 		/datum/material/diamond = 3,
 		/datum/material/uranium = 3,
 		/datum/material/bluespace = 3,
-		/datum/material/plastic = 1,
 	)
 	/**
 	 * A list of all the minerals that are being mined by ore vents. We reset this list every time cave generation is done.
