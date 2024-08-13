@@ -10977,8 +10977,7 @@
 /area/station/medical/chemistry)
 "dph" = (
 /obj/effect/spawner/structure/window/reinforced,
-/obj/structure/grille,
-/turf/open/space/basic,
+/turf/open/floor/plating,
 /area/station/science/auxlab)
 "dpr" = (
 /obj/effect/turf_decal/siding/wood{
@@ -15103,11 +15102,6 @@
 	},
 /turf/open/floor/engine,
 /area/station/science/xenobiology)
-"exB" = (
-/obj/structure/lattice/catwalk,
-/obj/structure/lattice/catwalk,
-/turf/open/space/basic,
-/area/space/nearstation)
 "exC" = (
 /obj/structure/sink/directional/east,
 /obj/structure/mirror/directional/west,
@@ -25241,12 +25235,6 @@
 	},
 /turf/open/floor/iron,
 /area/station/maintenance/aft/greater)
-"hBe" = (
-/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
-/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
-/obj/structure/cable,
-/turf/open/floor/iron/white,
-/area/station/science/ordnance/testlab)
 "hBh" = (
 /obj/effect/turf_decal/siding/wood/corner{
 	dir = 8
@@ -27949,10 +27937,8 @@
 /turf/open/floor/iron/dark,
 /area/station/science/xenobiology)
 "inF" = (
-/obj/structure/lattice/catwalk,
-/obj/structure/lattice/catwalk,
-/obj/structure/lattice/catwalk,
 /obj/structure/marker_beacon/purple,
+/obj/structure/lattice/catwalk,
 /turf/open/space/basic,
 /area/space/nearstation)
 "inH" = (
@@ -33275,12 +33261,6 @@
 /obj/effect/landmark/start/hangover,
 /turf/open/floor/eighties,
 /area/station/common/arcade)
-"jSJ" = (
-/obj/structure/lattice,
-/obj/structure/lattice/catwalk,
-/obj/structure/cable,
-/turf/open/space/basic,
-/area/space/nearstation)
 "jSM" = (
 /obj/machinery/door/firedoor/border_only{
 	dir = 8
@@ -42223,12 +42203,6 @@
 "mua" = (
 /turf/open/floor/iron,
 /area/station/maintenance/fore/lesser)
-"mue" = (
-/obj/structure/lattice/catwalk,
-/obj/structure/lattice/catwalk,
-/obj/structure/marker_beacon/purple,
-/turf/open/space/basic,
-/area/space/nearstation)
 "mug" = (
 /obj/machinery/button/door/directional/west{
 	id = "private_6";
@@ -45551,9 +45525,8 @@
 /obj/structure/railing{
 	dir = 8
 	},
-/obj/structure/lattice,
-/obj/structure/lattice/catwalk,
 /obj/structure/cable,
+/obj/structure/lattice/catwalk,
 /turf/open/space/basic,
 /area/space/nearstation)
 "npV" = (
@@ -101648,7 +101621,7 @@ laO
 laO
 obu
 laO
-oPL
+inF
 wmi
 wmi
 wmi
@@ -101656,7 +101629,7 @@ wmi
 wmi
 wmi
 wmi
-oPL
+inF
 obu
 laO
 laO
@@ -103704,14 +103677,14 @@ laO
 obu
 oPL
 obu
-mue
+inF
 wmi
 wmi
 wmi
 wmi
 wmi
 wmi
-exB
+wmi
 inF
 obu
 pWu
@@ -103976,7 +103949,7 @@ laO
 laO
 obu
 pGv
-jSJ
+xsV
 obu
 bev
 bev
@@ -105261,7 +105234,7 @@ tAR
 ifz
 sng
 saR
-hBe
+dpz
 dZt
 gxE
 dcy
