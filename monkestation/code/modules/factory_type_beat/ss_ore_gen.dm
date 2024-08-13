@@ -12,6 +12,23 @@ SUBSYSTEM_DEF(ore_generation)
 	/// All the boulders that have been produced by ore vents to be pulled by BRM machines.
 	var/list/obj/item/boulder/available_boulders = list()
 	/**
+	 * Associated list of minerals to be associated with our ore vents.
+	 * Generally Should be empty by the time initialize ends on lavaland.
+	 * Each key value is the number of vents that will have this ore as a unique possible choice.
+	 */
+	var/static/list/ore_vent_minerals_default = list(
+		/datum/material/iron = 13,
+		/datum/material/glass = 12,
+		/datum/material/plasma = 9,
+		/datum/material/titanium = 6,
+		/datum/material/silver = 5,
+		/datum/material/gold = 5,
+		/datum/material/diamond = 3,
+		/datum/material/uranium = 3,
+		/datum/material/bluespace = 3,
+		/datum/material/plastic = 1,
+	)
+	/**
 	 * A list of all the minerals that are being mined by ore vents. We reset this list every time cave generation is done.
 	 * Generally Should be empty by the time initialize ends on lavaland.
 	 * Each key value is the number of vents that will have this ore as a unique possible choice.
