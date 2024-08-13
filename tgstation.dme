@@ -6816,6 +6816,7 @@
 #include "monkestation\code\modules\factory_type_beat\designs.dm"
 #include "monkestation\code\modules\factory_type_beat\effects.dm"
 #include "monkestation\code\modules\factory_type_beat\flatpacks.dm"
+#include "monkestation\code\modules\factory_type_beat\map_templates.dm"
 #include "monkestation\code\modules\factory_type_beat\ore_vent.dm"
 #include "monkestation\code\modules\factory_type_beat\ss_ore_gen.dm"
 #include "monkestation\code\modules\factory_type_beat\technodes.dm"

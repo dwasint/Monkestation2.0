@@ -147,7 +147,7 @@
  * The actual movement is then handled by collect_boulder() after a timed callback.
  */
 /obj/machinery/bouldertech/brm/proc/pre_collect_boulder()
-	if(!SSore_generation.available_boulders.len)
+	if(!length(SSore_generation.available_boulders))
 		playsound(loc, 'sound/machines/synth_no.ogg', 30 , TRUE)
 		balloon_alert_to_viewers("no boulders to collect!")
 		return FALSE //Nothing to collect
