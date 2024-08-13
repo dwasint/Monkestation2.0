@@ -364,14 +364,6 @@
 		ma.pixel_y = item_y
 		. += ma
 
-/obj/item/circuitboard/machine/big_manipulator
-	name = "Big Manipulator"
-	greyscale_colors = CIRCUIT_COLOR_ENGINEERING
-	build_path = /obj/machinery/big_manipulator
-	req_components = list(
-		/datum/stock_part/manipulator = 1,
-		)
-
 /turf/proc/can_drop_off(atom/movable/target)
 	if(isclosedturf(src))
 		return FALSE

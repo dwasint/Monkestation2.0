@@ -69,7 +69,7 @@
 	create_reagents(3000, TRANSPARENT)
 	AddComponent(/datum/component/plumbing/brine_controller)
 	AddComponent(/datum/component/plumbing/chemical_washer_water)
-	AddElement(/datum/element/repackable, item_to_pack_into = /obj/item/flatpacked_machine/generic, repacking_time = 3 SECONDS, generic_repack = TRUE)
+	AddElement(/datum/element/repackable, item_to_pack_into = /obj/item/flatpacked_machine/ore_processing/brine_chamber, repacking_time = 3 SECONDS)
 
 	START_PROCESSING(SSobj, src)
 
@@ -99,9 +99,7 @@
 		walls -= wall
 		qdel(wall)
 	if(!from_destroy)
-		var/obj/item/flatpacked_machine/generic/new_pack = new /obj/item/flatpacked_machine/generic(src.drop_location())
-		new_pack.type_to_deploy = src.type
-		new_pack.after_set()
+		new/obj/item/flatpacked_machine/ore_processing/brine_chamber(src.drop_location())
 	turfs = null
 
 

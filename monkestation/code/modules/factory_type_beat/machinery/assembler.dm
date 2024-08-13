@@ -1,6 +1,7 @@
 /obj/machinery/assembler
 	name = "assembler"
 	desc = "Produces a set recipe when given the materials, some say a small cargo technican is stuck inside making these things."
+	circuit = /obj/item/circuitboard/machine/assembler
 
 	var/speed_multiplier = 1
 	var/datum/crafting_recipe/chosen_recipe
@@ -10,7 +11,7 @@
 	var/list/crafting_inventory = list()
 
 	icon = 'monkestation/code/modules/factory_type_beat/icons/mining_machines.dmi'
-	icon_state = "splitter"
+	icon_state = "assembler"
 
 
 /obj/machinery/assembler/Initialize(mapload)
@@ -25,6 +26,19 @@
 
 	if(!length(crafting_recipes))
 		create_recipes()
+
+/obj/machinery/assembler/RefreshParts()
+	. = ..()
+	var/datum/stock_part/manipulator/locate_servo = locate() in component_parts
+	if(!locate_servo)
+		return
+	speed_multiplier = 1 / locate_servo.tier
+
+/obj/machinery/assembler/Destroy()
+	. = ..()
+	for(var/atom/movable/movable in crafting_inventory)
+		movable.forceMove(get_turf(src))
+		crafting_inventory -= movable
 
 /obj/machinery/assembler/add_context(atom/source, list/context, obj/item/held_item, mob/user)
 	. = ..()
@@ -67,7 +81,12 @@
 		return FALSE
 	if(!chosen_recipe)
 		return FALSE
-	if(!(mover.type in chosen_recipe.reqs) || !(mover.type in chosen_recipe.parts))
+	var/failed = TRUE
+	for(var/atom/movable/movable as anything in chosen_recipe.reqs)
+		if(istype(mover, movable))
+			failed = FALSE
+			break
+	if(failed)
 		return FALSE
 	if(!check_item(mover))
 		return FALSE
@@ -85,7 +104,12 @@
 		if(!(stack.merge_type in chosen_recipe.reqs))
 			return FALSE
 	else
-		if(!(atom_movable.type in chosen_recipe.reqs))
+		var/failed = TRUE
+		for(var/atom/movable/movable as anything in chosen_recipe.reqs)
+			if(istype(atom_movable, movable))
+				failed = FALSE
+				break
+		if(failed)
 			return FALSE
 
 	atom_movable.forceMove(src)
@@ -107,8 +131,14 @@
 		if(!(stack.merge_type in chosen_recipe.reqs))
 			return FALSE
 
-	if((!(atom_movable.type in chosen_recipe.reqs) || !(atom_movable.type in chosen_recipe.parts)) && !isstack(atom_movable))
-		return FALSE
+	if(!isstack(atom_movable))
+		var/failed = TRUE
+		for(var/atom/movable/movable as anything in chosen_recipe.reqs)
+			if(istype(atom_movable, movable))
+				failed = FALSE
+				break
+		if(failed)
+			return FALSE
 
 	var/list/reqs = chosen_recipe.reqs.Copy()
 	for(var/atom/movable/listed in reqs)
@@ -122,15 +152,22 @@
 				if(reqs[item.type] <= 0)
 					reqs -= item.type
 		else
-			if(item in reqs)
-				reqs[item.type]--
-				if(reqs[item.type] <= 0)
-					reqs -= item.type
+			for(var/atom/movable/movable as anything in chosen_recipe.reqs)
+				if(istype(item, movable))
+					reqs[movable]--
+					if(reqs[movable] <= 0)
+						reqs -= movable
 	if(!length(reqs))
 		return FALSE
 
-	if((atom_movable.type in reqs))
+	var/passed = FALSE
+	for(var/atom/movable/movable as anything in chosen_recipe.reqs)
+		if(istype(atom_movable, movable))
+			passed = TRUE
+			break
+	if(passed)
 		return TRUE
+
 	if(isstack(atom_movable))
 		var/obj/item/stack/stack = atom_movable
 		if((stack.merge_type in reqs))
@@ -150,10 +187,11 @@
 				if(reqs[stack.merge_type] <= 0)
 					reqs -= stack.merge_type
 		else
-			if(item.type in reqs)
-				reqs[item.type]--
-				if(reqs[item.type] <= 0)
-					reqs -= item.type
+			for(var/atom/movable/movable as anything in chosen_recipe.reqs)
+				if(istype(item, movable))
+					reqs[movable]--
+					if(reqs[movable] <= 0)
+						reqs -= movable
 	if(!length(reqs))
 		start_craft()
 
@@ -234,15 +272,17 @@
 
 	var/atom/movable/I
 	if(ispath(chosen_recipe.result, /obj/item/stack))
-		I = new chosen_recipe.result (src, chosen_recipe.result_amount || 1)
+		I = new chosen_recipe.result(src, chosen_recipe.result_amount || 1)
+		I.forceMove(drop_location())
 	else
 		I = new chosen_recipe.result (src)
+		I.forceMove(drop_location())
 		if(I.atom_storage && chosen_recipe.delete_contents)
 			for(var/obj/item/thing in I)
 				qdel(thing)
 	I.CheckParts(stored_parts, chosen_recipe)
+	I.forceMove(drop_location())
 
-	I.forceMove(get_turf(src))
 	crafting = FALSE
 	check_recipe_state()
 
