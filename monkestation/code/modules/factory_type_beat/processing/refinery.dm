@@ -111,7 +111,7 @@
 		if(istype(potential_boulder, /obj/item/processing/refined_dust))
 			refine_dust(potential_boulder)
 
-		if(!istype(potential_boulder, /obj/item/boulder))
+		if(!istype(potential_boulder, /obj/item/boulder) && !istype(potential_boulder, /obj/item/processing/refined_dust))
 			potential_boulder.forceMove(drop_location())
 			CRASH("\The [src] had a non-boulder in it's boulders contained!")
 

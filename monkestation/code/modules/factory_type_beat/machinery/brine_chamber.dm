@@ -87,7 +87,7 @@
 	if(reagents.total_volume)
 		inside_turf.add_liquid_from_reagents(reagents, FALSE, reagents.chem_temp, reagents.total_volume)
 		reagents.remove_all(reagents.total_volume)
-	if(!inside_turf.liquids)
+	if(!inside_turf?.liquids)
 		return
 	var/water_volume = inside_turf.liquids.liquid_group.reagents.get_reagent_amount(/datum/reagent/water)
 	inside_turf.liquids.liquid_group.reagents.remove_all_type(/datum/reagent/water, water_volume * 0.1)
