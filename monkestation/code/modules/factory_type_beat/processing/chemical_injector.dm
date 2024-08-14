@@ -22,7 +22,7 @@
 		/datum/material/plastic,
 	)
 	var/maximum_volume = 1000
-	var/brine_per_use = 100
+	var/brine_per_use = 25
 	var/crystal_inside = FALSE
 
 /obj/machinery/bouldertech/chemical_injector/update_icon_state()
