@@ -15,7 +15,7 @@
 
 /obj/item/flatpacked_machine/ore_processing/crystalizer
 	name = "flat-packed crystalizer"
-	type_to_deploy = /obj/machinery/bouldertech/chemical_injector
+	type_to_deploy = /obj/machinery/bouldertech/crystalizer
 
 /obj/item/flatpacked_machine/ore_processing/crusher
 	name = "flat-packed crusher"

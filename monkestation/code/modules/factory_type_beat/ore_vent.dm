@@ -353,6 +353,8 @@
 /obj/structure/ore_vent/proc/produce_boulder(apply_cooldown = FALSE)
 	RETURN_TYPE(/obj/item/boulder)
 
+	if(!length(mineral_breakdown))
+		generate_mineral_breakdown()
 	//cooldown applies only for manual processing by hand
 	if(apply_cooldown && !COOLDOWN_FINISHED(src, manual_vent_cooldown))
 		return
