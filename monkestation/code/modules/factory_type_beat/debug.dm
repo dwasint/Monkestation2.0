@@ -19,6 +19,14 @@
 	for(var/i in counts)
 		WRITE_FILE(F, "[i]\t[counts[i]]\n")
 
+/proc/save_datums()
+	var/datum/D
+	for(D) counts[D.type] = (counts[D.type]||0) + 1
+
+	var/F = file("data/type_tracker/[GLOB.round_id]-datums-[world.time].txt")
+	for(var/i in counts)
+		WRITE_FILE(F, "[i]\t[counts[i]]\n")
+
 SUBSYSTEM_DEF(memory_stats)
 	name = "Mem Stats"
 	init_order = INIT_ORDER_AIR
