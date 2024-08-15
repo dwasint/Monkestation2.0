@@ -18,7 +18,7 @@
 	name = "blueshield's locker"
 	icon_state = "bs"
 	icon = 'monkestation/code/modules/blueshift/icons/obj/closet.dmi'
-	req_access = list(ACCESS_CAPTAIN)
+	req_access = list(ACCESS_CENT_GENERAL)
 
 /obj/structure/closet/secure_closet/blueshield/New()
 	..()
