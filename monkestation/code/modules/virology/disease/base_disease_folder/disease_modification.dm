@@ -77,5 +77,5 @@
 
 	for(var/datum/reagent/reagent as anything in reagents.reagent_list)
 		if(prob(mutatechance))
-			reagent.stage_disease_incubate(incubator, src, symptoms_at_stage, machine)
+			reagent.stage_disease_incubate(src, symptoms_at_stage, machine)
 			reagents.remove_reagent(reagent.type, (reagent.volume * 0.1))
