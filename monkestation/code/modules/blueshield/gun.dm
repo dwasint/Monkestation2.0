@@ -44,8 +44,10 @@
 	extra_to_spawn = /obj/item/ammo_box/magazine/m35/rubber
 
 /obj/item/gun/ballistic/automatic/pistol/tech_9
-	name = "\improper Tech-9"
+	name = "\improper Glock-O"
 	desc = "The standard issue service pistol of blueshield agents."
+	burst_size = 1
+	fire_delay = 1
 
 	icon = 'monkestation/code/modules/blueshield/icons/gun.dmi'
 	icon_state = "tech9"
