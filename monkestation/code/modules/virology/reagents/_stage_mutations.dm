@@ -1,4 +1,4 @@
-/datum/reagent/toxin/mutagen/mutagenvirusfood/stage_disease_incubate(atom/movable/parent, datum/disease/disease, list/symptoms, obj/machinery/disease2/incubator/machine)
+/datum/reagent/toxin/mutagen/mutagenvirusfood/stage_disease_incubate(datum/disease/disease, list/symptoms, obj/machinery/disease2/incubator/machine)
 	disease.log += "<br />[ROUND_TIME()] Effect Mutation (Mutagenic Agar)"
 	for(var/datum/symptom/listed as anything in symptoms)
 		disease.effectmutate(isliving(parent), listed)
@@ -11,7 +11,7 @@
 			if(machine)
 				machine.update_major(parent)
 
-/datum/reagent/toxin/mutagen/mutagenvirusfood/sugar/stage_disease_incubate(atom/movable/parent, datum/disease/disease, list/symptoms, obj/machinery/disease2/incubator/machine)
+/datum/reagent/toxin/mutagen/mutagenvirusfood/sugar/stage_disease_incubate(datum/disease/disease, list/symptoms, obj/machinery/disease2/incubator/machine)
 	disease.log += "<br />[ROUND_TIME()] Effect Chance Strengthing (Sucrose Agar)"
 	for(var/datum/symptom/listed as anything in symptoms)
 		if((listed.chance == listed.max_chance) && prob(5))
