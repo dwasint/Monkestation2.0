@@ -48,6 +48,7 @@
 	desc = "The standard issue service pistol of blueshield agents."
 	burst_size = 1
 	fire_delay = 1
+	semi_auto = FALSE
 
 	icon = 'monkestation/code/modules/blueshield/icons/gun.dmi'
 	icon_state = "tech9"
