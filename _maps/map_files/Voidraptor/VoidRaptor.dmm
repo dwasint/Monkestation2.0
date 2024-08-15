@@ -16061,7 +16061,6 @@
 	name = "Blueshield's Equipment Room"
 	},
 /obj/machinery/door/firedoor,
-/obj/effect/mapping_helpers/airlock/access/all/command/captain,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/machinery/door/poddoor/preopen{
 	id = "bridge blast";
@@ -16073,6 +16072,7 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
 	},
+/obj/effect/mapping_helpers/airlock/access/any/admin,
 /turf/open/floor/iron/dark/textured_large,
 /area/station/command/heads_quarters/blueshield)
 "eFg" = (
@@ -17006,7 +17006,6 @@
 	name = "Blueshield's Equipment Room"
 	},
 /obj/machinery/door/firedoor,
-/obj/effect/mapping_helpers/airlock/access/all/command/captain,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/effect/turf_decal/stripes/line{
 	dir = 4
@@ -17014,6 +17013,7 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
 	},
+/obj/effect/mapping_helpers/airlock/access/any/admin,
 /turf/open/floor/iron/dark/textured_large,
 /area/station/command/heads_quarters/blueshield)
 "eUm" = (
@@ -28490,6 +28490,7 @@
 /obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer2{
 	dir = 4
 	},
+/obj/effect/landmark/start/blueshield,
 /turf/open/floor/carpet/cyan,
 /area/station/command/heads_quarters/blueshield)
 "ilY" = (
@@ -56359,6 +56360,12 @@
 	},
 /turf/open/floor/iron/textured,
 /area/station/engineering/atmos/storage)
+"pPe" = (
+/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
+/obj/effect/landmark/start/blueshield,
+/turf/open/floor/carpet/cyan,
+/area/station/command/heads_quarters/blueshield)
 "pPh" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/effect/spawner/random/structure/crate,
@@ -66205,6 +66212,7 @@
 	dir = 4
 	},
 /obj/effect/turf_decal/tile/dark_blue/full,
+/obj/effect/landmark/start/blueshield,
 /turf/open/floor/iron/dark/textured_large,
 /area/station/command/heads_quarters/blueshield)
 "sCw" = (
@@ -74757,7 +74765,6 @@
 /obj/machinery/door/airlock/corporate{
 	name = "Blueshield's Quarters"
 	},
-/obj/effect/mapping_helpers/airlock/access/all/command/captain,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/door/firedoor,
@@ -74775,6 +74782,7 @@
 	dir = 1
 	},
 /obj/effect/turf_decal/stripes/line,
+/obj/effect/mapping_helpers/airlock/access/any/admin,
 /turf/open/floor/wood/large,
 /area/station/command/heads_quarters/blueshield)
 "uNu" = (
@@ -117806,7 +117814,7 @@ tuF
 cmH
 vEu
 ohi
-imV
+pPe
 uNm
 imV
 uaz

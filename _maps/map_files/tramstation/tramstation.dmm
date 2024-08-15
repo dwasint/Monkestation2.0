@@ -12400,7 +12400,7 @@
 /obj/machinery/door/airlock/corporate{
 	name = "Blueshield's Quarters"
 	},
-/obj/effect/mapping_helpers/airlock/access/all/command/captain,
+/obj/effect/mapping_helpers/airlock/access/any/admin,
 /turf/open/floor/carpet/neon/simple/blue/nodots,
 /area/station/command/heads_quarters/blueshield)
 "cQQ" = (
@@ -12537,6 +12537,7 @@
 /turf/open/floor/iron/smooth,
 /area/station/maintenance/central/lesser)
 "cTK" = (
+/obj/effect/landmark/start/blueshield,
 /turf/open/floor/carpet/executive,
 /area/station/command/heads_quarters/blueshield)
 "cTM" = (
@@ -22400,6 +22401,7 @@
 /area/station/hallway/secondary/entry)
 "gfj" = (
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer4,
+/obj/effect/landmark/start/blueshield,
 /turf/open/floor/carpet/neon/simple/blue/nodots,
 /area/station/command/heads_quarters/blueshield)
 "gfu" = (

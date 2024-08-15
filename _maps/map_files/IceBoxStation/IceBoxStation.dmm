@@ -2079,8 +2079,8 @@
 	id_tag = "BSdoor";
 	name = "Blueshield's Office"
 	},
-/obj/effect/mapping_helpers/airlock/access/all/command/captain,
 /obj/effect/landmark/navigate_destination,
+/obj/effect/mapping_helpers/airlock/access/any/admin,
 /turf/open/floor/carpet,
 /area/station/command/heads_quarters/blueshield)
 "aJr" = (
@@ -27442,6 +27442,7 @@
 /obj/structure/chair/comfy/teal{
 	dir = 4
 	},
+/obj/effect/landmark/start/blueshield,
 /turf/open/floor/carpet/cyan,
 /area/station/command/heads_quarters/blueshield)
 "iOs" = (

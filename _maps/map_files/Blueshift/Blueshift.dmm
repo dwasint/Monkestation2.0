@@ -7804,8 +7804,8 @@
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
-/obj/effect/mapping_helpers/airlock/access/all/command/captain,
 /obj/effect/landmark/navigate_destination,
+/obj/effect/mapping_helpers/airlock/access/any/admin,
 /turf/open/floor/wood,
 /area/station/command/heads_quarters/blueshield)
 "bzQ" = (
@@ -15349,6 +15349,7 @@
 /area/station/science/ordnance/burnchamber)
 "cSH" = (
 /obj/structure/chair/office,
+/obj/effect/landmark/start/blueshield,
 /turf/open/floor/carpet/executive,
 /area/station/command/heads_quarters/blueshield)
 "cSI" = (
@@ -53392,7 +53393,7 @@
 /obj/machinery/door/firedoor,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
-/obj/effect/mapping_helpers/airlock/access/all/command/captain,
+/obj/effect/mapping_helpers/airlock/access/any/admin,
 /turf/open/floor/wood,
 /area/station/command/heads_quarters/blueshield)
 "kpS" = (
@@ -72841,7 +72842,7 @@
 /obj/machinery/door/airlock/highsecurity{
 	name = "Blueshield's Equipment Room"
 	},
-/obj/effect/mapping_helpers/airlock/access/all/command/captain,
+/obj/effect/mapping_helpers/airlock/access/any/admin,
 /turf/open/floor/wood,
 /area/station/command/heads_quarters/blueshield)
 "ohH" = (
@@ -100917,6 +100918,7 @@
 /area/station/maintenance/starboard/fore)
 "tCj" = (
 /obj/machinery/duct,
+/obj/effect/landmark/start/blueshield,
 /turf/open/floor/carpet/executive,
 /area/station/command/heads_quarters/blueshield)
 "tCm" = (
@@ -124803,6 +124805,7 @@
 	},
 /obj/item/clothing/neck/mantle/bsmantle,
 /obj/machinery/duct,
+/obj/structure/closet/secure_closet/blueshield,
 /turf/open/floor/carpet/executive,
 /area/station/command/heads_quarters/blueshield)
 "yeH" = (

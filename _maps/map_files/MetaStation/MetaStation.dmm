@@ -16177,6 +16177,7 @@
 /obj/effect/turf_decal/siding/wood{
 	dir = 8
 	},
+/obj/effect/landmark/start/blueshield,
 /turf/open/floor/wood,
 /area/station/command/heads_quarters/blueshield)
 "fYX" = (
@@ -26958,9 +26959,9 @@
 	id_tag = "BSdoor";
 	name = "Blueshield's Office"
 	},
-/obj/effect/mapping_helpers/airlock/access/all/command/captain,
 /obj/effect/landmark/navigate_destination,
 /obj/machinery/door/firedoor,
+/obj/effect/mapping_helpers/airlock/access/any/admin,
 /turf/open/floor/iron,
 /area/station/command/heads_quarters/blueshield)
 "jyQ" = (
@@ -29859,6 +29860,7 @@
 /obj/structure/chair/comfy/teal{
 	dir = 8
 	},
+/obj/effect/landmark/start/blueshield,
 /turf/open/floor/carpet/cyan,
 /area/station/command/heads_quarters/blueshield)
 "kAF" = (

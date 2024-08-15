@@ -139,3 +139,79 @@
 	worn_icon = 'monkestation/code/modules/blueshift/icons/mob/clothing/suits/wintercoat.dmi'
 	icon_state = "coataformal"
 	hoodtype = /obj/item/clothing/head/hooded/winterhood/nova
+
+/*
+*	BLUESHIELD
+*/
+//Why is this in command.dm? Simple: Centcom.dmi will already be packed with CC/NTNavy/AD/LL/SOL/FTU - all of them more event-based clothes, while this will appear
+//on-station often.
+
+/obj/item/clothing/under/rank/blueshield
+	icon = 'monkestation/code/modules/blueshift/icons/obj/clothing/under/command.dmi'
+	worn_icon = 'monkestation/code/modules/blueshift/icons/mob/clothing/under/command.dmi'
+	worn_icon_digitigrade = 'monkestation/code/modules/blueshift/icons/mob/clothing/under/command_digi.dmi'
+	name = "blueshield's suit"
+	desc = "A classic bodyguard's suit, with custom-fitted Blueshield-Blue cuffs and a Nanotrasen insignia over one of the pockets."
+	icon_state = "blueshield"
+	strip_delay = 50
+	armor_type = /datum/armor/clothing_under/rank_blueshield
+	sensor_mode = SENSOR_COORDS
+	random_sensor = FALSE
+	alt_covers_chest = TRUE
+
+/datum/armor/clothing_under/rank_blueshield
+	melee = 10
+	bullet = 5
+	laser = 5
+	energy = 10
+	bomb = 10
+	fire = 50
+	acid = 50
+
+/obj/item/clothing/under/rank/blueshield/skirt
+	name = "blueshield's suitskirt"
+	desc = "A classic bodyguard's suitskirt, with custom-fitted Blueshield-Blue cuffs and a Nanotrasen insignia over one of the pockets."
+	icon_state = "blueshieldskirt"
+	body_parts_covered = CHEST|GROIN|ARMS
+	dying_key = DYE_REGISTRY_JUMPSKIRT
+	female_sprite_flags = FEMALE_UNIFORM_TOP_ONLY
+	supports_variations_flags = CLOTHING_DIGITIGRADE_VARIATION_NO_NEW_ICON
+
+
+/obj/item/clothing/under/rank/blueshield/turtleneck
+	name = "blueshield's turtleneck"
+	desc = "A tactical jumper fit for only the best of bodyguards, with plenty of tactical pockets for your tactical needs."
+	icon_state = "bs_turtleneck"
+
+/obj/item/clothing/under/rank/blueshield/turtleneck/skirt
+	name = "blueshield's skirtleneck"
+	desc = "A tactical jumper fit for only the best of bodyguards - instead of tactical pockets, this one has a tactical lack of leg protection."
+	icon_state = "bs_skirtleneck"
+	body_parts_covered = CHEST|GROIN|ARMS
+	dying_key = DYE_REGISTRY_JUMPSKIRT
+	female_sprite_flags = FEMALE_UNIFORM_TOP_ONLY
+	supports_variations_flags = CLOTHING_DIGITIGRADE_VARIATION_NO_NEW_ICON
+
+/obj/item/clothing/neck/mantle/bsmantle
+	name = "\proper the blueshield's mantle"
+	desc = "A plated mantle with command colors. Suitable for the one assigned to making sure they're still breathing."
+	icon = 'monkestation/code/modules/blueshift/icons/mob/clothing/neck.dmi'
+	worn_icon = 'monkestation/code/modules/blueshift/icons/mob/clothing/neck.dmi'
+	icon_state = "bsmantle"
+
+/obj/item/radio/headset/headset_bs
+	name = "\proper the blueshield's headset"
+	icon = 'monkestation/code/modules/blueshield/icons/radio.dmi'
+	worn_icon = 'monkestation/code/modules/blueshift/icons/mob/clothing/ears.dmi'
+	icon_state = "bshield_headset"
+	worn_icon_state = "bshield_headset"
+	keyslot = /obj/item/encryptionkey/heads/blueshield
+	keyslot2 = /obj/item/encryptionkey/headset_cent
+
+/obj/item/radio/headset/headset_bs/alt
+	icon_state = "bshield_headset_alt"
+	worn_icon_state = "bshield_headset_alt"
+
+/obj/item/radio/headset/headset_bs/alt/Initialize(mapload)
+	. = ..()
+	AddComponent(/datum/component/wearertargeting/earprotection, list(ITEM_SLOT_EARS))

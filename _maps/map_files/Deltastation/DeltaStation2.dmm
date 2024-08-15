@@ -13817,6 +13817,7 @@
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer4{
 	dir = 1
 	},
+/obj/effect/landmark/start/blueshield,
 /turf/open/floor/carpet/executive,
 /area/station/command/heads_quarters/blueshield)
 "dla" = (
@@ -27976,6 +27977,7 @@
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer4{
 	dir = 8
 	},
+/obj/effect/landmark/start/blueshield,
 /turf/open/floor/carpet/neon/simple/blue/nodots,
 /area/station/command/heads_quarters/blueshield)
 "gEF" = (
@@ -50064,7 +50066,6 @@
 /turf/open/floor/iron/white,
 /area/station/medical/treatment_center)
 "lPG" = (
-/obj/effect/mapping_helpers/airlock/access/all/command/captain,
 /obj/machinery/door/airlock/corporate{
 	id_tag = "BSdoor";
 	name = "Blueshield's Office"
@@ -50074,6 +50075,7 @@
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
+/obj/effect/mapping_helpers/airlock/access/any/admin,
 /turf/open/floor/carpet/neon/simple/blue/nodots,
 /area/station/command/heads_quarters/blueshield)
 "lPH" = (
