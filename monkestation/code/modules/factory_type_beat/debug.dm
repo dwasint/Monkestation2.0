@@ -21,6 +21,7 @@
 
 /proc/save_datums()
 	var/datum/D
+	var/list/counts = new
 	for(D) counts[D.type] = (counts[D.type]||0) + 1
 
 	var/F = file("data/type_tracker/[GLOB.round_id]-datums-[world.time].txt")
