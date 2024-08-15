@@ -46,9 +46,8 @@
 /obj/item/gun/ballistic/automatic/pistol/tech_9
 	name = "\improper Glock-O"
 	desc = "The standard issue service pistol of blueshield agents."
-	burst_size = 1
+	burst_size = 10 //lol
 	fire_delay = 1
-	semi_auto = FALSE
 
 	icon = 'monkestation/code/modules/blueshield/icons/gun.dmi'
 	icon_state = "tech9"
