@@ -28,3 +28,5 @@
 
 #define COMSIG_MOB_PICKED_UP "mob_picked_up"
 #define COMSIG_MOB_DROPPED "mob_dropped"
+
+#define COMSIG_DRANK_REAGENT "drank_reagent"
