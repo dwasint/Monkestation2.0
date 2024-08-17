@@ -256,6 +256,9 @@ GLOBAL_REAL(Master, /datum/controller/master)
 
 
 	var/msg = "Initializations complete within [time] second[time == 1 ? "" : "s"]!"
+
+	initialize_cooking_recipes()
+
 	to_chat(world, span_boldannounce("[msg]"))
 	log_world(msg)
 

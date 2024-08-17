@@ -11,6 +11,7 @@
 
 
 /datum/reagent/consumable/ethanol/custom_brew
+	name = "EVIL WIZARD POTION"
 	can_merge = FALSE
 
 /datum/reagent/consumable/ethanol/custom_brew/on_transfer(atom/A, methods, trans_volume)

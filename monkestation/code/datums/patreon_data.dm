@@ -70,6 +70,6 @@
 	return FALSE
 
 /datum/patreon_data/proc/is_donator()
-	if((owned_rank != NO_RANK) && (owned_rank != UNSUBBED))
+	if((owned_rank != NO_RANK) && (owned_rank != UNSUBBED) && owned_rank != null)
 		return TRUE
 	return FALSE

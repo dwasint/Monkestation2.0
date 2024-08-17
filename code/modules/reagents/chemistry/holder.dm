@@ -2034,6 +2034,7 @@
 		qdel(reagents)
 	reagents = new /datum/reagents(max_vol, flags)
 	reagents.my_atom = src
+	return reagents
 
 /atom/movable/chem_holder
 	name = "This atom exists to hold chems. If you can see this, make an issue report"
