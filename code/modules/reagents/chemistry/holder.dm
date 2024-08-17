@@ -230,6 +230,8 @@
 	//add the reagent to the existing if it exists
 	for(var/datum/reagent/iter_reagent as anything in cached_reagents)
 		if(iter_reagent.type == reagent)
+			if(!iter_reagent.can_merge)
+				return
 			if(override_base_ph)
 				added_ph = iter_reagent.ph
 			iter_reagent.purity = ((iter_reagent.creation_purity * iter_reagent.volume) + (added_purity * amount)) /(iter_reagent.volume + amount) //This should add the purity to the product

@@ -68,6 +68,8 @@
 		"infrared_emitter",
 		"intercom_frame",
 		"kitchen_knife",
+		"recipe_card",
+		"bottling_kit",
 		"laptop",
 		"light_bulb",
 		"light_replacer",
