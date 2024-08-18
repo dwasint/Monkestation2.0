@@ -29,7 +29,7 @@ const Recipes = (props, context) => {
   const [searchText, setSearchText] = useLocalState('searchText', '');
 
   const filteredRecipes = filterRecipeList(recipes, createSearch(searchText));
-  const [searchActive, setSearchActive] = useLocalState('', false);
+  const [searchActive, setSearchActive] = useLocalState('', true);
 
   return (
     <Section
@@ -40,6 +40,7 @@ const Recipes = (props, context) => {
         <>
           {searchActive && (
             <Input
+              autoFocus
               width={12.5}
               value={searchText}
               placeholder={'Find recipe'}
