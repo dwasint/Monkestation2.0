@@ -22,6 +22,7 @@
 	amount_per_transfer_from_this = 10
 
 	reagent_flags = OPENCONTAINER | NO_REACT
+	var/list/fryer_data = list("High"=0) //Record of what deepfryer-cooking has been done on this food.
 	var/list/stove_data = list("High"=0 , "Medium" = 0, "Low"=0) //Record of what stove-cooking has been done on this food.
 	var/list/grill_data = list("High"=0 , "Medium" = 0, "Low"=0) //Record of what grill-cooking has been done on this food.
 	var/list/oven_data = list("High"=0 , "Medium" = 0, "Low"=0) //Record of what oven-cooking has been done on this food.
@@ -50,7 +51,7 @@
 /obj/item/reagent_containers/cooking_container/attackby(var/obj/item/used_item, var/mob/user)
 
 	#ifdef CHEWIN_DEBUG
-	log_debug("cooking_container/attackby() called!")
+	logger.Log(LOG_CATEGORY_DEBUG"cooking_container/attackby() called!")
 	#endif
 
 	if(istype(used_item, /obj/item/spatula))
@@ -68,7 +69,7 @@
 
 
 	#ifdef CHEWIN_DEBUG
-	log_debug("cooking_container/standard_pour_into() called!")
+	logger.Log(LOG_CATEGORY_DEBUG"cooking_container/standard_pour_into() called!")
 	#endif
 
 	if(tracker)
@@ -81,7 +82,7 @@
 	do_empty(user, target, reagent_clear = FALSE)
 
 	#ifdef CHEWIN_DEBUG
-	log_debug("cooking_container/do_empty() completed!")
+	logger.Log(LOG_CATEGORY_DEBUG"cooking_container/do_empty() completed!")
 	#endif
 
 	. = ..()
@@ -101,7 +102,7 @@
 
 
 	#ifdef CHEWIN_DEBUG
-	log_debug("cooking_container/process_item() called!")
+	logger.Log(LOG_CATEGORY_DEBUG"cooking_container/process_item() called!")
 	#endif
 
 	//OK, time to load the tracker
@@ -115,11 +116,12 @@
 	var/return_value = 0
 	switch(tracker.process_item_wrap(I, user))
 		if(CHEWIN_NO_STEPS)
-			if(send_message)
-				to_chat(user, "It doesn't seem like you can create a meal from that. Yet.")
-			if(lower_quality_on_fail)
-				for (var/datum/chewin_cooking/recipe_pointer/pointer in tracker.active_recipe_pointers)
-					pointer?:tracked_quality -= lower_quality_on_fail
+			if(no_step_checks(I)) //literally fryers
+				if(send_message)
+					to_chat(user, "It doesn't seem like you can create a meal from that. Yet.")
+				if(lower_quality_on_fail)
+					for (var/datum/chewin_cooking/recipe_pointer/pointer in tracker.active_recipe_pointers)
+						pointer?:tracked_quality -= lower_quality_on_fail
 		if(CHEWIN_CHOICE_CANCEL)
 			if(send_message)
 				to_chat(user, "You decide against cooking with the [src].")
@@ -166,7 +168,7 @@
 
 /obj/item/reagent_containers/cooking_container/proc/do_empty(mob/user, var/atom/target = null, var/reagent_clear = TRUE)
 	#ifdef CHEWIN_DEBUG
-	log_debug("cooking_container/do_empty() called!")
+	logger.Log(LOG_CATEGORY_DEBUG"cooking_container/do_empty() called!")
 	#endif
 
 	if(contents.len != 0)
@@ -223,6 +225,7 @@
 /obj/item/reagent_containers/cooking_container/proc/clear_cooking_data()
 	stove_data = list("High"=0 , "Medium" = 0, "Low"=0)
 	grill_data = list("High"=0 , "Medium" = 0, "Low"=0)
+	fryer_data = list("High"=0)
 
 /obj/item/reagent_containers/cooking_container/proc/label(var/number, var/CT = null)
 	//This returns something like "Fryer basket 1 - empty"
@@ -279,12 +282,34 @@
 	appliancetype = CUTTING_BOARD
 
 /obj/item/reagent_containers/cooking_container/oven
-	name = "oven dish"
+	name = "oven tray"
 	shortname = "shelf"
 	desc = "Put ingredients in this; designed for use with an oven. Warranty void if used."
 	icon_state = "oven_dish"
 	lip = "oven_dish_lip"
 	appliancetype = OVEN
+
+/obj/item/reagent_containers/cooking_container/oven/Initialize()
+	. = ..()
+	RegisterSignal(src, COMSIG_ITEM_OVEN_PROCESS, PROC_REF(process_bake))
+
+/obj/item/reagent_containers/cooking_container/oven/proc/process_bake(datum/source, obj/machinery/oven/oven, seconds_per_tick)
+	#ifdef CWJ_DEBUG
+	logger.Log(LOG_CATEGORY_DEBUG"grill/proc/process_bake data:", list("temperature: [oven.temperature]", "reference_time: [oven.reference_time]", " world.time: [world.time]", "cooking_timestamp: [oven.cooking_timestamp]", " grill_data: [grill_data]"))
+	#endif
+
+	if(oven_data[oven.temperature])
+		oven_data[oven.temperature] += seconds_per_tick * 10
+	else
+		oven_data[oven.temperature] = seconds_per_tick * 10
+	return COMPONENT_BAKING_GOOD_RESULT | COMPONENT_HANDLED_BAKING
+
+/obj/item/reagent_containers/cooking_container/proc/process_stovetop(datum/source, temperature, seconds_per_tick)
+	if(stove_data[temperature])
+		stove_data[temperature] += seconds_per_tick * 10
+	else
+		stove_data[temperature] = seconds_per_tick * 10
+	return TRUE
 
 /obj/item/reagent_containers/cooking_container/pan
 	name = "pan"
@@ -294,6 +319,10 @@
 	lip = "pan_lip"
 	hitsound = 'sound/weapons/smash.ogg'
 	appliancetype = PAN
+
+/obj/item/reagent_containers/cooking_container/pan/Initialize()
+	. = ..()
+	RegisterSignal(src, COMSIG_STOVE_PROCESS, PROC_REF(process_stovetop))
 
 /obj/item/reagent_containers/cooking_container/pot
 	name = "cooking pot"
@@ -308,6 +337,10 @@
 	appliancetype = POT
 	w_class = WEIGHT_CLASS_BULKY
 
+/obj/item/reagent_containers/cooking_container/pot/Initialize()
+	. = ..()
+	RegisterSignal(src, COMSIG_STOVE_PROCESS, PROC_REF(process_stovetop))
+
 /obj/item/reagent_containers/cooking_container/deep_basket
 	name = "deep fryer basket"
 	shortname = "basket"
@@ -317,6 +350,16 @@
 	lip = "deepfryer_basket_lip"
 	removal_penalty = 5
 	appliancetype = DF_BASKET
+
+/obj/item/reagent_containers/cooking_container/proc/no_step_checks(obj/item/item)
+	return TRUE
+
+/obj/item/reagent_containers/cooking_container/deep_basket/no_step_checks(obj/item/item)
+	item.forceMove(src)
+	qdel(tracker)
+	update_icon()
+	return FALSE
+
 
 /obj/item/reagent_containers/cooking_container/air_basket
 	name = "air fryer basket"

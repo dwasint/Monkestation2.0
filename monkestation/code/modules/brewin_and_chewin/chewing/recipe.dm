@@ -275,6 +275,21 @@ Food quality is calculated based on the steps taken.
 
 					if(!reason)
 						create_step_use_oven(step_list[2], step_list[3], FALSE)
+
+				if(CHEWIN_USE_FRYER)
+					if(step_list.len < 3)
+						reason="Bad argument Length for CHEWIN_USE_FRYER"
+					switch(step_list[2])
+						if(J_HI)
+							if(step_list[3] > CHEWIN_BURN_TIME_HIGH)
+								reason="Time too large for High setting on CHEWIN_USE_FRYER; Food will automatically burn."
+
+						else
+							reason="Unrecognized temperature for CHEWIN_USE_FRYER"
+
+					if(!reason)
+						create_step_use_fryer(step_list[2], step_list[3], FALSE)
+
 				if(CHEWIN_USE_OVEN_OPTIONAL)
 					if(step_list.len < 3)
 						reason="Bad argument Length for CHEWIN_USE_OVEN_OPTIONAL"
@@ -392,6 +407,12 @@ Food quality is calculated based on the steps taken.
 //Use Tool step shortcut commands
 /datum/chewin_cooking/recipe/proc/create_step_use_tool(var/type, var/quality, var/optional)
 	var/datum/chewin_cooking/recipe_step/use_tool/step = new (type, quality, src)
+	return src.add_step(step, optional)
+
+//-----------------------------------------------------------------------------------
+//Use Fryer step shortcut commands
+/datum/chewin_cooking/recipe/proc/create_step_use_fryer(var/heat, var/time, var/optional)
+	var/datum/chewin_cooking/recipe_step/use_fryer/step = new (heat, time, src)
 	return src.add_step(step, optional)
 
 //-----------------------------------------------------------------------------------
@@ -754,6 +775,8 @@ Food quality is calculated based on the steps taken.
 			return "Use Grill"
 		if(CHEWIN_USE_OVEN)
 			return "Use Oven"
+		if(CHEWIN_USE_FRYER)
+			return "Use Fryer"
 		if(CHEWIN_USE_OTHER)
 			return "Custom Action"
 		if(CHEWIN_START)

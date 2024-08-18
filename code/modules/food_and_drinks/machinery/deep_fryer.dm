@@ -25,7 +25,7 @@ GLOBAL_LIST_INIT(oilfry_blacklisted_items, typecacheof(list(
 	circuit = /obj/item/circuitboard/machine/deep_fryer
 
 	/// What's being fried RIGHT NOW?
-	var/obj/item/frying
+	var/frying = FALSE
 	/// How long the current object has been cooking for
 	var/cook_time = 0
 	/// How much cooking oil is used per process
@@ -57,13 +57,6 @@ GLOBAL_LIST_INIT(oilfry_blacklisted_items, typecacheof(list(
 
 /obj/machinery/deepfryer/Destroy()
 	QDEL_NULL(fry_loop)
-	QDEL_NULL(frying)
-	return ..()
-
-/obj/machinery/deepfryer/deconstruct(disassembled)
-	// This handles nulling out frying via exited
-	if(frying)
-		frying.forceMove(drop_location())
 	return ..()
 
 /obj/machinery/deepfryer/RefreshParts()
@@ -76,8 +69,6 @@ GLOBAL_LIST_INIT(oilfry_blacklisted_items, typecacheof(list(
 
 /obj/machinery/deepfryer/examine(mob/user)
 	. = ..()
-	if(frying)
-		. += "You can make out \a [frying] in the oil."
 	if(in_range(user, src) || isobserver(user))
 		. += span_notice("The status display reads: Frying at <b>[fry_speed*100]%</b> speed.<br>Using <b>[oil_use]</b> units of oil per second.")
 
@@ -122,13 +113,10 @@ GLOBAL_LIST_INIT(oilfry_blacklisted_items, typecacheof(list(
 			|| HAS_TRAIT(weapon, TRAIT_NODROP) \
 			|| (weapon.item_flags & (ABSTRACT|DROPDEL|HAND_ITEM)))
 			return ..()
-		// Do the frying.
-		else if(!frying && user.transferItemToLoc(weapon, src))
-			start_fry(weapon, user)
-			return
 
 	return ..()
 
+/*
 /obj/machinery/deepfryer/process(seconds_per_tick)
 	..()
 	var/datum/reagent/consumable/cooking_oil/frying_oil = reagents.has_reagent(/datum/reagent/consumable/cooking_oil)
@@ -149,47 +137,7 @@ GLOBAL_LIST_INIT(oilfry_blacklisted_items, typecacheof(list(
 		visible_message(span_warning("[src] emits an acrid smell!"))
 
 	use_power(active_power_usage)
-
-/obj/machinery/deepfryer/Exited(atom/movable/gone, direction)
-	. = ..()
-	if(gone == frying)
-		reset_frying()
-
-/obj/machinery/deepfryer/handle_atom_del(atom/deleting_atom)
-	. = ..()
-	if(deleting_atom == frying)
-		reset_frying()
-
-/obj/machinery/deepfryer/proc/reset_frying()
-	if(!QDELETED(frying))
-		frying.AddElement(/datum/element/fried_item, cook_time)
-
-	frying = null
-	frying_fried = FALSE
-	frying_burnt = FALSE
-	fry_loop.stop()
-	cook_time = 0
-	icon_state = "fryer_off"
-
-/obj/machinery/deepfryer/proc/start_fry(obj/item/frying_item, mob/user)
-	to_chat(user, span_notice("You put [frying_item] into [src]."))
-	if(istype(frying_item, /obj/item/freeze_cube))
-		log_bomber(user, "put a freeze cube in a", src)
-		visible_message(span_userdanger("[src] starts glowing... Oh no..."))
-		playsound(src, 'sound/effects/pray_chaplain.ogg', 100)
-		add_filter("entropic_ray", 10, list("type" = "rays", "size" = 35, "color" = COLOR_VIVID_YELLOW))
-		addtimer(CALLBACK(src, PROC_REF(blow_up)), 5 SECONDS)
-
-	frying = frying_item
-	// Give them reagents to put frying oil in
-	if(isnull(frying.reagents))
-		frying.create_reagents(50, INJECTABLE)
-	if(user.mind)
-		ADD_TRAIT(frying, TRAIT_FOOD_CHEF_MADE, REF(user.mind))
-	SEND_SIGNAL(frying, COMSIG_ITEM_ENTERED_FRYER)
-
-	icon_state = "fryer_on"
-	fry_loop.start()
+*/
 
 /obj/machinery/deepfryer/proc/blow_up()
 	visible_message(span_userdanger("[src] blows up from the entropic reaction!"))
@@ -201,10 +149,12 @@ GLOBAL_LIST_INIT(oilfry_blacklisted_items, typecacheof(list(
 
 /obj/machinery/deepfryer/attack_hand(mob/living/user, list/modifiers)
 	if(frying)
-		to_chat(user, span_notice("You eject [frying] from [src]."))
-		frying.forceMove(drop_location())
+		frying = FALSE
+		reset_frying(user)
 		if(Adjacent(user) && !issilicon(user))
-			user.put_in_hands(frying)
+			user.put_in_hands(basket)
+			basket = null
+			icon_state = "fryer"
 		return
 
 	else if(user.pulling && iscarbon(user.pulling) && reagents.total_volume)

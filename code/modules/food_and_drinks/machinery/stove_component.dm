@@ -23,6 +23,8 @@
 	var/container_y = 8
 	/// Modifies how much temperature is exposed to the reagents, and in turn modifies how fast the reagents are heated.
 	var/heat_coefficient = 0.033
+	///our stove temperature
+	var/temperature = J_LO
 
 /datum/component/stove/Initialize(container_x = 0, container_y = 8, obj/item/spawn_container)
 	if(!ismachinery(parent))
@@ -73,6 +75,7 @@
 		turn_off()
 		return
 
+	SEND_SIGNAL(container, COMSIG_STOVE_PROCESS, temperature, seconds_per_tick)
 	container?.reagents.expose_temperature(SOUP_BURN_TEMP + 80, heat_coefficient)
 	real_parent.use_power(real_parent.active_power_usage)
 

@@ -15,7 +15,8 @@
 #define CHEWIN_USE_STOVE	 			7 		//Using a stove in a recipe
 #define CHEWIN_USE_GRILL	 			8 		//Using a stove in a recipe
 #define CHEWIN_USE_OVEN	 			9 		//Using a stove in a recipe
-#define CHEWIN_USE_OTHER 				10 		//Custom Command flag, will take in argument lists.
+#define CHEWIN_USE_FRYER				10
+#define CHEWIN_USE_OTHER 				11 		//Custom Command flag, will take in argument lists.
 
 //Optional flags
 #define CHEWIN_ADD_ITEM_OPTIONAL		200
@@ -107,3 +108,5 @@ GLOBAL_LIST_EMPTY(chewin_step_dictionary)
 //An organized heap of recipes by class and grouping.
 //Format: {class_of_step:{step_group_identifier:{unique_id:step}}}
 GLOBAL_LIST_EMPTY(chewin_step_dictionary_ordered)
+
+#define COMSIG_STOVE_PROCESS "comsig_stove_process"
