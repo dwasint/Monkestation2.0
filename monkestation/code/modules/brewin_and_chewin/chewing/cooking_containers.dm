@@ -30,6 +30,8 @@
 /obj/item/reagent_containers/cooking_container/Initialize()
 	.=..()
 	appearance_flags |= KEEP_TOGETHER
+	RegisterSignal(src, COMSIG_STOVE_PROCESS, PROC_REF(process_stovetop))
+	RegisterSignal(src, COMSIG_ITEM_OVEN_PROCESS, PROC_REF(process_bake))
 
 
 /obj/item/reagent_containers/cooking_container/examine(var/mob/user)
@@ -289,11 +291,7 @@
 	lip = "oven_dish_lip"
 	appliancetype = OVEN
 
-/obj/item/reagent_containers/cooking_container/oven/Initialize()
-	. = ..()
-	RegisterSignal(src, COMSIG_ITEM_OVEN_PROCESS, PROC_REF(process_bake))
-
-/obj/item/reagent_containers/cooking_container/oven/proc/process_bake(datum/source, obj/machinery/oven/oven, seconds_per_tick)
+/obj/item/reagent_containers/cooking_container/proc/process_bake(datum/source, obj/machinery/oven/oven, seconds_per_tick)
 	#ifdef CWJ_DEBUG
 	logger.Log(LOG_CATEGORY_DEBUG"grill/proc/process_bake data:", list("temperature: [oven.temperature]", "reference_time: [oven.reference_time]", " world.time: [world.time]", "cooking_timestamp: [oven.cooking_timestamp]", " grill_data: [grill_data]"))
 	#endif
@@ -321,10 +319,6 @@
 	hitsound = 'sound/weapons/smash.ogg'
 	appliancetype = PAN
 
-/obj/item/reagent_containers/cooking_container/pan/Initialize()
-	. = ..()
-	RegisterSignal(src, COMSIG_STOVE_PROCESS, PROC_REF(process_stovetop))
-
 /obj/item/reagent_containers/cooking_container/pot
 	name = "cooking pot"
 	shortname = "pot"
@@ -337,10 +331,6 @@
 	removal_penalty = 5
 	appliancetype = POT
 	w_class = WEIGHT_CLASS_BULKY
-
-/obj/item/reagent_containers/cooking_container/pot/Initialize()
-	. = ..()
-	RegisterSignal(src, COMSIG_STOVE_PROCESS, PROC_REF(process_stovetop))
 
 /obj/item/reagent_containers/cooking_container/deep_basket
 	name = "deep fryer basket"
