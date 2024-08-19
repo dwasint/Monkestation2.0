@@ -6663,6 +6663,7 @@
 #include "monkestation\code\modules\brewin_and_chewin\chewing\recipe_steps\use_oven.dm"
 #include "monkestation\code\modules\brewin_and_chewin\chewing\recipe_steps\use_stove.dm"
 #include "monkestation\code\modules\brewin_and_chewin\chewing\recipe_steps\use_tool.dm"
+#include "monkestation\code\modules\brewin_and_chewin\chewing\recipes\example_recipe.dm"
 #include "monkestation\code\modules\brewin_and_chewin\chewing\recipes\french_fries.dm"
 #include "monkestation\code\modules\brewin_and_chewin\chewing\recipes\oven_bread.dm"
 #include "monkestation\code\modules\brewin_and_chewin\chewing\recipes\sandwhich_test.dm"

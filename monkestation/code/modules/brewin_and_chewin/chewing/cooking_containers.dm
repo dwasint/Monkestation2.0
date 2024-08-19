@@ -304,11 +304,12 @@
 		oven_data[oven.temperature] = seconds_per_tick * 10
 	return COMPONENT_BAKING_GOOD_RESULT | COMPONENT_HANDLED_BAKING
 
-/obj/item/reagent_containers/cooking_container/proc/process_stovetop(datum/source, temperature, seconds_per_tick)
+/obj/item/reagent_containers/cooking_container/proc/process_stovetop(datum/source, temperature, seconds_per_tick, obj/stove_object)
 	if(stove_data[temperature])
 		stove_data[temperature] += seconds_per_tick * 10
 	else
 		stove_data[temperature] = seconds_per_tick * 10
+	process_item(stove_object, null, FALSE, FALSE)
 	return TRUE
 
 /obj/item/reagent_containers/cooking_container/pan

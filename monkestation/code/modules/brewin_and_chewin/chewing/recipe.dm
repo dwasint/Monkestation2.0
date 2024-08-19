@@ -127,14 +127,14 @@ Food quality is calculated based on the steps taken.
 				if(CHEWIN_ADD_REAGENT)
 					if(step_list.len < 3)
 						reason="Bad argument Length for CHEWIN_ADD_REAGENT"
-					else if(!istype(step_list[2], /datum/reagent))
+					else if(!ispath(step_list[2], /datum/reagent))
 						reason="Bad reagent type for CHEWIN_ADD_REAGENT at arg 2"
 					else
 						create_step_add_reagent(step_list[2], step_list[3], FALSE)
 				if(CHEWIN_ADD_REAGENT_OPTIONAL)
 					if(step_list.len < 3)
 						reason="Bad argument Length for CHEWIN_ADD_REAGENT_OPTIONAL"
-					else if(!istype(step_list[2], /datum/reagent))
+					else if(!ispath(step_list[2], /datum/reagent))
 						reason="Bad reagent type for CHEWIN_ADD_REAGENT_OPTIONAL at arg 2"
 					else
 						create_step_add_reagent(step_list[2], step_list[3], TRUE)
@@ -343,7 +343,10 @@ Food quality is calculated based on the steps taken.
 
 			if("exclude_reagents" in step_list)
 				for(var/id in step_list["exclude_reagents"])
-					if(!istype(id, /datum/reagent))
+					var/datum/reagent/path = text2path(id)
+					if(!path)
+						path = id
+					if(!ispath(path, /datum/reagent))
 						reason="exclude_reagents list has nonexistant reagent id [id]"
 
 				if(!set_exclude_reagents(step_list["exclude_reagents"]))

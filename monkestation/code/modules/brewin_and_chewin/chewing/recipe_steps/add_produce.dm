@@ -32,7 +32,10 @@
 				tooltip_image.add_overlay(fruit_leaves)
 			plant_controller.plant_icon_cache[icon_key] = tooltip_image
 		*/
-		base_potency = produce.seed.potency
+		var/obj/item/food/grown/grown =  new produce
+		var/obj/item/seeds/plant_seed = grown.seed
+		base_potency = initial(plant_seed.potency)
+		qdel(grown)
 	else
 		CRASH("/datum/chewin_cooking/recipe_step/add_produce/New: [produce] not found. Exiting.")
 	..(base_quality_award, our_recipe)
@@ -47,7 +50,7 @@
 
 	var/obj/item/food/grown/added_produce = added_item
 
-	if(added_produce.plantname == required_produce_type)
+	if(added_produce.type == required_produce_type)
 		return CHEWIN_CHECK_VALID
 
 	return CHEWIN_CHECK_INVALID

@@ -22,7 +22,7 @@
 
 /datum/chewin_cooking/recipe_step/use_stove/check_conditions_met(var/obj/used_item, var/datum/chewin_cooking/recipe_tracker/tracker)
 
-	if(!istype(used_item, /obj/machinery/stove))
+	if(!used_item.GetComponent(/datum/component/stove))
 		return CHEWIN_CHECK_INVALID
 
 	return CHEWIN_CHECK_VALID
