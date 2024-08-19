@@ -738,6 +738,86 @@ const RecipeContentCompact = ({ item, craftable, busy, mode }) => {
 
 const RecipeContent = ({ item, craftable, busy, mode, diet }) => {
   const { act } = useBackend<Data>();
+  const specialSteps = [
+    'Optional Steps',
+    'End Optional Steps',
+    'Exclusive Optional Steps',
+    'End Exclusive Optional Steps',
+    'Optional Step',
+    'End Optional Step',
+  ];
+
+  const groupedSteps = [];
+  const groupStack = [];
+  let currentGroup = null;
+  let groupKey = 0;
+
+  item.steps?.forEach((step, index) => {
+    const trimmedStep = step.trim();
+
+    if (specialSteps.includes(trimmedStep)) {
+      if (trimmedStep.includes('End')) {
+        // Close the current group if it exists and has steps
+        if (currentGroup) {
+          if (currentGroup.steps.length > 0) {
+            groupedSteps.push(
+              <Box
+                key={`group-${groupKey++}`}
+                style={{
+                  padding: '10px',
+                  border: '1px solid gray',
+                  margin: '10px 0',
+                }}
+              >
+                <strong>{currentGroup.label}</strong>
+                <ul style={{ paddingLeft: '20px', marginTop: '5px' }}>
+                  {currentGroup.steps.map((groupStep, groupIndex) => (
+                    <li key={groupIndex}>{groupStep}</li>
+                  ))}
+                </ul>
+              </Box>,
+            );
+          }
+          currentGroup = null; // Reset the group
+        }
+        // Pop the previous group from the stack
+        if (groupStack.length > 0) {
+          currentGroup = groupStack.pop();
+        }
+      } else {
+        // Handle starting a new group
+        if (currentGroup && currentGroup.steps.length > 0) {
+          // If there's an ongoing group, push it to the stack
+          groupStack.push(currentGroup);
+        }
+        // Start a new group
+        currentGroup = { label: trimmedStep, steps: [] };
+      }
+    } else if (currentGroup) {
+      // Add steps to the current group if it exists
+      currentGroup.steps.push(step);
+    } else {
+      // Render steps not in any group
+      groupedSteps.push(<li key={index}>{step}</li>);
+    }
+  });
+
+  // Handle any leftover group that didn't get closed
+  if (currentGroup && currentGroup.steps.length > 0) {
+    groupedSteps.push(
+      <Box
+        key={`leftover-group-${groupKey}`}
+        style={{ padding: '10px', border: '1px solid gray', margin: '10px 0' }}
+      >
+        <strong>{currentGroup.label}</strong>
+        <ul style={{ paddingLeft: '20px', marginTop: '5px' }}>
+          {currentGroup.steps.map((groupStep, groupIndex) => (
+            <li key={groupIndex}>{groupStep}</li>
+          ))}
+        </ul>
+      </Box>,
+    );
+  }
   return (
     <Section>
       <Stack>
@@ -826,11 +906,7 @@ const RecipeContent = ({ item, craftable, busy, mode, diet }) => {
               {!!item.steps?.length && (
                 <Box>
                   <GroupTitle title="Steps" />
-                  <ul style={{ 'padding-left': '20px' }}>
-                    {item.steps.map((step) => (
-                      <li key={step}>{step}</li>
-                    ))}
-                  </ul>
+                  <ul style={{ paddingLeft: '20px' }}>{groupedSteps}</ul>
                 </Box>
               )}
             </Stack.Item>

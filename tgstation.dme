@@ -6666,6 +6666,7 @@
 #include "monkestation\code\modules\brewin_and_chewin\chewing\recipes\example_recipe.dm"
 #include "monkestation\code\modules\brewin_and_chewin\chewing\recipes\french_fries.dm"
 #include "monkestation\code\modules\brewin_and_chewin\chewing\recipes\oven_bread.dm"
+#include "monkestation\code\modules\brewin_and_chewin\chewing\recipes\recipe_crafting_helper_generator.dm"
 #include "monkestation\code\modules\brewin_and_chewin\chewing\recipes\sandwhich_test.dm"
 #include "monkestation\code\modules\buckshotroulette\projectiles\ammunition\ballistic\shotgun.dm"
 #include "monkestation\code\modules\buckshotroulette\projectiles\boxes_magazines\internal\shotgun.dm"

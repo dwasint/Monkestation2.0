@@ -93,6 +93,7 @@ Food quality is calculated based on the steps taken.
 		name = "NO NAME!"
 
 	unique_id = sequential_id("recipe")
+	generate_crafting_helper()
 
 //Build out the recipe steps for a recipe, based on the step_builder list
 /datum/chewin_cooking/recipe/proc/build_steps()
