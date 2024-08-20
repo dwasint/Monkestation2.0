@@ -6690,6 +6690,7 @@
 #include "monkestation\code\modules\can_spessmen_feel_pain\pain\pain_goodies.dm"
 #include "monkestation\code\modules\can_spessmen_feel_pain\pain\shock.dm"
 #include "monkestation\code\modules\can_spessmen_feel_pain\pain\species.dm"
+#include "monkestation\code\modules\can_spessmen_feel_pain\pain\traits.dm"
 #include "monkestation\code\modules\can_spessmen_feel_pain\pain\causes\generic.dm"
 #include "monkestation\code\modules\can_spessmen_feel_pain\pain\causes\opiods.dm"
 #include "monkestation\code\modules\can_spessmen_feel_pain\pain\causes\surgery.dm"
