@@ -12760,7 +12760,7 @@
 	},
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/door/firedoor,
-/obj/effect/mapping_helpers/airlock/access/all/command/captain,
+/obj/effect/mapping_helpers/airlock/access/any/admin,
 /turf/open/floor/carpet/executive,
 /area/station/command/heads_quarters/blueshield)
 "ekU" = (
@@ -13915,6 +13915,7 @@
 	},
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/light/floor/has_bulb,
+/obj/effect/landmark/start/blueshield,
 /turf/open/floor/carpet/neon/simple/blue/nodots,
 /area/station/command/heads_quarters/blueshield)
 "eED" = (
@@ -16643,7 +16644,7 @@
 	dir = 1
 	},
 /obj/machinery/door/firedoor,
-/obj/effect/mapping_helpers/airlock/access/all/command/captain,
+/obj/effect/mapping_helpers/airlock/access/any/admin,
 /turf/open/floor/wood,
 /area/station/command/heads_quarters/blueshield)
 "fCT" = (
@@ -16774,7 +16775,7 @@
 	name = "Blueshield's Quarters"
 	},
 /obj/machinery/door/firedoor,
-/obj/effect/mapping_helpers/airlock/access/all/command/captain,
+/obj/effect/mapping_helpers/airlock/access/any/admin,
 /turf/open/floor/iron/dark,
 /area/station/command/heads_quarters/blueshield)
 "fFd" = (
@@ -39884,6 +39885,7 @@
 	dir = 4
 	},
 /obj/machinery/newscaster/directional/north,
+/obj/effect/landmark/start/blueshield,
 /turf/open/floor/carpet/executive,
 /area/station/command/heads_quarters/blueshield)
 "nmY" = (
@@ -48451,6 +48453,7 @@
 "qdV" = (
 /obj/structure/chair/comfy/black,
 /obj/structure/cable,
+/obj/effect/landmark/start/blueshield,
 /turf/open/floor/wood,
 /area/station/command/heads_quarters/blueshield)
 "qdZ" = (
