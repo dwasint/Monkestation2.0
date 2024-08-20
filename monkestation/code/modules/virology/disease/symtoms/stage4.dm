@@ -7,13 +7,11 @@
 	chance = 10
 	max_chance = 25
 
-/datum/symptom/spaceadapt/activate(mob/living/carbon/mob)
-	mob.dna.add_mutation(/datum/mutation/human/pressure_adaptation)
-	mob.dna.add_mutation(/datum/mutation/human/temperature_adaptation)
+/datum/symptom/spaceadapt/activate(mob/living/mob)
+	mob.add_traits(list(TRAIT_RESISTCOLD, TRAIT_RESISTLOWPRESSURE), type)
 
 /datum/symptom/spaceadapt/deactivate(mob/living/carbon/mob)
-	mob.dna.remove_mutation(/datum/mutation/human/pressure_adaptation)
-	mob.dna.remove_mutation(/datum/mutation/human/temperature_adaptation)
+	mob.remove_traits(list(TRAIT_RESISTCOLD, TRAIT_RESISTLOWPRESSURE), type)
 
 /datum/symptom/minttoxin
 	name = "Creosote Syndrome"
@@ -22,7 +20,7 @@
 	badness = EFFECT_DANGER_HARMFUL
 
 /datum/symptom/minttoxin/activate(mob/living/carbon/mob)
-	if(istype(mob) && mob.reagents.get_reagent_amount(/datum/reagent/consumable/mintextract) < 5)
+	if(istype(mob) && mob.reagents?.get_reagent_amount(/datum/reagent/consumable/mintextract) < 5)
 		to_chat(mob, span_notice("You feel a minty freshness"))
 		mob.reagents.add_reagent(/datum/reagent/consumable/mintextract, 5)
 
@@ -46,11 +44,10 @@
 			// Just absolutely murder me man
 			ears.apply_organ_damage(ears.maxHealth)
 			mob.emote("scream")
-			ADD_TRAIT(mob, TRAIT_DEAF, DISEASE_TRAIT)
+			ADD_TRAIT(mob, TRAIT_DEAF, type)
 
 /datum/symptom/deaf/deactivate(mob/living/carbon/mob)
-	REMOVE_TRAIT(mob, TRAIT_DEAF, DISEASE_TRAIT)
-
+	REMOVE_TRAIT(mob, TRAIT_DEAF, type)
 
 /datum/symptom/killertoxins
 	name = "Toxification Syndrome"
@@ -61,8 +58,7 @@
 	max_multiplier = 5
 
 /datum/symptom/killertoxins/activate(mob/living/carbon/mob)
-	mob.adjustToxLoss(5*multiplier)
-
+	mob.adjustToxLoss(5 * multiplier)
 
 /datum/symptom/dna
 	name = "Reverse Pattern Syndrome"
@@ -76,7 +72,6 @@
 	if(mob.toxloss <= 50)
 		mob.adjustToxLoss(10)
 
-
 /datum/symptom/immortal
 	name = "Longevity Syndrome"
 	desc = "Grants functional immortality to the infected so long as the symptom is active. Heals broken bones and healing external damage. Creates a backlash if cured."
@@ -85,29 +80,28 @@
 	var/total_healed = 0
 
 /datum/symptom/immortal/activate(mob/living/carbon/mob)
-	if(istype(mob, /mob/living/carbon/human))
+	if(ishuman(mob))
 		for(var/datum/wound/wound as anything in mob.all_wounds)
 			to_chat(mob, span_notice("You feel the [wound] heal itself."))
 			wound.remove_wound()
 			break
 
-	var/heal_amt = 5*multiplier
+	var/heal_amt = 5 * multiplier
 	var/current_health = mob.getBruteLoss()
 	if(current_health >= heal_amt)
 		total_healed += heal_amt * 0.2
 	else
 		total_healed += (heal_amt - current_health) * 0.2
-	mob.adjustBruteLoss(-heal_amt)
-	mob.adjustFireLoss(-heal_amt)
+	mob.heal_overall_damage(brute = heal_amt, burn = heal_amt, updating_health = FALSE)
 	mob.adjustToxLoss(-heal_amt)
 
 /datum/symptom/immortal/deactivate(mob/living/carbon/mob)
-	if(istype(mob, /mob/living/carbon/human))
-		var/mob/living/carbon/human/H = mob
-		to_chat(H, span_warning("You suddenly feel hurt and old..."))
-		H.age += 4 * multiplier * total_healed
-	mob.adjustBruteLoss(total_healed)
-	mob.adjustFireLoss(total_healed)
+	if(ishuman(mob))
+		var/mob/living/carbon/human/person = mob
+		to_chat(person, span_warning("You suddenly feel hurt and old..."))
+		person.age += 4 * multiplier * total_healed
+	if(total_healed > 0)
+		mob.take_overall_damage(brute = (total_healed / 2), burn = (total_healed / 2))
 
 /datum/symptom/bones
 	name = "Fragile Person Syndrome"
@@ -115,17 +109,17 @@
 	stage = 4
 	badness = EFFECT_DANGER_HINDRANCE
 
-/datum/symptom/bones/activate(mob/living/carbon/mob)
-	if(istype(mob, /mob/living/carbon/human))
-		var/mob/living/carbon/human/victim = mob
-		for (var/obj/item/bodypart/part in victim.bodyparts)
-			part.wound_resistance -= 10
+/datum/symptom/bones/activate(mob/living/carbon/human/victim)
+	if(!ishuman(victim))
+		return
+	for(var/obj/item/bodypart/part in victim.bodyparts)
+		part.wound_resistance -= 10
 
-/datum/symptom/bones/deactivate(mob/living/carbon/mob)
-	if(istype(mob, /mob/living/carbon/human))
-		var/mob/living/carbon/human/victim = mob
-		for (var/obj/item/bodypart/part in victim.bodyparts)
-			part.wound_resistance += 10
+/datum/symptom/bones/deactivate(mob/living/carbon/human/victim)
+	if(!ishuman(victim))
+		return
+	for(var/obj/item/bodypart/part in victim.bodyparts)
+		part.wound_resistance += 10
 
 /datum/symptom/fizzle
 	name = "Fizzle Effect"
@@ -134,7 +128,7 @@
 	badness = EFFECT_DANGER_FLAVOR
 
 /datum/symptom/fizzle/activate(mob/living/carbon/mob)
-	mob.emote("me",1,pick("sniffles...", "clears their throat..."))
+	mob.emote("me", 1, pick("sniffles...", "clears their throat..."))
 
 /datum/symptom/delightful
 	name = "Delightful Effect"
@@ -144,7 +138,7 @@
 
 /datum/symptom/delightful/activate(mob/living/carbon/mob)
 	to_chat(mob, "<span class = 'notice'>You feel delightful!</span>")
-	if (mob.reagents.get_reagent_amount(/datum/reagent/drug/happiness) < 5)
+	if (mob.reagents?.get_reagent_amount(/datum/reagent/drug/happiness) < 5)
 		mob.reagents.add_reagent(/datum/reagent/drug/happiness, 10)
 
 /datum/symptom/spawn
@@ -163,7 +157,7 @@
 	var/atom/spawn_type = pick_weight(spawn_types)
 	var/spawn_name = initial(spawn_type.name)
 	var/mob/living/spawned_mob = new spawn_type(get_turf(mob))
-	mob.emote("me",1,"vomits up a live [spawn_name]!")
+	mob.emote("me", 1, "vomits up a live [spawn_name]!")
 	if(multiplier < 4)
 		addtimer(CALLBACK(src, PROC_REF(kill_mob), spawned_mob), 1 MINUTES)
 
@@ -235,17 +229,18 @@
 	var/intensity = 1 + (count > 10) + (count > 20)
 	if (prob(20))
 		to_chat(mob, span_warning("You feel a [intensity < 3 ? "slight" : "powerful"] shock course through your body."))
-	for(var/obj/M in orange(3 * intensity,mob))
-		if(!M.anchored)
-			var/iter = rand(1,intensity)
-			for(var/i=0,i<iter,i++)
-				step_towards(M,mob)
-	for(var/mob/living/silicon/S in orange(3 * intensity,mob))
-		if(istype(S, /mob/living/silicon/ai))
+	for(var/obj/thingy in orange(3 * intensity, mob))
+		if(!thingy.anchored || thingy.move_resist > MOVE_FORCE_STRONG)
 			continue
-		var/iter = rand(1,intensity)
-		for(var/i=0,i<iter,i++)
-			step_towards(S,mob)
+		var/iter = rand(1, intensity)
+		for(var/i in 0 to iter)
+			step_towards(thingy, mob)
+	for(var/mob/living/silicon/robutt in orange(3 * intensity,mob))
+		if(isAI(robutt))
+			continue
+		var/iter = rand(1, intensity)
+		for(var/i in 0 to iter)
+			step_towards(robutt, mob)
 
 /*/datum/symptom/dnaspread //commented out due to causing enough problems to turn random people into monkies apon curing.
 	name = "Retrotransposis"
@@ -388,7 +383,7 @@
 	switch(round(multiplier))
 		if(2)
 			if(prob(26))
-				affected_mob.adjustFireLoss(5, FALSE)
+				affected_mob.take_overall_damage(burn = 5)
 			if(prob(0.5))
 				to_chat(affected_mob, span_danger("You feel strange..."))
 		if(3)
@@ -455,11 +450,11 @@
 		to_chat(mob, span_notice("[pick("Your lungs feel great.", "You realize you haven't been breathing.", "You don't feel the need to breathe.")]"))
 		if(breathing)
 			breathing = FALSE
-			ADD_TRAIT(mob, TRAIT_NOBREATH, DISEASE_TRAIT)
+			ADD_TRAIT(mob, TRAIT_NOBREATH, type)
 
 /datum/symptom/oxygen/deactivate(mob/living/carbon/mob, datum/disease/advanced/disease)
 	if(!breathing)
 		breathing = TRUE
-		REMOVE_TRAIT(mob, TRAIT_NOBREATH, DISEASE_TRAIT)
+		REMOVE_TRAIT(mob, TRAIT_NOBREATH, type)
 		mob.emote("gasp")
 		to_chat(mob, span_notice("You feel the need to breathe again."))
