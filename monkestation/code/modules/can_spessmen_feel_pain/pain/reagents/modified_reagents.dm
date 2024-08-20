@@ -77,6 +77,9 @@
 /datum/reagent/toxin/fentanyl
 	pain_modifier = 0.5
 
+/datum/reagent/drug/cocaine
+	pain_modifier = 0.4
+
 //Alcohol reduces pain based on boozepwr
 /datum/reagent/consumable/ethanol/New()
 	if(boozepwr && isnull(pain_modifier))
