@@ -14,9 +14,9 @@
 	/// Lazy Assoc list [zones] to [references to bodyparts], all the body parts we're tracking
 	var/list/body_zones
 	/// Natural amount of decay given to each limb per 5 ticks of process, increases over time
-	var/natural_pain_decay = -0.2
+	var/natural_pain_decay = -0.4
 	/// The base amount of pain decay received.
-	var/base_pain_decay = -0.2
+	var/base_pain_decay = -0.4
 	/// Counter to track pain decay. Pain decay is only done once every 5 ticks.
 	var/natural_decay_counter = 0
 	/// Amount of shock building up from higher levels of pain
@@ -658,7 +658,7 @@
 	natural_decay_counter = 0
 	if(COOLDOWN_FINISHED(src, time_since_last_pain_loss) && parent.stat == CONSCIOUS)
 		// 0.16 per 10 seconds, ~0.1 per minute, 10 minutes for ~1 decay
-		natural_pain_decay = max(natural_pain_decay - 0.016, -1)
+		natural_pain_decay = max(natural_pain_decay - 0.016, -2)
 	else
 		natural_pain_decay = base_pain_decay
 
