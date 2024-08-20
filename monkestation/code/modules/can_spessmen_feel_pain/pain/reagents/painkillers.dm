@@ -6,13 +6,6 @@
 	optimal_ph_max = 11
 	reaction_tags = REACTION_TAG_EASY | REACTION_TAG_HEALING | REACTION_TAG_OTHER | REACTION_TAG_DRUG
 
-// move these melbert todo
-/datum/chemical_reaction/medicine/morphine
-	results = list(/datum/reagent/medicine/painkiller/morphine = 2)
-	required_reagents = list(/datum/reagent/carbon = 2, /datum/reagent/hydrogen = 2, /datum/reagent/consumable/ethanol = 1, /datum/reagent/oxygen = 1)
-	required_temp = 480
-	reaction_tags = REACTION_TAG_EASY | REACTION_TAG_HEALING | REACTION_TAG_OTHER | REACTION_TAG_DRUG
-
 /datum/chemical_reaction/medicine/aspirin
 	results = list(/datum/reagent/medicine/painkiller/aspirin = 3)
 	required_reagents = list(/datum/reagent/medicine/sal_acid = 1, /datum/reagent/acetone = 1, /datum/reagent/oxygen = 1)
