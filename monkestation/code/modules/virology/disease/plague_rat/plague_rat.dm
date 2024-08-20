@@ -6,8 +6,8 @@
 	icon_living = "mouse_plague"
 	icon_dead = "mouse_plague_dead"
 
-	maxHealth = 300
-	health = 300
+	maxHealth = 100
+	health = 100
 
 	melee_damage_lower = 4
 	melee_damage_upper = 7

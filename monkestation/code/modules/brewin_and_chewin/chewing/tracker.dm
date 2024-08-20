@@ -285,6 +285,8 @@
 	var/tracked_quality = 0 //The current level of quality within that recipe.
 
 	var/list/steps_taken = list() //built over the course of following a recipe, tracks what has been done to the object. Format is unique_id:result
+	///what our current food buff is
+	var/custom_food_buff
 
 /datum/chewin_cooking/recipe_pointer/New(start_type, recipe_id, var/datum/chewin_cooking/recipe_tracker/parent)
 
@@ -437,6 +439,9 @@
 	var/step_quality = active_step.calculate_quality(used_obj, tracker)
 	tracked_quality += step_quality
 	steps_taken["[id]"] = active_step.get_step_result_text(used_obj, step_quality)
+	if(active_step.custom_food_buff)
+		custom_food_buff = active_step.custom_food_buff
+
 	if(!(active_step.flags & CHEWIN_IS_OPTIONAL))
 		current_step = active_step
 

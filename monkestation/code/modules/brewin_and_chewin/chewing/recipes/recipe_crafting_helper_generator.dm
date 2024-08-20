@@ -1,5 +1,6 @@
 /datum/chewin_cooking/recipe/proc/generate_crafting_helper()
 	var/datum/crafting_recipe/food/new_food_recipe = new
+	new_food_recipe.category = food_category
 	new_food_recipe.result = product_type
 	new_food_recipe.name = name
 	new_food_recipe.non_craftable = TRUE
@@ -22,12 +23,12 @@
 					steps += "Add [initial(grown_path.name)] to [cooking_container]"
 				if(CHEWIN_ADD_ITEM)
 					var/obj/item/item_path = iteration_list[2]
-					steps += "Add [initial(item_path.name)]"
+					steps += "Add [initial(item_path.name)] to [cooking_container]"
 				if(CHEWIN_ADD_ITEM_OPTIONAL)
 					var/obj/item/item_path = iteration_list[2]
 					if(!in_group)
 						steps += "Optional Step"
-					steps += "Add [initial(item_path.name)]"
+					steps += "Add [initial(item_path.name)] to [cooking_container]"
 					if(!in_group)
 						steps += "End Optional Step"
 				if(CHEWIN_ADD_REAGENT_OPTIONAL)
@@ -41,19 +42,19 @@
 					var/datum/reagent/reagent_path = iteration_list[2]
 					steps += "Add [iteration_list[3]] units of [initial(reagent_path.name)] to [cooking_container]"
 				if(CHEWIN_USE_TOOL)
-					steps += "Use [iteration_list[2]]"
+					steps += "Use [iteration_list[2]] on [cooking_container]"
 				if(CHEWIN_USE_TOOL_OPTIONAL)
 					if(!in_group)
 						steps += "Optional Step"
-					steps += "Use [iteration_list[2]]"
+					steps += "Use [iteration_list[2]] on [cooking_container]"
 					if(!in_group)
 						steps += "End Optional Step"
 				if(CHEWIN_USE_ITEM)
-					steps += "Use [iteration_list[2]]"
+					steps += "Use [iteration_list[2]] on [cooking_container]"
 				if(CHEWIN_USE_ITEM_OPTIONAL)
 					if(!in_group)
 						steps += "Optional Step"
-					steps += "Use [iteration_list[2]]"
+					steps += "Use [iteration_list[2]] on [cooking_container]"
 					if(!in_group)
 						steps += "End Optional Step"
 				if(CHEWIN_USE_STOVE)
@@ -65,7 +66,7 @@
 					if(!in_group)
 						steps += "End Optional Step"
 				if(CHEWIN_USE_FRYER)
-					steps += "Deepfry on [iteration_list[2]] heat for [iteration_list[3] * 0.1] Seconds"
+					steps += "Deepfr for [iteration_list[3] * 0.1] Seconds"
 				if(CHEWIN_USE_OVEN)
 					steps += "Cook in Oven on [iteration_list[2]] heat for [iteration_list[3] * 0.1] Seconds"
 				if(CHEWIN_USE_OVEN_OPTIONAL)

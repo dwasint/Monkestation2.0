@@ -59,6 +59,10 @@ Food quality is calculated based on the steps taken.
 	var/datum/chewin_cooking/recipe_step/last_required_step //Reference to the last required step in the cooking process.
 
 	var/datum/chewin_cooking/recipe_step/last_created_step //Reference to the last step made, regardless of if it was required or not.
+	///this is the category shown in personal crafting menus
+	var/food_category = CATEGORY_MISC
+	///this is our food buff override provided by other things
+	var/food_buff_override
 
 /datum/chewin_cooking/recipe/New()
 
@@ -324,6 +328,9 @@ Food quality is calculated based on the steps taken.
 			if("prod_desc" in step_list)
 				set_step_custom_result_desc(step_list["prod_desc"])
 
+			if("food_buff" in step_list)
+				set_step_custom_food_buff(step_list["food_buff"])
+
 			if("qmod" in step_list)
 				if(!set_inherited_quality_modifier(step_list["qmod"]))
 					reason="qmod / inherited_quality_modifier declared on non add-item recipe step."
@@ -450,6 +457,8 @@ Food quality is calculated based on the steps taken.
 /datum/chewin_cooking/recipe/proc/set_step_custom_result_desc(var/new_description)
 	last_created_step.custom_result_desc = new_description
 
+/datum/chewin_cooking/recipe/proc/set_step_custom_food_buff(var/new_food_buff)
+	last_created_step.custom_food_buff = new_food_buff
 
 /datum/chewin_cooking/recipe/proc/set_exact_type_required(var/boolean)
 	if((last_created_step.class == CHEWIN_ADD_ITEM) || (last_created_step.class == CHEWIN_USE_ITEM))
@@ -710,6 +719,8 @@ Food quality is calculated based on the steps taken.
 				if(pointer.steps_taken[id] != "skip")
 					cooking_description_modifier += "[pointer.steps_taken[id]]\n"
 
+			food_buff_override = pointer.custom_food_buff
+
 			for(var/i = 0; i < product_count; i++)
 				var/obj/item/new_item = new product_type(container)
 				logger.Log(LOG_CATEGORY_DEBUG, "Item created with reagents of [new_item.reagents.total_volume]")
@@ -726,6 +737,9 @@ Food quality is calculated based on the steps taken.
 
 				new_item?:food_quality = pointer.tracked_quality + reagent_quality
 				new_item?:cooking_description_modifier = cooking_description_modifier
+				if(istype(new_item, /obj/item/food) && food_buff_override)
+					var/obj/item/food/food_item = new_item
+					food_item?:food_buffs = food_buff_override
 				//TODO: Consider making an item's base components show up in the reagents of the product.
 		else
 			//Purge the contents of the container we no longer need it
