@@ -21,6 +21,6 @@
 	if(!("reagents" in data))
 		return
 	for(var/datum/reagent/reagent as anything in data["reagents"])
-		var/multiplier = trans_volume * data["reagents"][reagent]
+		var/multiplier = amount * data["reagents"][reagent]
 		L.reagents.add_reagent(reagent, multiplier)
-	L.reagents.remove_all_type(/datum/reagent/consumable/ethanol/custom_brew, trans_volume)
+	L.reagents.remove_all_type(/datum/reagent/consumable/ethanol/custom_brew, amount)
