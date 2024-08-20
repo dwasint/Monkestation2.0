@@ -2080,7 +2080,7 @@
 	name = "Blueshield's Office"
 	},
 /obj/effect/landmark/navigate_destination,
-/obj/effect/mapping_helpers/airlock/access/any/admin,
+/obj/effect/mapping_helpers/airlock/access/all/admin/general,
 /turf/open/floor/carpet,
 /area/station/command/heads_quarters/blueshield)
 "aJr" = (

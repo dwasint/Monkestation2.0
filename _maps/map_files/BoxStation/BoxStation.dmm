@@ -12760,7 +12760,7 @@
 	},
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/door/firedoor,
-/obj/effect/mapping_helpers/airlock/access/any/admin,
+/obj/effect/mapping_helpers/airlock/access/all/admin/general,
 /turf/open/floor/carpet/executive,
 /area/station/command/heads_quarters/blueshield)
 "ekU" = (
@@ -16644,7 +16644,7 @@
 	dir = 1
 	},
 /obj/machinery/door/firedoor,
-/obj/effect/mapping_helpers/airlock/access/any/admin,
+/obj/effect/mapping_helpers/airlock/access/all/admin/general,
 /turf/open/floor/wood,
 /area/station/command/heads_quarters/blueshield)
 "fCT" = (
@@ -16775,7 +16775,7 @@
 	name = "Blueshield's Quarters"
 	},
 /obj/machinery/door/firedoor,
-/obj/effect/mapping_helpers/airlock/access/any/admin,
+/obj/effect/mapping_helpers/airlock/access/all/admin/general,
 /turf/open/floor/iron/dark,
 /area/station/command/heads_quarters/blueshield)
 "fFd" = (
@@ -36729,7 +36729,7 @@
 	},
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/door/firedoor,
-/obj/effect/mapping_helpers/airlock/access/all/command/captain,
+/obj/effect/mapping_helpers/airlock/access/all/admin/general,
 /turf/open/floor/wood,
 /area/station/command/heads_quarters/blueshield)
 "miX" = (
