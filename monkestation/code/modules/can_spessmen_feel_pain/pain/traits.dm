@@ -1,11 +1,13 @@
 // Less vulnerable to pain (lower pain modifier)
 /datum/quirk/pain_resistance
 	name = "Hypoalgesia"
-	desc = "You're more resistant to pain - Your pain naturally decreases faster and you recieve less overall."
+	desc = "You're more resistant to pain - Your pain naturally decreases faster and you receive less overall."
+	icon = FA_ICON_FIST_RAISED
 	value = 8
 	gain_text = "<span class='notice'>You feel duller.</span>"
 	lose_text = "<span class='danger'>You feel sharper.</span>"
 	medical_record_text = "Patient has Hypoalgesia, and is less susceptible to pain stimuli than most."
+	mail_goodies = list(/obj/item/temperature_pack/heat)
 
 /datum/quirk/pain_resistance/add()
 	var/mob/living/carbon/carbon_holder = quirk_holder
@@ -20,11 +22,13 @@
 // More vulnerabile to pain (increased pain modifier)
 /datum/quirk/pain_vulnerability
 	name = "Hyperalgesia"
-	desc = "You're less resistant to pain - Your pain naturally decreases slower and you recieve more overall."
+	desc = "You're less resistant to pain - Your pain naturally decreases slower and you receive more overall."
+	icon = FA_ICON_USER_INJURED
 	value = -6
-	gain_text = "<span class='danger'>You feel sharper.</span>"
-	lose_text = "<span class='notice'>You feel duller.</span>"
+	gain_text = span_danger("You feel sharper.")
+	lose_text = span_notice("You feel duller.")
 	medical_record_text = "Patient has Hyperalgesia, and is more susceptible to pain stimuli than most."
+	mail_goodies = list(/obj/item/temperature_pack/cold)
 
 /datum/quirk/pain_vulnerability/add()
 	var/mob/living/carbon/carbon_holder = quirk_holder
@@ -35,6 +39,7 @@
 	var/mob/living/carbon/carbon_holder = quirk_holder
 	if(istype(carbon_holder))
 		carbon_holder.unset_pain_mod(PAIN_MOD_QUIRK)
+
 
 // More vulnerable to pain + get pain from more actions (Glass bones and paper skin)
 /datum/quirk/allodynia
