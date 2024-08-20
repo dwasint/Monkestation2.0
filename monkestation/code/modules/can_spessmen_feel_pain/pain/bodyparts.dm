@@ -250,37 +250,37 @@
 
 // --- Right Leg ---
 /obj/item/bodypart/leg/right/robot
-	pain = PAIN_LIMB_MAX
+	pain = PAIN_LIMB_MAX * 0.5
 	bodypart_pain_modifier = 0.2
 
 /obj/item/bodypart/leg/right/robot/surplus
-	pain = 40
+	pain = 20
 	bodypart_pain_modifier = 0.8
 
 // --- Left Leg ---
 /obj/item/bodypart/leg/left/robot
-	pain = PAIN_LIMB_MAX
+	pain = PAIN_LIMB_MAX * 0.5
 	bodypart_pain_modifier = 0.2
 
 /obj/item/bodypart/leg/left/robot/surplus
-	pain = 40
+	pain = 20
 	bodypart_pain_modifier = 0.8
 
 
 // --- Right Arm ---
 /obj/item/bodypart/arm/right/robot
-	pain = PAIN_LIMB_MAX
+	pain = PAIN_LIMB_MAX * 0.5
 	bodypart_pain_modifier = 0.2
 
 /obj/item/bodypart/arm/right/robot/surplus
-	pain = 40
+	pain = 20
 	bodypart_pain_modifier = 0.8
 
 // --- Left Arm ---
 /obj/item/bodypart/arm/right/robot
-	pain = PAIN_LIMB_MAX
+	pain = PAIN_LIMB_MAX * 0.5
 	bodypart_pain_modifier = 0.2
 
 /obj/item/bodypart/arm/left/robot/surplus
-	pain = 40
+	pain = 20
 	bodypart_pain_modifier = 0.8
