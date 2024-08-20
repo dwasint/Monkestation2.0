@@ -69,7 +69,7 @@ GLOBAL_LIST_EMPTY(custom_fermentation_recipes)
 	for(var/obj/item/food/grown/G in produce_list)
 		if(G.type in selected_recipe?.needed_crops)
 			var/amount = recipe_crop_stocks[G.type] || 0
-			var/added_item = round(min(10, max(1, G.seed.potency / 100)))
+			var/added_item = round(min(10, max(1, G.seed.potency / 10)))
 			recipe_crop_stocks[G.type] = amount + added_item
 			qdel(G)
 
