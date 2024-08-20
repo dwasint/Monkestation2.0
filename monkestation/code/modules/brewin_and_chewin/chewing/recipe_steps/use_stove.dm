@@ -36,9 +36,9 @@
 		if (heat != key)
 			bad_cooking += container.stove_data[key]
 
-	bad_cooking = round(bad_cooking/(5 SECONDS))
+	bad_cooking = round(bad_cooking / (5 SECONDS))
 
-	var/good_cooking = round(time/3 SECONDS) - bad_cooking
+	var/good_cooking = round(time / (3 SECONDS)) - bad_cooking
 
 	return clamp_quality(good_cooking)
 
