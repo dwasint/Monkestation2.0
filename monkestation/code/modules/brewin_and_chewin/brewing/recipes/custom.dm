@@ -14,11 +14,10 @@
 	name = "EVIL WIZARD POTION"
 	can_merge = FALSE
 
-/datum/reagent/consumable/ethanol/custom_brew/on_transfer(atom/A, methods, trans_volume)
+/datum/reagent/consumable/ethanol/custom_brew/on_mob_add(mob/living/L, amount)
 	. = ..()
-	if(!isliving(A))
+	if(!isliving(L))
 		return
-	var/mob/living/L = A
 	if(!("reagents" in data))
 		return
 	for(var/datum/reagent/reagent as anything in data["reagents"])

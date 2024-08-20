@@ -120,7 +120,7 @@
 	M.adjustBruteLoss(-0.2 * REM * seconds_per_tick, FALSE)
 	M.adjustFireLoss(-0.1 * REM * seconds_per_tick, FALSE)
 	// Morphine heals pain, dur
-	M.cause_pain(BODY_ZONES_ALL, -0.3)
+	M.cause_pain(BODY_ZONES_ALL, -0.75)
 	// Morphine causes a bit of disgust
 	if(M.disgust < DISGUST_LEVEL_VERYGROSS && SPT_PROB(50 * max(1 - creation_purity, 0.5), seconds_per_tick))
 		M.adjust_disgust(2 * REM * seconds_per_tick)
