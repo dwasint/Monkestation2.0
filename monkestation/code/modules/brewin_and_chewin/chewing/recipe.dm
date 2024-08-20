@@ -629,7 +629,7 @@ Food quality is calculated based on the steps taken.
 
 //-----------------------------------------------------------------------------------
 //default function for creating a product
-/datum/chewin_cooking/recipe/proc/create_product(var/datum/chewin_cooking/recipe_pointer/pointer)
+/datum/chewin_cooking/recipe/proc/create_product(var/datum/chewin_cooking/recipe_pointer/pointer, var/mob/user)
 	var/datum/chewin_cooking/recipe_tracker/parent = pointer.parent_ref.resolve()
 	var/obj/item/container = parent.holder_ref.resolve()
 	if(container)
@@ -737,9 +737,16 @@ Food quality is calculated based on the steps taken.
 
 				new_item?:food_quality = pointer.tracked_quality + reagent_quality
 				new_item?:cooking_description_modifier = cooking_description_modifier
+				if(user)
+					ADD_TRAIT(new_item, TRAIT_FOOD_CHEF_MADE, user)
 				if(istype(new_item, /obj/item/food) && food_buff_override)
 					var/obj/item/food/food_item = new_item
 					food_item?:food_buffs = food_buff_override
+
+				if(istype(new_item, /obj/item/food))
+					var/obj/item/food/food_type = new_item
+					if(food_type.food_quality < 0)
+						food_type.food_buffs = /datum/status_effect/food/food_poisoning
 				//TODO: Consider making an item's base components show up in the reagents of the product.
 		else
 			//Purge the contents of the container we no longer need it

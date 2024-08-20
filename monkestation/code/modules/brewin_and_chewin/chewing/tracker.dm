@@ -218,7 +218,7 @@
 	sample_step.follow_step(used_object, src)
 
 	if(chosen_pointer)
-		chosen_pointer.current_recipe.create_product(chosen_pointer)
+		chosen_pointer.current_recipe.create_product(chosen_pointer, user)
 		return CHEWIN_COMPLETE
 	populate_step_flags()
 

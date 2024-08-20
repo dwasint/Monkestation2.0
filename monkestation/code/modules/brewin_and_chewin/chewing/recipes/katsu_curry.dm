@@ -24,7 +24,7 @@
 		list(CHEWIN_ADD_REAGENT, /datum/reagent/consumable/nutriment/soup/curry_sauce, 5, base=3),
 
 		CHEWIN_BEGIN_EXCLUSIVE_OPTIONS,
-		list(CHEWIN_ADD_PRODUCE_OPTIONAL, /obj/item/food/grown/chili, qmod=0.2, reagent_skip=TRUE, prod_desc = "Extra spicy!"),
+		list(CHEWIN_ADD_PRODUCE_OPTIONAL, /obj/item/food/grown/chili, qmod=0.2, reagent_skip=TRUE, prod_desc = "Extra spicy!", food_buff = /datum/status_effect/food/sweaty),
 		list(CHEWIN_ADD_PRODUCE_OPTIONAL, /obj/item/food/grown/pineapple, qmod=0.2, reagent_skip=TRUE, prod_desc = "Mild and Sweet."),
 		CHEWIN_END_EXCLUSIVE_OPTIONS,
 

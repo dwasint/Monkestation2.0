@@ -34,13 +34,12 @@
 	RegisterSignal(src, COMSIG_ITEM_OVEN_PROCESS, PROC_REF(process_bake))
 
 
-/obj/item/reagent_containers/cooking_container/examine(var/mob/user)
-	if(!..(user, 1))
-		return FALSE
+/obj/item/reagent_containers/cooking_container/examine(mob/user)
+	. = ..()
 	if(contents)
-		to_chat(user, get_content_info())
+		.+= get_content_info()
 	if(reagents.total_volume)
-		to_chat(user, get_reagent_info())
+		.+= get_reagent_info()
 
 /obj/item/reagent_containers/cooking_container/proc/get_content_info()
 	var/string = "It contains:</br><ul><li>"

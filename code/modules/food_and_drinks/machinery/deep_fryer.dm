@@ -51,6 +51,7 @@ GLOBAL_LIST_INIT(oilfry_blacklisted_items, typecacheof(list(
 
 /obj/machinery/deepfryer/Initialize(mapload)
 	. = ..()
+	basket = new(src)
 	create_reagents(50, OPENCONTAINER)
 	reagents.add_reagent(/datum/reagent/consumable/cooking_oil, 25)
 	fry_loop = new(src, FALSE)
@@ -100,7 +101,10 @@ GLOBAL_LIST_INIT(oilfry_blacklisted_items, typecacheof(list(
 		to_chat(user, span_userdanger("Your cooking skills are not up to the legendary Doublefry technique."))
 		return
 	// Handle opening up the fryer with tools
-	if(default_deconstruction_screwdriver(user, "fryer_off", "fryer_off", weapon)) //where's the open maint panel icon?!
+	var/fryer_icon = "fryer_off"
+	if(!basket)
+		fryer_icon = "fryer"
+	if(default_deconstruction_screwdriver(user, fryer_icon, fryer_icon, weapon)) //where's the open maint panel icon?!
 		return
 	else
 		// So we skip the attack animation
