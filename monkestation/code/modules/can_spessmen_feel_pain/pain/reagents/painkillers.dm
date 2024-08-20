@@ -129,21 +129,21 @@
 	// for reference: (with 0.1 metabolism rate)
 	// ~2.5 units = 12 cycles = ~30 seconds
 	switch(current_cycle)
-		if(16) //~3u
+		if(64) //~12
 			to_chat(M, span_warning("You start to feel tired..."))
 			M.adjust_eye_blur(2 SECONDS * REM * seconds_per_tick) // just a hint teehee
 			if(prob(50))
 				M.emote("yawn")
 
-		if(24 to 36) // 5u to 7.5u
+		if(96 to 144) // 20 to 30u
 			if(SPT_PROB(33, seconds_per_tick))
 				M.adjust_drowsiness_up_to(1 * REM * seconds_per_tick, 6 SECONDS)
 
-		if(36 to 48) // 7.5u to 10u
+		if(144 to 192) // 30u to 40u
 			if(SPT_PROB(66, seconds_per_tick))
 				M.adjust_drowsiness_up_to(1 * REM * seconds_per_tick, 12 SECONDS)
 
-		if(48 to INFINITY) //10u onward
+		if(192 to INFINITY) //40u onward
 			M.adjust_drowsiness_up_to(1 * REM * seconds_per_tick, 20 SECONDS)
 			M.Sleeping(4 SECONDS * REM * seconds_per_tick)
 
