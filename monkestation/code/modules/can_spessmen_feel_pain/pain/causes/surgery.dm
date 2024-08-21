@@ -76,7 +76,7 @@
 /datum/surgery_step/coronary_bypass/success(mob/user, mob/living/carbon/target, target_zone, obj/item/tool, datum/surgery/surgery, default_display_results = FALSE)
 	. = ..()
 	// Reduces pain from surgery a bit on success
-	target.cause_pain(target_zone, pain_amount * -0.25, pain_type)
+	target.cause_pain(target_zone, pain_amount * -0.5, pain_type)
 
 /datum/surgery_step/coronary_bypass/failure(mob/user, mob/living/carbon/target, target_zone, obj/item/tool, datum/surgery)
 	. = ..()
@@ -92,7 +92,7 @@
 /datum/surgery_step/gastrectomy/success(mob/user, mob/living/carbon/target, target_zone, obj/item/tool, datum/surgery/surgery, default_display_results = FALSE)
 	. = ..()
 	// Reduces pain from surgery a bit on success
-	target.cause_pain(target_zone, pain_amount * -0.75, pain_type)
+	target.cause_pain(target_zone, pain_amount * -1.25, pain_type)
 
 /datum/surgery_step/gastrectomy/failure(mob/user, mob/living/carbon/target, target_zone, obj/item/tool, datum/surgery)
 	. = ..()
@@ -110,7 +110,7 @@
 /datum/surgery_step/hepatectomy/success(mob/user, mob/living/carbon/target, target_zone, obj/item/tool, datum/surgery/surgery, default_display_results = FALSE)
 	. = ..()
 	// Reduces pain from surgery a bit on success
-	target.cause_pain(target_zone, pain_amount * -0.75, pain_type)
+	target.cause_pain(target_zone, pain_amount * -1.25, pain_type)
 
 /datum/surgery_step/hepatectomy/failure(mob/user, mob/living/carbon/target, target_zone, obj/item/tool, datum/surgery)
 	. = ..()

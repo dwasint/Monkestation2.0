@@ -141,7 +141,7 @@
 
 	ADD_TRAIT(affected_mob, TRAIT_ABATES_SHOCK, type) // To negate the fact that being cold is bad for shock
 	affected_mob.set_pain_mod(type, 0.5) // Heal pain faster
-	affected_mob.cause_pain(BODY_ZONES_ALL, -0.25 * power * REM * seconds_per_tick)
+	affected_mob.cause_pain(BODY_ZONES_ALL, -0.5 * power * REM * seconds_per_tick)
 	affected_mob.adjust_pain_shock(-power * REM * seconds_per_tick)
 
 /datum/reagent/medicine/cryoxadone/on_mob_end_metabolize(mob/living/carbon/user)

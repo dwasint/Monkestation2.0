@@ -31,7 +31,7 @@
 	if(QDELING(owner))
 		return
 	UnregisterSignal(owner, COMSIG_LIVING_EXTINGUISHED)
-	owner.cause_pain(BODY_ZONES_ALL, -0.75 * pain_amount, BURN)
+	owner.cause_pain(BODY_ZONES_ALL, -1.5 * pain_amount, BURN)
 
 /// When signalled, terminate.
 /datum/status_effect/pain_from_fire/proc/remove_on_signal(datum/source)

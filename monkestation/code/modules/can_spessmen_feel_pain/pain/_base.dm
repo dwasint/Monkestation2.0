@@ -320,7 +320,7 @@
 	affected_part.on_gain_pain_effects(amount)
 	refresh_pain_attributes()
 	SEND_SIGNAL(parent, COMSIG_CARBON_PAIN_GAINED, affected_part, amount, type)
-	COOLDOWN_START(src, time_since_last_pain_loss, 60 SECONDS)
+	COOLDOWN_START(src, time_since_last_pain_loss, 30 SECONDS)
 
 	if(amount > 12 && prob(25))
 		do_pain_emote("scream", 5 SECONDS)
@@ -648,8 +648,8 @@
 	if(HAS_TRAIT(parent, TRAIT_STASIS) || parent.on_fire || parent.stat == DEAD)
 		return
 
-	// Decay every 5 ticks / 10 seconds, or 2 ticks / 4 seconds if "sleeping"
-	var/every_x_ticks = HAS_TRAIT(parent, TRAIT_KNOCKEDOUT) ? 2 : 5
+	// Decay every 3 ticks / 6 seconds, or 1 ticks / 2 seconds if "sleeping"
+	var/every_x_ticks = HAS_TRAIT(parent, TRAIT_KNOCKEDOUT) ? 1 : 3
 
 	natural_decay_counter++
 	if(natural_decay_counter % every_x_ticks != 0)
