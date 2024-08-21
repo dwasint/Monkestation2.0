@@ -113,7 +113,18 @@ GLOBAL_LIST_INIT(stored_codes, list())
 	if(item_choice == "Yes")
 		item_choice = pick(GLOB.possible_lootbox_clothing)
 	else
-		item_choice = tgui_input_list(usr, "Please choose a loadout item to award", "Loadout Choice", GLOB.possible_lootbox_clothing)
+		var/limited = tgui_alert(usr, "Should it be a limited to approved items?", "Loadout Choice", list("Yes", "No"))
+		if(!limited)
+			return
+		if(limited == "Yes")
+			item_choice = tgui_input_list(usr, "Please choose a loadout item to award", "Loadout Choice", GLOB.possible_lootbox_clothing)
+		else
+			var/choice_path = stripped_input(usr, "Enter the Path of the Item you want to add.", "Search Items")
+			choice_path = pick_closest_path(choice_path, make_types_fancy(subtypesof(/obj/item)))
+			if(!choice_path)
+				return
+			item_choice = choice_path
+
 	if(!item_choice || !ispath(item_choice))
 		return
 

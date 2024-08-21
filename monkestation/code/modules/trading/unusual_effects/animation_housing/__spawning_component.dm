@@ -120,16 +120,7 @@
 	for(var/i = 0 to burstees)
 		//create and assign particle its stuff
 		var/obj/effect/abstract/particle/spawned
-		if(!length(dead_particles))
-			spawned = new(get_turf(source_object))
-		else
-			spawned = pick(dead_particles)
-			var/turf/turf = get_turf(source_object)
-			if(turf)
-				spawned.forceMove(turf)
-			spawned.alpha = 255
-			dead_particles -= spawned
-
+		spawned = new(get_turf(source_object))
 		if(offsets)
 			spawned.pixel_x = offset_x
 			spawned.pixel_y = offset_y
@@ -154,12 +145,7 @@
 
 /datum/component/particle_spewer/proc/delete_particle(obj/effect/abstract/particle/spawned)
 	living_particles -= spawned
-	dead_particles |= spawned
-	spawned.pixel_x = 0
-	spawned.pixel_y = 0
-	spawned.transform = matrix()
-	spawned.alpha = 0
-	spawned.color = null
+	qdel(spawned)
 
 /datum/component/particle_spewer/proc/kill_it_with_fire()
 	qdel(src)

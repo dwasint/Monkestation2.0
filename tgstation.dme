@@ -7795,6 +7795,7 @@
 #include "monkestation\code\modules\trading\unusual_effects\animation_housing\fire.dm"
 #include "monkestation\code\modules\trading\unusual_effects\animation_housing\galaxies.dm"
 #include "monkestation\code\modules\trading\unusual_effects\animation_housing\holy_steps.dm"
+#include "monkestation\code\modules\trading\unusual_effects\animation_housing\money.dm"
 #include "monkestation\code\modules\trading\unusual_effects\animation_housing\music.dm"
 #include "monkestation\code\modules\trading\unusual_effects\animation_housing\rain.dm"
 #include "monkestation\code\modules\trading\unusual_effects\animation_housing\shooting_stars.dm"
