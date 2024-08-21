@@ -566,7 +566,7 @@
 
 /datum/quirk/prosthetic_limb
 	name = "Prosthetic Limb"
-	desc = "An accident caused you to lose one of your limbs. Because of this, you now have a random prosthetic! You also start with some pain in the limb."
+	desc = "An accident caused you to lose one of your limbs. Because of this, you now have a random prosthetic!"
 	icon = "tg-prosthetic-leg"
 	value = -3
 	var/slot_string = "limb"

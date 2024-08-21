@@ -105,7 +105,7 @@
 	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
 	addiction_types = list(/datum/addiction/opioids = 30) //5u = 100 progress, 25-30u = addiction
 	// Morphine is THE painkiller
-	pain_modifier = 0.5
+	pain_modifier = 0.4
 
 /datum/reagent/medicine/painkiller/morphine/on_mob_metabolize(mob/living/L)
 	. = ..()
@@ -338,7 +338,7 @@
 	ph = 5.6
 	chemical_flags = REAGENT_CAN_BE_SYNTHESIZED
 	addiction_types = list(/datum/addiction/opioids = 45) //5u = 150 progress, 15-20u = addiction
-	pain_modifier = 0.4
+	pain_modifier = 0.35
 
 /datum/reagent/medicine/painkiller/oxycodone/on_mob_life(mob/living/carbon/M, seconds_per_tick, times_fired)
 	M.adjustBruteLoss(-0.3 * REM * seconds_per_tick, FALSE)
