@@ -61,7 +61,7 @@
 			. += span_notice("[initial(atom.name)]: [chosen_recipe.reqs[atom]]")
 
 /obj/machinery/assembler/proc/create_recipes()
-	for(var/datum/crafting_recipe/recipe as anything in subtypesof(/datum/crafting_recipe))
+	for(var/datum/crafting_recipe/recipe as anything in subtypesof(/datum/crafting_recipe) - /datum/crafting_recipe/stack)
 		if(initial(recipe.non_craftable) || !initial(recipe.always_available))
 			continue
 		crafting_recipes += new recipe

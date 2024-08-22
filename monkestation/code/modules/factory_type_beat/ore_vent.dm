@@ -432,7 +432,7 @@
 		/mob/living/basic/mining/wolf,
 	)
 	ore_vent_options = list(
-		SMALL_VENT_TYPE,
+		SMALL_VENT_TYPE = 1,
 	)
 
 /obj/structure/ore_vent/random/icebox/lower
