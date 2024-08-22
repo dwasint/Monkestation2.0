@@ -184,6 +184,8 @@ interface RecipeContentProps {
   diet: any;
 }
 
+type GroupedStep = string | StepGroup;
+
 export const PersonalCrafting = (props) => {
   const { act, data } = useBackend<Data>();
   const {
@@ -778,16 +780,34 @@ const RecipeContent = ({ item, craftable, busy, mode, diet }) => {
     'End Optional Step',
   ];
 
-  const groupedSteps: JSX.Element[] = [];
+  const groupedSteps: GroupedStep[] = [];
   const groupStack: StepGroup[] = [];
   let currentGroup: StepGroup | null = null;
   let groupKey = 0;
+
+  // Function to push step to groupedSteps or currentGroup
+  const pushStep = (step: string, count: number) => {
+    const stepText = count > 1 ? `${step} x${count}` : step;
+    if (currentGroup) {
+      currentGroup.steps.push(stepText);
+    } else {
+      groupedSteps.push(<li key={groupKey++}>{stepText}</li>);
+    }
+  };
+
+  let previousStep = '';
+  let duplicateCount = 0;
 
   item.steps?.forEach((step, index) => {
     const trimmedStep = step.trim();
 
     if (specialSteps.includes(trimmedStep)) {
       if (trimmedStep.includes('End')) {
+        // Push previous duplicate steps if any
+        if (duplicateCount > 0) {
+          pushStep(previousStep, duplicateCount);
+          duplicateCount = 0;
+        }
         // Close the current group if it exists and has steps
         if (currentGroup) {
           if (currentGroup.steps.length > 0) {
@@ -824,14 +844,22 @@ const RecipeContent = ({ item, craftable, busy, mode, diet }) => {
         // Start a new group
         currentGroup = { label: trimmedStep, steps: [] };
       }
-    } else if (currentGroup) {
-      // Add steps to the current group if it exists
-      currentGroup.steps.push(step);
+    } else if (trimmedStep === previousStep) {
+      duplicateCount++;
     } else {
-      // Render steps not in any group
-      groupedSteps.push(<li key={index}>{step}</li>);
+      // Push previous duplicate steps if any
+      if (duplicateCount > 0) {
+        pushStep(previousStep, duplicateCount);
+      }
+      previousStep = trimmedStep;
+      duplicateCount = 1;
     }
   });
+
+  // Push the last duplicate steps if any
+  if (duplicateCount > 0) {
+    pushStep(previousStep, duplicateCount);
+  }
 
   // Handle any leftover group that didn't get closed
   if (currentGroup && currentGroup.steps.length > 0) {
@@ -841,7 +869,7 @@ const RecipeContent = ({ item, craftable, busy, mode, diet }) => {
         style={{ padding: '10px', border: '1px solid gray', margin: '10px 0' }}
       >
         <strong>{currentGroup.label}</strong>
-        <ul style={{ paddingLeft: '20px', marginTop: '5px' }}>
+        <ul>
           {currentGroup.steps.map((groupStep, groupIndex) => (
             <li key={groupIndex}>{groupStep}</li>
           ))}
