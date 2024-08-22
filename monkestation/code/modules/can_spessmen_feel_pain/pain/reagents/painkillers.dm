@@ -387,6 +387,18 @@
 				metabolization_rate *= 4
 		return TRUE
 
+/datum/reagent/medicine/painkiller/hydromorphone
+	name = "Hydromorphone"
+	desc = "Pretty sure you wouldn't be able to feel anything"
+	reagent_state = LIQUID
+	color = "#ffcb86"
+	metabolization_rate = 0.5 * REAGENTS_METABOLISM
+	pain_modifier = 0.1
+
+/datum/reagent/medicine/painkiller/hydromorphone/on_mob_life(mob/living/carbon/M, seconds_per_tick, times_fired)
+	M.cause_pain(BODY_ZONES_ALL, -6 * REM * seconds_per_tick)
+	..()
+
 // Future painkiller ideas:
 // - Real world stuff
 // Tramadol
