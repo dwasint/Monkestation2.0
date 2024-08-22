@@ -51,9 +51,9 @@
 /obj/item/processing/amalgam
 	name = "ore amalgam"
 	desc = "Pretty useless and jams up your processing."
-	icon_state = "amalgam"
+	icon_state = "dust"
 
 /obj/item/processing/ruined_shard
 	name = "ruined shard"
 	desc = "Pretty useless and jams up your processing."
-	icon_state = "cracked_crystal"
+	icon_state = "dust"
