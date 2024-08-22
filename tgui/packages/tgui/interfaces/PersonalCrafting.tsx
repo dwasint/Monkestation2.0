@@ -802,12 +802,13 @@ const RecipeContent = ({ item, craftable, busy, mode, diet }) => {
     const trimmedStep = step.trim();
 
     if (specialSteps.includes(trimmedStep)) {
+      // Push previous duplicate steps if any
+      if (duplicateCount > 0) {
+        pushStep(previousStep, duplicateCount);
+        duplicateCount = 0;
+      }
+
       if (trimmedStep.includes('End')) {
-        // Push previous duplicate steps if any
-        if (duplicateCount > 0) {
-          pushStep(previousStep, duplicateCount);
-          duplicateCount = 0;
-        }
         // Close the current group if it exists and has steps
         if (currentGroup) {
           if (currentGroup.steps.length > 0) {
@@ -831,6 +832,7 @@ const RecipeContent = ({ item, craftable, busy, mode, diet }) => {
           }
           currentGroup = null; // Reset the group
         }
+
         // Pop the previous group from the stack
         if (groupStack.length > 0) {
           currentGroup = groupStack.pop() || null;
@@ -869,7 +871,7 @@ const RecipeContent = ({ item, craftable, busy, mode, diet }) => {
         style={{ padding: '10px', border: '1px solid gray', margin: '10px 0' }}
       >
         <strong>{currentGroup.label}</strong>
-        <ul>
+        <ul style={{ paddingLeft: '20px', marginTop: '5px' }}>
           {currentGroup.steps.map((groupStep, groupIndex) => (
             <li key={groupIndex}>{groupStep}</li>
           ))}
