@@ -154,11 +154,6 @@ type Data = {
   nutriments: number;
 };
 
-interface StepGroup {
-  label: string;
-  steps: string[];
-}
-
 interface Item {
   name: string;
   desc?: string;
@@ -183,8 +178,6 @@ interface RecipeContentProps {
   mode: any;
   diet: any;
 }
-
-type GroupedStep = string | StepGroup;
 
 export const PersonalCrafting = (props) => {
   const { act, data } = useBackend<Data>();
@@ -780,7 +773,18 @@ const RecipeContent = ({ item, craftable, busy, mode, diet }) => {
     'End Optional Step',
   ];
 
-  const groupedSteps: GroupedStep[] = [];
+  interface StepGroup {
+    label: string;
+    steps: string[];
+  }
+
+  type GroupedStep = string | StepGroup;
+
+  const isValidGroup = (group: StepGroup | null): group is StepGroup => {
+    return group !== null;
+  };
+
+  const groupedSteps: string[] = [];
   const groupStack: StepGroup[] = [];
   let currentGroup: StepGroup | null = null;
   let groupKey = 0;
@@ -822,7 +826,7 @@ const RecipeContent = ({ item, craftable, busy, mode, diet }) => {
                 }}
               >
                 <strong>{currentGroup.label}</strong>
-                <ul style={{ paddingLeft: '20px', marginTop: '5px' }}>
+                <ul>
                   {currentGroup.steps.map((groupStep, groupIndex) => (
                     <li key={groupIndex}>{groupStep}</li>
                   ))}
@@ -864,15 +868,15 @@ const RecipeContent = ({ item, craftable, busy, mode, diet }) => {
   }
 
   // Handle any leftover group that didn't get closed
-  if (currentGroup && currentGroup.steps.length > 0) {
+  if (currentGroup && (currentGroup as any).steps.length > 0) {
     groupedSteps.push(
       <Box
         key={`leftover-group-${groupKey}`}
         style={{ padding: '10px', border: '1px solid gray', margin: '10px 0' }}
       >
-        <strong>{currentGroup.label}</strong>
-        <ul style={{ paddingLeft: '20px', marginTop: '5px' }}>
-          {currentGroup.steps.map((groupStep, groupIndex) => (
+        <strong>{(currentGroup as any).label}</strong>
+        <ul>
+          {(currentGroup as any).steps.map((groupStep, groupIndex) => (
             <li key={groupIndex}>{groupStep}</li>
           ))}
         </ul>
@@ -968,7 +972,7 @@ const RecipeContent = ({ item, craftable, busy, mode, diet }) => {
               {!!item.steps?.length && (
                 <Box>
                   <GroupTitle title="Steps" />
-                  <ul style={{ paddingLeft: '20px' }}>{groupedSteps}</ul>
+                  <ul>{groupedSteps}</ul>
                 </Box>
               )}
             </Stack.Item>
