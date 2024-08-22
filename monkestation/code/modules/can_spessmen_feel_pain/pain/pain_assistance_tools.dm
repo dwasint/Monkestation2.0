@@ -121,7 +121,7 @@
 	name = "heat pack"
 	desc = "A heat pack. Crack it to turn it on and apply it to an aching limb to reduce joint stress and moderate pain."
 	temperature_change = 5
-	pain_heal_amount = 1.2
+	pain_heal_amount = 3.6
 	pain_limb_modifier = 0.5
 
 // Cold packs heal more, but have a weaker modifier.
@@ -129,7 +129,7 @@
 	name = "cold pack"
 	desc = "A cold pack. Crack it on and apply it to a hurt limb to abate sharp pain."
 	temperature_change = -5
-	pain_heal_amount = 2
+	pain_heal_amount = 6
 	pain_limb_modifier = 0.75
 
 /obj/item/reagent_containers/pill/aspirin
