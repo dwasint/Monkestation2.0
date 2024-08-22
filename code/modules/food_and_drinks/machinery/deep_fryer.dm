@@ -152,13 +152,13 @@ GLOBAL_LIST_INIT(oilfry_blacklisted_items, typecacheof(list(
 	return
 
 /obj/machinery/deepfryer/attack_hand(mob/living/user, list/modifiers)
+	if(Adjacent(user) && !issilicon(user) && basket)
+		user.put_in_hands(basket)
+		basket = null
+		icon_state = "fryer"
 	if(frying)
 		frying = FALSE
 		reset_frying(user)
-		if(Adjacent(user) && !issilicon(user))
-			user.put_in_hands(basket)
-			basket = null
-			icon_state = "fryer"
 		return
 
 	else if(user.pulling && iscarbon(user.pulling) && reagents.total_volume)

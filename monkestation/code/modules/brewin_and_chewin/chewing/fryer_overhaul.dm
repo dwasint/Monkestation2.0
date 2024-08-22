@@ -72,7 +72,7 @@
 
 /obj/machinery/deepfryer/attackby(obj/item/weapon, mob/user, params)
 	. = ..()
-	if(istype(weapon, /obj/item/reagent_containers/cooking_container/deep_basket))
+	if(istype(weapon, /obj/item/reagent_containers/cooking_container/deep_basket) && !basket)
 		weapon.forceMove(src)
 		basket = weapon
 		icon_state = "fryer_on"
