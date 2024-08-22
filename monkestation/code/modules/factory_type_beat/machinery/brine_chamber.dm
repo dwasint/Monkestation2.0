@@ -51,8 +51,8 @@
 	var/turf/our_turf = get_turf(src)
 	var/turf/inner_turf = get_step(src, NORTH)
 	inner_turf = get_step(inner_turf, EAST)
-	var/list/spawn_turfs = CORNER_OUTLINE(inner_turf, 3, 3)
-	var/list/full_turfs = CORNER_BLOCK(our_turf, 5, 5)
+	var/list/spawn_turfs = CORNER_OUTLINE(inner_turf, 2, 2)
+	var/list/full_turfs = CORNER_BLOCK(our_turf, 4, 4)
 	turfs = full_turfs - spawn_turfs
 
 	for(var/turf/spawned_turf in spawn_turfs)
