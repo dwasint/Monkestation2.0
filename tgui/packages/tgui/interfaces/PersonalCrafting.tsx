@@ -154,6 +154,36 @@ type Data = {
   nutriments: number;
 };
 
+interface StepGroup {
+  label: string;
+  steps: string[];
+}
+
+interface Item {
+  name: string;
+  desc?: string;
+  reqs?: Record<string, number>;
+  chem_catalysts?: Record<string, number>;
+  tool_paths?: string[];
+  tool_behaviors?: string[];
+  machinery?: string[];
+  structures?: string[];
+  steps?: string[];
+  result: string;
+  non_craftable?: boolean;
+  nutriments?: number;
+  foodtypes?: string[];
+  ref: string;
+}
+
+interface RecipeContentProps {
+  item: Item;
+  craftable: boolean;
+  busy: boolean;
+  mode: any;
+  diet: any;
+}
+
 export const PersonalCrafting = (props) => {
   const { act, data } = useBackend<Data>();
   const {
@@ -738,6 +768,7 @@ const RecipeContentCompact = ({ item, craftable, busy, mode }) => {
 
 const RecipeContent = ({ item, craftable, busy, mode, diet }) => {
   const { act } = useBackend<Data>();
+
   const specialSteps = [
     'Optional Steps',
     'End Optional Steps',
@@ -747,9 +778,9 @@ const RecipeContent = ({ item, craftable, busy, mode, diet }) => {
     'End Optional Step',
   ];
 
-  const groupedSteps = [];
-  const groupStack = [];
-  let currentGroup = null;
+  const groupedSteps: JSX.Element[] = [];
+  const groupStack: StepGroup[] = [];
+  let currentGroup: StepGroup | null = null;
   let groupKey = 0;
 
   item.steps?.forEach((step, index) => {
@@ -782,7 +813,7 @@ const RecipeContent = ({ item, craftable, busy, mode, diet }) => {
         }
         // Pop the previous group from the stack
         if (groupStack.length > 0) {
-          currentGroup = groupStack.pop();
+          currentGroup = groupStack.pop() || null;
         }
       } else {
         // Handle starting a new group
@@ -818,6 +849,7 @@ const RecipeContent = ({ item, craftable, busy, mode, diet }) => {
       </Box>,
     );
   }
+
   return (
     <Section>
       <Stack>
