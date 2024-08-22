@@ -24,6 +24,7 @@
 
 	var/custom_food_buff
 
+	var/finish_text
 
 	//The next required step for the parent recipe
 	var/datum/chewin_cooking/recipe_step/next_step

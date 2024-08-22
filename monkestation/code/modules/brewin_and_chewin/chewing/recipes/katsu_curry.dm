@@ -15,7 +15,7 @@
 	recipe_guide = "Melt some butter in a bowl, add some rice, curry sauce and katsu."
 	step_builder = list(
 		list(CHEWIN_ADD_ITEM, /obj/item/food/butter, qmod=0.5),
-		list(CHEWIN_USE_STOVE, J_LO, 10 SECONDS),
+		list(CHEWIN_USE_STOVE, J_LO, 10 SECONDS, finish_text = "The butter melts in the bowl!"),
 
 		list(CHEWIN_ADD_REAGENT_OPTIONAL, /datum/reagent/consumable/soysauce, 5, base=3),
 
@@ -39,7 +39,7 @@
 	recipe_guide = "Melt some butter in a pot, add some rice, curry sauce and katsu, cook on low in the stove for 1 minute. Serves 5"
 	step_builder = list(
 		list(CHEWIN_ADD_ITEM, /obj/item/food/butter, qmod=0.5),
-		list(CHEWIN_USE_STOVE, J_LO, 10 SECONDS),
+		list(CHEWIN_USE_STOVE, J_LO, 10 SECONDS, finish_text = "The butter melts in the pot!"),
 
 		list(CHEWIN_ADD_REAGENT_OPTIONAL, /datum/reagent/consumable/soysauce, 15, base=3),
 

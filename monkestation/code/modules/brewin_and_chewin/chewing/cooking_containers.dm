@@ -9,6 +9,7 @@
 
 /obj/item/reagent_containers/cooking_container
 	icon = 'monkestation/code/modules/brewin_and_chewin/icons/kitchen.dmi'
+	verb_exclaim = ""
 	var/shortname
 	var/place_verb = "into"
 	var/appliancetype //string
@@ -320,7 +321,7 @@
 
 /obj/item/reagent_containers/cooking_container/pot
 	name = "cooking pot"
-	shortname = "pot"
+	shortname = "cooking pot"
 	desc = "Boil things with this. Maybe even stick 'em in a stew."
 
 	icon_state = "pot"
@@ -373,8 +374,8 @@
 	appliancetype = GRILL
 
 /obj/item/reagent_containers/cooking_container/bowl
-	name = "serving bowl"
-	shortname = "bowl"
+	name = "cooking bowl"
+	shortname = "cooking bowl"
 	desc = "A bowl."
 
 	icon_state = "bowl"

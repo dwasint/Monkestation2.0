@@ -331,6 +331,9 @@ Food quality is calculated based on the steps taken.
 			if("food_buff" in step_list)
 				set_step_custom_food_buff(step_list["food_buff"])
 
+			if("finish_text" in step_list)
+				set_step_custom_finish_text(step_list["finish_text"])
+
 			if("qmod" in step_list)
 				if(!set_inherited_quality_modifier(step_list["qmod"]))
 					reason="qmod / inherited_quality_modifier declared on non add-item recipe step."
@@ -456,6 +459,9 @@ Food quality is calculated based on the steps taken.
 
 /datum/chewin_cooking/recipe/proc/set_step_custom_result_desc(var/new_description)
 	last_created_step.custom_result_desc = new_description
+
+/datum/chewin_cooking/recipe/proc/set_step_custom_finish_text(var/new_finish_text)
+	last_created_step.finish_text = new_finish_text
 
 /datum/chewin_cooking/recipe/proc/set_step_custom_food_buff(var/new_food_buff)
 	last_created_step.custom_food_buff = new_food_buff

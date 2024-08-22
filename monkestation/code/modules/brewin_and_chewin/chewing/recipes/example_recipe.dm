@@ -105,6 +105,8 @@ list(<CHEWIN_STEP_CLASS><_OPTIONAL>, <REQUIRED_ARGS>, <CUSTOM_ARGS>=value)
 			CHEWIN_ADD_ITEM, CHEWIN_ADD_PRODUCE ONLY:
 			Excludes the presence of a reagent in an item from the resulting meal.
 			Example: exclude_reagents=list(/datum/reagent/toxin/carpotoxin) //Removes the presence of Carpotoxin from the item.
+		finish_text
+			when the step finishes a visible message will be sent
 
 =========================================================
 */
@@ -133,7 +135,7 @@ list(<CHEWIN_STEP_CLASS><_OPTIONAL>, <REQUIRED_ARGS>, <CUSTOM_ARGS>=value)
 		list(CHEWIN_ADD_ITEM_OPTIONAL, /obj/item/food/butter, base=10, reagent_skip=TRUE),
 
 		//Melt the butter into the pan by cooking it on a stove set to Low for 10 seconds
-		list(CHEWIN_USE_STOVE_OPTIONAL, J_LO, 10 SECONDS),
+		list(CHEWIN_USE_STOVE_OPTIONAL, J_LO, 10 SECONDS, finish_text = "The butter melts in the pan!"),
 		CHEWIN_END_OPTION_CHAIN,
 
 		//A steak is needed to start the meal.
