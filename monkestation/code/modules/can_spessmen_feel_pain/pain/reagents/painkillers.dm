@@ -389,7 +389,7 @@
 
 /datum/reagent/medicine/painkiller/hydromorphone
 	name = "Hydromorphone"
-	desc = "Pretty sure you wouldn't be able to feel anything"
+	description = "Pretty sure you wouldn't be able to feel anything"
 	reagent_state = LIQUID
 	color = "#ffcb86"
 	metabolization_rate = 0.5 * REAGENTS_METABOLISM
