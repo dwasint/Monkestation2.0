@@ -1,4 +1,6 @@
 /proc/count_lists()
+#ifdef OPENDREAM
+#else
 	var/list_count = 0
 	for(var/list/list)
 		list_count++
@@ -6,9 +8,11 @@
 	var/file = file("data/list_count/[GLOB.round_id].txt")
 
 	WRITE_FILE(file, list_count)
-
+#endif
 
 /proc/save_types()
+#ifdef OPENDREAM
+#else
 	var/datum/D
 	var/atom/A
 	var/list/counts = new
@@ -18,8 +22,11 @@
 	var/F = file("data/type_tracker/[GLOB.round_id]-stat_track.txt")
 	for(var/i in counts)
 		WRITE_FILE(F, "[i]\t[counts[i]]\n")
+#endif
 
 /proc/save_datums()
+#ifdef OPENDREAM
+#else
 	var/datum/D
 	var/list/counts = new
 	for(D) counts[D.type] = (counts[D.type]||0) + 1
@@ -27,7 +34,9 @@
 	var/F = file("data/type_tracker/[GLOB.round_id]-datums-[world.time].txt")
 	for(var/i in counts)
 		WRITE_FILE(F, "[i]\t[counts[i]]\n")
+#endif
 
+///these procs don't work on od
 SUBSYSTEM_DEF(memory_stats)
 	name = "Mem Stats"
 	init_order = INIT_ORDER_AIR
