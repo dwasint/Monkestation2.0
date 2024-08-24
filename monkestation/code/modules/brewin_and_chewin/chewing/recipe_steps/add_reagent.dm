@@ -71,11 +71,10 @@
 /datum/chewin_cooking/recipe_step/add_reagent/is_complete(var/obj/used_item, var/datum/chewin_cooking/recipe_tracker/tracker)
 	var/obj/item/reagent_containers/our_item = used_item
 	var/obj/item/container = tracker.holder_ref.resolve()
-	var/part = our_item.reagents.get_reagent_amount(required_reagent_id) / our_item.reagents.total_volume
 
-	var/incoming_amount = max(0, min(our_item.amount_per_transfer_from_this, our_item.reagents.total_volume, (container.reagents.total_volume - container.reagents.maximum_volume)))
+	var/incoming_amount = max(0, min(our_item.amount_per_transfer_from_this, our_item.reagents.total_volume, (container.reagents.maximum_volume - container.reagents.total_volume)))
 
-	var/incoming_valid_amount = incoming_amount * part
+	var/incoming_valid_amount = incoming_amount
 
 	var/resulting_total = container.reagents.get_reagent_amount(required_reagent_id) + incoming_valid_amount
 	if(resulting_total >= required_reagent_amount)
