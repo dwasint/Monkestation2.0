@@ -228,8 +228,11 @@ export const PersonalCrafting = (props) => {
               recipe.foodtypes?.includes(activeType))) ||
           // Is material mode and the active material or catalysts match
           (tabMode === TABS.material &&
+            recipe.reqs &&
             Object.keys(recipe.reqs).includes(activeMaterial)) ||
-          // Is category mode and the active categroy matches
+          // Or with Optional Chaining
+          // (tabMode === TABS.material && Object.keys(recipe.reqs ?? {}).includes(activeMaterial)) ||
+          // Is category mode and the active category matches
           (tabMode === TABS.category &&
             ((activeCategory === 'Can Make' &&
               Boolean(craftability[recipe.ref])) ||

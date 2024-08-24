@@ -415,7 +415,7 @@
 	addiction_types = list(/datum/addiction/opioids = 15) //5u = 50 progress, 60u = addiction
 
 	/// How much pain we restore on life ticks, modified by modifiers (yeah?)
-	var/pain_heal_amount = 1.6
+	var/pain_heal_amount = 2.4
 	/// What type of pain are we looking for? If we aren't experiencing this type, it will be 10x less effective
 	var/pain_type_to_look_for
 	/// What type of wound are we looking for? If our bodypart has this wound, it will be 1.5x more effective

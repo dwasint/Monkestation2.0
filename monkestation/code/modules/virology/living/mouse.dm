@@ -27,6 +27,7 @@
 		)
 		var/datum/disease/advanced/disease = new virus_choice
 		disease.makerandom(list(50,90),list(10,100),anti,bad,src)
+		disease.spread_flags -= DISEASE_SPREAD_AIRBORNE
 		diseases = list()
 		diseases += disease
 		disease.after_add()
