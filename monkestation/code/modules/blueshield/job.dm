@@ -7,8 +7,8 @@
 	total_positions = 1
 	spawn_positions = 1
 	supervisors = "the Heads of Staff"
-	minimal_player_age = 7
-	exp_requirements = 2400
+	minimal_player_age = 30
+	exp_requirements = 7200
 	exp_required_type = EXP_TYPE_CREW
 	exp_required_type_department = EXP_TYPE_COMMAND
 	exp_granted_type = EXP_TYPE_CREW
