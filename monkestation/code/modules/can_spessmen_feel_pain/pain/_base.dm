@@ -545,7 +545,7 @@
 			if(!SPT_PROB(checked_bodypart.get_modified_pain() / 8, seconds_per_tick))
 				continue
 			if(checked_bodypart.pain_feedback(seconds_per_tick, no_recent_pain))
-				COOLDOWN_START(src, time_since_last_pain_message, 4 SECONDS)
+				COOLDOWN_START(src, time_since_last_pain_message, 12 SECONDS)
 
 		if(!has_pain)
 			// no-op if none of our bodyparts are in pain
