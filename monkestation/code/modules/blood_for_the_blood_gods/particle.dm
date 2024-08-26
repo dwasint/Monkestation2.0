@@ -51,7 +51,7 @@
 		var/obj/effect/decal/cleanable/blood/splatter/stacking/stacker = locate(splatter_type_floor) in loc
 		if(!stacker)
 			stacker = new splatter_type_floor(loc)
-			if(messy_splatter && length(other_splatter.splat_overlays))
+			if(messy_splatter && length(stacker.splat_overlays))
 				var/mutable_appearance/existing_appearance = stacker.splat_overlays[1]
 				existing_appearance.pixel_x = src.pixel_x
 				existing_appearance.pixel_y = src.pixel_y
