@@ -96,7 +96,6 @@
 			return
 		if("clear_floor_plating")
 			clear_floor_plating()
-			turf_count = 0
 			return
 
 /obj/machinery/computer/shipbreaker/proc/setup_health_tracker()
@@ -111,3 +110,14 @@
 
 
 /obj/machinery/computer/shipbreaker/proc/damage_ship()
+	var/list/turfs = list()
+	for(var/turf/turf in linked)
+		turfs += turf
+
+	var/prob_chance_explode = 100
+	if(prob(0))
+		prob_chance_explode = 0
+	while(prob(prob_chance_explode))
+		prob_chance_explode -= 33
+		var/turf/picked_turf = pick(turfs)
+		explosion(picked_turf, rand(0, 4), rand(0, 4), rand(0, 6), 0, 0 , FALSE, FALSE, TRUE, FALSE, linked)

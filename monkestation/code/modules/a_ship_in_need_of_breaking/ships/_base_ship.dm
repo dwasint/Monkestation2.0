@@ -7,3 +7,4 @@
 	var/template_id
 	var/description
 	var/datum/parsed_map/lastparsed
+	var/tied_faction = DONK_CO_NAME

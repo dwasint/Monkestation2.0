@@ -64,6 +64,8 @@
 	var/datum/callback/bounce_callback
 	/// If we have this callback, it gets invoked when stopping movement
 	var/datum/callback/stop_callback
+	/// If we have this callback, it gets invoked when bumping on another atom
+	var/datum/callback/bump_callback
 
 	/**
 	 * The cached animate_movement of the parent
@@ -94,6 +96,7 @@
 	bounce_spin_clockwise = 0,
 	bounce_sound,
 	bounce_callback,
+	bump_callback,
 	stop_callback,
 )
 	if(!ismovable(parent))
@@ -118,6 +121,7 @@
 	src.bounce_spin_clockwise = bounce_spin_clockwise
 	src.bounce_sound = bounce_sound
 	src.bounce_callback = bounce_callback
+	src.bump_callback = bump_callback
 	src.stop_callback = stop_callback
 	set_angle(angle)
 
@@ -276,6 +280,8 @@
 	var/incidence = GET_ANGLE_OF_INCIDENCE(face_angle, angle + 180)
 	var/new_angle = SIMPLIFY_DEGREES(face_angle + incidence)
 	set_angle(new_angle)
+	if(bump_callback)
+		bump_callback.Invoke(bumped_atom)
 	if(!visual_angle_velocity)
 		return
 	incidence = GET_ANGLE_OF_INCIDENCE(face_angle, source.visual_angle + 180)
