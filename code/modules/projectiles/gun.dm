@@ -172,8 +172,11 @@
 		playsound(src, fire_sound, fire_sound_volume, vary_fire_sound)
 
 /obj/item/gun/proc/shoot_live_shot(mob/living/user, pointblank = 0, atom/pbtarget = null, message = 1)
+	var/angle = get_angle(user, pbtarget)+rand(-recoil_deviation, recoil_deviation) + 180
+	if(angle > 360)
+		angle -= 360
 	if(recoil && !tk_firing(user))
-		shake_camera(user, recoil + 1, recoil)
+		recoil_camera(user, recoil+1, (recoil*recoil_backtime_multiplier) + 1, recoil, angle)
 	fire_sounds()
 	if(!suppressed)
 		if(message)
