@@ -48,7 +48,7 @@
 	new_head_owner.dna.species.species_traits |= NOEYESPRITES //MAKE VISUALS TIED TO BODYPARTS ARGHH
 	new_head_owner.update_body()
 
-/obj/item/bodypart/head/psyker/drop_limb(special, dismembered)
+/obj/item/bodypart/head/psyker/drop_limb(special, dismembered, violent)
 	owner.cure_blind(limb_id)
 	if(!owner.dna?.species)
 		return ..()

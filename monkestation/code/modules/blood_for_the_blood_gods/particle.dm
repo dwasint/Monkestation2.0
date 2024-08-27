@@ -143,7 +143,16 @@
 	drydesc = "Creating my structure - Now I shall reign in blood!"
 
 /obj/effect/decal/cleanable/blood/line/Initialize(mapload, direction)
-	. = ..()
 	if(!isnull(direction))
+		//has to be done before we call replace_decal()
 		setDir(direction)
+	return ..()
+
+/obj/effect/decal/cleanable/blood/line/replace_decal(obj/effect/decal/cleanable/merger)
+	. = ..()
+	if(!.)
+		return
+	//squirts of the same dir are redundant, but not if they're different
+	if(merger.dir != src.dir)
+		return FALSE
 
