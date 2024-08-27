@@ -774,6 +774,11 @@
  */
 /datum/pain/proc/do_pain_message(message, painless_message, cooldown = 0 SECONDS)
 	ASSERT(istext(message))
+
+	if(parent.client?.prefs)
+		if(parent.client.prefs.read_preference(/datum/preference/toggle/pain_messages))
+			return FALSE
+
 	if(!parent.can_feel_pain())
 		if(painless_message)
 			to_chat(parent, painless_message)

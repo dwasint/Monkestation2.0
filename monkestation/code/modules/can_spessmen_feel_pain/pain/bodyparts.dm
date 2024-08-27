@@ -254,7 +254,7 @@
 	bodypart_pain_modifier = 0.2
 
 /obj/item/bodypart/leg/right/robot/surplus
-	pain = 20
+	pain = 0
 	bodypart_pain_modifier = 0.8
 
 // --- Left Leg ---
@@ -263,7 +263,7 @@
 	bodypart_pain_modifier = 0.2
 
 /obj/item/bodypart/leg/left/robot/surplus
-	pain = 20
+	pain = 0
 	bodypart_pain_modifier = 0.8
 
 
@@ -273,7 +273,7 @@
 	bodypart_pain_modifier = 0.2
 
 /obj/item/bodypart/arm/right/robot/surplus
-	pain = 20
+	pain = 0
 	bodypart_pain_modifier = 0.8
 
 // --- Left Arm ---
@@ -282,5 +282,5 @@
 	bodypart_pain_modifier = 0.2
 
 /obj/item/bodypart/arm/left/robot/surplus
-	pain = 20
+	pain = 0
 	bodypart_pain_modifier = 0.8

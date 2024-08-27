@@ -6699,6 +6699,7 @@
 #include "monkestation\code\modules\can_spessmen_feel_pain\pain\modifiers.dm"
 #include "monkestation\code\modules\can_spessmen_feel_pain\pain\pain_assistance_tools.dm"
 #include "monkestation\code\modules\can_spessmen_feel_pain\pain\pain_goodies.dm"
+#include "monkestation\code\modules\can_spessmen_feel_pain\pain\preferences.dm"
 #include "monkestation\code\modules\can_spessmen_feel_pain\pain\shock.dm"
 #include "monkestation\code\modules\can_spessmen_feel_pain\pain\species.dm"
 #include "monkestation\code\modules\can_spessmen_feel_pain\pain\traits.dm"

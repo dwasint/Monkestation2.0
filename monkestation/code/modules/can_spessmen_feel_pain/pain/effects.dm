@@ -6,6 +6,10 @@
 	layer = UI_DAMAGE_LAYER
 
 /mob/living/proc/flash_pain_overlay(severity = 1, time = 1 SECONDS)
+	if(client?.prefs)
+		if(client.prefs.read_preference(/datum/preference/toggle/pain_flashes))
+			clear_fullscreen("pain", time)
+			return
 	overlay_fullscreen("pain", /atom/movable/screen/fullscreen/pain, severity)
 	clear_fullscreen("pain", time)
 
