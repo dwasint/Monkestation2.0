@@ -19,40 +19,34 @@
 
 	///the linked machette that the slasher can summon even if destroyed and is unique to them
 	var/obj/item/slasher_machette/linked_machette
-	///toggles false/true if we are visible in order to breathe out or in
-	var/breath_out = FALSE
 	///rallys the amount of souls effects are based on this
 	var/souls_sucked = 0
-	///when we sucked our last soul in world time
-	var/last_soul_sucked = 0
-	///cooldown we should have for soul sucking without downside
-	var/soul_digestion = 5 MINUTES
-	///our current soul punishment state
-	var/soul_punishment = 0
 	///our cached brute_mod
 	var/cached_brute_mod = 0
-	///processes to heartbeat
-	var/heartbeat_processes = 0
-	///processes until wail if above punishment threshold
-	var/wailing_processes = 0
-	///our breath processes
-	var/breath_processes = 0
-	///list of mobs that have been given a overlay so we can remove later
-	var/list/mobs_with_fullscreens = list()
-	///this is needed because it double fires sometimes before finishing
-	var/is_hudchecking = FALSE
 	/// the mob we are stalking
 	var/mob/living/carbon/human/stalked_human
 	/// how close we are in % to finishing stalking
 	var/stalk_precent = 0
-	/// are we corporeal
-	var/corporeal = TRUE
 	///ALL Powers currently owned
 	var/list/datum/action/cooldown/slasher/powers = list()
+
+	///weakref list of mobs and their fear
+	var/list/fears = list()
+	///weakref list of mobs and last fear attempt to stop fear maxxing
+	var/list/fear_cooldowns = list()
+	///weakref list of mobs and last fear stages
+	var/list/fear_stages = list()
+	///this is a list of all heartbeaters
+	var/list/heartbeats = list()
+	//this is a list of all statics
+	var/list/mobs_with_fullscreens = list()
+	///this is our list of refs over 100 fear
+	var/list/total_fear = list()
 
 /datum/antagonist/slasher/apply_innate_effects(mob/living/mob_override)
 	. = ..()
 	var/mob/living/current_mob = mob_override || owner.current
+	current_mob.overlay_fullscreen("slasher_prox", /atom/movable/screen/fullscreen/nearby, 1)
 
 	ADD_TRAIT(current_mob, TRAIT_BATON_RESISTANCE, "slasher")
 	ADD_TRAIT(current_mob, TRAIT_CLUMSY, "slasher")
@@ -65,6 +59,9 @@
 	shadow.Insert(carbon, drop_if_replaced = FALSE)
 
 	RegisterSignal(current_mob, COMSIG_LIVING_LIFE, PROC_REF(LifeTick))
+	RegisterSignal(current_mob, COMSIG_LIVING_PICKED_UP_ITEM, PROC_REF(item_pickup))
+	RegisterSignal(current_mob, COMSIG_MOB_DROPPING_ITEM, PROC_REF(item_drop))
+	RegisterSignal(current_mob, COMSIG_MOB_ITEM_ATTACK, PROC_REF(check_attack))
 
 	///abilities galore
 	for(var/datum/action/cooldown/slasher/listed_slasher as anything in subtypesof(/datum/action/cooldown/slasher))
@@ -80,29 +77,41 @@
 
 /datum/antagonist/slasher/on_removal()
 	. = ..()
+	owner.current.clear_fullscreen("slasher_prox", 15)
 	owner.current.remove_traits(list(TRAIT_BATON_RESISTANCE, TRAIT_CLUMSY, TRAIT_NODEATH, TRAIT_DUMB, TRAIT_LIMBATTACHMENT), "slasher")
 	for(var/datum/action/cooldown/slasher/listed_slasher as anything in powers)
 		listed_slasher.Remove(owner.current)
 
 /datum/antagonist/slasher/proc/LifeTick(mob/living/source, seconds_per_tick, times_fired)
-	if(corporeal)
-		breath_processes++
-		if(breath_processes >= 2)
-			breath_processes = 0
-			if(breath_out)
-				source.emote("exhale")
-				breath_out = FALSE
-			else
-				source.emote("inhale")
-				breath_out = TRUE
 
-	heartbeat_processes++
-	if(heartbeat_processes >= 4)
-		heartbeat_processes = 0
-		for(var/mob/living/carbon/human in view(7, source))
-			if(human == source)
-				continue
-			human.playsound_local(human, 'sound/health/slowbeat.ogg', 40, FALSE, channel = CHANNEL_HEARTBEAT, use_reverb = FALSE)
+	var/list/currently_beating = list()
+	var/list/current_statics = list()
+	for(var/datum/weakref/held as anything in fear_stages)
+		var/stage = fear_stages[held]
+		var/mob/living/carbon/human/human = held.resolve()
+
+		if(stage >= 1)
+			currently_beating |= held
+			if(!(held in heartbeats))
+				heartbeats |= held
+				human.playsound_local(human, 'sound/health/slowbeat.ogg', 40, FALSE, channel = CHANNEL_HEARTBEAT, use_reverb = FALSE)
+
+		if(stage >= 2)
+			current_statics |= held
+			if(!(held in mobs_with_fullscreens))
+				human.overlay_fullscreen("slasher_prox", /atom/movable/screen/fullscreen/nearby, 1)
+				mobs_with_fullscreens |= held
+
+
+	for(var/datum/weakref/held_ref as anything in (heartbeats - currently_beating))
+		var/mob/living/carbon/human/human = held_ref.resolve()
+		human.stop_sound_channel(CHANNEL_HEARTBEAT)
+		heartbeats -= held_ref
+
+	for(var/datum/weakref/held_ref as anything in (mobs_with_fullscreens - current_statics))
+		var/mob/living/carbon/human/human = held_ref.resolve()
+		human.clear_fullscreen("slasher_prox", 15)
+		mobs_with_fullscreens -= held_ref
 
 	if(stalked_human)
 		for(var/mob/living/carbon/human in view(7, source))
@@ -113,45 +122,6 @@
 			stalk_precent += (1 / 1.8)
 		if(stalk_precent >= 100)
 			finish_stalking()
-
-	if(!is_hudchecking)
-		is_hudchecking = TRUE
-		var/list/starting_humans = list()
-		starting_humans += mobs_with_fullscreens
-		for(var/mob/living/carbon/human in view(7, source))
-			if(!(human in mobs_with_fullscreens))
-				mobs_with_fullscreens += human
-				human.overlay_fullscreen("slasher_prox", /atom/movable/screen/fullscreen/nearby, 1)
-			else
-				starting_humans -= human
-
-		if(length(starting_humans))
-			for(var/mob/living/carbon/human in starting_humans)
-				human.clear_fullscreen("slasher_prox", 15)
-				mobs_with_fullscreens -= human
-		is_hudchecking = FALSE
-
-	for(var/obj/machinery/light/listed_light in view(3, source))
-		if(prob(10))
-			listed_light.break_light_tube()
-
-	var/turf/TT = get_turf(source)
-	var/turf/T = pick(RANGE_TURFS(4,TT))
-
-	if(prob(5))
-		new /obj/effect/gibspawner/generic(T)
-
-	if(soul_punishment >= 2)
-		wailing_processes++
-		if(wailing_processes >= 8)
-			wailing_processes = 0
-			playsound(owner.current, 'monkestation/sound/voice/terror-cry.ogg', 50, falloff_exponent = 0, use_reverb = FALSE)
-			owner.current.emote("wails")
-			var/mob/living/carbon/human/human = owner.current
-			human.blood_volume -= 10
-			var/turf/turf = get_turf(human)
-			var/list/blood_drop = list(human.get_blood_id() = 10)
-			turf.add_liquid_list(blood_drop, FALSE, 300)
 
 /datum/antagonist/slasher/proc/finish_stalking()
 	to_chat(owner, span_boldwarning("You have finished spooking your victim, and have harvested part of their soul!"))
@@ -166,3 +136,90 @@
 		linked_machette.force -= 5
 		linked_machette.throwforce -= 5
 	stalked_human = null
+
+/datum/antagonist/slasher/proc/check_attack(mob/living/attacking_person, mob/living/attacked_mob)
+	var/obj/item/held_item = attacking_person.get_active_held_item()
+
+	var/held_force = 3
+	if(held_item)
+		held_force = held_item.force
+
+	increase_fear(attacked_mob, held_force / 3)
+
+	for(var/i = 1 to (held_force / 3))
+		attacked_mob.blood_particles(2, max_deviation = rand(-120, 120), min_pixel_z = rand(-4, 12), max_pixel_z = rand(-4, 12))
+
+/datum/antagonist/slasher/proc/item_pickup(datum/source, obj/item/source)
+	RegisterSignal(source, COMSIG_ITEM_DAMAGE_MULTIPLIER, PROC_REF(damage_multiplier))
+
+/datum/antagonist/slasher/proc/item_drop(datum/source, obj/item/source)
+	UnregisterSignal(source, COMSIG_ITEM_DAMAGE_MULTIPLIER)
+
+/obj/item/var/last_multi = 1
+
+/datum/antagonist/slasher/proc/damage_multiplier(obj/item/source, mob/living/attacked, def_zone)
+	var/health_left = max(0, attacked.health) * 0.01
+
+	attacked.cause_pain(def_zone, source.force)
+
+	source.last_multi = health_left
+
+	return TRUE
+
+/datum/antagonist/slasher/proc/increase_fear(atom/target, amount)
+	var/datum/weakref/weak = WEAKREF(target)
+	if(!(weak in fear_cooldowns))
+		fear_cooldowns |= weak
+		fear_cooldowns[weak] = 0
+
+	if(fear_cooldowns[weak] > world.time + 10 SECONDS)
+		return
+
+	if(!(weak in fears))
+		fears |= weak
+	fears[weak] += amount
+
+	fear_cooldowns[weak] = world.time
+	fear_stage_check(weak)
+
+/datum/antagonist/slasher/proc/reduce_fear_area(amount, area)
+	for(var/mob/living/carbon/human/human in range(area, get_turf(owner)))
+		var/datum/weakref/weak = WEAKREF(human)
+		if(!(weak in fears))
+			continue
+		fears[weak] -= amount
+		fears[weak] = max(fears[weak], 0)
+		fear_stage_check(weak)
+
+/datum/antagonist/slasher/proc/reduce_fear(atom/target, amount)
+	var/datum/weakref/weak = WEAKREF(target)
+	if(!(weak in fears))
+		return
+	fears[weak] -= amount
+	fears[weak] = max(fears[weak], 0)
+	fear_stage_check(weak)
+
+/datum/antagonist/slasher/proc/fear_stage_check(datum/weakref/weak)
+	var/fear_number = fears[weak]
+	var/old_stage = fear_stages[weak]
+	var/stage = 0
+	switch(fear_number)
+		if(0 to 25)
+			stage = 0
+		if(26 to 50)
+			stage = 1
+		if(51 to 75)
+			stage = 2
+		if(76 to 100)
+			stage = 3
+		else
+			stage = 4
+
+	if((weak in fear_stages))
+		if(fear_stages[weak] == stage)
+			return
+	stage_change(weak, stage, old_stage)
+
+
+/datum/antagonist/slasher/proc/stage_change(datum/weakref/weak, new_stage, last_stage)
+	fear_stages[weak] = new_stage

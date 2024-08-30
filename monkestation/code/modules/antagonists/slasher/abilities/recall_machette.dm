@@ -24,6 +24,8 @@
 
 	if(!owner.put_in_hands(stored_machette))
 		stored_machette.forceMove(get_turf(owner))
+	else
+		SEND_SIGNAL(owner, COMSIG_LIVING_PICKED_UP_ITEM, stored_machette)
 
 /obj/item/slasher_machette
 	name = "slasher's machete"

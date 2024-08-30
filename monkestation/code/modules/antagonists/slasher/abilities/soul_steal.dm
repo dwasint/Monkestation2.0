@@ -37,14 +37,7 @@
 	if(human_owner == human_target) // you cant suck yourself, no comment
 		return
 
-	if(slasherdatum.last_soul_sucked + slasherdatum.soul_digestion > world.time) // they are a speedrunner, mark them as such
-		quick_eater = TRUE
-
 	// After this point, give chat messages about failures
-
-	if(!slasherdatum.corporeal)
-		to_chat(owner, span_warning("You cannot suck souls whilst incorporeal!"))
-		return
 
 	if(!ishuman(target)) // are they trying to suck a corgi?
 		to_chat(owner, span_warning("You can only suck the souls of humans"))
@@ -95,8 +88,6 @@
 	human_target.update_body(is_creating = TRUE)
 
 	slasherdatum.souls_sucked++
-	slasherdatum.check_soul_punishment()
-	slasherdatum.last_soul_sucked = world.time
 
 	// lets make their machette stronger
 	slasherdatum.linked_machette.force += 2.5

@@ -10,8 +10,8 @@
 	. = ..()
 	var/list/possible_targets = list()
 	for(var/datum/mind/possible_target as anything in get_crewmember_minds())
-		if(possible_target == owner.mind)
-			continue
+		//if(possible_target == owner.mind)
+			//continue
 		if(!ishuman(possible_target.current))
 			continue
 		if(possible_target.current.stat == DEAD)
