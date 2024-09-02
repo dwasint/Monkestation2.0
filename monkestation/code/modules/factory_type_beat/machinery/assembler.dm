@@ -208,7 +208,11 @@
 	var/list/stored_parts = list()
 	var/data
 	var/amt
+	var/insanity = 500
 	main_loop:
+		insanity--
+		if(insanity <= 0)
+			break
 		for(var/path_key in requirements)
 			amt = chosen_recipe.reqs?[path_key]
 			if(!amt)//since machinery & structures can have 0 aka CRAFTING_MACHINERY_USE - i.e. use it, don't consume it!
