@@ -177,7 +177,11 @@
 
 
 /obj/machinery/assembler/proc/check_recipe_state()
+	if(!chosen_recipe)
+		return
 	var/list/reqs = chosen_recipe.reqs.Copy()
+	if(!length(reqs))
+		return
 
 	for(var/atom/movable/item in crafting_inventory)
 		if(isstack(item))
@@ -212,7 +216,7 @@
 	main_loop:
 		insanity--
 		if(insanity <= 0)
-			break
+			return
 		for(var/path_key in requirements)
 			amt = chosen_recipe.reqs?[path_key]
 			if(!amt)//since machinery & structures can have 0 aka CRAFTING_MACHINERY_USE - i.e. use it, don't consume it!
