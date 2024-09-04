@@ -32,3 +32,4 @@
 #define COMSIG_DRANK_REAGENT "drank_reagent"
 
 #define COMSIG_LIVING_TRACKER_REMOVED "tracker_removed"
+#define COMSIG_CLEAR_SEE "clear_see"

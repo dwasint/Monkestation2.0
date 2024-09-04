@@ -53,3 +53,5 @@
 
 ///added to structures we want the mobs to be able to target.
 #define TRAIT_MOB_DESTROYABLE "mob_destroyable"
+
+#define TRAIT_SLASHER "slasher_trait"

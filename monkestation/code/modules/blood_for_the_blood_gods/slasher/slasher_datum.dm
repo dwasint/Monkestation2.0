@@ -50,6 +50,8 @@
 	var/list/total_fear = list()
 	///this is our list of tracked people
 	var/list/tracked = list()
+	///this is our list of seers
+	var/list/seers = list()
 
 /datum/antagonist/slasher/apply_innate_effects(mob/living/mob_override)
 	. = ..()
@@ -180,9 +182,10 @@
 
 	return TRUE
 
-/datum/antagonist/slasher/proc/increase_fear(atom/target, amount)
+/datum/antagonist/slasher/proc/increase_fear(atom/movable/target, amount)
 	var/datum/weakref/weak = WEAKREF(target)
 	if(!(weak in fear_cooldowns))
+		target.AddComponent(/datum/component/hovering_information, /datum/hover_data/slasher_fear, TRAIT_SLASHER)
 		fear_cooldowns |= weak
 		fear_cooldowns[weak] = 0
 
@@ -240,6 +243,9 @@
 
 	if(new_stage >= 3)
 		try_add_tracker(weak)
+	if(new_stage >= 4)
+		try_add_seer(weak)
+
 
 /datum/antagonist/slasher/proc/return_feared_people(range, value)
 	var/list/mobs = list()
@@ -271,8 +277,40 @@
 	tracked -= WEAKREF(source)
 	slasher_monitor.update_all_directions()
 
+/datum/antagonist/slasher/proc/try_add_seer(datum/weakref/weak)
+	if(weak in seers)
+		return
+	seers += weak
+
+	var/mob/living/living = weak.resolve()
+	living.AddComponent(/datum/component/see_as_something, owner.current, "wendigo_bloody", 'icons/mob/simple/icemoon/64x64megafauna.dmi', "?????")
+
 /datum/hover_data/slasher_fear/setup_data(atom/source, mob/enterer)
 	if(!enterer.mind?.has_antag_datum(/datum/antagonist/slasher))
 		return
 	var/datum/antagonist/slasher/slasher = enterer.mind.has_antag_datum(/datum/antagonist/slasher)
 
+	var/datum/weakref/weak = WEAKREF(source)
+	if(!(weak in slasher.fear_stages))
+		return
+	var/fear_stage = slasher.fear_stages[weak]
+
+	var/image/new_image = new
+	new_image.icon = 'monkestation/code/modules/blood_for_the_blood_gods/icons/slasher_ui.dmi'
+	new_image.pixel_x = 10
+	new_image.plane = GAME_PLANE_UPPER
+	switch(fear_stage)
+		if(2)
+			new_image.icon_state = "they_fear"
+		if(3)
+			new_image.icon_state = "they_see_no_evil"
+		if(4)
+			new_image.icon_state = "they_see"
+		else
+			new_image.icon_state = null
+
+	if(!isturf(source.loc))
+		new_image.loc = source.loc
+	else
+		new_image.loc = source
+	add_client_image(new_image, enterer.client)
