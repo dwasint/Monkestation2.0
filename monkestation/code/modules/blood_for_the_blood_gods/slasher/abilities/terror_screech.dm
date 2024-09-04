@@ -1,6 +1,6 @@
 /datum/action/cooldown/slasher/terror
 	name = "Screech of Terror"
-	desc = "Inflict near paralyzing fear to those around you."
+	desc = "Inflict near paralyzing fear to those already scared of you."
 	button_icon_state = "stagger_group"
 
 	cooldown_time = 45 SECONDS
@@ -10,12 +10,10 @@
 	. = ..()
 	var/datum/antagonist/slasher/slasherdatum = owner.mind.has_antag_datum(/datum/antagonist/slasher)
 
-	if(!slasherdatum)
-		to_chat(owner, span_warning("You should not have this ability or your slasher antagonist datum was deleted, please contact coders"))
-		return
+	var/list/mobs = slasherdatum.return_feared_people(7, 50)
 
 	playsound(owner, 'monkestation/sound/voice/terror.ogg', 100, falloff_exponent = 0, use_reverb = FALSE)
-	for(var/mob/living/carbon/human/human in view(7, owner))
+	for(var/mob/living/carbon/human/human in mobs)
 		if(human == owner)
 			continue
 		human.overlay_fullscreen("terror", /atom/movable/screen/fullscreen/curse, 1)
@@ -23,6 +21,8 @@
 		human.stamina.adjust(-60)
 		human.emote("scream")
 		human.SetParalyzed(1.5 SECONDS)
+		var/fear_amount = (15 - get_dist(owner, human))
+		slasherdatum.increase_fear(human, fear_amount)
 		addtimer(CALLBACK(src, PROC_REF(remove_overlay), human), 5 SECONDS)
 
 /datum/action/cooldown/slasher/terror/proc/remove_overlay(mob/living/carbon/human/remover)

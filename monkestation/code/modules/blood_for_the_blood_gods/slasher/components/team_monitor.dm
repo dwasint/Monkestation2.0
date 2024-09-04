@@ -102,7 +102,8 @@ GLOBAL_LIST_EMPTY(tracker_beacons)
 	if(frequency)
 		team_frequency = "[frequency_key][frequency]"
 	else
-		team_frequency = null
+		team_frequency = team_freq_key
+
 
 	attached_beacon = _attached_beacon
 
@@ -112,6 +113,8 @@ GLOBAL_LIST_EMPTY(tracker_beacons)
 /datum/component/team_monitor/Destroy(force, silent)
 	if(team_frequency)
 		GLOB.tracker_huds[team_frequency] -= src
+
+	SEND_SIGNAL(parent, COMSIG_LIVING_TRACKER_REMOVED, team_frequency)
 
 	//Stop processing
 	STOP_PROCESSING(SSprocessing, src)
@@ -415,7 +418,7 @@ GLOBAL_LIST_EMPTY(tracker_beacons)
 	else if(_frequency)
 		team_frequency = "[_frequency_key][_frequency]"
 	else
-		team_frequency = null
+		team_frequency = team_freq_key
 
 	//Add ourselves to the tracking network
 	add_tracker_beacon(team_frequency, src)

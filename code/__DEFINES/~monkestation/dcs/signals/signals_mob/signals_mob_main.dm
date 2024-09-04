@@ -30,3 +30,5 @@
 #define COMSIG_MOB_DROPPED "mob_dropped"
 
 #define COMSIG_DRANK_REAGENT "drank_reagent"
+
+#define COMSIG_LIVING_TRACKER_REMOVED "tracker_removed"

@@ -30,6 +30,12 @@
 	///ALL Powers currently owned
 	var/list/datum/action/cooldown/slasher/powers = list()
 
+	///this is our team monitor
+	var/datum/component/team_monitor/slasher_monitor
+	///this is our tracker component
+	var/datum/component/tracking_beacon
+	var/monitor_key = "slasher_key"
+
 	///weakref list of mobs and their fear
 	var/list/fears = list()
 	///weakref list of mobs and last fear attempt to stop fear maxxing
@@ -42,17 +48,25 @@
 	var/list/mobs_with_fullscreens = list()
 	///this is our list of refs over 100 fear
 	var/list/total_fear = list()
+	///this is our list of tracked people
+	var/list/tracked = list()
 
 /datum/antagonist/slasher/apply_innate_effects(mob/living/mob_override)
 	. = ..()
 	var/mob/living/current_mob = mob_override || owner.current
 	current_mob.overlay_fullscreen("slasher_prox", /atom/movable/screen/fullscreen/nearby, 1)
 
+	monitor_key = "slasher_monitor_[current_mob.ckey]"
+	tracking_beacon = current_mob.AddComponent(/datum/component/tracking_beacon, monitor_key, null, null, TRUE, "#f3d594")
+	slasher_monitor = current_mob.AddComponent(/datum/component/team_monitor, monitor_key, null, tracking_beacon)
+	slasher_monitor.show_hud(owner.current)
+
 	ADD_TRAIT(current_mob, TRAIT_BATON_RESISTANCE, "slasher")
 	ADD_TRAIT(current_mob, TRAIT_CLUMSY, "slasher")
 	ADD_TRAIT(current_mob, TRAIT_DUMB, "slasher")
 	ADD_TRAIT(current_mob, TRAIT_NODEATH, "slasher")
 	ADD_TRAIT(current_mob, TRAIT_LIMBATTACHMENT, "slasher")
+	ADD_TRAIT(current_mob, TRAIT_SLASHER, "slasher")
 
 	var/mob/living/carbon/carbon = current_mob
 	var/obj/item/organ/internal/eyes/shadow/shadow = new
@@ -223,3 +237,42 @@
 
 /datum/antagonist/slasher/proc/stage_change(datum/weakref/weak, new_stage, last_stage)
 	fear_stages[weak] = new_stage
+
+	if(new_stage >= 3)
+		try_add_tracker(weak)
+
+/datum/antagonist/slasher/proc/return_feared_people(range, value)
+	var/list/mobs = list()
+	for(var/datum/weakref/weak_ref as anything in fears)
+		if(fears[weak_ref] < value)
+			continue
+		var/mob/living/mob = weak_ref.resolve()
+		if(get_dist(owner.current, mob) > range)
+			continue
+		mobs += mob
+	return mobs
+
+/datum/antagonist/slasher/proc/try_add_tracker(datum/weakref/weak)
+	if(weak in tracked)
+		return
+	tracked += weak
+
+	var/mob/living/living = weak.resolve()
+
+	var/datum/component/tracking_beacon/beacon = living.AddComponent(/datum/component/tracking_beacon, monitor_key, null, null, TRUE, "#f3d594")
+	slasher_monitor.add_to_tracking_network(beacon)
+
+	RegisterSignal(living, COMSIG_LIVING_TRACKER_REMOVED, PROC_REF(remove_tracker))
+
+/datum/antagonist/slasher/proc/remove_tracker(mob/living/source, frequency)
+	if(frequency != monitor_key)
+		return
+
+	tracked -= WEAKREF(source)
+	slasher_monitor.update_all_directions()
+
+/datum/hover_data/slasher_fear/setup_data(atom/source, mob/enterer)
+	if(!enterer.mind?.has_antag_datum(/datum/antagonist/slasher))
+		return
+	var/datum/antagonist/slasher/slasher = enterer.mind.has_antag_datum(/datum/antagonist/slasher)
+
