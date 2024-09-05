@@ -283,7 +283,7 @@
 	seers += weak
 
 	var/mob/living/living = weak.resolve()
-	living.AddComponent(/datum/component/see_as_something, owner.current, "wendigo_bloody", 'icons/mob/simple/icemoon/64x64megafauna.dmi', "?????")
+	living.AddComponent(/datum/component/see_as_something, owner.current, "wendigo", 'icons/mob/simple/icemoon/64x64megafauna.dmi', "?????")
 
 /datum/hover_data/slasher_fear/setup_data(atom/source, mob/enterer)
 	if(!enterer.mind?.has_antag_datum(/datum/antagonist/slasher))
