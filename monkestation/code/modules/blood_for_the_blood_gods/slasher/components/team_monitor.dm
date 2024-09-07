@@ -110,7 +110,7 @@ GLOBAL_LIST_EMPTY(tracker_beacons)
 	get_matching_beacons()
 	add_tracker_hud(team_frequency, src)
 
-/datum/component/team_monitor/Destroy(force, silent)
+/datum/component/team_monitor/Destroy(force)
 	if(team_frequency)
 		GLOB.tracker_huds[team_frequency] -= src
 
@@ -367,7 +367,7 @@ GLOBAL_LIST_EMPTY(tracker_beacons)
 
 	hide_hud(user)
 
-/datum/component/team_monitor/worn/Destroy(force, silent)
+/datum/component/team_monitor/worn/Destroy(force)
 	//Unregister signals
 	if(parent)
 		UnregisterSignal(parent, COMSIG_ITEM_EQUIPPED)
@@ -434,7 +434,7 @@ GLOBAL_LIST_EMPTY(tracker_beacons)
 	//Set our visibility on the tracking network
 	toggle_visibility(_visible)
 
-/datum/component/tracking_beacon/Destroy(force, silent)
+/datum/component/tracking_beacon/Destroy(force)
 	//Unregister signals
 	if(parent)
 		//Register tracking signal

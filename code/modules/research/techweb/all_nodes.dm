@@ -1293,6 +1293,7 @@
 	prereq_ids = list("biotech")
 	design_ids = list(
 		"dna_disk",
+		"dnainfuser",
 		"dnascanner",
 		"scan_console",
 	)
@@ -1501,6 +1502,7 @@
 		"seed_extractor",
 		"adv_watering_can",
 		"plantgenes",
+		"composters", // monkestation edit: build composters
 	)
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 4000)
 	discount_experiments = list(/datum/experiment/scanning/random/plants/traits = 2000,
