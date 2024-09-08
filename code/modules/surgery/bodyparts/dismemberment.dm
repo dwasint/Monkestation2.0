@@ -133,7 +133,7 @@
 		qdel(src)
 		return
 
-	if(limb_id == SPECIES_OOZELING && !special)
+	if((limb_id == SPECIES_OOZELING) && !special)
 		to_chat(phantom_owner, span_warning("Your [src] splatters with an unnerving squelch!"))
 		playsound(phantom_owner, 'sound/effects/blobattack.ogg', 60, TRUE)
 		phantom_owner.blood_volume -= 60 //Makes for 120 when you regenerate it.
