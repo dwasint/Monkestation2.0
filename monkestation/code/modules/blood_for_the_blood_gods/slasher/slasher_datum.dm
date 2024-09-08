@@ -165,10 +165,10 @@
 	for(var/i = 1 to (held_force / 3))
 		attacked_mob.blood_particles(2, max_deviation = rand(-120, 120), min_pixel_z = rand(-4, 12), max_pixel_z = rand(-4, 12))
 
-/datum/antagonist/slasher/proc/item_pickup(datum/source, obj/item/source)
+/datum/antagonist/slasher/proc/item_pickup(datum/input_source, obj/item/source)
 	RegisterSignal(source, COMSIG_ITEM_DAMAGE_MULTIPLIER, PROC_REF(damage_multiplier))
 
-/datum/antagonist/slasher/proc/item_drop(datum/source, obj/item/source)
+/datum/antagonist/slasher/proc/item_drop(datum/input_source, obj/item/source)
 	UnregisterSignal(source, COMSIG_ITEM_DAMAGE_MULTIPLIER)
 
 /obj/item/var/last_multi = 1
