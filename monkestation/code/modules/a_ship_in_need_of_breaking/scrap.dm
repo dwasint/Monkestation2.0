@@ -17,6 +17,7 @@
 
 /obj/item/stack/scrap
 	name = "scrap"
+	singular_name = "scrap"
 	desc = "get some help if you see this"
 	icon = 'monkestation/code/modules/a_ship_in_need_of_breaking/icons/shipbreaking.dmi'
 	icon_state = "ship_plating"
@@ -24,12 +25,14 @@
 
 /obj/item/stack/scrap/plating
 	name = "ship plating"
+	singular_name = "ship plating"
 	desc = "Rigid sheet plating used in the construction of ships."
 	custom_materials = list(/datum/material/iron = SHEET_MATERIAL_AMOUNT)
 	point_value = 10
 
 /obj/item/stack/scrap/electronics
 	name = "scrap electronics"
+	singular_name = "scrap electronic"
 	icon_state = "scrap_electronics"
 	desc = "Piles of scrap electronics crowbarred out of ships. You can't seem to find the gibber board in this mess."
 	custom_materials = list(/datum/material/glass = SHEET_MATERIAL_AMOUNT, /datum/material/gold = 100)
@@ -37,6 +40,7 @@
 
 /obj/item/stack/scrap/framing
 	name = "ship framing"
+	singular_name = "ship framing"
 	icon_state = "ship_framing"
 	desc = "Silver-Titanium alloy I-beams used in the construction of ships. Whoever designed this must have owned a silver mining planet."
 	custom_materials = list(/datum/material/silver = SHEET_MATERIAL_AMOUNT, /datum/material/titanium = 100)
@@ -44,6 +48,7 @@
 
 /obj/item/stack/scrap/plasma
 	name = "congealed plasma"
+	singular_name = "congealed plasma"
 	icon_state = "congealed_plasma"
 	desc = "A nasty bundle of congealed plasma gathered from ship innards. Nice and sticky!"
 	custom_materials = list(/datum/material/plasma = SHEET_MATERIAL_AMOUNT)
@@ -51,6 +56,7 @@
 
 /obj/item/stack/scrap/core
 	name = "ship core"
+	singular_name = "ship core"
 	icon_state = "ship_core"
 	desc = "A radioactive core of a nuclear thruster. Make sure there's no assistants under your ship with a reciprocating saw."
 	custom_materials = list(/datum/material/uranium = SHEET_MATERIAL_AMOUNT, /datum/material/iron = 100)
@@ -58,6 +64,7 @@
 
 /obj/item/stack/scrap/crystalline_matrix
 	name = "crystalline matrix"
+	singular_name = "crystalline matrix"
 	icon_state = "crystalline_matrix"
 	desc = "A crystalline matrix used in immense calculations to sheer ships. AGI by 2520!"
 	custom_materials = list(/datum/material/diamond = SHEET_MATERIAL_AMOUNT, /datum/material/bluespace = 100)
