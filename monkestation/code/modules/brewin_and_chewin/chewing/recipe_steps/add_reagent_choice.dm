@@ -61,7 +61,7 @@
 //Reagents are calculated in two areas. Here and /datum/chewin_cooking/recipe/proc/calculate_reagent_quality
 /datum/chewin_cooking/recipe_step/add_reagent_choice/calculate_quality(var/obj/used_item, var/datum/chewin_cooking/recipe_tracker/tracker)
 	var/obj/item/container = tracker.holder_ref.resolve()
-	for(var/datum/reagent/reagent as anything in container.reagents)
+	for(var/datum/reagent/reagent as anything in container.reagents.reagent_list)
 		if(!(reagent.type in reagent_ids))
 			continue
 		if(reagent.volume < required_reagent_amount)
