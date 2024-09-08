@@ -162,10 +162,6 @@ GLOBAL_LIST_INIT(oilfry_blacklisted_items, typecacheof(list(
 		return
 
 	else if(user.pulling && iscarbon(user.pulling) && reagents.total_volume)
-		if(Adjacent(user) && !issilicon(user) && basket)
-			user.put_in_hands(basket)
-			basket = null
-			icon_state = "fryer"
 		if(user.grab_state < GRAB_AGGRESSIVE)
 			to_chat(user, span_warning("You need a better grip to do that!"))
 			return
@@ -190,6 +186,11 @@ GLOBAL_LIST_INIT(oilfry_blacklisted_items, typecacheof(list(
 			reagents.remove_all((reagents.total_volume/2))
 		dunking_target.Paralyze(60)
 		user.changeNext_move(CLICK_CD_MELEE)
+	if(Adjacent(user) && !issilicon(user) && basket)
+		user.put_in_hands(basket)
+		basket = null
+		icon_state = "fryer"
+
 	return ..()
 
 #undef DEEPFRYER_COOKTIME
