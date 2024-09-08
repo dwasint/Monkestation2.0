@@ -8,7 +8,7 @@
 
 		list(CHEWIN_ADD_ITEM, /obj/item/food/grown/potato, qmod=0.5),
 
-		list(CHEWIN_ADD_REAGENT, /datum/reagent/consumable/korta_flour, 5, base=4),
+		list(CHEWIN_ADD_REAGENT_CHOICE, list(/datum/reagent/consumable/korta_flour = 2, /datum/reagent/consumable/flour = 0.5), 5, base=4),
 
 		CHEWIN_BEGIN_EXCLUSIVE_OPTIONS,
 		list(CHEWIN_ADD_REAGENT_OPTIONAL, /datum/reagent/consumable/honey, 15, remain_percent = 0.2 , base=4, prod_desc="Extra Sweet!"),
@@ -33,7 +33,7 @@
 		list(CHEWIN_ADD_ITEM, /obj/item/food/grown/potato, qmod=0.5),
 		list(CHEWIN_ADD_ITEM, /obj/item/food/grown/potato, qmod=0.5),
 
-		list(CHEWIN_ADD_REAGENT, /datum/reagent/consumable/korta_flour, 15, base=3),
+		list(CHEWIN_ADD_REAGENT_CHOICE, list(/datum/reagent/consumable/korta_flour = 2, /datum/reagent/consumable/flour = 0.5), 15, base=3),
 
 		CHEWIN_BEGIN_EXCLUSIVE_OPTIONS,
 		list(CHEWIN_ADD_REAGENT_OPTIONAL, /datum/reagent/consumable/honey, 15, remain_percent = 0.2 , base=4, prod_desc="Extra Sweet!"),

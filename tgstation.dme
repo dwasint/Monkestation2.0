@@ -6682,6 +6682,7 @@
 #include "monkestation\code\modules\brewin_and_chewin\chewing\recipe_steps\add_item.dm"
 #include "monkestation\code\modules\brewin_and_chewin\chewing\recipe_steps\add_produce.dm"
 #include "monkestation\code\modules\brewin_and_chewin\chewing\recipe_steps\add_reagent.dm"
+#include "monkestation\code\modules\brewin_and_chewin\chewing\recipe_steps\add_reagent_choice.dm"
 #include "monkestation\code\modules\brewin_and_chewin\chewing\recipe_steps\recipe_start.dm"
 #include "monkestation\code\modules\brewin_and_chewin\chewing\recipe_steps\use_fryer.dm"
 #include "monkestation\code\modules\brewin_and_chewin\chewing\recipe_steps\use_grill.dm"

@@ -41,6 +41,30 @@
 				if(CHEWIN_ADD_REAGENT)
 					var/datum/reagent/reagent_path = iteration_list[2]
 					steps += "Add [iteration_list[3]] units of [initial(reagent_path.name)] to [cooking_container]"
+				if(CHEWIN_ADD_REAGENT_CHOICE_OPTIONAL)
+					var/string = ""
+					var/first = TRUE
+					for(var/datum/reagent/reagent_path as anything in iteration_list[2])
+						if(!first)
+							string += " or"
+						string += initial(reagent_path.name)
+						first = FALSE
+
+					if(!in_group)
+						steps += "Optional Step"
+					steps += "Add [iteration_list[3]] units of [string] to [cooking_container]"
+					if(!in_group)
+						steps += "End Optional Step"
+				if(CHEWIN_ADD_REAGENT_CHOICE)
+					var/string = ""
+					var/first = TRUE
+					for(var/datum/reagent/reagent_path as anything in iteration_list[2])
+						if(!first)
+							string += " or "
+						string += initial(reagent_path.name)
+						first = FALSE
+
+					steps += "Add [iteration_list[3]] units of [string] to [cooking_container]"
 				if(CHEWIN_USE_TOOL)
 					steps += "Use [iteration_list[2]] on [cooking_container]"
 				if(CHEWIN_USE_TOOL_OPTIONAL)

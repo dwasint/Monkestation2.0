@@ -143,6 +143,22 @@ Food quality is calculated based on the steps taken.
 						reason="Bad reagent type for CHEWIN_ADD_REAGENT_OPTIONAL at arg 2"
 					else
 						create_step_add_reagent(step_list[2], step_list[3], TRUE)
+
+				if(CHEWIN_ADD_REAGENT_CHOICE)
+					if(step_list.len < 3)
+						reason="Bad argument Length for CHEWIN_ADD_REAGENT"
+					else if(!islist(step_list[2]))
+						reason="Bad reagent type for CHEWIN_ADD_REAGENT at arg 2"
+					else
+						create_step_add_reagent_choice(step_list[2], step_list[3], FALSE)
+				if(CHEWIN_ADD_REAGENT_CHOICE_OPTIONAL)
+					if(step_list.len < 3)
+						reason="Bad argument Length for CHEWIN_ADD_REAGENT_OPTIONAL"
+					else if(!islist(step_list[2]))
+						reason="Bad reagent type for CHEWIN_ADD_REAGENT_OPTIONAL at arg 2"
+					else
+						create_step_add_reagent_choice(step_list[2], step_list[3], TRUE)
+
 				if(CHEWIN_USE_ITEM)
 					if(step_list.len < 2)
 						reason="Bad argument Length for CHEWIN_USE_ITEM"
@@ -400,6 +416,13 @@ Food quality is calculated based on the steps taken.
 /datum/chewin_cooking/recipe/proc/create_step_add_reagent(var/reagent_id, var/amount, var/optional)
 	var/datum/chewin_cooking/recipe_step/add_reagent/step = new (reagent_id, amount, src)
 	return src.add_step(step, optional)
+
+//-----------------------------------------------------------------------------------
+//Add reagent choice step shortcut commands
+/datum/chewin_cooking/recipe/proc/create_step_add_reagent_choice(var/list/reagent_ids, var/amount, var/optional)
+	var/datum/chewin_cooking/recipe_step/add_reagent_choice/step = new (reagent_ids, amount, src)
+	return src.add_step(step, optional)
+
 
 //-----------------------------------------------------------------------------------
 //Add item step shortcut commands
@@ -803,6 +826,8 @@ Food quality is calculated based on the steps taken.
 			return "Use Item"
 		if(CHEWIN_ADD_REAGENT)
 			return "Add Reagent"
+		if(CHEWIN_ADD_REAGENT_CHOICE)
+			return "Add one of these Reagents"
 		if(CHEWIN_ADD_PRODUCE)
 			return "Add Produce"
 		if(CHEWIN_USE_TOOL)
