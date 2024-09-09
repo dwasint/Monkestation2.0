@@ -41,9 +41,9 @@
 	var/atom/Tsec = drop_location()
 	if(!no_bodyparts)
 		if(no_organs)//so the organs don't get transfered inside the bodyparts we'll drop.
-			for(var/X in organs)
-				if(no_brain || !istype(X, /obj/item/organ/internal/brain))
-					qdel(X)
+			for(var/organ in organs)
+				if(no_brain || !istype(organ, /obj/item/organ/internal/brain))
+					qdel(organ)
 		else //we're going to drop all bodyparts except chest, so the only organs that needs spilling are those inside it.
 			for(var/obj/item/organ/organs as anything in organs)
 				if(no_brain && istype(organs, /obj/item/organ/internal/brain))
@@ -72,6 +72,8 @@
 	var/atom/Tsec = drop_location()
 	for(var/obj/item/bodypart/part as anything in bodyparts)
 		if(skip_head && part.body_zone == BODY_ZONE_HEAD)
+			continue
+		else if(part.body_zone == BODY_ZONE_CHEST)
 			continue
 		part.drop_limb(violent = violent)
 		part.fly_away(Tsec, horizontal_multiplier = 2, vertical_multiplier = 1.2)
