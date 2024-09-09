@@ -34,6 +34,8 @@
 
 /obj/machinery/computer/shipbreaker/LateInitialize()
 	linked = GLOB.areas_by_type[mapped_start_area]
+	if(!linked)
+		return
 	bottom_left = locate(linked.x, linked.y, src.z)
 	for(var/ship in subtypesof(ship_type))
 		var/datum/map_template/shipbreaker/s = new ship
