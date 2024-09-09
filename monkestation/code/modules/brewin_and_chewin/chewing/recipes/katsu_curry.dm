@@ -34,6 +34,7 @@
 /datum/chewin_cooking/recipe/katsu_curry_large
 	name = "Katsu Curry (5 Servings)"
 	cooking_container = POT
+	food_category = CAT_BULK
 	product_count = 5
 	product_type = /obj/item/food/salad/katsu_curry
 	recipe_guide = "Melt some butter in a pot, add some rice, curry sauce and katsu, cook on low in the stove for 1 minute. Serves 5"

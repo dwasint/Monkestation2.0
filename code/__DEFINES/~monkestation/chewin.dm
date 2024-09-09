@@ -8,28 +8,30 @@
 //If something falls outside these classifications, why would it?
 #define CHEWIN_START 					1		//Default step to construct the list.
 #define CHEWIN_ADD_ITEM 				2		//Adding an item to a recipe (Ex- adding a slice of bread)
-#define CHEWIN_ADD_REAGENT 			3		//Adding a reagent to a recipe (Ex- Adding salt)
+#define CHEWIN_ADD_REAGENT 				3		//Adding a reagent to a recipe (Ex- Adding salt)
 #define CHEWIN_USE_ITEM 				4 		//Using an item in a recipe (Ex- cutting bread with a knife)
-#define CHEWIN_USE_TOOL				5
+#define CHEWIN_USE_TOOL					5
 #define CHEWIN_ADD_PRODUCE				6		//Adding Produce to a recipe
 #define CHEWIN_USE_STOVE	 			7 		//Using a stove in a recipe
 #define CHEWIN_USE_GRILL	 			8 		//Using a stove in a recipe
-#define CHEWIN_USE_OVEN	 			9 		//Using a stove in a recipe
+#define CHEWIN_USE_OVEN	 				9 		//Using a stove in a recipe
 #define CHEWIN_USE_FRYER				10
 #define CHEWIN_ADD_REAGENT_CHOICE		11
-#define CHEWIN_USE_OTHER 				12 	//Custom Command flag, will take in argument lists.
+#define CHEWIN_ADD_PRODUCE_CHOICE		12
+#define CHEWIN_USE_OTHER 				13 	//Custom Command flag, will take in argument lists.
 
 //Optional flags
 #define CHEWIN_ADD_ITEM_OPTIONAL		200
-#define CHEWIN_ADD_REAGENT_OPTIONAL	300
+#define CHEWIN_ADD_REAGENT_OPTIONAL		300
 #define CHEWIN_USE_ITEM_OPTIONAL		400
 #define CHEWIN_USE_TOOL_OPTIONAL		500
-#define CHEWIN_ADD_PRODUCE_OPTIONAL	600
+#define CHEWIN_ADD_PRODUCE_OPTIONAL		600
 #define CHEWIN_USE_STOVE_OPTIONAL		700
 #define CHEWIN_USE_GRILL_OPTIONAL		800
 #define CHEWIN_USE_OVEN_OPTIONAL		900
 #define CHEWIN_ADD_REAGENT_CHOICE_OPTIONAL		1000
-#define CHEWIN_OTHER_OPTIONAL 			1100
+#define CHEWIN_ADD_PRODUCE_CHOICE_OPTIONAL		1100
+#define CHEWIN_OTHER_OPTIONAL 			1200
 
 
 #define CHEWIN_BEGIN_EXCLUSIVE_OPTIONS 10000	//Beginning an exclusive option list
@@ -112,3 +114,7 @@ GLOBAL_LIST_EMPTY(chewin_step_dictionary)
 GLOBAL_LIST_EMPTY(chewin_step_dictionary_ordered)
 
 #define COMSIG_STOVE_PROCESS "comsig_stove_process"
+
+#define CAT_BULK "Bulk Recipes"
+#define CAT_STOVETOP "Stovetop Recipes"
+#define CAT_OVEN "Oven Recipes"

@@ -24,8 +24,10 @@
 	)
 
 /datum/chewin_cooking/recipe/fried_blood_sausage_five
+	name = "Fried Blood Sausages (5 Servings)"
 	cooking_container = PAN
 	product_type = /obj/item/food/fried_blood_sausage
+	food_category = CAT_BULK
 	product_count = 5
 	recipe_guide = "Put five blood sausages in a pan, cook for 45 seconds on medium."
 	step_builder = list(

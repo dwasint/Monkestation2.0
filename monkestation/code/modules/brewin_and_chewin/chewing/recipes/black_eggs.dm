@@ -25,6 +25,7 @@
 	)
 
 /datum/chewin_cooking/recipe/black_eggs_five
+	name = "Black Scrambled Eggs (5 Servings)"
 	cooking_container = PAN
 	product_type = /obj/item/food/black_eggs
 	product_count = 5

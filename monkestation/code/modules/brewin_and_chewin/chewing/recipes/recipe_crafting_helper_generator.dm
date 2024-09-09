@@ -11,16 +11,39 @@
 		if(islist(iter))
 			var/list/iteration_list = iter
 			switch(iteration_list[1])
-				if(CHEWIN_ADD_PRODUCE)
+				if(CHEWIN_ADD_PRODUCE_OPTIONAL)
 					var/obj/item/food/grown/grown_path = iteration_list[2]
 					if(!in_group)
 						steps += "Optional Step"
 					steps += "Add [initial(grown_path.name)] to [cooking_container]"
 					if(!in_group)
 						steps += "End Optional Step"
-				if(CHEWIN_ADD_PRODUCE_OPTIONAL)
+				if(CHEWIN_ADD_PRODUCE)
 					var/obj/item/food/grown/grown_path = iteration_list[2]
 					steps += "Add [initial(grown_path.name)] to [cooking_container]"
+				if(CHEWIN_ADD_PRODUCE_CHOICE_OPTIONAL)
+					var/string = ""
+					var/first = TRUE
+					for(var/obj/item/food/grown/grown_path as anything in iteration_list[2])
+						if(!first)
+							string += " or"
+						string += initial(grown_path.name)
+						first = FALSE
+					if(!in_group)
+						steps += "Optional Step"
+					steps += "Add [string] to [cooking_container]"
+					if(!in_group)
+						steps += "End Optional Step"
+				if(CHEWIN_ADD_PRODUCE_CHOICE)
+					var/string = ""
+					var/first = TRUE
+					for(var/obj/item/food/grown/grown_path as anything in iteration_list[2])
+						if(!first)
+							string += " or"
+						string += initial(grown_path.name)
+						first = FALSE
+					steps += "Add [string] to [cooking_container]"
+
 				if(CHEWIN_ADD_ITEM)
 					var/obj/item/item_path = iteration_list[2]
 					steps += "Add [initial(item_path.name)] to [cooking_container]"

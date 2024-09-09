@@ -21,8 +21,10 @@
 	)
 
 /datum/chewin_cooking/recipe/lizard_dumplings_dozen
+	name = "Lizard Dumplings (12 Servings)"
 	cooking_container = POT
 	product_type = /obj/item/food/lizard_dumplings
+	food_category = CAT_BULK
 	product_count = 12
 	recipe_guide = "Put wrapped potatoes in a pot, steam for 45 seconds on medium."
 	step_builder = list(
