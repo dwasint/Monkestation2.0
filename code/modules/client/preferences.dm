@@ -87,6 +87,8 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 
 	/// If set to TRUE, will update character_profiles on the next ui_data tick.
 	var/tainted_character_profiles = FALSE
+	///have we finished loading
+	var/loaded = FALSE
 
 /datum/preferences/Destroy(force)
 	QDEL_NULL(character_preview_view)
@@ -129,8 +131,15 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 		parent.set_macros()
 
 	if(!loaded_preferences_successfully)
+		stack_trace("[parent]'s preferences failed to load! Attempting a reload of preferences.")
+		if(load_preferences())
+			if(load_character())
+				return
+		stack_trace("[parent]'s preferences failed to load a second time! This means their keybindings and other non character settings may be lost.")
+		message_admins("[parent]'s prefs failed to load twice! Their keybindings and tokens may have been lost please check on this.")
 		save_preferences()
 	save_character() //let's save this new random character so it doesn't keep generating new ones.
+	loaded = TRUE
 
 /datum/preferences/ui_interact(mob/user, datum/tgui/ui)
 	// There used to be code here that readded the preview view if you "rejoined"
