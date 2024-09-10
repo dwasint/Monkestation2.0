@@ -246,7 +246,7 @@
 		visible_message("<span class='warning'>[src] bounces off  \the [O]!</span>")
 		var/atom/throw_target = get_edge_target_turf(src, turn(get_dir(O, src), rand(-1,1) * 45))
 		playsound(src, 'monkestation/sound/effects/boing1.ogg', 50)
-		src.throw_at(throw_target, 20, 3, force = 0)
+		src.throw_at(throw_target, 20, 3, force = 0, gentle = TRUE)
 	return
 
 //Called when we bump onto an obj
@@ -255,7 +255,7 @@
 		visible_message("<span class='warning'>[src] bounces off  \the [T]!</span>")
 		var/atom/throw_target = get_edge_target_turf(src, turn(get_dir(T, src), rand(-1,1) * 45))
 		playsound(src, 'monkestation/sound/effects/boing1.ogg', 50)
-		src.throw_at(throw_target, 20, 3, force = 0)
+		src.throw_at(throw_target, 20, 3, force = 0, gentle = TRUE)
 	return
 
 //Called when we want to push an atom/movable
