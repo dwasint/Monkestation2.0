@@ -438,6 +438,7 @@ DEFINE_BITFIELD(organ_flags, list(
 	"ORGAN_EDIBLE" = ORGAN_EDIBLE,
 	"ORGAN_SYNTHETIC_EMP" = ORGAN_SYNTHETIC_EMP,
 	"ORGAN_UNREMOVABLE" = ORGAN_UNREMOVABLE,
+	"ORGAN_HIDDEN" = ORGAN_HIDDEN, //Monkestation edit: BLOOD_DATUMS, how was this forgotten
 ))
 
 DEFINE_BITFIELD(respiration_type, list(

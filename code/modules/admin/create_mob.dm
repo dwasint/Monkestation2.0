@@ -26,7 +26,7 @@
 	human.eye_color_left = random_eye_color
 	human.eye_color_right = random_eye_color
 
-	human.dna.blood_type = random_blood_type()
+	human.dna.human_blood_type = random_human_blood_type()
 	human.dna.features["mcolor"] = "#[random_color()]"
 	human.dna.species.randomize_active_underwear_only(human)
 

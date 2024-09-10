@@ -253,6 +253,14 @@
 		arm_owner.dropItemToGround(arm_owner.gloves, TRUE, violent = violent)
 	arm_owner.update_worn_gloves() //to remove the bloody hands overlay
 
+/obj/item/bodypart/arm/try_attach_limb(mob/living/carbon/new_arm_owner, special = FALSE)
+	. = ..()
+
+	if(!.)
+		return
+
+	new_arm_owner.update_worn_gloves()
+
 /obj/item/bodypart/leg/drop_limb(special, dismembered, violent)
 	if(owner && !special)
 		if(owner.legcuffed)

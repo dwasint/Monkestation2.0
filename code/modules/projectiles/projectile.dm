@@ -311,10 +311,7 @@
 				var/splatter_dir = dir
 				if(starting)
 					splatter_dir = get_dir(starting, target_turf)
-				if(isalien(living_target))
-					new /obj/effect/temp_visual/dir_setting/bloodsplatter/xenosplatter(target_turf, splatter_dir)
-				else
-					new /obj/effect/temp_visual/dir_setting/bloodsplatter(target_turf, splatter_dir)
+				living_target.do_splatter_effect(splatter_dir)
 				if(prob(damage))
 					living_target.blood_particles(amount = rand(1, 1 + round(damage/20, 1)), angle = src.Angle)
 

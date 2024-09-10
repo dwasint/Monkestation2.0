@@ -19,7 +19,7 @@
 	heatmod = 1.5
 	payday_modifier = 0.75
 	meat = /obj/item/food/meat/slab/human/mutant/plant
-	exotic_blood = /datum/reagent/water
+	exotic_bloodtype = /datum/blood_type/water
 	disliked_food = MEAT | DAIRY | SEAFOOD | BUGS
 	liked_food = VEGETABLES | FRUIT | GRAIN
 	changesource_flags = MIRROR_BADMIN | WABBAJACK | MIRROR_MAGIC | MIRROR_PRIDE | RACE_SWAP | ERT_SPAWN | SLIME_EXTRACT
@@ -35,18 +35,6 @@
 	)
 
 	ass_image = 'icons/ass/asspodperson.png'
-
-/datum/species/pod/on_species_gain(mob/living/carbon/new_podperson, datum/species/old_species, pref_load)
-	. = ..()
-	if(ishuman(new_podperson))
-		update_mail_goodies(new_podperson)
-
-/datum/species/pod/update_quirk_mail_goodies(mob/living/carbon/human/recipient, datum/quirk/quirk, list/mail_goodies = list())
-	if(istype(quirk, /datum/quirk/blooddeficiency))
-		mail_goodies += list(
-			/obj/item/reagent_containers/blood/podperson
-		)
-	return ..()
 
 /datum/species/pod/spec_life(mob/living/carbon/human/H, seconds_per_tick, times_fired)
 	if(H.stat == DEAD)

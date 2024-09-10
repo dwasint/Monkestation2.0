@@ -208,6 +208,6 @@
 			most_plentiful_reagent.Cut()
 			most_plentiful_reagent[reagent] = reagents_add[reagent]
 
-	podman.dna.species.exotic_blood = most_plentiful_reagent[1]
+	//podman.dna.species.exotic_blood = most_plentiful_reagent[1] //Monkestation edit BLOOD_DATUM: This needs to be looked into
 	investigate_log("[key_name(mind)] cloned as a podman via [src] in [parent]", INVESTIGATE_BOTANY)
 	return result

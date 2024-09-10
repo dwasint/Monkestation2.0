@@ -5,7 +5,6 @@
 	random_icon_states = list("drip1","drip2","drip3","drip4","drip5")
 	plane = GAME_PLANE
 	layer = BELOW_MOB_LAYER
-	should_dry = FALSE
 	bloodiness = BLOOD_AMOUNT_PER_DECAL * 0.2
 	mergeable_decal = FALSE
 	/// Splatter type we create when we bounce on the floor
@@ -45,14 +44,16 @@
 		return
 	var/obj/effect/decal/cleanable/splatter
 	if(!ispath(splatter_type_floor, /obj/effect/decal/cleanable/blood/splatter/stacking))
-		splatter = new splatter_type_floor(loc)
+		splatter = new splatter_type_floor(loc, blood_color = color)
+		splatter.color = color
 		if(messy_splatter)
 			splatter.pixel_x = src.pixel_x
 			splatter.pixel_y = src.pixel_y
 	else
 		var/obj/effect/decal/cleanable/blood/splatter/stacking/stacker = locate(splatter_type_floor) in loc
 		if(!stacker)
-			stacker = new splatter_type_floor(loc)
+			stacker = new splatter_type_floor(loc, blood_color = color)
+			stacker.color = color
 			if(messy_splatter && length(stacker.splat_overlays))
 				var/mutable_appearance/existing_appearance = stacker.splat_overlays[1]
 				existing_appearance.pixel_x = src.pixel_x
@@ -60,7 +61,8 @@
 			stacker.bloodiness = src.bloodiness
 			stacker.update_appearance(UPDATE_ICON)
 		else
-			var/obj/effect/decal/cleanable/blood/splatter/stacking/other_splatter = new splatter_type_floor()
+			var/obj/effect/decal/cleanable/blood/splatter/stacking/other_splatter = new splatter_type_floor(blood_color = color)
+			other_splatter.color = color
 			if(messy_splatter && length(other_splatter.splat_overlays))
 				var/mutable_appearance/existing_appearance = other_splatter.splat_overlays[1]
 				existing_appearance.pixel_x = src.pixel_x
@@ -83,6 +85,7 @@
 		var/dir_to_wall = get_dir(src, bumped_atom)
 		final_splatter.pixel_x = (dir_to_wall & EAST ? world.icon_size : (dir_to_wall & WEST ? -world.icon_size : 0))
 		final_splatter.pixel_y = (dir_to_wall & NORTH ? world.icon_size : (dir_to_wall & SOUTH ? -world.icon_size : 0))
+		final_splatter.color = color
 		var/list/blood_dna = GET_ATOM_BLOOD_DNA(src)
 		if(blood_dna)
 			final_splatter.add_blood_DNA(blood_dna)
@@ -96,6 +99,7 @@
 			return
 		var/obj/effect/decal/cleanable/blood/splatter/over_window/final_splatter = new splatter_type_wall()
 		final_splatter.forceMove(the_window)
+		final_splatter.color = color
 		the_window.vis_contents += final_splatter
 		the_window.bloodied = TRUE
 		qdel(src)
@@ -107,7 +111,8 @@
 	/// Listing containing overlays of all the splatters we've merged with
 	var/list/splat_overlays = list()
 
-/obj/effect/decal/cleanable/blood/splatter/stacking/Initialize(mapload)
+/obj/effect/decal/cleanable/blood/splatter/stacking/Initialize(mapload, blood_color = COLOR_BLOOD)
+	color = blood_color
 	. = ..()
 	var/mutable_appearance/our_appearance = mutable_appearance(src.icon, src.icon_state)
 	our_appearance.color = src.color
@@ -141,8 +146,8 @@
 	desc = "Raining blood, from a lacerated sky, bleeding its horror!"
 	icon_state = "line"
 	random_icon_states = null
-	dryname = "dried blood line"
-	drydesc = "Creating my structure - Now I shall reign in blood!"
+	base_name = "dried blood line"
+	dry_desc = "Creating my structure - Now I shall reign in blood!"
 
 /obj/effect/decal/cleanable/blood/line/Initialize(mapload, direction)
 	if(!isnull(direction))

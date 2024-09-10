@@ -25,7 +25,7 @@
 	coldmod = 1.5 //Same as lizard people
 	speedmod = -0.1 //Same as arachnids
 	meat = /obj/item/food/meat/slab/human/mutant/plant
-	exotic_blood = /datum/reagent/water
+	exotic_bloodtype = /datum/blood_type/water
 	// disliked_food = VEGETABLES | FRUIT | GRAIN
 	liked_food = MEAT | BUGS | GORE
 	changesource_flags = MIRROR_BADMIN | WABBAJACK | MIRROR_MAGIC | MIRROR_PRIDE | RACE_SWAP | ERT_SPAWN | SLIME_EXTRACT
@@ -56,18 +56,6 @@
 			H.heal_overall_damage(brute = 0.25 * seconds_per_tick, burn = 0.25 * seconds_per_tick, required_bodytype = BODYTYPE_ORGANIC) //Lowered to 0.25
 			H.adjustToxLoss(-0.25 * seconds_per_tick)
 			H.adjustOxyLoss(-0.25 * seconds_per_tick)
-
-/datum/species/floran/on_species_gain(mob/living/carbon/new_floran, datum/species/old_species, pref_load)
-	. = ..()
-	if(ishuman(new_floran))
-		update_mail_goodies(new_floran)
-
-/datum/species/floran/update_quirk_mail_goodies(mob/living/carbon/human/recipient, datum/quirk/quirk, list/mail_goodies = list())
-	if(istype(quirk, /datum/quirk/blooddeficiency))
-		mail_goodies += list(
-			/obj/item/reagent_containers/blood/podperson
-		)
-	return ..()
 
 /datum/species/floran/handle_chemicals(datum/reagent/chem, mob/living/carbon/human/H, seconds_per_tick, times_fired)
 	if(chem.type == /datum/reagent/toxin/plantbgone)

@@ -30,7 +30,7 @@
 	)
 
 	meat = /obj/item/food/meat/slab/human/mutant/slime
-	exotic_blood = /datum/reagent/toxin/slimeooze
+	exotic_bloodtype = /datum/blood_type/slime
 	burnmod = 0.6 // = 3/5x generic burn damage
 	coldmod = 6   // = 3x cold damage
 	heatmod = 0.5 // = 1/4x heat damage
@@ -272,12 +272,6 @@
 			SPECIES_PERK_ICON = "burn",
 			SPECIES_PERK_NAME = "incombustible",
 			SPECIES_PERK_DESC = "[plural_form] cannot be set aflame.",
-		),
-		list(
-			SPECIES_PERK_TYPE = SPECIES_NEUTRAL_PERK,
-			SPECIES_PERK_ICON = "tint",
-			SPECIES_PERK_NAME = initial(exotic_blood.name),
-			SPECIES_PERK_DESC = "[name] blood is [initial(exotic_blood.name)], which can make recieving medical treatment harder.",
 		),
 		list(
 			SPECIES_PERK_TYPE = SPECIES_NEUTRAL_PERK,

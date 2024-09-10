@@ -105,6 +105,8 @@
 	var/should_draw_greyscale = TRUE
 	///An "override" color that can be applied to ANY limb, greyscale or not.
 	var/variable_color = ""
+	/// Color of the damage overlay
+	var/damage_color = COLOR_BLOOD
 
 	var/px_x = 0
 	var/px_y = 0
@@ -893,6 +895,8 @@
 	else
 		draw_color = null
 
+	damage_color = owner?.get_blood_type()?.color || COLOR_BLOOD
+
 	if(!is_creating || !owner)
 		return
 
@@ -951,7 +955,9 @@
 		image_dir = SOUTH
 		if(dmg_overlay_type)
 			if(brutestate)
-				. += image('icons/mob/effects/dam_mob.dmi', "[dmg_overlay_type]_[body_zone]_[brutestate]0", -DAMAGE_LAYER, image_dir)
+				var/image/bruteimage = image('icons/mob/effects/dam_mob.dmi', "[dmg_overlay_type]_[body_zone]_[brutestate]0", -DAMAGE_LAYER, image_dir)
+				bruteimage.color = damage_color
+				. += bruteimage
 			if(burnstate)
 				. += image('icons/mob/effects/dam_mob.dmi', "[dmg_overlay_type]_[body_zone]_0[burnstate]", -DAMAGE_LAYER, image_dir)
 

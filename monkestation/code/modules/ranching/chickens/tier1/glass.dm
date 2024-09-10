@@ -15,10 +15,10 @@
 	icon_state = "glass"
 
 	layer_hen_type = /mob/living/basic/chicken/glass
-	reagent_flags = DRAWABLE
 
 /obj/item/food/egg/glass/Initialize(mapload)
 	. = ..()
+	reagents.flags |= DRAWABLE
 	START_PROCESSING(SSobj, src)
 
 /obj/item/food/egg/glass/process(seconds_per_tick)
@@ -45,7 +45,7 @@
 /obj/item/food/egg/glass/update_overlays()
 	. = ..()
 	var/amount_left = max_volume - reagents.total_volume
-	var/datum/mutable_appearance/MA = mutable_appearance(icon, "glass-filling", layer, src)
+	var/mutable_appearance/MA = mutable_appearance(icon, "glass-filling", layer, src)
 	switch(amount_left)
 		if(5 to INFINITY)
 			MA.icon_state = "glass-filling"

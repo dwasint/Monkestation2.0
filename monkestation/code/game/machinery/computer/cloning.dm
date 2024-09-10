@@ -577,7 +577,7 @@
 	R.fields["UE"] = dna.unique_enzymes
 	R.fields["UI"] = dna.unique_identity
 	R.fields["SE"] = dna.mutation_index
-	R.fields["blood_type"] = dna.blood_type
+	R.fields["blood_type"] = dna.human_blood_type
 	R.fields["features"] = dna.features
 	R.fields["factions"] = mob_occupant.faction
 	R.fields["quirks"] = list()
