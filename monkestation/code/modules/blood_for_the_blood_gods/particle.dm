@@ -19,6 +19,8 @@
 	return FALSE
 
 /obj/effect/decal/cleanable/blood/particle/proc/start_movement(movement_angle)
+	if(QDELETED(src))
+		return
 	var/datum/component/movable_physics/movable_physics = GetComponent(/datum/component/movable_physics)
 	if(!movable_physics)
 		movable_physics = initialize_physics()
