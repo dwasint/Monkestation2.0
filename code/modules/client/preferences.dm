@@ -123,6 +123,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 	var/loaded_preferences_successfully = load_preferences()
 	if(loaded_preferences_successfully)
 		if(load_character())
+			loaded = TRUE
 			return
 	//we couldn't load character data so just randomize the character appearance + name
 	randomise_appearance_prefs() //let's create a random character then - rather than a fat, bald and naked man.
@@ -134,6 +135,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 		stack_trace("[parent]'s preferences failed to load! Attempting a reload of preferences.")
 		if(load_preferences())
 			if(load_character())
+				loaded = TRUE
 				return
 		stack_trace("[parent]'s preferences failed to load a second time! This means their keybindings and other non character settings may be lost.")
 		message_admins("[parent]'s prefs failed to load twice! Their keybindings and tokens may have been lost please check on this.")
