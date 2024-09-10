@@ -15,6 +15,7 @@
 	icon_state = "glass"
 
 	layer_hen_type = /mob/living/basic/chicken/glass
+	reagent_flags = DRAWABLE
 
 /obj/item/food/egg/glass/Initialize(mapload)
 	. = ..()
@@ -38,3 +39,22 @@
 
 	for(var/datum/reagent/listed_reagent as anything in glass_egg_reagents)
 		reagents.add_reagent(listed_reagent, glass_egg_reagents[listed_reagent] * multiplier)
+
+	update_appearance()
+
+/obj/item/food/egg/glass/update_overlays()
+	. = ..()
+	var/amount_left = max_volume - reagents.total_volume
+	var/datum/mutable_appearance/MA = mutable_appearance(icon, "glass-filling", layer, src)
+	switch(amount_left)
+		if(5 to INFINITY)
+			MA.icon_state = "glass-filling"
+		if(3 to 4.99)
+			MA.icon_state = "glass-filling-75"
+		if(2 to 2.99)
+			MA.icon_state = "glass-filling-50"
+		if(0 to 1.99)
+			MA.icon_state = "glass-filling-25"
+	MA.color = mix_color_from_reagents(reagents.reagent_list)
+	. += MA
+
