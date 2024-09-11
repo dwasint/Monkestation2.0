@@ -118,6 +118,8 @@
 	adjust_charge(ethereal, -ETHEREAL_BLOOD_CHARGE_FACTOR * seconds_per_tick, TRUE)
 	handle_charge(ethereal, seconds_per_tick, times_fired)
 
+	return .
+
 /datum/species/ethereal/proc/adjust_charge(mob/living/carbon/human/ethereal, amount, passive)
 	if(passive)
 		if(ethereal.blood_volume < ETHEREAL_BLOOD_CHARGE_LOWEST_PASSIVE) //Do not apply the clamp if its below the passive reduction level(no infinite blood sorry)
