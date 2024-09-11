@@ -425,6 +425,8 @@
 		"defibrillator",
 		"genescanner",
 		"healthanalyzer",
+		"scanning_pad",
+		"vitals_monitor",
 		"antibodyscanner",
 		"med_spray_bottle",
 		"medical_kiosk",
@@ -437,8 +439,6 @@
 		"diseaseanalyzer",
 		"centrifuge",
 		"path_data",
-		"scanning_pad",
-		"vitals_monitor",
 	)
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 2500)
 	discount_experiments = list(/datum/experiment/dissection/human = 1000)
@@ -450,6 +450,7 @@
 	prereq_ids = list("biotech")
 	design_ids = list(
 		"crewpinpointer",
+		"vitals_monitor_advanced",
 		"defibrillator_compact",
 		"harvester",
 		"healthanalyzer_advanced",
@@ -461,7 +462,6 @@
 		"plasmarefiller",
 		"smoke_machine",
 		"sleeper",
-		"vitals_monitor_advanced",
 	)
 	research_costs = list(TECHWEB_POINT_TYPE_GENERIC = 5000)
 	discount_experiments = list(/datum/experiment/scanning/random/material/meat = 2000,
