@@ -115,8 +115,8 @@
 
 	. = HANDLE_BLOOD_NO_NUTRITION_DRAIN|HANDLE_BLOOD_NO_EFFECTS
 
-	adjust_charge(ethereal, -ETHEREAL_BLOOD_CHARGE_FACTOR * seconds_per_tick, TRUE)
-	handle_charge(ethereal, seconds_per_tick, times_fired)
+	INVOKE_ASYNC(src, adjust_charge(ethereal, -ETHEREAL_BLOOD_CHARGE_FACTOR * seconds_per_tick, TRUE))
+	INVOKE_ASYNC(src, handle_charge(ethereal, seconds_per_tick, times_fired))
 
 	return .
 
