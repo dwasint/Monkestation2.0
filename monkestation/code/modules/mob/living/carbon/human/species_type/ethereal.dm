@@ -84,12 +84,14 @@
 	for(var/obj/item/bodypart/limb as anything in new_ethereal.bodyparts)
 		if(limb.limb_id == SPECIES_ETHEREAL)
 			limb.update_limb(is_creating = TRUE)
+	RegisterSignal(ethereal, COMSIG_HUMAN_ON_HANDLE_BLOOD, PROC_REF(blood))
 
 /datum/species/ethereal/on_species_loss(mob/living/carbon/human/former_ethereal, datum/species/new_species, pref_load)
 	UnregisterSignal(former_ethereal, COMSIG_ATOM_EMAG_ACT)
 	UnregisterSignal(former_ethereal, COMSIG_ATOM_EMP_ACT)
 	UnregisterSignal(former_ethereal, COMSIG_LIGHT_EATER_ACT)
 	UnregisterSignal(former_ethereal, COMSIG_ATOM_AFTER_ATTACKEDBY)
+	UnregisterSignal(former_ethereal, COMSIG_HUMAN_ON_HANDLE_BLOOD)
 	QDEL_NULL(ethereal_light)
 	return ..()
 
@@ -105,9 +107,14 @@
 	human_mob.dna.features["ethcolor"] = GLOB.color_list_ethereal[pick(GLOB.color_list_ethereal)]
 
 
-/datum/species/ethereal/spec_life(mob/living/carbon/human/ethereal, seconds_per_tick, times_fired)
+/datum/species/ethereal/proc/slime_blood(mob/living/carbon/human/ethereal, seconds_per_tick, times_fired)
+	SIGNAL_HANDLER
+
 	if(ethereal.stat == DEAD)
-		return
+		return NONE
+
+	. = HANDLE_BLOOD_NO_NUTRITION_DRAIN|HANDLE_BLOOD_NO_EFFECTS
+
 	adjust_charge(ethereal, -ETHEREAL_BLOOD_CHARGE_FACTOR * seconds_per_tick, TRUE)
 	handle_charge(ethereal, seconds_per_tick, times_fired)
 
