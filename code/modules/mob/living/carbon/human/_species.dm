@@ -519,6 +519,9 @@ GLOBAL_LIST_EMPTY(features_by_species)
 	SHOULD_CALL_PARENT(TRUE)
 	// Drop the items the new species can't wear
 	SEND_SIGNAL(C, COMSIG_SPECIES_GAIN_PRE, src, old_species)
+
+	if(C.dna.species.exotic_bloodtype)
+		C.dna.human_blood_type = exotic_bloodtype
 	if((AGENDER in species_traits))
 		C.gender = PLURAL
 	if(C.hud_used)
