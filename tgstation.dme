@@ -6280,6 +6280,7 @@
 #include "monkestation\code\modules\bitrunners\code\ability_disks.dm"
 #include "monkestation\code\modules\bitrunners\code\combat_gear_disks.dm"
 #include "monkestation\code\modules\blood_datum\blood.dm"
+#include "monkestation\code\modules\blood_datum\debilitated.dm"
 #include "monkestation\code\modules\blood_datum\designs.dm"
 #include "monkestation\code\modules\blood_datum\forensics_helpers.dm"
 #include "monkestation\code\modules\blood_datum\stunning.dm"
