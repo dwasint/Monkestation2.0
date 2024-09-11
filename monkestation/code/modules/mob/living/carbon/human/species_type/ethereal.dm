@@ -107,7 +107,7 @@
 	human_mob.dna.features["ethcolor"] = GLOB.color_list_ethereal[pick(GLOB.color_list_ethereal)]
 
 
-/datum/species/ethereal/proc/slime_blood(mob/living/carbon/human/ethereal, seconds_per_tick, times_fired)
+/datum/species/ethereal/proc/blood(mob/living/carbon/human/ethereal, seconds_per_tick, times_fired)
 	SIGNAL_HANDLER
 
 	if(ethereal.stat == DEAD)
