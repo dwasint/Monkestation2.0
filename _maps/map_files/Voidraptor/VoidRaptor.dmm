@@ -7067,14 +7067,6 @@
 /obj/effect/turf_decal/box,
 /turf/open/floor/engine,
 /area/station/science/ordnance/storage)
-"cfa" = (
-/obj/machinery/door/window/brigdoor/left/directional/south{
-	name = "Secure Creature Pen";
-	req_access = list("xenobiology")
-	},
-/obj/effect/turf_decal/stripes/line,
-/turf/open/floor/engine,
-/area/station/science/xenobiology)
 "cfm" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/structure/cable,
@@ -19512,6 +19504,14 @@
 	dir = 4
 	},
 /area/station/hallway/primary/fore)
+"fID" = (
+/obj/machinery/door/window/brigdoor/left/directional/south{
+	name = "Secure Creature Pen";
+	req_access = list("xenobiology")
+	},
+/obj/effect/turf_decal/stripes/line,
+/turf/open/floor/engine,
+/area/station/science/xenobiology)
 "fIK" = (
 /obj/machinery/photocopier,
 /obj/effect/turf_decal/siding/wood{
@@ -20634,26 +20634,6 @@
 /obj/effect/turf_decal/tile/red/fourcorners,
 /turf/open/floor/iron/dark/textured,
 /area/station/security/warden)
-"gaQ" = (
-/obj/structure/cable,
-/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
-/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
-/obj/machinery/door/airlock/medical/glass{
-	id_tag = "MedbayFoyer";
-	name = "Medbay"
-	},
-/obj/effect/mapping_helpers/airlock/unres{
-	dir = 8
-	},
-/obj/machinery/door/firedoor,
-/obj/machinery/duct,
-/obj/effect/mapping_helpers/airlock/access/any/medical/general,
-/obj/effect/mapping_helpers/airlock/access/any/medical/morgue,
-/obj/structure/disposalpipe/segment{
-	dir = 4
-	},
-/turf/open/floor/iron/white/textured_large,
-/area/station/medical/medbay/central)
 "gba" = (
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
@@ -32218,6 +32198,20 @@
 	},
 /turf/open/floor/iron/grimy,
 /area/station/service/library)
+"jjH" = (
+/obj/machinery/door/airlock/medical/glass{
+	id_tag = "MedbayFoyer";
+	name = "Medbay"
+	},
+/obj/effect/mapping_helpers/airlock/unres{
+	dir = 8
+	},
+/obj/machinery/door/firedoor,
+/obj/effect/mapping_helpers/airlock/access/any/medical/morgue,
+/obj/effect/mapping_helpers/airlock/access/any/security/brig_physician,
+/obj/effect/mapping_helpers/airlock/access/any/medical/general,
+/turf/open/floor/iron/white/textured_large,
+/area/station/medical/medbay/central)
 "jjO" = (
 /obj/structure/disposalpipe/segment,
 /obj/machinery/conveyor_switch/oneway{
@@ -42731,6 +42725,21 @@
 	},
 /turf/open/floor/iron/dark/textured_large,
 /area/station/security/prison)
+"lZq" = (
+/obj/machinery/door/poddoor/preopen{
+	id = "Xtestlab";
+	name = "Test Chamber Blast Door"
+	},
+/obj/item/toy/toy_xeno,
+/obj/effect/turf_decal/stripes/line{
+	dir = 1
+	},
+/obj/machinery/door/window/brigdoor/left/directional/north{
+	name = "Secure Creature Pen";
+	req_access = list("xenobiology")
+	},
+/turf/open/floor/engine,
+/area/station/science/xenobiology)
 "lZs" = (
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
@@ -47354,6 +47363,28 @@
 "nqj" = (
 /turf/closed/wall,
 /area/station/hallway/secondary/construction)
+"nqu" = (
+/obj/structure/table/reinforced,
+/obj/item/clothing/suit/hooded/ablative{
+	pixel_y = 7
+	},
+/obj/item/gun/energy/temperature/security{
+	pixel_y = 5
+	},
+/obj/structure/window/reinforced/spawner/directional/south,
+/obj/structure/window/reinforced/spawner/directional/east{
+	layer = 2.9;
+	pixel_x = 4
+	},
+/obj/effect/turf_decal/stripes/line{
+	dir = 8
+	},
+/obj/effect/turf_decal/delivery,
+/obj/item/gun/energy/taser,
+/obj/item/gun/energy/taser,
+/obj/item/gun/energy/taser,
+/turf/open/floor/iron/dark/textured_large,
+/area/station/ai_monitored/security/armory)
 "nqC" = (
 /obj/structure/drain,
 /obj/machinery/shower/directional/south,
@@ -51140,13 +51171,6 @@
 /obj/machinery/light/directional/south,
 /turf/open/floor/wood/large,
 /area/station/security/courtroom)
-"otQ" = (
-/obj/effect/mapping_helpers/airlock/access/all/medical/general,
-/obj/machinery/door/airlock/maintenance{
-	name = "Medical Maintenance"
-	},
-/turf/open/floor/catwalk_floor/iron_smooth,
-/area/station/maintenance/department/medical/morgue)
 "otU" = (
 /obj/effect/decal/cleanable/dirt,
 /obj/effect/spawner/random/trash/mess,
@@ -54815,19 +54839,6 @@
 /obj/machinery/light/cold/directional/east,
 /turf/open/floor/iron/white/textured_large,
 /area/station/common/cryopods)
-"psZ" = (
-/obj/machinery/door/airlock/medical/glass{
-	id_tag = "MedbayFoyer";
-	name = "Medbay"
-	},
-/obj/effect/mapping_helpers/airlock/unres{
-	dir = 8
-	},
-/obj/machinery/door/firedoor,
-/obj/effect/mapping_helpers/airlock/access/any/medical/general,
-/obj/effect/mapping_helpers/airlock/access/any/medical/morgue,
-/turf/open/floor/iron/white/textured_large,
-/area/station/medical/medbay/central)
 "pte" = (
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
@@ -59257,28 +59268,6 @@
 /obj/effect/spawner/structure/window/reinforced,
 /turf/open/floor/plating,
 /area/station/maintenance/port/fore)
-"qBO" = (
-/obj/structure/table/reinforced,
-/obj/item/clothing/suit/hooded/ablative{
-	pixel_y = 7
-	},
-/obj/item/gun/energy/temperature/security{
-	pixel_y = 5
-	},
-/obj/structure/window/reinforced/spawner/directional/south,
-/obj/structure/window/reinforced/spawner/directional/east{
-	layer = 2.9;
-	pixel_x = 4
-	},
-/obj/effect/turf_decal/stripes/line{
-	dir = 8
-	},
-/obj/effect/turf_decal/delivery,
-/obj/item/gun/energy/taser,
-/obj/item/gun/energy/taser,
-/obj/item/gun/energy/taser,
-/turf/open/floor/iron/dark/textured_large,
-/area/station/ai_monitored/security/armory)
 "qBR" = (
 /obj/structure/transit_tube,
 /obj/structure/lattice,
@@ -62881,21 +62870,6 @@
 /obj/effect/landmark/start/assistant,
 /turf/open/floor/wood/large,
 /area/station/service/library)
-"rCy" = (
-/obj/machinery/door/poddoor/preopen{
-	id = "Xtestlab";
-	name = "Test Chamber Blast Door"
-	},
-/obj/item/toy/toy_xeno,
-/obj/effect/turf_decal/stripes/line{
-	dir = 1
-	},
-/obj/machinery/door/window/brigdoor/left/directional/north{
-	name = "Secure Creature Pen";
-	req_access = list("xenobiology")
-	},
-/turf/open/floor/engine,
-/area/station/science/xenobiology)
 "rCB" = (
 /obj/structure/disposalpipe/segment,
 /obj/machinery/door/firedoor,
@@ -63843,6 +63817,27 @@
 	dir = 1
 	},
 /area/station/engineering/main)
+"rQW" = (
+/obj/structure/cable,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
+/obj/machinery/door/airlock/medical/glass{
+	id_tag = "MedbayFoyer";
+	name = "Medbay"
+	},
+/obj/effect/mapping_helpers/airlock/unres{
+	dir = 8
+	},
+/obj/machinery/door/firedoor,
+/obj/machinery/duct,
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/obj/effect/mapping_helpers/airlock/access/any/security/brig_physician,
+/obj/effect/mapping_helpers/airlock/access/any/medical/morgue,
+/obj/effect/mapping_helpers/airlock/access/any/medical/general,
+/turf/open/floor/iron/white/textured_large,
+/area/station/medical/medbay/central)
 "rQZ" = (
 /obj/machinery/vending/engivend,
 /obj/effect/turf_decal/bot,
@@ -70851,6 +70846,14 @@
 	},
 /turf/open/floor/iron/large,
 /area/station/commons/vacant_room/commissary)
+"tHV" = (
+/obj/machinery/door/airlock/maintenance{
+	name = "Medical Maintenance"
+	},
+/obj/effect/mapping_helpers/airlock/access/any/security/brig_physician,
+/obj/effect/mapping_helpers/airlock/access/any/medical/general,
+/turf/open/floor/catwalk_floor/iron_smooth,
+/area/station/maintenance/department/medical/morgue)
 "tIh" = (
 /obj/effect/turf_decal/trimline/yellow/filled/warning{
 	dir = 8
@@ -105267,8 +105270,8 @@ jRP
 abP
 nlj
 uiw
-rCy
-cfa
+lZq
+fID
 sYn
 vBO
 ktF
@@ -112278,7 +112281,7 @@ uyk
 shm
 kUZ
 qHh
-otQ
+tHV
 wBO
 pCB
 hbU
@@ -116635,10 +116638,10 @@ cnC
 cnC
 cnC
 cnC
-psZ
+jjH
 fsR
 fsR
-gaQ
+rQW
 nTZ
 abQ
 fxD
@@ -126854,7 +126857,7 @@ vwn
 ewC
 ybu
 cDc
-qBO
+nqu
 pKY
 nRV
 iqx

@@ -2607,30 +2607,6 @@
 /obj/effect/turf_decal/box,
 /turf/open/floor/iron/dark,
 /area/station/science/ordnance/office)
-"aSH" = (
-/obj/effect/turf_decal/tile/red/half/contrasted,
-/obj/structure/rack,
-/obj/item/ammo_box/magazine/m35,
-/obj/item/ammo_box/magazine/m35,
-/obj/item/ammo_box/magazine/m35,
-/obj/item/ammo_box/magazine/m35,
-/obj/item/ammo_box/magazine/m35,
-/obj/item/ammo_box/magazine/m35,
-/obj/item/ammo_box/magazine/m35,
-/obj/item/ammo_box/magazine/m35,
-/obj/item/ammo_box/magazine/m35,
-/obj/item/ammo_box/magazine/m35,
-/obj/item/gun/ballistic/automatic/pistol/paco/no_mag{
-	pixel_y = 6
-	},
-/obj/item/gun/ballistic/automatic/pistol/paco/no_mag{
-	pixel_y = 0
-	},
-/obj/item/gun/energy/taser,
-/obj/item/gun/energy/taser,
-/obj/item/gun/energy/taser,
-/turf/open/floor/iron/dark/textured,
-/area/station/ai_monitored/security/armory/upper)
 "aSS" = (
 /obj/effect/turf_decal/trimline/dark_red/end,
 /obj/machinery/meter,
@@ -6222,6 +6198,30 @@
 /obj/machinery/power/apc/auto_name/directional/east,
 /turf/open/floor/plating,
 /area/station/maintenance/central/lesser)
+"bVE" = (
+/obj/effect/turf_decal/tile/red/half/contrasted,
+/obj/structure/rack,
+/obj/item/ammo_box/magazine/m35,
+/obj/item/ammo_box/magazine/m35,
+/obj/item/ammo_box/magazine/m35,
+/obj/item/ammo_box/magazine/m35,
+/obj/item/ammo_box/magazine/m35,
+/obj/item/ammo_box/magazine/m35,
+/obj/item/ammo_box/magazine/m35,
+/obj/item/ammo_box/magazine/m35,
+/obj/item/ammo_box/magazine/m35,
+/obj/item/ammo_box/magazine/m35,
+/obj/item/gun/ballistic/automatic/pistol/paco/no_mag{
+	pixel_y = 6
+	},
+/obj/item/gun/ballistic/automatic/pistol/paco/no_mag{
+	pixel_y = 0
+	},
+/obj/item/gun/energy/taser,
+/obj/item/gun/energy/taser,
+/obj/item/gun/energy/taser,
+/turf/open/floor/iron/dark/textured,
+/area/station/ai_monitored/security/armory/upper)
 "bVI" = (
 /obj/structure/disposalpipe/segment{
 	dir = 5
@@ -7870,6 +7870,24 @@
 /obj/machinery/airalarm/directional/north,
 /turf/open/floor/plating,
 /area/station/engineering/storage/tech)
+"cve" = (
+/obj/structure/disposalpipe/segment{
+	dir = 4
+	},
+/obj/structure/cable,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
+/obj/effect/mapping_helpers/airlock/cyclelink_helper_multi{
+	cycle_id = "sci-med-passthrough"
+	},
+/obj/machinery/door/airlock/medical{
+	name = "Medbay"
+	},
+/obj/effect/turf_decal/tile/blue/full,
+/obj/effect/mapping_helpers/airlock/access/any/security/brig_physician,
+/obj/effect/mapping_helpers/airlock/access/any/medical/general,
+/turf/open/floor/iron/large,
+/area/station/maintenance/aft/greater)
 "cvh" = (
 /obj/effect/landmark/start/ai,
 /obj/item/radio/intercom/directional/west{
@@ -25716,23 +25734,6 @@
 	},
 /turf/open/floor/iron,
 /area/station/hallway/secondary/entry)
-"ikw" = (
-/obj/structure/disposalpipe/segment{
-	dir = 4
-	},
-/obj/structure/cable,
-/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
-/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
-/obj/effect/mapping_helpers/airlock/cyclelink_helper_multi{
-	cycle_id = "sci-med-passthrough"
-	},
-/obj/machinery/door/airlock/medical{
-	name = "Medbay"
-	},
-/obj/effect/mapping_helpers/airlock/access/all/medical/general,
-/obj/effect/turf_decal/tile/blue/full,
-/turf/open/floor/iron/large,
-/area/station/maintenance/aft/greater)
 "ikz" = (
 /obj/effect/turf_decal/trimline/blue/filled/corner{
 	dir = 8
@@ -27093,16 +27094,6 @@
 /obj/effect/turf_decal/bot,
 /turf/open/floor/iron,
 /area/station/hallway/primary/central)
-"iIE" = (
-/obj/machinery/door/airlock/medical/glass{
-	id_tag = "MedbayFoyer";
-	name = "Medbay"
-	},
-/obj/effect/mapping_helpers/airlock/unres,
-/obj/effect/mapping_helpers/airlock/access/all/medical/general,
-/obj/effect/turf_decal/tile/blue/full,
-/turf/open/floor/iron/large,
-/area/station/medical/medbay/lobby)
 "iIF" = (
 /obj/effect/landmark/start/hangover,
 /obj/machinery/status_display/evac/directional/south,
@@ -32845,6 +32836,17 @@
 /obj/structure/cable,
 /turf/open/floor/plating,
 /area/station/security/warden)
+"kyD" = (
+/obj/machinery/door/airlock/medical/glass{
+	id_tag = "MedbayFoyer";
+	name = "Medbay"
+	},
+/obj/effect/mapping_helpers/airlock/unres,
+/obj/effect/turf_decal/tile/blue/full,
+/obj/effect/mapping_helpers/airlock/access/any/security/brig_physician,
+/obj/effect/mapping_helpers/airlock/access/any/medical/general,
+/turf/open/floor/iron/large,
+/area/station/medical/medbay/lobby)
 "kyL" = (
 /obj/effect/turf_decal/tile/neutral{
 	dir = 4
@@ -37327,22 +37329,6 @@
 	},
 /turf/open/floor/iron/dark,
 /area/station/service/chapel)
-"lUb" = (
-/obj/machinery/door/firedoor,
-/obj/machinery/door/airlock/medical/glass{
-	id_tag = "MedbayFoyer";
-	name = "Medbay"
-	},
-/obj/effect/mapping_helpers/airlock/unres,
-/obj/structure/disposalpipe/segment,
-/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
-/obj/structure/cable,
-/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
-/obj/effect/mapping_helpers/airlock/access/all/medical/general,
-/obj/effect/turf_decal/tile/blue/full,
-/obj/effect/landmark/navigate_destination/med,
-/turf/open/floor/iron/large,
-/area/station/medical/medbay/lobby)
 "lUw" = (
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
@@ -45594,6 +45580,23 @@
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/plating,
 /area/station/maintenance/department/medical/morgue)
+"owL" = (
+/obj/machinery/door/firedoor,
+/obj/machinery/door/airlock/medical/glass{
+	id_tag = "MedbayFoyer";
+	name = "Medbay"
+	},
+/obj/effect/mapping_helpers/airlock/unres,
+/obj/structure/disposalpipe/segment,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
+/obj/structure/cable,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
+/obj/effect/turf_decal/tile/blue/full,
+/obj/effect/landmark/navigate_destination/med,
+/obj/effect/mapping_helpers/airlock/access/any/security/brig_physician,
+/obj/effect/mapping_helpers/airlock/access/any/medical/general,
+/turf/open/floor/iron/large,
+/area/station/medical/medbay/lobby)
 "owP" = (
 /obj/effect/turf_decal/tile/blue,
 /obj/machinery/station_map/engineering/directional/south,
@@ -232506,7 +232509,7 @@ mAe
 stt
 qum
 diC
-aSH
+bVE
 mwJ
 rUb
 hYu
@@ -244130,7 +244133,7 @@ pKb
 eTM
 vkG
 teZ
-lUb
+owL
 vWm
 pbW
 sco
@@ -244644,7 +244647,7 @@ mJM
 obG
 dEf
 mFl
-iIE
+kyD
 iAO
 niu
 pZm
@@ -248249,7 +248252,7 @@ sZF
 sZF
 sZF
 sZF
-ikw
+cve
 uWp
 sZF
 pwV
