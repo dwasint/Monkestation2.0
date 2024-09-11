@@ -51905,6 +51905,9 @@
 /obj/structure/window/reinforced/spawner/directional/east{
 	pixel_x = 3
 	},
+/obj/item/gun/energy/taser,
+/obj/item/gun/energy/taser,
+/obj/item/gun/energy/taser,
 /turf/open/floor/iron/dark,
 /area/station/ai_monitored/security/armory)
 "mnW" = (

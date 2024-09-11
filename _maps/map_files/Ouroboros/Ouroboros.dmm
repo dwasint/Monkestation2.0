@@ -39418,6 +39418,9 @@
 	c_tag = "Security - Armory"
 	},
 /obj/effect/spawner/random/armory/disablers,
+/obj/item/gun/energy/taser,
+/obj/item/gun/energy/taser,
+/obj/item/gun/energy/taser,
 /turf/open/floor/engine,
 /area/station/ai_monitored/security/armory)
 "lEB" = (
