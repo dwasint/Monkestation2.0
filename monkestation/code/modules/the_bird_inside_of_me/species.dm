@@ -12,9 +12,9 @@ GLOBAL_LIST_EMPTY(tails_list_avian)
 	id = SPECIES_ORNITHID
 	species_traits = list(
 		NO_UNDERWEAR,
+		TRAIT_FEATHERED,
 	)
 	inherent_traits = list(
-		TRAIT_FEATHERED,
 		TRAIT_LIGHT_DRINKER,
 		TRAIT_TACKLING_WINGED_ATTACKER,
 		TRAIT_USES_SKINTONES,
@@ -76,12 +76,17 @@ GLOBAL_LIST_EMPTY(tails_list_avian)
 
 /obj/item/bodypart/leg/left/ornithid
 	limb_id = SPECIES_ORNITHID
+	digitigrade_id = SPECIES_ORNITHID
 	icon_greyscale = 'monkestation/code/modules/the_bird_inside_of_me/icons/ornithid_parts_greyscale.dmi'
+	bodytype = BODYTYPE_ORGANIC | BODYTYPE_DIGITIGRADE
+	bodypart_traits = list(TRAIT_HARD_SOLES)
 
 /obj/item/bodypart/leg/right/ornithid
 	limb_id = SPECIES_ORNITHID
+	digitigrade_id = SPECIES_ORNITHID
 	icon_greyscale = 'monkestation/code/modules/the_bird_inside_of_me/icons/ornithid_parts_greyscale.dmi'
-
+	bodytype = BODYTYPE_ORGANIC | BODYTYPE_DIGITIGRADE
+	bodypart_traits = list(TRAIT_HARD_SOLES)
 
 // section for lore/perk descs
 /datum/species/ornithid/get_species_description()

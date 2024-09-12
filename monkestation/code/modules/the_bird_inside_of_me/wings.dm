@@ -63,7 +63,7 @@
 
 /datum/bodypart_overlay/mutant/wings/functional/arm_wings
 	feature_key = "arm_wings"
-	layers = EXTERNAL_FRONT | EXTERNAL_ADJACENT
+	layers = EXTERNAL_BEHIND | EXTERNAL_ADJACENT
 	color_source = ORGAN_COLOR_OVERRIDE
 
 	///Feature render key for opened arm wings
