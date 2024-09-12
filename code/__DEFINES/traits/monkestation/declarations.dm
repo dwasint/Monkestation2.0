@@ -128,4 +128,5 @@
 #define TRAIT_STARGAZED				"stargazed"
 
 #define TRAIT_FEATHERED "feathers"
+#define TRAIT_NON_IMPORTANT_SHOE_BLOCK "shoe_block"
 // END TRAIT DEFINES

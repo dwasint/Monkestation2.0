@@ -14,7 +14,17 @@ GLOBAL_LIST_EMPTY(tails_list_avian)
 		NO_UNDERWEAR,
 		TRAIT_FEATHERED,
 	)
+
+	special_step_sounds = list(
+		'sound/effects/footstep/hardclaw1.ogg',
+		'sound/effects/footstep/hardclaw2.ogg',
+		'sound/effects/footstep/hardclaw3.ogg',
+		'sound/effects/footstep/hardclaw4.ogg',
+		'sound/effects/footstep/hardclaw1.ogg',
+	)
+
 	inherent_traits = list(
+		TRAIT_NON_IMPORTANT_SHOE_BLOCK,
 		TRAIT_LIGHT_DRINKER,
 		TRAIT_TACKLING_WINGED_ATTACKER,
 		TRAIT_USES_SKINTONES,
