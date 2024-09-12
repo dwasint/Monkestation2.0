@@ -36,6 +36,7 @@ GLOBAL_LIST_EMPTY(tails_list_avian)
 	payday_modifier = 0.75
 	species_pain_mod = 1.20 // Fuck it, this will fill a niche that isn't implemented yet.
 	changesource_flags = MIRROR_BADMIN | WABBAJACK | MIRROR_PRIDE | MIRROR_MAGIC | RACE_SWAP | ERT_SPAWN | SLIME_EXTRACT
+	digitigrade_customization = DIGITIGRADE_FORCED
 
 	species_cookie = /obj/item/food/semki/healthy // humans get chocolate, lizards get meat. What do birds get? Seed.
 	meat = /obj/item/food/meat/slab/chicken
