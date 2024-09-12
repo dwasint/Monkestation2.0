@@ -43,7 +43,6 @@ GLOBAL_LIST_EMPTY(tails_list_avian)
 		BODY_ZONE_R_LEG = /obj/item/bodypart/leg/right/ornithid,
 		BODY_ZONE_CHEST = /obj/item/bodypart/chest,
 	)
-	payday_modifier = 0.75
 	species_pain_mod = 1.20 // Fuck it, this will fill a niche that isn't implemented yet.
 	changesource_flags = MIRROR_BADMIN | WABBAJACK | MIRROR_PRIDE | MIRROR_MAGIC | RACE_SWAP | ERT_SPAWN | SLIME_EXTRACT
 	digitigrade_customization = DIGITIGRADE_FORCED
@@ -89,14 +88,14 @@ GLOBAL_LIST_EMPTY(tails_list_avian)
 	digitigrade_id = SPECIES_ORNITHID
 	icon_greyscale = 'monkestation/code/modules/the_bird_inside_of_me/icons/ornithid_parts_greyscale.dmi'
 	bodytype = BODYTYPE_ORGANIC | BODYTYPE_DIGITIGRADE
-	bodypart_traits = list(TRAIT_HARD_SOLES)
+	bodypart_traits = list(TRAIT_HARD_SOLES, TRAIT_NON_IMPORTANT_SHOE_BLOCK)
 
 /obj/item/bodypart/leg/right/ornithid
 	limb_id = SPECIES_ORNITHID
 	digitigrade_id = SPECIES_ORNITHID
 	icon_greyscale = 'monkestation/code/modules/the_bird_inside_of_me/icons/ornithid_parts_greyscale.dmi'
 	bodytype = BODYTYPE_ORGANIC | BODYTYPE_DIGITIGRADE
-	bodypart_traits = list(TRAIT_HARD_SOLES)
+	bodypart_traits = list(TRAIT_HARD_SOLES, TRAIT_NON_IMPORTANT_SHOE_BLOCK)
 
 // section for lore/perk descs
 /datum/species/ornithid/get_species_description()

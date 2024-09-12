@@ -45,6 +45,10 @@
 	name = "Short Monochrome"
 	icon_state = "monochrome_short"
 
+/datum/sprite_accessory/arm_wings/fluffy
+	name = "Fluffy"
+	icon_state = "fluffy"
+
 /datum/sprite_accessory/arm_wings/pursuant
 	name = "Pursuant"
 	icon_state = "pursuant"
@@ -60,6 +64,10 @@
 /datum/sprite_accessory/arm_wingsopen/pursuant
 	name = "Pursuant"
 	icon_state = "pursuant"
+
+/datum/sprite_accessory/arm_wingsopen/fluffy
+	name = "Fluffy"
+	icon_state = "fluffy"
 
 /datum/bodypart_overlay/mutant/wings/functional/arm_wings
 	feature_key = "arm_wings"
