@@ -24,7 +24,6 @@
 	species_language_holder = /datum/language_holder/goblin
 	maxhealthmod = 0.75
 	stunmod = 1.2
-	speedmod = -0.25
 	payday_modifier = 1
 	bodypart_overrides = list(
 		BODY_ZONE_HEAD = /obj/item/bodypart/head/goblin,
@@ -157,7 +156,9 @@
 /obj/item/bodypart/leg/left/goblin
 	icon_greyscale = 'monkestation/icons/mob/species/goblin/bodyparts.dmi'
 	limb_id = SPECIES_GOBLIN
+	speed_modifier = -0.125
 
 /obj/item/bodypart/leg/right/goblin
 	icon_greyscale = 'monkestation/icons/mob/species/goblin/bodyparts.dmi'
 	limb_id = SPECIES_GOBLIN
+	speed_modifier = -0.125

@@ -4,7 +4,7 @@
 	// 1spooky
 	name = "High-Functioning Zombie"
 	id = SPECIES_ZOMBIE
-	sexes = 0
+	sexes = FALSE
 	meat = /obj/item/food/meat/slab/human/mutant/zombie
 	mutanttongue = /obj/item/organ/internal/tongue/zombie
 	species_traits = list(
@@ -44,13 +44,14 @@
 	bodytemp_heat_damage_limit = FIRE_MINIMUM_TEMPERATURE_TO_EXIST // Take damage at fire temp
 	bodytemp_cold_damage_limit = MINIMUM_TEMPERATURE_TO_MOVE // take damage below minimum movement temp
 
+	// Infectious zombies have slow legs
 	bodypart_overrides = list(
 		BODY_ZONE_HEAD = /obj/item/bodypart/head/zombie,
 		BODY_ZONE_CHEST = /obj/item/bodypart/chest/zombie,
 		BODY_ZONE_L_ARM = /obj/item/bodypart/arm/left/zombie,
 		BODY_ZONE_R_ARM = /obj/item/bodypart/arm/right/zombie,
-		BODY_ZONE_L_LEG = /obj/item/bodypart/leg/left/zombie,
-		BODY_ZONE_R_LEG = /obj/item/bodypart/leg/right/zombie
+		BODY_ZONE_L_LEG = /obj/item/bodypart/leg/left/zombie/infectious,
+		BODY_ZONE_R_LEG = /obj/item/bodypart/leg/right/zombie/infectious,
 	)
 
 /// Zombies do not stabilize body temperature they are the walking dead and are cold blooded
@@ -86,7 +87,6 @@
 	id = SPECIES_ZOMBIE_INFECTIOUS
 	examine_limb_id = SPECIES_ZOMBIE
 	armor = 20 // 120 damage to KO a zombie, which kills it
-	speedmod = 1.6
 	mutanteyes = /obj/item/organ/internal/eyes/zombie
 	mutantbrain = /obj/item/organ/internal/brain/zombie
 	mutanttongue = /obj/item/organ/internal/tongue/zombie

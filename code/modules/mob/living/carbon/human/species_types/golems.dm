@@ -23,7 +23,6 @@
 	mutantlungs = null
 	inherent_biotypes = MOB_HUMANOID|MOB_MINERAL
 	mutant_organs = list(/obj/item/organ/internal/adamantine_resonator)
-	speedmod = 2
 	payday_modifier = 0.75
 	armor = 55
 	siemens_coeff = 0
@@ -187,7 +186,6 @@
 	name = "Gold Golem"
 	id = SPECIES_GOLEM_GOLD
 	fixed_mut_color = "#cccc00"
-	speedmod = 1
 	armor = 25 //down from 55
 	meat = /obj/item/stack/ore/gold
 	info_text = "As a <span class='danger'>Gold Golem</span>, you are faster but less resistant than the average golem."
@@ -220,7 +218,6 @@
 	id = SPECIES_GOLEM_PLASTEEL
 	fixed_mut_color = "#bbbbbb"
 	stunmod = 0.4
-	speedmod = 4 //pretty fucking slow
 	meat = /obj/item/stack/ore/iron
 	info_text = "As a <span class='danger'>Plasteel Golem</span>, you are slower, but harder to stun, and hit very hard when punching. You also magnetically attach to surfaces and so don't float without gravity and cannot have positions swapped with other beings."
 	prefix = "Plasteel"
@@ -293,7 +290,6 @@
 	fixed_mut_color = "#333333"
 	meat = /obj/item/stack/sheet/mineral/abductor
 	mutanttongue = /obj/item/organ/internal/tongue/abductor
-	speedmod = 1 //faster
 	info_text = "As an <span class='danger'>Alloy Golem</span>, you are made of advanced alien materials: you are faster and regenerate over time. You are, however, only able to be heard by other alloy golems."
 	prefix = "Alien"
 	special_names = list("Outsider", "Technology", "Watcher", "Stranger") //ominous and unknown
@@ -760,7 +756,6 @@
 	inherent_biotypes = MOB_UNDEAD|MOB_HUMANOID
 	armor = 15 //feels no pain, but not too resistant
 	burnmod = 2 // don't get burned
-	speedmod = 1 // not as heavy as stone
 	prefix = "Cloth"
 	special_names = null
 	bodypart_overrides = list(
@@ -1030,7 +1025,6 @@
 	armor = 25
 	burnmod = 1.25
 	heatmod = 2
-	speedmod = 1.5
 	bodypart_overrides = list(
 		BODY_ZONE_L_ARM = /obj/item/bodypart/arm/left/golem/cardboard,
 		BODY_ZONE_R_ARM = /obj/item/bodypart/arm/right/golem/cardboard,

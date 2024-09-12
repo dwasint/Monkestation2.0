@@ -1039,6 +1039,13 @@
 				set_usable_hands(usable_hands - 1)
 
 
+///Updates the bodypart speed modifier based on our bodyparts.
+/mob/living/carbon/proc/update_bodypart_speed_modifier()
+	var/final_modification = 0
+	for(var/obj/item/bodypart/bodypart as anything in bodyparts)
+		final_modification += bodypart.speed_modifier
+	add_or_update_variable_movespeed_modifier(/datum/movespeed_modifier/bodypart, TRUE, final_modification)
+
 /mob/living/carbon/proc/create_internal_organs()
 	for(var/obj/item/organ/internal/internal_organ in organs)
 		internal_organ.Insert(src)

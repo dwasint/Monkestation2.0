@@ -43,6 +43,7 @@
 	limb_id = SPECIES_SIMIAN
 	bodytype = BODYTYPE_HUMANOID | BODYTYPE_ORGANIC | BODYTYPE_CUSTOM
 	footprint_sprite = FOOTPRINT_SPRITE_PAWS
+	speed_modifier = -0.05
 
 /obj/item/bodypart/leg/right/simian
 	icon_greyscale =  'monkestation/icons/mob/species/simian/bodyparts.dmi'
@@ -53,3 +54,4 @@
 	footprint_sprite = FOOTPRINT_SPRITE_PAWS
 
 	dmg_overlay_type = "monkey"
+	speed_modifier = -0.05

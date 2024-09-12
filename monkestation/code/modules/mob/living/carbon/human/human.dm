@@ -3,3 +3,9 @@
 
 /mob/living/carbon/human/species/ipc
     race = /datum/species/ipc
+
+/mob/living/carbon/human/species/werewolf
+    race = /datum/species/werewolf
+
+/mob/living/carbon/human/species/ornithid
+    race = /datum/species/ornithid

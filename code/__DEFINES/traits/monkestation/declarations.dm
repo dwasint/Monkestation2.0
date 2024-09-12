@@ -127,4 +127,5 @@
 /// Has an item been enchanted by a clock cult Stargazer?
 #define TRAIT_STARGAZED				"stargazed"
 
+#define TRAIT_FEATHERED "feathers"
 // END TRAIT DEFINES

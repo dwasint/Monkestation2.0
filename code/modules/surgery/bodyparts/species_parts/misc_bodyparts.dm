@@ -23,9 +23,22 @@
 /obj/item/bodypart/leg/left/snail
 	limb_id = SPECIES_SNAIL
 	unarmed_damage_high = 0.5
+	speed_modifier = 3 //disgustingly slow
+
 /obj/item/bodypart/leg/right/snail
 	limb_id = SPECIES_SNAIL
 	unarmed_damage_high = 0.5
+	speed_modifier = 3 //disgustingly slow
+
+/obj/item/bodypart/leg/left/zombie/infectious
+	limb_id = SPECIES_ZOMBIE
+	should_draw_greyscale = FALSE
+	speed_modifier = 0.8 //braaaaains
+
+/obj/item/bodypart/leg/right/zombie/infectious
+	limb_id = SPECIES_ZOMBIE
+	should_draw_greyscale = FALSE
+	speed_modifier = 0.8 //braaaaains
 
 ///ABDUCTOR
 /obj/item/bodypart/head/abductor
@@ -333,12 +346,14 @@
 	unarmed_damage_low = 15
 	unarmed_damage_high = 15
 	unarmed_stun_threshold = 14
+	speed_modifier = 0.75 //big fungus big fungus
 
 /obj/item/bodypart/leg/right/mushroom
 	limb_id = SPECIES_MUSHROOM
 	unarmed_damage_low = 15
 	unarmed_damage_high = 15
 	unarmed_stun_threshold = 14
+	speed_modifier = 0.75 //big fungus big fungus
 
 ///GOLEMS (i hate xenobio SO FUCKING MUCH) (from 2022: Yeah I fucking feel your pain brother) (2024: yeah this is shit)
 /obj/item/bodypart/head/golem
@@ -408,6 +423,7 @@
 	unarmed_damage_low = 11
 	unarmed_damage_high = 11
 	unarmed_stun_threshold = 11
+	speed_modifier = 1.5
 
 /obj/item/bodypart/leg/right/golem
 	biological_state = (BIO_BONE|BIO_JOINTED)
@@ -417,6 +433,7 @@
 	unarmed_damage_low = 11
 	unarmed_damage_high = 11
 	unarmed_stun_threshold = 11
+	speed_modifier = 1.5
 
 ///CULT GOLEM
 /obj/item/bodypart/head/golem/cult

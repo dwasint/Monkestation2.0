@@ -108,8 +108,6 @@ GLOBAL_LIST_EMPTY(features_by_species)
 	///List of external organs to generate like horns, frills, wings, etc. list(typepath of organ = "Round Beautiful BDSM Snout"). Still WIP
 	var/list/external_organs = list()
 
-	///Multiplier for the race's speed. Positive numbers make it move slower, negative numbers make it move faster.
-	var/speedmod = 0
 	///Percentage modifier for overall defense of the race, or less defense, if it's negative.
 	var/armor = 0
 	///multiplier for brute damage
@@ -571,7 +569,6 @@ GLOBAL_LIST_EMPTY(features_by_species)
 		for(var/i in inherent_factions)
 			C.faction += i //Using +=/-= for this in case you also gain the faction from a different source.
 
-	C.add_or_update_variable_movespeed_modifier(/datum/movespeed_modifier/species, multiplicative_slowdown=speedmod)
 	C.maxHealth = C.maxHealth * maxhealthmod
 
 	SEND_SIGNAL(C, COMSIG_SPECIES_GAIN, src, old_species)
@@ -617,7 +614,6 @@ GLOBAL_LIST_EMPTY(features_by_species)
 
 	clear_tail_moodlets(C)
 
-	C.remove_movespeed_modifier(/datum/movespeed_modifier/species)
 	C.maxHealth = C.maxHealth / maxhealthmod
 
 	SEND_SIGNAL(C, COMSIG_SPECIES_LOSS, src)

@@ -89,6 +89,10 @@
 		init_sprite_accessory_subtypes(/datum/sprite_accessory/moth_markings, GLOB.moth_markings_list)
 	if(!length(GLOB.pod_hair_list))
 		init_sprite_accessory_subtypes(/datum/sprite_accessory/pod_hair, GLOB.pod_hair_list)
+	if(!length(GLOB.pod_hair_list))
+		init_sprite_accessory_subtypes(/datum/sprite_accessory/pod_hair, GLOB.pod_hair_list)
+	if(!length(GLOB.pod_hair_list))
+		init_sprite_accessory_subtypes(/datum/sprite_accessory/pod_hair, GLOB.pod_hair_list)
 //Monkestation Addition Start
 	if(!length(GLOB.ethereal_horns_list))
 		init_sprite_accessory_subtypes(/datum/sprite_accessory/ethereal_horns, GLOB.ethereal_horns_list)
@@ -126,6 +130,14 @@
 		init_sprite_accessory_subtypes(/datum/sprite_accessory/satyr_tail, GLOB.satyr_tail_list)
 	if(!GLOB.satyr_horns_list.len)
 		init_sprite_accessory_subtypes(/datum/sprite_accessory/satyr_horns, GLOB.satyr_horns_list)
+	if(!length(GLOB.arm_wings_list))
+		init_sprite_accessory_subtypes(/datum/sprite_accessory/arm_wings, GLOB.arm_wings_list)
+	if(!length(GLOB.arm_wingsopen_list))
+		init_sprite_accessory_subtypes(/datum/sprite_accessory/arm_wingsopen, GLOB.arm_wingsopen_list)
+	if(!length(GLOB.tails_list_avian))
+		init_sprite_accessory_subtypes(/datum/sprite_accessory/tails/avian, GLOB.tails_list_avian)
+	if(!length(GLOB.avian_ears_list))
+		init_sprite_accessory_subtypes(/datum/sprite_accessory/plumage, GLOB.avian_ears_list)
 //Monkestation Addition End
 
 	//For now we will always return none for tail_human and ears. | "For now" he says.
@@ -167,6 +179,10 @@
 		"satyr_fluff" = pick(GLOB.satyr_fluff_list), //Monkestation Addition
 		"satyr_tail" = pick(GLOB.satyr_tail_list), //Monkestation Addition
 		"satyr_horns" = pick(GLOB.satyr_horns_list), //Monkestation Addition
+		"arm_wings" = pick(GLOB.arm_wings_list),
+		"ears_avian" = pick(GLOB.avian_ears_list),
+		"tail_avian" = pick(GLOB.tails_list_avian),
+		"feathers" = "#[pick("7F","FF")][pick("7F","FF")][pick("7F","FF")]",
 	))
 
 /proc/random_hairstyle(gender)

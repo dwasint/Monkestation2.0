@@ -23,7 +23,6 @@
 	burnmod = 1.8
 	heatmod = 0.67 //Same as lizard people
 	coldmod = 1.5 //Same as lizard people
-	speedmod = -0.1 //Same as arachnids
 	meat = /obj/item/food/meat/slab/human/mutant/plant
 	exotic_bloodtype = /datum/blood_type/water
 	// disliked_food = VEGETABLES | FRUIT | GRAIN

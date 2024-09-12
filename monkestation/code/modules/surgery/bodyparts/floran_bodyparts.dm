@@ -32,7 +32,9 @@
 /obj/item/bodypart/leg/left/floran
 	icon_greyscale = 'monkestation/icons/mob/species/floran/bodyparts.dmi'
 	limb_id = SPECIES_FLORAN
+	speed_modifier = -0.05
 
 /obj/item/bodypart/leg/right/floran
 	icon_greyscale = 'monkestation/icons/mob/species/floran/bodyparts.dmi'
 	limb_id = SPECIES_FLORAN
+	speed_modifier = -0.05

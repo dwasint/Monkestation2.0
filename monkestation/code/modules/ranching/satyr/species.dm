@@ -31,7 +31,6 @@
 	disliked_food = MEAT | DAIRY
 	maxhealthmod = 0.8
 	stunmod = 1.2
-	//speedmod = 1
 	payday_modifier = 1
 	bodypart_overrides = list(
 		BODY_ZONE_HEAD = /obj/item/bodypart/head/satyr,
