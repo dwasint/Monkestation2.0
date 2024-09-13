@@ -14,9 +14,9 @@
 	/// Lazy Assoc list [zones] to [references to bodyparts], all the body parts we're tracking
 	var/list/body_zones
 	/// Natural amount of decay given to each limb per 5 ticks of process, increases over time
-	var/natural_pain_decay = -0.8
+	var/natural_pain_decay = -0.2
 	/// The base amount of pain decay received.
-	var/base_pain_decay = -0.8
+	var/base_pain_decay = -0.2
 	/// Counter to track pain decay. Pain decay is only done once every 5 ticks.
 	var/natural_decay_counter = 0
 	/// Amount of shock building up from higher levels of pain
