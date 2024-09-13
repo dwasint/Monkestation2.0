@@ -131,4 +131,11 @@
 
 #define TRAIT_FEATHERED "feathers"
 #define TRAIT_NON_IMPORTANT_SHOE_BLOCK "shoe_block"
+/// Skip a breath once in every x breaths (where x is ticks between breaths)
+#define TRAIT_LABOURED_BREATHING "laboured_breathing"
+/// Blocks losebreath from accumulating from things such as heart attacks or choking
+#define TRAIT_ASSISTED_BREATHING "assisted_breathing"
+/// Stops organs from decaying while dead
+#define TRAIT_NO_ORGAN_DECAY "no_organ_decay"
+
 // END TRAIT DEFINES

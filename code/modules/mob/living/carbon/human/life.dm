@@ -71,37 +71,25 @@
 		return (occupied_space.contents_pressure_protection * ONE_ATMOSPHERE + (1 - occupied_space.contents_pressure_protection) * pressure)
 	return pressure
 
-/mob/living/carbon/human/breathe()
-	if(!HAS_TRAIT(src, TRAIT_NOBREATH))
-		return ..()
+/mob/living/carbon/human/check_breath(datum/gas_mixture/breath, skip_breath = FALSE)
+	var/obj/item/organ/internal/lungs/human_lungs = get_organ_slot(ORGAN_SLOT_LUNGS)
+	if(human_lungs)
+		return human_lungs.check_breath(breath, src, skip_breath)
 
-/mob/living/carbon/human/check_breath(datum/gas_mixture/breath)
-	var/L = get_organ_slot(ORGAN_SLOT_LUNGS)
+	failed_last_breath = TRUE
 
-	if(!L)
-		if(health >= crit_threshold)
-			adjustOxyLoss(HUMAN_MAX_OXYLOSS + 1)
-		else if(!HAS_TRAIT(src, TRAIT_NOCRITDAMAGE))
-			adjustOxyLoss(HUMAN_CRIT_MAX_OXYLOSS)
+	var/datum/species/human_species = dna.species
 
-		failed_last_breath = TRUE
-
-		var/datum/species/S = dna.species
-
-		if(S.breathid == "o2")
+	switch(human_species.breathid)
+		if("o2")
 			throw_alert(ALERT_NOT_ENOUGH_OXYGEN, /atom/movable/screen/alert/not_enough_oxy)
-		else if(S.breathid == "plas")
+		if("plas")
 			throw_alert(ALERT_NOT_ENOUGH_PLASMA, /atom/movable/screen/alert/not_enough_plas)
-		else if(S.breathid == "co2")
+		if("co2")
 			throw_alert(ALERT_NOT_ENOUGH_CO2, /atom/movable/screen/alert/not_enough_co2)
-		else if(S.breathid == "n2")
+		if("n2")
 			throw_alert(ALERT_NOT_ENOUGH_NITRO, /atom/movable/screen/alert/not_enough_nitro)
-
-		return FALSE
-	else
-		if(istype(L, /obj/item/organ/internal/lungs))
-			var/obj/item/organ/internal/lungs/lun = L
-			lun.check_breath(breath,src)
+	return FALSE
 
 /// Environment handlers for species
 /mob/living/carbon/human/handle_environment(datum/gas_mixture/environment, seconds_per_tick, times_fired)

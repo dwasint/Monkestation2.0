@@ -16,12 +16,15 @@
 	blocks_emissive = EMISSIVE_BLOCK_GENERIC
 	layer = MOB_LAYER
 	plane = GAME_PLANE_FOV_HIDDEN
+	var/generic_name
 	//The sound this plays on impact.
 	var/hitsound = 'sound/weapons/pierce.ogg'
 	var/hitsound_wall = ""
 
 	resistance_flags = LAVA_PROOF | FIRE_PROOF | UNACIDABLE | ACID_PROOF
 	var/def_zone = "" //Aiming at
+	/// Set to TRUE if we're grazing, which affects the message / embed chance / damage / effects
+	var/grazing = FALSE
 	var/atom/movable/firer = null//Who shot it
 	var/datum/fired_from = null // the thing that the projectile was fired from (gun, turret, spell)
 	var/suppressed = FALSE //Attack message
@@ -171,6 +174,8 @@
 	var/drowsy = 0 SECONDS
 	/// Jittering applied on projectile hit
 	var/jitter = 0 SECONDS
+	/// Bonus pain, like stamina damage
+	var/pain = 0
 	/// Extra stamina damage applied on projectile hit (in addition to the main damage)
 	var/stamina = 0
 	/// Stuttering applied on projectile hit
@@ -230,17 +235,6 @@
 	SEND_SIGNAL(src, COMSIG_PROJECTILE_RANGE_OUT)
 	qdel(src)
 
-/// Returns the string form of the def_zone we have hit.
-/mob/living/proc/check_hit_limb_zone_name(hit_zone)
-	if(has_limbs)
-		return hit_zone
-
-/mob/living/carbon/check_hit_limb_zone_name(hit_zone)
-	if(get_bodypart(hit_zone))
-		return hit_zone
-	else //when a limb is missing the damage is actually passed to the chest
-		return BODY_ZONE_CHEST
-
 /**
  * Called when the projectile hits something
  *
@@ -270,13 +264,9 @@
 		else
 			living.apply_status_effect(/datum/status_effect/stacking/debilitated, 1)
 
-	var/hit_limb_zone
-	if(isliving(target))
-		var/mob/living/L = target
-		hit_limb_zone = L.check_hit_limb_zone_name(def_zone)
 	if(fired_from)
-		SEND_SIGNAL(fired_from, COMSIG_PROJECTILE_ON_HIT, firer, target, Angle, hit_limb_zone)
-	SEND_SIGNAL(src, COMSIG_PROJECTILE_SELF_ON_HIT, firer, target, Angle, hit_limb_zone)
+		SEND_SIGNAL(fired_from, COMSIG_PROJECTILE_ON_HIT, firer, target, Angle, def_zone, blocked)
+	SEND_SIGNAL(src, COMSIG_PROJECTILE_SELF_ON_HIT, firer, target, Angle, def_zone, blocked)
 
 	if(QDELETED(src)) // in case one of the above signals deleted the projectile for whatever reason
 		return BULLET_ACT_BLOCK
@@ -313,7 +303,7 @@
 	var/mob/living/living_target = target
 
 	if(blocked != 100) // not completely blocked
-		var/obj/item/bodypart/hit_bodypart = living_target.get_bodypart(hit_limb_zone)
+		var/obj/item/bodypart/hit_bodypart = living_target.get_bodypart(def_zone)
 		if (damage)
 			if (living_target.blood_volume && damage_type == BRUTE && (isnull(hit_bodypart) || hit_bodypart.can_bleed()))
 				var/splatter_dir = dir
@@ -335,19 +325,22 @@
 			new impact_effect_type(target_turf, hitx, hity)
 
 		var/organ_hit_text = ""
-		if(hit_limb_zone)
-			organ_hit_text = " in \the [parse_zone(hit_limb_zone)]"
+		if(def_zone)
+			organ_hit_text = " in \the [parse_zone(def_zone)]"
 		if(suppressed == SUPPRESSED_VERY)
 			playsound(loc, hitsound, 5, TRUE, -1)
 		else if(suppressed)
 			playsound(loc, hitsound, 5, TRUE, -1)
-			to_chat(living_target, span_userdanger("You're shot by \a [src][organ_hit_text]!"))
+			to_chat(living_target, span_userdanger("You're [grazing ? "grazed" : "hit"] by \a [generic_name || src][organ_hit_text]!"))
 		else
 			if(hitsound)
-				var/volume = vol_by_damage()
-				playsound(src, hitsound, volume, TRUE, -1)
-			living_target.visible_message(span_danger("[living_target] is hit by \a [src][organ_hit_text]!"), \
-					span_userdanger("You're hit by \a [src][organ_hit_text]!"), null, COMBAT_MESSAGE_RANGE)
+				playsound(src, hitsound, vol_by_damage(), TRUE, -1)
+			living_target.visible_message(
+				span_danger("[living_target] is [grazing ? "grazed" : "hit"] by \a [generic_name || src][organ_hit_text]!"),
+				span_userdanger("You're [grazing ? "grazed" : "hit"] by \a [generic_name || src][organ_hit_text]!"),
+				span_hear("You hear a woosh."),
+				// vision_distance = COMBAT_MESSAGE_RANGE,
+			)
 			if(living_target.is_blind())
 				to_chat(living_target, span_userdanger("You feel something hit you[organ_hit_text]!"))
 
@@ -478,8 +471,19 @@
 				store_hitscan_collision(point_cache)
 			return TRUE
 
-	var/distance = get_dist(T, starting) // Get the distance between the turf shot from and the mob we hit and use that for the calculations.
-	def_zone = ran_zone(def_zone, max(100-(7*distance), 5)) //Lower accurancy/longer range tradeoff. 7 is a balanced number to use.
+	if(!HAS_TRAIT(src, TRAIT_ALWAYS_HIT_ZONE) && isliving(A))
+		var/mob/living/who_is_shot = A
+		var/distance = decayedRange - range
+		var/hit_prob = max(100 - (7 * distance), 5)
+		if(who_is_shot.body_position == LYING_DOWN)
+			hit_prob *= 1.2
+		// melbert todo : make people more skilled with weapons have a lower miss chance
+		if(!prob(hit_prob))
+			def_zone = who_is_shot.get_random_valid_zone(def_zone, 0) // Lower accurancy/longer range tradeoff. 7 is a balanced number to use.
+			grazing = !prob(hit_prob) // jeez you missed twice? that's a graze
+			if(grazing)
+				wound_bonus = CANT_WOUND
+				bare_wound_bonus = CANT_WOUND
 
 	return process_hit(T, select_target(T, A, A), A) // SELECT TARGET FIRST!
 

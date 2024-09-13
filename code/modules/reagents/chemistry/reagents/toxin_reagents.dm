@@ -212,7 +212,7 @@
 
 /datum/reagent/toxin/lexorin/proc/block_breath(mob/living/source)
 	SIGNAL_HANDLER
-	return COMSIG_CARBON_BLOCK_BREATH
+	return BREATHE_BLOCK_BREATH
 
 /datum/reagent/toxin/slimejelly
 	name = "Slime Jelly"
@@ -1306,7 +1306,7 @@
 /datum/reagent/toxin/tetrodotoxin/proc/block_breath(mob/living/source)
 	SIGNAL_HANDLER
 	if(current_cycle >= 28)
-		return COMSIG_CARBON_BLOCK_BREATH
+		return BREATHE_BLOCK_BREATH
 
 /datum/reagent/toxin/radiomagnetic_disruptor // MONKESTATION ADDITION: NANITE REMOVAL CHEM
 	name = "Radiomagnetic Disruptor"

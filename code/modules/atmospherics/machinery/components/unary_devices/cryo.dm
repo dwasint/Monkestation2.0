@@ -145,7 +145,11 @@
 	SET_PLANE(occupant_vis, PLANE_TO_TRUE(occupant_vis.plane), new_turf)
 
 /obj/machinery/atmospherics/components/unary/cryo_cell/set_occupant(atom/movable/new_occupant)
+	if(occupant && isnull(new_occupant))
+		REMOVE_TRAIT(occupant, TRAIT_ASSISTED_BREATHING, REF(src))
 	. = ..()
+	if(occupant && on)
+		ADD_TRAIT(occupant, TRAIT_ASSISTED_BREATHING, REF(src))
 	update_appearance()
 
 /obj/machinery/atmospherics/components/unary/cryo_cell/on_construction(mob/user)
@@ -259,6 +263,10 @@
 	else
 		update_use_power(IDLE_POWER_USE)
 	update_appearance()
+	if(occupant)
+		ADD_TRAIT(occupant, TRAIT_ASSISTED_BREATHING, REF(src))
+	else
+		REMOVE_TRAIT(occupant, TRAIT_ASSISTED_BREATHING, REF(src))
 
 /obj/machinery/atmospherics/components/unary/cryo_cell/on_set_is_operational(old_value)
 	if(old_value) //Turned off
@@ -383,7 +391,7 @@
 	return air1.remove(air1.total_moles() * breath_percentage)
 
 /obj/machinery/atmospherics/components/unary/cryo_cell/assume_air(datum/gas_mixture/giver)
-	airs[1].merge(giver)
+	return airs[1].merge(giver)
 
 /obj/machinery/atmospherics/components/unary/cryo_cell/relaymove(mob/living/user, direction)
 	if(message_cooldown <= world.time)

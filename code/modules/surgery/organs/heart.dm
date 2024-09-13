@@ -59,6 +59,29 @@
 	beating = FALSE
 	update_appearance()
 
+/obj/item/organ/internal/heart/proc/get_heart_rate()
+	if(!beating)
+		return 0
+
+	var/base_amount = 0
+
+	if(owner.has_status_effect(/datum/status_effect/jitter))
+		base_amount = 100 + rand(0, 25)
+	else if(owner.stat == SOFT_CRIT || owner.stat == HARD_CRIT)
+		base_amount = 60 + rand(-15, -10)
+	else
+		base_amount = 80 + rand(-10, 10)
+	base_amount += round(owner.getOxyLoss() / 5)
+	base_amount += ((BLOOD_VOLUME_NORMAL - owner.blood_volume) / 25)
+	base_amount += owner.pain_controller?.get_heartrate_modifier()
+	if(owner.has_status_effect(/datum/status_effect/determined)) // adrenaline
+		base_amount += 10
+
+	if(owner.has_reagent(/datum/reagent/consumable/coffee)) // funny
+		base_amount += 10
+
+	return round(base_amount * clamp(1.5 * ((maxHealth - damage) / maxHealth), 0.5, 1)) // heart damage puts a multiplier on it
+
 /obj/item/organ/internal/heart/on_life(seconds_per_tick, times_fired)
 	..()
 
@@ -75,6 +98,7 @@
 			beat = BEAT_SLOW
 			owner.playsound_local(get_turf(owner), slowbeat, 40, 0, channel = CHANNEL_HEARTBEAT, use_reverb = FALSE)
 			to_chat(owner, span_notice("You feel your heart slow down..."))
+
 		if(beat == BEAT_SLOW && owner.health > owner.crit_threshold)
 			owner.stop_sound_channel(CHANNEL_HEARTBEAT)
 			beat = BEAT_NONE
@@ -88,12 +112,14 @@
 			owner.stop_sound_channel(CHANNEL_HEARTBEAT)
 			beat = BEAT_NONE
 
-	if((organ_flags & ORGAN_FAILING) && owner.can_heartattack() && !(HAS_TRAIT(src, TRAIT_STABLEHEART))) //heart broke, stopped beating, death imminent... unless you have veins that pump blood without a heart
-		if(owner.stat == CONSCIOUS && beating) // monkestation edit: antispam
-			owner.visible_message(span_danger("[owner] clutches at [owner.p_their()] chest as if [owner.p_their()] heart is stopping!"), \
-				span_userdanger("You feel a terrible pain in your chest, as if your heart has stopped!"))
-		owner.set_heartattack(TRUE)
-		failed = TRUE
+	if((organ_flags & ORGAN_FAILING) || !beating) //heart broke, stopped beating, death imminent... unless you have veins that pump blood without a heart
+		if(owner.can_heartattack() && !(HAS_TRAIT(src, TRAIT_STABLEHEART)))
+			if(owner.stat == CONSCIOUS && beating) // monkestation edit: antispam
+				owner.visible_message(span_danger("[owner] clutches at [owner.p_their()] chest as if [owner.p_their()] heart is stopping!"), \
+					span_userdanger("You feel a terrible pain in your chest, as if your heart has stopped!"))
+			owner.set_heartattack(TRUE)
+			failed = TRUE
+		owner.adjust_pain_shock(1 * seconds_per_tick)
 
 /obj/item/organ/internal/heart/get_availability(datum/species/owner_species, mob/living/owner_mob)
 	return owner_species.mutantheart

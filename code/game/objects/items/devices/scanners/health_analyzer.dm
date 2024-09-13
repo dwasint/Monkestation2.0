@@ -502,11 +502,9 @@
 
 	var/render_list = ""
 	var/advised = FALSE
-	for(var/limb in patient.get_wounded_bodyparts())
-		var/obj/item/bodypart/wounded_part = limb
-		render_list += "<span class='alert ml-1'><b>Warning: Physical trauma[LAZYLEN(wounded_part.wounds) > 1? "s" : ""] detected in [wounded_part.name]</b>"
-		for(var/limb_wound in wounded_part.wounds)
-			var/datum/wound/current_wound = limb_wound
+	for(var/obj/item/bodypart/wounded_part as anything in patient.get_wounded_bodyparts())
+		render_list += "<span class='alert ml-1'><b>Warning: Physical trauma[LAZYLEN(wounded_part.wounds) > 1? "s" : ""] detected in [wounded_part.plaintext_zone]</b>"
+		for(var/datum/wound/current_wound as anything in wounded_part.wounds)
 			render_list += "<div class='ml-2'>[simple_scan ? current_wound.get_simple_scanner_description() : current_wound.get_scanner_description()]</div>\n"
 			if (scanner.give_wound_treatment_bonus)
 				ADD_TRAIT(current_wound, TRAIT_WOUND_SCANNED, ANALYZER_TRAIT)

@@ -102,10 +102,14 @@
 #define COMSIG_CARBON_SANITY_UPDATE "carbon_sanity_update"
 ///Called when a carbon attempts to breath, before the breath has actually occured
 #define COMSIG_CARBON_ATTEMPT_BREATHE "carbon_attempt_breathe"
-	// Prevents the breath
-	#define COMSIG_CARBON_BLOCK_BREATH (1 << 0)
-///Called when a carbon breathes, before the breath has actually occured
-#define COMSIG_CARBON_PRE_BREATHE "carbon_pre_breathe"
+	/// Prevents the breath entirely, which means they will neither suffocate nor regain oxyloss nor decay losebreath stacks
+	#define BREATHE_BLOCK_BREATH (1<<0)
+	/// Allow the breath but prevent inake, think losebreath
+	#define BREATHE_SKIP_BREATH (1<<1)
+/// Called when a carbon breathes out (breath (the exhale))
+#define COMSIG_CARBON_BREATH_EXHALE "carbon_breath_exhale"
+	/// Return if the exhale was handled, or I guess to send the exhale into the void
+	#define BREATHE_EXHALE_HANDLED (1<<0)
 ///Called when a carbon updates their mood
 #define COMSIG_CARBON_MOOD_UPDATE "carbon_mood_update"
 ///Called when a carbon attempts to eat (eating)

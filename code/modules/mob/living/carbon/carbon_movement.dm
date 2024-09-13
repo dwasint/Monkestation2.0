@@ -15,7 +15,8 @@
 			adjust_nutrition(-(HUNGER_FACTOR) * 0.05)
 			if(m_intent == MOVE_INTENT_RUN)
 				adjust_nutrition(-(HUNGER_FACTOR) * 0.1)
-
+		if(!moving_diagonally)
+			SEND_SIGNAL(src, COMSIG_CARBON_STEP, NewLoc, direct)
 
 /mob/living/carbon/set_usable_hands(new_value)
 	. = ..()

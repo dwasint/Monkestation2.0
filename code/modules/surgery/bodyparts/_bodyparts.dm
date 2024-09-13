@@ -336,18 +336,12 @@
 		else
 			is_disabled += " and"
 
-	check_list += "\t <span class='[no_damage ? "notice" : "warning"]'>Your [name][is_disabled][self_aware ? " has " : " is "][status].</span>"
+	check_list += "\t<span class='[no_damage ? "notice" : "warning"]'>Your [name][is_disabled][self_aware ? " has " : " is "][status].</span>"
 
 	for(var/datum/wound/wound as anything in wounds)
-		switch(wound.severity)
-			if(WOUND_SEVERITY_TRIVIAL)
-				check_list += "\t [span_danger("Your [name] is suffering [wound.a_or_from] [lowertext(wound.name)].")]"
-			if(WOUND_SEVERITY_MODERATE)
-				check_list += "\t [span_warning("Your [name] is suffering [wound.a_or_from] [lowertext(wound.name)]!")]"
-			if(WOUND_SEVERITY_SEVERE)
-				check_list += "\t [span_boldwarning("Your [name] is suffering [wound.a_or_from] [lowertext(wound.name)]!!")]"
-			if(WOUND_SEVERITY_CRITICAL)
-				check_list += "\t [span_boldwarning("Your [name] is suffering [wound.a_or_from] [lowertext(wound.name)]!!!")]"
+		var/wound_desc = wound.get_self_check_description(src, examiner)
+		if(wound_desc)
+			check_list += "\t\t[wound_desc]"
 
 	for(var/obj/item/embedded_thing in embedded_objects)
 		var/stuck_word = embedded_thing.isEmbedHarmless() ? "stuck" : "embedded"
@@ -1339,3 +1333,13 @@
 		return "metal"
 
 	return "error"
+
+/// Returns what message is displayed when the bodypart is on the cusp of being dismembered.
+/obj/item/bodypart/proc/get_soon_dismember_message()
+	return ", threatening to sever it entirely"
+
+/obj/item/bodypart/chest/get_soon_dismember_message()
+	return ", threatening to split it open" // we don't sever, we dump organs when "dismembered"
+
+/obj/item/bodypart/head/get_soon_dismember_message()
+	return ", threatening to split it open" // we don't sever, we cranial fissure when "dismembered" // we also don't dismember i think
