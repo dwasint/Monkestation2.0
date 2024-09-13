@@ -578,21 +578,21 @@
 
 		switch(shock_buildup)
 			if(10 to 60)
-				parent.adjust_bodytemperature(-5 * seconds_per_tick, parent.get_body_temp_cold_damage_limit() + 5)
+				parent.adjust_bodytemperature(-5 * seconds_per_tick, min_temp = parent.bodytemp_cold_damage_limit + 5)
 			if(60 to 120)
 				if(SPT_PROB(2, seconds_per_tick))
 					do_pain_message(span_bolddanger(pick("It hurts.", "You really need some painkillers.")))
 				if(SPT_PROB(4, seconds_per_tick))
 					do_pain_message(span_warning(pick("You feel cold!", "You feel sweaty!")))
 					parent.pain_emote("shiver", 3 SECONDS)
-				parent.adjust_bodytemperature(-10 * seconds_per_tick, parent.get_body_temp_cold_damage_limit() - 5)
+				parent.adjust_bodytemperature(-10 * seconds_per_tick, min_temp = parent.bodytemp_cold_damage_limit - 5)
 			if(120 to 180)
 				if(SPT_PROB(2, seconds_per_tick))
 					do_pain_message(span_userdanger(pick("Stop the pain!", "It hurts!", "You need painkillers now!")))
 				if(SPT_PROB(4, seconds_per_tick))
 					do_pain_message(span_warning("You feel freezing!"))
 					parent.pain_emote("shiver", 3 SECONDS)
-				parent.adjust_bodytemperature(-20 * seconds_per_tick, parent.get_body_temp_cold_damage_limit() - 20)
+				parent.adjust_bodytemperature(-20 * seconds_per_tick, min_temp = parent.bodytemp_cold_damage_limit - 20)
 
 		if((shock_buildup >= 20 || curr_pain >= PAIN_LIMB_MAX) && !just_cant_feel_anything)
 			if(SPT_PROB(min(curr_pain / 5, 24), seconds_per_tick))
@@ -721,7 +721,7 @@
 	SIGNAL_HANDLER
 
 	var/mob/living/carbon/human/human_parent = parent
-	if(human_parent.get_thermal_protection() >= FIRE_SUIT_MAX_TEMP_PROTECT)
+	if(human_parent.get_insulation(FIRE_SUIT_MAX_TEMP_PROTECT) >= 0.9)
 		return
 
 	// The more firestacks, the more pain we apply per burn tick, up to 2 per tick per bodypart.

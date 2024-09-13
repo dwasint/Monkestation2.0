@@ -415,7 +415,7 @@ GLOBAL_LIST_INIT(borer_second_name, world.file2list("monkestation/code/modules/a
 /mob/living/basic/cortical_borer/handle_environment(datum/gas_mixture/environment, seconds_per_tick, times_fired)
 	var/loc_temp
 	if(human_host)
-		loc_temp = human_host.coretemperature // set the local temp to that of the host's core temp
+		loc_temp = human_host.bodytemperature // set the local temp to that of the host's core temp
 	else
 		loc_temp = get_temperature(environment)
 	var/temp_delta = loc_temp - bodytemperature

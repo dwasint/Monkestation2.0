@@ -476,13 +476,13 @@
 	if(prob(5))
 		to_chat(M, span_notice("You feel yourself absorbing plasma inside and around you..."))
 
-	var/target_temp = M.get_body_temp_normal()
+	var/target_temp = M.standard_body_temperature
 	if(M.bodytemperature > target_temp)
-		M.adjust_bodytemperature(-20 * temp_rate * TEMPERATURE_DAMAGE_COEFFICIENT, target_temp)
+		M.adjust_bodytemperature(-2 * temp_rate * TEMPERATURE_DAMAGE_COEFFICIENT, target_temp)
 		if(prob(5))
 			to_chat(M, span_notice("You feel less hot."))
-	else if(M.bodytemperature < (M.get_body_temp_normal() + 1))
-		M.adjust_bodytemperature(20 * temp_rate * TEMPERATURE_DAMAGE_COEFFICIENT, 0, target_temp)
+	else if(M.bodytemperature < (M.standard_body_temperature + 1))
+		M.adjust_bodytemperature(2 * temp_rate * TEMPERATURE_DAMAGE_COEFFICIENT, 0, target_temp)
 		if(prob(5))
 			to_chat(M, span_notice("You feel warmer."))
 

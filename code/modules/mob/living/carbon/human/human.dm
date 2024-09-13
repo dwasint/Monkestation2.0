@@ -715,11 +715,6 @@
 		for(var/datum/mutation/human/existing_mutation in dna.mutations)
 			if(existing_mutation.quality != POSITIVE)
 				dna.remove_mutation(existing_mutation.name)
-
-	if(heal_flags & HEAL_TEMP)
-		set_coretemperature(get_body_temp_normal(apply_change = FALSE))
-		heat_exposure_stacks = 0
-
 	return ..()
 
 /mob/living/carbon/human/vomit(lost_nutrition = 10, blood = FALSE, stun = TRUE, distance = 1, message = TRUE, vomit_type = VOMIT_TOXIC, harm = TRUE, force = FALSE, purge_ratio = 0.1)

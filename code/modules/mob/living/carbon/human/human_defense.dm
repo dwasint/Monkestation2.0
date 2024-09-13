@@ -900,9 +900,19 @@
 		burning.fire_act((stacks * 25 * seconds_per_tick)) //damage taken is reduced to 2% of this value by fire_act()
 
 /mob/living/carbon/human/on_fire_stack(seconds_per_tick, times_fired, datum/status_effect/fire_handler/fire_stacks/fire_handler)
-	SEND_SIGNAL(src, COMSIG_HUMAN_BURNING)
-	burn_clothing(seconds_per_tick, times_fired, fire_handler.stacks)
-	var/no_protection = FALSE
-	if(dna && dna.species)
-		no_protection = dna.species.handle_fire(src, seconds_per_tick, times_fired, no_protection)
-	fire_handler.harm_human(seconds_per_tick, times_fired, no_protection)
+	var/sigreturn = SEND_SIGNAL(src, COMSIG_HUMAN_BURNING)
+	if(sigreturn & BURNING_HANDLED)
+		return FALSE
+
+	burn_clothing(seconds_per_tick, fire_handler.stacks)
+	if(!(sigreturn & BURNING_SKIP_PROTECTION))
+		if(get_insulation(FIRE_IMMUNITY_MAX_TEMP_PROTECT) >= 0.9)
+			return FALSE
+		if(get_insulation(FIRE_SUIT_MAX_TEMP_PROTECT) >= 0.9)
+			return adjust_bodytemperature(0.5 KELVIN * seconds_per_tick)
+
+	. = ..()
+	if(.)
+		add_mood_event("on_fire", /datum/mood_event/on_fire)
+		add_mob_memory(/datum/memory/was_burning)
+	return .

@@ -759,6 +759,8 @@
 	owner = new_owner
 	var/needs_update_disabled = FALSE //Only really relevant if there's an owner
 	if(old_owner)
+		if(length(bodypart_traits))
+			old_owner.remove_traits(bodypart_traits, bodypart_trait_source)
 		if(speed_modifier)
 			old_owner.update_bodypart_speed_modifier()
 		if(initial(can_be_disabled))
@@ -774,6 +776,8 @@
 				))
 		UnregisterSignal(old_owner, COMSIG_ATOM_RESTYLE)
 	if(owner)
+		if(length(bodypart_traits))
+			owner.add_traits(bodypart_traits, bodypart_trait_source)
 		if(speed_modifier)
 			owner.update_bodypart_speed_modifier()
 		if(initial(can_be_disabled))

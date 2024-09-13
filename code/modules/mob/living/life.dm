@@ -1,6 +1,3 @@
-/// This divisor controls how fast body temperature changes to match the environment
-#define BODYTEMP_DIVISOR 16
-
 /**
  * Handles the biological and general over-time processes of the mob.
  *
@@ -63,8 +60,14 @@
 		var/datum/gas_mixture/environment = loc.return_air()
 		if(environment)
 			handle_environment(environment, seconds_per_tick, times_fired)
+			body_temperature_damage(environment, seconds_per_tick, times_fired)
+		if(stat <= SOFT_CRIT && !on_fire)
+			temperature_homeostasis(seconds_per_tick, times_fired)
 
 		handle_gravity(seconds_per_tick, times_fired)
+
+	if(stat != DEAD)
+		body_temperature_alerts()
 
 	handle_wounds(seconds_per_tick, times_fired)
 
@@ -90,20 +93,40 @@
 /mob/living/proc/handle_random_events(seconds_per_tick, times_fired)
 	return
 
-// Base mob environment handler for body temperature
+/**
+ * Handle this mob's interactions with the environment
+ *
+ * By default handles body temperature normalization to the area's temperature,
+ * but also handles pressure for many mobs
+ *
+ * Arguments:
+ * * environment: The gas mixture of the area the mob is in, will never be null
+ * * seconds_per_tick: The amount of time that has elapsed since this last fired.
+ * * times_fired: The number of times SSmobs has fired
+ */
 /mob/living/proc/handle_environment(datum/gas_mixture/environment, seconds_per_tick, times_fired)
 	var/loc_temp = get_temperature(environment)
 	var/temp_delta = loc_temp - bodytemperature
+	if(temp_delta == 0)
+		return
+	if(temp_delta < 0 && on_fire) // do not reduce body temp when on fire
+		return
 
-	if(ismovable(loc))
-		var/atom/movable/occupied_space = loc
-		temp_delta *= (1 - occupied_space.contents_thermal_insulation)
+	// Get the insulation value based on the area's temp
+	var/thermal_protection = get_insulation(loc_temp)
+	var/protection_modifier = 1
+	if(bodytemperature > standard_body_temperature + 2 KELVIN)
+		// we are overheating and sweaty - insulation is not as good reducing thermal protection
+		protection_modifier = 0.7
 
-	if(temp_delta < 0) // it is cold here
-		if(!on_fire) // do not reduce body temp when on fire
-			adjust_bodytemperature(max(max(temp_delta / BODYTEMP_DIVISOR, BODYTEMP_COOLING_MAX) * seconds_per_tick, temp_delta))
-	else // this is a hot place
-		adjust_bodytemperature(min(min(temp_delta / BODYTEMP_DIVISOR, BODYTEMP_HEATING_MAX) * seconds_per_tick, temp_delta))
+	var/temp_sign = SIGN(temp_delta)
+	var/temp_change =  temp_sign * (1 - (thermal_protection * protection_modifier)) * ((0.1 * max(1, abs(temp_delta))) ** 1.8) * temperature_normalization_speed
+	// Cap increase and decrease
+	temp_change = temp_change < 0 ? max(temp_change, BODYTEMP_COOLING_MAX) : min(temp_change, BODYTEMP_HEATING_MAX)
+	adjust_bodytemperature(temp_change * seconds_per_tick) // no use_insulation beacuse we account for it manually
+
+/mob/living/silicon/handle_environment(datum/gas_mixture/environment, seconds_per_tick, times_fired)
+	return // Not yet
 
 /**
  * Get the fullness of the mob
@@ -116,10 +139,8 @@
 /mob/living/proc/get_fullness()
 	var/fullness = nutrition
 	// we add the nutrition value of what we're currently digesting
-	for(var/bile in reagents.reagent_list)
-		var/datum/reagent/consumable/bits = bile
-		if(bits)
-			fullness += bits.nutriment_factor * bits.volume / bits.metabolization_rate
+	for(var/datum/reagent/consumable/bits in reagents.reagent_list)
+		fullness += bits.nutriment_factor  * bits.volume / bits.metabolization_rate
 	return fullness
 
 /**
@@ -153,5 +174,3 @@
 
 	var/grav_strength = gravity - GRAVITY_DAMAGE_THRESHOLD
 	adjustBruteLoss(min(GRAVITY_DAMAGE_SCALING * grav_strength, GRAVITY_DAMAGE_MAXIMUM) * seconds_per_tick)
-
-#undef BODYTEMP_DIVISOR

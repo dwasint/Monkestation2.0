@@ -278,8 +278,8 @@
 	icon_state = "peacekeeper_jacket"
 	supports_variations_flags = CLOTHING_DIGITIGRADE_VARIATION_NO_NEW_ICON
 	body_parts_covered = CHEST|GROIN|ARMS
-	cold_protection = CHEST|GROIN|ARMS
-	heat_protection = CHEST|GROIN|ARMS
+
+
 
 /obj/item/clothing/suit/armor/vest/peacekeeper/jacket/Initialize(mapload)
 	. = ..()
@@ -300,9 +300,9 @@
 	worn_icon_state = "peacekeeper"
 	siemens_coefficient = 0.5
 	strip_delay = 20
-	cold_protection = 0
+
 	min_cold_protection_temperature = null
-	heat_protection = 0
+
 	max_heat_protection_temperature = null
 	resistance_flags = FLAMMABLE
 	armor_type = /datum/armor/none
@@ -358,9 +358,9 @@
 	worn_icon = 'monkestation/code/modules/blueshift/icons/mob/clothing/suit.dmi'
 	icon_state = "cowboy_vest"
 	body_parts_covered = CHEST|ARMS
-	cold_protection = CHEST|ARMS
+
 	supports_variations_flags = CLOTHING_DIGITIGRADE_VARIATION_NO_NEW_ICON
-	heat_protection = CHEST|ARMS
+
 
 /obj/item/clothing/suit/jacket/det_suit/cowboyvest
 	name = "blonde cowboy vest"
@@ -369,9 +369,9 @@
 	worn_icon = 'monkestation/code/modules/blueshift/icons/mob/clothing/suit.dmi'
 	icon_state = "cowboy_vest"
 	body_parts_covered = CHEST|ARMS
-	cold_protection = CHEST|ARMS
+
 	supports_variations_flags = CLOTHING_DIGITIGRADE_VARIATION_NO_NEW_ICON
-	heat_protection = CHEST|ARMS
+
 
 /obj/item/clothing/under/rank/security/detective/runner
 	name = "runner sweater"

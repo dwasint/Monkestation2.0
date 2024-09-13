@@ -22,6 +22,7 @@
 		/obj/item/organ/external/tail/lizard = "Smooth",
 	)
 	mutanttongue = /obj/item/organ/internal/tongue/lizard
+	mutantstomach = /obj/item/organ/internal/stomach/lizard
 	coldmod = 1.5
 	heatmod = 0.67
 	payday_modifier = 0.75
@@ -40,6 +41,7 @@
 
 	mutanteyes = /obj/item/organ/internal/eyes/lizard
 	// Lizards are coldblooded and can stand a greater temperature range than humans
+	bodytemp_normal = (BODYTEMP_NORMAL - 7.5)
 	bodytemp_heat_damage_limit = (BODYTEMP_HEAT_DAMAGE_LIMIT + 20) // This puts lizards 10 above lavaland max heat for ash lizards.
 	bodytemp_cold_damage_limit = (BODYTEMP_COLD_DAMAGE_LIMIT - 10)
 
@@ -54,9 +56,12 @@
 		BODY_ZONE_R_LEG = /obj/item/bodypart/leg/right/lizard,
 	)
 
-/// Lizards are cold blooded and do not stabilize body temperature naturally
-/datum/species/lizard/body_temperature_core(mob/living/carbon/human/humi, seconds_per_tick, times_fired)
-	return
+/datum/species/lizard/on_species_gain(mob/living/carbon/C, datum/species/old_species, pref_load)
+	. = ..()
+	// melbert todo : temp / integrate this into the coldblooded trait
+	// if you spawn on station is is expected you have already acclimated to the room temp (20c) (but give a little bit of leeway)
+	if(is_station_level(C.z))
+		C.bodytemperature = CELCIUS_TO_KELVIN(22.5 CELCIUS)
 
 /datum/species/lizard/random_name(gender,unique,lastname)
 	if(unique)

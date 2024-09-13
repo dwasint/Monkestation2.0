@@ -19,17 +19,29 @@
 	. = ..()
 	RegisterSignal(stomach_owner, COMSIG_PROCESS_BORGCHARGER_OCCUPANT, PROC_REF(charge))
 	RegisterSignal(stomach_owner, COMSIG_LIVING_ELECTROCUTE_ACT, PROC_REF(on_electrocute))
+	RegisterSignal(stomach_owner, COMSIG_LIVING_HOMEOSTASIS, PROC_REF(handle_temp))
 
 /obj/item/organ/internal/stomach/ethereal/on_remove(mob/living/carbon/stomach_owner)
 	. = ..()
 	UnregisterSignal(stomach_owner, COMSIG_PROCESS_BORGCHARGER_OCCUPANT)
 	UnregisterSignal(stomach_owner, COMSIG_LIVING_ELECTROCUTE_ACT)
+	UnregisterSignal(stomach_owner, COMSIG_LIVING_HOMEOSTASIS)
 	stomach_owner.clear_mood_event("charge")
 	stomach_owner.clear_alert(ALERT_ETHEREAL_CHARGE)
 	stomach_owner.clear_alert(ALERT_ETHEREAL_OVERCHARGE)
 
 /obj/item/organ/internal/stomach/ethereal/handle_hunger_slowdown(mob/living/carbon/human/human)
 	human.add_or_update_variable_movespeed_modifier(/datum/movespeed_modifier/hunger, multiplicative_slowdown = (1.5 * (1 - crystal_charge / 100)))
+
+
+/obj/item/organ/internal/stomach/ethereal/proc/handle_temp(mob/living/carbon/human/human, natural_change, seconds_per_tick)
+	SIGNAL_HANDLER
+
+	if(human.blood_volume < (ETHEREAL_CHARGE_LOWPOWER / 2))
+		return HOMEOSTASIS_HANDLED
+
+	adjust_charge(-1 * ETHEREAL_CHARGE_FACTOR * abs(natural_change) * seconds_per_tick)
+	return HOMEOSTASIS_NO_HUNGER
 
 /obj/item/organ/internal/stomach/ethereal/proc/charge(datum/source, amount, repairs)
 	SIGNAL_HANDLER

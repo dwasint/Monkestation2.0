@@ -359,7 +359,7 @@
 
 		if(ishuman(mob_occupant))
 			var/mob/living/carbon/human/H = mob_occupant
-			cold_protection = H.get_cold_protection(air1.temperature)
+			cold_protection = H.get_insulation(air1.temperature)
 
 		if(abs(temperature_delta) > 1)
 			var/air_heat_capacity = air1.heat_capacity()
@@ -368,11 +368,6 @@
 
 			mob_occupant.adjust_bodytemperature(heat / heat_capacity, TCMB)
 			air1.temperature = clamp(air1.temperature - heat / air_heat_capacity, TCMB, MAX_TEMPERATURE)
-
-			//lets have the core temp match the body temp in humans
-			if(ishuman(mob_occupant))
-				var/mob/living/carbon/human/humi = mob_occupant
-				humi.adjust_coretemperature(humi.bodytemperature - humi.coretemperature)
 
 
 		air1.garbage_collect()

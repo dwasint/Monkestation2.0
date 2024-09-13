@@ -366,7 +366,7 @@
 		if(!ishuman(our_guy))
 			return
 		var/mob/living/carbon/human/human = our_guy
-		human.adjust_coretemperature(heating * TEMPERATURE_DAMAGE_COEFFICIENT)
+		human.adjust_bodytemperature(heating * TEMPERATURE_DAMAGE_COEFFICIENT)
 	else
 		our_guy.adjustOrganLoss(ORGAN_SLOT_HEART, 0.1 * REM * seconds_per_tick)
 
@@ -404,7 +404,7 @@
 		if(!ishuman(our_guy))
 			return
 		var/mob/living/carbon/human/human = our_guy
-		human.adjust_coretemperature(heating * TEMPERATURE_DAMAGE_COEFFICIENT)
+		human.adjust_bodytemperature(heating * TEMPERATURE_DAMAGE_COEFFICIENT)
 	else
 		our_guy.adjustOrganLoss(ORGAN_SLOT_HEART, 1 * REM * seconds_per_tick, required_organtype = affected_organtype)
 	our_guy.adjustToxLoss(1 * REM * seconds_per_tick, updating_health = FALSE, forced = TRUE, required_biotype = affected_biotype)

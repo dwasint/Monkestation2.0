@@ -137,5 +137,7 @@
 #define TRAIT_ASSISTED_BREATHING "assisted_breathing"
 /// Stops organs from decaying while dead
 #define TRAIT_NO_ORGAN_DECAY "no_organ_decay"
+/// Mob does not homeostasize body temperature
+#define TRAIT_COLD_BLOODED "cold_blooded"
 
 // END TRAIT DEFINES
