@@ -909,7 +909,7 @@
 	if(!SPT_PROB(cough_prob, seconds_per_tick)) // between : past high
 		return
 
-	if(damage >= high_threshold && prob(33))
+	if((damage >= high_threshold) && prob(33))
 		owner.visible_message(span_danger("[owner] coughs up blood!"), span_userdanger("You cough up blood!"))
 		var/obj/item/covering = owner.is_mouth_covered()
 		if(covering)

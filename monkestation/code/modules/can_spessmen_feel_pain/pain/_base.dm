@@ -696,6 +696,28 @@
 			parent.Paralyze(2 SECONDS)
 			parent.remove_traits(list(TRAIT_LABOURED_BREATHING, TRAIT_INCAPACITATED, TRAIT_IMMOBILIZED, TRAIT_FLOORED, TRAIT_HANDS_BLOCKED), PAINCRIT)
 
+	// Finally, handle pain decay over time
+	if(parent.on_fire || parent.stat == DEAD)
+		return
+
+	// Decay every 3 ticks / 6 seconds, or 1 ticks / 2 seconds if "sleeping"
+	var/every_x_ticks = HAS_TRAIT(parent, TRAIT_KNOCKEDOUT) ? 1 : 3
+
+	natural_decay_counter++
+	if(natural_decay_counter % every_x_ticks != 0)
+		return
+
+	natural_decay_counter = 0
+	if(COOLDOWN_FINISHED(src, time_since_last_pain_loss) && parent.stat == CONSCIOUS)
+		// 0.16 per 10 seconds, ~0.1 per minute, 10 minutes for ~1 decay
+		natural_pain_decay = max(natural_pain_decay - 0.12, -4)
+	else
+		natural_pain_decay = base_pain_decay
+
+	// modify our pain decay by our pain modifier (ex. 0.5 pain modifier = 2x natural pain decay, capped at ~3x)
+	var/pain_modified_decay = round(natural_pain_decay * (1 / max(pain_modifier, 0.33)), 0.01)
+	adjust_bodypart_pain(BODY_ZONES_ALL, pain_modified_decay)
+
 /**
  * Whenever we buckle to something or lie down, get a pain bodifier.
  */
