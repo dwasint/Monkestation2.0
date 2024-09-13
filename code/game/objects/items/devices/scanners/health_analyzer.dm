@@ -265,51 +265,62 @@
 	if(ishuman(target))
 		var/mob/living/carbon/human/humantarget = target
 
-		// Organ damage, missing organs
-		if(humantarget.organs && humantarget.organs.len)
-			var/render = FALSE
-			var/toReport = "<span class='info ml-1'>Organs:</span>\
-				<table class='ml-2'><tr>\
-				<td style='width:6em;'><font color='#ff0000'><b>Organ:</b></font></td>\
-				[advanced ? "<td style='width:3em;'><font color='#ff0000'><b>Dmg</b></font></td>" : ""]\
-				<td style='width:12em;'><font color='#ff0000'><b>Status</b></font></td>"
+		var/render = FALSE
+		var/toReport = "<span class='info ml-1'>Organ status:</span>\
+		<font face='Verdana'>\
+		<table class='ml-2'>\
+		<tr>\
+		<td style='width:8em;'><font color='#ff0000'><b>Organ:</b></font></td>\
+		[advanced ? "<td style='width:4em;'><font color='#ff0000'><b>Dmg</b></font></td>" : ""]\
+		<td style='width:30em;'><font color='#ff0000'><b>Status</b></font></td>\
+		</tr>"
 
-			for(var/obj/item/organ/organ as anything in humantarget.organs)
-				var/status = organ.get_status_text()
-				if (status != "")
+		var/list/missing_organs = list()
+		if(!humantarget.get_organ_slot(ORGAN_SLOT_BRAIN))
+			missing_organs[ORGAN_SLOT_BRAIN] = "Brain"
+		if(!humantarget.needs_heart() && !humantarget.get_organ_slot(ORGAN_SLOT_HEART))
+			missing_organs[ORGAN_SLOT_HEART] = "Heart"
+		if(!HAS_TRAIT_FROM(humantarget, TRAIT_NOBREATH, SPECIES_TRAIT) && !isnull(humantarget.dna.species.mutantlungs) && !humantarget.get_organ_slot(ORGAN_SLOT_LUNGS))
+			missing_organs[ORGAN_SLOT_LUNGS] = "Lungs"
+		if(!HAS_TRAIT_FROM(humantarget, TRAIT_LIVERLESS_METABOLISM, SPECIES_TRAIT) && !isnull(humantarget.dna.species.mutantliver) && !humantarget.get_organ_slot(ORGAN_SLOT_LIVER))
+			missing_organs[ORGAN_SLOT_LIVER] = "Liver"
+		if(!HAS_TRAIT_FROM(humantarget, TRAIT_NOHUNGER, SPECIES_TRAIT) && !isnull(humantarget.dna.species.mutantstomach) && !humantarget.get_organ_slot(ORGAN_SLOT_STOMACH))
+			missing_organs[ORGAN_SLOT_STOMACH] ="Stomach"
+		if(!isnull(humantarget.dna.species.mutanttongue) && !humantarget.get_organ_slot(ORGAN_SLOT_TONGUE))
+			missing_organs[ORGAN_SLOT_TONGUE] = "Tongue"
+		if(!isnull(humantarget.dna.species.mutantears) && !humantarget.get_organ_slot(ORGAN_SLOT_EARS))
+			missing_organs[ORGAN_SLOT_EARS] = "Ears"
+		if(!isnull(humantarget.dna.species.mutantears) && !humantarget.get_organ_slot(ORGAN_SLOT_EYES))
+			missing_organs[ORGAN_SLOT_EYES] = "Eyes"
+
+		// Follow same order as in the organ_process_order so it's consistent across all humans
+		for(var/sorted_slot in GLOB.organ_process_order)
+			var/obj/item/organ/organ = humantarget.get_organ_slot(sorted_slot)
+			if(isnull(organ))
+				if(missing_organs[sorted_slot])
 					render = TRUE
-					toReport += "<tr><td><font color='#cc3333'>[organ.name]:</font></td>\
-						[advanced ? "<td><font color='#ff3333'>[CEILING(organ.damage,1)]</font></td>" : ""]\
-						<td>[status]</td></tr>"
-
-			var/datum/species/the_dudes_species = humantarget.dna.species
-			var/missing_organs = list()
-			if(!humantarget.get_organ_slot(ORGAN_SLOT_BRAIN))
-				missing_organs += "brain"
-			if(!HAS_TRAIT(humantarget, TRAIT_NOBLOOD) && !humantarget.get_organ_slot(ORGAN_SLOT_HEART))
-				missing_organs += "heart"
-			if(!(TRAIT_NOBREATH in the_dudes_species.inherent_traits) && !humantarget.get_organ_slot(ORGAN_SLOT_LUNGS))
-				missing_organs += "lungs"
-			if(!(TRAIT_NOMETABOLISM in the_dudes_species.inherent_traits) && !humantarget.get_organ_slot(ORGAN_SLOT_LIVER))
-				missing_organs += "liver"
-			if(the_dudes_species.mutantstomach && !humantarget.get_organ_slot(ORGAN_SLOT_STOMACH))
-				missing_organs += "stomach"
-			if(the_dudes_species.mutanttongue && !humantarget.get_organ_slot(ORGAN_SLOT_TONGUE))
-				missing_organs += "tongue"
-			if(!humantarget.get_organ_slot(ORGAN_SLOT_EARS))
-				missing_organs += "ears"
-			if(!humantarget.get_organ_slot(ORGAN_SLOT_EYES))
-				missing_organs += "eyes"
-
-			if(length(missing_organs))
+					toReport += "<tr><td><font color='#cc3333'>[missing_organs[sorted_slot]]:</font></td>\
+						[advanced ? "<td><font color='#ff3333'>-</font></td>" : ""]\
+						<td><font color='#cc3333'>Missing</font></td></tr>"
+				continue
+			if(mode != SCANNER_VERBOSE && !organ.show_on_condensed_scans())
+				continue
+			var/status = organ.get_status_text(advanced, tochat)
+			var/appendix = organ.get_status_appendix(advanced, tochat)
+			if(status || appendix)
+				status ||= "<font color='#ffcc33'>OK</font>" // otherwise flawless organs have no status reported by default
 				render = TRUE
-				for(var/organ in missing_organs)
-					toReport += "<tr><td><font color='#cc3333'>[organ]:</font></td>\
-						[advanced ? "<td><font color='#ff3333'>["-"]</font></td>" : ""]\
-						<td><font color='#cc3333'>["Missing"]</font></td></tr>"
+				toReport += "<tr>\
+					<td><font color='#cc3333'>[capitalize(organ.name)]:</font></td>\
+					[advanced ? "<td><font color='#ff3333'>[organ.damage > 0 ? ceil(organ.damage) : "0"]</font></td>" : ""]\
+					<td>[status]</td>\
+					</tr>"
+				if(appendix)
+					toReport += "<tr><td colspan=4><span class='alert ml-2'>&rdsh; [appendix]</span></td></tr>"
 
-			if(render)
-				render_list += toReport + "</table>" // tables do not need extra linebreak
+		if(render)
+			render_list += "<hr>"
+			render_list += toReport + "</table></font>" // tables do not need extra linebreak
 
 		//Genetic stability
 		if(advanced && humantarget.has_dna())
