@@ -426,9 +426,9 @@ GLOBAL_LIST_INIT(borer_second_name, world.file2list("monkestation/code/modules/a
 
 	if(temp_delta < 0) // it is cold here
 		if(!on_fire) // do not reduce body temp when on fire
-			adjust_bodytemperature(max(max(temp_delta / BODYTEMP_DIVISOR, BODYTEMP_COOLING_MAX) * seconds_per_tick, temp_delta))
+			adjust_bodytemperature(max(max(temp_delta / BODYTEMP_DIVISOR, BODYTEMP_HOMEOSTASIS_COOLING_MAX) * seconds_per_tick, temp_delta))
 	else // this is a hot place
-		adjust_bodytemperature(min(min(temp_delta / BODYTEMP_DIVISOR, BODYTEMP_HEATING_MAX) * seconds_per_tick, temp_delta))
+		adjust_bodytemperature(min(min(temp_delta / BODYTEMP_DIVISOR, BODYTEMP_HOMEOSTASIS_HEATING_MAX) * seconds_per_tick, temp_delta))
 
 //leave the host, forced or not
 /mob/living/basic/cortical_borer/proc/leave_host()

@@ -90,7 +90,6 @@
 	RegisterSignal(parent, COMSIG_MOB_STATCHANGE, PROC_REF(on_parent_statchance))
 	RegisterSignals(parent, list(SIGNAL_ADDTRAIT(TRAIT_NO_PAIN_EFFECTS), SIGNAL_REMOVETRAIT(TRAIT_NO_PAIN_EFFECTS)), PROC_REF(refresh_pain_attributes))
 	RegisterSignal(parent, COMSIG_LIVING_TREAT_MESSAGE, PROC_REF(handle_message))
-	RegisterSignal(parent, COMSIG_HUMAN_BURNING, PROC_REF(on_burn_tick))
 	RegisterSignal(parent, COMSIG_MOB_FIRED_GUN, PROC_REF(on_mob_fired_gun))
 	RegisterSignal(parent, COMSIG_LIVING_REVIVE, PROC_REF(revived))
 
@@ -103,7 +102,6 @@
 		COMSIG_CARBON_GAIN_WOUND,
 		COMSIG_CARBON_LOSE_WOUND,
 		COMSIG_CARBON_REMOVE_LIMB,
-		COMSIG_HUMAN_BURNING,
 		COMSIG_LIVING_HEALTHSCAN,
 		COMSIG_LIVING_POST_FULLY_HEAL,
 		COMSIG_LIVING_REVIVE,
@@ -735,20 +733,6 @@
 		set_pain_modifier(PAIN_MOD_LYING, buckled_lying_modifier)
 	else
 		unset_pain_modifier(PAIN_MOD_LYING)
-
-/**
- * While actively burning, cause pain
- */
-/datum/pain/proc/on_burn_tick(datum/source)
-	SIGNAL_HANDLER
-
-	var/mob/living/carbon/human/human_parent = parent
-	if(human_parent.get_insulation(FIRE_SUIT_MAX_TEMP_PROTECT) >= 0.9)
-		return
-
-	// The more firestacks, the more pain we apply per burn tick, up to 2 per tick per bodypart.
-	// We can be liberal with this because when they're extinguished most of it will go away.
-	parent.apply_status_effect(/datum/status_effect/pain_from_fire, clamp(parent.fire_stacks * 0.2, 0, 2))
 
 /// Affect accuracy of fired guns while in pain.
 /datum/pain/proc/on_mob_fired_gun(mob/living/carbon/human/user, obj/item/gun/gun_fired, target, params, zone_override, list/bonus_spread_values)

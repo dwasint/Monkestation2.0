@@ -6774,7 +6774,6 @@
 #include "monkestation\code\modules\can_spessmen_feel_pain\pain\reagents\painkiller_related.dm"
 #include "monkestation\code\modules\can_spessmen_feel_pain\pain\reagents\painkillers.dm"
 #include "monkestation\code\modules\can_spessmen_feel_pain\pain\status_effects\anesthetics.dm"
-#include "monkestation\code\modules\can_spessmen_feel_pain\pain\status_effects\fire_pain.dm"
 #include "monkestation\code\modules\can_spessmen_feel_pain\pain\status_effects\low_blood_pressure.dm"
 #include "monkestation\code\modules\can_spessmen_feel_pain\pain\status_effects\min_pain.dm"
 #include "monkestation\code\modules\can_spessmen_feel_pain\pain\status_effects\pain_limp.dm"

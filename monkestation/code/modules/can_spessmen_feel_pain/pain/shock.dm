@@ -147,7 +147,7 @@
 			if(SPT_PROB(6, seconds_per_tick))
 				to_chat(affected_mob, span_danger("You feel cold."))
 				affected_mob.pain_emote("shiver", 3 SECONDS)
-			affected_mob.adjust_bodytemperature(-5 * seconds_per_tick, min = affected_mob.bodytemp_cold_damage_limit + 5) // Not lethal
+			affected_mob.adjust_bodytemperature(-5 * seconds_per_tick, min_temp = affected_mob.bodytemp_cold_damage_limit + 5) // Not lethal
 
 		// decompensated (or progressive) - unable to maintain themselves
 		// - mental issues

@@ -62,6 +62,8 @@
 			handle_environment(environment, seconds_per_tick, times_fired)
 			body_temperature_damage(environment, seconds_per_tick, times_fired)
 		if(stat <= SOFT_CRIT && !on_fire)
+			if(!ishuman(src))
+				return
 			temperature_homeostasis(seconds_per_tick, times_fired)
 
 		handle_gravity(seconds_per_tick, times_fired)
@@ -122,7 +124,7 @@
 	var/temp_sign = SIGN(temp_delta)
 	var/temp_change =  temp_sign * (1 - (thermal_protection * protection_modifier)) * ((0.1 * max(1, abs(temp_delta))) ** 1.8) * temperature_normalization_speed
 	// Cap increase and decrease
-	temp_change = temp_change < 0 ? max(temp_change, BODYTEMP_COOLING_MAX) : min(temp_change, BODYTEMP_HEATING_MAX)
+	temp_change = temp_change < 0 ? max(temp_change, BODYTEMP_HOMEOSTASIS_COOLING_MAX) : min(temp_change, BODYTEMP_HOMEOSTASIS_HEATING_MAX)
 	adjust_bodytemperature(temp_change * seconds_per_tick) // no use_insulation beacuse we account for it manually
 
 /mob/living/silicon/handle_environment(datum/gas_mixture/environment, seconds_per_tick, times_fired)

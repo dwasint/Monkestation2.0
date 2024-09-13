@@ -72,22 +72,17 @@
 		return FALSE
 	amount = round(amount, 0.01)
 
+	if(amount == 0)
+		return 0
+	amount = round(amount, 0.01)
+
 	if(bodytemperature >= min_temp && bodytemperature <= max_temp)
 		var/old_temp = bodytemperature
 		bodytemperature = clamp(bodytemperature + amount, min_temp, max_temp)
 		SEND_SIGNAL(src, COMSIG_LIVING_BODY_TEMPERATURE_CHANGE, old_temp, bodytemperature)
 		// body_temperature_alerts()
-
-#ifdef TESTING
-		if(mind)
-			maptext_width = 128
-			maptext_x = -16
-			maptext_y = -12
-			var/r_or_b = body_temperature - old_temp > 0 ? "red" : "blue"
-			maptext = MAPTEXT("Temp: [body_temperature]K <font color='[r_or_b]'>([amount]K)</font>")
-#endif
-		return TRUE
-	return FALSE
+		return bodytemperature - old_temp
+	return 0
 
 // Robot bodytemp unimplemented for now. Add overheating later >:3
 /mob/living/silicon/adjust_bodytemperature(amount, min_temp, max_temp, use_insulation)
@@ -107,28 +102,30 @@
 		// there's an argument to be made for putting the cold blooded check here
 		return round(area_temperature, 0.01)
 
-	// calculate skin temp based on a weighted average of body temp and area temp
-	// (where area temp is modified by insulation)
-	var/body_weight = 2
-	var/area_weight = 1 + get_insulation(area_temperature)
-	// total weight of / dividing by 3: two for bodytemp, one for areatemp (assuming 0 insulation)
-	//
-	// this gives 31.33 C for a standard human (37 C) in a 20 C room with no insulation
-	// and 34.33 C for a human with ~50% insulation (a winter coat) in the same room
-	//
-	// why do we convert to celcius?
-	// because i designed this equation around celcius and forgot i had to ultimately work in kelvin
-	// smaller numbers are easier to work with anyways.
-	var/skin_temp = (KELVIN_TO_CELCIUS(bodytemperature) * body_weight + KELVIN_TO_CELCIUS(area_temperature) * area_weight) / 3
+	// calculate skin temp based on a weight average between body temp and area temp plus a multiplier
+	// this weighting gives us about 34.4c for a 37c body temp in a 20c room which is about average
+	var/skin_temp = ((bodytemperature * 2 + area_temperature * 1) / 3)
+	// convert to kelvin before multiplying, otherwise we go to the moon
+	var/result = KELVIN_TO_CELCIUS(skin_temp)
+	var/multiplier = 1.1
+	// factor in insulation, but to a far lesser degree
+	// wearing a winter coat in a room temp area will increase skin temp to about 38.3c
+	multiplier *= (1 + (get_insulation(area_temperature) * 0.25))
 
 	if(!HAS_TRAIT(src, TRAIT_COLD_BLOODED))
-		if(bodytemperature >= standard_body_temperature + 2 KELVIN)
-			skin_temp *= 1.1 // sweating
-		if(bodytemperature <= standard_body_temperature - 10 KELVIN)
-			skin_temp *= 0.8 // extremities are colder
+		if(bodytemperature >= standard_body_temperature + 2 CELCIUS)
+			multiplier *= 1.1 // vasodilation / sweating
+		if(bodytemperature <= standard_body_temperature + ((bodytemp_cold_damage_limit - standard_body_temperature) * 0.5))
+			multiplier *= 0.9 // vasoconstriction
 
+	// reverse the effect of insulation if we're subzero
+	// (otherwise, wearing a coat makes you colder)
+	if(result < 0)
+		multiplier = 1 / multiplier
+
+	. = CELCIUS_TO_KELVIN(result * multiplier)
 	// and if we're on fire just add a flat amount of heat
 	if(on_fire)
-		skin_temp += KELVIN_TO_CELCIUS(fire_stacks ** 2 KELVIN)
+		. += fire_stacks ** 2 KELVIN
 
-	return round(CELCIUS_TO_KELVIN(skin_temp), 0.01)
+	return .
