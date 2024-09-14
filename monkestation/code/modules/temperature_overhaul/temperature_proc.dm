@@ -96,7 +96,7 @@
  */
 /mob/living/proc/get_skin_temperature()
 	var/area_temperature = get_temperature(loc?.return_air())
-	if(!(mob_biotypes & MOB_ORGANIC))
+	if(!(mob_biotypes & MOB_ORGANIC) && !isipc(src))
 		// non-organic mobs likely don't feel or regulate temperature
 		// so we can just report the area temp... probably
 		// there's an argument to be made for putting the cold blooded check here
@@ -104,13 +104,13 @@
 
 	// calculate skin temp based on a weight average between body temp and area temp plus a multiplier
 	// this weighting gives us about 34.4c for a 37c body temp in a 20c room which is about average
-	var/skin_temp = ((bodytemperature * 2 + area_temperature * 1) / 3)
+	var/area_weight = 1 - get_insulation(area_temperature)
+	var/skin_temp = ((bodytemperature * 2 + area_temperature * area_weight) / (3 - get_insulation(area_temperature)))
 	// convert to kelvin before multiplying, otherwise we go to the moon
 	var/result = KELVIN_TO_CELCIUS(skin_temp)
 	var/multiplier = 1.1
 	// factor in insulation, but to a far lesser degree
 	// wearing a winter coat in a room temp area will increase skin temp to about 38.3c
-	multiplier *= (1 + (get_insulation(area_temperature) * 0.25))
 
 	if(!HAS_TRAIT(src, TRAIT_COLD_BLOODED))
 		if(bodytemperature >= standard_body_temperature + 2 CELCIUS)
