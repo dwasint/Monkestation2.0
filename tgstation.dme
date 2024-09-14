@@ -6757,6 +6757,7 @@
 #include "monkestation\code\modules\can_spessmen_feel_pain\elements\temperature_pack.dm"
 #include "monkestation\code\modules\can_spessmen_feel_pain\pain\_base.dm"
 #include "monkestation\code\modules\can_spessmen_feel_pain\pain\bodyparts.dm"
+#include "monkestation\code\modules\can_spessmen_feel_pain\pain\designs.dm"
 #include "monkestation\code\modules\can_spessmen_feel_pain\pain\effects.dm"
 #include "monkestation\code\modules\can_spessmen_feel_pain\pain\helpers.dm"
 #include "monkestation\code\modules\can_spessmen_feel_pain\pain\item_helpers.dm"
