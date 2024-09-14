@@ -39,7 +39,7 @@
 	var/count = 0
 	var/footprint_sprite = null
 
-/obj/effect/decal/cleanable/blood/Initialize(mapload)
+/obj/effect/decal/cleanable/blood/Initialize(mapload, blood_color = COLOR_BLOOD)
 	. = ..()
 	START_PROCESSING(SSblood_drying, src)
 	if(color && can_dry && !dried)

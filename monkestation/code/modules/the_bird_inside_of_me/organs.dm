@@ -36,7 +36,7 @@
 		music = owner.AddComponent(/datum/component/particle_spewer/music_notes)
 
 /obj/item/organ/internal/tongue/ornithid/proc/stop_sound_particles()
-	qdel(owner.GetComponent(/datum/component/particle_spewer/music_notes))
+	qdel(owner?.GetComponent(/datum/component/particle_spewer/music_notes))
 	music = null
 
 // subtype for organs, like ornithid tongues
