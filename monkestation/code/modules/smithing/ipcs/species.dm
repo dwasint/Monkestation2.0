@@ -70,6 +70,9 @@
 		BODY_ZONE_R_LEG = /obj/item/bodypart/leg/right/robot/ipc,
 	)
 
+	bodytemp_heat_damage_limit = CELCIUS_TO_KELVIN(450)
+	bodytemp_cold_damage_limit = CELCIUS_TO_KELVIN(-270) //they are practically immune to cold
+
 	brutemod = 1.5
 	coldmod = 1.2
 	heatmod = 2 // TWO TIMES DAMAGE FROM BEING TOO HOT?! WHAT?! No wonder lava is literal instant death for us.
