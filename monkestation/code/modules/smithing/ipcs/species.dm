@@ -71,7 +71,7 @@
 	)
 
 	bodytemp_heat_damage_limit = CELCIUS_TO_KELVIN(450)
-	bodytemp_cold_damage_limit = CELCIUS_TO_KELVIN(-270) //they are practically immune to cold
+	bodytemp_cold_damage_limit = CELCIUS_TO_KELVIN(-260) //they are practically immune to cold
 
 	brutemod = 1.5
 	coldmod = 1.2
