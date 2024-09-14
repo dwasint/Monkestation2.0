@@ -46,11 +46,12 @@
 /datum/song/organ/updateDialog(mob/user)
 	parent.ui_interact(user || usr)
 
-/datum/song/organ/should_stop_playing(obj/item/organ/player)
+/datum/song/organ/should_stop_playing(obj/player)
 	. = ..()
 	if(. == STOP_PLAYING || . == IGNORE_INSTRUMENT_CHECKS)
 		return TRUE
-	var/mob/living/musician = player.owner
+	var/obj/item/organ/owner = parent
+	var/mob/living/musician = owner.?owner
 	return musician?.stat <= UNCONSCIOUS
 
 /datum/song/do_hearcheck()
@@ -58,7 +59,7 @@
 	last_hearcheck = world.time
 	var/list/old = hearing_mobs.Copy()
 	hearing_mobs.len = 0
-	var/turf/source = get_turf(parent)
+	var/turf/source = get_turf(player.owner)
 	for(var/mob/M in get_hearers_in_view(instrument_range, player.owner))
 		hearing_mobs[M] = get_dist(M, source)
 	var/list/exited = old - hearing_mobs
