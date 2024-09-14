@@ -51,7 +51,7 @@
 	if(. == STOP_PLAYING || . == IGNORE_INSTRUMENT_CHECKS)
 		return TRUE
 	var/obj/item/organ/owner = parent
-	var/mob/living/musician = owner.?owner
+	var/mob/living/musician = owner?.owner
 	return musician?.stat <= UNCONSCIOUS
 
 /datum/song/do_hearcheck()
