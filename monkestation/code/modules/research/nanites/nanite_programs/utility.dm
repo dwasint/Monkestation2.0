@@ -108,7 +108,7 @@
 
 	update_research_speed()
 
-	host_mob.add_homeostasis_level(NANITE_RESEARCH_CHANGE, research_speed * 15, 0.25 KELVIN)
+	host_mob.add_homeostasis_level(NANITE_RESEARCH_CHANGE, host_mob.standard_body_temperature + research_speed * 15, 0.25 KELVIN)
 	use_rate = initial(use_rate) * research_speed
 	current_research_bonus = use_rate
 	SSresearch.science_tech.nanite_bonus += current_research_bonus

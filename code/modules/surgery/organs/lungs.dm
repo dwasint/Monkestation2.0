@@ -113,6 +113,9 @@
 
 	var/crit_stabilizing_reagent = /datum/reagent/medicine/epinephrine
 
+	///our last lung pop adventure
+	var/lung_pop_tick = 0
+
 // assign the respiration_type
 /obj/item/organ/internal/lungs/Initialize(mapload)
 	. = ..()
@@ -267,6 +270,7 @@
 	// Note this can be redundant, because of the vacuum check. It is fail safe tho, so it's ok
 	if(old_o2_pp < safe_oxygen_min)
 		breather.failed_last_breath = FALSE
+		lung_pop_tick = 0
 		breather.clear_alert(ALERT_NOT_ENOUGH_OXYGEN)
 
 	breathe_gas_volume(breath, /datum/gas/oxygen, /datum/gas/carbon_dioxide)
@@ -644,6 +648,7 @@
 	else if(HAS_TRAIT(src, TRAIT_SPACEBREATHING))
 		// The lungs can breathe anyways. What are you? Some bottom-feeding, scum-sucking algae eater?
 		breather.failed_last_breath = FALSE
+		lung_pop_tick = 0
 		// Vacuum-adapted lungs regenerate oxyloss even when breathing nothing.
 		if(HAS_TRAIT(breather, TRAIT_NOBLOOD))
 			breather.adjustOxyLoss(-4)
@@ -653,21 +658,24 @@
 
 	// We're in a low / high pressure environment, can't breathe, but trying to, so this hurts the lungs
 	// Unless it's cybernetic then it just doesn't care. Handwave magic whatever
-	else if(!skip_breath)
-		if(!failed)
-			// Lungs are poppin
-			if(damage >= 40 && damage <= 50 && breather.can_feel_pain())
-				to_chat(breather, span_userdanger("You feel a stabbing pain in your chest!"))
-			else if(num_moles < 0.02)
-				to_chat(breather, span_boldwarning("You feel air rapidly exiting your lungs!"))
-			else if(num_moles > 0.1)
-				to_chat(breather, span_boldwarning("You feel air force itself into your lungs!"))
+	else if(!skip_breath && !HAS_TRAIT(owner, TRAIT_ASSISTED_BREATHING))
+		if(lung_pop_tick > 10)
+			lung_pop_tick = 0
+			if(!failed)
+				// Lungs are poppin
+				if(damage >= 40 && damage <= 50 && breather.can_feel_pain())
+					to_chat(breather, span_userdanger("You feel a stabbing pain in your chest!"))
+				else if(num_moles < 0.02)
+					to_chat(breather, span_boldwarning("You feel air rapidly exiting your lungs!"))
+				else if(num_moles > 0.1)
+					to_chat(breather, span_boldwarning("You feel air force itself into your lungs!"))
 
-			breather.cause_pain(BODY_ZONE_CHEST, 10, BRUTE)
-			apply_organ_damage(5)
+				breather.cause_pain(BODY_ZONE_CHEST, 10, BRUTE)
+				apply_organ_damage(5)
 		breather.failed_last_breath = TRUE
+		lung_pop_tick++
 	// Robot, don't care lol
-	else
+	else if(!HAS_TRAIT(owner, TRAIT_ASSISTED_BREATHING))
 		// Can't breathe!
 		breather.failed_last_breath = TRUE
 

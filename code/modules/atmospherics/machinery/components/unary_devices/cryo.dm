@@ -147,9 +147,15 @@
 /obj/machinery/atmospherics/components/unary/cryo_cell/set_occupant(atom/movable/new_occupant)
 	if(occupant && isnull(new_occupant))
 		REMOVE_TRAIT(occupant, TRAIT_ASSISTED_BREATHING, REF(src))
+		if(isliving(occupant))
+			var/mob/living/living = occupant
+			living.bodytemp_cold_damage_limit += 270 KELVIN
 	. = ..()
 	if(occupant && on)
 		ADD_TRAIT(occupant, TRAIT_ASSISTED_BREATHING, REF(src))
+		if(isliving(occupant))
+			var/mob/living/living = occupant
+			living.bodytemp_cold_damage_limit -= 270 KELVIN
 	update_appearance()
 
 /obj/machinery/atmospherics/components/unary/cryo_cell/on_construction(mob/user)
