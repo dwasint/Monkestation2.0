@@ -1711,7 +1711,7 @@ GLOBAL_LIST_EMPTY(fire_appearances)
  * * seconds_per_tick: Seconds between each life tick
  * * fire_handler: The fire handler status effect that is managing the fire stacks
  */
-/mob/living/proc/on_fire_stack(seconds_per_tick, datum/status_effect/fire_handler/fire_stacks/fire_handler)
+/mob/living/proc/on_fire_stack(seconds_per_tick, times_fired, datum/status_effect/fire_handler/fire_stacks/fire_handler)
 	var/amount_to_heat = HEAT_PER_FIRE_STACK * fire_handler.stacks * seconds_per_tick
 	var/amount_to_burn = BURN_DAMAGE_PER_FIRE_STACK * fire_handler.stacks * seconds_per_tick
 	if(bodytemperature > BODYTEMP_FIRE_TEMP_SOFTCAP)
