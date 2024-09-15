@@ -46,7 +46,7 @@
 /datum/song/organ/updateDialog(mob/user)
 	var/obj/item/organ/owner = parent
 	var/mob/living/musician = owner?.owner
-	parent.ui_interact(musician)
+	ui_interact(musician)
 
 /datum/song/organ/should_stop_playing(obj/player)
 	var/obj/item/organ/owner = parent
