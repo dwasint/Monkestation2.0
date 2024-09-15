@@ -44,17 +44,16 @@
 	cares_about_distance = FALSE
 
 /datum/song/organ/updateDialog(mob/user)
-	parent.ui_interact(user || usr)
-
-/datum/song/organ/should_stop_playing(obj/player)
-	. = ..()
-	if(. == STOP_PLAYING || . == IGNORE_INSTRUMENT_CHECKS)
-		return TRUE
 	var/obj/item/organ/owner = parent
 	var/mob/living/musician = owner?.owner
-	return musician?.stat <= UNCONSCIOUS
+	parent.ui_interact(musician)
 
-/datum/song/do_hearcheck()
+/datum/song/organ/should_stop_playing(obj/player)
+	var/obj/item/organ/owner = parent
+	var/mob/living/musician = owner?.owner
+	return musician?.stat >= UNCONSCIOUS
+
+/datum/song/organ/do_hearcheck()
 	var/obj/item/organ/player = parent
 	last_hearcheck = world.time
 	var/list/old = hearing_mobs.Copy()
