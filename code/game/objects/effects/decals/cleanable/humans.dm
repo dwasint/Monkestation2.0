@@ -448,6 +448,7 @@ GLOBAL_LIST_EMPTY(bloody_footprints_cache)
 /obj/effect/decal/cleanable/blood/hitsplatter/Initialize(mapload, splatter_strength, blood_color = COLOR_BLOOD)
 	. = ..()
 	color = blood_color
+	blood_dna_info = GET_ATOM_BLOOD_DNA(src)
 	prev_loc = loc //Just so we are sure prev_loc exists
 	if(splatter_strength)
 		src.splatter_strength = splatter_strength
@@ -455,6 +456,8 @@ GLOBAL_LIST_EMPTY(bloody_footprints_cache)
 /obj/effect/decal/cleanable/blood/hitsplatter/Destroy()
 	if(isturf(loc) && !skip)
 		playsound(src, 'sound/effects/wounds/splatter.ogg', 60, TRUE, -1)
+		if(!length(blood_dna_info))
+			blood_dna_info = GET_ATOM_BLOOD_DNA(src)
 		if(blood_dna_info)
 			loc.add_blood_DNA(blood_dna_info)
 	return ..()
