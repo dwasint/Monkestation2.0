@@ -38,6 +38,7 @@
 	)
 	var/count = 0
 	var/footprint_sprite = null
+	var/glows = FALSE
 
 /obj/effect/decal/cleanable/blood/Initialize(mapload, blood_color = COLOR_BLOOD)
 	. = ..()
@@ -50,6 +51,11 @@
 	return ..()
 
 #define DRY_FILTER_KEY "dry_effect"
+
+/obj/effect/decal/cleanable/blood/update_overlays()
+	. = ..()
+	if(glows)
+		. += emissive_appearance(icon, icon_state, src)
 
 /obj/effect/decal/cleanable/blood/proc/update_blood_drying_effect()
 	if(!can_dry)
@@ -78,7 +84,7 @@
 	for(var/dna_sample in all_dna)
 		var/datum/blood_type/blood = GLOB.blood_types[all_dna[dna_sample]]
 		all_blood_names |= lowertext(initial(blood.reagent_type.name))
-	return english_list(all_blood_names)
+	return english_list(all_blood_names, nothing_text = "blood")
 
 /obj/effect/decal/cleanable/blood/process(seconds_per_tick)
 	if(dried || !can_dry)
@@ -384,12 +390,20 @@ GLOBAL_LIST_EMPTY(bloody_footprints_cache)
 			if(!bloodstep_overlay)
 				GLOB.bloody_footprints_cache["entered-[icon_state_to_use]-[Ddir]"] = bloodstep_overlay = image(icon, "[icon_state_to_use]1", dir = Ddir)
 			. += bloodstep_overlay
+			if(glows)
+				var/mutable_appearance/glow = emissive_appearance(icon, "[icon_state_to_use]1")
+				glow.dir = Ddir
+				. += glow
 
 		if(exited_dirs & Ddir)
 			var/image/bloodstep_overlay = GLOB.bloody_footprints_cache["exited-[icon_state_to_use]-[Ddir]"]
 			if(!bloodstep_overlay)
 				GLOB.bloody_footprints_cache["exited-[icon_state_to_use]-[Ddir]"] = bloodstep_overlay = image(icon, "[icon_state_to_use]2", dir = Ddir)
 			. += bloodstep_overlay
+			if(glows)
+				var/mutable_appearance/glow = emissive_appearance(icon, "[icon_state_to_use]2")
+				glow.dir = Ddir
+				. += glow
 
 
 /obj/effect/decal/cleanable/blood/footprints/examine(mob/user)

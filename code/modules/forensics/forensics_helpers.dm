@@ -74,6 +74,7 @@
 	else
 		forensics = new(src, blood_DNA = blood_DNA_to_add)
 	cached_blood_dna_color = null
+	update_appearance()
 	return TRUE
 
 /obj/item/add_blood_DNA(list/blood_DNA_to_add)

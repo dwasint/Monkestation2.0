@@ -29,6 +29,8 @@ PROCESSING_SUBSYSTEM_DEF(blood_drying)
 	var/name = "?"
 	/// What color is blood decals spawned of this type
 	var/color = COLOR_BLOOD
+	///do we glow
+	var/glows = FALSE
 	/// What blood types can this type receive from
 	/// Itself is always included in this list
 	var/list/compatible_types = list()
@@ -234,8 +236,11 @@ PROCESSING_SUBSYSTEM_DEF(blood_drying)
 	name = "LE"
 	color = "#97ee63"
 	reagent_type = /datum/reagent/consumable/liquidelectricity
+	glows = TRUE
 
 /datum/blood_type/crew/ethereal/set_up_blood(obj/effect/decal/cleanable/blood/blood, new_splat)
+	blood.glows = TRUE
+	blood.update_appearance()
 	if(!new_splat)
 		return
 	blood.can_dry = FALSE

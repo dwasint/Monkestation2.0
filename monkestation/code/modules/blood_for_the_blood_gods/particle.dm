@@ -123,6 +123,8 @@
 	our_appearance.color = src.color
 	our_appearance.pixel_x = src.pixel_x
 	our_appearance.pixel_y = src.pixel_y
+	if(glows)
+		our_appearance.plane = EMISSIVE_PLANE
 	icon_state = null
 	color = null
 	pixel_x = 0
