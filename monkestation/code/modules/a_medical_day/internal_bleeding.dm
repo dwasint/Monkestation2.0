@@ -25,12 +25,12 @@
 	COOLDOWN_DECLARE(worsen_cd)
 
 /datum/wound/bleed_internal/get_self_check_description(mob/user)
-	return span_warning("It feels tense to the touch.") // same as rib fracture!
+	return span_warning("You can see dark bruising.") // same as rib fracture!
 
 /datum/wound/bleed_internal/handle_process(seconds_per_tick, times_fired)
 	if(!victim || victim.stat == DEAD || HAS_TRAIT(victim, TRAIT_STASIS) || !victim.needs_heart())
 		return
-	victim.bleed(bleed_amount * severity * seconds_per_tick)
+	victim.bleed(min(bleed_amount * severity * seconds_per_tick, 3))
 
 /datum/wound/bleed_internal/wound_injury(datum/wound/old_wound, attack_direction)
 	COOLDOWN_START(src, worsen_cd, 5 SECONDS)
