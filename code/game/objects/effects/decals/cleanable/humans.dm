@@ -39,6 +39,7 @@
 	var/count = 0
 	var/footprint_sprite = null
 	var/glows = FALSE
+	var/handles_unique = FALSE
 
 /obj/effect/decal/cleanable/blood/Initialize(mapload, blood_color = COLOR_BLOOD)
 	. = ..()
@@ -54,7 +55,7 @@
 
 /obj/effect/decal/cleanable/blood/update_overlays()
 	. = ..()
-	if(glows)
+	if(glows && !handles_unique)
 		. += emissive_appearance(icon, icon_state, src)
 
 /obj/effect/decal/cleanable/blood/proc/update_blood_drying_effect()
@@ -321,6 +322,7 @@
 	bloodiness = 0 // set based on the bloodiness of the foot
 	base_name = ""
 	dry_desc = "HMM... SOMEONE WAS HERE!"
+	handles_unique = TRUE
 	var/entered_dirs = 0
 	var/exited_dirs = 0
 
@@ -390,20 +392,12 @@ GLOBAL_LIST_EMPTY(bloody_footprints_cache)
 			if(!bloodstep_overlay)
 				GLOB.bloody_footprints_cache["entered-[icon_state_to_use]-[Ddir]"] = bloodstep_overlay = image(icon, "[icon_state_to_use]1", dir = Ddir)
 			. += bloodstep_overlay
-			if(glows)
-				var/mutable_appearance/glow = emissive_appearance(icon, "[icon_state_to_use]1")
-				glow.dir = Ddir
-				. += glow
 
 		if(exited_dirs & Ddir)
 			var/image/bloodstep_overlay = GLOB.bloody_footprints_cache["exited-[icon_state_to_use]-[Ddir]"]
 			if(!bloodstep_overlay)
 				GLOB.bloody_footprints_cache["exited-[icon_state_to_use]-[Ddir]"] = bloodstep_overlay = image(icon, "[icon_state_to_use]2", dir = Ddir)
 			. += bloodstep_overlay
-			if(glows)
-				var/mutable_appearance/glow = emissive_appearance(icon, "[icon_state_to_use]2")
-				glow.dir = Ddir
-				. += glow
 
 
 /obj/effect/decal/cleanable/blood/footprints/examine(mob/user)

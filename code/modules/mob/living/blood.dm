@@ -314,7 +314,7 @@
 	var/obj/effect/decal/cleanable/blood/hitsplatter/our_splatter = new(loc)
 	if(QDELETED(our_splatter))
 		return
-	our_splatter.add_blood_DNA(GET_ATOM_BLOOD_DNA(src))
+	our_splatter.add_mob_blood(src)
 	var/turf/targ = get_ranged_target_turf(src, splatter_direction, splatter_strength)
 	our_splatter.fly_towards(targ, splatter_strength)
 
@@ -329,7 +329,7 @@
 		if(QDELETED(droplet)) // if they're deleting upon init, let's not waste any more time, any others will prolly just do the same thing
 			return
 		droplet.color = get_blood_type()?.color
-		droplet.add_blood_DNA(GET_ATOM_BLOOD_DNA(src))
+		droplet.add_mob_blood(src)
 		droplet.pixel_z = rand(min_pixel_z, max_pixel_z)
 		droplet.start_movement(angle + rand(min_deviation, max_deviation))
 
