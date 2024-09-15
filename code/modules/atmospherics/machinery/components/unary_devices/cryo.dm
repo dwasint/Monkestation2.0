@@ -113,6 +113,7 @@
 	var/patient_dead = FALSE
 	fair_market_price = 10
 	payment_department = ACCOUNT_MED
+	var/adjusted_occupant = FALSE
 
 
 /datum/armor/unary_cryo_cell
@@ -147,13 +148,15 @@
 /obj/machinery/atmospherics/components/unary/cryo_cell/set_occupant(atom/movable/new_occupant)
 	if(occupant && isnull(new_occupant))
 		REMOVE_TRAIT(occupant, TRAIT_ASSISTED_BREATHING, REF(src))
-		if(isliving(occupant))
+		if(isliving(occupant) && adjusted_occupant)
+			adjusted_occupant = FALSE
 			var/mob/living/living = occupant
 			living.bodytemp_cold_damage_limit += 270 KELVIN
 	. = ..()
 	if(occupant && on)
 		ADD_TRAIT(occupant, TRAIT_ASSISTED_BREATHING, REF(src))
-		if(isliving(occupant))
+		if(isliving(occupant) && !adjusted_occupant)
+			adjusted_occupant = TRUE
 			var/mob/living/living = occupant
 			living.bodytemp_cold_damage_limit -= 270 KELVIN
 	update_appearance()
@@ -273,6 +276,17 @@
 		ADD_TRAIT(occupant, TRAIT_ASSISTED_BREATHING, REF(src))
 	else
 		REMOVE_TRAIT(occupant, TRAIT_ASSISTED_BREATHING, REF(src))
+
+	if(on)
+		if(isliving(occupant) && !adjusted_occupant)
+			adjusted_occupant = TRUE
+			var/mob/living/living = occupant
+			living.bodytemp_cold_damage_limit -= 270 KELVIN
+	else
+		if(isliving(occupant) && adjusted_occupant)
+			adjusted_occupant = FALSE
+			var/mob/living/living = occupant
+			living.bodytemp_cold_damage_limit += 270 KELVIN
 
 /obj/machinery/atmospherics/components/unary/cryo_cell/on_set_is_operational(old_value)
 	if(old_value) //Turned off
