@@ -101,8 +101,8 @@
 		else if(stacks < stack_threshold && threshold_crossed)
 			threshold_crossed = FALSE //resets threshold effect if we fall below threshold so threshold effect can trigger again
 			on_threshold_drop()
-		if(stacks_added > 0)
-			tick_interval += delay_before_decay //refreshes time until decay
+		if((stacks_added > 0) && delay_before_decay)
+			tick_interval = world.time + delay_before_decay //refreshes time until decay
 		stacks = min(stacks, max_stacks)
 		if(status_overlay)
 			status_overlay.icon_state = "[overlay_state][stacks]"
