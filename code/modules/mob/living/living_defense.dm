@@ -131,7 +131,7 @@
 
 	var/extra_paralyze = 0 SECONDS
 	var/extra_knockdown = 0 SECONDS
-	if(hitting_projectile.damage_type == BRUTE && !hitting_projectile.grazing && pain_controller.get_average_pain() > 50)
+	if(hitting_projectile.damage_type == BRUTE && !hitting_projectile.grazing && (pain_controller.get_average_pain() > 50))
 		if(damage_done >= 60)
 			if(!IsParalyzed() && prob(damage_done))
 				extra_paralyze += 0.8 SECONDS
