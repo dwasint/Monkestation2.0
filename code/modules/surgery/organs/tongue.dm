@@ -57,24 +57,7 @@
 /obj/item/organ/internal/tongue/proc/get_possible_languages()
 	RETURN_TYPE(/list)
 	// This is the default list of languages most humans should be capable of speaking
-	return list(
-		/datum/language/common,
-		/datum/language/uncommon,
-		/datum/language/draconic,
-		/datum/language/codespeak,
-		/datum/language/monkey,
-		/datum/language/narsie,
-		/datum/language/beachbum,
-		/datum/language/aphasia,
-		/datum/language/piratespeak,
-		/datum/language/moffic,
-		/datum/language/sylvan,
-		/datum/language/shadowtongue,
-		/datum/language/terrum,
-		/datum/language/nekomimetic,
-		/datum/language/ratvar, //Monkestation Edit
-		/datum/language/goblin, //Monkestation Addition
-	)
+	return subtypesof(/datum/language)
 
 /obj/item/organ/internal/tongue/proc/handle_speech(datum/source, list/speech_args)
 	SIGNAL_HANDLER
