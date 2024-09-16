@@ -543,7 +543,7 @@
 			if(checked_bodypart.pain_feedback(seconds_per_tick, no_recent_pain))
 				COOLDOWN_START(src, time_since_last_pain_message, 12 SECONDS)
 
-		if(!has_pain)
+		if(!has_pain && (shock_buildup <= -30) && !HAS_TRAIT_FROM(parent, TRAIT_LABOURED_BREATHING, PAINSHOCK))
 			// no-op if none of our bodyparts are in pain
 			return
 
