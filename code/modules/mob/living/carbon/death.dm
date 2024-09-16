@@ -24,17 +24,17 @@
 	M.Scale(1.8, 1.2)
 	animate(src, time = 40, transform = M, easing = SINE_EASING)
 
-/mob/living/carbon/gib(no_brain, no_organs, no_bodyparts, safe_gib = FALSE)
+/mob/living/carbon/gib(no_brain, no_organs, no_bodyparts, safe_gib = TRUE)
 	add_memory_in_range(src, 7, /datum/memory/witness_gib, protagonist = src)
-	// if(safe_gib) // If you want to keep all the mob's items and not have them deleted MONKESTATION EDIT
-	for(var/obj/item/W in src)
-		dropItemToGround(W, violent = TRUE)
-		if(prob(50))
-			step(W, pick(GLOB.alldirs))
-	var/atom/Tsec = drop_location()
-	for(var/mob/M in src)
-		M.forceMove(Tsec)
-		visible_message(span_danger("[M] bursts out of [src]!"))
+	if(safe_gib) // If you want to keep all the mob's items and not have them deleted MONKESTATION EDIT
+		for(var/obj/item/W in src)
+			dropItemToGround(W, violent = TRUE)
+			if(prob(50))
+				step(W, pick(GLOB.alldirs))
+		var/atom/Tsec = drop_location()
+		for(var/mob/M in src)
+			M.forceMove(Tsec)
+			visible_message(span_danger("[M] bursts out of [src]!"))
 	return ..()
 
 /mob/living/carbon/spill_organs(no_brain, no_organs, no_bodyparts)
