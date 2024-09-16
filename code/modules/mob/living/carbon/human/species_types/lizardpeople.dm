@@ -115,6 +115,7 @@ Lizard subspecies: ASHWALKERS
 	id = SPECIES_LIZARD_ASH
 	mutantlungs = /obj/item/organ/internal/lungs/lavaland
 	mutantbrain = /obj/item/organ/internal/brain/primitive
+	wing_types = list(/obj/item/organ/external/wings/functional/dragon)
 	species_traits = list(
 		MUTCOLORS,
 		MUTCOLORS_SECONDARY,
@@ -123,7 +124,8 @@ Lizard subspecies: ASHWALKERS
 	inherent_traits = list(
 		//TRAIT_LITERATE,
 		TRAIT_VIRUSIMMUNE,
-		TRAIT_HARD_SOLES //MONKESTATION ADDITION
+		TRAIT_HARD_SOLES, //MONKESTATION ADDITION
+		TRAIT_CAN_USE_FLIGHT_POTION,
 	)
 	species_language_holder = /datum/language_holder/lizard/ash
 	/*digitigrade_customization = DIGITIGRADE_FORCED*/ //MONKESTATION REMOVAL: not needed
