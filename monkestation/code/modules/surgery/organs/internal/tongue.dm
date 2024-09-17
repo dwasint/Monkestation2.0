@@ -16,6 +16,8 @@
 	desc = "The tongue of an Arachnid. Mostly used for lying."
 	say_mod = "chitters"
 	modifies_speech = TRUE
+	disliked_foodtypes = NONE // Okay listen, i don't actually know what irl spiders don't like to eat and i'm pretty tired of looking for answers.
+	liked_foodtypes = GORE | MEAT | BUGS | GROSS
 
 /obj/item/organ/internal/tongue/arachnid/modify_speech(datum/source, list/speech_args) //This is flypeople speech
 	var/static/regex/fly_buzz = new("z+", "g")

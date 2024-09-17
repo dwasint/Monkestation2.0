@@ -383,7 +383,7 @@
 	if(!.)
 		clear_alert(ALERT_TEMPERATURE)
 
-/mob/living/simple_animal/gib()
+/mob/living/simple_animal/gib(no_brain, no_organs, no_bodyparts, safe_gib = TRUE)
 	if(butcher_results || guaranteed_butcher_results)
 		var/list/butcher = list()
 		if(butcher_results)

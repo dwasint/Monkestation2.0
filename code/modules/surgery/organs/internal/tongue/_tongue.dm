@@ -34,6 +34,12 @@
 	/// Determines how "sensitive" this tongue is to tasting things, lower is more sensitive.
 	/// See [/mob/living/proc/get_taste_sensitivity].
 	var/taste_sensitivity = 15
+	/// Foodtypes this tongue likes
+	var/liked_foodtypes = JUNKFOOD | FRIED //human tastes are default
+	/// Foodtypes this tongue dislikes
+	var/disliked_foodtypes = GROSS | RAW | CLOTH | BUGS | GORE //human tastes are default
+	/// Foodtypes this tongue HATES
+	var/toxic_foodtypes = TOXIC //human tastes are default
 	/// Whether this tongue modifies speech via signal
 	var/modifies_speech = FALSE
 
@@ -44,6 +50,16 @@
 	// - then we cache it via string list
 	// this results in tongues with identical possible languages sharing a cached list instance
 	languages_possible = string_list(get_possible_languages())
+
+/obj/item/organ/internal/tongue/examine(mob/user)
+	. = ..()
+	if(HAS_TRAIT(user, TRAIT_ENTRAILS_READER) || (user.mind && HAS_TRAIT(user.mind, TRAIT_ENTRAILS_READER)) || isobserver(user))
+		if(liked_foodtypes)
+			. += span_info("This tongue has an affinity the taste of [english_list(bitfield_to_list(liked_foodtypes), FOOD_FLAGS_IC)].")
+		if(disliked_foodtypes)
+			. += span_info("This tongue has an aversion for taste of [english_list(bitfield_to_list(disliked_foodtypes), FOOD_FLAGS_IC)].")
+		if(toxic_foodtypes)
+			. += span_info("This tongue's physiology makes [english_list(bitfield_to_list(toxic_foodtypes), FOOD_FLAGS_IC)] toxic.")
 
 /**
  * Used in setting up the "languages possible" list.
@@ -68,14 +84,29 @@
 /obj/item/organ/internal/tongue/proc/modify_speech(datum/source, list/speech_args)
 	return speech_args[SPEECH_MESSAGE]
 
+/**
+ * Gets the food reaction a tongue would have from the food item,
+ * assuming that no check_liked callback was used in the edible component.
+ *
+ * Can be overriden by subtypes for more complex behavior.
+ * Does not get called if the owner has ageusia.
+ **/
+/obj/item/organ/internal/tongue/proc/get_food_taste_reaction(obj/item/food, foodtypes = NONE)
+	var/food_taste_reaction
+	if(foodtypes & toxic_foodtypes)
+		food_taste_reaction = FOOD_TOXIC
+	else if(foodtypes & disliked_foodtypes)
+		food_taste_reaction = FOOD_DISLIKED
+	else if(foodtypes & liked_foodtypes)
+		food_taste_reaction = FOOD_LIKED
+	return food_taste_reaction
+
 /obj/item/organ/internal/tongue/Insert(mob/living/carbon/tongue_owner, special = FALSE, drop_if_replaced = TRUE)
 	. = ..()
 	if(!.)
 		return
-	ADD_TRAIT(tongue_owner, TRAIT_SPEAKS_CLEARLY, SPEAKING_FROM_TONGUE)
-	if (modifies_speech)
+	if(modifies_speech)
 		RegisterSignal(tongue_owner, COMSIG_MOB_SAY, PROC_REF(handle_speech))
-
 	if(!(organ_flags & ORGAN_FAILING))
 		ADD_TRAIT(tongue_owner, TRAIT_SPEAKS_CLEARLY, SPEAKING_FROM_TONGUE)
 	/* This could be slightly simpler, by making the removal of the
@@ -84,17 +115,34 @@
 	* ageusia from having a non-tasting tongue.
 	*/
 	REMOVE_TRAIT(tongue_owner, TRAIT_AGEUSIA, NO_TONGUE_TRAIT)
-	if(!sense_of_taste)
+	if(!sense_of_taste || (organ_flags & ORGAN_FAILING))
 		ADD_TRAIT(tongue_owner, TRAIT_AGEUSIA, ORGAN_TRAIT)
 
 /obj/item/organ/internal/tongue/Remove(mob/living/carbon/tongue_owner, special = FALSE)
 	. = ..()
-	REMOVE_TRAIT(tongue_owner, TRAIT_SPEAKS_CLEARLY, SPEAKING_FROM_TONGUE)
 	temp_say_mod = ""
 	UnregisterSignal(tongue_owner, COMSIG_MOB_SAY)
+	REMOVE_TRAIT(tongue_owner, TRAIT_SPEAKS_CLEARLY, SPEAKING_FROM_TONGUE)
 	REMOVE_TRAIT(tongue_owner, TRAIT_AGEUSIA, ORGAN_TRAIT)
 	// Carbons by default start with NO_TONGUE_TRAIT caused TRAIT_AGEUSIA
 	ADD_TRAIT(tongue_owner, TRAIT_AGEUSIA, NO_TONGUE_TRAIT)
+
+
+/obj/item/organ/internal/tongue/apply_organ_damage(damage_amount, maximum, required_organtype)
+	. = ..()
+	if(!owner)
+		return
+	//tongues can't taste food when they are failing
+	if(sense_of_taste)
+		//tongues can't taste food when they are failing
+		if(organ_flags & ORGAN_FAILING)
+			ADD_TRAIT(owner, TRAIT_AGEUSIA, ORGAN_TRAIT)
+		else
+			REMOVE_TRAIT(owner, TRAIT_AGEUSIA, ORGAN_TRAIT)
+	if(organ_flags & ORGAN_FAILING)
+		ADD_TRAIT(owner, TRAIT_SPEAKS_CLEARLY, SPEAKING_FROM_TONGUE)
+	else
+		REMOVE_TRAIT(owner, TRAIT_SPEAKS_CLEARLY, SPEAKING_FROM_TONGUE)
 
 /obj/item/organ/internal/tongue/could_speak_language(datum/language/language_path)
 	return (language_path in languages_possible)
@@ -110,6 +158,8 @@
 	taste_sensitivity = 10 // combined nose + tongue, extra sensitive
 	modifies_speech = TRUE
 	languages_native = list(/datum/language/draconic, /datum/language/ashtongue)
+	liked_foodtypes = GORE | MEAT | SEAFOOD | NUTS | BUGS
+	disliked_foodtypes = GRAIN | DAIRY | CLOTH | GROSS
 
 	//MONKESTATION EDIT START
 
@@ -281,6 +331,8 @@
 	say_mod = "moans"
 	modifies_speech = TRUE
 	taste_sensitivity = 32
+	liked_foodtypes = GROSS | MEAT | RAW | GORE
+	disliked_foodtypes = NONE
 
 // List of english words that translate to zombie phrases
 GLOBAL_LIST_INIT(english_to_zombie, list())
@@ -373,6 +425,8 @@ GLOBAL_LIST_INIT(english_to_zombie, list())
 	attack_verb_simple = list("bite", "chatter", "chomp", "enamel", "bone")
 	sense_of_taste = FALSE
 	modifies_speech = TRUE
+	liked_foodtypes = GROSS | MEAT | RAW | GORE | DAIRY //skeletons eat spooky shit... and dairy, of course
+	disliked_foodtypes = NONE
 	var/chattering = FALSE
 	var/phomeme_type = "sans"
 	var/list/phomeme_types = list("sans", "papyrus")
@@ -399,6 +453,8 @@ GLOBAL_LIST_INIT(english_to_zombie, list())
 	desc = "Like animated skeletons, Plasmamen vibrate their teeth in order to produce speech."
 	icon_state = "tongueplasma"
 	modifies_speech = FALSE
+	liked_foodtypes = VEGETABLES
+	disliked_foodtypes = FRUIT | CLOTH
 
 /obj/item/organ/internal/tongue/robot
 	name = "robotic voicebox"
@@ -440,8 +496,12 @@ GLOBAL_LIST_INIT(english_to_zombie, list())
 	icon_state = "electrotongue"
 	say_mod = "crackles"
 	taste_sensitivity = 10 // ethereal tongues function (very loosely) like a gas spectrometer: vaporising a small amount of the food and allowing it to pass to the nose, resulting in more sensitive taste
+	liked_foodtypes = NONE //no food is particularly liked by ethereals
+	disliked_foodtypes = GROSS
+	toxic_foodtypes = NONE //no food is particularly toxic to etherealsz
 	attack_verb_continuous = list("shocks", "jolts", "zaps")
 	attack_verb_simple = list("shock", "jolt", "zap")
+
 
 // Ethereal tongues can speak all default + voltaic
 /obj/item/organ/internal/tongue/ethereal/get_possible_languages()
@@ -451,6 +511,8 @@ GLOBAL_LIST_INIT(english_to_zombie, list())
 	name = "felinid tongue"
 	desc = "A fleshy muscle mostly used for meowing."
 	say_mod = "meows"
+	liked_foodtypes = SEAFOOD | ORANGES | BUGS | GORE
+	disliked_foodtypes = GROSS | CLOTH | RAW
 
 /obj/item/organ/internal/tongue/bananium
 	name = "bananium tongue"
@@ -465,16 +527,30 @@ GLOBAL_LIST_INIT(english_to_zombie, list())
 	name = "jelly tongue"
 	desc = "Ah... That's not the sound I expected it to make. Sounds like a Space Autumn Bird."
 	say_mod = "chirps"
+	liked_foodtypes = MEAT | BUGS
+	disliked_foodtypes = GROSS
+	toxic_foodtypes = NONE
+
+/obj/item/organ/internal/tongue/jelly/get_food_taste_reaction(obj/item/food, foodtypes = NONE)
+	// a silver slime created this? what a delicacy!
+	if(HAS_TRAIT(food, TRAIT_FOOD_SILVER))
+		return FOOD_LIKED
+	return ..()
 
 /obj/item/organ/internal/tongue/monkey
 	name = "primitive tongue"
 	desc = "For aggressively chimpering. And consuming bananas."
 	say_mod = "chimpers"
+	liked_foodtypes = MEAT | FRUIT | BUGS
+	disliked_foodtypes = CLOTH
 
 /obj/item/organ/internal/tongue/moth
 	name = "moth tongue"
 	desc = "Moths don't have tongues. Someone get god on the phone, tell them I'm not happy."
 	say_mod = "flutters"
+	liked_foodtypes = VEGETABLES | DAIRY | CLOTH
+	disliked_foodtypes = FRUIT | GROSS | BUGS | GORE
+	toxic_foodtypes = MEAT | RAW | SEAFOOD
 
 /obj/item/organ/internal/tongue/zombie
 	name = "rotting tongue"
@@ -484,7 +560,13 @@ GLOBAL_LIST_INIT(english_to_zombie, list())
 /obj/item/organ/internal/tongue/mush
 	name = "mush-tongue-room"
 	desc = "You poof with this. Got it?"
-	say_mod = "poofs"
-
 	icon = 'icons/obj/hydroponics/seeds.dmi'
 	icon_state = "mycelium-angel"
+	say_mod = "poofs"
+
+/obj/item/organ/internal/tongue/pod
+	name = "pod tongue"
+	desc = "A plant-like organ used for speaking and eating."
+	say_mod = "whistles"
+	liked_foodtypes = VEGETABLES | FRUIT | GRAIN
+	disliked_foodtypes = GORE | MEAT | DAIRY | SEAFOOD | BUGS

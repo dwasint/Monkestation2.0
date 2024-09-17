@@ -27,8 +27,7 @@
 		/obj/item/organ/external/satyr_horns = "back",
 	)
 	meat = /obj/item/food/meat/steak
-	liked_food = GROSS | VEGETABLES | FRUIT
-	disliked_food = MEAT | DAIRY
+	mutanttongue = /obj/item/organ/internal/tongue/satyr
 	maxhealthmod = 0.8
 	stunmod = 1.2
 	payday_modifier = 1
@@ -96,3 +95,9 @@
 	if(headbutt)
 		headbutt.Remove(C)
 		qdel(headbutt)
+
+/obj/item/organ/internal/tongue/satyr
+	name = "satyr tongue"
+
+	liked_foodtypes = GROSS | VEGETABLES | FRUIT
+	disliked_foodtypes = MEAT | DAIRY

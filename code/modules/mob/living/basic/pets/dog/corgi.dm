@@ -62,7 +62,7 @@
 		update_appearance(UPDATE_OVERLAYS)
 	return ..()
 
-/mob/living/basic/pet/dog/corgi/gib()
+/mob/living/basic/pet/dog/corgi/gib(no_brain, no_organs, no_bodyparts, safe_gib = TRUE)
 	if(inventory_head)
 		inventory_head.forceMove(drop_location())
 		inventory_head = null

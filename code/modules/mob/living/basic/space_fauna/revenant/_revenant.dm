@@ -256,7 +256,7 @@
 /mob/living/basic/revenant/dust(just_ash, drop_items, force)
 	death()
 
-/mob/living/basic/revenant/gib()
+/mob/living/basic/revenant/gib(no_brain, no_organs, no_bodyparts, safe_gib = TRUE)
 	death()
 
 /mob/living/basic/revenant/can_perform_action(atom/movable/target, action_bitflags)

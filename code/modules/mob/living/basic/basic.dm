@@ -176,7 +176,7 @@
 		health = 0
 		look_dead()
 
-/mob/living/basic/gib()
+/mob/living/basic/gib(no_brain, no_organs, no_bodyparts, safe_gib = TRUE)
 	if(butcher_results || guaranteed_butcher_results)
 		var/list/butcher_loot = list()
 		if(butcher_results)

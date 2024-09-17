@@ -19,8 +19,7 @@
 		/obj/item/organ/external/goblin_ears = "long",
 		)
 	meat = /obj/item/food/meat/steak
-	disliked_food = VEGETABLES
-	liked_food = GORE | MEAT | GROSS
+	mutanttongue = /obj/item/organ/internal/tongue/goblin
 	species_language_holder = /datum/language_holder/goblin
 	maxhealthmod = 0.75
 	stunmod = 1.2
@@ -162,3 +161,8 @@
 	icon_greyscale = 'monkestation/icons/mob/species/goblin/bodyparts.dmi'
 	limb_id = SPECIES_GOBLIN
 	speed_modifier = -0.125
+
+/obj/item/organ/internal/tongue/goblin
+	name = "goblin tongue"
+	disliked_foodtypes = VEGETABLES
+	liked_foodtypes = GORE | MEAT | GROSS

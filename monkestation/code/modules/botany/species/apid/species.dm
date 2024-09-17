@@ -50,13 +50,11 @@
 	inherent_biotypes = MOB_ORGANIC|MOB_HUMANOID|MOB_BUG
 
 	meat = /obj/item/food/meat/slab/human/mutant/apid
-	liked_food = VEGETABLES | MEAT | FRUIT
-	disliked_food =  GROSS | BUGS | GORE
-	toxic_food = RAW | SEAFOOD
 
 	changesource_flags = MIRROR_BADMIN | WABBAJACK | MIRROR_MAGIC | MIRROR_PRIDE | ERT_SPAWN | RACE_SWAP | SLIME_EXTRACT
 	species_language_holder = /datum/language_holder/apid
 
+	mutanttongue =  /obj/item/organ/internal/tongue/apid
 	bodypart_overrides = list(
 		BODY_ZONE_HEAD = /obj/item/bodypart/head/apid,
 		BODY_ZONE_CHEST = /obj/item/bodypart/chest/apid,
@@ -148,3 +146,10 @@
 
 #undef ui_honeydisplay
 #undef FORMAT_HONEY_CHARGES_TEXT
+
+/obj/item/organ/internal/tongue/apid
+	name = "apid tongue"
+
+	liked_foodtypes = VEGETABLES | MEAT | FRUIT
+	disliked_foodtypes =  GROSS | BUGS | GORE
+	toxic_foodtypes = RAW | SEAFOOD
