@@ -123,6 +123,17 @@
 
 	RegisterSignal(C, COMSIG_LIVING_DEATH, PROC_REF(bsod_death)) // screen displays bsod on death, if they have one
 	RegisterSignal(C.reagents, COMSIG_REAGENTS_ADD_REAGENT, PROC_REF(will_it_blend))
+	RegisterSignal(C, COMSIG_HUMAN_ON_HANDLE_BLOOD, PROC_REF(blood_handled))
+
+/datum/species/ipc/proc/blood_handled(mob/living/carbon/human/slime, seconds_per_tick, times_fired)
+	SIGNAL_HANDLER
+
+	if(slime.stat == DEAD)
+		return NONE
+
+	if(slime.blood_volume >= BLOOD_VOLUME_OKAY)
+
+	slime.adjustOxyLoss(-3)
 
 /datum/species/ipc/proc/will_it_blend(datum/reagents/holder, ...)
 	var/mob/living/carbon/carbon = holder.my_atom
