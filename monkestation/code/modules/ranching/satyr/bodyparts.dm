@@ -21,8 +21,10 @@
 	icon_greyscale = 'monkestation/code/modules/ranching/icons/bodyparts.dmi'
 	limb_id = SPECIES_SATYR
 	bodytype = BODYTYPE_DIGITIGRADE | BODYTYPE_ORGANIC
+	bodypart_traits = list(TRAIT_HARD_SOLES, TRAIT_NON_IMPORTANT_SHOE_BLOCK)
 
 /obj/item/bodypart/leg/right/satyr
 	icon_greyscale = 'monkestation/code/modules/ranching/icons/bodyparts.dmi'
 	limb_id = SPECIES_SATYR
 	bodytype = BODYTYPE_DIGITIGRADE | BODYTYPE_ORGANIC
+	bodypart_traits = list(TRAIT_HARD_SOLES, TRAIT_NON_IMPORTANT_SHOE_BLOCK)

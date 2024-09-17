@@ -10,6 +10,18 @@
 
 	use_mob_sprite_as_obj_sprite = TRUE
 	bodypart_overlay = /datum/bodypart_overlay/mutant/satyr_fluff
+	var/datum/action/cooldown/mob_cooldown/dash/headbutt/headbutt
+
+/obj/item/organ/external/satyr_fluff/Insert(mob/living/carbon/receiver, special, drop_if_replaced)
+	. = ..()
+	headbutt = new
+	headbutt.Grant(receiver)
+
+/obj/item/organ/external/satyr_fluff/Remove(mob/living/carbon/organ_owner, special, moving)
+	. = ..()
+	if(headbutt)
+		headbutt.Remove(organ_owner)
+		qdel(headbutt)
 
 /datum/bodypart_overlay/mutant/satyr_fluff
 	layers = EXTERNAL_ADJACENT //| EXTERNAL_FRONT
