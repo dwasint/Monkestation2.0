@@ -34,8 +34,6 @@
 		BODY_ZONE_CHEST = /obj/item/bodypart/chest/pod,
 	)
 
-	ass_image = 'icons/ass/asspodperson.png'
-
 /datum/species/pod/spec_life(mob/living/carbon/human/H, seconds_per_tick, times_fired)
 	. = ..()
 	if(H.stat == DEAD)

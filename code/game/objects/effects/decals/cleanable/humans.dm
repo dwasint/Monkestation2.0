@@ -34,7 +34,7 @@
 		0, 1, 0, 0,
 		0, 0, 1, 0,
 		0, 0, 0, 1,
-		-0.75, -0.75, -0.75, 0,
+		-0.5, -0.75, -0.75, 0,
 	)
 	var/count = 0
 	var/footprint_sprite = null
@@ -49,6 +49,11 @@
 
 /obj/effect/decal/cleanable/blood/Destroy()
 	STOP_PROCESSING(SSblood_drying, src)
+	return ..()
+
+/obj/effect/decal/cleanable/blood/on_entered(datum/source, atom/movable/AM)
+	if(dried)
+		return
 	return ..()
 
 #define DRY_FILTER_KEY "dry_effect"

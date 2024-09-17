@@ -51,6 +51,7 @@
 	limb_id = SPECIES_ABDUCTOR
 	is_dimorphic = FALSE
 	should_draw_greyscale = FALSE
+	ass_image = 'icons/ass/assgrey.png'
 
 /obj/item/bodypart/arm/left/abductor
 	limb_id = SPECIES_ABDUCTOR
@@ -77,32 +78,40 @@
 	is_dimorphic = TRUE
 	dmg_overlay_type = null
 	head_flags = HEAD_ALL_FEATURES
+	composition_effects = list(/datum/element/soft_landing = 0.5)
 
 /obj/item/bodypart/chest/jelly
 	biological_state = (BIO_FLESH|BIO_BLOODED)
 	limb_id = SPECIES_JELLYPERSON
 	is_dimorphic = TRUE
 	dmg_overlay_type = null
+	composition_effects = list(/datum/element/soft_landing = 0.5)
+	ass_image = 'icons/ass/assslime.png'
+	wing_types = list(/obj/item/organ/external/wings/functional/slime)
 
 /obj/item/bodypart/arm/left/jelly
 	biological_state = (BIO_FLESH|BIO_BLOODED|BIO_JOINTED)
 	limb_id = SPECIES_JELLYPERSON
 	dmg_overlay_type = null
+	composition_effects = list(/datum/element/soft_landing = 0.5)
 
 /obj/item/bodypart/arm/right/jelly
 	biological_state = (BIO_FLESH|BIO_BLOODED|BIO_JOINTED)
 	limb_id = SPECIES_JELLYPERSON
 	dmg_overlay_type = null
+	composition_effects = list(/datum/element/soft_landing = 0.5)
 
 /obj/item/bodypart/leg/left/jelly
 	biological_state = (BIO_FLESH|BIO_BLOODED|BIO_JOINTED)
 	limb_id = SPECIES_JELLYPERSON
 	dmg_overlay_type = null
+	composition_effects = list(/datum/element/soft_landing = 0.5)
 
 /obj/item/bodypart/leg/right/jelly
 	biological_state = (BIO_FLESH|BIO_BLOODED|BIO_JOINTED)
 	limb_id = SPECIES_JELLYPERSON
 	dmg_overlay_type = null
+	composition_effects = list(/datum/element/soft_landing = 0.5)
 
 ///SLIME
 /obj/item/bodypart/head/slime
@@ -110,27 +119,33 @@
 	limb_id = SPECIES_SLIMEPERSON
 	is_dimorphic = FALSE
 	head_flags = HEAD_ALL_FEATURES
+	composition_effects = list(/datum/element/soft_landing = 0.5)
 
 /obj/item/bodypart/chest/slime
 	biological_state = (BIO_FLESH|BIO_BLOODED)
 	limb_id = SPECIES_SLIMEPERSON
 	is_dimorphic = TRUE
+	composition_effects = list(/datum/element/soft_landing = 0.5)
 
 /obj/item/bodypart/arm/left/slime
 	biological_state = (BIO_FLESH|BIO_BLOODED|BIO_JOINTED)
 	limb_id = SPECIES_SLIMEPERSON
+	composition_effects = list(/datum/element/soft_landing = 0.5)
 
 /obj/item/bodypart/arm/right/slime
 	biological_state = (BIO_FLESH|BIO_BLOODED|BIO_JOINTED)
 	limb_id = SPECIES_SLIMEPERSON
+	composition_effects = list(/datum/element/soft_landing = 0.5)
 
 /obj/item/bodypart/leg/left/slime
 	biological_state = (BIO_FLESH|BIO_BLOODED)
 	limb_id = SPECIES_SLIMEPERSON
+	composition_effects = list(/datum/element/soft_landing = 0.5)
 
 /obj/item/bodypart/leg/right/slime
 	biological_state = (BIO_FLESH|BIO_BLOODED|BIO_JOINTED)
 	limb_id = SPECIES_SLIMEPERSON
+	composition_effects = list(/datum/element/soft_landing = 0.5)
 
 ///LUMINESCENT
 /obj/item/bodypart/head/luminescent
@@ -165,28 +180,33 @@
 	is_dimorphic = FALSE
 	should_draw_greyscale = FALSE
 	head_flags = HEAD_EYESPRITES | HEAD_DEBRAIN | HEAD_HAIR
+	composition_effects = list(TRAIT_COLD_BLOODED = 0.5)
 
 /obj/item/bodypart/chest/zombie
 	limb_id = SPECIES_ZOMBIE
 	is_dimorphic = FALSE
 	should_draw_greyscale = FALSE
-	bodypart_traits = list(TRAIT_COLD_BLOODED)
+	composition_effects = list(TRAIT_COLD_BLOODED = 0.5)
 
 /obj/item/bodypart/arm/left/zombie
 	limb_id = SPECIES_ZOMBIE
 	should_draw_greyscale = FALSE
+	composition_effects = list(TRAIT_COLD_BLOODED = 0.5)
 
 /obj/item/bodypart/arm/right/zombie
 	limb_id = SPECIES_ZOMBIE
 	should_draw_greyscale = FALSE
+	composition_effects = list(TRAIT_COLD_BLOODED = 0.5)
 
 /obj/item/bodypart/leg/left/zombie
 	limb_id = SPECIES_ZOMBIE
 	should_draw_greyscale = FALSE
+	composition_effects = list(TRAIT_COLD_BLOODED = 0.5)
 
 /obj/item/bodypart/leg/right/zombie
 	limb_id = SPECIES_ZOMBIE
 	should_draw_greyscale = FALSE
+	composition_effects = list(TRAIT_COLD_BLOODED = 0.5)
 
 ///PODPEOPLE
 /obj/item/bodypart/head/pod
@@ -196,6 +216,7 @@
 /obj/item/bodypart/chest/pod
 	limb_id = SPECIES_PODPERSON
 	is_dimorphic = TRUE
+	ass_image = 'icons/ass/asspodperson.png'
 
 /obj/item/bodypart/arm/left/pod
 	limb_id = SPECIES_PODPERSON
@@ -228,6 +249,7 @@
 	limb_id = SPECIES_FLYPERSON
 	is_dimorphic = TRUE
 	should_draw_greyscale = FALSE
+	wing_types = list(/obj/item/organ/external/wings/functional/fly)
 
 /obj/item/bodypart/arm/left/fly
 	limb_id = SPECIES_FLYPERSON
@@ -294,6 +316,7 @@
 	is_dimorphic = FALSE
 	should_draw_greyscale = FALSE
 	dmg_overlay_type = null
+	wing_types = list(/obj/item/organ/external/wings/functional/skeleton)
 
 /obj/item/bodypart/arm/left/skeleton
 	biological_state = (BIO_BONE|BIO_JOINTED)

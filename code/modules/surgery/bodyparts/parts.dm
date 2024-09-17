@@ -16,6 +16,8 @@
 	///The bodytype(s) allowed to attach to this chest.
 	var/acceptable_bodytype = BODYTYPE_HUMANOID
 
+	var/icon/ass_image
+	var/list/wing_types = list(/obj/item/organ/external/wings/functional/angel)
 	var/obj/item/cavity_item
 
 /obj/item/bodypart/chest/can_dismember(obj/item/item)

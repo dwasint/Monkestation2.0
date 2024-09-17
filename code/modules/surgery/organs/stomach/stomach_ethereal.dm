@@ -11,7 +11,7 @@
 
 /obj/item/organ/internal/stomach/ethereal/on_life(seconds_per_tick, times_fired)
 	. = ..()
-	adjust_charge(-ETHEREAL_CHARGE_FACTOR * seconds_per_tick)
+	adjust_charge(-ETHEREAL_CHARGE_FACTOR * seconds_per_tick * 0.5)
 	handle_charge(owner, seconds_per_tick, times_fired)
 
 
@@ -39,10 +39,7 @@
 /obj/item/organ/internal/stomach/ethereal/proc/handle_temp(mob/living/carbon/human/human, natural_change, seconds_per_tick)
 	SIGNAL_HANDLER
 
-	if(human.blood_volume < (ETHEREAL_CHARGE_ALMOSTFULL))
-		return HOMEOSTASIS_HANDLED
-
-	adjust_charge(-1 * ETHEREAL_CHARGE_FACTOR * abs(natural_change) * seconds_per_tick)
+	adjust_charge(-1 * ETHEREAL_CHARGE_FACTOR * abs(natural_change) * seconds_per_tick * 0.05)
 	return HOMEOSTASIS_NO_HUNGER
 
 /obj/item/organ/internal/stomach/ethereal/proc/blood(mob/living/carbon/human/ethereal, seconds_per_tick, times_fired)
@@ -53,7 +50,7 @@
 
 	. = HANDLE_BLOOD_NO_NUTRITION_DRAIN|HANDLE_BLOOD_NO_EFFECTS
 
-	INVOKE_ASYNC(src, PROC_REF(adjust_charge),-ETHEREAL_BLOOD_CHARGE_FACTOR * seconds_per_tick, TRUE)
+	INVOKE_ASYNC(src, PROC_REF(adjust_charge),-ETHEREAL_BLOOD_CHARGE_FACTOR * seconds_per_tick * 0.1, TRUE)
 	INVOKE_ASYNC(src, PROC_REF(handle_charge), ethereal, seconds_per_tick, times_fired)
 
 	return .

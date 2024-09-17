@@ -40,8 +40,6 @@
 	mutanteyes = /obj/item/organ/internal/eyes/floran
 	mutantheart = /obj/item/organ/internal/heart/pod
 
-	ass_image = 'icons/ass/asspodperson.png'
-
 /datum/species/floran/spec_life(mob/living/carbon/human/H, seconds_per_tick, times_fired)
 	. = ..()
 	if(H.stat == DEAD)

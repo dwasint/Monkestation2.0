@@ -10,6 +10,7 @@
 
 /obj/item/bodypart/chest/robot/android
 	change_exempt_flags = null
+	wing_types = list(/obj/item/organ/external/wings/functional/robotic)
 
 /obj/item/bodypart/arm/left/robot/android
 	change_exempt_flags = null

@@ -40,7 +40,7 @@
 	dmg_overlay_type = null
 	biological_state = (BIO_FLESH|BIO_BLOODED)
 	bodypart_traits = list(TRAIT_NO_JUMPSUIT, TRAIT_IGNOREDAMAGESLOWDOWN, TRAIT_PUSHIMMUNE, TRAIT_STUNIMMUNE)
-	//wing_types = NONE
+	wing_types = null
 
 /obj/item/bodypart/arm/left/werewolf
 	limb_id = SPECIES_WEREWOLF

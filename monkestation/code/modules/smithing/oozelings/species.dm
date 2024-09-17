@@ -35,9 +35,7 @@
 	heatmod = 0.5 // = 1/4x heat damage
 	inherent_factions = list(FACTION_SLIME) //an oozeling wont be eaten by their brethren
 	species_language_holder = /datum/language_holder/oozeling
-	ass_image = 'icons/ass/assslime.png'
 	//swimming_component = /datum/component/swimming/dissolve
-	wing_types = list(/obj/item/organ/external/wings/functional/slime)
 
 	bodypart_overrides = list(
 		BODY_ZONE_L_ARM = /obj/item/bodypart/arm/left/oozeling,

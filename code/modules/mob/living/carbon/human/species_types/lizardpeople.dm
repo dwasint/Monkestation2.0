@@ -34,7 +34,6 @@
 	exotic_bloodtype = /datum/blood_type/crew/lizard
 	inert_mutation = /datum/mutation/human/firebreath
 	death_sound = 'sound/voice/lizard/deathsound.ogg'
-	wing_types = list(/obj/item/organ/external/wings/functional/dragon)
 	species_language_holder = /datum/language_holder/lizard
 	digitigrade_customization = DIGITIGRADE_FORCED //Monkestation Edit: OPTIONAL > FORCED
 
@@ -43,8 +42,6 @@
 	bodytemp_normal = (BODYTEMP_NORMAL - 7.5)
 	bodytemp_heat_damage_limit = BODYTEMP_HEAT_LAVALAND_SAFE + 5 KELVIN // This puts lizards 10 above lavaland max heat for ash lizards.
 	bodytemp_cold_damage_limit = (BODYTEMP_COLD_DAMAGE_LIMIT - 10)
-
-	ass_image = 'icons/ass/asslizard.png'
 
 	bodypart_overrides = list(
 		BODY_ZONE_HEAD = /obj/item/bodypart/head/lizard,
@@ -114,7 +111,6 @@ Lizard subspecies: ASHWALKERS
 	id = SPECIES_LIZARD_ASH
 	mutantlungs = /obj/item/organ/internal/lungs/lavaland
 	mutantbrain = /obj/item/organ/internal/brain/primitive
-	wing_types = list(/obj/item/organ/external/wings/functional/dragon)
 	species_traits = list(
 		MUTCOLORS,
 		MUTCOLORS_SECONDARY,
@@ -123,7 +119,6 @@ Lizard subspecies: ASHWALKERS
 	inherent_traits = list(
 		//TRAIT_LITERATE,
 		TRAIT_VIRUSIMMUNE,
-		TRAIT_HARD_SOLES, //MONKESTATION ADDITION
 		TRAIT_CAN_USE_FLIGHT_POTION,
 	)
 	species_language_holder = /datum/language_holder/lizard/ash
@@ -134,8 +129,8 @@ Lizard subspecies: ASHWALKERS
 		BODY_ZONE_CHEST = /obj/item/bodypart/chest/lizard,
 		BODY_ZONE_L_ARM = /obj/item/bodypart/arm/left/lizard/ashwalker,
 		BODY_ZONE_R_ARM = /obj/item/bodypart/arm/right/lizard/ashwalker,
-		BODY_ZONE_L_LEG = /obj/item/bodypart/leg/left/lizard,
-		BODY_ZONE_R_LEG = /obj/item/bodypart/leg/right/lizard,
+		BODY_ZONE_L_LEG = /obj/item/bodypart/leg/left/lizard/ashwalker,
+		BODY_ZONE_R_LEG = /obj/item/bodypart/leg/right/lizard/ashwalker,
 	)
 
 /*

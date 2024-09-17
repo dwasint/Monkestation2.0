@@ -560,7 +560,8 @@
 	exposed_human.emote("scream")
 
 /datum/reagent/flightpotion/proc/get_wing_choice(mob/living/carbon/human/needs_wings)
-	var/list/wing_types = needs_wings.dna.species.wing_types.Copy()
+	var/obj/item/bodypart/chest/chest = needs_wings.get_bodypart(BODY_ZONE_CHEST)
+	var/list/wing_types = chest.wing_types.Copy()
 	if(wing_types.len == 1 || !needs_wings.client)
 		return wing_types[1]
 	var/list/radial_wings = list()

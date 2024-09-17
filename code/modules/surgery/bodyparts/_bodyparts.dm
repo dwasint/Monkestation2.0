@@ -204,6 +204,11 @@
 	/// If false, no wound that can be applied to us can mangle our interior. Used for determining if we should use [hp_percent_to_dismemberable] instead of normal dismemberment.
 	var/any_existing_wound_can_mangle_our_interior
 
+	///an assoc list of type to % for limbs that share id's useful for traits or components we want to add that should require more than 1 limb being added
+	var/list/composition_effects
+	///a list of different limb_ids that we share composition with
+	var/list/shared_composition
+
 /obj/item/bodypart/apply_fantasy_bonuses(bonus)
 	. = ..()
 	unarmed_damage_low = modify_fantasy_variable("unarmed_damage_low", unarmed_damage_low, bonus, minimum = 1)
@@ -775,6 +780,8 @@
 				SIGNAL_ADDTRAIT(TRAIT_NOBLOOD),
 				))
 		UnregisterSignal(old_owner, COMSIG_ATOM_RESTYLE)
+		UnregisterSignal(old_owner, list(COMSIG_CARBON_ATTACH_LIMB, COMSIG_CARBON_REMOVE_LIMB))
+		check_removal_composition(old_owner)
 	if(owner)
 		if(length(bodypart_traits))
 			owner.add_traits(bodypart_traits, bodypart_trait_source)
@@ -789,11 +796,13 @@
 			// Bleeding stuff
 			RegisterSignal(owner, SIGNAL_REMOVETRAIT(TRAIT_NOBLOOD), PROC_REF(on_owner_nobleed_loss))
 			RegisterSignal(owner, SIGNAL_ADDTRAIT(TRAIT_NOBLOOD), PROC_REF(on_owner_nobleed_gain))
+			RegisterSignal(owner, list(COMSIG_CARBON_ATTACH_LIMB, COMSIG_CARBON_REMOVE_LIMB), PROC_REF(reassess_body_composition))
 
 		if(needs_update_disabled)
 			update_disabled()
 
 		RegisterSignal(owner, COMSIG_ATOM_RESTYLE, PROC_REF(on_attempt_feature_restyle_mob))
+		check_adding_composition(owner)
 
 	refresh_bleed_rate()
 	return old_owner
@@ -803,6 +812,7 @@
 		return
 
 	owner.remove_traits(bodypart_traits, bodypart_trait_source)
+	check_removal_composition(owner)
 
 ///Proc to change the value of the `can_be_disabled` variable and react to the event of its change.
 /obj/item/bodypart/proc/set_can_be_disabled(new_can_be_disabled)
@@ -1347,3 +1357,56 @@
 
 /obj/item/bodypart/head/get_soon_dismember_message()
 	return ", threatening to split it open" // we don't sever, we cranial fissure when "dismembered" // we also don't dismember i think
+
+/obj/item/bodypart/proc/return_compoostion_precent(mob/living/carbon/checker)
+	var/matching_ids = 0
+	for(var/obj/item/bodypart/bodypart as anything in checker.bodyparts)
+		if((bodypart.limb_id != limb_id) && !(bodypart.limb_id in shared_composition))
+			continue
+		matching_ids++
+
+	return matching_ids / TOTAL_BODYPART_COUNT
+
+/obj/item/bodypart/proc/check_removal_composition(mob/living/carbon/remover)
+	var/precent = return_compoostion_precent(remover)
+
+	for(var/item as anything in composition_effects)
+		if(composition_effects[item] < precent)
+			continue
+		if(!ispath(item))
+			REMOVE_TRAIT(remover, item, BODYPART_TRAIT)
+		else
+			if(ispath(item, /datum/component))
+				var/datum/component/component = remover.GetComponent(item)
+				if(component)
+					qdel(component)
+			else if(ispath(item, /datum/element))
+				if(!HasElement(remover, item))
+					continue
+				remover.RemoveElement(item)
+
+/obj/item/bodypart/proc/check_adding_composition(mob/living/carbon/adder)
+	var/precent = return_compoostion_precent(adder)
+
+	for(var/item as anything in composition_effects)
+		if(composition_effects[item] > precent)
+			continue
+		if(!ispath(item))
+			if(HAS_TRAIT_FROM(adder, item, BODYPART_TRAIT))
+				continue
+			ADD_TRAIT(adder, item, BODYPART_TRAIT)
+		else
+			if(ispath(item, /datum/component))
+				if(adder.GetComponent(item))
+					continue
+				adder.AddComponent(item)
+			else if(ispath(item, /datum/element))
+				if(HasElement(adder, item))
+					continue
+				adder.AddElement(item)
+
+/obj/item/bodypart/proc/reassess_body_composition(mob/living/carbon/adder)
+	SIGNAL_HANDLER
+
+	check_removal_composition(adder) //remove first
+	check_adding_composition(adder) //then
