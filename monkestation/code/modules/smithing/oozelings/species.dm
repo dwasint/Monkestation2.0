@@ -120,8 +120,6 @@
 	if(slime.stat != CONSCIOUS)
 		return
 
-	var/healing = TRUE
-
 	var/datum/status_effect/fire_handler/wet_stacks/wetness = locate() in slime.status_effects
 	if(HAS_TRAIT(slime, TRAIT_SLIME_HYDROPHOBIA))
 		return
@@ -131,7 +129,6 @@
 			slime.visible_message(span_danger("[slime]'s form begins to lose cohesion, seemingly diluting with the water!"), span_warning("The water starts to dilute your body, dry it off!"))
 
 	if(istype(wetness) && wetness.stacks > (REGEN_WATER_STACKS))
-		healing = FALSE
 		if (SPT_PROB(25, seconds_per_tick))
 			to_chat(slime, span_warning("You can't pull your body together and regenerate with water inside it!"))
 			slime.blood_volume -= 1 * seconds_per_tick
