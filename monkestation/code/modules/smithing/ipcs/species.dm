@@ -131,7 +131,8 @@
 	if(slime.stat == DEAD)
 		return NONE
 
-	if(slime.blood_volume >= BLOOD_VOLUME_OKAY)
+	if(slime.blood_volume < BLOOD_VOLUME_OKAY)
+		return NONE
 
 	slime.adjustOxyLoss(-3)
 
