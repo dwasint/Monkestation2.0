@@ -15,6 +15,7 @@
 	species_language_holder = /datum/language_holder/fly
 	mutanttongue = /obj/item/organ/internal/tongue/arachnid
 	mutanteyes = /obj/item/organ/internal/eyes/night_vision/arachnid
+	mutantheart = /obj/item/organ/internal/heart/spider
 	exotic_bloodtype = /datum/blood_type/spider
 	inherent_factions = list(FACTION_SPIDER)
 	bodypart_overrides = list(

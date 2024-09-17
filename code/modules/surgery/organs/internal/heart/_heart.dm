@@ -23,12 +23,21 @@
 	var/failed = FALSE //to prevent constantly running failing code
 	var/operated = FALSE //whether the heart's been operated on to fix some of its damages
 
+	var/datum/blood_type/heart_bloodtype
+
 /obj/item/organ/internal/heart/update_icon_state()
 	icon_state = "[base_icon_state]-[beating ? "on" : "off"]"
 	return ..()
 
+/obj/item/organ/internal/heart/Insert(mob/living/carbon/receiver, special, drop_if_replaced)
+	. = ..()
+	if(heart_bloodtype)
+		receiver.dna?.human_blood_type = heart_bloodtype
+
 /obj/item/organ/internal/heart/Remove(mob/living/carbon/heartless, special = 0)
 	. = ..()
+	if(heart_bloodtype)
+		heartless.dna?.human_blood_type = random_human_blood_type()
 	if(!special)
 		addtimer(CALLBACK(src, PROC_REF(stop_if_unowned)), 120)
 
@@ -310,6 +319,7 @@
 	icon_state = "ethereal_heart" //Welp. At least it's more unique in functionaliy.
 	visual = TRUE //This is used by the ethereal species for color
 	desc = "A crystal-like organ that functions similarly to a heart for Ethereals. It can revive its owner."
+	heart_bloodtype = /datum/blood_type/crew/ethereal
 
 	///Cooldown for the next time we can crystalize
 	COOLDOWN_DECLARE(crystalize_cooldown)
@@ -557,3 +567,15 @@
 	// this qdeleted check is just for sanity.
 	if(!QDELETED(src))
 		qdel(src)
+
+/obj/item/organ/internal/heart/lizard
+	name = "lizard heart"
+	heart_bloodtype = /datum/blood_type/crew/lizard
+
+/obj/item/organ/internal/heart/pod
+	name = "plant heart"
+	heart_bloodtype = /datum/blood_type/water
+
+/obj/item/organ/internal/heart/spider
+	name = "spider heart"
+	heart_bloodtype = /datum/blood_type/spider

@@ -13,6 +13,7 @@
 		/obj/item/organ/external/pod_hair = "None",
 	)
 	mutanttongue = /obj/item/organ/internal/tongue/pod
+	mutantheart = /obj/item/organ/internal/heart/pod
 	inherent_biotypes = MOB_ORGANIC | MOB_HUMANOID | MOB_PLANT
 	inherent_factions = list(FACTION_PLANTS, FACTION_VINES)
 

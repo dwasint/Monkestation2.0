@@ -20,11 +20,10 @@
 	mutantears = /obj/item/organ/internal/ears/jelly
 	mutantlungs = /obj/item/organ/internal/lungs/slime
 	mutanttongue = /obj/item/organ/internal/tongue/jelly
+	mutantheart = /obj/item/organ/internal/heart/slime
 
 	inherent_traits = list(
 		TRAIT_CAN_USE_FLIGHT_POTION,
-		TRAIT_TOXINLOVER,
-		TRAIT_NOBLOOD,
 		TRAIT_EASYDISMEMBER,
 		TRAIT_NOFIRE,
 	)
@@ -49,7 +48,6 @@
 		BODY_ZONE_CHEST = /obj/item/bodypart/chest/oozeling,
 	)
 
-	var/datum/action/innate/regenerate_limbs/regenerate_limbs
 	var/datum/action/cooldown/spell/slime_washing/slime_washing
 	var/datum/action/cooldown/spell/slime_hydrophobia/slime_hydrophobia
 	var/datum/action/innate/core_signal/core_signal
@@ -96,8 +94,6 @@
 			. = .(gender, TRUE, lastname, ++attempts)
 
 /datum/species/oozeling/on_species_loss(mob/living/carbon/C)
-	if(regenerate_limbs)
-		regenerate_limbs.Remove(C)
 	if(slime_washing)
 		slime_washing.Remove(C)
 	if(slime_hydrophobia)
@@ -110,8 +106,6 @@
 /datum/species/oozeling/on_species_gain(mob/living/carbon/C, datum/species/old_species)
 	..()
 	if(ishuman(C))
-		regenerate_limbs = new
-		regenerate_limbs.Grant(C)
 		slime_washing = new
 		slime_washing.Grant(C)
 		slime_hydrophobia = new
@@ -143,65 +137,6 @@
 		if (SPT_PROB(25, seconds_per_tick))
 			to_chat(slime, span_warning("You can't pull your body together and regenerate with water inside it!"))
 			slime.blood_volume -= 1 * seconds_per_tick
-
-	if(slime.blood_volume > BLOOD_VOLUME_NORMAL && healing)
-		if(HAS_TRAIT(slime, TRAIT_SLIME_HYDROPHOBIA))
-			return
-		if(slime.stat != CONSCIOUS)
-			return
-		slime.heal_overall_damage(brute = 2 * seconds_per_tick, burn = 2 * seconds_per_tick, required_bodytype = BODYTYPE_ORGANIC)
-		slime.adjustOxyLoss(-1 * seconds_per_tick)
-
-	if(!slime.blood_volume)
-		slime.blood_volume += 5
-		slime.adjustBruteLoss(5)
-		to_chat(slime, span_danger("You feel empty!"))
-
-	if(slime.nutrition >= NUTRITION_LEVEL_WELL_FED && slime.blood_volume <= 672)
-		if(slime.nutrition >= NUTRITION_LEVEL_ALMOST_FULL)
-			slime.adjust_nutrition(-5)
-			slime.blood_volume += 10
-		else
-			slime.blood_volume += 8
-
-	if(slime.nutrition <= NUTRITION_LEVEL_HUNGRY)
-		if(slime.nutrition <= NUTRITION_LEVEL_STARVING)
-			slime.blood_volume -= 8
-			if(prob(5))
-				to_chat(slime, span_info("You're starving! Get some food!"))
-		else
-			if(prob(35))
-				slime.blood_volume -= 2
-				if(prob(5))
-					to_chat(slime, span_danger("You're feeling pretty hungry..."))
-
-	if(slime.blood_volume < BLOOD_VOLUME_OKAY && prob(5))
-		to_chat(slime, span_danger("You feel drained!"))
-	if(slime.blood_volume < BLOOD_VOLUME_OKAY)
-		Cannibalize_Body(slime)
-
-	if(slime.blood_volume < 0)
-		slime.blood_volume = 0
-
-/datum/species/oozeling/proc/Cannibalize_Body(mob/living/carbon/human/slime)
-	if(HAS_TRAIT(slime, TRAIT_OOZELING_NO_CANNIBALIZE))
-		return
-	var/list/limbs_to_consume = list(BODY_ZONE_R_ARM, BODY_ZONE_L_ARM, BODY_ZONE_R_LEG, BODY_ZONE_L_LEG) - slime.get_missing_limbs()
-	var/obj/item/bodypart/consumed_limb
-
-	if(!length(limbs_to_consume))
-		slime.losebreath++
-		return
-	if(slime.num_legs) //Legs go before arms
-		limbs_to_consume -= list(BODY_ZONE_R_ARM, BODY_ZONE_L_ARM)
-
-	consumed_limb = slime.get_bodypart(pick(limbs_to_consume))
-	consumed_limb.drop_limb()
-
-	to_chat(slime, span_userdanger("Your [consumed_limb] is drawn back into your body, unable to maintain its shape!"))
-	qdel(consumed_limb)
-	slime.blood_volume += 80
-	slime.nutrition += 20
 
 ///////
 /// CHEMICAL HANDLING

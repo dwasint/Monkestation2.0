@@ -38,6 +38,7 @@
 	)
 	mutanttongue = /obj/item/organ/internal/tongue/pod
 	mutanteyes = /obj/item/organ/internal/eyes/floran
+	mutantheart = /obj/item/organ/internal/heart/pod
 
 	ass_image = 'icons/ass/asspodperson.png'
 
