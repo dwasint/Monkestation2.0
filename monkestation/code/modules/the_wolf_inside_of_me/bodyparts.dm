@@ -41,6 +41,7 @@
 	biological_state = (BIO_FLESH|BIO_BLOODED)
 	bodypart_traits = list(TRAIT_NO_JUMPSUIT, TRAIT_IGNOREDAMAGESLOWDOWN, TRAIT_PUSHIMMUNE, TRAIT_STUNIMMUNE)
 	wing_types = null
+	acceptable_bodytype = BODYTYPE_ORGANIC | BODYTYPE_DIGITIGRADE
 
 /obj/item/bodypart/arm/left/werewolf
 	limb_id = SPECIES_WEREWOLF
