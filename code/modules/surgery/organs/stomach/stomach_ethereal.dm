@@ -156,7 +156,7 @@
 		playsound(ethereal, 'sound/magic/lightningshock.ogg', 100, TRUE, extrarange = 5)
 		ethereal.cut_overlay(overcharge)
 		tesla_zap(ethereal, 2, ethereal.blood_volume*9, ZAP_OBJ_DAMAGE | ZAP_GENERATES_POWER | ZAP_ALLOW_DUPLICATES)
-		adjust_charge(ethereal, ETHEREAL_BLOOD_CHARGE_FULL - ethereal.blood_volume)
+		adjust_charge(ETHEREAL_BLOOD_CHARGE_FULL - ethereal.blood_volume)
 		ethereal.visible_message(span_danger("[ethereal] violently discharges energy!"), span_warning("You violently discharge energy!"))
 
 		ethereal.Paralyze(100)
