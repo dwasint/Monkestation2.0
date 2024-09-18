@@ -489,10 +489,13 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 /datum/preferences/proc/apply_prefs_to(mob/living/carbon/human/character, icon_updates = TRUE)
 	character.dna.features = list()
 
+	var/species_type = read_preference(/datum/preference/choiced/species)
+	var/datum/species/species = new species_type
 	for (var/datum/preference/preference as anything in get_preferences_in_priority_order())
 		if (preference.savefile_identifier != PREFERENCE_CHARACTER)
 			continue
-
+		if(preference.relevant_inherent_trait && !(preference.relevant_inherent_trait in species.inherent_traits))
+			continue
 		preference.apply_to_human(character, read_preference(preference.type))
 
 	character.dna.real_name = character.real_name

@@ -14,7 +14,7 @@
 	wound_resistance = 10
 	bodypart_trait_source = CHEST_TRAIT
 	///The bodytype(s) allowed to attach to this chest.
-	var/acceptable_bodytype = BODYTYPE_HUMANOID
+	var/acceptable_bodytype = BODYTYPE_HUMANOID | BODYTYPE_DIGITIGRADE
 
 	var/icon/ass_image
 	var/list/wing_types = list(/obj/item/organ/external/wings/functional/angel)
@@ -55,12 +55,12 @@
 	icon_static = 'icons/mob/species/alien/bodyparts.dmi'
 	icon_state = "alien_chest"
 	limb_id = BODYPART_ID_ALIEN
-	bodytype = BODYTYPE_HUMANOID | BODYTYPE_ALIEN | BODYTYPE_ORGANIC
+	bodytype = BODYTYPE_HUMANOID | BODYTYPE_ALIEN | BODYTYPE_ORGANIC | BODYTYPE_DIGITIGRADE
 	is_dimorphic = FALSE
 	should_draw_greyscale = FALSE
 	bodypart_flags = BODYPART_UNREMOVABLE
 	max_damage = 500
-	acceptable_bodytype = BODYTYPE_HUMANOID
+	acceptable_bodytype = BODYTYPE_HUMANOID | BODYTYPE_DIGITIGRADE
 
 /obj/item/bodypart/chest/larva
 	icon = 'icons/mob/species/alien/bodyparts.dmi'
@@ -191,7 +191,7 @@
 	icon_static = 'icons/mob/species/alien/bodyparts.dmi'
 	icon_state = "alien_l_arm"
 	limb_id = BODYPART_ID_ALIEN
-	bodytype = BODYTYPE_HUMANOID | BODYTYPE_ALIEN | BODYTYPE_ORGANIC
+	bodytype = BODYTYPE_HUMANOID | BODYTYPE_ALIEN | BODYTYPE_ORGANIC | BODYTYPE_DIGITIGRADE
 	px_x = 0
 	px_y = 0
 	bodypart_flags = BODYPART_UNREMOVABLE
@@ -294,7 +294,7 @@
 	icon_static = 'icons/mob/species/alien/bodyparts.dmi'
 	icon_state = "alien_r_arm"
 	limb_id = BODYPART_ID_ALIEN
-	bodytype = BODYTYPE_HUMANOID | BODYTYPE_ALIEN | BODYTYPE_ORGANIC
+	bodytype = BODYTYPE_HUMANOID | BODYTYPE_ALIEN | BODYTYPE_ORGANIC | BODYTYPE_DIGITIGRADE
 	px_x = 0
 	px_y = 0
 	bodypart_flags = BODYPART_UNREMOVABLE
@@ -308,7 +308,7 @@
 	desc = "This item shouldn't exist. Talk about breaking a leg. Badum-Tss!"
 	attack_verb_continuous = list("kicks", "stomps")
 	attack_verb_simple = list("kick", "stomp")
-	bodytype = BODYTYPE_HUMANOID | BODYTYPE_ORGANIC
+	bodytype = BODYTYPE_HUMANOID | BODYTYPE_ORGANIC | BODYTYPE_DIGITIGRADE
 	max_damage = 50
 	body_damage_coeff = 0.75
 	can_be_disabled = TRUE

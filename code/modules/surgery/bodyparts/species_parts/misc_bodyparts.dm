@@ -390,7 +390,7 @@
 
 /obj/item/bodypart/chest/golem
 	biological_state = BIO_BONE
-	acceptable_bodytype = BODYTYPE_ORGANIC
+	acceptable_bodytype = BODYTYPE_ORGANIC | BODYTYPE_DIGITIGRADE
 	bodytype =  BODYTYPE_ORGANIC
 	limb_id = SPECIES_GOLEM
 	is_dimorphic = TRUE
