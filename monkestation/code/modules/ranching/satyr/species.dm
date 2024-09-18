@@ -4,10 +4,10 @@
 	id = SPECIES_SATYR
 	changesource_flags = MIRROR_BADMIN | WABBAJACK | MIRROR_PRIDE | MIRROR_MAGIC | RACE_SWAP | ERT_SPAWN
 	sexes = TRUE
-	species_traits = list(
-		NO_UNDERWEAR,
+	inherent_traits = list(
+		TRAIT_NO_UNDERWEAR,
+		TRAIT_USES_SKINTONES,
 	)
-
 	special_step_sounds = list(
 		'sound/effects/footstep/hardclaw1.ogg',
 		'sound/effects/footstep/hardclaw2.ogg',
@@ -16,7 +16,6 @@
 		'sound/effects/footstep/hardclaw1.ogg',
 	)
 	inherent_biotypes = MOB_ORGANIC | MOB_HUMANOID
-	use_skintones = TRUE
 	external_organs = list(
 		/obj/item/organ/external/satyr_fluff = "normal",
 		/obj/item/organ/external/satyr_tail = "short",

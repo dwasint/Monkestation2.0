@@ -242,7 +242,7 @@
 			msg += "[t_He] look[p_s()] extremely disgusted.\n"
 
 	var/apparent_blood_volume = blood_volume
-	if((dna.species.use_skintones)&& skin_tone == "albino")
+	if(HAS_TRAIT(src, TRAIT_USES_SKINTONES) && (skin_tone == "albino"))
 		apparent_blood_volume -= 150 // enough to knock you down one tier
 	if(isethereal(src))//Monkestation Changes Start:
 		if(appears_dead)

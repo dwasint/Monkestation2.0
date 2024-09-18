@@ -7,9 +7,9 @@
 	id = SPECIES_OOZELING
 	changesource_flags = MIRROR_BADMIN | WABBAJACK | MIRROR_PRIDE | MIRROR_MAGIC | RACE_SWAP | ERT_SPAWN | SLIME_EXTRACT
 
-	species_traits = list(
-		MUTCOLORS,
-		)
+	inherent_traits = list(
+		TRAIT_MUTANT_COLORS,
+	)
 
 	hair_color = "mutcolor"
 	hair_alpha = 160

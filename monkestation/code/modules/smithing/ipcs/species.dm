@@ -23,12 +23,8 @@
 		TRAIT_LITERATE,
 		TRAIT_REVIVES_BY_HEALING,
 		TRAIT_NO_DNA_COPY,
-	)
-
-	species_traits = list(
-		NO_DNA_COPY,
-		NOTRANSSTING,
-		NOHUSK
+		TRAIT_NO_TRANSFORMATION_STING,
+		TRAIT_NO_HUSK,
 	)
 
 	mutant_organs = list(
@@ -233,7 +229,7 @@
 		BP.limb_id = chassis_of_choice.icon_state
 		BP.name = "\improper[chassis_of_choice.name] [parse_zone(BP.body_zone)]"
 		BP.update_limb()
-		if(chassis_of_choice.color_src == MUTCOLORS)
+		if(chassis_of_choice.color_src == MUTANT_COLOR)
 			BP.should_draw_greyscale = TRUE
 
 /**

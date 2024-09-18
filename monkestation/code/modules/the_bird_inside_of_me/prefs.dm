@@ -76,7 +76,7 @@
 	savefile_key = "feather_color"
 	savefile_identifier = PREFERENCE_CHARACTER
 	category = PREFERENCE_CATEGORY_SUPPLEMENTAL_FEATURES
-	relevant_species_trait = TRAIT_FEATHERED
+	relevant_inherent_trait = TRAIT_FEATHERED
 
 /datum/preference/color/feather_color/apply_to_human(mob/living/carbon/human/target, value)
 	target.dna.features["feathers"] = value

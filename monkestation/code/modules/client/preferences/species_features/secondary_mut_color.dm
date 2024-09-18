@@ -2,7 +2,15 @@
 	savefile_key = "feature_mcolor_secondary"
 	savefile_identifier = PREFERENCE_CHARACTER
 	category = PREFERENCE_CATEGORY_SECONDARY_FEATURES
-	relevant_species_trait = MUTCOLORS_SECONDARY
+	relevant_inherent_trait = TRAIT_MUTANT_COLORS_SECONDARY
+
+/datum/preference/color/mutant_color_secondary/is_accessible(datum/preferences/preferences)
+	if (!..(preferences))
+		return FALSE
+
+	var/species_type = preferences.read_preference(/datum/preference/choiced/species)
+	var/datum/species/species = new species_type
+	return !(TRAIT_MUTANT_COLORS_SECONDARY in species.inherent_traits)
 
 /datum/preference/color/mutant_color_secondary/create_default_value()
 	return sanitize_hexcolor("[pick("7F", "FF")][pick("7F", "FF")][pick("7F", "FF")]")

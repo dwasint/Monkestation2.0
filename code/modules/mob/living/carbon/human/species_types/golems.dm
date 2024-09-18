@@ -2,13 +2,11 @@
 	// Animated beings of stone. They have increased defenses, and do not need to breathe. They're also slow as fuuuck.
 	name = "Golem"
 	id = SPECIES_GOLEM
-	species_traits = list(
-		NOTRANSSTING,
-		MUTCOLORS,
-		NO_UNDERWEAR,
-		NO_DNA_COPY,
-	)
 	inherent_traits = list(
+		TRAIT_NO_UNDERWEAR,
+		TRAIT_NO_DNA_COPY,
+		TRAIT_NO_TRANSFORMATION_STING,
+		TRAIT_NO_AUGMENTS,
 		TRAIT_GENELESS,
 		TRAIT_NOBREATH,
 		TRAIT_NOBLOOD,
@@ -656,8 +654,8 @@
 	id = SPECIES_GOLEM_CULT
 	sexes = FALSE
 	info_text = "As a <span class='danger'>Runic Golem</span>, you possess eldritch powers granted by the Elder Goddess Nar'Sie."
-	species_traits = list(NO_UNDERWEAR,NOEYESPRITES) //no mutcolors
 	inherent_traits = list(
+		TRAIT_NO_UNDERWEAR,
 		TRAIT_GENELESS,
 		TRAIT_NOBREATH,
 		TRAIT_NODISMEMBER,
@@ -740,8 +738,8 @@
 	sexes = FALSE
 	info_text = "As a <span class='danger'>Cloth Golem</span>, you are able to reform yourself after death, provided your remains aren't burned or destroyed. You are, of course, very flammable. \
 	Being made of cloth, your body is immune to spirits of the damned and runic golems. You are faster than that of other golems, but weaker and less resilient."
-	species_traits = list(NO_UNDERWEAR) //no mutcolors, and can burn
 	inherent_traits = list(
+		TRAIT_NO_UNDERWEAR,
 		TRAIT_ADVANCEDTOOLUSER,
 		TRAIT_CAN_STRIP,
 		TRAIT_GENELESS,
@@ -1006,8 +1004,8 @@
 	prefix = "Cardboard"
 	special_names = list("Box")
 	info_text = "As a <span class='danger'>Cardboard Golem</span>, you aren't very strong, but you are a bit quicker and can easily create more brethren by using cardboard on yourself. Cardboard makes a poor building material for tongues, so you'll have difficulty speaking."
-	species_traits = list(NO_UNDERWEAR,NOEYESPRITES)
 	inherent_traits = list(
+		TRAIT_NO_UNDERWEAR,
 		TRAIT_ADVANCEDTOOLUSER,
 		TRAIT_CAN_STRIP,
 		TRAIT_GENELESS,
@@ -1097,9 +1095,9 @@
 	id = SPECIES_GOLEM_DURATHREAD
 	prefix = "Durathread"
 	special_names = list("Boll","Weave")
-	species_traits = list(NO_UNDERWEAR,NOEYESPRITES)
 	fixed_mut_color = null
 	inherent_traits = list(
+		TRAIT_NO_UNDERWEAR,
 		TRAIT_ADVANCEDTOOLUSER,
 		TRAIT_CAN_STRIP,
 		TRAIT_GENELESS,
@@ -1138,11 +1136,8 @@
 	mutantstomach = /obj/item/organ/internal/stomach/bone
 	sexes = FALSE
 	fixed_mut_color = null
-	species_traits = list(
-		NO_UNDERWEAR,
-		NOEYESPRITES,
-	)
 	inherent_traits = list(
+		TRAIT_NO_UNDERWEAR,
 		TRAIT_ADVANCEDTOOLUSER,
 		TRAIT_CAN_STRIP,
 		TRAIT_FAKEDEATH,
@@ -1255,8 +1250,8 @@
 	info_text = "As a <span class='danger'>Snow Golem</span>, you are extremely vulnerable to burn damage, but you can generate snowballs and shoot cryokinetic beams. You will also turn to snow when dying, preventing any form of recovery."
 	prefix = "Snow"
 	special_names = list("Flake", "Blizzard", "Storm")
-	species_traits = list(NO_UNDERWEAR,NOEYESPRITES) //no mutcolors, no eye sprites
 	inherent_traits = list(
+		TRAIT_NO_UNDERWEAR,
 		TRAIT_ADVANCEDTOOLUSER,
 		TRAIT_CAN_STRIP,
 		TRAIT_GENELESS,

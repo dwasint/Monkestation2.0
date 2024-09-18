@@ -4,10 +4,8 @@
 	id = SPECIES_GOBLIN
 	changesource_flags = MIRROR_BADMIN | WABBAJACK | MIRROR_PRIDE | MIRROR_MAGIC | RACE_SWAP | ERT_SPAWN
 	sexes = TRUE
-	species_traits = list(
-		MUTCOLORS,
-	)
 	inherent_traits = list(
+		TRAIT_MUTANT_COLORS,
 		TRAIT_DWARF,
 		TRAIT_QUICK_BUILD,
 		TRAIT_EASILY_WOUNDED,

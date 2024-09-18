@@ -1,6 +1,6 @@
 /datum/sprite_accessory/tails/ethereal
 	icon = 'monkestation/icons/mob/species/ethereal/ethereal_tail.dmi'
-	color_src = MUTCOLORS
+	color_src = MUTANT_COLOR
 
 /datum/sprite_accessory/tails/ethereal/none
 	name = "None"

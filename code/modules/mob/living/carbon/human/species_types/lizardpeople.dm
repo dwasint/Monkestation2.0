@@ -4,11 +4,10 @@
 	plural_form = "Lizardfolk"
 	id = SPECIES_LIZARD
 	visual_gender = FALSE
-	species_traits = list(
-		MUTCOLORS,
-		MUTCOLORS_SECONDARY,
-	)
 	inherent_traits = list(
+		TRAIT_MUTANT_COLORS,
+		TRAIT_MUTANT_COLORS_SECONDARY,
+		TRAIT_NO_UNDERWEAR,
 		TRAIT_CAN_USE_FLIGHT_POTION,
 		TRAIT_TACKLING_TAILED_DEFENDER,
 	)
@@ -111,12 +110,10 @@ Lizard subspecies: ASHWALKERS
 	id = SPECIES_LIZARD_ASH
 	mutantlungs = /obj/item/organ/internal/lungs/lavaland
 	mutantbrain = /obj/item/organ/internal/brain/primitive
-	species_traits = list(
-		MUTCOLORS,
-		MUTCOLORS_SECONDARY,
-		NO_UNDERWEAR, //MONKESTATION ADDITION: no more flesh clothes lol
-	)
 	inherent_traits = list(
+		TRAIT_MUTANT_COLORS,
+		TRAIT_MUTANT_COLORS_SECONDARY,
+		TRAIT_NO_UNDERWEAR,
 		//TRAIT_LITERATE,
 		TRAIT_VIRUSIMMUNE,
 		TRAIT_CAN_USE_FLIGHT_POTION,

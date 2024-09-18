@@ -12,7 +12,7 @@
 	bodypart_overlay = /datum/bodypart_overlay/mutant/ethereal_horns
 
 /datum/bodypart_overlay/mutant/ethereal_horns
-	layers = EXTERNAL_FRONT|EXTERNAL_ADJACENT
+	layers = EXTERNAL_FRONT|EXTERNAL_BEHIND
 	feature_key = "ethereal_horns"
 
 /datum/bodypart_overlay/mutant/ethereal_horns/get_global_feature_list()

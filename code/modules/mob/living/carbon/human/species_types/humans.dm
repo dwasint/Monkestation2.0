@@ -1,12 +1,10 @@
 /datum/species/human
 	name = "\improper Human"
 	id = SPECIES_HUMAN
-	species_traits = list()
-	inherent_traits = list(
-		TRAIT_CAN_USE_FLIGHT_POTION,
-	)
 	mutant_bodyparts = list("wings" = "None")
-	use_skintones = TRUE
+	inherent_traits = list(
+		TRAIT_USES_SKINTONES,
+	)
 	skinned_type = /obj/item/stack/sheet/animalhide/human
 	changesource_flags = MIRROR_BADMIN | WABBAJACK | MIRROR_MAGIC | MIRROR_PRIDE | ERT_SPAWN | RACE_SWAP | SLIME_EXTRACT
 	payday_modifier = 1

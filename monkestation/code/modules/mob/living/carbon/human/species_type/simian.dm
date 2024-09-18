@@ -5,18 +5,13 @@
 
 	bodytype = BODYTYPE_CUSTOM
 
-	species_traits = list(
-		NO_UNDERWEAR,
-		SPECIES_FUR,
-		SKINTONES,
-		)
 	inherent_traits = list(
+		TRAIT_FUR_COLORS,
+		TRAIT_NO_UNDERWEAR,
 		TRAIT_VAULTING,
 		TRAIT_KLEPTOMANIAC,
 		TRAIT_MONKEYFRIEND
 		)
-
-	use_skintones = FALSE
 
 	inherent_biotypes = MOB_ORGANIC | MOB_HUMANOID
 
@@ -24,7 +19,6 @@
 	changesource_flags = MIRROR_BADMIN | MIRROR_PRIDE | MIRROR_MAGIC | RACE_SWAP | ERT_SPAWN
 	meat = /obj/item/food/meat/slab/monkey
 	skinned_type = /obj/item/stack/sheet/animalhide/monkey
-	uses_fur = TRUE
 	//deathsound = 'monkestation/sound/voice/simian/deathsound.ogg'
 	species_language_holder = /datum/language_holder/monkey
 	maxhealthmod = 0.85 //small = weak

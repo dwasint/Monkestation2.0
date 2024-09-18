@@ -10,10 +10,6 @@ GLOBAL_LIST_EMPTY(tails_list_avian)
 	name = "\improper Ornithid"
 	plural_form = "Ornithids"
 	id = SPECIES_ORNITHID
-	species_traits = list(
-		NO_UNDERWEAR,
-		TRAIT_FEATHERED,
-	)
 
 	special_step_sounds = list(
 		'sound/effects/footstep/hardclaw1.ogg',
@@ -24,6 +20,8 @@ GLOBAL_LIST_EMPTY(tails_list_avian)
 	)
 
 	inherent_traits = list(
+		TRAIT_NO_UNDERWEAR,
+		TRAIT_FEATHERED,
 		TRAIT_LIGHT_DRINKER,
 		TRAIT_TACKLING_WINGED_ATTACKER,
 		TRAIT_USES_SKINTONES,

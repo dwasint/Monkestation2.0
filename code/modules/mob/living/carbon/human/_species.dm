@@ -63,8 +63,6 @@ GLOBAL_LIST_EMPTY(features_by_species)
 	var/examine_limb_id
 	///Never, Optional, or Forced digi legs?
 	var/digitigrade_customization = DIGITIGRADE_NEVER
-	///Does the species use skintones or not? As of now only used by humans.
-	var/use_skintones = FALSE
 	/// If your race uses a non standard bloodtype (typepath)
 	var/datum/blood_type/exotic_bloodtype
 	///The rate at which blood is passively drained by having the blood deficiency quirk. Some races such as slimepeople can regen their blood at different rates so this is to account for that
@@ -129,8 +127,6 @@ GLOBAL_LIST_EMPTY(features_by_species)
 	/// The icon of the fire overlay added when sufficently ablaze
 	var/fire_dmi
 
-	///Species-only traits. Can be found in [code/__DEFINES/DNA.dm]
-	var/list/species_traits = list()
 	///Generic traits tied to having the species.
 	var/list/inherent_traits = list()
 	/// List of biotypes the mob belongs to. Used by diseases.
@@ -142,8 +138,6 @@ GLOBAL_LIST_EMPTY(features_by_species)
 
 	///What gas does this species breathe? Used by suffocation screen alerts, most of actual gas breathing is handled by mutantlungs. See [life.dm][code/modules/mob/living/carbon/human/life.dm]
 	var/breathid = "o2"
-	///are we a furry little guy?
-	var/uses_fur = FALSE
 	///What anim to use for dusting
 	var/dust_anim = "dust-h"
 	///What anim to use for gibbing
@@ -196,7 +190,7 @@ GLOBAL_LIST_EMPTY(features_by_species)
 	var/payday_modifier = 1.0
 	///Base electrocution coefficient.  Basically a multiplier for damage from electrocutions.
 	var/siemens_coeff = 1
-	///To use MUTCOLOR with a fixed color that's independent of the mcolor feature in DNA.
+	///To use TRAIT_MUTANT_COLORS with a fixed color that's independent of the mcolor feature in DNA.
 	var/fixed_mut_color = ""
 	///A fixed hair color that's independent of the mcolor feature in DNA.
 	var/fixed_hair_color = ""
@@ -513,8 +507,7 @@ GLOBAL_LIST_EMPTY(features_by_species)
 
 	if(C.dna.species.exotic_bloodtype)
 		C.dna.human_blood_type = exotic_bloodtype
-	if((AGENDER in species_traits))
-		C.gender = PLURAL
+
 	if(C.hud_used)
 		C.hud_used.update_locked_slots()
 
@@ -547,10 +540,6 @@ GLOBAL_LIST_EMPTY(features_by_species)
 			var/obj/item/organ/external/new_organ = SSwardrobe.provide_type(organ_path)
 			new_organ.Insert(human, special=TRUE, drop_if_replaced=FALSE)
 
-	if(NOMOUTH in species_traits)
-		for(var/obj/item/bodypart/head/head in C.bodyparts)
-			head.mouth = FALSE
-
 	if(length(inherent_traits))
 		C.add_traits(inherent_traits, SPECIES_TRAIT)
 
@@ -561,7 +550,7 @@ GLOBAL_LIST_EMPTY(features_by_species)
 	if(TRAIT_TOXIMMUNE in inherent_traits)
 		C.setToxLoss(0, TRUE, TRUE)
 
-	if(TRAIT_NOMETABOLISM in inherent_traits)
+	if(TRAIT_LIVERLESS_METABOLISM in inherent_traits)
 		C.reagents.end_metabolization(C, keep_liverless = TRUE)
 
 	if(TRAIT_GENELESS in inherent_traits)
@@ -591,9 +580,6 @@ GLOBAL_LIST_EMPTY(features_by_species)
 	SHOULD_CALL_PARENT(TRUE)
 	if(C.dna.species.exotic_bloodtype)
 		C.dna.human_blood_type = random_human_blood_type()
-	if(NOMOUTH in species_traits)
-		for(var/obj/item/bodypart/head/head in C.bodyparts)
-			head.mouth = TRUE
 	for(var/X in inherent_traits)
 		REMOVE_TRAIT(C, X, SPECIES_TRAIT)
 	for(var/obj/item/organ/external/organ in C.organs)
@@ -652,7 +638,7 @@ GLOBAL_LIST_EMPTY(features_by_species)
 					standing += eye_overlay
 
 		// organic body markings
-		if(HAS_MARKINGS in species_traits)
+		if(HAS_TRAIT(species_human, TRAIT_HAS_MARKINGS))
 			var/obj/item/bodypart/chest/chest = species_human.get_bodypart(BODY_ZONE_CHEST)
 			var/obj/item/bodypart/arm/right/right_arm = species_human.get_bodypart(BODY_ZONE_R_ARM)
 			var/obj/item/bodypart/arm/left/left_arm = species_human.get_bodypart(BODY_ZONE_L_ARM)
@@ -690,7 +676,7 @@ GLOBAL_LIST_EMPTY(features_by_species)
 						standing += markings_l_leg_overlay
 
 	//Underwear, Undershirts & Socks
-	if(!(NO_UNDERWEAR in species_traits))
+	if(!HAS_TRAIT(species_human, TRAIT_NO_UNDERWEAR))
 		if(species_human.underwear && !(src.bodytype & BODYTYPE_DIGITIGRADE)) //MONKESTATION EDIT
 			var/datum/sprite_accessory/underwear/underwear = GLOB.underwear_list[species_human.underwear]
 			var/mutable_appearance/underwear_overlay
@@ -812,14 +798,14 @@ GLOBAL_LIST_EMPTY(features_by_species)
 			if(!(HAS_TRAIT(source, TRAIT_HUSK)))
 				if(!forced_colour)
 					switch(accessory.color_src)
-						if(SKINTONES)
+						if(SKIN_COLOR)
 							accessory_overlay.color = skintone2hex(source.skin_tone)
-						if(MUTCOLORS)
+						if(MUTANT_COLOR)
 							if(fixed_mut_color)
 								accessory_overlay.color = fixed_mut_color
 							else
 								accessory_overlay.color = source.dna.features["mcolor"]
-						if(MUTCOLORS_SECONDARY)
+						if(MUTANT_COLOR_SECONDARY)
 							if(fixed_mut_color)
 								accessory_overlay.color = fixed_mut_color
 							else
@@ -835,7 +821,7 @@ GLOBAL_LIST_EMPTY(features_by_species)
 							accessory_overlay.color = source.facial_hair_color
 						if(EYE_COLOR)
 							accessory_overlay.color = source.eye_color_left
-						if(ANIME)
+						if(ANIME_COLOR)
 							accessory_overlay.color = source.dna.features["animecolor"]
 				else
 					accessory_overlay.color = forced_colour
@@ -1524,7 +1510,7 @@ GLOBAL_LIST_EMPTY(features_by_species)
 
 		if ( \
 			(preference.relevant_mutant_bodypart in mutant_bodyparts) \
-			|| (preference.relevant_species_trait in species_traits) \
+			|| (preference.relevant_inherent_trait in inherent_traits) \
 			|| (preference.relevant_external_organ in external_organs) \
 			|| (preference.relevant_head_flag && check_head_flags(preference.relevant_head_flag)) \
 		)

@@ -1,12 +1,9 @@
 /datum/species/werewolf
 	name = "werewolf"
 	id = SPECIES_WEREWOLF
-	species_traits = list(
-		NO_UNDERWEAR,
-	)
 	inherent_traits = list(
-		TRAIT_USES_SKINTONES,
 		TRAIT_NO_UNDERWEAR,
+		TRAIT_USES_SKINTONES,
 		TRAIT_NO_AUGMENTS,
 		TRAIT_IGNOREDAMAGESLOWDOWN,
 		TRAIT_PUSHIMMUNE,

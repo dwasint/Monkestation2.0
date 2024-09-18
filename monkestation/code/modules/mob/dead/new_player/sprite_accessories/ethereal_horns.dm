@@ -1,6 +1,6 @@
 /datum/sprite_accessory/ethereal_horns
 	icon = 'monkestation/icons/mob/species/ethereal/ethereal_horns.dmi'
-	color_src = MUTCOLORS
+	color_src = MUTANT_COLOR
 
 /datum/sprite_accessory/ethereal_horns/none
 	name = "None"

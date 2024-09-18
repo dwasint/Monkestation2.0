@@ -79,7 +79,7 @@
 	bodypart_overlay = /datum/bodypart_overlay/mutant/satyr_tail
 
 /datum/bodypart_overlay/mutant/satyr_tail
-	layers = EXTERNAL_ADJACENT | EXTERNAL_FRONT
+	layers = EXTERNAL_ADJACENT | EXTERNAL_BEHIND
 	feature_key = "satyr_tail"
 	color_source = ORGAN_COLOR_HAIR
 

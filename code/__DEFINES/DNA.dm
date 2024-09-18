@@ -73,6 +73,7 @@
 
 
 //species traits for mutantraces
+/*
 #define MUTCOLORS 1
 #define NOTRANSSTING 2
 #define NOZOMBIE 3
@@ -83,24 +84,21 @@
 #define MUTCOLORS_SECONDARY 8
 #define SPECIES_FUR 9
 #define SKINTONES 10
+*/
 
 /// Use this if you want to change the race's color without the player being able to pick their own color. AKA special color shifting
 #define DYNCOLORS 7
 #define AGENDER 8
-/// Do not draw eyes or eyeless overlay
-#define NOEYESPRITES 9
 ///If we have a limb-specific overlay sprite
-#define HAS_MARKINGS 10
+#define HAS_MARKINGS 9
 /// Do not draw blood overlay
-#define NOBLOODOVERLAY 11
+#define NOBLOODOVERLAY 10
 ///No augments, for monkeys in specific because they will turn into fucking freakazoids https://cdn.discordapp.com/attachments/326831214667235328/791313258912153640/102707682-fa7cad80-4294-11eb-8f13-8c689468aeb0.png
-#define NOAUGMENTS 12
+#define NOAUGMENTS 11
 ///will be assigned a universal vampire themed last name shared by their department. this is preferenced!
-#define BLOOD_CLANS 13
+#define BLOOD_CLANS 12
 
-#define REVIVESBYHEALING 14
-#define NOHUSK 15
-#define NOMOUTH 16
+#define REVIVESBYHEALING 13
 
 //organ slots
 #define ORGAN_SLOT_ADAMANTINE_RESONATOR "adamantine_resonator"

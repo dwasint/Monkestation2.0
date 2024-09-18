@@ -10,13 +10,11 @@
 	id = SPECIES_DRACONIC_SKELETON
 	sexes = 0
 	meat = /obj/item/food/meat/slab/human/mutant/skeleton
-	species_traits = list(
-		NOTRANSSTING,
-		NO_DNA_COPY,
-		NO_UNDERWEAR,
-		NOHUSK,
-	)
 	inherent_traits = list(
+		TRAIT_NO_TRANSFORMATION_STING,
+		TRAIT_NO_DNA_COPY,
+		TRAIT_NO_UNDERWEAR,
+		TRAIT_NO_HUSK,
 		TRAIT_CAN_USE_FLIGHT_POTION,
 		TRAIT_EASYDISMEMBER,
 		TRAIT_FAKEDEATH,

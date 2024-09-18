@@ -3,17 +3,14 @@
 	name = "\improper Jellyperson"
 	plural_form = "Jellypeople"
 	id = SPECIES_JELLYPERSON
-	species_traits = list(
-		MUTCOLORS,
-	)
 	inherent_traits = list(
-		TRAIT_CAN_USE_FLIGHT_POTION,
-		TRAIT_TOXINLOVER,
+		TRAIT_MUTANT_COLORS,
 	)
 	mutanttongue = /obj/item/organ/internal/tongue/jelly
 	mutantlungs = /obj/item/organ/internal/lungs/slime
 	mutanteyes = /obj/item/organ/internal/eyes/jelly
 	mutantheart = /obj/item/organ/internal/heart/slime
+	mutantliver = /obj/item/organ/internal/liver/slime
 
 	meat = /obj/item/food/meat/slab/human/mutant/slime
 	exotic_bloodtype = /datum/blood_type/slime
@@ -61,7 +58,9 @@
 	name = "\improper Slimeperson"
 	plural_form = "Slimepeople"
 	id = SPECIES_SLIMEPERSON
-	species_traits = list(MUTCOLORS,)
+	inherent_traits = list(
+		TRAIT_MUTANT_COLORS,
+	)
 	hair_color = "mutcolor"
 	hair_alpha = 150
 	facial_hair_alpha = 150

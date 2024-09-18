@@ -27,14 +27,6 @@
 	name = "\improper Apid"
 	plural_form = "Apids"
 	id = SPECIES_APID
-	species_traits = list(HAS_MARKINGS,)
-
-	/*
-	mutant_bodyparts = list(
-		"apid_stripes" = "None",
-		"apid_headstripes" = "None",
-	)
-	*/
 
 	mutanteyes = /obj/item/organ/internal/eyes/apid
 
@@ -46,6 +38,7 @@
 	inherent_traits = list(
 		TRAIT_TACKLING_WINGED_ATTACKER,
 		TRAIT_ANTENNAE,
+		TRAIT_HAS_MARKINGS,
 	)
 	inherent_biotypes = MOB_ORGANIC|MOB_HUMANOID|MOB_BUG
 

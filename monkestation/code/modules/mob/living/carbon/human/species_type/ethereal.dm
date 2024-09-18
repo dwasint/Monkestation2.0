@@ -21,12 +21,11 @@
 	brutemod = 1.25 //They're weak to punches
 	payday_modifier = 1
 	inherent_traits = list(
+		TRAIT_MUTANT_COLORS,
+		TRAIT_FIXED_MUTANT_COLORS,
+		TRAIT_NO_UNDERWEAR,
 		TRAIT_NOHUNGER,
 		TRAIT_NO_BLOODLOSS_DAMAGE, //we handle that species-side.
-	)
-	species_traits = list(
-		DYNCOLORS,
-		NO_UNDERWEAR,
 	)
 	changesource_flags = MIRROR_BADMIN | WABBAJACK | MIRROR_PRIDE | MIRROR_MAGIC | RACE_SWAP | ERT_SPAWN | SLIME_EXTRACT
 	species_cookie = /obj/item/food/energybar

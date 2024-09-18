@@ -7,22 +7,19 @@
 /datum/species/vampire
 	name = "Vampire"
 	id = SPECIES_VAMPIRE
-	species_traits = list(
-		DRINKSBLOOD,
-		BLOOD_CLANS,
-	)
 	inherent_traits = list(
+		TRAIT_DRINKS_BLOOD,
+		TRAIT_BLOOD_CLANS,
 		TRAIT_NOBREATH,
 		TRAIT_NOHUNGER,
 		TRAIT_NO_MIRROR_REFLECTION,
-		/*TRAIT_USES_SKINTONES,*/ //monkestation temp removal, we dont have this refactor yet
+		TRAIT_USES_SKINTONES
 	)
 	inherent_biotypes = MOB_UNDEAD|MOB_HUMANOID
 	mutant_bodyparts = list("wings" = "None")
 	changesource_flags = MIRROR_BADMIN | WABBAJACK | ERT_SPAWN
 	exotic_bloodtype = /datum/blood_type/universal
 	blood_deficiency_drain_rate = BLOOD_DEFICIENCY_MODIFIER // vampires already passively lose blood, so this just makes them lose it slightly more quickly when they have blood deficiency.
-	use_skintones = TRUE
 	mutantheart = /obj/item/organ/internal/heart/vampire
 	mutanttongue = /obj/item/organ/internal/tongue/vampire
 	mutantstomach = null

@@ -2,12 +2,12 @@
 	category = PREFERENCE_CATEGORY_SECONDARY_FEATURES
 	savefile_identifier = PREFERENCE_CHARACTER
 	savefile_key = "fur"
-	relevant_species_trait = SPECIES_FUR
+	relevant_inherent_trait = TRAIT_FUR_COLORS
 
 /datum/preference/color/fur_color/apply_to_human(mob/living/carbon/human/target, value)
 	var/mob/user = usr
 	var/datum/species/species_type = user?.client.prefs.read_preference(/datum/preference/choiced/species)
-	if(initial(species_type.uses_fur))
+	if(TRAIT_FUR_COLORS in initial(species_type.inherent_traits))
 		target.dna.features["mcolor"] = value
 
 /datum/preference/choiced/simian_tail
