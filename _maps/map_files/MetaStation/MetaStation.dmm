@@ -27382,6 +27382,7 @@
 /obj/effect/turf_decal/tile/blue/half/contrasted{
 	dir = 8
 	},
+/obj/machinery/medipen_refiller,
 /turf/open/floor/iron/white,
 /area/station/medical/medbay/lobby)
 "jHB" = (
