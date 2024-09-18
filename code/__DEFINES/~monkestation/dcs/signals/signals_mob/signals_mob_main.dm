@@ -40,3 +40,7 @@
 #define COMSIG_CARBON_PAINED_STEP "carbon_pain_step"
 	/// Stop the pain from happening
 	#define STOP_PAIN (1<<0)
+
+#define COMSIG_LIVING_GIVE_ITEM_CHECK "living_give_item_check"
+
+#define COMSIG_LIVING_ITEM_OFFERED_PRECHECK "living_item_offer_precheck"
