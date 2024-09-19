@@ -34,7 +34,7 @@
 		BODY_ZONE_R_LEG = /obj/item/bodypart/leg/right/floran,
 		BODY_ZONE_CHEST = /obj/item/bodypart/chest/floran,
 	)
-	mutanttongue = /obj/item/organ/internal/tongue/pod
+	mutanttongue = /obj/item/organ/internal/tongue/floran
 	mutanteyes = /obj/item/organ/internal/eyes/floran
 	mutantheart = /obj/item/organ/internal/heart/pod
 

@@ -58,6 +58,11 @@
 	SHOULD_BE_PURE(TRUE)
 	return atom_integrity
 
+/// Similar to get_integrity, but returns the percentage as [0-1] instead.
+/atom/proc/get_integrity_percentage()
+	SHOULD_BE_PURE(TRUE)
+	return round(atom_integrity / max_integrity, 0.01)
+
 ///returns the damage value of the attack after processing the atom's various armor protections
 /atom/proc/run_atom_armor(damage_amount, damage_type, damage_flag = 0, attack_dir, armour_penetration = 0)
 	if(!uses_integrity)

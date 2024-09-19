@@ -78,8 +78,10 @@
 			take_bodypart_damage(10 + 5 * extra_speed, check_armor = TRUE, wound_bonus = extra_speed * 5)
 			victim.Paralyze(2 SECONDS)
 			Paralyze(2 SECONDS)
-			visible_message(span_danger("[src] crashes into [victim][extra_speed ? " really hard" : ""], knocking them both over!"),\
-				span_userdanger("You violently crash into [victim][extra_speed ? " extra hard" : ""]!"))
+			visible_message(
+				span_danger("[src] crashes into [hit_atom][extra_speed ? " really hard" : ""]!"),
+				span_userdanger("You[extra_speed ? " violently" : ""] crash into [hit_atom][extra_speed ? " extra hard" : ""]!"),
+			)
 		playsound(src,'sound/weapons/punch1.ogg',50,TRUE)
 		log_combat(src, victim, "crashed into")
 
