@@ -292,7 +292,7 @@
 //to add a splatter of blood or other mob liquid.
 /mob/living/proc/add_splatter_floor(turf/blood_turf = get_turf(src), small_drip)
 	// Create a bit of metallic pollution, as that's how blood smells
-	blood_turf.pollute_turf(/datum/pollutant/metallic_scent, 30) // TODO Move to blood_datum
+	blood_turf?.pollute_turf(/datum/pollutant/metallic_scent, 30) // TODO Move to blood_datum
 	return get_blood_type()?.make_blood_splatter(src, blood_turf, small_drip)
 
 /mob/living/proc/do_splatter_effect(splat_dir = pick(GLOB.cardinals))
