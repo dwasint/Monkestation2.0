@@ -328,7 +328,7 @@
 			if(prob(5))
 				M.emote("shiver")
 
-	M.adjust_bodytemperature(cooling * REM * seconds_per_tick, min_temp = CELCIUS_TO_KELVIN(36 CELCIUS))
+	M.adjust_bodytemperature(cooling * REM * seconds_per_tick, min_temp = M.bodytemp_cold_damage_limit - 15 KELVIN)
 
 /datum/reagent/consumable/frostoil/expose_turf(turf/exposed_turf, reac_volume)
 	. = ..()
