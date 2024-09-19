@@ -10,9 +10,9 @@
 	spawn_positions = 1
 	supervisors = SUPERVISOR_HOS
 	minimal_player_age = 7
-	exp_requirements = 300
+	exp_requirements = 600 //monkestation edit changed warden to require 10 hours as sec instead of 5 hours as crew
 	exp_required_type = EXP_TYPE_CREW
-	exp_granted_type = EXP_TYPE_CREW
+	exp_required_type_department = EXP_TYPE_SECURITY
 	config_tag = "WARDEN"
 
 	outfit = /datum/outfit/job/warden
