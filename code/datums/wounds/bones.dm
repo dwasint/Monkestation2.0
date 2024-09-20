@@ -22,10 +22,6 @@
 	var/gelled
 	/// Have we been taped?
 	var/taped
-	/// If we did the gel + surgical tape healing method for fractures, how many ticks does it take to heal by default
-	var/regen_ticks_needed
-	/// Our current counter for gel + surgical tape regeneration
-	var/regen_ticks_current
 	/// If we suffer severe head booboos, we can get brain traumas tied to them
 	var/datum/brain_trauma/active_trauma
 	/// What brain trauma group, if any, we can draw from for head wounds
@@ -115,13 +111,6 @@
 		victim.stamina.adjust(-rand(2, severity * 2.5))
 		if(prob(33))
 			to_chat(victim, span_danger("You feel a sharp pain in your body as your bones are reforming!"))
-
-	if(regen_ticks_current > regen_ticks_needed)
-		if(!victim || !limb)
-			qdel(src)
-			return
-		to_chat(victim, span_green("Your [limb.plaintext_zone] has recovered from its [undiagnosed_name || name]!"))
-		remove_wound()
 
 /// If we're a human who's punching something with a broken arm, we might hurt ourselves doing so
 /datum/wound/blunt/bone/proc/attack_with_hurt_hand(datum/source, atom/target, proximity)
@@ -643,8 +632,6 @@
 				Operate where possible. In the event of emergency, apply bone gel directly to injured limb. \
 				Creatures of pure bone don't seem to mind bone gel application nearly as much as fleshed individuals. \
 				Surgical tape will also be unnecessary.\n"
-		else
-			. += "[span_notice("Note: Bone regeneration in effect. Bone is [round(regen_ticks_current*100/regen_ticks_needed)]% regenerated.")]\n"
 
 	if(limb.body_zone == BODY_ZONE_HEAD)
 		. += "Cranial Trauma Detected: \

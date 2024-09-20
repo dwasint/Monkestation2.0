@@ -301,7 +301,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 				default_value || COLOR_WHITE,
 			)
 
-			if (!new_color)
+			if (!new_color && !requested_preference.allows_nulls)
 				return FALSE
 
 			if (!update_preference(requested_preference, new_color))
@@ -488,6 +488,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 /// Applies the given preferences to a human mob.
 /datum/preferences/proc/apply_prefs_to(mob/living/carbon/human/character, icon_updates = TRUE)
 	character.dna.features = list()
+	character.dna.apply_color_palettes(src)
 
 	var/species_type = read_preference(/datum/preference/choiced/species)
 	var/datum/species/species = new species_type

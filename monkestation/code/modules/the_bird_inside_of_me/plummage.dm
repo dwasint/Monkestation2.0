@@ -23,9 +23,11 @@
 	feature_key = "ears_avian"
 	layers = EXTERNAL_FRONT
 	color_source = ORGAN_COLOR_OVERRIDE
+	palette = /datum/color_palette/ornithids
 
 /datum/bodypart_overlay/mutant/plumage/inherit_color(obj/item/bodypart/ownerlimb, force)
-	draw_color = ownerlimb?.owner?.dna?.features["feathers"] || "#FFFFFF"
+	var/datum/color_palette/located = ownerlimb?.owner?.dna?.color_palettes[palette]
+	draw_color = located?.return_color("feather_main") || "#FFFFFF"
 	return TRUE
 
 /datum/bodypart_overlay/mutant/plumage/get_global_feature_list()

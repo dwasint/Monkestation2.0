@@ -191,8 +191,9 @@
 		podman.ckey = ckey_holder
 	podman.gender = blood_gender
 	podman.faction |= factions
-	if(!features["mcolor"])
-		features["mcolor"] = "#59CE00"
+	var/datum/color_palette/generic_colors/palette = podman.dna.color_palettes[/datum/color_palette/generic_colors]
+	if(!palette.mutant_color)
+		palette.mutant_color = "#59CE00"
 	if(!features["pod_hair"])
 		features["pod_hair"] = pick(GLOB.pod_hair_list)
 

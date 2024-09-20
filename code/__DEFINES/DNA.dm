@@ -70,22 +70,6 @@
 #define CLONER_FRESH_CLONE "fresh"
 #define CLONER_MATURE_CLONE "mature"
 
-
-
-//species traits for mutantraces
-/*
-#define MUTCOLORS 1
-#define NOTRANSSTING 2
-#define NOZOMBIE 3
-#define NO_UNDERWEAR 4
-#define NO_DNA_COPY 5
-#define DRINKSBLOOD 6
-#define ANIME 7
-#define MUTCOLORS_SECONDARY 8
-#define SPECIES_FUR 9
-#define SKINTONES 10
-*/
-
 /// Use this if you want to change the race's color without the player being able to pick their own color. AKA special color shifting
 #define DYNCOLORS 7
 #define AGENDER 8

@@ -143,3 +143,6 @@
 /datum/bodypart_overlay/mutant/floran_leaves
 	layers = EXTERNAL_ADJACENT
 	feature_key = "floran_leaves"
+
+	palette = /datum/color_palette/generic_colors
+	palette_key = MUTANT_COLOR_SECONDARY

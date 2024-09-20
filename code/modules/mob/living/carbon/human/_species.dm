@@ -242,6 +242,8 @@ GLOBAL_LIST_EMPTY(features_by_species)
 	var/list/custom_worn_icons = list()
 	///Override of the eyes icon file, used for Vox and maybe more in the future - The future is now, with Teshari using it too
 	var/eyes_icon
+	///our color palette
+	var/datum/color_palette/color_palette
 
 ///////////
 // PROCS //
@@ -797,32 +799,26 @@ GLOBAL_LIST_EMPTY(features_by_species)
 
 			if(!(HAS_TRAIT(source, TRAIT_HUSK)))
 				if(!forced_colour)
-					switch(accessory.color_src)
-						if(SKIN_COLOR)
-							accessory_overlay.color = skintone2hex(source.skin_tone)
-						if(MUTANT_COLOR)
-							if(fixed_mut_color)
-								accessory_overlay.color = fixed_mut_color
-							else
-								accessory_overlay.color = source.dna.features["mcolor"]
-						if(MUTANT_COLOR_SECONDARY)
-							if(fixed_mut_color)
-								accessory_overlay.color = fixed_mut_color
-							else
-								accessory_overlay.color = source.dna.features["mcolor_secondary"]
-						if(HAIR_COLOR)
+					if(accessory.palette)
+						var/key = accessory.palette_key
+						var/datum/color_palette/located = source.dna.color_palettes[accessory.palette]
+						if(accessory.palette_key == HAIR_COLOR)
 							if(hair_color == "mutcolor")
-								accessory_overlay.color = source.dna.features["mcolor"]
-							else if(hair_color == "fixedmutcolor")
-								accessory_overlay.color = fixed_mut_color
-							else
-								accessory_overlay.color = source.hair_color
-						if(FACIAL_HAIR_COLOR)
-							accessory_overlay.color = source.facial_hair_color
-						if(EYE_COLOR)
-							accessory_overlay.color = source.eye_color_left
-						if(ANIME_COLOR)
-							accessory_overlay.color = source.dna.features["animecolor"]
+								key = MUTANT_COLOR
+						if(!located)
+							accessory_overlay.color = initial(accessory.palette.default_color)
+						else
+							accessory_overlay.color = located.return_color(key, accessory.fallback_key)
+					else
+						switch(accessory.color_src)
+							if(SKIN_COLOR)
+								accessory_overlay.color = skintone2hex(source.skin_tone)
+							if(FACIAL_HAIR_COLOR)
+								accessory_overlay.color = source.facial_hair_color
+							if(EYE_COLOR)
+								accessory_overlay.color = source.eye_color_left
+							if(ANIME_COLOR)
+								accessory_overlay.color = source.dna.features["animecolor"]
 				else
 					accessory_overlay.color = forced_colour
 			standing += accessory_overlay

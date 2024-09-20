@@ -19,6 +19,7 @@
 		or an <b>iron supplement</b> to help your body recover."
 	processes = TRUE
 	wound_flags = NONE
+	regen_ticks_needed = 120 //around 4 minutes
 	/// How much blood lost per life tick, gets modified by severity.
 	var/bleed_amount = 0.25
 	/// Cooldown between when the wound can be allowed to worsen
@@ -28,6 +29,7 @@
 	return span_warning("You can see dark bruising.") // same as rib fracture!
 
 /datum/wound/bleed_internal/handle_process(seconds_per_tick, times_fired)
+	. = ..()
 	if(!victim || victim.stat == DEAD || HAS_TRAIT(victim, TRAIT_STASIS) || !victim.needs_heart())
 		return
 	victim.bleed(min(bleed_amount * severity * seconds_per_tick, 3))

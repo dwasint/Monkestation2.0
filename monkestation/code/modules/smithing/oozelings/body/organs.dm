@@ -114,7 +114,8 @@
 
 /obj/item/organ/internal/brain/slime/proc/colorize()
 	if(isoozeling(owner))
-		core_color = owner.dna.features["mcolor"]
+		var/datum/color_palette/generic_colors/located = owner.dna.color_palettes[/datum/color_palette/generic_colors]
+		core_color = located.return_color(MUTANT_COLOR)
 		add_atom_colour(core_color, FIXED_COLOUR_PRIORITY)
 
 /obj/item/organ/internal/brain/slime/proc/on_stat_change(mob/living/victim, new_stat, turf/loc_override)
@@ -256,8 +257,6 @@
 	new_body.undershirt = "Nude"
 	new_body.socks = "Nude"
 	stored_dna.transfer_identity(new_body, transfer_SE = TRUE)
-	new_body.dna.features["mcolor"] = new_body.dna.features["mcolor"]
-	new_body.dna.update_uf_block(DNA_MUTANT_COLOR_BLOCK)
 	new_body.real_name = new_body.dna.real_name
 	new_body.name = new_body.dna.real_name
 	new_body.updateappearance(mutcolor_update = TRUE)

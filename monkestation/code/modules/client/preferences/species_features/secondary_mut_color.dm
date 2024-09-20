@@ -3,6 +3,8 @@
 	savefile_identifier = PREFERENCE_CHARACTER
 	category = PREFERENCE_CATEGORY_SECONDARY_FEATURES
 	relevant_inherent_trait = TRAIT_MUTANT_COLORS_SECONDARY
+	default_null = TRUE
+	allows_nulls = TRUE
 
 /datum/preference/color/mutant_color_secondary/is_accessible(datum/preferences/preferences)
 	if (!..(preferences))
@@ -10,13 +12,7 @@
 
 	var/species_type = preferences.read_preference(/datum/preference/choiced/species)
 	var/datum/species/species = new species_type
-	return !(TRAIT_MUTANT_COLORS_SECONDARY in species.inherent_traits)
-
-/datum/preference/color/mutant_color_secondary/create_default_value()
-	return sanitize_hexcolor("[pick("7F", "FF")][pick("7F", "FF")][pick("7F", "FF")]")
-
-/datum/preference/color/mutant_color_secondary/apply_to_human(mob/living/carbon/human/target, value)
-	target.dna.features["mcolor_secondary"] = value
+	return (TRAIT_MUTANT_COLORS_SECONDARY in species.inherent_traits)
 
 /datum/preference/color/mutant_color_secondary/is_valid(value)
 	if (!..(value))

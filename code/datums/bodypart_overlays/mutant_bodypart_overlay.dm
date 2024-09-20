@@ -136,26 +136,25 @@
 	if(draw_color && !force)
 		return FALSE
 
-	switch(color_source)
-		if(ORGAN_COLOR_OVERRIDE)
-			draw_color = override_color(ownerlimb.draw_color)
-		if(ORGAN_COLOR_INHERIT)
-			draw_color = ownerlimb.draw_color
-		if(ORGAN_COLOR_HAIR)
-			if(!ishuman(ownerlimb.owner))
-				return
-			var/mob/living/carbon/human/human_owner = ownerlimb.owner
-			draw_color = human_owner.hair_color
-		if(ORGAN_COLOR_ANIME)
-			if(!ishuman(ownerlimb.owner))
-				return
-			var/mob/living/carbon/human/human_owner = ownerlimb.owner
-			draw_color = human_owner.dna.features["animecolor"]
-		if(ORGAN_COLOR_MUTSECONDARY)
-			if(!ishuman(ownerlimb.owner))
-				return
-			var/mob/living/carbon/human/human_owner = ownerlimb.owner
-			draw_color = human_owner.dna.features["mcolor_secondary"]
+	if(palette)
+		var/datum/color_palette/located = ownerlimb.owner.dna.color_palettes[palette]
+		draw_color = located.return_color(palette_key)
+	else
+		switch(color_source)
+			if(ORGAN_COLOR_OVERRIDE)
+				draw_color = override_color(ownerlimb.draw_color)
+			if(ORGAN_COLOR_INHERIT)
+				draw_color = ownerlimb.draw_color
+			if(ORGAN_COLOR_HAIR)
+				if(!ishuman(ownerlimb.owner))
+					return
+				var/mob/living/carbon/human/human_owner = ownerlimb.owner
+				draw_color = human_owner.hair_color
+			if(ORGAN_COLOR_ANIME)
+				if(!ishuman(ownerlimb.owner))
+					return
+				var/mob/living/carbon/human/human_owner = ownerlimb.owner
+				draw_color = human_owner.dna.features["animecolor"]
 
 	return TRUE
 

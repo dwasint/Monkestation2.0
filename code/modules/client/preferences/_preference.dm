@@ -113,6 +113,11 @@ GLOBAL_LIST_INIT(preference_entries_by_key, init_preference_entries_by_key())
 	/// will show the feature as selectable. --species nuking
 	var/relevant_head_flag = null
 
+	///do we allow null inputs
+	var/allows_nulls = FALSE
+	///are we defaulted to null
+	var/default_null = FALSE
+
 /// Called on the saved input when retrieving.
 /// Also called by the value sent from the user through UI. Do not trust it.
 /// Input is the value inside the savefile, output is to tell other code
@@ -206,6 +211,8 @@ GLOBAL_LIST_INIT(preference_entries_by_key, init_preference_entries_by_key())
 /datum/preference/proc/apply_to_human(mob/living/carbon/human/target, value)
 	SHOULD_NOT_SLEEP(TRUE)
 	SHOULD_CALL_PARENT(FALSE)
+	if(istype(src, /datum/preference/color))
+		return //colors are handled through a palette datum
 	CRASH("`apply_to_human()` was not implemented for [type]!")
 
 /// Returns which savefile to use for a given savefile identifier
@@ -439,16 +446,24 @@ GLOBAL_LIST_INIT(preference_entries_by_key, init_preference_entries_by_key())
 	abstract_type = /datum/preference/color
 
 /datum/preference/color/deserialize(input, datum/preferences/preferences)
-	return sanitize_hexcolor(input)
+	if(!allows_nulls || input)
+		return sanitize_hexcolor(input)
+	return null
 
 /datum/preference/color/create_default_value()
+	if(default_null)
+		return null
 	return random_color()
 
 /datum/preference/color/serialize(input)
-	return sanitize_hexcolor(input)
+	if(!allows_nulls || input)
+		return sanitize_hexcolor(input)
+	return null
 
 /datum/preference/color/is_valid(value)
-	return findtext(value, GLOB.is_color)
+	if(!allows_nulls || value)
+		return findtext(value, GLOB.is_color)
+	return TRUE
 
 /// Takes an assoc list of names to /datum/sprite_accessory and returns a value
 /// fit for `/datum/preference/init_possible_values()`

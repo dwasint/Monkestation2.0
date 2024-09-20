@@ -116,6 +116,11 @@
 	/// The actionspeed modifier we will use in case we are on the arms and have a interaction penalty. Qdelled on destroy.
 	var/datum/actionspeed_modifier/wound_interaction_inefficiency/actionspeed_mod
 
+	/// If we did the gel + surgical tape healing method for fractures, how many ticks does it take to heal by default
+	var/regen_ticks_needed
+	/// Our current counter for gel + surgical tape regeneration
+	var/regen_ticks_current
+
 /datum/wound/New()
 	. = ..()
 
@@ -519,7 +524,13 @@
 
 /// If var/processing is TRUE, this is run on each life tick
 /datum/wound/proc/handle_process(seconds_per_tick, times_fired)
-	return
+	SHOULD_CALL_PARENT(TRUE)
+	if(regen_ticks_current > regen_ticks_needed)
+		if(!victim || !limb)
+			qdel(src)
+			return
+		to_chat(victim, span_green("Your [limb.plaintext_zone] has recovered from its [undiagnosed_name || name]!"))
+		remove_wound()
 
 /// For use in do_after callback checks
 /datum/wound/proc/still_exists()

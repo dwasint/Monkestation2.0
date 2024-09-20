@@ -50,6 +50,7 @@ GLOBAL_LIST_EMPTY(tails_list_avian)
 
 	inert_mutation = /datum/mutation/human/dwarfism
 	species_language_holder = /datum/language_holder/yangyu // doing this because yangyu is really just, mostly unused otherwise.
+	color_palette = /datum/color_palette/ornithids
 
 /datum/species/ornithid/randomize_features(mob/living/carbon/human_mob)
 	human_mob.dna.features["feathers"] = "#[random_color()]"

@@ -20,6 +20,15 @@ export const feather_color: Feature<string> = {
   component: FeatureColorInput,
 };
 
+export const feather_color_secondary: Feature<string> = {
+  name: 'Feather Color Secondary',
+  small_supplemental: false,
+  description:
+    "The color of your character's feathers. \
+  (Armwings, Plumage).",
+  component: FeatureColorInput,
+};
+
 export const feature_avian_tail: FeatureChoiced = {
   name: 'Tail',
   small_supplemental: false,

@@ -8,6 +8,10 @@
 
 	///Key of the icon states of all the sprite_datums for easy caching
 	var/cache_key = ""
+	///our color palette
+	var/datum/color_palette/palette
+	///our palette key
+	var/palette_key
 
 ///Wrapper for getting the proper image, colored and everything
 /datum/bodypart_overlay/proc/get_overlay(layer, obj/item/bodypart/limb)

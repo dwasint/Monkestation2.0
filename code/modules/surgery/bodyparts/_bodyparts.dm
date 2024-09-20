@@ -202,6 +202,9 @@
 	var/list/composition_effects
 	///a list of different limb_ids that we share composition with
 	var/list/shared_composition
+	///this is our color palette we pull colors from
+	var/datum/color_palette/palette
+	var/palette_key
 
 /obj/item/bodypart/apply_fantasy_bonuses(bonus)
 	. = ..()
@@ -916,11 +919,17 @@
 		skin_tone = human_owner.skin_tone
 	else if(HAS_TRAIT(human_owner, TRAIT_MUTANT_COLORS))
 		skin_tone = ""
-		var/datum/species/owner_species = human_owner.dna.species
-		if(owner_species.fixed_mut_color)
-			species_color = owner_species.fixed_mut_color
+		if(palette)
+			var/datum/color_palette/located = human_owner.dna.color_palettes[palette]
+			if(!located)
+				species_color = initial(palette.default_color)
+			species_color = located.return_color(palette_key)
 		else
-			species_color = human_owner.dna.features["mcolor"]
+			var/datum/species/owner_species = human_owner.dna.species
+			if(owner_species.fixed_mut_color)
+				species_color = owner_species.fixed_mut_color
+			else
+				CRASH("Forgot to move something to new color_palette system [src]")
 	else
 		skin_tone = ""
 		species_color = ""

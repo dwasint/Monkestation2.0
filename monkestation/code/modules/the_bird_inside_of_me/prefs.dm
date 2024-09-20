@@ -81,6 +81,14 @@
 /datum/preference/color/feather_color/apply_to_human(mob/living/carbon/human/target, value)
 	target.dna.features["feathers"] = value
 
+/datum/preference/color/feather_color_secondary
+	savefile_key = "feather_color_secondary"
+	savefile_identifier = PREFERENCE_CHARACTER
+	category = PREFERENCE_CATEGORY_SUPPLEMENTAL_FEATURES
+	relevant_inherent_trait = TRAIT_FEATHERED
+	allows_nulls = TRUE
+	default_null = TRUE
+
 #define X_TAIL_CROP 16
 #define Y_TAIL_CROP 5
 
@@ -92,6 +100,11 @@
 	can_randomize = FALSE
 	relevant_external_organ = /obj/item/organ/external/tail/avian
 	should_generate_icons = TRUE
+
+/datum/preference/choiced/tail_avian/compile_constant_data()
+	var/list/data = ..()
+	data[SUPPLEMENTAL_FEATURE_KEY] = "feather_color_secondary"
+	return data
 
 /datum/preference/choiced/tail_avian/init_possible_values()
 	return possible_values_for_sprite_accessory_list_for_body_part(

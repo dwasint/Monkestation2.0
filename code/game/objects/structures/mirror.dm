@@ -219,15 +219,15 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/structure/mirror, 28)
 					amazed_human.dna.update_ui_block(DNA_SKIN_TONE_BLOCK)
 
 			else if(HAS_TRAIT(amazed_human, TRAIT_MUTANT_COLORS) && !HAS_TRAIT(amazed_human, TRAIT_FIXED_MUTANT_COLORS))
-				var/new_mutantcolor = tgui_color_picker(user, "Choose your skin color:", "Race change", amazed_human.dna.features["mcolor"])
+				var/datum/color_palette/generic_colors/palette = amazed_human.dna.color_palettes[/datum/color_palette/generic_colors]
+				var/new_mutantcolor = tgui_color_picker(user, "Choose your skin color:", "Race change", palette.mutant_color)
 				if(!user.can_perform_action(src, FORBID_TELEKINESIS_REACH))
 					return TRUE
 				if(new_mutantcolor)
 					var/temp_hsv = RGBtoHSV(new_mutantcolor)
 
 					if(ReadHSV(temp_hsv)[3] >= ReadHSV("#7F7F7F")[3]) // mutantcolors must be bright
-						amazed_human.dna.features["mcolor"] = sanitize_hexcolor(new_mutantcolor)
-						amazed_human.dna.update_uf_block(DNA_MUTANT_COLOR_BLOCK)
+						palette.mutant_color = sanitize_hexcolor(new_mutantcolor)
 
 					else
 						to_chat(amazed_human, span_notice("Invalid color. Your color is not bright enough."))

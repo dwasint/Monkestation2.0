@@ -583,7 +583,8 @@
 
 			if(HAS_TRAIT(exposed_human, TRAIT_MUTANT_COLORS)) //take current alien color and darken it slightly
 				var/newcolor = ""
-				var/string = exposed_human.dna.features["mcolor"]
+				var/datum/color_palette/generic_colors/located = exposed_human.dna.color_palettes[/datum/color_palette/generic_colors]
+				var/string = located.return_color(MUTANT_COLOR)
 				var/len = length(string)
 				var/char = ""
 				var/ascii = 0
@@ -606,7 +607,7 @@
 						else
 							break
 				if(ReadHSV(newcolor)[3] >= ReadHSV("#7F7F7F")[3])
-					exposed_human.dna.features["mcolor"] = newcolor
+					located.mutant_color = newcolor
 			exposed_human.update_body(is_creating = TRUE)
 
 		if((methods & INGEST) && show_message)
@@ -629,7 +630,8 @@
 		if(HAS_TRAIT(affected_human, TRAIT_USES_SKINTONES))
 			affected_human.skin_tone = "orange"
 		else if(HAS_TRAIT(affected_human, TRAIT_MUTANT_COLORS)) //Aliens with custom colors simply get turned orange
-			affected_human.dna.features["mcolor"] = "#ff8800"
+			var/datum/color_palette/generic_colors/located = affected_human.dna.color_palettes[/datum/color_palette/generic_colors]
+			located.mutant_color = "#ff8800"
 		affected_human.update_body(is_creating = TRUE)
 		if(SPT_PROB(3.5, seconds_per_tick))
 			if(affected_human.w_uniform)

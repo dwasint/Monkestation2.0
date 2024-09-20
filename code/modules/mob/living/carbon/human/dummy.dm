@@ -100,8 +100,6 @@ INITIALIZE_IMMEDIATE(/mob/living/carbon/human/dummy)
 	target.dna.features["ethcolor"] = COLOR_WHITE
 	target.dna.features["frills"] = "None"
 	target.dna.features["horns"] = "None"
-	target.dna.features["mcolor"] = COLOR_VIBRANT_LIME
-	target.dna.features["mcolor_secondary"] = COLOR_VIBRANT_LIME
 	target.dna.features["moth_antennae"] = "Plain"
 	target.dna.features["moth_markings"] = "None"
 	target.dna.features["moth_wings"] = "Plain"
@@ -126,6 +124,10 @@ INITIALIZE_IMMEDIATE(/mob/living/carbon/human/dummy)
 	target.dna.features["satyr_fluff"] = "Normal" //Monkestation Addition
 	target.dna.features["satyr_tail"] = "Short" //Monkestation Addition
 	target.dna.features["satyr_horns"] = "Back" //Monkestation Addition
+
+	var/datum/color_palette/generic_colors/palette = target.dna.color_palettes[/datum/color_palette/generic_colors]
+	palette.mutant_color = COLOR_VIBRANT_LIME
+	palette.mutant_color_secondary = COLOR_VIBRANT_LIME
 
 /// Provides a dummy that is consistently bald, white, naked, etc.
 /mob/living/carbon/human/dummy/consistent

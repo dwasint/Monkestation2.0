@@ -135,7 +135,7 @@
 		return BLOOD_FLOW_INCREASING
 
 /datum/wound/slash/flesh/handle_process(seconds_per_tick, times_fired)
-
+	. = ..()
 	if (!victim || HAS_TRAIT(victim, TRAIT_STASIS))
 		return
 

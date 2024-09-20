@@ -3,42 +3,58 @@
 	limb_id = SPECIES_SNAIL
 	is_dimorphic = FALSE
 	head_flags = HEAD_EYESPRITES|HEAD_DEBRAIN
+	palette = /datum/color_palette/generic_colors
+	palette_key = MUTANT_COLOR
 
 /obj/item/bodypart/chest/snail
 	limb_id = SPECIES_SNAIL
 	is_dimorphic = FALSE
+	palette = /datum/color_palette/generic_colors
+	palette_key = MUTANT_COLOR
 
 /obj/item/bodypart/arm/left/snail
 	limb_id = SPECIES_SNAIL
 	unarmed_attack_verb = "slap"
 	unarmed_attack_effect = ATTACK_EFFECT_DISARM
 	unarmed_damage_high = 0.5 //snails are soft and squishy
+	palette = /datum/color_palette/generic_colors
+	palette_key = MUTANT_COLOR
 
 /obj/item/bodypart/arm/right/snail
 	limb_id = SPECIES_SNAIL
 	unarmed_attack_verb = "slap"
 	unarmed_attack_effect = ATTACK_EFFECT_DISARM
 	unarmed_damage_high = 0.5
+	palette = /datum/color_palette/generic_colors
+	palette_key = MUTANT_COLOR
 
 /obj/item/bodypart/leg/left/snail
 	limb_id = SPECIES_SNAIL
 	unarmed_damage_high = 0.5
 	speed_modifier = 3 //disgustingly slow
+	palette = /datum/color_palette/generic_colors
+	palette_key = MUTANT_COLOR
 
 /obj/item/bodypart/leg/right/snail
 	limb_id = SPECIES_SNAIL
 	unarmed_damage_high = 0.5
 	speed_modifier = 3 //disgustingly slow
+	palette = /datum/color_palette/generic_colors
+	palette_key = MUTANT_COLOR
 
 /obj/item/bodypart/leg/left/zombie/infectious
 	limb_id = SPECIES_ZOMBIE
 	should_draw_greyscale = FALSE
 	speed_modifier = 0.8 //braaaaains
+	palette = /datum/color_palette/generic_colors
+	palette_key = MUTANT_COLOR
 
 /obj/item/bodypart/leg/right/zombie/infectious
 	limb_id = SPECIES_ZOMBIE
 	should_draw_greyscale = FALSE
 	speed_modifier = 0.8 //braaaaains
+	palette = /datum/color_palette/generic_colors
+	palette_key = MUTANT_COLOR
 
 ///ABDUCTOR
 /obj/item/bodypart/head/abductor
@@ -79,6 +95,8 @@
 	dmg_overlay_type = null
 	head_flags = HEAD_ALL_FEATURES
 	composition_effects = list(/datum/element/soft_landing = 0.5)
+	palette = /datum/color_palette/generic_colors
+	palette_key = MUTANT_COLOR
 
 /obj/item/bodypart/chest/jelly
 	biological_state = (BIO_FLESH|BIO_BLOODED)
@@ -88,30 +106,40 @@
 	composition_effects = list(/datum/element/soft_landing = 0.5)
 	ass_image = 'icons/ass/assslime.png'
 	wing_types = list(/obj/item/organ/external/wings/functional/slime)
+	palette = /datum/color_palette/generic_colors
+	palette_key = MUTANT_COLOR
 
 /obj/item/bodypart/arm/left/jelly
 	biological_state = (BIO_FLESH|BIO_BLOODED|BIO_JOINTED)
 	limb_id = SPECIES_JELLYPERSON
 	dmg_overlay_type = null
 	composition_effects = list(/datum/element/soft_landing = 0.5)
+	palette = /datum/color_palette/generic_colors
+	palette_key = MUTANT_COLOR
 
 /obj/item/bodypart/arm/right/jelly
 	biological_state = (BIO_FLESH|BIO_BLOODED|BIO_JOINTED)
 	limb_id = SPECIES_JELLYPERSON
 	dmg_overlay_type = null
 	composition_effects = list(/datum/element/soft_landing = 0.5)
+	palette = /datum/color_palette/generic_colors
+	palette_key = MUTANT_COLOR
 
 /obj/item/bodypart/leg/left/jelly
 	biological_state = (BIO_FLESH|BIO_BLOODED|BIO_JOINTED)
 	limb_id = SPECIES_JELLYPERSON
 	dmg_overlay_type = null
 	composition_effects = list(/datum/element/soft_landing = 0.5)
+	palette = /datum/color_palette/generic_colors
+	palette_key = MUTANT_COLOR
 
 /obj/item/bodypart/leg/right/jelly
 	biological_state = (BIO_FLESH|BIO_BLOODED|BIO_JOINTED)
 	limb_id = SPECIES_JELLYPERSON
 	dmg_overlay_type = null
 	composition_effects = list(/datum/element/soft_landing = 0.5)
+	palette = /datum/color_palette/generic_colors
+	palette_key = MUTANT_COLOR
 
 ///SLIME
 /obj/item/bodypart/head/slime
@@ -120,59 +148,83 @@
 	is_dimorphic = FALSE
 	head_flags = HEAD_ALL_FEATURES
 	composition_effects = list(/datum/element/soft_landing = 0.5)
+	palette = /datum/color_palette/generic_colors
+	palette_key = MUTANT_COLOR
 
 /obj/item/bodypart/chest/slime
 	biological_state = (BIO_FLESH|BIO_BLOODED)
 	limb_id = SPECIES_SLIMEPERSON
 	is_dimorphic = TRUE
 	composition_effects = list(/datum/element/soft_landing = 0.5)
+	palette = /datum/color_palette/generic_colors
+	palette_key = MUTANT_COLOR
 
 /obj/item/bodypart/arm/left/slime
 	biological_state = (BIO_FLESH|BIO_BLOODED|BIO_JOINTED)
 	limb_id = SPECIES_SLIMEPERSON
 	composition_effects = list(/datum/element/soft_landing = 0.5)
+	palette = /datum/color_palette/generic_colors
+	palette_key = MUTANT_COLOR
 
 /obj/item/bodypart/arm/right/slime
 	biological_state = (BIO_FLESH|BIO_BLOODED|BIO_JOINTED)
 	limb_id = SPECIES_SLIMEPERSON
 	composition_effects = list(/datum/element/soft_landing = 0.5)
+	palette = /datum/color_palette/generic_colors
+	palette_key = MUTANT_COLOR
 
 /obj/item/bodypart/leg/left/slime
 	biological_state = (BIO_FLESH|BIO_BLOODED)
 	limb_id = SPECIES_SLIMEPERSON
 	composition_effects = list(/datum/element/soft_landing = 0.5)
+	palette = /datum/color_palette/generic_colors
+	palette_key = MUTANT_COLOR
 
 /obj/item/bodypart/leg/right/slime
 	biological_state = (BIO_FLESH|BIO_BLOODED|BIO_JOINTED)
 	limb_id = SPECIES_SLIMEPERSON
 	composition_effects = list(/datum/element/soft_landing = 0.5)
+	palette = /datum/color_palette/generic_colors
+	palette_key = MUTANT_COLOR
 
 ///LUMINESCENT
 /obj/item/bodypart/head/luminescent
 	biological_state = (BIO_FLESH|BIO_BLOODED)
 	limb_id = SPECIES_LUMINESCENT
 	is_dimorphic = TRUE
+	palette = /datum/color_palette/generic_colors
+	palette_key = MUTANT_COLOR
 
 /obj/item/bodypart/chest/luminescent
 	biological_state = (BIO_FLESH|BIO_BLOODED)
 	limb_id = SPECIES_LUMINESCENT
 	is_dimorphic = TRUE
+	palette = /datum/color_palette/generic_colors
+	palette_key = MUTANT_COLOR
 
 /obj/item/bodypart/arm/left/luminescent
 	biological_state = (BIO_FLESH|BIO_BLOODED|BIO_JOINTED)
 	limb_id = SPECIES_LUMINESCENT
+	palette = /datum/color_palette/generic_colors
+	palette_key = MUTANT_COLOR
 
 /obj/item/bodypart/arm/right/luminescent
 	biological_state = (BIO_FLESH|BIO_BLOODED|BIO_JOINTED)
 	limb_id = SPECIES_LUMINESCENT
+	palette = /datum/color_palette/generic_colors
+	palette_key = MUTANT_COLOR
 
 /obj/item/bodypart/leg/left/luminescent
 	biological_state = (BIO_FLESH|BIO_BLOODED|BIO_JOINTED)
 	limb_id = SPECIES_LUMINESCENT
+	palette = /datum/color_palette/generic_colors
+	palette_key = MUTANT_COLOR
 
 /obj/item/bodypart/leg/right/luminescent
 	biological_state = (BIO_FLESH|BIO_BLOODED|BIO_JOINTED)
 	limb_id = SPECIES_LUMINESCENT
+	palette = /datum/color_palette/generic_colors
+	palette_key = MUTANT_COLOR
 
 ///ZOMBIE
 /obj/item/bodypart/head/zombie
@@ -212,11 +264,15 @@
 /obj/item/bodypart/head/pod
 	limb_id = SPECIES_PODPERSON
 	is_dimorphic = TRUE
+	palette = /datum/color_palette/generic_colors
+	palette_key = MUTANT_COLOR
 
 /obj/item/bodypart/chest/pod
 	limb_id = SPECIES_PODPERSON
 	is_dimorphic = TRUE
 	ass_image = 'icons/ass/asspodperson.png'
+	palette = /datum/color_palette/generic_colors
+	palette_key = MUTANT_COLOR
 
 /obj/item/bodypart/arm/left/pod
 	limb_id = SPECIES_PODPERSON
@@ -224,6 +280,8 @@
 	unarmed_attack_effect = ATTACK_EFFECT_CLAW
 	unarmed_attack_sound = 'sound/weapons/slice.ogg'
 	unarmed_miss_sound = 'sound/weapons/slashmiss.ogg'
+	palette = /datum/color_palette/generic_colors
+	palette_key = MUTANT_COLOR
 
 /obj/item/bodypart/arm/right/pod
 	limb_id = SPECIES_PODPERSON
@@ -231,12 +289,18 @@
 	unarmed_attack_effect = ATTACK_EFFECT_CLAW
 	unarmed_attack_sound = 'sound/weapons/slice.ogg'
 	unarmed_miss_sound = 'sound/weapons/slashmiss.ogg'
+	palette = /datum/color_palette/generic_colors
+	palette_key = MUTANT_COLOR
 
 /obj/item/bodypart/leg/left/pod
 	limb_id = SPECIES_PODPERSON
+	palette = /datum/color_palette/generic_colors
+	palette_key = MUTANT_COLOR
 
 /obj/item/bodypart/leg/right/pod
 	limb_id = SPECIES_PODPERSON
+	palette = /datum/color_palette/generic_colors
+	palette_key = MUTANT_COLOR
 
 ///FLY
 /obj/item/bodypart/head/fly
@@ -347,23 +411,31 @@
 	limb_id = SPECIES_MUSHROOM
 	is_dimorphic = TRUE
 	head_flags = NONE
+	palette = /datum/color_palette/generic_colors
+	palette_key = MUTANT_COLOR
 
 /obj/item/bodypart/chest/mushroom
 	limb_id = SPECIES_MUSHROOM
 	is_dimorphic = TRUE
 	bodypart_traits = list(TRAIT_NO_JUMPSUIT)
+	palette = /datum/color_palette/generic_colors
+	palette_key = MUTANT_COLOR
 
 /obj/item/bodypart/arm/left/mushroom
 	limb_id = SPECIES_MUSHROOM
 	unarmed_damage_low = 8
 	unarmed_damage_high = 8
 	unarmed_stun_threshold = 14
+	palette = /datum/color_palette/generic_colors
+	palette_key = MUTANT_COLOR
 
 /obj/item/bodypart/arm/right/mushroom
 	limb_id = SPECIES_MUSHROOM
 	unarmed_damage_low = 8
 	unarmed_damage_high = 8
 	unarmed_stun_threshold = 14
+	palette = /datum/color_palette/generic_colors
+	palette_key = MUTANT_COLOR
 
 /obj/item/bodypart/leg/left/mushroom
 	limb_id = SPECIES_MUSHROOM
@@ -371,6 +443,8 @@
 	unarmed_damage_high = 15
 	unarmed_stun_threshold = 14
 	speed_modifier = 0.75 //big fungus big fungus
+	palette = /datum/color_palette/generic_colors
+	palette_key = MUTANT_COLOR
 
 /obj/item/bodypart/leg/right/mushroom
 	limb_id = SPECIES_MUSHROOM
@@ -378,6 +452,8 @@
 	unarmed_damage_high = 15
 	unarmed_stun_threshold = 14
 	speed_modifier = 0.75 //big fungus big fungus
+	palette = /datum/color_palette/generic_colors
+	palette_key = MUTANT_COLOR
 
 ///GOLEMS (i hate xenobio SO FUCKING MUCH) (from 2022: Yeah I fucking feel your pain brother) (2024: yeah this is shit)
 /obj/item/bodypart/head/golem

@@ -22,7 +22,7 @@
 	changesource_flags = MIRROR_BADMIN | WABBAJACK | MIRROR_PRIDE | MIRROR_MAGIC | RACE_SWAP | ERT_SPAWN | SLIME_EXTRACT
 	inherent_factions = list(FACTION_SLIME)
 	species_language_holder = /datum/language_holder/jelly
-	hair_color = "mutcolor"
+	hair_color = "mutant_color"
 	hair_alpha = 150
 	facial_hair_alpha = 150
 
@@ -181,8 +181,8 @@
 
 	spare.underwear = "Nude"
 	H.dna.transfer_identity(spare, transfer_SE=1)
-	spare.dna.features["mcolor"] = "#[pick("7F", "FF")][pick("7F", "FF")][pick("7F", "FF")]"
-	spare.dna.update_uf_block(DNA_MUTANT_COLOR_BLOCK)
+	var/datum/color_palette/generic_colors/palette = spare.dna.color_palettes[/datum/color_palette/generic_colors]
+	palette.mutant_color = "#[pick("7F", "FF")][pick("7F", "FF")][pick("7F", "FF")]"
 	spare.real_name = spare.dna.real_name
 	spare.name = spare.dna.real_name
 	spare.updateappearance(mutcolor_update=1)
@@ -256,7 +256,8 @@
 			continue
 
 		var/list/L = list()
-		L["htmlcolor"] = body.dna.features["mcolor"]
+		var/datum/color_palette/generic_colors/palette = body.dna.color_palettes[/datum/color_palette/generic_colors]
+		L["htmlcolor"] = palette?.mutant_color
 		L["area"] = get_area_name(body, TRUE)
 		var/stat = "error"
 		switch(body.stat)
@@ -425,7 +426,8 @@
 /datum/species/jelly/luminescent/proc/update_glow(mob/living/carbon/human/glowie, intensity)
 	if(intensity)
 		glow_intensity = intensity
-	glow.set_light_range_power_color(glow_intensity, glow_intensity, glowie.dna.features["mcolor"])
+	var/datum/color_palette/generic_colors/palette = glowie.dna.color_palettes[/datum/color_palette/generic_colors]
+	glow.set_light_range_power_color(glow_intensity, glow_intensity, palette.return_color(MUTANT_COLOR))
 
 /datum/action/innate/integrate_extract
 	name = "Integrate Extract"
