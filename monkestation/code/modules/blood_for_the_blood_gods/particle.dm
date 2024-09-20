@@ -23,11 +23,10 @@
 	return FALSE
 
 /obj/effect/decal/cleanable/blood/particle/proc/start_movement(movement_angle)
-	var/datum/component/movable_physics/movable_physics = get_or_init_physics()
-	if(!isnull(movement_angle))
-		movable_physics?.set_angle(movement_angle)
+	get_or_init_physics()?.set_angle(movement_angle)
 
 /obj/effect/decal/cleanable/blood/particle/proc/get_or_init_physics() as /datum/component/movable_physics
+	RETURN_TYPE(/datum/component/movable_physics)
 	if(QDELETED(src))
 		return
 	return LoadComponent(/datum/component/movable_physics, \
