@@ -48,7 +48,7 @@
 		return
 	var/obj/effect/decal/cleanable/splatter
 	if(!ispath(splatter_type_floor, /obj/effect/decal/cleanable/blood/splatter/stacking))
-		splatter = new splatter_type_floor(loc, blood_color = color)
+		splatter = new splatter_type_floor(loc)
 		splatter.color = color
 		if(messy_splatter)
 			splatter.pixel_x = src.pixel_x
@@ -56,7 +56,7 @@
 	else
 		var/obj/effect/decal/cleanable/blood/splatter/stacking/stacker = locate(splatter_type_floor) in loc
 		if(!stacker)
-			stacker = new splatter_type_floor(loc, blood_color = color)
+			stacker = new splatter_type_floor(loc)
 			stacker.color = color
 			if(messy_splatter && length(stacker.splat_overlays))
 				var/mutable_appearance/existing_appearance = stacker.splat_overlays[1]
