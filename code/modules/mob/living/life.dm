@@ -111,21 +111,26 @@
 	var/temp_delta = loc_temp - bodytemperature
 	if(temp_delta == 0)
 		return
-	if(temp_delta < 0 && on_fire) // do not reduce body temp when on fire
+	if(temp_delta < 0 && on_fire)
 		return
 
-	// Get the insulation value based on the area's temp
 	var/thermal_protection = get_insulation(loc_temp)
 	var/protection_modifier = 1
 	if(bodytemperature > standard_body_temperature + 2 KELVIN)
-		// we are overheating and sweaty - insulation is not as good reducing thermal protection
 		protection_modifier = 0.7
 
-	var/temp_sign = SIGN(temp_delta)
-	var/temp_change =  temp_sign * (1 - (thermal_protection * protection_modifier)) * ((0.1 * max(1, abs(temp_delta))) ** 1.8) * temperature_normalization_speed
+	// Calculate the equilibrium temperature considering insulation
+	var/equilibrium_temp = get_insulated_equilibrium_temperature(loc_temp, thermal_protection * protection_modifier)
+
+	var/temp_change = (equilibrium_temp - bodytemperature) * temperature_normalization_speed * seconds_per_tick
+
 	// Cap increase and decrease
 	temp_change = temp_change < 0 ? max(temp_change, BODYTEMP_HOMEOSTASIS_COOLING_MAX) : min(temp_change, BODYTEMP_HOMEOSTASIS_HEATING_MAX)
-	adjust_bodytemperature(temp_change * seconds_per_tick) // no use_insulation beacuse we account for it manually
+
+	adjust_bodytemperature(temp_change * seconds_per_tick) // No use_insulation because we manually account for it
+
+/mob/living/proc/get_insulated_equilibrium_temperature(environment_temp, insulation)
+    return environment_temp + (standard_body_temperature - environment_temp) * insulation
 
 /mob/living/silicon/handle_environment(datum/gas_mixture/environment, seconds_per_tick, times_fired)
 	return // Not yet

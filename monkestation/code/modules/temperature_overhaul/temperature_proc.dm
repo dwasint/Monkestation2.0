@@ -70,8 +70,6 @@
 		amount *= (1 - get_insulation(bodytemperature + amount))
 	if(amount == 0)
 		return FALSE
-	amount = round(amount, 0.01)
-
 	if(amount == 0)
 		return 0
 	amount = round(amount, 0.01)

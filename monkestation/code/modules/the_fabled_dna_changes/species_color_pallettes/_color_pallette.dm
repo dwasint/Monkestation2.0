@@ -20,7 +20,6 @@
 			retrieved_var = vars[mainvar]
 			if(retrieved_var)
 				return retrieved_var
-		stack_trace("return_color called with a bad varname.")
 		return default_color
 
 	return retrieved_var

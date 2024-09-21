@@ -91,9 +91,6 @@
 	// Body temperature is too cold, and we do not have resist traits
 	if(feels_like < cold_threshold_low && !HAS_TRAIT(src, TRAIT_RESISTCOLD))
 		clear_mood_event("hot")
-		// Only apply slowdown if the body is cold rather than the skin
-		if(bodytemperature < cold_threshold_medium)
-			add_or_update_variable_movespeed_modifier(/datum/movespeed_modifier/cold, multiplicative_slowdown = ((BODYTEMP_COLD_WARNING_2 - bodytemperature) / COLD_SLOWDOWN_FACTOR))
 		if(feels_like < cold_threshold_high)
 			throw_alert(ALERT_TEMPERATURE, /atom/movable/screen/alert/cold, 3)
 			add_mood_event("cold", /datum/mood_event/freezing)
@@ -104,12 +101,15 @@
 			throw_alert(ALERT_TEMPERATURE, /atom/movable/screen/alert/cold, 1)
 			add_mood_event("cold", /datum/mood_event/chilly)
 		temp_alerts = TRUE
+	// Only apply slowdown if the body is cold rather than the skin
+	if(bodytemperature < cold_threshold_medium && !HAS_TRAIT(src, TRAIT_RESISTCOLD))
+		add_or_update_variable_movespeed_modifier(/datum/movespeed_modifier/cold, multiplicative_slowdown = ((cold_threshold_medium - bodytemperature) / COLD_SLOWDOWN_FACTOR))
+	else if(LAZYACCESS(movespeed_modification, /datum/movespeed_modifier/cold))
+		remove_movespeed_modifier(/datum/movespeed_modifier/cold)
 
 	// We are not to hot or cold, remove status and moods
 	if(temp_alerts && (feels_like < hot_threshold_low || HAS_TRAIT(src, TRAIT_RESISTHEAT)) && (feels_like > cold_threshold_low || HAS_TRAIT(src, TRAIT_RESISTCOLD)))
 		clear_alert(ALERT_TEMPERATURE)
-		if(bodytemperature > cold_threshold_medium)
-			remove_movespeed_modifier(/datum/movespeed_modifier/cold)
 		clear_mood_event("cold")
 		clear_mood_event("hot")
 		temp_alerts = FALSE
