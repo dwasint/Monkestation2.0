@@ -49,6 +49,11 @@
 	name = "Fluffy"
 	icon_state = "fluffy"
 
+/datum/sprite_accessory/arm_wings/tri_colored
+	name = "Tri-Colored Wings"
+	icon_state = "triple"
+	//layers = list("first" = "feather_main", "second" = "feather_secondary", "third" = "feather_tri")
+
 /datum/sprite_accessory/arm_wings/pursuant
 	name = "Pursuant"
 	icon_state = "pursuant"
@@ -69,6 +74,11 @@
 	name = "Fluffy"
 	icon_state = "fluffy"
 
+/datum/sprite_accessory/arm_wingsopen/tri_colored
+	name = "Tri-Colored Wings"
+	icon_state = "triple"
+	layers = list("first" = "feather_main", "second" = "feather_secondary", "third" = "feather_tri")
+
 /datum/bodypart_overlay/mutant/wings/functional/arm_wings
 	feature_key = "arm_wings"
 	layers = EXTERNAL_BEHIND | EXTERNAL_ADJACENT | EXTERNAL_FRONT
@@ -77,11 +87,7 @@
 	///Feature render key for opened arm wings
 	open_feature_key = "arm_wingsopen"
 	palette = /datum/color_palette/ornithids
-
-/datum/bodypart_overlay/mutant/wings/functional/arm_wings/inherit_color(obj/item/bodypart/ownerlimb, force) // overriding inherit_color directly because "override_color" for some unspeakable reason gets passed fuck all
-	var/datum/color_palette/located = ownerlimb?.owner?.dna?.color_palettes[palette]
-	draw_color = located?.return_color("feather_main") || "#FFFFFF"
-	return TRUE
+	palette_key = "feather_main"
 
 /datum/bodypart_overlay/mutant/wings/functional/arm_wings/get_global_feature_list()
 	if(wings_open)

@@ -7922,6 +7922,7 @@
 #include "monkestation\code\modules\the_bird_inside_of_me\tails.dm"
 #include "monkestation\code\modules\the_bird_inside_of_me\wings.dm"
 #include "monkestation\code\modules\the_fabled_dna_changes\dna.dm"
+#include "monkestation\code\modules\the_fabled_dna_changes\multi_colored_bodyoverlay.dm"
 #include "monkestation\code\modules\the_fabled_dna_changes\species_color_pallettes\_color_pallette.dm"
 #include "monkestation\code\modules\the_fabled_dna_changes\species_color_pallettes\generic_palette.dm"
 #include "monkestation\code\modules\the_fabled_dna_changes\species_color_pallettes\ornithids.dm"

@@ -69,7 +69,7 @@
 
 /datum/preference/choiced/ornithid_wings/compile_constant_data()
 	var/list/data = ..()
-	data[SUPPLEMENTAL_FEATURE_KEY] = "feather_color"
+	data[SUPPLEMENTAL_FEATURE_KEY] = list("feather_color", "feather_color_secondary", "feather_color_tri")
 	return data
 
 /datum/preference/color/feather_color
@@ -78,11 +78,32 @@
 	category = PREFERENCE_CATEGORY_SUPPLEMENTAL_FEATURES
 	relevant_inherent_trait = TRAIT_FEATHERED
 
-/datum/preference/color/feather_color/apply_to_human(mob/living/carbon/human/target, value)
-	target.dna.features["feathers"] = value
-
 /datum/preference/color/feather_color_secondary
 	savefile_key = "feather_color_secondary"
+	savefile_identifier = PREFERENCE_CHARACTER
+	category = PREFERENCE_CATEGORY_SUPPLEMENTAL_FEATURES
+	relevant_inherent_trait = TRAIT_FEATHERED
+	allows_nulls = TRUE
+	default_null = TRUE
+
+/datum/preference/color/feather_color_tri
+	savefile_key = "feather_color_tri"
+	savefile_identifier = PREFERENCE_CHARACTER
+	category = PREFERENCE_CATEGORY_SUPPLEMENTAL_FEATURES
+	relevant_inherent_trait = TRAIT_FEATHERED
+	allows_nulls = TRUE
+	default_null = TRUE
+
+/datum/preference/color/plummage_color
+	savefile_key = "plummage_color"
+	savefile_identifier = PREFERENCE_CHARACTER
+	category = PREFERENCE_CATEGORY_SUPPLEMENTAL_FEATURES
+	relevant_inherent_trait = TRAIT_FEATHERED
+	allows_nulls = TRUE
+	default_null = TRUE
+
+/datum/preference/color/feather_tail_color
+	savefile_key = "feather_tail_color"
 	savefile_identifier = PREFERENCE_CHARACTER
 	category = PREFERENCE_CATEGORY_SUPPLEMENTAL_FEATURES
 	relevant_inherent_trait = TRAIT_FEATHERED

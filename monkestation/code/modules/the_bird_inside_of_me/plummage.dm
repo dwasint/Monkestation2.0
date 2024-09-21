@@ -24,11 +24,8 @@
 	layers = EXTERNAL_FRONT
 	color_source = ORGAN_COLOR_OVERRIDE
 	palette = /datum/color_palette/ornithids
-
-/datum/bodypart_overlay/mutant/plumage/inherit_color(obj/item/bodypart/ownerlimb, force)
-	var/datum/color_palette/located = ownerlimb?.owner?.dna?.color_palettes[palette]
-	draw_color = located?.return_color("feather_main") || "#FFFFFF"
-	return TRUE
+	palette_key = "plummage"
+	fallback_key = "feather_main"
 
 /datum/bodypart_overlay/mutant/plumage/get_global_feature_list()
 	return GLOB.avian_ears_list

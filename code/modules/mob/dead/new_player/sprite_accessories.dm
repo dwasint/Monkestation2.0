@@ -84,6 +84,7 @@
 	var/datum/color_palette/palette
 	var/palette_key
 	var/fallback_key
+	var/list/layers
 
 /datum/sprite_accessory/blank
 	name = "None"
@@ -1897,7 +1898,7 @@ MONKESTATION EDIT
 	icon_state = "cat"
 	hasinner = TRUE
 	palette = /datum/color_palette/generic_colors
-	palette_key = "hair_color"
+	palette_key = HAIR_COLOR
 
 /datum/sprite_accessory/ears/fox
 	icon = 'icons/mob/species/human/fox_features.dmi'

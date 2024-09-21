@@ -12,6 +12,10 @@
 	var/datum/color_palette/palette
 	///our palette key
 	var/palette_key
+	///our fallback key
+	var/fallback_key
+	///list of palette keys to colors used if the accessory says it needs multiple colors
+	var/list/color_keys
 
 ///Wrapper for getting the proper image, colored and everything
 /datum/bodypart_overlay/proc/get_overlay(layer, obj/item/bodypart/limb)

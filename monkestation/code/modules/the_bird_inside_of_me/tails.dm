@@ -14,15 +14,11 @@
 	layers = EXTERNAL_BEHIND | EXTERNAL_FRONT
 	color_source = ORGAN_COLOR_OVERRIDE
 	palette = /datum/color_palette/ornithids
+	palette_key = "tail"
+	fallback_key = "feather_main"
 
 /datum/bodypart_overlay/mutant/tail/avian/get_global_feature_list()
 	return GLOB.tails_list_avian
-
-/datum/bodypart_overlay/mutant/tail/avian/inherit_color(obj/item/bodypart/ownerlimb, force)
-	var/datum/color_palette/located = ownerlimb?.owner?.dna?.color_palettes[palette]
-	draw_color = located?.return_color("feather_secondary", "feather_main") || "#FFFFFF"
-	return TRUE
-
 
 /datum/sprite_accessory/tails/avian
 	icon = 'monkestation/code/modules/the_bird_inside_of_me/icons/ornithidfeatures.dmi'
