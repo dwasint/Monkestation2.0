@@ -111,8 +111,9 @@
 /datum/antagonist/brother/get_base_preview_icon()
 	var/mob/living/carbon/human/dummy/consistent/brother1 = new
 	var/mob/living/carbon/human/dummy/consistent/brother2 = new
+	var/datum/color_palette/generic_colors/located = brother1.dna.color_palettes[/datum/color_palette/generic_colors]
 
-	brother1.dna.features["ethcolor"] = GLOB.color_list_ethereal["Faint Red"]
+	located.ethereal_color = GLOB.color_list_ethereal["Faint Red"]
 	brother1.set_species(/datum/species/ethereal)
 
 	brother2.dna.features["moth_antennae"] = "Plain"

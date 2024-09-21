@@ -97,7 +97,6 @@ INITIALIZE_IMMEDIATE(/mob/living/carbon/human/dummy)
 	target.dna.initialize_dna(/datum/blood_type/crew/human/o_plus, skip_index = TRUE)
 	target.dna.features["body_markings"] = "None"
 	target.dna.features["ears"] = "None"
-	target.dna.features["ethcolor"] = COLOR_WHITE
 	target.dna.features["frills"] = "None"
 	target.dna.features["horns"] = "None"
 	target.dna.features["moth_antennae"] = "Plain"
@@ -128,6 +127,7 @@ INITIALIZE_IMMEDIATE(/mob/living/carbon/human/dummy)
 	var/datum/color_palette/generic_colors/palette = target.dna.color_palettes[/datum/color_palette/generic_colors]
 	palette.mutant_color = COLOR_VIBRANT_LIME
 	palette.mutant_color_secondary = COLOR_VIBRANT_LIME
+	palette.ethereal_color = COLOR_WHITE
 
 /// Provides a dummy that is consistently bald, white, naked, etc.
 /mob/living/carbon/human/dummy/consistent

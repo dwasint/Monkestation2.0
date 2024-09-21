@@ -274,5 +274,6 @@
 
 /datum/species/ethereal/lustrous/on_species_gain(mob/living/carbon/new_lustrous, datum/species/old_species, pref_load)
 	..()
-	default_color = new_lustrous.dna.features["ethcolor"]
-	new_lustrous.dna.features["ethcolor"] = GLOB.color_list_lustrous[pick(GLOB.color_list_lustrous)] //Picks one of 5 lustrous-specific colors.
+	var/datum/color_palette/generic_colors/palette = new_lustrous.dna.color_palettes[/datum/color_palette/generic_colors]
+	default_color = palette.ethereal_color
+	palette.ethereal_color = GLOB.color_list_lustrous[pick(GLOB.color_list_lustrous)] //Picks one of 5 lustrous-specific colors.

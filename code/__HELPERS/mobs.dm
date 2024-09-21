@@ -142,7 +142,6 @@
 
 	//For now we will always return none for tail_human and ears. | "For now" he says.
 	return(list(
-		"ethcolor" = GLOB.color_list_ethereal[pick(GLOB.color_list_ethereal)],
 		"tail_cat" = "None",
 		"tail_lizard" = "Smooth",
 		"wings" = "None",
