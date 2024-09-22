@@ -25,7 +25,7 @@
 
 		var/y_offset = 0
 		for(var/i in 1 to length(admins))
-			var/x_offset = 100
+			var/x_offset = 120
 			for(var/b in 1 to 8)
 				if(b == 1)
 					y_offset = 0
@@ -34,14 +34,14 @@
 					break
 				picked.pixel_x = x_offset
 				picked.pixel_y = y_offset
-				x_offset += 50
+				x_offset += 60
 				credit_order_for_this_round += picked
 
 		credit_order_for_this_round += "<center>Our Lovely Contributors</center>"
 		var/list/contributors = shuffle(SScredits.contributer_pref_images)
 
 		for(var/i in 1 to length(contributors))
-			var/x_offset = 100
+			var/x_offset = 120
 			for(var/b in 1 to 8)
 				if(b == 1)
 					y_offset = 0
@@ -50,7 +50,7 @@
 					break
 				picked.pixel_x = x_offset
 				picked.pixel_y = y_offset
-				x_offset += 50
+				x_offset += 60
 				credit_order_for_this_round += picked
 
 		for(var/i in SScredits.major_event_icons)
@@ -95,7 +95,7 @@
 	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
 	alpha = 0
 	plane = SPLASHSCREEN_PLANE
-	screen_loc = "6,1"
+	screen_loc = "3,1"
 	var/client/parent
 	var/matrix/target
 
@@ -104,7 +104,7 @@
 	icon = CREDITS_PATH
 	parent = P
 	var/view = P?.view
-	var/list/offsets = screen_loc_to_offset("6,1", view)
+	var/list/offsets = screen_loc_to_offset("3,1", view)
 
 	if(istype(credited, /atom/movable/screen/map_view/char_preview))
 		var/atom/movable/screen/map_view/char_preview/choice = credited
