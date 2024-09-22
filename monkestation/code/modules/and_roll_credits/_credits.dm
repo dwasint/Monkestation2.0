@@ -25,7 +25,7 @@
 
 		var/y_offset = 0
 		for(var/i in 1 to length(admins))
-			var/x_offset = 120
+			var/x_offset = 320
 			for(var/b in 1 to 8)
 				if(b == 1)
 					y_offset = 0
@@ -34,14 +34,14 @@
 					break
 				picked.pixel_x = x_offset
 				picked.pixel_y = y_offset
-				x_offset += 60
+				x_offset += 70
 				credit_order_for_this_round += picked
 
 		credit_order_for_this_round += "<center>Our Lovely Contributors</center>"
 		var/list/contributors = shuffle(SScredits.contributer_pref_images)
 
 		for(var/i in 1 to length(contributors))
-			var/x_offset = 120
+			var/x_offset = 320
 			for(var/b in 1 to 8)
 				if(b == 1)
 					y_offset = 0
@@ -50,7 +50,7 @@
 					break
 				picked.pixel_x = x_offset
 				picked.pixel_y = y_offset
-				x_offset += 60
+				x_offset += 70
 				credit_order_for_this_round += picked
 
 		for(var/i in SScredits.major_event_icons)
@@ -71,9 +71,6 @@
 	for(var/I in credit_order_for_this_round)
 		if(!credits)
 			return
-		if(istype(I, /obj/effect/title_card_object)) //huge image sleep
-			sleep(CREDIT_SPAWN_SPEED * 3.3)
-		_credits += new /atom/movable/screen/credit(null, I, src)
 		if(istype(I, /atom/movable/screen/map_view/char_preview))
 			count++
 			if(count >= 8)
@@ -81,6 +78,9 @@
 				sleep(CREDIT_SPAWN_SPEED)
 		if(!istype(I, /atom/movable/screen/map_view/char_preview))
 			sleep(CREDIT_SPAWN_SPEED)
+		if(istype(I, /obj/effect/title_card_object)) //huge image sleep
+			sleep(CREDIT_SPAWN_SPEED * 3.3)
+		_credits += new /atom/movable/screen/credit(null, I, src)
 	sleep(CREDIT_ROLL_SPEED - CREDIT_SPAWN_SPEED)
 	remove_verb(src, /client/proc/ClearCredits)
 
