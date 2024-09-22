@@ -157,7 +157,7 @@
 
 	adjust_bodytemperature(natural_change * seconds_per_tick, min_temp = min, max_temp = max) // no use_insulation beacuse this is internal
 	if(!(sigreturn & HOMEOSTASIS_NO_HUNGER))
-		adjust_nutrition(-1 * HOMEOSTASIS_HUNGER_MULTIPLIER * HUNGER_FACTOR * nutrition_per_kelvin * abs(natural_change) * seconds_per_tick)
+		adjust_nutrition(-0.1 * HOMEOSTASIS_HUNGER_MULTIPLIER * HUNGER_FACTOR * nutrition_per_kelvin * abs(natural_change) * seconds_per_tick)
 
 /mob/living/silicon/temperature_homeostasis(seconds_per_tick, times_fired)
 	return // Not yet
