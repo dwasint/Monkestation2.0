@@ -25,7 +25,7 @@
 
 		var/y_offset = 0
 		for(var/i in 1 to length(admins))
-			var/x_offset = -140
+			var/x_offset = -120
 			for(var/b in 1 to 8)
 				if(b == 1)
 					y_offset = 0
@@ -41,7 +41,7 @@
 		var/list/contributors = shuffle(SScredits.contributer_pref_images)
 
 		for(var/i in 1 to length(contributors))
-			var/x_offset = -140
+			var/x_offset = -120
 			for(var/b in 1 to 8)
 				if(b == 1)
 					y_offset = 0

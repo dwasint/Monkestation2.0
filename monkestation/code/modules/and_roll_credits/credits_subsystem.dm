@@ -28,7 +28,7 @@ SUBSYSTEM_DEF(credits)
 	var/list/contributer_pref_images = list()
 	var/list/admin_pref_images = list()
 	var/list/major_event_icons = list()
-	var/list/contributors = list("dwasint","absolucy", "wraith_54321", "thepooba")
+	var/list/contributors = list("dwasint", "absolucy", "wraith_54321", "thepooba")
 
 /datum/controller/subsystem/credits/Initialize()
 
@@ -58,7 +58,7 @@ SUBSYSTEM_DEF(credits)
 		appereance.update_body()
 		appereance.maptext_width = 120
 		appereance.maptext_y = -8
-		appereance.maptext_x = -60
+		appereance.maptext_x = -80
 		appereance.maptext = "<center>[ckey]</center>"
 		contributer_pref_images += appereance
 
@@ -72,7 +72,7 @@ SUBSYSTEM_DEF(credits)
 		var/atom/movable/screen/map_view/char_preview/appereance = new(null, mocked)
 		appereance.update_body()
 		appereance.maptext_width = 120
-		appereance.maptext_x = -60
+		appereance.maptext_x = -80
 		appereance.maptext_y = -8
 		appereance.maptext = "<center>[ckey]</center>"
 		admin_pref_images += appereance
@@ -179,6 +179,7 @@ SUBSYSTEM_DEF(credits)
 		MA.icon_state = passed_icon_state
 		MA.pixel_x = 80
 		major_event_icons += MA
+		major_event_icons[MA] = list()
 
 	major_event_icons[MA] |= mobs
 
@@ -217,7 +218,7 @@ SUBSYSTEM_DEF(credits)
 		appereance.appearance = preview.appearance
 		appereance.maptext_width = 120
 		appereance.maptext_y = -8
-		appereance.maptext_x = -60
+		appereance.maptext_x = -80
 		appereance.maptext = "<center>[client.mob.real_name]</center>"
 		created_appearances += appereance
 	return created_appearances
