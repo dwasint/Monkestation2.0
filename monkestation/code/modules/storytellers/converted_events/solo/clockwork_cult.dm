@@ -34,7 +34,7 @@
 	min_players = 45
 	roundstart = TRUE
 	earliest_start = 0 SECONDS
-	weight = 4
+	weight = 0
 	max_occurrences = 1
 	event_icon_state = "clockcult"
 
