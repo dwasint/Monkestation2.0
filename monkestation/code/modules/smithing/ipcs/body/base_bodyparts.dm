@@ -23,7 +23,7 @@
 	should_draw_greyscale = FALSE
 	biological_state = BIO_ROBOTIC | BIO_BLOODED
 	bodytype = BODYTYPE_HUMANOID | BODYTYPE_ROBOTIC
-
+	bodypart_traits = list(TRAIT_LIMBATTACHMENT)
 	body_damage_coeff = 1	//IPC Chest at default	///Monkestation Edit
 	max_damage = 250	//Default: 200 ///Monkestation Edit
 

@@ -1794,14 +1794,20 @@ GLOBAL_LIST_EMPTY(features_by_species)
 	return to_add
 
 /**
- * Adds adds any perks related to the species' inherent_traits list.
+ * Adds adds any perks related to the species' inherent_traits list or override body traits.
  *
  * Returns a list containing perks, or an empty list.
  */
 /datum/species/proc/create_pref_traits_perks()
 	var/list/to_add = list()
+	var/list/trait_list = list()
+	trait_list |= inherent_traits.Copy()
+	for(var/type in bodypart_overrides)
+		var/obj/item/bodypart/bodypart = bodypart_overrides[type]
+		var/obj/item/bodypart/new_bodypart = new bodypart
+		trait_list |= new_bodypart.bodypart_traits.Copy()
 
-	if(TRAIT_LIMBATTACHMENT in inherent_traits)
+	if(TRAIT_LIMBATTACHMENT in trait_list)
 		to_add += list(list(
 			SPECIES_PERK_TYPE = SPECIES_POSITIVE_PERK,
 			SPECIES_PERK_ICON = "user-plus",
@@ -1810,7 +1816,7 @@ GLOBAL_LIST_EMPTY(features_by_species)
 				require surgery to restore. Simply pick it up and pop it back in, champ!",
 		))
 
-	if(TRAIT_EASYDISMEMBER in inherent_traits)
+	if(TRAIT_EASYDISMEMBER in trait_list)
 		to_add += list(list(
 			SPECIES_PERK_TYPE = SPECIES_NEGATIVE_PERK,
 			SPECIES_PERK_ICON = "user-times",
@@ -1818,7 +1824,7 @@ GLOBAL_LIST_EMPTY(features_by_species)
 			SPECIES_PERK_DESC = "[plural_form] limbs are not secured well, and as such they are easily dismembered.",
 		))
 
-	if(TRAIT_EASILY_WOUNDED in inherent_traits)
+	if(TRAIT_EASILY_WOUNDED in trait_list)
 		to_add += list(list(
 			SPECIES_PERK_TYPE = SPECIES_NEGATIVE_PERK,
 			SPECIES_PERK_ICON = "user-times",
@@ -1826,7 +1832,7 @@ GLOBAL_LIST_EMPTY(features_by_species)
 			SPECIES_PERK_DESC = "[plural_form] skin is very weak and fragile. They are much easier to apply serious wounds to.",
 		))
 
-	if(TRAIT_TOXINLOVER in inherent_traits)
+	if(TRAIT_TOXINLOVER in trait_list)
 		to_add += list(list(
 			SPECIES_PERK_TYPE = SPECIES_NEUTRAL_PERK,
 			SPECIES_PERK_ICON = "syringe",

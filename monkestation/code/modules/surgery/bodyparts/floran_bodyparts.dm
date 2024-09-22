@@ -11,6 +11,7 @@
 	limb_id = SPECIES_FLORAN
 	is_dimorphic = TRUE
 	ass_image = 'icons/ass/asspodperson.png'
+	bodypart_traits = list(TRAIT_LIMBATTACHMENT)
 	palette = /datum/color_palette/generic_colors
 	palette_key = MUTANT_COLOR
 
@@ -23,6 +24,7 @@
 	unarmed_attack_effect = ATTACK_EFFECT_CLAW
 	unarmed_attack_sound = 'sound/weapons/slice.ogg'
 	unarmed_miss_sound = 'sound/weapons/slashmiss.ogg'
+	hand_traits = list(TRAIT_PLANT_SAFE)
 	palette = /datum/color_palette/generic_colors
 	palette_key = MUTANT_COLOR
 
@@ -35,6 +37,7 @@
 	unarmed_attack_effect = ATTACK_EFFECT_CLAW
 	unarmed_attack_sound = 'sound/weapons/slice.ogg'
 	unarmed_miss_sound = 'sound/weapons/slashmiss.ogg'
+	hand_traits = list(TRAIT_PLANT_SAFE)
 	palette = /datum/color_palette/generic_colors
 	palette_key = MUTANT_COLOR
 

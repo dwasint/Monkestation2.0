@@ -40,10 +40,10 @@
 	palette_key = MUTANT_COLOR
 
 /obj/item/bodypart/arm/left/lizard/ashwalker
-	bodypart_traits = list(TRAIT_CHUNKYFINGERS)
+	hand_traits = list(TRAIT_CHUNKYFINGERS)
 
 /obj/item/bodypart/arm/right/lizard/ashwalker
-	bodypart_traits = list(TRAIT_CHUNKYFINGERS)
+	hand_traits = list(TRAIT_CHUNKYFINGERS)
 
 /obj/item/bodypart/leg/left/lizard
 	icon_greyscale = 'icons/mob/species/lizard/bodyparts.dmi'

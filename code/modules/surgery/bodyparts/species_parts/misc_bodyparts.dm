@@ -72,12 +72,12 @@
 /obj/item/bodypart/arm/left/abductor
 	limb_id = SPECIES_ABDUCTOR
 	should_draw_greyscale = FALSE
-	bodypart_traits = list(TRAIT_CHUNKYFINGERS)
+	hand_traits = list(TRAIT_CHUNKYFINGERS, TRAIT_CHUNKYFINGERS_IGNORE_BATON)
 
 /obj/item/bodypart/arm/right/abductor
 	limb_id = SPECIES_ABDUCTOR
 	should_draw_greyscale = FALSE
-	bodypart_traits = list(TRAIT_CHUNKYFINGERS)
+	hand_traits = list(TRAIT_CHUNKYFINGERS, TRAIT_CHUNKYFINGERS_IGNORE_BATON)
 
 /obj/item/bodypart/leg/left/abductor
 	limb_id = SPECIES_ABDUCTOR
@@ -238,6 +238,7 @@
 	limb_id = SPECIES_ZOMBIE
 	is_dimorphic = FALSE
 	should_draw_greyscale = FALSE
+	bodypart_traits = list(TRAIT_LIMBATTACHMENT)
 	composition_effects = list(TRAIT_COLD_BLOODED = 0.5)
 
 /obj/item/bodypart/arm/left/zombie
@@ -280,6 +281,7 @@
 	unarmed_attack_effect = ATTACK_EFFECT_CLAW
 	unarmed_attack_sound = 'sound/weapons/slice.ogg'
 	unarmed_miss_sound = 'sound/weapons/slashmiss.ogg'
+	hand_traits = list(TRAIT_PLANT_SAFE)
 	palette = /datum/color_palette/generic_colors
 	palette_key = MUTANT_COLOR
 
@@ -289,6 +291,7 @@
 	unarmed_attack_effect = ATTACK_EFFECT_CLAW
 	unarmed_attack_sound = 'sound/weapons/slice.ogg'
 	unarmed_miss_sound = 'sound/weapons/slashmiss.ogg'
+	hand_traits = list(TRAIT_PLANT_SAFE)
 	palette = /datum/color_palette/generic_colors
 	palette_key = MUTANT_COLOR
 
@@ -360,10 +363,10 @@
 	should_draw_greyscale = FALSE
 
 /obj/item/bodypart/arm/left/shadow/nightmare
-	bodypart_traits = list(TRAIT_CHUNKYFINGERS)
+	hand_traits = list(TRAIT_CHUNKYFINGERS)
 
 /obj/item/bodypart/arm/right/shadow/nightmare
-	bodypart_traits = list(TRAIT_CHUNKYFINGERS)
+	hand_traits = list(TRAIT_CHUNKYFINGERS)
 
 ///SKELETON
 /obj/item/bodypart/head/skeleton
@@ -380,6 +383,7 @@
 	is_dimorphic = FALSE
 	should_draw_greyscale = FALSE
 	dmg_overlay_type = null
+	bodypart_traits = list(TRAIT_LIMBATTACHMENT)
 	wing_types = list(/obj/item/organ/external/wings/functional/skeleton)
 
 /obj/item/bodypart/arm/left/skeleton
@@ -478,7 +482,7 @@
 	bodytype = BODYTYPE_ORGANIC
 	limb_id = SPECIES_GOLEM
 	dmg_overlay_type = null
-	bodypart_traits = list(TRAIT_CHUNKYFINGERS)
+	hand_traits = list(TRAIT_CHUNKYFINGERS)
 	unarmed_damage_low = 8 // I'd like to take the moment that maintaining all of these random ass golem speciese is hell and oranges was right
 	unarmed_damage_high = 8
 	unarmed_stun_threshold = 11
@@ -499,7 +503,7 @@
 	bodytype =  BODYTYPE_ORGANIC
 	limb_id = SPECIES_GOLEM
 	dmg_overlay_type = null
-	bodypart_traits = list(TRAIT_CHUNKYFINGERS)
+	hand_traits = list(TRAIT_CHUNKYFINGERS)
 	unarmed_damage_low = 8
 	unarmed_damage_high = 8
 	unarmed_stun_threshold = 11

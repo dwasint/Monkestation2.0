@@ -36,6 +36,7 @@
 	earliest_start = 0 SECONDS
 	weight = 4
 	max_occurrences = 1
+	event_icon_state = "clockcult"
 
 /datum/round_event/antagonist/solo/clockcult
 	end_when = 60000
