@@ -25,7 +25,7 @@
 
 		var/y_offset = 0
 		for(var/i in 1 to length(admins))
-			var/x_offset = 320
+			var/x_offset = -140
 			for(var/b in 1 to 8)
 				if(b == 1)
 					y_offset = 0
@@ -41,7 +41,7 @@
 		var/list/contributors = shuffle(SScredits.contributer_pref_images)
 
 		for(var/i in 1 to length(contributors))
-			var/x_offset = 320
+			var/x_offset = -140
 			for(var/b in 1 to 8)
 				if(b == 1)
 					y_offset = 0
@@ -78,8 +78,10 @@
 				sleep(CREDIT_SPAWN_SPEED)
 		if(!istype(I, /atom/movable/screen/map_view/char_preview))
 			sleep(CREDIT_SPAWN_SPEED)
+			count = 0
 		if(istype(I, /obj/effect/title_card_object)) //huge image sleep
 			sleep(CREDIT_SPAWN_SPEED * 3.3)
+			count = 0
 		_credits += new /atom/movable/screen/credit(null, I, src)
 	sleep(CREDIT_ROLL_SPEED - CREDIT_SPAWN_SPEED)
 	remove_verb(src, /client/proc/ClearCredits)
