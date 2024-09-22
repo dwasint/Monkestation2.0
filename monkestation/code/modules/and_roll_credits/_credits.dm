@@ -25,8 +25,8 @@
 
 		var/y_offset = 0
 		for(var/i in 1 to length(admins))
-			var/x_offset = 80
-			for(var/b in 1 to 4)
+			var/x_offset = 100
+			for(var/b in 1 to 8)
 				if(b == 1)
 					y_offset = 0
 				var/atom/movable/screen/map_view/char_preview/picked = pick_n_take(admins)
@@ -34,15 +34,15 @@
 					break
 				picked.pixel_x = x_offset
 				picked.pixel_y = y_offset
-				x_offset += 40
+				x_offset += 50
 				credit_order_for_this_round += picked
 
 		credit_order_for_this_round += "<center>Our Lovely Contributors</center>"
 		var/list/contributors = shuffle(SScredits.contributer_pref_images)
 
 		for(var/i in 1 to length(contributors))
-			var/x_offset = 80
-			for(var/b in 1 to 4)
+			var/x_offset = 100
+			for(var/b in 1 to 8)
 				if(b == 1)
 					y_offset = 0
 				var/atom/movable/screen/map_view/char_preview/picked = pick_n_take(contributors)
@@ -50,7 +50,7 @@
 					break
 				picked.pixel_x = x_offset
 				picked.pixel_y = y_offset
-				x_offset += 40
+				x_offset += 50
 				credit_order_for_this_round += picked
 
 		for(var/i in SScredits.major_event_icons)

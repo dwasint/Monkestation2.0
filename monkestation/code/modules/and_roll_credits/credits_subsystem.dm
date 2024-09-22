@@ -56,9 +56,9 @@ SUBSYSTEM_DEF(credits)
 
 		var/atom/movable/screen/map_view/char_preview/appereance = new(null, mocked)
 		appereance.update_body()
-		appereance.maptext_width = 64
+		appereance.maptext_width = 96
 		appereance.maptext_y = -8
-		appereance.maptext = "[ckey]"
+		appereance.maptext = "<center>[ckey]</center>"
 		contributer_pref_images += appereance
 
 	for(var/ckey in GLOB.admin_datums)
@@ -70,9 +70,9 @@ SUBSYSTEM_DEF(credits)
 
 		var/atom/movable/screen/map_view/char_preview/appereance = new(null, mocked)
 		appereance.update_body()
-		appereance.maptext_width = 64
+		appereance.maptext_width = 96
 		appereance.maptext_y = -8
-		appereance.maptext = "[ckey]"
+		appereance.maptext = "<center>[ckey]</center>"
 		admin_pref_images += appereance
 
 /datum/controller/subsystem/credits/proc/draft_star()
