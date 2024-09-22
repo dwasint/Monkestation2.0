@@ -76,7 +76,7 @@
 		_credits += new /atom/movable/screen/credit(null, I, src)
 		if(istype(I, /atom/movable/screen/map_view/char_preview))
 			count++
-			if(count >= 4)
+			if(count >= 8)
 				count = 0
 				sleep(CREDIT_SPAWN_SPEED)
 		if(!istype(I, /atom/movable/screen/map_view/char_preview))
