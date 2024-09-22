@@ -74,7 +74,7 @@
 		if(istype(I, /obj/effect/title_card_object)) //huge image sleep
 			sleep(CREDIT_SPAWN_SPEED * 3.3)
 			count = 0
-		if(count && !istype(/atom/movable/screen/map_view/char_preview))
+		if(count && !istype(I, /atom/movable/screen/map_view/char_preview))
 			sleep(CREDIT_SPAWN_SPEED)
 
 		_credits += new /atom/movable/screen/credit(null, I, src)
