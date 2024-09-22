@@ -7,10 +7,6 @@
 	id = SPECIES_OOZELING
 	changesource_flags = MIRROR_BADMIN | WABBAJACK | MIRROR_PRIDE | MIRROR_MAGIC | RACE_SWAP | ERT_SPAWN | SLIME_EXTRACT
 
-	inherent_traits = list(
-		TRAIT_MUTANT_COLORS,
-	)
-
 	hair_color = "mutcolor"
 	hair_alpha = 160
 
@@ -23,7 +19,7 @@
 	mutantheart = /obj/item/organ/internal/heart/slime
 
 	inherent_traits = list(
-		TRAIT_CAN_USE_FLIGHT_POTION,
+		TRAIT_MUTANT_COLORS,
 		TRAIT_EASYDISMEMBER,
 		TRAIT_NOFIRE,
 	)
