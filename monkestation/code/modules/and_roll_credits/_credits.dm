@@ -71,6 +71,10 @@
 	for(var/I in credit_order_for_this_round)
 		if(!credits)
 			return
+		if(istype(I, /obj/effect/title_card_object)) //huge image sleep
+			sleep(CREDIT_SPAWN_SPEED * 3.3)
+			count = 0
+		_credits += new /atom/movable/screen/credit(null, I, src)
 		if(istype(I, /atom/movable/screen/map_view/char_preview))
 			count++
 			if(count >= 8)
@@ -79,10 +83,6 @@
 		if(!istype(I, /atom/movable/screen/map_view/char_preview))
 			sleep(CREDIT_SPAWN_SPEED)
 			count = 0
-		if(istype(I, /obj/effect/title_card_object)) //huge image sleep
-			sleep(CREDIT_SPAWN_SPEED * 3.3)
-			count = 0
-		_credits += new /atom/movable/screen/credit(null, I, src)
 	sleep(CREDIT_ROLL_SPEED - CREDIT_SPAWN_SPEED)
 	remove_verb(src, /client/proc/ClearCredits)
 
