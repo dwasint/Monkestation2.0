@@ -159,7 +159,7 @@
 
 		hunger_rate *= hunger_modifier
 		hunger_rate *= human.physiology.hunger_mod
-		human.adjust_nutrition(-1 * hunger_rate * seconds_per_tick)
+		human.adjust_nutrition(-1 * hunger_rate * seconds_per_tick * HUNGER_FACTOR)
 
 	var/nutrition = human.nutrition
 	if(nutrition > NUTRITION_LEVEL_FULL)
