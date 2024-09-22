@@ -39,7 +39,7 @@
 /obj/item/organ/internal/stomach/ethereal/proc/handle_temp(mob/living/carbon/human/human, natural_change, seconds_per_tick)
 	SIGNAL_HANDLER
 
-	adjust_charge(-1 * ETHEREAL_CHARGE_FACTOR * abs(natural_change) * seconds_per_tick * 0.05)
+	adjust_charge(-0.5 * ETHEREAL_CHARGE_FACTOR * abs(natural_change) * seconds_per_tick * 0.01)
 	return HOMEOSTASIS_NO_HUNGER
 
 /obj/item/organ/internal/stomach/ethereal/proc/blood(mob/living/carbon/human/ethereal, seconds_per_tick, times_fired)

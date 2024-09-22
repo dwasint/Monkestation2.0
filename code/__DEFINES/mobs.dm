@@ -454,9 +454,9 @@
 
 // These add up to 1 to roughly (VERY roughly) represent the proportion of hunger used by each system
 /// What % of hunger is used by homeostasis
-#define HOMEOSTASIS_HUNGER_MULTIPLIER 0.7
+#define HOMEOSTASIS_HUNGER_MULTIPLIER 0.1
 /// What % of hunger is used by passive hunger
-#define PASSIVE_HUNGER_MULTIPLIER 0.2
+#define PASSIVE_HUNGER_MULTIPLIER 0.7
 /// What % of hunger is used by movement
 #define MOVEMENT_HUNGER_MULTIPLIER 0.1
 
