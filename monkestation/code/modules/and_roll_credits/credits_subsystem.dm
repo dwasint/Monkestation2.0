@@ -28,7 +28,7 @@ SUBSYSTEM_DEF(credits)
 	var/list/contributer_pref_images = list()
 	var/list/admin_pref_images = list()
 	var/list/major_event_icons = list()
-	var/list/contributors = list("dwasint","dwasint","dwasint","dwasint","dwasint")
+	var/list/contributors = list("dwasint","absolucy", "wraith_54321", "thepooba")
 
 /datum/controller/subsystem/credits/Initialize()
 
