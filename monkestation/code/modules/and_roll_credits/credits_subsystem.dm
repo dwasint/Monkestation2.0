@@ -58,7 +58,7 @@ SUBSYSTEM_DEF(credits)
 		appereance.update_body()
 		appereance.maptext_width = 120
 		appereance.maptext_y = -8
-		appereance.maptext_x = -80
+		appereance.maptext_x = -64
 		appereance.maptext = "<center>[ckey]</center>"
 		contributer_pref_images += appereance
 
@@ -72,7 +72,7 @@ SUBSYSTEM_DEF(credits)
 		var/atom/movable/screen/map_view/char_preview/appereance = new(null, mocked)
 		appereance.update_body()
 		appereance.maptext_width = 120
-		appereance.maptext_x = -80
+		appereance.maptext_x = -64
 		appereance.maptext_y = -8
 		appereance.maptext = "<center>[ckey]</center>"
 		admin_pref_images += appereance
@@ -218,7 +218,7 @@ SUBSYSTEM_DEF(credits)
 		appereance.appearance = preview.appearance
 		appereance.maptext_width = 120
 		appereance.maptext_y = -8
-		appereance.maptext_x = -80
+		appereance.maptext_x = -64
 		appereance.maptext = "<center>[client.mob.real_name]</center>"
 		created_appearances += appereance
 	return created_appearances
