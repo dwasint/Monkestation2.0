@@ -65,7 +65,7 @@
 			stacker.bloodiness = src.bloodiness
 			stacker.update_appearance(UPDATE_ICON)
 		else
-			var/obj/effect/decal/cleanable/blood/splatter/stacking/other_splatter = new splatter_type_floor(blood_color = color)
+			var/obj/effect/decal/cleanable/blood/splatter/stacking/other_splatter = new splatter_type_floor()
 			other_splatter.color = color
 			if(messy_splatter && length(other_splatter.splat_overlays))
 				var/mutable_appearance/existing_appearance = other_splatter.splat_overlays[1]

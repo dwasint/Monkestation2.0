@@ -401,6 +401,9 @@
 	pixel_x = rand(-3, 3)
 	pixel_y = rand(-3, 3)
 
+/obj/item/bodypart/drop_location()
+    return ..() || owner?.drop_location()
+
 //empties the bodypart from its organs and other things inside it
 /obj/item/bodypart/proc/drop_organs(mob/user, violent_removal)
 	SHOULD_CALL_PARENT(TRUE)

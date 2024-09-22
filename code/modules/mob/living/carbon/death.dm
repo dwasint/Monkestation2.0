@@ -45,27 +45,27 @@
 				if(no_brain || !istype(organ, /obj/item/organ/internal/brain))
 					qdel(organ)
 		else //we're going to drop all bodyparts except chest, so the only organs that needs spilling are those inside it.
-			for(var/obj/item/organ/organs as anything in organs)
-				if(no_brain && istype(organs, /obj/item/organ/internal/brain))
-					qdel(organs) //so the brain isn't transfered to the head when the head drops.
+			for(var/obj/item/organ/organ as anything in organs)
+				if(no_brain && istype(organ, /obj/item/organ/internal/brain))
+					qdel(organ) //so the brain isn't transfered to the head when the head drops.
 					continue
-				var/org_zone = check_zone(organs.zone) //both groin and chest organs.
+				var/org_zone = check_zone(organ.zone) //both groin and chest organs.
 				if(org_zone != BODY_ZONE_CHEST)
 					continue
-				organs.Remove(src)
-				organs.forceMove(Tsec)
-				organs.fly_away(Tsec, horizontal_multiplier = 2, vertical_multiplier = 1.2)
+				organs.Remove(organ)
+				organ.forceMove(Tsec)
+				organ.fly_away(Tsec, horizontal_multiplier = 2, vertical_multiplier = 1.2)
 	else
-		for(var/obj/item/organ/organs as anything in organs)
-			if(no_brain && istype(organs, /obj/item/organ/internal/brain))
-				qdel(organs)
+		for(var/obj/item/organ/organ as anything in organs)
+			if(no_brain && istype(organ, /obj/item/organ/internal/brain))
+				qdel(organ)
 				continue
-			if(no_organs && !istype(organs, /obj/item/organ/internal/brain))
-				qdel(organs)
+			if(no_organs && !istype(organ, /obj/item/organ/internal/brain))
+				qdel(organ)
 				continue
-			organs.Remove(src)
-			organs.forceMove(Tsec)
-			organs.fly_away(Tsec, horizontal_multiplier = 2, vertical_multiplier = 1.2)
+			organs.Remove(organ)
+			organ.forceMove(Tsec)
+			organ.fly_away(Tsec, horizontal_multiplier = 2, vertical_multiplier = 1.2)
 
 /// Launches all bodyparts away from the mob. skip_head will keep the head attached.
 /mob/living/carbon/spread_bodyparts(skip_head = FALSE, skip_organ = FALSE, violent = FALSE)
