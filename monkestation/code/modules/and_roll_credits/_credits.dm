@@ -26,7 +26,7 @@
 		var/y_offset = 0
 		var/admin_length = length(admins)
 		for(var/i in 1 to admin_length)
-			var/x_offset = -80
+			var/x_offset = -60
 			for(var/b in 1 to 8)
 				var/atom/movable/screen/map_view/char_preview/picked = pick_n_take(admins)
 				if(!picked)
@@ -41,7 +41,7 @@
 
 		var/contributors_length = length(contributors)
 		for(var/i in 1 to contributors_length)
-			var/x_offset = -80
+			var/x_offset = -60
 			for(var/b in 1 to 8)
 				if(b == 1)
 					y_offset = 0
@@ -57,14 +57,14 @@
 			credit_order_for_this_round += i
 			var/list/returned_images = SScredits.resolve_clients(SScredits.major_event_icons[i], i)
 			for(var/y in 1 to length(returned_images))
-				var/x_offset = 80
-				for(var/b in 1 to 4)
+				var/x_offset = -60
+				for(var/b in 1 to 8)
 					var/atom/movable/screen/map_view/char_preview/client_image = pick_n_take(returned_images)
 					if(!client_image)
 						break
 					client_image.pixel_x = x_offset
 					client_image.pixel_y = y_offset
-					x_offset += 40
+					x_offset += 70
 					credit_order_for_this_round += client_image
 
 	var/count = 0
