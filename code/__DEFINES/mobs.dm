@@ -461,7 +461,7 @@
 #define MOVEMENT_HUNGER_MULTIPLIER 0.1
 
 /// Factor at which ethereal's charge decreases per second
-#define ETHEREAL_CHARGE_FACTOR 0.8
+#define ETHEREAL_CHARGE_FACTOR 0.2
 /// How much nutrition eating clothes as moth gives and drains
 #define CLOTHING_NUTRITION_GAIN 15
 #define REAGENTS_METABOLISM 0.2 //How many units of reagent are consumed per second, by default.

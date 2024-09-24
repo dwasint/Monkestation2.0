@@ -2,7 +2,7 @@
 	name = "biological battery"
 	icon_state = "stomach-p" //Welp. At least it's more unique in functionaliy.
 	desc = "A crystal-like organ that stores the electric charge of ethereals."
-	hunger_modifier = 0.5
+	hunger_modifier = 0 //they do different hunger shit
 	//organ_traits = list(TRAIT_NOHUNGER) // We have our own hunger mechanic. //Monkestation Removal, we have our OWN hunger mechanic.
 	///basically satiety but electrical
 	var/crystal_charge = ETHEREAL_CHARGE_FULL
@@ -39,7 +39,7 @@
 /obj/item/organ/internal/stomach/ethereal/proc/handle_temp(mob/living/carbon/human/human, natural_change, seconds_per_tick)
 	SIGNAL_HANDLER
 
-	adjust_charge(-0.5 * ETHEREAL_CHARGE_FACTOR * abs(natural_change) * seconds_per_tick * 0.01)
+	adjust_charge(-0.5 * ETHEREAL_CHARGE_FACTOR * abs(natural_change * 0.1) * seconds_per_tick * 0.01)
 	return HOMEOSTASIS_NO_HUNGER
 
 /obj/item/organ/internal/stomach/ethereal/proc/blood(mob/living/carbon/human/ethereal, seconds_per_tick, times_fired)
