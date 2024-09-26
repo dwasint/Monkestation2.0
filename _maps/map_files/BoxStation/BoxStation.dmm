@@ -14779,11 +14779,11 @@
 /obj/item/clothing/suit/apron,
 /obj/item/clothing/accessory/armband/hydro,
 /obj/item/wrench,
-/obj/item/botanical_lexicon,
-/obj/item/botanical_lexicon,
-/obj/item/botanical_lexicon,
-/obj/item/botanical_lexicon,
-/obj/item/botanical_lexicon,
+/obj/item/book/manual/botanical_lexicon,
+/obj/item/book/manual/botanical_lexicon,
+/obj/item/book/manual/botanical_lexicon,
+/obj/item/book/manual/botanical_lexicon,
+/obj/item/book/manual/botanical_lexicon,
 /obj/machinery/light/small/directional/west,
 /turf/open/floor/iron/dark/side{
 	dir = 9
@@ -45101,11 +45101,11 @@
 	dir = 1
 	},
 /obj/structure/table,
-/obj/item/chicken_book,
-/obj/item/chicken_book,
-/obj/item/chicken_book,
-/obj/item/chicken_book,
-/obj/item/chicken_book,
+/obj/item/book/manual/chicken_encyclopedia,
+/obj/item/book/manual/chicken_encyclopedia,
+/obj/item/book/manual/chicken_encyclopedia,
+/obj/item/book/manual/chicken_encyclopedia,
+/obj/item/book/manual/chicken_encyclopedia,
 /obj/item/chicken_scanner,
 /obj/item/chicken_scanner,
 /obj/item/chicken_scanner,
@@ -58208,12 +58208,36 @@
 /obj/machinery/disposal/bin,
 /turf/open/floor/iron,
 /area/station/science/ordnance/office)
-"tyP" = (
-/obj/effect/turf_decal/bot_red,
-/obj/machinery/status_display/ai/directional/east,
-/obj/machinery/suit_storage_unit/standard_unit,
-/turf/open/floor/iron/large,
-/area/station/ai_monitored/command/storage/eva)
+"tyF" = (
+/obj/structure/table,
+/obj/item/paper_bin,
+/obj/item/folder/blue,
+/obj/item/pen,
+/obj/item/stamp/head/hop,
+/turf/open/floor/carpet/royalblue,
+/area/station/command/heads_quarters/hop)
+"tyG" = (
+/obj/structure/cable,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
+/turf/open/floor/iron/white,
+/area/station/medical/treatment_center)
+"tyX" = (
+/obj/structure/closet/crate/hydroponics,
+/obj/item/book/manual/botanical_lexicon,
+/obj/item/seeds/tree,
+/obj/effect/spawner/random/contraband/prison,
+/obj/item/seeds/pumpkin,
+/obj/item/seeds/wheat,
+/obj/item/seeds/ambrosia,
+/obj/item/seeds/grass,
+/obj/item/seeds/carrot,
+/obj/item/seeds/tomato,
+/obj/item/seeds/potato,
+/obj/item/seeds/garlic,
+/obj/item/seeds/onion,
+/obj/item/paper/guides/jobs/hydroponics,
+/turf/open/floor/iron/dark,
+/area/station/security/prison/garden)
 "tzc" = (
 /obj/effect/spawner/random/engineering/tank,
 /turf/open/floor/plating,

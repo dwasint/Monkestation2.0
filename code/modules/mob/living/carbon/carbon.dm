@@ -653,7 +653,7 @@
 
 //this handles hud updates
 /mob/living/carbon/update_damage_hud()
-
+	..() // monkestation edit
 	if(!client)
 		return
 
