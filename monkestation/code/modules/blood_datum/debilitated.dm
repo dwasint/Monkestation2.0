@@ -12,10 +12,6 @@
 	alert_type = /atom/movable/screen/alert/status_effect/debilitated
 	status_type = STATUS_EFFECT_REFRESH
 
-	///our base stamina damage increase on stamina projectiles
-	var/base_increase = 10
-	///our increase per stack
-	var/per_stack_increase = 5
 	///our base stamina loss multiplier
 	var/loss_multiplier = 1
 	///our per stack increase to stamina loss
@@ -28,7 +24,6 @@
 	if(ishuman(owner))
 		var/mob/living/carbon/human/human = owner
 		cached_stamina = human.physiology.temp_stamina_mod
-	RegisterSignal(owner, COMSIG_ATOM_BULLET_ACT, PROC_REF(check_bullet))
 
 /datum/status_effect/stacking/debilitated/add_stacks(stacks_added)
 	. = ..()
@@ -36,14 +31,6 @@
 		return
 	var/mob/living/carbon/human/human = owner
 	human.physiology.temp_stamina_mod = loss_multiplier + (stacks * per_stack_multiplier_increase)
-
-/datum/status_effect/stacking/debilitated/proc/check_bullet(mob/living/carbon/human/source, obj/projectile/hitting_projectile, def_zone)
-	SIGNAL_HANDLER
-
-	if(hitting_projectile.stamina < 10)
-		return
-
-	source.stamina.adjust(-base_increase + (stacks * per_stack_increase), FALSE, TRUE)
 
 /atom/movable/screen/alert/status_effect/debilitated
 	icon_state = "debilitated"
