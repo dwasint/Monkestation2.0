@@ -32,6 +32,8 @@
 	// Imperfect, ends up with some blood types being double-set-up, but harmless (for now)
 	for(var/new_blood in blood_DNA_to_add)
 		var/datum/blood_type/blood = GLOB.blood_types[blood_DNA_to_add[new_blood]]
+		if(!blood)
+			continue
 		blood.set_up_blood(src, first_dna == 0)
 	update_appearance()
 	return TRUE

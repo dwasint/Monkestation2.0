@@ -932,7 +932,8 @@
 			if(owner_species.fixed_mut_color)
 				species_color = owner_species.fixed_mut_color
 			else
-				CRASH("Forgot to move something to new color_palette system [src]")
+				if(should_draw_greyscale)
+					CRASH("Forgot to move something to new color_palette system [src]")
 	else
 		skin_tone = ""
 		species_color = ""

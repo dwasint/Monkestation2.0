@@ -357,6 +357,8 @@
 	Heal(mob, effectiveness)
 
 /datum/symptom/water_heal/proc/CanHeal(mob/living/M)
+	if(!M)
+		return 1
 	var/base = 0
 	if(M.fire_stacks < 0)
 		M.adjust_fire_stacks(min(absorption_coeff, -M.fire_stacks))
