@@ -14,8 +14,6 @@ GLOBAL_LIST_EMPTY(tails_list_avian)
 	inherent_traits = list(
 		TRAIT_NO_UNDERWEAR,
 		TRAIT_FEATHERED,
-		TRAIT_LIGHT_DRINKER,
-		TRAIT_TACKLING_WINGED_ATTACKER,
 		TRAIT_USES_SKINTONES,
 	)
 	mutanttongue = /obj/item/organ/internal/tongue/ornithid
@@ -39,13 +37,11 @@ GLOBAL_LIST_EMPTY(tails_list_avian)
 	species_cookie = /obj/item/food/semki/healthy // humans get chocolate, lizards get meat. What do birds get? Seed.
 	meat = /obj/item/food/meat/slab/chicken
 	skinned_type = /obj/item/stack/sheet/animalhide/human
+	mutantliver = /obj/item/organ/internal/liver/ornithid
 
 	inert_mutation = /datum/mutation/human/dwarfism
 	species_language_holder = /datum/language_holder/yangyu // doing this because yangyu is really just, mostly unused otherwise.
 	color_palette = /datum/color_palette/ornithids
-
-/datum/species/ornithid/randomize_features(mob/living/carbon/human_mob)
-	human_mob.dna.features["feathers"] = "#[random_color()]"
 
 /datum/species/ornithid/prepare_human_for_preview(mob/living/carbon/human/human)
 	human.skin_tone = "asian1"
@@ -163,3 +159,7 @@ GLOBAL_LIST_EMPTY(tails_list_avian)
 		),
 	)
 	return to_add
+
+/obj/item/organ/internal/liver/ornithid
+	name = "bird liver"
+	organ_traits = list(TRAIT_LIGHT_DRINKER)

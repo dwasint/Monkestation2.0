@@ -5,6 +5,7 @@
 	dna_block = DNA_ARM_WINGS_BLOCK
 	bodypart_overlay = /datum/bodypart_overlay/mutant/wings/functional/arm_wings
 	preference = "feature_arm_wings"
+	organ_traits = list(TRAIT_TACKLING_WINGED_ATTACKER)
 	//Yes, because this is a direct sub-type of functional wings, this means its stored on body, and yes, this means if one or both of the arms are dismembered, there will be floating feathers/wings.
 	//However, there is no "both arms" storage, and having one for each arm is sort of inefficient. Leaving very few methods that could fix this, most of which are harder than what I can do or necessitate a refactor of code. Too Bad!
 

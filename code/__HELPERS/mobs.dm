@@ -179,7 +179,6 @@
 		"arm_wings" = pick(GLOB.arm_wings_list),
 		"ears_avian" = pick(GLOB.avian_ears_list),
 		"tail_avian" = pick(GLOB.tails_list_avian),
-		"feathers" = "#[pick("7F","FF")][pick("7F","FF")][pick("7F","FF")]",
 	))
 
 /proc/random_hairstyle(gender)
