@@ -19,6 +19,11 @@
 	RegisterSignal(src, COMSIG_INSTRUMENT_START, PROC_REF(start_sound_particles))
 	RegisterSignal(src, COMSIG_INSTRUMENT_END, PROC_REF(stop_sound_particles))
 
+/obj/item/organ/internal/tongue/ornithid/Destroy()
+	. = ..()
+	QDEL_NULL(song)
+	UnregisterSignal(src, list(COMSIG_INSTRUMENT_START, COMSIG_INSTRUMENT_END))
+
 /obj/item/organ/internal/tongue/ornithid/Insert(mob/living/carbon/tongue_owner, special, drop_if_replaced)
 	. = ..()
 	if(QDELETED(sing))

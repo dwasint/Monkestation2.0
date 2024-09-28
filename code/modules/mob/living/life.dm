@@ -130,7 +130,7 @@
 	adjust_bodytemperature(temp_change * seconds_per_tick) // No use_insulation because we manually account for it
 
 /mob/living/proc/get_insulated_equilibrium_temperature(environment_temp, insulation)
-    return environment_temp + (standard_body_temperature - environment_temp) * insulation
+	return environment_temp + (standard_body_temperature - environment_temp) * insulation
 
 /mob/living/silicon/handle_environment(datum/gas_mixture/environment, seconds_per_tick, times_fired)
 	return // Not yet

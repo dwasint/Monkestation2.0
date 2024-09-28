@@ -20876,11 +20876,6 @@
 /obj/effect/turf_decal/trimline/red/filled/line,
 /turf/open/floor/iron/dark,
 /area/station/ai_monitored/security/armory)
-"gYb" = (
-/obj/structure/cable,
-/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
-/turf/open/floor/iron/white,
-/area/station/medical/treatment_center)
 "gYt" = (
 /obj/machinery/atmospherics/pipe/bridge_pipe/cyan/visible,
 /obj/machinery/atmospherics/pipe/layer_manifold/yellow/visible{
@@ -21048,13 +21043,10 @@
 /turf/open/floor/iron/dark,
 /area/station/command/bridge)
 "has" = (
-/obj/structure/table,
-/obj/item/paper_bin,
-/obj/item/folder/blue,
-/obj/item/pen,
-/obj/item/stamp/head/hop,
-/turf/open/floor/carpet/royalblue,
-/area/station/command/heads_quarters/hop)
+/obj/machinery/suit_storage_unit/standard_unit,
+/obj/effect/turf_decal/bot_red,
+/turf/open/floor/iron,
+/area/station/ai_monitored/command/storage/eva)
 "haz" = (
 /obj/effect/turf_decal/trimline/green/filled/line{
 	dir = 4
@@ -41899,7 +41891,6 @@
 /area/station/ai_monitored/turret_protected/aisat/atmos)
 "ojw" = (
 /obj/structure/closet/crate/hydroponics,
-/obj/item/botanical_lexicon,
 /obj/item/seeds/tree,
 /obj/effect/spawner/random/contraband/prison,
 /obj/item/seeds/pumpkin,
@@ -58221,23 +58212,6 @@
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /turf/open/floor/iron/white,
 /area/station/medical/treatment_center)
-"tyX" = (
-/obj/structure/closet/crate/hydroponics,
-/obj/item/book/manual/botanical_lexicon,
-/obj/item/seeds/tree,
-/obj/effect/spawner/random/contraband/prison,
-/obj/item/seeds/pumpkin,
-/obj/item/seeds/wheat,
-/obj/item/seeds/ambrosia,
-/obj/item/seeds/grass,
-/obj/item/seeds/carrot,
-/obj/item/seeds/tomato,
-/obj/item/seeds/potato,
-/obj/item/seeds/garlic,
-/obj/item/seeds/onion,
-/obj/item/paper/guides/jobs/hydroponics,
-/turf/open/floor/iron/dark,
-/area/station/security/prison/garden)
 "tzc" = (
 /obj/effect/spawner/random/engineering/tank,
 /turf/open/floor/plating,
@@ -99163,7 +99137,7 @@ eFO
 lFc
 yfR
 mqu
-has
+tyF
 sCt
 bni
 vMZ
@@ -99390,7 +99364,7 @@ nZL
 kOK
 nVk
 rfW
-tyP
+has
 mRF
 oOm
 rTP
@@ -123580,7 +123554,7 @@ iRE
 pCO
 pCO
 faQ
-gYb
+tyG
 mHx
 bUp
 bcL

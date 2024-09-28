@@ -82,14 +82,6 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/computer/vitals_reader/advanced, 32)
 
 MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/computer/vitals_reader/no_hand, 32)
 
-/obj/machinery/computer/vitals_reader/Initialize(mapload, obj/item/circuitboard/C)
-	. = ..()
-	register_context()
-
-/obj/machinery/computer/vitals_reader/Destroy()
-	unset_patient()
-	return ..()
-
 /obj/machinery/computer/vitals_reader/attackby(obj/item/weapon, mob/living/user, params)
 	if(!istype(user) || (user.istate & ISTATE_HARM))
 		return ..()
