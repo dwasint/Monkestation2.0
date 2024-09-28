@@ -11,14 +11,6 @@ GLOBAL_LIST_EMPTY(tails_list_avian)
 	plural_form = "Ornithids"
 	id = SPECIES_ORNITHID
 
-	special_step_sounds = list(
-		'sound/effects/footstep/hardclaw1.ogg',
-		'sound/effects/footstep/hardclaw2.ogg',
-		'sound/effects/footstep/hardclaw3.ogg',
-		'sound/effects/footstep/hardclaw4.ogg',
-		'sound/effects/footstep/hardclaw1.ogg',
-	)
-
 	inherent_traits = list(
 		TRAIT_NO_UNDERWEAR,
 		TRAIT_FEATHERED,
@@ -89,6 +81,13 @@ GLOBAL_LIST_EMPTY(tails_list_avian)
 	icon_greyscale = 'monkestation/code/modules/the_bird_inside_of_me/icons/ornithid_parts_greyscale.dmi'
 	bodytype = BODYTYPE_ORGANIC | BODYTYPE_DIGITIGRADE
 	bodypart_traits = list(TRAIT_HARD_SOLES, TRAIT_NON_IMPORTANT_SHOE_BLOCK)
+	step_sounds = list(
+		'sound/effects/footstep/hardclaw1.ogg',
+		'sound/effects/footstep/hardclaw2.ogg',
+		'sound/effects/footstep/hardclaw3.ogg',
+		'sound/effects/footstep/hardclaw4.ogg',
+		'sound/effects/footstep/hardclaw1.ogg',
+	)
 
 /obj/item/bodypart/leg/right/ornithid
 	limb_id = SPECIES_ORNITHID
@@ -96,6 +95,13 @@ GLOBAL_LIST_EMPTY(tails_list_avian)
 	icon_greyscale = 'monkestation/code/modules/the_bird_inside_of_me/icons/ornithid_parts_greyscale.dmi'
 	bodytype = BODYTYPE_ORGANIC | BODYTYPE_DIGITIGRADE
 	bodypart_traits = list(TRAIT_HARD_SOLES, TRAIT_NON_IMPORTANT_SHOE_BLOCK)
+	step_sounds = list(
+		'sound/effects/footstep/hardclaw1.ogg',
+		'sound/effects/footstep/hardclaw2.ogg',
+		'sound/effects/footstep/hardclaw3.ogg',
+		'sound/effects/footstep/hardclaw4.ogg',
+		'sound/effects/footstep/hardclaw1.ogg',
+	)
 
 // section for lore/perk descs
 /datum/species/ornithid/get_species_description()

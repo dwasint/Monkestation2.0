@@ -64,17 +64,6 @@
 /datum/species/floran/randomize_features(mob/living/carbon/human_mob)
 	randomize_external_organs(human_mob)
 
-/datum/species/floran/get_scream_sound(mob/living/carbon/human/human)
-	return pick(
-		'sound/voice/lizard/lizard_scream_1.ogg',
-		'sound/voice/lizard/lizard_scream_2.ogg',
-		'sound/voice/lizard/lizard_scream_3.ogg',
-		'monkestation/sound/voice/screams/lizard/lizard_scream_5.ogg',
-	)
-
-/datum/species/floran/get_laugh_sound(mob/living/carbon/human/human)
-	return 'monkestation/sound/voice/laugh/lizard/lizard_laugh.ogg'
-
 /datum/species/floran/get_species_description()
 	return "Plant-based humanoids, they are extremely violent carnivores with no central government or power structure, \
 	split into numerous tribes spread across the universe, each led by a Greenfinger. \

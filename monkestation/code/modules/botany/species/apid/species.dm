@@ -131,9 +131,6 @@
 	if(istype(attacking_item, /obj/item/melee/flyswatter))
 		damage_mods += 10 // Yes, a 10x damage modifier
 
-/datum/species/apid/get_scream_sound(mob/living/carbon/human/human)
-	return 'sound/voice/moth/scream_moth.ogg'
-
 /datum/species/apid/get_species_description()
 	return "Apids are a race of bipedal bees from the jungle planet of Saltu. Due to their large bodies, they have lost the ability to fly."
 
@@ -146,3 +143,13 @@
 	liked_foodtypes = VEGETABLES | MEAT | FRUIT
 	disliked_foodtypes =  GROSS | BUGS | GORE
 	toxic_foodtypes = RAW | SEAFOOD
+
+/obj/item/organ/internal/tongue/apid/get_scream_sound()
+	return 'sound/voice/moth/scream_moth.ogg'
+
+/obj/item/organ/internal/tongue/apid/get_laugh_sound()
+	return pick(
+		'monkestation/sound/voice/laugh/moth/mothchitter.ogg',
+		'monkestation/sound/voice/laugh/moth/mothlaugh.ogg',
+		'monkestation/sound/voice/laugh/moth/mothsqueak.ogg',
+	)

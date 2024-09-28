@@ -101,6 +101,33 @@
 		food_taste_reaction = FOOD_LIKED
 	return food_taste_reaction
 
+/obj/item/organ/internal/tongue/proc/get_laugh_sound()
+	if(owner.gender == MALE)
+		return pick('sound/voice/human/manlaugh1.ogg', 'sound/voice/human/manlaugh2.ogg')
+	else
+		return 'sound/voice/human/womanlaugh.ogg'
+
+/obj/item/organ/internal/tongue/proc/get_scream_sound()
+	if(owner.gender == MALE)
+		if(prob(1))
+			return 'sound/voice/human/wilhelm_scream.ogg'
+		return pick(
+			'sound/voice/human/malescream_1.ogg',
+			'sound/voice/human/malescream_2.ogg',
+			'sound/voice/human/malescream_3.ogg',
+			'sound/voice/human/malescream_4.ogg',
+			'sound/voice/human/malescream_5.ogg',
+			'sound/voice/human/malescream_6.ogg',
+		)
+
+	return pick(
+		'sound/voice/human/femalescream_1.ogg',
+		'sound/voice/human/femalescream_2.ogg',
+		'sound/voice/human/femalescream_3.ogg',
+		'sound/voice/human/femalescream_4.ogg',
+		'sound/voice/human/femalescream_5.ogg',
+	)
+
 /obj/item/organ/internal/tongue/Insert(mob/living/carbon/tongue_owner, special = FALSE, drop_if_replaced = TRUE)
 	. = ..()
 	if(!.)
@@ -165,6 +192,27 @@
 
 	/// How long is our hissssssss?
 	var/draw_length = 3
+
+/obj/item/organ/internal/tongue/lizard/get_scream_sound()
+	if(owner.gender == MALE)
+		return pick(
+		'sound/voice/lizard/lizard_scream_1.ogg',
+		'sound/voice/lizard/lizard_scream_2.ogg',
+		'sound/voice/lizard/lizard_scream_3.ogg',
+		'monkestation/sound/voice/screams/lizard/lizard_scream_4.ogg',
+		)
+
+	return pick(
+		'sound/voice/lizard/lizard_scream_1.ogg',
+		'sound/voice/lizard/lizard_scream_2.ogg',
+		'sound/voice/lizard/lizard_scream_3.ogg',
+		'monkestation/sound/voice/screams/lizard/lizard_scream_5.ogg',
+	)
+
+/obj/item/organ/internal/tongue/lizard/get_laugh_sound()
+	if(prob(1))
+		return 'monkestation/sound/voice/weh.ogg'
+	return 'monkestation/sound/voice/laugh/lizard/lizard_laugh.ogg'
 
 /obj/item/organ/internal/tongue/lizard/Initialize(mapload)
 	. = ..()
@@ -279,6 +327,13 @@
 	sense_of_taste = FALSE
 	modifies_speech = TRUE
 	var/mothership
+
+
+/obj/item/organ/internal/tongue/abductor/get_scream_sound()
+	return 'sound/weather/ashstorm/inside/weak_end.ogg'
+
+/obj/item/organ/internal/tongue/abductor/get_laugh_sound()
+	return 'sound/weather/ashstorm/inside/weak_end.ogg'
 
 /obj/item/organ/internal/tongue/abductor/attack_self(mob/living/carbon/human/tongue_holder)
 	if(!istype(tongue_holder))
@@ -435,6 +490,13 @@ GLOBAL_LIST_INIT(english_to_zombie, list())
 	. = ..()
 	phomeme_type = pick(phomeme_types)
 
+/obj/item/organ/internal/tongue/bone/get_laugh_sound()
+	return 'monkestation/sound/voice/laugh/skeleton/skeleton_laugh.ogg'
+
+/obj/item/organ/internal/tongue/bone/get_scream_sound()
+	return 'monkestation/sound/voice/screams/skeleton/scream_skeleton.ogg'
+
+
 // Bone tongues can speak all default + calcic
 /obj/item/organ/internal/tongue/bone/get_possible_languages()
 	return ..() + /datum/language/calcic
@@ -456,6 +518,13 @@ GLOBAL_LIST_INIT(english_to_zombie, list())
 	liked_foodtypes = VEGETABLES
 	disliked_foodtypes = FRUIT | CLOTH
 
+/obj/item/organ/internal/tongue/bone/plasmaman/get_scream_sound()
+	return pick(
+		'sound/voice/plasmaman/plasmeme_scream_1.ogg',
+		'sound/voice/plasmaman/plasmeme_scream_2.ogg',
+		'sound/voice/plasmaman/plasmeme_scream_3.ogg',
+	)
+
 /obj/item/organ/internal/tongue/robot
 	name = "robotic voicebox"
 	desc = "A voice synthesizer that can interface with organic lifeforms."
@@ -467,6 +536,16 @@ GLOBAL_LIST_INIT(english_to_zombie, list())
 	attack_verb_simple = list("beep", "boop")
 	modifies_speech = TRUE
 	taste_sensitivity = 25 // not as good as an organic tongue
+
+/obj/item/organ/internal/tongue/robot/get_scream_sound()
+	return 'monkestation/sound/voice/screams/silicon/scream_silicon.ogg'
+
+/obj/item/organ/internal/tongue/robot/get_laugh_sound()
+	return pick(
+		'monkestation/sound/voice/laugh/silicon/laugh_siliconE1M0.ogg',
+		'monkestation/sound/voice/laugh/silicon/laugh_siliconE1M1.ogg',
+		'monkestation/sound/voice/laugh/silicon/laugh_siliconM2.ogg',
+	)
 
 /obj/item/organ/internal/tongue/robot/can_speak_language(language)
 	return TRUE // THE MAGIC OF ELECTRONICS
@@ -501,6 +580,16 @@ GLOBAL_LIST_INIT(english_to_zombie, list())
 	toxic_foodtypes = NONE //no food is particularly toxic to etherealsz
 	attack_verb_continuous = list("shocks", "jolts", "zaps")
 	attack_verb_simple = list("shock", "jolt", "zap")
+
+/obj/item/organ/internal/tongue/ethereal/get_scream_sound()
+	return pick(
+		'sound/voice/ethereal/ethereal_scream_1.ogg',
+		'sound/voice/ethereal/ethereal_scream_2.ogg',
+		'sound/voice/ethereal/ethereal_scream_3.ogg',
+	)
+
+/obj/item/organ/internal/tongue/ethereal/get_laugh_sound()
+	return 'monkestation/sound/voice/laugh/ethereal/ethereal_laugh_1.ogg'
 
 
 // Ethereal tongues can speak all default + voltaic
@@ -544,6 +633,20 @@ GLOBAL_LIST_INIT(english_to_zombie, list())
 	liked_foodtypes = MEAT | FRUIT | BUGS
 	disliked_foodtypes = CLOTH
 
+/obj/item/organ/internal/tongue/monkey/get_scream_sound()
+	return pick(
+		'sound/creatures/monkey/monkey_screech_1.ogg',
+		'sound/creatures/monkey/monkey_screech_2.ogg',
+		'sound/creatures/monkey/monkey_screech_3.ogg',
+		'sound/creatures/monkey/monkey_screech_4.ogg',
+		'sound/creatures/monkey/monkey_screech_5.ogg',
+		'sound/creatures/monkey/monkey_screech_6.ogg',
+		'sound/creatures/monkey/monkey_screech_7.ogg',
+	)
+
+/obj/item/organ/internal/tongue/monkey/get_laugh_sound()
+	return 'monkestation/sound/voice/laugh/simian/monkey_laugh_1.ogg'
+
 /obj/item/organ/internal/tongue/moth
 	name = "moth tongue"
 	desc = "Moths don't have tongues. Someone get god on the phone, tell them I'm not happy."
@@ -551,6 +654,16 @@ GLOBAL_LIST_INIT(english_to_zombie, list())
 	liked_foodtypes = VEGETABLES | DAIRY | CLOTH
 	disliked_foodtypes = FRUIT | GROSS | BUGS | GORE
 	toxic_foodtypes = MEAT | RAW | SEAFOOD
+
+/obj/item/organ/internal/tongue/moth/get_scream_sound()
+	return 'sound/voice/moth/scream_moth.ogg'
+
+/obj/item/organ/internal/tongue/moth/get_laugh_sound()
+	return pick(
+		'monkestation/sound/voice/laugh/moth/mothchitter.ogg',
+		'monkestation/sound/voice/laugh/moth/mothlaugh.ogg',
+		'monkestation/sound/voice/laugh/moth/mothsqueak.ogg',
+	)
 
 /obj/item/organ/internal/tongue/zombie
 	name = "rotting tongue"
@@ -577,3 +690,14 @@ GLOBAL_LIST_INIT(english_to_zombie, list())
 	say_mod = "whistles"
 	liked_foodtypes =  GORE | MEAT | DAIRY | SEAFOOD | BUGS
 	disliked_foodtypes = VEGETABLES
+
+/obj/item/organ/internal/tongue/floran/get_scream_sound()
+	return pick(
+		'sound/voice/lizard/lizard_scream_1.ogg',
+		'sound/voice/lizard/lizard_scream_2.ogg',
+		'sound/voice/lizard/lizard_scream_3.ogg',
+		'monkestation/sound/voice/screams/lizard/lizard_scream_5.ogg',
+	)
+
+/obj/item/organ/internal/tongue/floran/get_laugh_sound()
+	return 'monkestation/sound/voice/laugh/lizard/lizard_laugh.ogg'

@@ -118,6 +118,8 @@
 	var/num_legs = 2
 	///How many usable legs this mob currently has. Should only be changed through set_usable_legs()
 	var/usable_legs = 2
+	///what leg we step with
+	var/step_leg = 1
 
 	///How many hands does this mob have by default. This shouldn't change at runtime.
 	var/default_num_hands = 2

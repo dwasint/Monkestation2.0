@@ -54,6 +54,12 @@
 	composition_effects = list(TRAIT_COLD_BLOODED = 0.5)
 	palette = /datum/color_palette/generic_colors
 	palette_key = MUTANT_COLOR
+	step_sounds = list(
+		'sound/effects/footstep/hardclaw1.ogg',
+		'sound/effects/footstep/hardclaw2.ogg',
+		'sound/effects/footstep/hardclaw3.ogg',
+		'sound/effects/footstep/hardclaw4.ogg',
+	)
 
 /obj/item/bodypart/leg/right/lizard
 	icon_greyscale = 'icons/mob/species/lizard/bodyparts.dmi'
@@ -64,6 +70,12 @@
 	composition_effects = list(TRAIT_COLD_BLOODED = 0.5)
 	palette = /datum/color_palette/generic_colors
 	palette_key = MUTANT_COLOR
+	step_sounds = list(
+		'sound/effects/footstep/hardclaw1.ogg',
+		'sound/effects/footstep/hardclaw2.ogg',
+		'sound/effects/footstep/hardclaw3.ogg',
+		'sound/effects/footstep/hardclaw4.ogg',
+	)
 
 /obj/item/bodypart/leg/right/lizard/ashwalker
 	bodypart_traits = list(TRAIT_HARD_SOLES)

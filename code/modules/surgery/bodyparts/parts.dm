@@ -160,6 +160,8 @@
 	var/old_limb_id
 	/// Used by the bloodysoles component to make footprints
 	var/footprint_sprite = FOOTPRINT_SPRITE_SHOES
+	///our step sound
+	var/list/step_sounds
 	biological_state = BIO_STANDARD_JOINTED
 
 /obj/item/bodypart/leg/Destroy()

@@ -19,6 +19,12 @@
 	disliked_foodtypes = NONE // Okay listen, i don't actually know what irl spiders don't like to eat and i'm pretty tired of looking for answers.
 	liked_foodtypes = GORE | MEAT | BUGS | GROSS
 
+/obj/item/organ/internal/tongue/arachnid/get_scream_sound()
+	return 'monkestation/sound/voice/screams/arachnid/arachnid_scream.ogg'
+
+/obj/item/organ/internal/tongue/arachnid/get_laugh_sound()
+	return 'monkestation/sound/voice/laugh/arachnid/arachnid_laugh.ogg'
+
 /obj/item/organ/internal/tongue/arachnid/modify_speech(datum/source, list/speech_args) //This is flypeople speech
 	var/static/regex/fly_buzz = new("z+", "g")
 	var/static/regex/fly_buZZ = new("Z+", "g")

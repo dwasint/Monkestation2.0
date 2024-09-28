@@ -8,13 +8,6 @@
 		TRAIT_NO_UNDERWEAR,
 		TRAIT_USES_SKINTONES,
 	)
-	special_step_sounds = list(
-		'sound/effects/footstep/hardclaw1.ogg',
-		'sound/effects/footstep/hardclaw2.ogg',
-		'sound/effects/footstep/hardclaw3.ogg',
-		'sound/effects/footstep/hardclaw4.ogg',
-		'sound/effects/footstep/hardclaw1.ogg',
-	)
 	inherent_biotypes = MOB_ORGANIC | MOB_HUMANOID
 	external_organs = list(
 		/obj/item/organ/external/satyr_fluff = "normal",

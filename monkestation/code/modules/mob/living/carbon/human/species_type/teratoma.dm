@@ -82,17 +82,6 @@
 		))
 	return is_type_in_typecache(reagent, disallowed_chems_typecache)
 
-/datum/species/teratoma/get_scream_sound(mob/living/carbon/human/monkey)
-	return pick(
-		'sound/creatures/monkey/monkey_screech_1.ogg',
-		'sound/creatures/monkey/monkey_screech_2.ogg',
-		'sound/creatures/monkey/monkey_screech_3.ogg',
-		'sound/creatures/monkey/monkey_screech_4.ogg',
-		'sound/creatures/monkey/monkey_screech_5.ogg',
-		'sound/creatures/monkey/monkey_screech_6.ogg',
-		'sound/creatures/monkey/monkey_screech_7.ogg',
-	)
-
 /datum/component/omen/teratoma
 	permanent = TRUE
 	luck_mod = 0.75

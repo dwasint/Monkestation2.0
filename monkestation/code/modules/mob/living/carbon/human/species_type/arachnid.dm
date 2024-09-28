@@ -48,12 +48,6 @@
 	if(istype(attacking_item, /obj/item/melee/flyswatter))
 		damage_mods += 30 // Yes, a 30x damage modifier
 
-/datum/species/arachnid/get_scream_sound(mob/living/carbon/human/human)
-	return 'monkestation/sound/voice/screams/arachnid/arachnid_scream.ogg'
-
-/datum/species/arachnid/get_laugh_sound(mob/living/carbon/human/human)
-	return 'monkestation/sound/voice/laugh/arachnid/arachnid_laugh.ogg'
-
 /datum/species/arachnid/get_species_description()
 	return "Arachnids are a species of humanoid spiders employed by Nanotrasen in recent years." // Allan please add details
 

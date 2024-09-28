@@ -43,7 +43,6 @@
 	payday_modifier = 1.0 // Matches the rest of the pay penalties the non-human crew have
 
 	species_language_holder = /datum/language_holder/synthetic
-	special_step_sounds = list('sound/effects/servostep.ogg')
 
 	mutantbrain = /obj/item/organ/internal/brain/synth
 	mutantstomach = /obj/item/organ/internal/stomach/synth
@@ -80,16 +79,6 @@
 	var/will_it_blend_timer
 	COOLDOWN_DECLARE(blend_cd)
 	var/blending
-
-/datum/species/ipc/get_scream_sound(mob/living/carbon/human/human)
-	return 'monkestation/sound/voice/screams/silicon/scream_silicon.ogg'
-
-/datum/species/ipc/get_laugh_sound(mob/living/carbon/human/human)
-	return pick(
-		'monkestation/sound/voice/laugh/silicon/laugh_siliconE1M0.ogg',
-		'monkestation/sound/voice/laugh/silicon/laugh_siliconE1M1.ogg',
-		'monkestation/sound/voice/laugh/silicon/laugh_siliconM2.ogg',
-	)
 
 /datum/species/ipc/get_species_description()
 	return "Integrated Positronic Chassis - or IPC for short - \

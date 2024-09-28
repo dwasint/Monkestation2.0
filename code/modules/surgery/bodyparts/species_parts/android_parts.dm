@@ -21,6 +21,8 @@
 
 /obj/item/bodypart/leg/left/robot/android
 	change_exempt_flags = null
+	step_sounds = list('sound/effects/servostep.ogg')
 
 /obj/item/bodypart/leg/right/robot/android
 	change_exempt_flags = null
+	step_sounds = list('sound/effects/servostep.ogg')

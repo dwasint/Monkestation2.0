@@ -45,8 +45,8 @@
 		BODY_ZONE_CHEST = /obj/item/bodypart/chest/zombie,
 		BODY_ZONE_L_ARM = /obj/item/bodypart/arm/left/zombie,
 		BODY_ZONE_R_ARM = /obj/item/bodypart/arm/right/zombie,
-		BODY_ZONE_L_LEG = /obj/item/bodypart/leg/left/zombie/infectious,
-		BODY_ZONE_R_LEG = /obj/item/bodypart/leg/right/zombie/infectious,
+		BODY_ZONE_L_LEG = /obj/item/bodypart/leg/left/zombie,
+		BODY_ZONE_R_LEG = /obj/item/bodypart/leg/right/zombie,
 	)
 
 /datum/species/zombie/check_roundstart_eligible()
@@ -106,6 +106,15 @@
 		TRAIT_STABLEHEART, // Replacement for noblood. Infectious zombies can bleed but don't need their heart.
 		TRAIT_STABLELIVER, // Not necessary but for consistency with above
 	)
+	bodypart_overrides = list(
+		BODY_ZONE_HEAD = /obj/item/bodypart/head/zombie,
+		BODY_ZONE_CHEST = /obj/item/bodypart/chest/zombie,
+		BODY_ZONE_L_ARM = /obj/item/bodypart/arm/left/zombie,
+		BODY_ZONE_R_ARM = /obj/item/bodypart/arm/right/zombie,
+		BODY_ZONE_L_LEG = /obj/item/bodypart/leg/left/zombie/infectious,
+		BODY_ZONE_R_LEG = /obj/item/bodypart/leg/right/zombie/infectious,
+	)
+
 
 /datum/species/zombie/infectious/on_species_gain(mob/living/carbon/C, datum/species/old_species)
 	. = ..()

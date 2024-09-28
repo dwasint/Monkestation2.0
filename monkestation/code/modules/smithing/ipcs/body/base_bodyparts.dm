@@ -71,6 +71,7 @@
 	bodytype = BODYTYPE_HUMANOID | BODYTYPE_ROBOTIC
 
 	dmg_overlay_type = "synth"
+	step_sounds = list('sound/effects/servostep.ogg')
 
 /obj/item/bodypart/leg/right/robot/ipc
 	icon = 'monkestation/icons/mob/species/ipc/bodyparts.dmi'
@@ -86,3 +87,4 @@
 	max_damage = 30	//Monkestation Edit
 
 	dmg_overlay_type = "synth"
+	step_sounds = list('sound/effects/servostep.ogg')
