@@ -89,6 +89,9 @@
 	var/list/all_blood_names = list()
 	for(var/dna_sample in all_dna)
 		var/datum/blood_type/blood = GLOB.blood_types[all_dna[dna_sample]]
+		if(!blood)
+			all_blood_names |= "blood"
+			continue
 		all_blood_names |= lowertext(initial(blood.reagent_type.name))
 	return english_list(all_blood_names, nothing_text = "blood")
 

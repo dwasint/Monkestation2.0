@@ -28,12 +28,22 @@ SUBSYSTEM_DEF(credits)
 	var/list/contributer_pref_images = list()
 	var/list/admin_pref_images = list()
 	var/list/major_event_icons = list()
-	var/list/contributors = list("dwasint", "absolucy", "wraith_54321", "thepooba")
+	var/list/contributors = list()
 
 /datum/controller/subsystem/credits/Initialize()
-
+	load_contributors()
 	generate_pref_images()
 	return SS_INIT_SUCCESS
+
+/datum/controller/subsystem/proc/load_contributors()
+	contributors = list()
+	var/list/lines = world.file2list("[global.config.directory]/contributors.txt")
+	for(var/line in lines)
+		if(!length(line))
+			continue
+		if(findtextEx(line, "#", 1, 2))
+			continue
+		contributors |= line
 
 /datum/controller/subsystem/credits/proc/draft()
 	draft_episode_names()
