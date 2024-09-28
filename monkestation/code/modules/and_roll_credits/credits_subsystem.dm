@@ -35,7 +35,7 @@ SUBSYSTEM_DEF(credits)
 	generate_pref_images()
 	return SS_INIT_SUCCESS
 
-/datum/controller/subsystem/proc/load_contributors()
+/datum/controller/subsystem/credits/proc/load_contributors()
 	contributors = list()
 	var/list/lines = world.file2list("[global.config.directory]/contributors.txt")
 	for(var/line in lines)
