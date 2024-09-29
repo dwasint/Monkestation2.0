@@ -162,7 +162,7 @@
 
 /datum/martial_art/the_sleeping_carp/proc/can_deflect(mob/living/carp_user)
 	if(!COOLDOWN_FINISHED(src, block_cooldown))
-		if(prob(70))
+		if(prob(50))
 			return FALSE
 	if(!can_use(carp_user))
 		return FALSE
