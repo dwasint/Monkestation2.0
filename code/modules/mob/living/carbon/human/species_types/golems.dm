@@ -3,6 +3,7 @@
 	name = "Golem"
 	id = SPECIES_GOLEM
 	inherent_traits = list(
+		TRAIT_MUTANT_COLORS,
 		TRAIT_NO_UNDERWEAR,
 		TRAIT_NO_DNA_COPY,
 		TRAIT_NO_TRANSFORMATION_STING,
