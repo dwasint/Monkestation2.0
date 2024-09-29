@@ -658,7 +658,7 @@
 
 	// We're in a low / high pressure environment, can't breathe, but trying to, so this hurts the lungs
 	// Unless it's cybernetic then it just doesn't care. Handwave magic whatever
-	else if(!skip_breath && !HAS_TRAIT(owner, TRAIT_ASSISTED_BREATHING))
+	else if(!skip_breath && (owner && !HAS_TRAIT(owner, TRAIT_ASSISTED_BREATHING)))
 		if(lung_pop_tick > 10)
 			lung_pop_tick = 0
 			if(!failed)

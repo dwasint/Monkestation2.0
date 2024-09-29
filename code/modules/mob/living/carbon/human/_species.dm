@@ -602,8 +602,10 @@ GLOBAL_LIST_EMPTY(features_by_species)
 
 	clear_tail_moodlets(C)
 
-	C.physiology?.cold_mod /= coldmod
-	C.physiology?.heat_mod /= heatmod
+	if(coldmod)
+		C.physiology?.cold_mod /= coldmod
+	if(heatmod)
+		C.physiology?.heat_mod /= heatmod
 
 	C.maxHealth = C.maxHealth / maxhealthmod
 

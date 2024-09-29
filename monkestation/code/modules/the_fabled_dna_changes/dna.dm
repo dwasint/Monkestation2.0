@@ -12,7 +12,7 @@
 		color_palettes = list()
 		color_palettes += created.color_palette
 		var/datum/color_palette/new_palette = new created.color_palette
-		if(holder.client?.prefs)
+		if(holder?.client?.prefs)
 			new_palette.apply_prefs(holder.client.prefs)
 		color_palettes[created.color_palette] = new_palette
 

@@ -132,12 +132,10 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 		parent.set_macros()
 
 	if(!loaded_preferences_successfully)
-		stack_trace("[parent]'s preferences failed to load! Attempting a reload of preferences.")
 		if(load_preferences())
 			if(load_character())
 				loaded = TRUE
 				return
-		stack_trace("[parent]'s preferences failed to load a second time! This means their keybindings and other non character settings may be lost.")
 		message_admins("[parent]'s prefs failed to load twice! Their keybindings and tokens may have been lost please check on this.")
 		save_preferences()
 	save_character() //let's save this new random character so it doesn't keep generating new ones.
