@@ -20,7 +20,7 @@
 	for(var/datum/color_palette/palette as anything in generic_colors)
 		color_palettes += palette
 		var/datum/color_palette/new_palette = new palette
-		if(holder.client?.prefs)
+		if(holder?.client?.prefs)
 			new_palette.apply_prefs(holder.client.prefs)
 		color_palettes[palette] = new_palette
 

@@ -675,7 +675,7 @@
 		breather.failed_last_breath = TRUE
 		lung_pop_tick++
 	// Robot, don't care lol
-	else if(!HAS_TRAIT(owner, TRAIT_ASSISTED_BREATHING))
+	else if((owner && !HAS_TRAIT(owner, TRAIT_ASSISTED_BREATHING)))
 		// Can't breathe!
 		breather.failed_last_breath = TRUE
 
