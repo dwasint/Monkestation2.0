@@ -6786,6 +6786,7 @@
 #include "monkestation\code\modules\buckshotroulette\projectiles\guns\ballistic\shotgun.dm"
 #include "monkestation\code\modules\bunny_wizard\outfits.dm"
 #include "monkestation\code\modules\bunny_wizard\wizard_items.dm"
+#include "monkestation\code\modules\can_spessmen_feel_pain\bandage.dm"
 #include "monkestation\code\modules\can_spessmen_feel_pain\subsystem.dm"
 #include "monkestation\code\modules\can_spessmen_feel_pain\components\make_item_slow.dm"
 #include "monkestation\code\modules\can_spessmen_feel_pain\elements\temperature_pack.dm"

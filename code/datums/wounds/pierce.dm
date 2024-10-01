@@ -5,6 +5,12 @@
 /datum/wound/pierce
 	undiagnosed_name = "Bleeding Wound"
 
+/datum/wound/pierce/wound_injury(datum/wound/old_wound, attack_direction)
+	if(!old_wound && limb.current_gauze && (wound_flags & ACCEPTS_GAUZE))
+		// oops your existing gauze got penetrated through! need a new one now
+		limb.seep_gauze(initial(limb.current_gauze.absorption_capacity) * 0.8)
+	return ..()
+
 /datum/wound/pierce/bleed
 	name = "Piercing Wound"
 	sound_effect = 'sound/weapons/slice.ogg'
@@ -101,8 +107,9 @@
 			adjust_blood_flow(0.25 * seconds_per_tick) // old heparin used to just add +2 bleed stacks per tick, this adds 0.5 bleed flow to all open cuts which is probably even stronger as long as you can cut them first
 
 	if(limb.current_gauze)
-		adjust_blood_flow(-limb.current_gauze.absorption_rate * gauzed_clot_rate * seconds_per_tick)
-		limb.current_gauze.absorption_capacity -= limb.current_gauze.absorption_rate * seconds_per_tick
+		var/amt_blocking = limb.current_gauze.absorption_rate * seconds_per_tick
+		adjust_blood_flow(-1 * amt_blocking * gauzed_clot_rate)
+		limb.seep_gauze(amt_blocking)
 
 	if(blood_flow <= 0)
 		qdel(src)
