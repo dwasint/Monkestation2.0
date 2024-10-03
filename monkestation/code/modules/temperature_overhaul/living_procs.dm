@@ -104,7 +104,7 @@
 	// Only apply slowdown if the body is cold rather than the skin
 	if(bodytemperature < cold_threshold_medium && !HAS_TRAIT(src, TRAIT_RESISTCOLD))
 		add_or_update_variable_movespeed_modifier(/datum/movespeed_modifier/cold, multiplicative_slowdown = ((cold_threshold_medium - bodytemperature) / COLD_SLOWDOWN_FACTOR))
-	else if(LAZYACCESS(movespeed_modification, /datum/movespeed_modifier/cold))
+	else if(has_movespeed_modifier(/datum/movespeed_modifier/cold))
 		remove_movespeed_modifier(/datum/movespeed_modifier/cold)
 
 	// We are not to hot or cold, remove status and moods
