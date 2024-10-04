@@ -106,6 +106,7 @@
 	//Can burn and takes damage from heat
 	//no RESISTHEAT, NOFIRE
 	inherent_traits = list(
+		TRAIT_MUTANT_COLORS,
 		TRAIT_GENELESS,
 		TRAIT_NOBREATH,
 		TRAIT_NODISMEMBER,
@@ -311,6 +312,7 @@
 	meat = /obj/item/stack/sheet/mineral/wood
 	//Can burn and take damage from heat
 	inherent_traits = list(
+		TRAIT_MUTANT_COLORS,
 		TRAIT_GENELESS,
 		TRAIT_NOBREATH,
 		TRAIT_NODISMEMBER,
@@ -554,6 +556,7 @@
 	id = SPECIES_GOLEM_BANANIUM
 	fixed_mut_color = "#ffff00"
 	inherent_traits = list(
+		TRAIT_MUTANT_COLORS,
 		TRAIT_CLUMSY,
 		TRAIT_GENELESS,
 		TRAIT_NOBREATH,
@@ -656,6 +659,7 @@
 	sexes = FALSE
 	info_text = "As a <span class='danger'>Runic Golem</span>, you possess eldritch powers granted by the Elder Goddess Nar'Sie."
 	inherent_traits = list(
+		TRAIT_MUTANT_COLORS,
 		TRAIT_NO_UNDERWEAR,
 		TRAIT_GENELESS,
 		TRAIT_NOBREATH,
@@ -740,6 +744,7 @@
 	info_text = "As a <span class='danger'>Cloth Golem</span>, you are able to reform yourself after death, provided your remains aren't burned or destroyed. You are, of course, very flammable. \
 	Being made of cloth, your body is immune to spirits of the damned and runic golems. You are faster than that of other golems, but weaker and less resilient."
 	inherent_traits = list(
+		TRAIT_MUTANT_COLORS,
 		TRAIT_NO_UNDERWEAR,
 		TRAIT_ADVANCEDTOOLUSER,
 		TRAIT_CAN_STRIP,
@@ -910,6 +915,7 @@
 	name = "Plastic Golem"
 	id = SPECIES_GOLEM_PLASTIC
 	inherent_traits = list(
+		TRAIT_MUTANT_COLORS,
 		TRAIT_ADVANCEDTOOLUSER,
 		TRAIT_CAN_STRIP,
 		TRAIT_GENELESS,
@@ -1005,6 +1011,7 @@
 	special_names = list("Box")
 	info_text = "As a <span class='danger'>Cardboard Golem</span>, you aren't very strong, but you are a bit quicker and can easily create more brethren by using cardboard on yourself. Cardboard makes a poor building material for tongues, so you'll have difficulty speaking."
 	inherent_traits = list(
+		TRAIT_MUTANT_COLORS,
 		TRAIT_NO_UNDERWEAR,
 		TRAIT_ADVANCEDTOOLUSER,
 		TRAIT_CAN_STRIP,
@@ -1071,6 +1078,7 @@
 	id = SPECIES_GOLEM_LEATHER
 	special_names = list("Face", "Man", "Belt") //Ah dude 4 strength 4 stam leather belt AHHH
 	inherent_traits = list(
+		TRAIT_MUTANT_COLORS,
 		TRAIT_ADVANCEDTOOLUSER,
 		TRAIT_CAN_STRIP,
 		TRAIT_GENELESS,
@@ -1097,6 +1105,7 @@
 	special_names = list("Boll","Weave")
 	fixed_mut_color = null
 	inherent_traits = list(
+		TRAIT_MUTANT_COLORS,
 		TRAIT_NO_UNDERWEAR,
 		TRAIT_ADVANCEDTOOLUSER,
 		TRAIT_CAN_STRIP,
@@ -1137,6 +1146,7 @@
 	sexes = FALSE
 	fixed_mut_color = null
 	inherent_traits = list(
+		TRAIT_MUTANT_COLORS,
 		TRAIT_NO_UNDERWEAR,
 		TRAIT_ADVANCEDTOOLUSER,
 		TRAIT_CAN_STRIP,
@@ -1251,6 +1261,7 @@
 	prefix = "Snow"
 	special_names = list("Flake", "Blizzard", "Storm")
 	inherent_traits = list(
+		TRAIT_MUTANT_COLORS,
 		TRAIT_NO_UNDERWEAR,
 		TRAIT_ADVANCEDTOOLUSER,
 		TRAIT_CAN_STRIP,
@@ -1315,6 +1326,7 @@
 	prefix = "Metallic Hydrogen"
 	special_names = list("Pressure","Crush")
 	inherent_traits = list(
+		TRAIT_MUTANT_COLORS,
 		TRAIT_GENELESS,
 		TRAIT_NOBREATH,
 		TRAIT_NODISMEMBER,
