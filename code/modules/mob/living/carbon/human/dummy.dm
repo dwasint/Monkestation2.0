@@ -123,6 +123,9 @@ INITIALIZE_IMMEDIATE(/mob/living/carbon/human/dummy)
 	target.dna.features["satyr_fluff"] = "Normal" //Monkestation Addition
 	target.dna.features["satyr_tail"] = "Short" //Monkestation Addition
 	target.dna.features["satyr_horns"] = "Back" //Monkestation Addition
+	target.dna.features["arm_wings"] = "Monochrome" //Monkestation Addition
+	target.dna.features["ears_avian"] = "Hermes" //Monkestation Addition
+	target.dna.features["tail_avian"] = "Eagle" //Monkestation Addition
 
 	var/datum/color_palette/generic_colors/palette = target.dna.color_palettes[/datum/color_palette/generic_colors]
 	palette.mutant_color = COLOR_VIBRANT_LIME
