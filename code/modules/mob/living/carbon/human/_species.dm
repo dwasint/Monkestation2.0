@@ -1572,6 +1572,12 @@ GLOBAL_LIST_EMPTY(features_by_species)
 	stack_trace("Species [name] ([type]) did not have a description set, and is a selectable roundstart race! Override get_species_description.")
 	return "No species description set, file a bug report!"
 
+/datum/species/proc/get_species_lore()
+	SHOULD_CALL_PARENT(FALSE)
+	RETURN_TYPE(/list)
+
+	return list("No species lore set!")
+
 /**
  * Translate the species liked foods from bitfields into strings
  * and returns it in the form of an associated list.

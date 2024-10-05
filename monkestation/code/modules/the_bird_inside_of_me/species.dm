@@ -100,12 +100,8 @@ GLOBAL_LIST_EMPTY(tails_list_avian)
 	)
 
 // section for lore/perk descs
-/datum/species/ornithid/get_species_description()
+/datum/species/ornithid/get_species_lore()
 	return list(
-		"Ornithids are a collective group of various human descendant, or otherwise resembling, sentient avian beings.",
-		"Their most well known physical trait are their reduced weight, and feathery \"wings\" protuding from their arms, which they can use to fly.",
-		"There are countless various types and groups of Ornithids, with a variety of backgrounds both known and unknown by NT. ",
-
 		"Much to the chagrin of the collective, the term \"Ornithid\" is in effect, a dumping ground of the various human-derived avian animalids, making it the second most populous animalid group. \
 		Several cultural and geneological groups can fall under this banner, with sometimes only those directly related to eachother baring any resemblance physically.",
 
@@ -130,6 +126,13 @@ GLOBAL_LIST_EMPTY(tails_list_avian)
 
 		"While there are many \"Born\" Tengu, many are cultural immigrants from various portions of the galaxy, most notably those who have fled or been exiled from the Izulukin."
 
+	)
+
+/datum/species/ornithid/get_species_description()
+	return list(
+		"Ornithids are a collective group of various human descendant, or otherwise resembling, sentient avian beings.",
+		"Their most well known physical trait are their reduced weight, and feathery \"wings\" protuding from their arms, which they can use to fly.",
+		"There are countless various types and groups of Ornithids, with a variety of backgrounds both known and unknown by NT. "
 	)
 
 /datum/species/ornithid/create_pref_unique_perks()
