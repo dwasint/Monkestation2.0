@@ -2,7 +2,6 @@
 	name = "Teratoma"
 	id = SPECIES_TERATOMA
 	bodytype = BODYTYPE_ORGANIC | BODYTYPE_MONKEY
-	mutanttongue = /obj/item/organ/internal/tongue/monkey
 	mutantbrain = /obj/item/organ/internal/brain/primate
 
 	inherent_traits = list(
@@ -93,3 +92,17 @@
 /obj/item/organ/internal/tongue/teratoma
 	liked_foodtypes = MEAT | BUGS | GORE | GROSS | RAW
 	disliked_foodtypes = CLOTH
+
+/obj/item/organ/internal/tongue/teratoma/get_scream_sound()
+	return pick(
+		'sound/creatures/monkey/monkey_screech_1.ogg',
+		'sound/creatures/monkey/monkey_screech_2.ogg',
+		'sound/creatures/monkey/monkey_screech_3.ogg',
+		'sound/creatures/monkey/monkey_screech_4.ogg',
+		'sound/creatures/monkey/monkey_screech_5.ogg',
+		'sound/creatures/monkey/monkey_screech_6.ogg',
+		'sound/creatures/monkey/monkey_screech_7.ogg',
+	)
+
+/obj/item/organ/internal/tongue/teratoma/get_laugh_sound()
+	return 'monkestation/sound/voice/laugh/simian/monkey_laugh_1.ogg'
