@@ -1,5 +1,6 @@
 /mob/living/basic/chicken/glass
 	icon_suffix = "glass"
+	worn_slot_flags = null
 
 	breed_name = "Glass"
 	egg_type = /obj/item/food/egg/glass

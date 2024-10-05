@@ -83,7 +83,7 @@
 	return is_type_in_typecache(reagent, disallowed_chems_typecache)
 
 /datum/component/omen/teratoma
-	permanent = TRUE
+	incidents_left = INFINITY
 	luck_mod = 0.75
 	damage_mod = 0.2
 
