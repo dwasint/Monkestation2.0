@@ -30,6 +30,7 @@
 
 /datum/wound/bleed_internal/handle_process(seconds_per_tick, times_fired)
 	. = ..()
+	regen_ticks_current++
 	if(!victim || victim.stat == DEAD || HAS_TRAIT(victim, TRAIT_STASIS) || !victim.needs_heart())
 		return
 	victim.bleed(min(bleed_amount * severity * seconds_per_tick, 3))
