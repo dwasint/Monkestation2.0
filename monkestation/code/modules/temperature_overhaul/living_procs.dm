@@ -1,9 +1,9 @@
 /mob/living/proc/body_temperature_damage(datum/gas_mixture/environment, seconds_per_tick, times_fired)
 	if(bodytemperature > bodytemp_heat_damage_limit && !HAS_TRAIT(src, TRAIT_RESISTHEAT))
 		var/heat_diff = bodytemp_heat_damage_limit - standard_body_temperature
-		var/heat_threshold_low = bodytemp_heat_damage_limit + heat_diff * 0.75
-		var/heat_threshold_medium = bodytemp_heat_damage_limit + heat_diff * 1.25
-		var/heat_threshold_high = bodytemp_heat_damage_limit + heat_diff * 2
+		var/heat_threshold_low = bodytemp_heat_damage_limit + heat_diff * 1.25
+		var/heat_threshold_medium = bodytemp_heat_damage_limit + heat_diff * 2
+		var/heat_threshold_high = bodytemp_heat_damage_limit + heat_diff * 4
 
 		var/firemodifier = round(fire_stacks, 1) * 0.01
 		if (!on_fire) // We are not on fire, reduce the modifier
@@ -13,18 +13,18 @@
 		var/effective_temp = CELCIUS_TO_KELVIN(KELVIN_TO_CELCIUS(bodytemperature) * (1 + firemodifier))
 		var/burn_damage = HEAT_DAMAGE
 		if(effective_temp > heat_threshold_high)
-			burn_damage *= 8
+			burn_damage *= 5
 		else if(effective_temp > heat_threshold_medium)
-			burn_damage *= 4
+			burn_damage *= 3
 		else if(effective_temp > heat_threshold_low)
-			burn_damage *= 2
+			burn_damage *= 1
 
 		temperature_burns(burn_damage * seconds_per_tick)
 		if(effective_temp > heat_threshold_medium)
 			apply_status_effect(/datum/status_effect/stacking/heat_exposure, 1, heat_threshold_medium)
 
 
-		// For cold damage, we cap at the threshold if you're dead
+	// For cold damage, we cap at the threshold if you're dead
 	if(bodytemperature < bodytemp_cold_damage_limit && !HAS_TRAIT(src, TRAIT_RESISTCOLD) && (getFireLoss() < maxHealth || stat != DEAD))
 		var/cold_diff = bodytemp_cold_damage_limit - standard_body_temperature
 		var/cold_threshold_low = bodytemp_cold_damage_limit + cold_diff * 1.2
