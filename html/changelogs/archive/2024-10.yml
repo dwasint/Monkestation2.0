@@ -50,6 +50,9 @@
   - rscadd: Made mirage grenade module researchable.
   - rscadd: Made mirage grenade modules useable while mod suit is depowered
   - bugfix: Makes ablative trench coat properly hide hair and ears.
+  Hardly:
+  - rscadd: Pets can now be worn as a hat
+  - rscadd: Hamsters, obtainable through pet beacons
   Meowosers:
   - rscadd: Space Cleaner can now be made with Urine and Water
   - bugfix: Satchel Medical kits and First Responder Surgical kits have their intended
@@ -69,6 +72,8 @@
   - qol: Hazard vests can hold large oxygen tanks.
   - balance: Cybersun Juggernaut Suit now has shove protection akin to riot armour.
   - bugfix: Helmets no longer have the flammable quality.
+  ThePooba:
+  - bugfix: zompies no feel pain
   necromanceranne, SapphicOverload:
   - bugfix: Restores a lost feature, Clarkes and Odysseus mechs once again can pivot
       on a dime and step in the same button press.
@@ -76,3 +81,42 @@
       as block diagonal movement was having unintended side effects and was actually
       intended for pivot step mechs.
   - bugfix: You can once again use alt to turn while strafing in a mech
+2024-10-06:
+  Absolucy:
+  - qol: Monster Hunters can now see rabbits through walls.
+  - qol: Monster Hunters interacting with a rabbit will now automatically pickup the
+      loot if they have room in their hands.
+  - refactor: Made the rabbit code a bit less shit (in exchange for some annoyingly
+      necessary jank)
+  - qol: The slowdown from bloodsilver bullets is now a status effect, and will be
+      refreshed if another bullet hits before it finishes.
+  Glyphee:
+  - rscadd: Vault at CC
+  Shoddd:
+  - bugfix: falling in a chasm no longer breaks your ghost
+2024-10-07:
+  Absolucy:
+  - bugfix: Reworks the loadout store UI to use a spritesheet, fixing a major source
+      of lag.
+  - bugfix: Fixed some errors related to picking roundstart spawn points.
+  - bugfix: (Hopefully) fixed runtimes related to NIF persistence.
+  Gw0sty:
+  - rscadd: Adds borer cages as a medical express order.
+  - bugfix: fixed A/S maintenance APC being unconnected on Theseus.
+  Shoddd:
+  - qol: Report Issues is now Report bugs
+  - rscadd: Gives hos a gun beacon, choose from multiphase, law bringer, or a combat
+      shotgun
+  - rscadd: Gives multiphase a bigger battery and tase option
+  - rscadd: Compact combat shotgun from TG
+  - balance: Beanbags and rubbershot now account for 250 stamina
+  ThePooba:
+  - rscadd: added Kams office back to centcom and Fortunes office
+  Wisemonster:
+  - balance: Turned off telecomms and SM air conditioning, and lowered the cold room
+      air conditioning temperature to prevent the rooms from heating up too much.
+2024-10-08:
+  MomoBerri:
+  - bugfix: Fixed several issues on theseus, including mismatched IDs on buttons and
+      access issues on doors. Also fixes the engine gas filter to filter nitrogen.
+      AI Upload turrets now function properly.
