@@ -75,7 +75,7 @@
 		update_appearance(UPDATE_OVERLAYS)
 	return ..()
 
-/mob/living/basic/pet/dog/corgi/gib()
+/mob/living/basic/pet/dog/corgi/gib(no_brain, no_organs, no_bodyparts, safe_gib = TRUE)
 	undress_dog()
 	if(access_card)
 		access_card.forceMove(drop_location())
