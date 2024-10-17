@@ -473,6 +473,17 @@
 			return
 		else
 			to_chat(user, span_notice("You tear open [src] above [target] and the condiments drip onto it."))
+			var/datum/reagent/main_reagent = reagents.get_master_reagent_id()
+			var/condiment_overlay = initial(main_reagent.condiment_overlay)
+			var/overlay_colored = initial(main_reagent.overlay_colored)
+			if(condiment_overlay && istype (target, /obj/item/food))
+				var/list/params_list = params2list(params)
+				var/image/I = image('monkestation/code/modules/brewin_and_chewin/icons/condiment_overlays.dmi', target, condiment_overlay)
+				I.pixel_x = clamp(text2num(params_list["icon-x"]) - world.icon_size/2 - pixel_x,-world.icon_size/2,world.icon_size/2)
+				I.pixel_y = clamp(text2num(params_list["icon-y"]) - world.icon_size/2 - pixel_y,-world.icon_size/2,world.icon_size/2)
+				if (overlay_colored)
+					I.color = mix_color_from_reagents(reagents.reagent_list)
+				target.overlays += I
 			src.reagents.trans_to(target, amount_per_transfer_from_this, transfered_by = user)
 			qdel(src)
 			return
