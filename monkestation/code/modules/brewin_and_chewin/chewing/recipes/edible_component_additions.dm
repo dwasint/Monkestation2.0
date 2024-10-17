@@ -12,7 +12,7 @@
 	var/mob/living/carbon/human/chef = user
 	var/datum/component/personal_crafting/crafting_menu = user.GetComponent(/datum/component/personal_crafting) // we turned crafting into a component so now I have to do this shit to avoid copypaste
 	if(!crafting_menu)
-		CRASH("HUMAN WITHOUT PERSONAL CRAFTING COMPONENT??????????? POG??????????????????????????")
+		CRASH("This really needs to be looked into this is not suppose to happen like ever. A human tried to show radial recipes without a crafting component")
 	var/list/available_recipes = list()
 	var/list/surroundings = crafting_menu.get_surroundings(chef)
 	var/list/recipes_radial = list()
