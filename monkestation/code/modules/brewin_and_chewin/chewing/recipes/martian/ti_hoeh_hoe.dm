@@ -10,7 +10,7 @@
 		list(CHEWIN_ADD_PRODUCE_OPTIONAL, /obj/item/food/grown/pineapple, qmod=0.2, reagent_skip=TRUE, prod_desc = "Mild and Sweet."),
 		CHEWIN_END_EXCLUSIVE_OPTIONS,
 
-		list(CHEWIN_ADD_REAGENT_OPTIONAL, /datum/reagent/consumable/blood, 5, base=3),
+		list(CHEWIN_ADD_REAGENT_OPTIONAL, /datum/reagent/blood, 5, base=3),
 
 		list(CHEWIN_ADD_PRODUCE, /obj/item/food/grown/herbs, qmod=0.5),
 		list(CHEWIN_ADD_ITEM, /obj/item/food/peanuts/salted, qmod=0.5),

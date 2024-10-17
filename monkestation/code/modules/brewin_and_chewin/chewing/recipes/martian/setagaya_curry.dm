@@ -26,7 +26,7 @@
 		list(CHEWIN_ADD_REAGENT_OPTIONAL, /datum/reagent/consumable/coffee, 3, base=3),
 		list(CHEWIN_ADD_REAGENT_OPTIONAL, /datum/reagent/consumable/ethanol/wine, 3, base=3),
 
-		list(CHEWIN_ADD_REAGENT, /datum/reagent/consumable/nutriment/curry_powder, 3, base=3),
+		list(CHEWIN_ADD_REAGENT, /datum/reagent/consumable/curry_powder, 3, base=3),
 
 
 		CHEWIN_BEGIN_EXCLUSIVE_OPTIONS,
