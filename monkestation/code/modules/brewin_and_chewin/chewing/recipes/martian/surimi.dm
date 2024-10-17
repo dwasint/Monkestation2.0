@@ -7,7 +7,8 @@
 		list(CHEWIN_USE_TOOL, TOOL_KNIFE, 5)
 	)
 
-/datum/chewin_cooking/recipe/surimi
+/datum/chewin_cooking/recipe/surimi_bulk
+	name = "Surimi (5 Servings)"
 	cooking_container = CUTTING_BOARD
 	product_type = /obj/item/food/surimi
 	recipe_guide = "Put raw fish onto a cutting board and slice."

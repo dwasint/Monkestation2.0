@@ -63,6 +63,7 @@
 /datum/chewin_cooking/recipe/yakisoba_katsu
 	name = "Yakisoba Curry"
 	cooking_container = PAN
+	food_category = CAT_STOVETOP
 	product_type = /obj/item/food/salad/yakisoba_katsu
 	recipe_guide = "Melt some butter in a pan, add some noodles, vegetables, worcestershire and katsu."
 	step_builder = list(

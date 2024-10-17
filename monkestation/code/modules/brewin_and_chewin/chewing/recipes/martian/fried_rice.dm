@@ -37,6 +37,7 @@
 /datum/chewin_cooking/recipe/ketchup_fried_rice
     name = "Ketchup Fried Rice"
     cooking_container = PAN
+	food_category = CAT_STOVETOP
     product_type = /obj/item/food/salad/ketchup_fried_rice
     recipe_guide = "Cook ingredients in a pan."
     step_builder = list(
@@ -54,6 +55,7 @@
 /datum/chewin_cooking/recipe/mediterranean_fried_rice
     name = "Mediterranean Fried Rice"
     cooking_container = PAN
+	food_category = CAT_STOVETOP
     product_type = /obj/item/food/salad/mediterranean_fried_rice
     recipe_guide = "Cook ingredients in a pan."
     step_builder = list(
@@ -70,6 +72,7 @@
 /datum/chewin_cooking/recipe/egg_fried_rice
     name = "Egg Fried Rice"
     cooking_container = PAN
+	food_category = CAT_STOVETOP
     product_type = /obj/item/food/salad/egg_fried_rice
     recipe_guide = "Cook ingredients in a pan."
     step_builder = list(
@@ -83,6 +86,7 @@
 /datum/chewin_cooking/recipe/bibimbap
     name = "Bibimbap"
     cooking_container = PAN
+	food_category = CAT_STOVETOP
     product_type = /obj/item/food/salad/bibimbap
     recipe_guide = "Cook ingredients in a pan."
     step_builder = list(

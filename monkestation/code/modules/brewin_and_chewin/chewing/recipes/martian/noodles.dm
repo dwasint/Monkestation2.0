@@ -1,6 +1,7 @@
 /datum/chewin_cooking/recipe/bulgogi_noodles
     name = "Bulgogi Noodles"
     cooking_container = PAN
+	food_category = CAT_STOVETOP
     product_type = /obj/item/food/salad/bulgogi_noodles
     recipe_guide = "Cook ingredients in a pan."
     step_builder = list(
@@ -22,6 +23,7 @@
 /datum/chewin_cooking/recipe/martian_fried_noodles
     name = "Martian Fried Noodles"
     cooking_container = PAN
+	food_category = CAT_STOVETOP
     product_type = /obj/item/food/salad/martian_fried_noodles
     recipe_guide = "Cook ingredients in a pan."
     step_builder = list(
@@ -47,6 +49,7 @@
 /datum/chewin_cooking/recipe/simple_fried_noodles
     name = "Fried Noodles"
     cooking_container = PAN
+	food_category = CAT_STOVETOP
     product_type = /obj/item/food/salad/simple_fried_noodles
     recipe_guide = "Cook ingredients in a pan."
     step_builder = list(
