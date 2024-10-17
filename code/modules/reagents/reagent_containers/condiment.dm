@@ -457,7 +457,7 @@
 /obj/item/reagent_containers/condiment/pack/attack(mob/M, mob/user, def_zone) //Can't feed these to people directly.
 	return
 
-/obj/item/reagent_containers/condiment/pack/afterattack(obj/target, mob/user , proximity)
+/obj/item/reagent_containers/condiment/pack/afterattack(obj/target, mob/user , proximity , params)
 	if(!proximity)
 		return
 	. |= AFTERATTACK_PROCESSED_ITEM
