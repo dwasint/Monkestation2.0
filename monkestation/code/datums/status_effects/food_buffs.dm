@@ -271,7 +271,7 @@
 	var/regen_increase = 0.5
 
 /datum/status_effect/food/stam_regen/apply_quality(quality)
-	health_increase = regen_increase * (1 + (quality / 20))
+	regen_increase = regen_increase * (1 + (quality / 20))
 
 /atom/movable/screen/alert/status_effect/food/stam_regen_t1
 	name = "Small Stamina Regeneration Increase"
