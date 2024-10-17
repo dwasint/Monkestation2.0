@@ -6738,6 +6738,7 @@
 #include "monkestation\code\modules\botany\species\apid\hive\hive_object.dm"
 #include "monkestation\code\modules\botany\species\apid\hive\hive_turfs.dm"
 #include "monkestation\code\modules\brewin_and_chewin\cargo_exports.dm"
+#include "monkestation\code\modules\brewin_and_chewin\condiment_reagents.dm"
 #include "monkestation\code\modules\brewin_and_chewin\uniqueness.dm"
 #include "monkestation\code\modules\brewin_and_chewin\brewing\bottler.dm"
 #include "monkestation\code\modules\brewin_and_chewin\brewing\bottles.dm"
