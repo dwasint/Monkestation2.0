@@ -559,7 +559,7 @@ Behavior that's still missing from this component that original food items had t
 			consumer.applied_food_buffs ++
 		else if(food_buffs in consumer.status_effects)
 			eater.apply_status_effect(food_buffs)
-		var/datum/status_effect/food/effect = consumer.status_effects[food_buffs]
+		var/datum/status_effect/food/effect = locate(food_buffs) in consumer.status_effects
 		if(effect)
 			var/obj/item/food = parent
 			if(food.food_quality != 1) //if we are not the default value

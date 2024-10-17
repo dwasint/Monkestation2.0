@@ -92,7 +92,7 @@
 	step_builder = list(
 		list(CHEWIN_ADD_ITEM, /obj/item/food/boiledrice),
 		list(CHEWIN_ADD_PRODUCE, /obj/item/food/grown/cucumber),
-		list(CHEWIN_ADD_PRODUCE, /obj/item/food/grown/mushroom),
+		list(CHEWIN_ADD_PRODUCE, /obj/item/food/grown/mushroom/chanterelle),
 		list(CHEWIN_ADD_ITEM, /obj/item/food/meat/cutlet),
 		list(CHEWIN_ADD_ITEM, /obj/item/food/kimchi),
 		list(CHEWIN_ADD_ITEM, /obj/item/food/egg),
