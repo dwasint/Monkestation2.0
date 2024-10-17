@@ -17,7 +17,7 @@
 	var/list/surroundings = crafting_menu.get_surroundings(chef)
 	var/list/recipes_radial = list()
 	var/list/recipes_craft = list()
-	for(var/recipe in GLOB.crafting_recipes)
+	for(var/recipe in GLOB.cooking_recipes)
 		var/datum/crafting_recipe/potential_recipe = recipe
 		if(parent.type in potential_recipe.reqs) // dont show recipes that don't involve this item
 			if(crafting_menu.check_contents(chef, potential_recipe, surroundings)) // don't show recipes we can't actually make
@@ -27,11 +27,11 @@
 		var/atom/craftable_atom = available_recipe_datum.result
 		recipes_radial.Add(list(initial(craftable_atom.name) = image(icon = initial(craftable_atom.icon), icon_state = initial(craftable_atom.icon_state))))
 		recipes_craft.Add(list(initial(craftable_atom.name) = available_recipe_datum))
-	INVOKE_ASYNC(src, .proc/hate_signals_holy_shit, recipes_radial, recipes_craft, chef, crafting_menu)
+	INVOKE_ASYNC(src, PROC_REF(hate_signals_holy_shit), recipes_radial, recipes_craft, chef, crafting_menu)
 	return COMPONENT_SECONDARY_CANCEL_ATTACK_CHAIN
 
 /datum/component/edible/proc/hate_signals_holy_shit(list/recipes_radial, list/recipes_craft, mob/chef, datum/component/personal_crafting/crafting_menu)
-	var/recipe_chosen = show_radial_menu(chef, chef, recipes_radial, custom_check = CALLBACK(src, .proc/check_menu, chef), require_near = TRUE, tooltips = TRUE)
+	var/recipe_chosen = show_radial_menu(chef, chef, recipes_radial, custom_check = CALLBACK(src, PROC_REF(check_menu), chef), require_near = TRUE, tooltips = TRUE)
 	if(!recipe_chosen)
 		return
 	var/datum/crafting_recipe/chosen_recipe = recipes_craft[recipe_chosen]
