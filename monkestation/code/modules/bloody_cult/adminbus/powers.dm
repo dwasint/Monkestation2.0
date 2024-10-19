@@ -8,6 +8,7 @@
 	icon = 'monkestation/code/modules/bloody_cult/icons/bus.dmi'
 	icon_state = "adminbus"
 	plane = ABOVE_GAME_PLANE
+	pass_flags = PASSMOB
 	pixel_x = -32
 	pixel_y = -32
 	max_buckled_mobs = 16
