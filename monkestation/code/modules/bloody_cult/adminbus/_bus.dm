@@ -492,6 +492,7 @@
 		T1.turf_animation('monkestation/code/modules/bloody_cult/icons/96x96.dmi',"beamin",-32,0,MOB_LAYER+1,'sound/weapons/emitter2.ogg', anim_plane = ABOVE_GAME_PLANE)
 
 	for(var/mob/M in passengers)
+		unbuckle_mob(M, TRUE)
 		freed(M)
 		M.send_back()
 
