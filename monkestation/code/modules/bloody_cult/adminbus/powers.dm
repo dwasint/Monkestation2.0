@@ -559,6 +559,7 @@
 
 /obj/vehicle/ridden/adminbus/add_occupant(mob/M, control_flags)
 	. = ..()
+	M.store_position()
 	M.status_flags |= GODMODE
 	var/list/drivers = return_drivers()
 	for(var/mob/living/driver as anything in drivers)
