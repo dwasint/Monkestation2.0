@@ -34,6 +34,11 @@ GLOBAL_LIST_INIT(mind_ui_id_to_type, list())
 /datum/mind
 	var/list/active_uis = list()
 
+/datum/mind/Destroy()
+	. = ..()
+	RemoveAllUIs()
+	QDEL_NULL(active_uis)
+
 /datum/mind/proc/ResendAllUIs() // Re-sends all mind uis to client.screen, called on mob/living/Login()
 	for (var/mind_ui in active_uis)
 		var/datum/mind_ui/ui = active_uis[mind_ui]
@@ -471,43 +476,10 @@ GLOBAL_LIST_INIT(mind_ui_id_to_type, list())
 	//first we need the x and y coordinates in pixels of the element relative to the bottom left corner of the screen
 	var/icon/I = new(icon,icon_state)
 	var/list/start_loc_params = splittext(screen_loc, ",")
-	var/list/start_loc_X = splittext(start_loc_params[1],":")
-	var/list/start_loc_Y = splittext(start_loc_params[2],":")
-	var/start_pix_X = text2num(start_loc_X[2])
-	var/start_pix_Y = text2num(start_loc_Y[2])
 	var/view = get_view_size()
-	var/X = start_loc_X[1]
-	var/Y = start_loc_Y[1]
-	var/start_x_val
-	var/start_y_val
-	if(findtext(X,"RIGHT"))
-		var/num = text2num(copytext(X,6))
-		if(!num)
-			num = 0
-		start_x_val = view*2 + 1 - num
-	else if(findtext(X,"LEFT"))
-		var/num = text2num(copytext(X,6))
-		if(!num)
-			num = 0
-		start_x_val = num+1
-	else if(findtext(X,"CENTER"))
-		start_x_val = view+1
-	start_x_val *= 32
-	start_x_val += start_pix_X
-	if(findtext(Y,"TOP"))
-		var/num = text2num(copytext(Y,7))
-		if(!num)
-			num = 0
-		start_y_val = view*2 + 1 - num
-	else if(findtext(Y,"BOTTOM"))
-		var/num = text2num(copytext(Y,7))
-		if(!num)
-			num = 0
-		start_y_val = num+1
-	else if(findtext(Y,"CENTER"))
-		start_y_val = view+1
-	start_y_val *= 32
-	start_y_val += start_pix_Y
+	var/list/offsets = screen_loc_to_offset(screen_loc, view)
+	var/start_x_val = offsets[1]
+	var/start_y_val = offsets[2]
 
 	//now we get those of the place where we released the mouse button
 	var/list/dest_loc_params = splittext(PM["screen-loc"], ",")

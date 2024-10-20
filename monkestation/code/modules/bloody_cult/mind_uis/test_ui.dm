@@ -16,6 +16,7 @@
 		)
 	x = "LEFT"
 	y = "BOTTOM"
+	display_with_parent = TRUE
 //------------------------------------------------------------
 /obj/abstract/mind_ui_element/test_back
 	icon = 'monkestation/code/modules/bloody_cult/icons/480x480.dmi'
@@ -35,6 +36,7 @@
 		/obj/abstract/mind_ui_element/test_window,
 		/obj/abstract/mind_ui_element/hoverable/test_close,
 		/obj/abstract/mind_ui_element/hoverable/test_hello,
+		/obj/abstract/mind_ui_element/hoverable/movable/test_move,
 		)
 	display_with_parent = TRUE
 //------------------------------------------------------------
@@ -81,3 +83,14 @@
 	flick("hello-click",src)
 	to_chat(GetUser(), "[icon2base64html(src)] Hello World!")
 //------------------------------------------------------------
+
+
+/obj/abstract/mind_ui_element/hoverable/movable/test_move
+	icon = 'monkestation/code/modules/bloody_cult/icons/32x32.dmi'
+	icon_state = "move"
+	layer = MIND_UI_BUTTON
+	offset_x = -80
+	offset_y = 16
+	mouse_opacity = 1
+
+	move_whole_ui = TRUE

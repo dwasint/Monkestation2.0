@@ -52,6 +52,8 @@
 		THEME_WIZARD = list(/obj/item/ectoplasm/mystic),
 	)
 
+	var/purge = FALSE
+
 /mob/living/basic/construct/Initialize(mapload)
 	. = ..()
 	AddElement(/datum/element/simple_flying)

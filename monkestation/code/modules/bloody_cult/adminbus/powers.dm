@@ -238,6 +238,8 @@
 	switch(bumpers)
 		if(1)
 			for(var/mob/living/L in S)
+				if(!ishuman(L))
+					continue
 				if(L in occupants)
 					continue
 				if(!L.client)
@@ -264,7 +266,7 @@
 				if(L in occupants)
 					continue
 				L.gib()
-				//playsound(src, 'sound/weapons/bloodyslice.ogg', 50, 0, 0)
+				//playsound(src, 'monkestation/code/modules/bloody_cult/sound/bloodyslice.ogg', 50, 0, 0)
 
 /obj/vehicle/ridden/adminbus/proc/capture_mob(atom/A, var/selfclimb=0)
 	if(passengers.len >= 16)
@@ -561,6 +563,8 @@
 	. = ..()
 	M.store_position()
 	M.status_flags |= GODMODE
+	if(!(M in passengers))
+		capture_mob(M)
 	var/list/drivers = return_drivers()
 	for(var/mob/living/driver as anything in drivers)
 		if(driver.mind)

@@ -35,6 +35,7 @@
 		THEME_HOLY = list(/obj/item/ectoplasm/angelic),
 		THEME_WIZARD = list(/obj/item/ectoplasm/mystic),
 	)
+	var/soulblade_ritual = FALSE
 
 /mob/living/basic/shade/Initialize(mapload)
 	. = ..()

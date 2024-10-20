@@ -8,6 +8,7 @@
 	/// Holds info about how this particle emitter works
 	/// See \code\__DEFINES\particles.dm
 	var/particle_flags = NONE
+	var/atom/main_holder
 
 /obj/effect/abstract/particle_holder/Initialize(mapload, particle_path = /particles/smoke, particle_flags = NONE)
 	. = ..()
@@ -30,6 +31,7 @@
 
 /obj/effect/abstract/particle_holder/Destroy(force)
 	QDEL_NULL(particles)
+	main_holder = null
 	return ..()
 
 /// Non movables don't delete contents on destroy, so we gotta do this
