@@ -248,6 +248,8 @@
 
 /datum/reagent/drug/twitch/on_mob_metabolize(mob/living/our_guy)
 	. = ..()
+	if(!our_guy.get_organ_slot(ORGAN_SLOT_HEART))
+		return
 
 	our_guy.add_movespeed_modifier(/datum/movespeed_modifier/reagent/twitch)
 	our_guy.next_move_modifier -= 0.3 // For the duration of this you move and attack faster
@@ -355,6 +357,8 @@
 
 /datum/reagent/drug/twitch/on_mob_life(mob/living/carbon/our_guy, seconds_per_tick, times_fired)
 	. = ..()
+	if(!our_guy.get_organ_slot(ORGAN_SLOT_HEART))
+		return
 
 	constant_dose_time += seconds_per_tick
 
@@ -394,6 +398,9 @@
 
 /datum/reagent/drug/twitch/overdose_process(mob/living/carbon/our_guy, seconds_per_tick, times_fired)
 	. = ..()
+	if(!our_guy.get_organ_slot(ORGAN_SLOT_HEART))
+		return
+
 	our_guy.set_jitter_if_lower(10 SECONDS * REM * seconds_per_tick)
 
 	// If the target is a robot, or has muscle veins, then they get an effect similar to herignis, heating them up quite a bit
