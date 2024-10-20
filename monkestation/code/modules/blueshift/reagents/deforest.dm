@@ -407,11 +407,11 @@
 	if((our_guy.mob_biotypes & MOB_ROBOTIC) || HAS_TRAIT(our_guy, TRAIT_STABLEHEART))
 		var/heating = (mob_heating_muliplier * 2) * REM * seconds_per_tick
 		our_guy.reagents?.chem_temp += heating
-		our_guy.adjust_bodytemperature(heating * TEMPERATURE_DAMAGE_COEFFICIENT, max_temp = our_guy.bodytemp_heat_damage_limit)
+		our_guy.adjust_bodytemperature(heating * TEMPERATURE_DAMAGE_COEFFICIENT, max_temp = our_guy.bodytemp_heat_damage_limit - 5)
 		if(!ishuman(our_guy))
 			return
 		var/mob/living/carbon/human/human = our_guy
-		human.adjust_bodytemperature(heating * TEMPERATURE_DAMAGE_COEFFICIENT, max_temp = our_guy.bodytemp_heat_damage_limit)
+		human.adjust_bodytemperature(heating * TEMPERATURE_DAMAGE_COEFFICIENT, max_temp = our_guy.bodytemp_heat_damage_limit - 5)
 	else
 		our_guy.adjustOrganLoss(ORGAN_SLOT_HEART, 1 * REM * seconds_per_tick, required_organtype = affected_organtype)
 	our_guy.adjustToxLoss(1 * REM * seconds_per_tick, updating_health = FALSE, forced = TRUE, required_biotype = affected_biotype)
