@@ -58,3 +58,36 @@ var/list/arcane_pockets = list()
 		name = "Arcane Dimension (full)"
 		desc = "Cast to pick up your Arcane Tome back from the veil. You should preferably have a free hand."
 		button_icon_state = "cult_pocket_full"
+
+
+///////////////////////////////ASTRAL PROJECTION SPELLS/////////////////////////////////////
+
+
+/datum/action/cooldown/spell/astral_return
+	name = "Re-enter Body"
+	desc = "End your astral projection and re-awaken inside your body. If used while tangible you might spook on-lookers, so be mindful."
+	button_icon_state = "astral_return"
+	overlay_icon_state = "cult"
+	spell_requirements = NONE
+
+
+/datum/action/cooldown/spell/astral_return/cast(mob/living/user)
+	. = ..()
+	var/mob/living/basic/astral_projection/astral = user
+	if (istype(astral))
+		astral.death()//pretty straightforward isn't it?
+
+/datum/action/cooldown/spell/astral_toggle
+	name = "Toggle Tangibility"
+	desc = "Turn into a visible copy of your body, able to speak and bump into doors. But note that the slightest source of damage will dispel your astral projection altogether."
+	background_icon_state = "cult"
+	spell_requirements = NONE
+
+/datum/action/cooldown/spell/astral_toggle/cast(mob/living/user)
+	. = ..()
+	var/mob/living/basic/astral_projection/astral = user
+	astral.toggle_tangibility()
+	if (astral.tangibility)
+		desc = "Turn back into an invisible projection of your soul."
+	else
+		desc = "Turn into a visible copy of your body, able to speak and bump into doors. But note that the slightest source of damage will dispel your astral projection altogether."

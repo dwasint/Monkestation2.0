@@ -457,6 +457,10 @@
 			to_chat(M.current, "<span class='notice'>This message will be remembered by all current cultists, and by new converts as well.</span>")
 			//M.store_memory("Cult reminder: [text].")
 
+	for(var/mob/living/basic/astral_projection/A in GLOB.astral_projections)
+		to_chat(A, "<span class='game say'><b>[user.real_name]</b> communicates, <span class='sinisterbig'>[reminder]</span></span>. (Cult reminder)")
+		to_chat(A, "<span class='notice'>This message will be remembered by all current cultists, and by new converts as well.</span>")
+
 	for(var/mob/dead/observer/O in GLOB.player_list)
 		to_chat(O, "<span class='game say'><b>[user.real_name]</b> communicates, <span class='sinisterbig'>[reminder]</span></span>. (Cult reminder)")
 
@@ -472,6 +476,9 @@
 	for (var/datum/mind/M in cult.members)
 		if (IS_CULTIST(M.current))//failsafe for cultist brains put in MMIs
 			to_chat(M.current, "<span class='game say'><b>[activator.real_name]</b>'s voice echoes in your head, <B><span class='sinisterbig'>[message]</span></B></span>")
+
+	for(var/mob/living/basic/astral_projection/A in GLOB.astral_projections)
+		to_chat(A, "<span class='game say'><b>[activator.real_name]</b> communicates, <span class='sinisterbig'>[message]</span></span>")
 
 	for(var/mob/dead/observer/O in GLOB.player_list)
 		to_chat(O, "<span class='game say'><b>[activator.real_name]</b> communicates, <span class='sinisterbig'>[message]</span></span>")
@@ -530,6 +537,10 @@
 				continue
 			if (IS_CULTIST(M.current))//failsafe for cultist brains put in MMIs
 				to_chat(M.current, "<span class='game say'><b>[speaker_name]</b>'s voice echoes in your head, <B><span class='sinisterbig'>[raw_message]</span></B></span>")
+
+		for(var/mob/living/basic/astral_projection/A in GLOB.astral_projections)
+			to_chat(A, "<span class='game say'><b>[speaker_name]</b> communicates, <span class='sinisterbig'>[raw_message]</span></span>")
+
 		for(var/mob/dead/observer/O in GLOB.player_list)
 			to_chat(O, "<span class='game say'><b>[speaker_name]</b> communicates, <span class='sinisterbig'>[raw_message]</span></span>")
 		//log_cultspeak("[key_name(speech.speaker)] Cult Communicate Rune: [rendered_message]")
@@ -2767,14 +2778,12 @@ var/list/bloodcult_exitportals = list()
 				A.emp_act(act)
 	return
 
-/*
+
 ////////////////////////////////////////////////////////////////////
 //																  //
 //							ASTRAL JOURNEY						  //
 //																  //
 ////////////////////////////////////////////////////////////////////
-/mob
-	var/obj/effect/rune/ajourn
 
 /datum/rune_spell/astraljourney
 	name = "Astral Journey"
@@ -2788,7 +2797,7 @@ var/list/bloodcult_exitportals = list()
 		<br><br>Should your body die while you were still using the rune, a shade will form wherever your astral projection stands.\
 		<br><br>This rune persists upon use, allowing repeated usage."
 	rune_flags = RUNE_STAND
-	var/mob/living/simple_animal/astral_projection/astral = null
+	var/mob/living/basic/astral_projection/astral = null
 	var/cultist_key = ""
 	var/list/restricted_verbs = list()
 
@@ -2829,7 +2838,7 @@ var/list/bloodcult_exitportals = list()
 /datum/rune_spell/astraljourney/Removed(var/mob/M)
 	if (M == activator)
 		abort(RITUALABORT_GONE)
-*/
+
 
 ////////////////////////////////////////////////////////////////////
 //																  //

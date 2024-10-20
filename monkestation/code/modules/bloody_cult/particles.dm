@@ -340,7 +340,7 @@
 		return
 
 	var/particle_type = GLOB.particle_string_to_type[particle_string]
-	var/obj/effect/abstract/particle_holder/new_holder = new
+	var/obj/effect/abstract/particle_holder/new_holder = new(src)
 	new_holder.main_holder = src
 	new_holder.particles = new particle_type
 	new_holder.special_setup()

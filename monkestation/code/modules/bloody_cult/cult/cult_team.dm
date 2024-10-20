@@ -268,6 +268,7 @@
 			for(var/obj/structure/cult/spire/S in cult_spires)
 				S.upgrade(1)
 		if (BLOODCULT_STAGE_ECLIPSE)
+			setup_hell()
 			/*
 			update_all_parallax()
 			var/datum/zLevel/ZL = map.zLevels[map.zMainStation]
@@ -421,3 +422,18 @@
 				eclipse_increments -= R.get_eclipse_increment()
 			else
 				eclipse_increments += R.get_eclipse_increment()
+
+
+/datum/team/cult/proc/setup_hell()
+	for(var/z in SSmapping.levels_by_trait(ZTRAIT_STATION))
+		var/list/turfs = get_area_turfs(/area/space, z)
+		for(var/turf/open/space/space in turfs)
+			space.add_particles(PS_SPACE_RUNES)//visible for everyone
+			space.adjust_particles(PVAR_SPAWNING, rand(5,20)/1000 ,PS_SPACE_RUNES)
+
+	for(var/datum/time_of_day/time in SSoutdoor_effects.time_cycle_steps)
+		time.color = COLOR_BLOOD
+	GLOB.GLOBAL_LIGHT_RANGE = 20
+
+	for (var/atom/movable/screen/fullscreen/lighting_backdrop/sunlight/SP in SSoutdoor_effects.sunlighting_planes)
+		SSoutdoor_effects.transition_sunlight_color(SP)

@@ -76,7 +76,7 @@
 	add_objectives()
 	START_PROCESSING(SSobj, src)
 	owner.current.DisplayUI("Cultist Left Panel")
-	owner.current.DisplayUI("Cult Rituals")
+	owner.current.DisplayUI("Cultist Panel")
 	for (var/ritual_type in GLOB.bloodcult_personal_rituals)
 		possible_rituals += new ritual_type()
 	. = ..()
@@ -93,6 +93,7 @@
 /datum/antagonist/cult/on_removal()
 	REMOVE_TRAIT(owner.current, TRAIT_HEALS_FROM_CULT_PYLONS, CULT_TRAIT)
 	owner.current.HideUI("Cultist Left Panel")
+	owner.current.HideUI("Cultist Right Panel")
 	owner.current.HideUI("Cult Rituals")
 	owner.current.HideUI("Cultist Panel")
 	STOP_PROCESSING(SSobj, src)
@@ -362,8 +363,14 @@
 					to_chat(owner.current, "<span class='danger'>Shortcut Sigil</span>")
 					to_chat(owner.current, "<b>Apply your palms on a wall to draw a sigil on it that lets you and any ally pass through it.</b>")
 					GiveTattoo(/datum/cult_tattoo/shortcut)
+
 	if (owner.current)//because gibbed cultists might still gain devotion through faction rituals
-		owner.current.DisplayUI("Cultist Right Panel")
+		if ("Cult Panel" in owner.active_uis)
+			var/datum/mind_ui/m_ui = owner.active_uis["Cult Panel"]
+			if (m_ui.active)
+				m_ui.Display()
+		else
+			owner.current.DisplayUI("Cultist Right Panel")
 
 /datum/antagonist/cult/proc/get_devotion_rank()
 	switch(devotion)

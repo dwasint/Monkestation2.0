@@ -481,6 +481,7 @@ var/list/rune_appearances_cache = list()
 	if (!source)
 		source = new
 
+	source.color = GLOB.blood_types[source.data["blood_type"]]?.color || COLOR_BLOOD
 	//Add word to a rune if there is one, otherwise create one. However, there can be no more than 3 words.
 	//Returns 0 if failure, 1 if finished a rune, 2 if success but rune still has room for words.
 

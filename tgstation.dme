@@ -6491,6 +6491,7 @@
 #include "monkestation\code\modules\bloody_cult\cult\rune_word.dm"
 #include "monkestation\code\modules\bloody_cult\cult\special_rune_spells.dm"
 #include "monkestation\code\modules\bloody_cult\cult\use_blood.dm"
+#include "monkestation\code\modules\bloody_cult\cult\mobs\astral_projection.dm"
 #include "monkestation\code\modules\bloody_cult\mind_uis\adminbus.dm"
 #include "monkestation\code\modules\bloody_cult\mind_uis\blood_cult.dm"
 #include "monkestation\code\modules\bloody_cult\mind_uis\draw_runes.dm"

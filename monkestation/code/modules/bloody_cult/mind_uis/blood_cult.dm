@@ -433,7 +433,7 @@ GLOBAL_LIST_INIT(blood_communion, list())
 
 
 			if(user.has_active_hand())
-				good_hand = H.get_active_hand()
+				good_hand = H.active_hand_index
 
 		if(good_hand)
 			user.dropItemToGround(user.get_active_held_item())
@@ -444,10 +444,10 @@ GLOBAL_LIST_INIT(blood_communion, list())
 			if (dagger_color != COLOR_BLOOD)
 				BD.icon_state += "-color"
 				BD.color = dagger_color
-			user.put_in_hand(good_hand, BD)
-			user.visible_message("<span class='warning'>\The [user] squeezes the blood in their hand, and it takes the shape of a dagger!</span>",
-				"<span class='warning'>You squeeze the blood in your hand, and it takes the shape of a dagger.</span>")
-			playsound(user, 'monkestation/code/modules/bloody_cult/sound/bloodyslice.ogg', 30, 0,-2)
+			if(user.put_in_hand(BD, good_hand))
+				user.visible_message("<span class='warning'>\The [user] squeezes the blood in their hand, and it takes the shape of a dagger!</span>",
+					"<span class='warning'>You squeeze the blood in your hand, and it takes the shape of a dagger.</span>")
+				playsound(user, 'monkestation/code/modules/bloody_cult/sound/bloodyslice.ogg', 30, 0,-2)
 
 	else
 		if(ishuman(user))
