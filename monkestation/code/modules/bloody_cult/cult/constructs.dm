@@ -125,7 +125,7 @@
 
 ////////////////////Artificer/////////////////////////
 
-/mob/living/basic/construct/builder/perfect
+/mob/living/basic/construct/artificer/perfect
 	icon_state = "artificer2"
 	icon_living = "artificer2"
 	icon_dead = "artificer2"
@@ -152,7 +152,7 @@
 	icon = 'icons/effects/effects.dmi'
 	icon_state = "blank"
 
-/mob/living/basic/construct/builder/perfect/proc/update_satellites()
+/mob/living/basic/construct/artificer/perfect/proc/update_satellites()
 	var/turf/T = get_turf(src)
 	while(satellites.len < 3)
 		var/obj/abstract/satellite/S = new(T)
@@ -164,7 +164,7 @@
 	satellite_B.forceMove(get_step(T, turn(dir, 135)))//behind on one side
 	satellite_C.forceMove(get_step(T, turn(dir, 225)))//behind on the other side
 
-/mob/living/basic/construct/builder/perfect/Life()
+/mob/living/basic/construct/artificer/perfect/Life()
 	if(timestopped)
 		return 0
 	. = ..()
@@ -175,19 +175,19 @@
 		move_ray()
 	update_satellites()
 
-/mob/living/basic/construct/builder/perfect/Move(NewLoc,Dir=0,step_x=0,step_y=0,var/glide_size_override = 0)
+/mob/living/basic/construct/artificer/perfect/Move(NewLoc,Dir=0,step_x=0,step_y=0,var/glide_size_override = 0)
 	. = ..()
 	if (ray)
 		move_ray()
 	update_satellites()
 
-/mob/living/basic/construct/builder/perfect/forceMove(atom/destination, step_x = 0, step_y = 0, no_tp = FALSE, harderforce = FALSE, glide_size_override = 0)
+/mob/living/basic/construct/artificer/perfect/forceMove(atom/destination, step_x = 0, step_y = 0, no_tp = FALSE, harderforce = FALSE, glide_size_override = 0)
 	. = ..()
 	if (ray)
 		move_ray()
 	update_satellites()
 
-/mob/living/basic/construct/builder/perfect/proc/start_ray(var/mob/living/basic/construct/target)
+/mob/living/basic/construct/artificer/perfect/proc/start_ray(var/mob/living/basic/construct/target)
 	if (!istype(target))
 		return
 	if (locate(src) in target.healers)
@@ -201,7 +201,7 @@
 	to_chat(src, "<span class='notice'>You are now healing \the [target].</span>")
 	move_ray()
 
-/mob/living/basic/construct/builder/perfect/proc/move_ray()
+/mob/living/basic/construct/artificer/perfect/proc/move_ray()
 	if(heal_target && ray && heal_target.health < heal_target.maxHealth && get_dist(heal_target, src) <= heal_range && isturf(loc) && isturf(heal_target.loc))
 		ray.forceMove(loc)
 		var/disty = heal_target.y - src.y
@@ -228,7 +228,7 @@
 	else
 		end_ray()
 
-/mob/living/basic/construct/builder/perfect/proc/end_ray()
+/mob/living/basic/construct/artificer/perfect/proc/end_ray()
 	if (heal_target)
 		heal_target.healers.Remove(src)
 		heal_target = null
@@ -308,7 +308,7 @@
 	faction = "cult"
 	flying = 1
 	environment_smash_flags = 0
-	var/mob/living/basic/construct/builder/perfect/master = null
+	var/mob/living/basic/construct/artificer/perfect/master = null
 	var/no_master = TRUE
 	var/glow_color = "#FFFFFF"
 

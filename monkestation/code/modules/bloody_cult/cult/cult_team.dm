@@ -209,7 +209,7 @@
 			var/mob/M = mind.current
 			to_chat(M, "<span class='sinister'>The station population is now large enough for <span class='userdanger'>[cultist_cap]</span> cultists, plus one of each construct types.</span>")
 
-/datum/team/cult/proc/CanConvert()
+/datum/team/cult/proc/CanConvert(construct_type)
 	var/list/free_construct_slots = list()
 	var/cultist_count = 0
 	for (var/datum/mind/mind in members)
@@ -224,6 +224,9 @@
 		if (isliving(M))
 			if (M.stat != DEAD)
 				cultist_count += 1
+
+	if(construct_type && (!(construct_type in free_construct_slots)))
+		return TRUE
 
 	return (cultist_count < cultist_cap)
 
@@ -437,3 +440,16 @@
 
 	for (var/atom/movable/screen/fullscreen/lighting_backdrop/sunlight/SP in SSoutdoor_effects.sunlighting_planes)
 		SSoutdoor_effects.transition_sunlight_color(SP)
+
+/datum/team/cult/proc/add_bloody_floor(turf/T)
+	if (!istype(T))
+		return
+	if(T && (is_station_level(T.z)))
+		if(!(locate("\ref[T]") in bloody_floors))
+			bloody_floors[T] = T
+
+
+/datum/team/cult/proc/remove_bloody_floor(turf/T)
+	if (!istype(T))
+		return
+	bloody_floors -= T

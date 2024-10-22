@@ -25,6 +25,7 @@
 	/// Role check, if any needed
 	var/required_role = /datum/antagonist/cult
 	grind_results = list(/datum/reagent/hauntium = 25, /datum/reagent/silicon = 10) //can be ground into hauntium
+	var/perfect = FALSE
 
 /obj/item/soulstone/Initialize(mapload)
 	. = ..()
@@ -356,7 +357,7 @@
 	var/construct_class = show_radial_menu(user, src, GLOB.construct_radial_images, custom_check = CALLBACK(src, PROC_REF(check_menu), user, shell), require_near = TRUE, tooltips = TRUE)
 	if(QDELETED(shell) || !construct_class)
 		return FALSE
-	make_new_construct_from_class(construct_class, theme, shade, user, FALSE, shell.loc)
+	make_new_construct_from_class(construct_class, theme, shade, user, FALSE, shell.loc, perfect)
 	shade.mind?.remove_antag_datum(/datum/antagonist/cult)
 	qdel(shell)
 	qdel(src)
@@ -450,11 +451,14 @@
 
 	return TRUE
 
-/proc/make_new_construct_from_class(construct_class, theme, mob/target, mob/creator, cultoverride, loc_override)
+/proc/make_new_construct_from_class(construct_class, theme, mob/target, mob/creator, cultoverride, loc_override, perfect = FALSE)
 	switch(construct_class)
 		if(CONSTRUCT_JUGGERNAUT)
 			if(IS_CULTIST(creator))
-				make_new_construct(/mob/living/basic/construct/juggernaut, target, creator, cultoverride, loc_override) // ignore themes, the actual giving of cult info is in the make_new_construct proc
+				if(perfect)
+					make_new_construct(/mob/living/basic/construct/juggernaut/perfect, target, creator, cultoverride, loc_override)
+				else
+					make_new_construct(/mob/living/basic/construct/juggernaut, target, creator, cultoverride, loc_override) // ignore themes, the actual giving of cult info is in the make_new_construct proc
 				return
 			switch(theme)
 				if(THEME_WIZARD)
@@ -476,7 +480,10 @@
 					make_new_construct(/mob/living/basic/construct/wraith, target, creator, cultoverride, loc_override)
 		if(CONSTRUCT_ARTIFICER)
 			if(IS_CULTIST(creator))
-				make_new_construct(/mob/living/basic/construct/artificer, target, creator, cultoverride, loc_override) // ignore themes, the actual giving of cult info is in the make_new_construct proc
+				if(perfect)
+					make_new_construct(/mob/living/basic/construct/artificer/perfect, target, creator, cultoverride, loc_override)
+				else
+					make_new_construct(/mob/living/basic/construct/artificer, target, creator, cultoverride, loc_override) // ignore themes, the actual giving of cult info is in the make_new_construct proc
 				return
 			switch(theme)
 				if(THEME_WIZARD)
@@ -502,7 +509,11 @@
 	target.mind?.transfer_to(newstruct, force_key_move = TRUE)
 	var/atom/movable/screen/alert/bloodsense/sense_alert
 	if(newstruct.mind && !IS_CULTIST(newstruct) && ((stoner && IS_CULTIST(stoner)) || cultoverride) && SSticker.HasRoundStarted())
-		newstruct.mind.add_antag_datum(/datum/antagonist/cult/construct)
+		var/datum/team/cult/cult_team = locate_team(/datum/team/cult)
+
+		if(cult_team.CanConvert(newstruct.construct_type))
+			newstruct.mind.add_antag_datum(/datum/antagonist/cult)
+
 	if(IS_CULTIST(stoner) || cultoverride)
 		to_chat(newstruct, span_cultbold("You are still bound to serve the cult[stoner ? " and [stoner]" : ""], follow [stoner?.p_their() || "their"] orders and help [stoner?.p_them() || "them"] complete [stoner?.p_their() || "their"] goals at all costs."))
 	else if(stoner)

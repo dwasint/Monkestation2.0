@@ -1,3 +1,4 @@
+/*
 /mob/living/basic/shade
 	name = "Shade"
 	real_name = "Shade"
@@ -70,3 +71,4 @@
 		stone.capture_shade(src, user)
 	else
 		. = ..()
+*/

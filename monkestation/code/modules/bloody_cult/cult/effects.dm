@@ -151,7 +151,7 @@
 
 /obj/effect/bloodcult_jaunt
 	mouse_opacity = 0
-	icon = 'icons/effects/96x96.dmi'
+	icon = 'monkestation/code/modules/bloody_cult/icons/96x96.dmi'
 	icon_state ="cult_jaunt"
 	invisibility = SEE_INVISIBLE_LIVING
 	alpha = 127

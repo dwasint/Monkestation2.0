@@ -146,13 +146,14 @@
 	max_integrity = 100
 	layer = TABLE_LAYER
 	pass_flags_self = PASSTABLE
+	can_buckle = TRUE
 	var/obj/item/weapon/melee/soulblade/blade = null
 	var/altar_task = ALTARTASK_NONE
 	var/gem_delay = 300
 	var/narsie_message_cooldown = 0
 
 	var/mob/sacrificer  // who started the sacrifice ritual
-	var/image/build
+	var/mutable_appearance/build
 
 	var/list/watching_mobs = list()
 	var/list/watcher_maps = list()
@@ -256,7 +257,7 @@
 				return 1
 			var/mob/living/carbon/C = user.pulling
 			C.buckled.unbuckle_mob(C)
-			if (!do_after(user,C,15))
+			if (!do_after(user, 1.5 SECONDS, C))
 				return
 			if (ishuman(C))
 				C.resting = 1
@@ -343,7 +344,7 @@
 			to_chat(user,"<span class='warning'>You must remove \the [blade] planted on \the [src] first.</span>")
 			return 1
 
-		if (!do_after(user,L,15))
+		if (!do_after(user, 15, L))
 			return
 		L.buckled?.unbuckle_mob(L)
 
@@ -358,6 +359,8 @@
 		user.set_resting(TRUE)
 	else
 		to_chat(user, "<span class='warning'>You move \the [O] on top of \the [src].</span>")
+	buckle_mob(O)
+
 	return 1
 
 
@@ -422,51 +425,70 @@
 				if (user.client)
 					user.client.images |= progbar
 		return
-	var/mob/M = buckled_mobs[1]
-	if(M && M != user)
-		var/choices = list(
-			list("Remove Blade", "radial_altar_remove", "Pull the blade off, freeing the victim."),
-			list("Sacrifice", "radial_altar_sacrifice", "Initiate the sacrifice ritual. The ritual can only proceed if the proper victim has been nailed to the altar."),
-			)
-		var/task = show_radial_menu(user,loc,choices,'monkestation/code/modules/bloody_cult/icons/cult_radial3.dmi',"radial-cult2")
-		if (!Adjacent(user) || !task)
-			return
-		switch (task)
-			if ("Remove Blade")
-				if (do_after(user,src,20))
-					M.visible_message("<span class='notice'>\The [M] was freed from \the [src] by \the [user]!</span>","You were freed from \the [src] by \the [user].")
-					unbuckle_mob(M)
-					if(istype(M, /mob/living/simple_animal))
-						M.pixel_y = 0
-					if (blade)
-						blade.forceMove(loc)
-						blade.attack_hand(user)
-						to_chat(user, "<span class='warning'>You remove \the [blade] from \the [src]</span>")
-						STOP_PROCESSING(SSobj, src)
-						blade = null
-						playsound(loc, 'sound/weapons/blade1.ogg', 50, 1)
-						update_icon()
-			if ("Sacrifice")
-				// First we'll check for any blockers around it since we'll dance using forceMove to allow up to 8 dancers without them bumping into each others
-				// Of course this means that walls and objects placed AFTER the start of the dance can be crossed by dancing but that's good enough.
-				for (var/turf/T in orange(1,src))
-					if (T.density)
-						to_chat(user, "<span class='warning'>\The [T] would hinder the ritual. Either dismantle it or use an altar located in a more spacious area.</span>")
-						return
-					var/atom/A = T.is_blocked_turf(TRUE)
-					if (A && (A != src) && !ismob(A)) // mobs get a free pass
-						to_chat(user, "<span class='warning'>\The [A] would hinder the ritual. Either move it or use an altar located in a more spacious area.</span>")
-						return
-				if(ishuman(M))
-					altar_task = ALTARTASK_SACRIFICE_HUMAN
-				else
-					altar_task = ALTARTASK_SACRIFICE_ANIMAL
-				StartSacrifice(user)
+	if(length(buckled_mobs) || blade)
+		var/mob/M
+		if(length(buckled_mobs))
+			M = buckled_mobs[1]
+		if(M && M != user)
+			var/list/choices = list()
+
+			var/datum/radial_menu_choice/option = new
+			option.image = image(icon = 'monkestation/code/modules/bloody_cult/icons/cult_radial3.dmi', icon_state = "radial_altar_remove")
+			option.info = span_boldnotice("Pull the blade off, freeing the victim.")
+			choices["Remove Blade"] = option
+
+			var/datum/radial_menu_choice/option2 = new
+			option2.image = image(icon = 'monkestation/code/modules/bloody_cult/icons/cult_radial3.dmi', icon_state = "radial_altar_sacrifice")
+			option2.info = span_boldnotice("Initiate the sacrifice ritual. The ritual can only proceed if the proper victim has been nailed to the altar.")
+			choices["Sacrifice"] = option2
+
+			var/task = show_radial_menu(user,src,choices, tooltips = TRUE, radial_icon = 'monkestation/code/modules/bloody_cult/icons/cult_radial3.dmi')
+			if (!Adjacent(user) || !task)
 				return
-	else if (blade)
-		if(buckled_mobs)
-			if (do_after(user,src,20))
-				unbuckle_all_mobs()
+			switch (task)
+				if ("Remove Blade")
+					if (do_after(user, 2 SECONDS, src))
+						M.visible_message("<span class='notice'>\The [M] was freed from \the [src] by \the [user]!</span>","You were freed from \the [src] by \the [user].")
+						unbuckle_mob(M)
+						if(istype(M, /mob/living/simple_animal))
+							M.pixel_y = 0
+						if (blade)
+							blade.forceMove(loc)
+							blade.attack_hand(user)
+							to_chat(user, "<span class='warning'>You remove \the [blade] from \the [src]</span>")
+							STOP_PROCESSING(SSobj, src)
+							blade = null
+							playsound(loc, 'sound/weapons/blade1.ogg', 50, 1)
+							update_icon()
+				if ("Sacrifice")
+					// First we'll check for any blockers around it since we'll dance using forceMove to allow up to 8 dancers without them bumping into each others
+					// Of course this means that walls and objects placed AFTER the start of the dance can be crossed by dancing but that's good enough.
+					for (var/turf/T in orange(1,src))
+						if (T.density)
+							to_chat(user, "<span class='warning'>\The [T] would hinder the ritual. Either dismantle it or use an altar located in a more spacious area.</span>")
+							return
+						var/atom/A = T.check_blocking_content(TRUE)
+						if (A && (A != src) && !ismob(A)) // mobs get a free pass
+							to_chat(user, "<span class='warning'>\The [A] would hinder the ritual. Either move it or use an altar located in a more spacious area.</span>")
+							return
+					if(ishuman(M))
+						altar_task = ALTARTASK_SACRIFICE_HUMAN
+					else
+						altar_task = ALTARTASK_SACRIFICE_ANIMAL
+					StartSacrifice(user)
+					return
+		else if (blade)
+			if(length(buckled_mobs))
+				if (do_after(user, 2 SECONDS, src))
+					unbuckle_all_mobs()
+					blade.forceMove(loc)
+					blade.attack_hand(user)
+					to_chat(user, "<span class='notice'>You remove \the [blade] from \the [src]</span>")
+					STOP_PROCESSING(SSobj, src)
+					blade = null
+					playsound(loc, 'sound/weapons/blade1.ogg', 50, 1)
+					update_icon()
+			else
 				blade.forceMove(loc)
 				blade.attack_hand(user)
 				to_chat(user, "<span class='notice'>You remove \the [blade] from \the [src]</span>")
@@ -474,107 +496,106 @@
 				blade = null
 				playsound(loc, 'sound/weapons/blade1.ogg', 50, 1)
 				update_icon()
-		else
-			blade.forceMove(loc)
-			blade.attack_hand(user)
-			to_chat(user, "<span class='notice'>You remove \the [blade] from \the [src]</span>")
-			STOP_PROCESSING(SSobj, src)
-			blade = null
-			playsound(loc, 'sound/weapons/blade1.ogg', 50, 1)
-			update_icon()
-		return
-	else
-		var/choices = list(
-			list("Consult Roster", "radial_altar_roster", "Check the names and status of all of the cult's members."),
-			list("Commune with Nar-Sie", "radial_altar_commune", "Make contact with Nar-Sie."),
-			list("Conjure Soul Gem", "radial_altar_gem", "Order the altar to sculpt you a Soul Gem, to capture the soul of your enemies."),
-			)
-		var/task = show_radial_menu(user,loc,choices,'monkestation/code/modules/bloody_cult/icons/cult_radial3.dmi',"radial-cult2")
-		if (buckled_mobs || !Adjacent(user) || !task)
 			return
-		switch (task)
-			if ("Consult Roster")
-				var/datum/team/cult/cult = locate_team(/datum/team/cult)
-				if (!cult)
-					return
-				var/dat = {"<body style="color:#FFFFFF" bgcolor="#110000">"}
-				dat += "<b>Our cult can currently grow up to [cult.cultist_cap] members.</b>"
-				dat += "<ul>"
-				for (var/datum/mind/mind in cult.members)
-					var/datum/antagonist/cult/C = mind.has_antag_datum(/datum/antagonist/cult)
-					var/conversion = ""
-					var/cult_role = ""
-					switch (C.cultist_role)
-						if (CULTIST_ROLE_ACOLYTE)
-							cult_role = "Acolyte"
-						if (CULTIST_ROLE_MENTOR)
-							cult_role = "Mentor"
-						else
-							cult_role = "Herald"
-					if (C.conversion.len > 0)
-						conversion = pick(C.conversion)
-					var/origin_text = ""
-					switch (conversion)
-						if ("converted")
-							origin_text = "Converted by [C.conversion[conversion]]"
-						if ("resurrected")
-							origin_text = "Resurrected by [C.conversion[conversion]]"
-						if ("soulstone")
-							origin_text = "Soul captured by [C.conversion[conversion]]"
-						if ("altar")
-							origin_text = "Volunteer shade"
-						if ("sacrifice")
-							origin_text = "Sacrifice"
-						else
-							origin_text = "Founder"
-					var/mob/living/carbon/H = mind.current
-					var/extra = ""
-					if (H && istype(H))
-						if (H.stat == DEAD)
-							extra = " - <span style='color:#FF0000'>DEAD</span>"
-					dat += "<li><b>[M.name] ([cult_role])</b></li> - [origin_text][extra]"
-				for(var/obj/item/restraints/handcuffs/cult/cuffs in cult.bindings)
-					if (iscarbon(cuffs.loc))
-						var/mob/living/carbon/C = cuffs.loc
-						if (C.handcuffed == cuffs && cuffs.gaoler && cuffs.gaoler.owner)
-							var/datum/mind/gaoler = cuffs.gaoler.owner
-							var/extra = ""
-							if (C && istype(C))
-								if (C.stat == DEAD)
-									extra = " - <span style='color:#FF0000'>DEAD</span>"
-							dat += "<li><span style='color:#FFFF00'><b>[C.real_name]</b></span></li> - Prisoner of [gaoler.name][extra]"
-				dat += {"</ul></body>"}
-				user << browse("<TITLE>Cult Roster</TITLE>[dat]", "window=cultroster;size=600x400")
-				onclose(user, "cultroster")
-			if ("Commune with Nar-Sie")
-				if(narsie_message_cooldown)
-					to_chat(user, "<span class='warning'>This altar has already sent a message in the past 30 seconds, wait a moment.</span>")
-					return
-				var/input = stripped_input(user, "Please choose a message to transmit to Nar-Sie through the veil. Know that he can be fickle, and abuse of this ritual will leave your body asunder. Communion does not guarantee a response. There is a 30 second delay before you may commune again, be clear, full and concise.", "To abort, send an empty message.", "")
-				if(!input || !Adjacent(user))
-					return
-				usr.pray(input)
-				to_chat(usr, "<span class='notice'>Your communion has been received.</span>")
-				var/turf/T = get_turf(usr)
-				log_say("[key_name(usr)] (@[T.x],[T.y],[T.z]) has communed with Nar-Sie: [input]")
-				narsie_message_cooldown = 1
-				spawn(30 SECONDS)
-					narsie_message_cooldown = 0
-			if ("Conjure Soul Gem")
-				altar_task = ALTARTASK_GEM
-				update_icon()
-				overlays += "altar-soulstone1"
-				spawn (gem_delay/3)
+		else
+			var/list/choices = list(
+				list("Consult Roster", "radial_altar_roster", "Check the names and status of all of the cult's members."),
+				list("Commune with Nar-Sie", "radial_altar_commune", "Make contact with Nar-Sie."),
+				list("Conjure Soul Gem", "radial_altar_gem", "Order the altar to sculpt you a Soul Gem, to capture the soul of your enemies."),
+				)
+			var/list/made_choices = list()
+			for(var/list/choice in choices)
+				var/datum/radial_menu_choice/option = new
+				option.image = image(icon = 'monkestation/code/modules/bloody_cult/icons/cult_radial3.dmi', icon_state = choice[2])
+				option.info = span_boldnotice(choice[3])
+				made_choices[choice[1]] = option
+
+			var/task = show_radial_menu(user,src,made_choices, tooltips = TRUE, radial_icon = 'monkestation/code/modules/bloody_cult/icons/cult_radial3.dmi')
+			if (buckled_mobs || !Adjacent(user) || !task)
+				return
+			switch (task)
+				if ("Consult Roster")
+					var/datum/team/cult/cult = locate_team(/datum/team/cult)
+					if (!cult)
+						return
+					var/dat = {"<body style="color:#FFFFFF" bgcolor="#110000">"}
+					dat += "<b>Our cult can currently grow up to [cult.cultist_cap] members.</b>"
+					dat += "<ul>"
+					for (var/datum/mind/mind in cult.members)
+						var/datum/antagonist/cult/C = mind.has_antag_datum(/datum/antagonist/cult)
+						var/conversion = ""
+						var/cult_role = ""
+						switch (C.cultist_role)
+							if (CULTIST_ROLE_ACOLYTE)
+								cult_role = "Acolyte"
+							if (CULTIST_ROLE_MENTOR)
+								cult_role = "Mentor"
+							else
+								cult_role = "Herald"
+						if (C.conversion.len > 0)
+							conversion = pick(C.conversion)
+						var/origin_text = ""
+						switch (conversion)
+							if ("converted")
+								origin_text = "Converted by [C.conversion[conversion]]"
+							if ("resurrected")
+								origin_text = "Resurrected by [C.conversion[conversion]]"
+							if ("soulstone")
+								origin_text = "Soul captured by [C.conversion[conversion]]"
+							if ("altar")
+								origin_text = "Volunteer shade"
+							if ("sacrifice")
+								origin_text = "Sacrifice"
+							else
+								origin_text = "Founder"
+						var/mob/living/carbon/H = mind.current
+						var/extra = ""
+						if (H && istype(H))
+							if (H.stat == DEAD)
+								extra = " - <span style='color:#FF0000'>DEAD</span>"
+						dat += "<li><b>[M.name] ([cult_role])</b></li> - [origin_text][extra]"
+					for(var/obj/item/restraints/handcuffs/cult/cuffs in cult.bindings)
+						if (iscarbon(cuffs.loc))
+							var/mob/living/carbon/C = cuffs.loc
+							if (C.handcuffed == cuffs && cuffs.gaoler && cuffs.gaoler.owner)
+								var/datum/mind/gaoler = cuffs.gaoler.owner
+								var/extra = ""
+								if (C && istype(C))
+									if (C.stat == DEAD)
+										extra = " - <span style='color:#FF0000'>DEAD</span>"
+								dat += "<li><span style='color:#FFFF00'><b>[C.real_name]</b></span></li> - Prisoner of [gaoler.name][extra]"
+					dat += {"</ul></body>"}
+					user << browse("<TITLE>Cult Roster</TITLE>[dat]", "window=cultroster;size=600x400")
+					onclose(user, "cultroster")
+				if ("Commune with Nar-Sie")
+					if(narsie_message_cooldown)
+						to_chat(user, "<span class='warning'>This altar has already sent a message in the past 30 seconds, wait a moment.</span>")
+						return
+					var/input = stripped_input(user, "Please choose a message to transmit to Nar-Sie through the veil. Know that he can be fickle, and abuse of this ritual will leave your body asunder. Communion does not guarantee a response. There is a 30 second delay before you may commune again, be clear, full and concise.", "To abort, send an empty message.", "")
+					if(!input || !Adjacent(user))
+						return
+					usr.pray(input)
+					to_chat(usr, "<span class='notice'>Your communion has been received.</span>")
+					var/turf/T = get_turf(usr)
+					log_say("[key_name(usr)] (@[T.x],[T.y],[T.z]) has communed with Nar-Sie: [input]")
+					narsie_message_cooldown = 1
+					spawn(30 SECONDS)
+						narsie_message_cooldown = 0
+				if ("Conjure Soul Gem")
+					altar_task = ALTARTASK_GEM
 					update_icon()
-					overlays += "altar-soulstone2"
-					sleep (gem_delay/3)
-					update_icon()
-					overlays += "altar-soulstone3"
-					sleep (gem_delay/3)
-					altar_task = ALTARTASK_NONE
-					update_icon()
-					var/obj/item/soulstone/gem = new (loc)
-					gem.pixel_y = 4
+					overlays += "altar-soulstone1"
+					spawn (gem_delay/3)
+						update_icon()
+						overlays += "altar-soulstone2"
+						sleep (gem_delay/3)
+						update_icon()
+						overlays += "altar-soulstone3"
+						sleep (gem_delay/3)
+						altar_task = ALTARTASK_NONE
+						update_icon()
+						var/obj/item/soulstone/gem/gem = new (loc)
+						gem.pixel_y = 4
 
 
 /obj/structure/cult/altar/proc/StartSacrifice(var/mob/user)
@@ -605,9 +626,12 @@
 			update_progbar()
 			if (user.client)
 				user.client.images |= progbar
-			build = image('monkestation/code/modules/bloody_cult/icons/cult.dmi',"build")
-			build.pixel_y = 8
-			src.overlays += build
+
+			if(!build)
+				build = mutable_appearance('monkestation/code/modules/bloody_cult/icons/cult.dmi', "build", layer = MOB_SHIELD_LAYER)
+				build.pixel_y = 8
+
+			add_overlay(build)
 			if (!user.checkTattoo(TATTOO_SILENT))
 				if (prob(5))
 					user.say("Let me show you the dance of my people!","C")
@@ -622,7 +646,7 @@
 	if(buckled_mobs)
 		var/mob/M = buckled_mobs[1]
 		if(M != user)
-			if (do_after(user,src,20))
+			if (do_after(user, 2 SECONDS, src))
 				M.visible_message("<span class='notice'>\The [M] was freed from \the [src] by \the [user]!</span>","You were freed from \the [src] by \the [user].")
 				unbuckle_mob(M)
 				if (blade)
@@ -711,9 +735,9 @@
 
 
 /obj/structure/cult/altar/dance_start()//This is executed at the end of the sacrifice ritual
+	. = ..()//true if the ritual was successful
 	var/datum/team/cult/cult = locate_team(/datum/team/cult)
 	overlays -= build
-	. = ..()//true if the ritual was successful
 	min_contributors = initial(min_contributors)
 	if(!.)
 		altar_task = ALTARTASK_NONE
@@ -755,12 +779,12 @@
 				//new_shade.give_blade_powers()
 				playsound(src, get_sfx("soulstone"), 50,1)
 			else
-				anim(target = src, a_icon = 'monkestation/code/modules/bloody_cult/icons/effects.dmi', flick_anim = "rune_sac", plane = GAME_PLANE)
+				anim(target = src, a_icon = 'monkestation/code/modules/bloody_cult/icons/effects.dmi', flick_anim = "rune_sac", plane = ABOVE_GAME_PLANE)
 
 		if(ALTARTASK_SACRIFICE_ANIMAL)
 			altar_task = ALTARTASK_NONE
 			var/mob/living/M = buckled_mobs[1]
-			anim(target = src, a_icon = 'monkestation/code/modules/bloody_cult/icons/effects.dmi', flick_anim = "rune_sac", plane = GAME_PLANE)
+			anim(target = src, a_icon = 'monkestation/code/modules/bloody_cult/icons/effects.dmi', flick_anim = "rune_sac", plane = ABOVE_GAME_PLANE)
 			var/turf/TU = get_turf(src)
 			spawn(5)
 				var/obj/item/reagent_containers/R = locate(/obj/item/reagent_containers) in TU.contents
@@ -1627,7 +1651,7 @@ var/list/cult_spires = list()
 /*
 /obj/structure/cult/pylon/attack_basic_mob(mob/user, list/modifiers)
 	. = ..()
-	if(istype(user, /mob/living/basic/construct/builder))
+	if(istype(user, /mob/living/basic/construct/artificer))
 		if(broken)
 			repair(user)
 			return

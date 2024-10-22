@@ -582,12 +582,9 @@ var/list/arcane_tomes = list()
 		to_chat(user, "<span class='warning'>An overwhelming feeling of dread comes over you as you pick up \the [src]. It would be wise to rid yourself of this, quickly.</span>")
 		user.set_dizzy(12 SECONDS)
 
-/*
+
 /obj/item/weapon/melee/cultblade/attackby(var/obj/item/I, var/mob/user)
 	if(istype(I,/obj/item/soulstone/gem))
-		if (user.get_inactive_hand() != src)
-			to_chat(user,"<span class='warning'>You must hold \the [src] in your hand to properly place \the [I] in its socket.</span>")
-			return 1
 		var/turf/T = get_turf(user)
 		playsound(T, 'sound/items/Deconstruct.ogg', 50, 1)
 		user.dropItemToGround(src)
@@ -598,11 +595,11 @@ var/list/arcane_tomes = list()
 				SB.linked_cultist = user
 				to_chat(SB.shade, "<spawn class='notice'>You have made contact with [user]. As long as you remain within 5 tiles of them, you can move by yourself without losing blood, and regenerate blood passively at a faster rate.</span>")
 		var/obj/item/soulstone/gem/sgem = I
-		if (sgem.shade)
-			var/mob/living/simple_animal/shade/shadeMob = sgem.shade
+		var/mob/living/basic/shade/shadeMob = locate(/mob/living/basic/shade) in sgem.contents
+		if (shadeMob)
 			shadeMob.forceMove(SB)
 			SB.shade = shadeMob
-			sgem.shade = null
+			sgem.contents -= shadeMob
 			if (shadeMob.mind)
 				shadeMob.give_blade_powers()
 			else
@@ -617,7 +614,7 @@ var/list/arcane_tomes = list()
 		to_chat(user,"<span class='warning'>\The [I] doesn't fit in \the [src]'s socket.</span>")
 		return 1
 	..()
-*/
+
 
 /obj/item/weapon/melee/cultblade/nocult
 	name = "broken cult blade"
@@ -699,8 +696,8 @@ var/list/arcane_tomes = list()
 /obj/item/weapon/melee/soulblade/examine(var/mob/user)
 	..()
 	if (areYouWorthy(user))
-		to_chat(user, "<span class='info'>blade blood: [blood]%</span>")
-		to_chat(user, "<span class='info'>blade health: [round((atom_integrity/max_integrity)*100)]%</span>")
+		. += "<span class='info'>blade blood: [blood]%</span>"
+		. += "<span class='info'>blade health: [round((atom_integrity/max_integrity)*100)]%</span>"
 
 
 /obj/item/weapon/melee/soulblade/narsie_act()
@@ -740,7 +737,7 @@ var/list/arcane_tomes = list()
 			playsound(T, 'sound/items/Deconstruct.ogg', 50, 0, -3)
 			user.dropItemToGround(src)
 			var/obj/item/weapon/melee/cultblade/CB = new (T)
-			var/obj/item/soulstone/SG = new (T)
+			var/obj/item/soulstone/gem/SG = new (T)
 			user.put_in_active_hand(CB)
 			user.put_in_inactive_hand(SG)
 			if (shade)
@@ -929,19 +926,17 @@ var/list/arcane_tomes = list()
 		takeDamage(O.throwforce)
 
 /obj/item/weapon/melee/soulblade/proc/capture_shade(var/mob/living/basic/shade/target, var/mob/user)
-	/*
+
 	if(shade)
 		to_chat(user, "<span class='danger'>Capture failed!: </span>\The [src] already has a shade! Remove its soul gem if you wish to harm this shade nonetheless.")
 	else
 		target.forceMove(src) //put shade in blade
 		target.status_flags |= GODMODE
-		target.canmove = 0
 		target.health = target.maxHealth//full heal
 		target.give_blade_powers()
 		shade = target
 		dir = NORTH
 		update_icon()
-		user.update_inv_hands()
 		to_chat(target, "Your soul has been captured by the soul blade, its arcane energies are reknitting your ethereal form, healing you.")
 		to_chat(user, "<span class='notice'><b>Capture successful!</b>: </span>[target.real_name]'s has been captured and stored within the gem on your blade.")
 		target.master = user
@@ -952,13 +947,11 @@ var/list/arcane_tomes = list()
 			if (cult && !cult.CanConvert())
 				to_chat(user, "<span class='danger'>The cult has too many members already. But this shade will obey you nonetheless.</span>")
 				return
-			var/datum/role/cultist/newCultist = new
-			newCultist.AssignToRole(target.mind,1)
+			var/datum/antagonist/cult/newCultist = new(target.mind)
 			cult.HandleRecruitedRole(newCultist)
-			newCultist.OnPostSetup()
-			newCultist.Greet(GREET_SOULSTONE)
+			//newCultist.Greet(GREET_SOULSTONE)
 			newCultist.conversion["soulstone"] = user
-	*/
+
 ///////////////////////////////////////BLOOD DAGGER////////////////////////////////////////////////
 
 /obj/item/weapon/melee/blood_dagger

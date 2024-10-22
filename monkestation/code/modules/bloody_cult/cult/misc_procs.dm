@@ -170,3 +170,22 @@
 		return dx + (0.5 * dy) // The longest side add half the shortest side approximates the hypotenuse.
 	else
 		return dy + (0.5 * dx)
+
+/proc/get_distant_turf(turf/T, direction, distance)
+	if(!T || !direction || !distance)
+		return
+
+	var/dest_x = T.x
+	var/dest_y = T.y
+	var/dest_z = T.z
+
+	if(direction & NORTH)
+		dest_y = min(world.maxy, dest_y+distance)
+	if(direction & SOUTH)
+		dest_y = max(0, dest_y-distance)
+	if(direction & EAST)
+		dest_x = min(world.maxy, dest_x+distance)
+	if(direction & WEST)
+		dest_x = max(0, dest_x-distance)
+
+	return locate(dest_x,dest_y,dest_z)

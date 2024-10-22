@@ -2,7 +2,9 @@
 /datum/action/cooldown/spell/cult
 	panel = "Cult"
 	overlay_icon_state = "cult"
+	button_icon = 'monkestation/code/modules/bloody_cult/icons/spells.dmi'
 	spell_requirements = NONE
+	var/pointed = FALSE
 
 /datum/action/cooldown/spell/cult/is_valid_target(atom/cast_on)
 	. = ..()

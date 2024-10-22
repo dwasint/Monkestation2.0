@@ -2513,7 +2513,7 @@ var/list/seer_rituals = list()
 
 	talisman_absorb = RUNE_CAN_ATTUNE//once the network has been set, talismans will attune instead of imbue
 
-/datum/rune_spell/portalentrance/midcast(var/mob/add_cultist)
+/datum/rune_spell/portalentrance/midcast(var/mob/add_cultist, turf/cast_from)
 	if (istype(spell_holder, /obj/item/weapon/talisman))
 		invoke(add_cultist,invocation,1)
 	else
@@ -2532,6 +2532,8 @@ var/list/seer_rituals = list()
 	var/datum/antagonist/cult/C = add_cultist.mind.has_antag_datum(/datum/antagonist/cult)
 
 	var/turf/T = get_turf(spell_holder)
+	if(cast_from)
+		T = cast_from
 	var/obj/effect/abstract/landing_animation = anim(target = T, a_icon = 'monkestation/code/modules/bloody_cult/icons/effects.dmi', flick_anim = "cult_jaunt_prepare", plane = GAME_PLANE_UPPER)
 	playsound(T, 'monkestation/code/modules/bloody_cult/sound/cultjaunt_prepare.ogg', 75, 0, -3)
 	spawn(10)
@@ -2541,7 +2543,7 @@ var/list/seer_rituals = list()
 		flick("cult_jaunt_land",landing_animation)
 
 /datum/rune_spell/portalentrance/midcast_talisman(var/mob/add_cultist)
-	midcast(add_cultist)
+	midcast(add_cultist, get_turf(add_cultist))
 
 /datum/rune_spell/portalentrance/salt_act(var/turf/T)
 	var/turf/destination = null

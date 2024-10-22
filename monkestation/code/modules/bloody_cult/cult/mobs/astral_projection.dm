@@ -157,7 +157,7 @@ GLOBAL_LIST_INIT(astral_projections, list())
 		anchor.examine(user)//examining the astral projection alone won't be enough to see through it, although the user might want to make sure they cannot be identified first.
 
 //no pulling stuff around
-/mob/living/basic/astral_projection/start_pulling(var/atom/movable/AM)
+/mob/living/basic/astral_projection/start_pulling(atom/movable/AM, 	state, force = pull_force, supress_message = FALSE)
 	return
 
 

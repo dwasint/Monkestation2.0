@@ -102,6 +102,16 @@
 #define RITUAL_FACTION_2	"second_ritual"
 #define RITUAL_FACTION_3	"third_ritual"
 
+#define HEX_MODE_ROAMING 0
+#define HEX_MODE_GUARD	 1
+#define HEX_MODE_ESCORT	 2
+
+#define HOSTILE_STANCE_IDLE 1
+#define HOSTILE_STANCE_ALERT 2
+#define HOSTILE_STANCE_ATTACK 3
+#define HOSTILE_STANCE_ATTACKING 4
+#define HOSTILE_STANCE_TIRED 5
+
 //Particles system defines
 #define PS_STEAM			"Steam"
 #define PS_SMOKE			"Smoke"
@@ -166,3 +176,8 @@ GLOBAL_LIST_INIT(particle_string_to_type, list(
 
 #define isholyweapon(I) (istype(I, /obj/item/book/bible)\
 						 || istype(I, /obj/item/nullrod))
+
+#define REVERT_ON_CONTROLLER_DAMAGED 1
+#define LOCK_EYE_TO_CONTROLLED 2
+#define LOCK_MOVEMENT_OF_CONTROLLER 4
+#define REQUIRES_CONTROL 8
