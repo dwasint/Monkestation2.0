@@ -15,7 +15,7 @@
 	ranged = 1
 	retreat_distance = 4
 	minimum_distance = 4
-	//projectilesound = 'sound/effects/forge.ogg'
+	projectilesound = 'monkestation/code/modules/bloody_cult/sound/forge.ogg'
 	projectiletype = /obj/projectile/bloodslash
 	move_to_delay = 1
 	harm_intent_damage = 10
