@@ -461,16 +461,13 @@
 	cult.cult_reminders += text
 	for(var/datum/mind/M in cult.members)
 		if (IS_CULTIST(M.current))//failsafe for cultist brains put in MMIs
-			to_chat(M.current, "<span class='game say'><b>[user.real_name]</b>'s voice echoes in your head, <B><span class='sinisterbig'>[reminder]</span></span>")
-			to_chat(M.current, "<span class='notice'>This message will be remembered by all current cultists, and by new converts as well.</span>")
-			//M.store_memory("Cult reminder: [text].")
+			to_chat(M.current, span_cult("<b>[user.real_name]</b>'s voice echoes in your head,[span_cultbold(reminder)]"))
 
 	for(var/mob/living/basic/astral_projection/A in GLOB.astral_projections)
-		to_chat(A, "<span class='game say'><b>[user.real_name]</b> communicates, <span class='sinisterbig'>[reminder]</span></span>. (Cult reminder)")
-		to_chat(A, "<span class='notice'>This message will be remembered by all current cultists, and by new converts as well.</span>")
+		to_chat(A, span_cult("<b>[user.real_name]</b>'s voice echoes in your head,[span_cultbold(reminder)]"))
 
 	for(var/mob/dead/observer/O in GLOB.player_list)
-		to_chat(O, "<span class='game say'><b>[user.real_name]</b> communicates, <span class='sinisterbig'>[reminder]</span></span>. (Cult reminder)")
+		to_chat(O, span_cult("<b>[user.real_name]</b>'s voice echoes in your head,[span_cultbold(reminder)]"))
 
 	//log_cultspeak("[key_name(user)] Cult reminder: [reminder]")
 
@@ -483,13 +480,13 @@
 	var/datum/team/cult = team.cult_team
 	for (var/datum/mind/M in cult.members)
 		if (IS_CULTIST(M.current))//failsafe for cultist brains put in MMIs
-			to_chat(M.current, "<span class='game say'><b>[activator.real_name]</b>'s voice echoes in your head, <B><span class='sinisterbig'>[message]</span></B></span>")
+			to_chat(M.current, span_cult("<b>[activator.real_name]</b>'s voice echoes in your head,[span_cultbold(message)]"))
 
 	for(var/mob/living/basic/astral_projection/A in GLOB.astral_projections)
-		to_chat(A, "<span class='game say'><b>[activator.real_name]</b> communicates, <span class='sinisterbig'>[message]</span></span>")
+		to_chat(A, span_cult("<b>[activator.real_name]</b>'s voice echoes in your head,[span_cultbold(message)]"))
 
 	for(var/mob/dead/observer/O in GLOB.player_list)
-		to_chat(O, "<span class='game say'><b>[activator.real_name]</b> communicates, <span class='sinisterbig'>[message]</span></span>")
+		to_chat(O, span_cult("<b>[activator.real_name]</b>'s voice echoes in your head,[span_cultbold(message)]"))
 
 	//log_cultspeak("[key_name(activator)] Cult Communicate Talisman: [message]")
 
@@ -2215,7 +2212,7 @@ var/list/seer_rituals = list()
 	word2 = /datum/rune_word/technology
 	word3 = /datum/rune_word/other
 	page = "For a 20u blood cost, this rune immediately buffs all cultists in a 7 tile range by immediately removing any stuns, oxygen loss damage, holy water, and various other bad conditions.\
-		<br><br>Additionally, it injects them with 1u of hyperzine, negating slowdown from low health or clothing. This makes it a very potent rune in a fight, especially as a follow up to a flash bang, or prior to a fight. Best used as a talisman. "
+		<br><br>Additionally, it injects them with 3u of determination, negating slowdown from low health or clothing. This makes it a very potent rune in a fight, especially as a follow up to a flash bang, or prior to a fight. Best used as a talisman. "
 	cost_invoke = 20
 	var/effect_range = 7
 
@@ -2241,6 +2238,7 @@ var/list/seer_rituals = list()
 				L.SetStun(0)
 				L.SetKnockdown(0)
 				L.bodytemperature = L.standard_body_temperature
+				L.reagents?.add_reagent(/datum/reagent/determination, 3)
 
 				L.stat = CONSCIOUS
 				if (L.reagents)

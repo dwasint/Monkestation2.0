@@ -12,7 +12,7 @@ GLOBAL_LIST_INIT(bloodcult_faction_rituals, list(
 	/datum/bloodcult_ritual/blind_cameras_multi,
 	/datum/bloodcult_ritual/bloodspill,
 	/datum/bloodcult_ritual/sacrifice_captain,
-	/datum/bloodcult_ritual/cursed_infection,
+	//datum/bloodcult_ritual/cursed_infection,
 	))
 
 GLOBAL_LIST_INIT(bloodcult_personal_rituals, list(
@@ -249,7 +249,7 @@ GLOBAL_LIST_INIT(bloodcult_personal_rituals, list(
 
 /datum/bloodcult_ritual/sacrifice_captain
 	name = "Sacrifice Captain"
-	desc = "a simian...<br>an altar...<br>and a proper blade..."
+	desc = "a captain...<br>an altar...<br>and a proper blade..."
 
 	only_once = TRUE
 	ritual_type = "sacrifice"
@@ -271,6 +271,7 @@ GLOBAL_LIST_INIT(bloodcult_personal_rituals, list(
 		return TRUE
 	return FALSE
 
+/*
 ////////////////////////INFECTION/////////////////////////////
 
 /datum/bloodcult_ritual/cursed_infection
@@ -303,7 +304,7 @@ GLOBAL_LIST_INIT(bloodcult_personal_rituals, list(
 	if(infected_targets.len >= targets)
 		return TRUE
 	return FALSE
-
+*/
 
 ////////////////////////////////////////////////////////////////////
 //																  //
@@ -482,7 +483,7 @@ GLOBAL_LIST_INIT(bloodcult_personal_rituals, list(
 		valid = FALSE
 
 	var/found_runes = 0
-	for (var/obj/effect/rune/R in range(1, altar))
+	for (var/obj/effect/new_rune/R in range(1, altar))
 		found_runes++
 	if (found_runes < required_runes)
 		to_chat(user, "<span class='sinister'>Need more runes...</span>")

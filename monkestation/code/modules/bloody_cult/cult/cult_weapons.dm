@@ -55,7 +55,7 @@ var/list/arcane_tomes = list()
 
 /obj/item/weapon/tome/proc/tome_text()
 	var/page_data = null
-	var/dat = {"<title>arcane tome</title><body style="color:#FFFFFF" bgcolor="#110000">
+	var/dat = {"<title>arcane tome</title><body style="color:#5C1D12" background="tomebg.png">
 
 			<style>
 				label {display: inline-block; width: 50px;text-align: right;float: left;margin: 0 0 0 10px;}
@@ -1173,6 +1173,9 @@ var/list/arcane_tomes = list()
 	name = "tempting goblet"
 	desc = "An obsidian cup in the shape of a skull. Used by the followers of Nar-Sie to collect the blood of their sacrifices."
 	icon_state = "cult"
+
+	fill_icon = 'monkestation/code/modules/bloody_cult/icons/reagentfillings.dmi'
+	fill_icon_state = "cult"
 	amount_per_transfer_from_this = 10
 	volume = 60
 	force = 5
@@ -1187,24 +1190,9 @@ var/list/arcane_tomes = list()
 			to_chat(user, "<span class='info'>Drinking blood from this cup will always safely replenish your own vessels, regardless of blood types. The opposite is true to non-cultists. Throwing this cup at them may force them to swallow some of its content if their face isn't covered.</span>")
 
 
-/obj/item/reagent_containers/cup/cult/update_icon()
-	..()
-	if (reagents.reagent_list.len > 0)
-		var/image/filling = image('monkestation/code/modules/bloody_cult/icons/reagentfillings.dmi', src, "cult")
-		filling.icon += mix_color_from_reagents(reagents.reagent_list)
-		overlays += filling
-
 /obj/item/reagent_containers/cup/cult/gamer
 	name = "gamer goblet"
 	desc = "A plastic cup in the shape of a skull. Typically full of Geometer-Fuel."
-
-/obj/item/reagent_containers/cup/cult/gamer/on_reagent_change()
-	..()
-	overlays.len = 0
-	if (reagents.reagent_list.len > 0)
-		var/image/filling = image('monkestation/code/modules/bloody_cult/icons/reagentfillings.dmi', src, "cult")
-		filling.icon += mix_color_from_reagents(reagents.reagent_list)
-		overlays += filling
 
 /obj/item/reagent_containers/cup/cult/narsie_act()
 	return

@@ -20,7 +20,7 @@
 			newangle += 360
 	var/matrix/M1 = matrix()
 	var/matrix/M2 = turn(M1.Scale(1,sqrt(distx*distx+disty*disty)),newangle)
-	return anim(target = C, a_icon = 'icons/effects/96x96.dmi', flick_anim = sprite, offX = -32, offY = -32, plane = ABOVE_LIGHTING_PLANE, trans = M2)
+	return anim(target = C, a_icon = 'monkestation/code/modules/bloody_cult/icons/96x96.dmi', flick_anim = sprite, offX = -32, offY = -32, plane = ABOVE_LIGHTING_PLANE, trans = M2)
 
 
 ///////////////////////////////////////CULT RITUALS////////////////////////////////////////////////
@@ -28,6 +28,7 @@
 
 /obj/effect/cult_ritual
 	icon_state = ""
+	icon = 'monkestation/code/modules/bloody_cult/icons/effects.dmi'
 	anchored = 1
 
 /obj/effect/cult_ritual/get_cult_power()
