@@ -183,3 +183,5 @@ GLOBAL_LIST_INIT(particle_string_to_type, list(
 #define REQUIRES_CONTROL 8
 
 #define TRAIT_SEER "seer_trait"
+
+#define MODE_CULT "cult"

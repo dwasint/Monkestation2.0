@@ -827,7 +827,7 @@
 //      CULT SPIRE       //Enables rune-less cult comms for cultists on their current Z-Level
 //                       //
 ///////////////////////////
-var/list/cult_spires = list()
+GLOBAL_LIST_INIT(cult_spires, list())
 
 /obj/structure/cult/spire
 	name = "spire"
@@ -843,7 +843,7 @@ var/list/cult_spires = list()
 
 /obj/structure/cult/spire/New()
 	..()
-	cult_spires += src
+	GLOB.cult_spires += src
 	set_light(1)
 
 	var/datum/team/cult/cult = locate_team(/datum/team/cult)
@@ -860,7 +860,7 @@ var/list/cult_spires = list()
 		update_stage()
 
 /obj/structure/cult/spire/Destroy()
-	cult_spires -= src
+	GLOB.cult_spires -= src
 	..()
 
 /obj/structure/cult/spire/proc/upgrade(var/new_stage)
@@ -1004,6 +1004,63 @@ var/list/cult_spires = list()
 				cultist_act(user)
 			break
 	*/
+
+
+/datum/saymode/cult
+	key = "x"
+	mode = MODE_CULT
+
+/datum/saymode/cult/handle_message(mob/living/user, message, datum/language/language)
+	//we can send the message
+	if(!length(GLOB.cult_spires))
+		return FALSE
+	var/located_z = FALSE
+	for(var/obj/structure/cult/spire/spire as anything in GLOB.cult_spires)
+		if(spire.z == user.z)
+			located_z = TRUE
+			break
+
+	if(!located_z)
+		return FALSE
+	if(!user.mind)
+		return FALSE
+	if(user.occult_muted())
+		return
+	if(!user.mind.has_antag_datum(/datum/antagonist/cult) || !istype(user, /mob/living/basic/shade) || !istype(user, /mob/living/basic/astral_projection))
+		return
+
+	if(istype(user, /mob/living/basic/construct))
+		var/mob/living/basic/construct/construct = user
+		if(construct.theme != THEME_CULT)
+			return
+
+
+	user.log_talk(message, LOG_SAY, tag="cult member [user.name]")
+	var/msg = span_cult("<b>[user.name]:</b> [message]")
+
+	//the recipients can recieve the message
+	var/datum/team/cult/cult_team = locate_team(/datum/team/cult)
+	for(var/datum/mind/mind in cult_team.members)
+		if(QDELETED(mind))
+			continue
+		var/mob/living/cult_member = mind.current
+		// can't recieve messages on the hivemind right now
+		if(cult_member.occult_muted())
+			continue
+
+		var/found_z = FALSE
+		for(var/obj/structure/cult/spire/spire as anything in GLOB.cult_spires)
+			if(spire.z == user.z)
+				found_z = TRUE
+				break
+		if(!found_z)
+			continue
+
+		to_chat(cult_member, msg)
+
+	for(var/mob/dead/ghost as anything in GLOB.dead_mob_list)
+		to_chat(ghost, "[FOLLOW_LINK(ghost, user)] [msg]")
+	return FALSE
 
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 //                       //Spawned from the Raise Structure rune
