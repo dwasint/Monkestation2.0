@@ -1214,7 +1214,14 @@ var/list/cult_spires = list()
 		list("Forge Armor", "radial_armor", "This protective armor offers the same enhancing powers that Cult Robes provide, on top of being space proof."),
 	)
 
-	var/task = show_radial_menu(user,loc,choices,'monkestation/code/modules/bloody_cult/icons/cult_radial.dmi',"radial-cult")//spawning on loc so we aren't offset by pixel_x/pixel_y, or affected by animate()
+	var/list/made_choices = list()
+	for(var/list/choice in choices)
+		var/datum/radial_menu_choice/option = new
+		option.image = image(icon = 'monkestation/code/modules/bloody_cult/icons/cult_radial3.dmi', icon_state = choice[2])
+		option.info = span_boldnotice(choice[3])
+		made_choices[choice[1]] = option
+
+	var/task = show_radial_menu(user,loc, made_choices, tooltips = TRUE, radial_icon = 'monkestation/code/modules/bloody_cult/icons/cult_radial3.dmi')//spawning on loc so we aren't offset by pixel_x/pixel_y, or affected by animate()
 	if (template || !Adjacent(user) || !task )
 		return
 	forge_icon = ""

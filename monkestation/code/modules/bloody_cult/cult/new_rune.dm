@@ -42,6 +42,12 @@ var/list/rune_appearances_cache = list()
 /obj/effect/new_rune/New()
 	..()
 	blood_image = image(src)
+	var/static/list/loc_connections = list(
+		COMSIG_ATOM_ENTERED = PROC_REF(on_entered),
+		COMSIG_ATOM_EXITED = PROC_REF(on_exited)
+	)
+
+	AddElement(/datum/element/connect_loc, loc_connections)
 
 	//AI cannot see runes, instead they see blood splatters.
 	for(var/mob/living/silicon/ai/AI in GLOB.player_list)
@@ -289,16 +295,14 @@ var/list/rune_appearances_cache = list()
 			animate(src)
 
 
-/obj/effect/new_rune/Entered(atom/movable/mover, atom/old_loc, list/atom/old_locs)
-	. = ..()
+/obj/effect/new_rune/proc/on_entered(turf/entered_turf, atom/movable/mover)
 	if (ismob(mover))
 		var/mob/user = mover
 		var/datum/rune_spell/rune_effect = get_rune_spell(user, src, "walk" , word1, word2, word3)
 		if (rune_effect)
 			rune_effect.Added(mover)
 
-/obj/effect/new_rune/Exited(atom/movable/mover, direction)
-	. = ..()
+/obj/effect/new_rune/proc/on_exited(turf/entered_turf, atom/movable/mover)
 	if (active_spell && ismob(mover))
 		active_spell.Removed(mover)
 

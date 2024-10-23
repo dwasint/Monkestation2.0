@@ -181,3 +181,5 @@ GLOBAL_LIST_INIT(particle_string_to_type, list(
 #define LOCK_EYE_TO_CONTROLLED 2
 #define LOCK_MOVEMENT_OF_CONTROLLER 4
 #define REQUIRES_CONTROL 8
+
+#define TRAIT_SEER "seer_trait"

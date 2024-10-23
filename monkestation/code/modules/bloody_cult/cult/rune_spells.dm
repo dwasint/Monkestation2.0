@@ -14,7 +14,7 @@
 					return instance
 				if ("walk")
 					if (initial(instance.walk_effect))
-						return new subtype(user, spell_holder, use)
+						return new subtype(user, spell_holder, use) //idk man
 					else
 						return null
 				if ("imbue")
@@ -294,7 +294,15 @@
 		list("Forge", "radial_forge", "Can be used to forge of cult blades and armor, as well as construct shells. Standing close for too long without proper cult attire can be a searing experience."),
 		list("Pylon", "radial_pylon", "Provides some light in the surrounding area.")
 	)
-	structure = show_radial_menu(user,R.loc,choices,'monkestation/code/modules/bloody_cult/icons/cult_radial3.dmi',"radial-cult")
+
+	var/list/made_choices = list()
+	for(var/list/choice in choices)
+		var/datum/radial_menu_choice/option = new
+		option.image = image(icon = 'monkestation/code/modules/bloody_cult/icons/cult_radial3.dmi', icon_state = choice[2])
+		option.info = span_boldnotice(choice[3])
+		made_choices[choice[1]] = option
+
+	structure = show_radial_menu(user,R.loc,made_choices ,tooltips = TRUE, radial_icon = 'monkestation/code/modules/bloody_cult/icons/cult_radial3.dmi')
 
 	if(!R.Adjacent(user) || !structure )
 		abort()
@@ -628,14 +636,20 @@
 			to_chat(activator, "<span class='warning'>You may only transfer an imbued or attuned talisman.</span>")
 			qdel(src)
 	else
-		var/choices = list(
+		var/list/choices = list(
 			list("Talisman", "radial_paraphernalia_talisman", "Can absorb runes (or attune to them in some cases), allowing you to carry their power in your pocket. Has a few other miscellaneous uses."),
 			list("Blood Candle", "radial_paraphernalia_candle", "A candle that can burn up to a full hour. Offers moody lighting."),
 			list("Tempting Goblet", "radial_paraphernalia_goblet", "A classy holder for your beverage of choice. Prank your enemies by hitting them with a goblet full of blood."),
 			list("Ritual Knife", "radial_paraphernalia_knife", "A long time ago a wizard enchanted one of those to infiltrate the realm of Nar-Sie and steal some soul stone shards. Now it's just a cool knife. Don't rely on it in a fight though."),
 			list("Arcane Tome", "radial_paraphernalia_tome", "Bring forth an arcane tome filled with Nar-Sie's knowledge. Contains a wealth of information regarding each runes, along with many other aspects of the cult."),
 			)
-		var/task = show_radial_menu(activator,get_turf(spell_holder),choices,'monkestation/code/modules/bloody_cult/icons/cult_radial3.dmi',"radial-cult2")
+		var/list/made_choices = list()
+		for(var/list/choice in choices)
+			var/datum/radial_menu_choice/option = new
+			option.image = image(icon = 'monkestation/code/modules/bloody_cult/icons/cult_radial3.dmi', icon_state = choice[2])
+			option.info = span_boldnotice(choice[3])
+			made_choices[choice[1]] = option
+		var/task = show_radial_menu(activator,get_turf(spell_holder),made_choices, tooltips = TRUE, radial_icon = 'monkestation/code/modules/bloody_cult/icons/cult_radial3.dmi')
 		if (!spell_holder.Adjacent(activator) || !task || QDELETED(src))
 			qdel(src)
 			return
@@ -840,14 +854,12 @@ var/list/converted_minds = list()
 	if (isalien(victim))
 		victim.Paralyze(5)
 	victim.overlay_fullscreen("conversionborder", /atom/movable/screen/fullscreen/conversion_border)
-	victim.overlay_fullscreen("conversionred", /atom/movable/screen/fullscreen/conversion_red)
-	//victim.update_fullscreen_alpha("conversionred", 255, 5)
-	//victim.update_fullscreen_alpha("conversionborder", 255, 5)
+	victim.update_fullscreen_alpha("conversionborder", 255, 5)
 	conversion = new(T)
 	flick("rune_convert_start",conversion)
 	for(var/mob/living/M in dview(world.view, T, INVISIBILITY_MAXIMUM))
 		if (M.client)
-			M.playsound_local(T, 'monkestation/code/modules/bloody_cult/sound/convert_start.ogg', 75, 0, -4)
+			M.playsound_local(T, 'monkestation/code/modules/bloody_cult/sound/convert_start.ogg', 50, 0, -4)
 
 
 	if (!cult.CanConvert())
@@ -874,7 +886,6 @@ var/list/converted_minds = list()
 				return
 			//first let's make sure they're on the rune
 			if (victim.loc != T)//Removed() should take care of it, but just in case
-				victim.clear_fullscreen("conversionred", 10)
 				victim.clear_fullscreen("conversionborder", 10)
 				for(var/mob/living/M in dview(world.view, T, INVISIBILITY_MAXIMUM))
 					if (M.client)
@@ -888,7 +899,6 @@ var/list/converted_minds = list()
 			if (!spell_holder.Adjacent(activator))
 				cancelling--
 				if (cancelling <= 0)
-					victim.clear_fullscreen("conversionred", 10)
 					victim.clear_fullscreen("conversionborder", 10)
 					for(var/mob/living/M in dview(world.view, T, INVISIBILITY_MAXIMUM))
 						if (M.client)
@@ -923,7 +933,6 @@ var/list/converted_minds = list()
 					progress = clamp(progress,1,10)
 				remaining -= progress
 				update_progbar()
-				//victim.update_fullscreen_alpha("conversionred", 164-remaining, 8)
 
 				//spawning some messages
 				var/threshold = min(100,round((100-remaining), 10))
@@ -1028,7 +1037,6 @@ var/list/converted_minds = list()
 			return
 
 		if (victim.loc != T)//Removed() should take care of it, but just in case
-			victim.clear_fullscreen("conversionred", 10)
 			victim.clear_fullscreen("conversionborder", 10)
 			for(var/mob/living/M in dview(world.view, T, INVISIBILITY_MAXIMUM))
 				if (M.client)
@@ -1047,7 +1055,6 @@ var/list/converted_minds = list()
 			if (CONVERSION_ACCEPT)
 				conversion.layer = BELOW_OBJ_LAYER
 				conversion.plane = GAME_PLANE_UPPER
-				victim.clear_fullscreen("conversionred", 10)
 				victim.clear_fullscreen("conversionborder", 10)
 				for(var/mob/living/M in dview(world.view, T, INVISIBILITY_MAXIMUM))
 					if (M.client)
@@ -1176,7 +1183,6 @@ var/list/converted_minds = list()
 
 /datum/rune_spell/conversion/abort(var/cause)
 	if (victim)
-		victim.clear_fullscreen("conversionred", 10)
 		victim.clear_fullscreen("conversionborder", 10)
 		victim = null
 	..()
@@ -1392,7 +1398,7 @@ var/list/confusion_victims = list()
 	var/list/hallucinated_turfs = list()
 	if (!specific_victim)
 		playsound(T, 'monkestation/code/modules/bloody_cult/sound/confusion_start.ogg', 75, 0, 0)
-	for(var/turf/U in range(T,radius))
+	for(var/turf/U in range(radius, T))
 		if (istype(U,/area/station/service/chapel))//the chapel is protected against such illusions, the mobs in it will still be affected however.
 			continue
 		var/dist = cheap_pythag(U.x - T.x, U.y - T.y)
@@ -1521,6 +1527,18 @@ var/list/confusion_victims = list()
 	victim.update_fullscreen_alpha("blindblack", 0, 10)
 	victim.update_fullscreen_alpha("blindblind", 0, 80)
 	victim.update_fullscreen_alpha("blindborder", 150, 5)
+
+	if (victim.client)
+		var/static/list/hallucination_mobs = list("faithless","forgotten","otherthing")
+		victim.client.images.Remove(my_hallucinated_stuff)//removing images caused by every blind rune used consecutively on that mob
+		my_hallucinated_stuff = hallucinated_turfs.Copy()
+		for(var/mob/living/L in range(T,25))//All mobs in a large radius will look like monsters to the victims.
+			if (L == victim)
+				continue//the victims still see themselves as humans (or whatever they are)
+			var/image/override_overlay = image(icon = 'monkestation/code/modules/bloody_cult/icons/animal.dmi', loc = L, icon_state = pick(hallucination_mobs))
+			override_overlay.override = TRUE
+			my_hallucinated_stuff.Add(override_overlay)
+		victim.client.images.Add(my_hallucinated_stuff)
 
 	sleep(duration-5)
 
@@ -1687,6 +1705,34 @@ var/list/confusion_victims = list()
 //																  //
 ////////////////////////////////////////////////////////////////////
 
+///this is hell and should be replaced.
+/image/reveal
+	var/client/owner_client
+
+/image/reveal/proc/set_client(mob/user)
+	owner_client = user.client
+	RegisterSignal(owner_client.mob, COMSIG_MOVABLE_PRE_MOVE, PROC_REF(offset_image))
+
+/image/reveal/Destroy(force)
+	. = ..()
+	UnregisterSignal(owner_client.mob, COMSIG_MOVABLE_PRE_MOVE)
+	owner_client.images -= src
+
+/image/reveal/proc/offset_image(atom/mover, turf/new_loc)
+	if(new_loc.density)
+		return // this is sanity checking incase running into wall
+	var/direction = get_dir(mover, new_loc)
+
+	switch(direction)
+		if(NORTH)
+			pixel_y -= 32
+		if(SOUTH)
+			pixel_y += 32
+		if(EAST)
+			pixel_x -= 32
+		if(WEST)
+			pixel_x += 32
+
 /datum/rune_spell/reveal
 	name = "Reveal"
 	desc = "Reveal what you have previously hidden, terrifying enemies in the process."
@@ -1777,35 +1823,39 @@ var/list/confusion_victims = list()
 		var/list/seers = list()
 		for (var/mob/living/seer in range(7, get_turf(spell_holder)))
 			if (IS_CULTIST(seer) && seer.client)
-				var/image/image_intruder = image(L, loc = seer, dir = L.dir)
-				var/delta_x = (L.x - seer.x)
-				var/delta_y = (L.y - seer.y)
-				image_intruder.pixel_x = delta_x*32
-				image_intruder.pixel_y = delta_y*32
-				image_intruder.plane = ABOVE_LIGHTING_PLANE
 				seers += seer
-				seer.client.images += image_intruder // see the mover for a set period of time
-				spawn(3)
-					seer.client.images -= image_intruder // see the mover for a set period of time
-					qdel(image_intruder)
-		var/count = 10 SECONDS
-		do
-			for (var/mob/living/seer in seers)
-				if (QDELETED(seer))
-					seers -= seer
-					continue
-				var/image/image_intruder = image(L, loc = seer, dir = L.dir)
-				var/delta_x = (L.x - seer.x)
-				var/delta_y = (L.y - seer.y)
-				image_intruder.pixel_x = delta_x*32
-				image_intruder.plane = ABOVE_LIGHTING_PLANE
-				image_intruder.pixel_y = delta_y*32
-				seer.client.images += image_intruder // see the mover for a set period of time
-				spawn(3)
-					seer.client.images -= image_intruder // see the mover for a set period of time
-					qdel(image_intruder)
-			count--
-		while (count && seers.len)
+
+		cast_image(mover, seers, 10)
+
+/datum/rune_spell/reveal/proc/cast_image(mob/mover, list/seers, count)
+	if(count == 0)
+		return
+	var/mob/living/L = mover
+	for (var/mob/living/seer in seers)
+		if (QDELETED(seer))
+			seers -= seer
+			continue
+		var/image/reveal/image_intruder = new
+		image_intruder.appearance = L
+		image_intruder.loc = seer
+		image_intruder.dir = L.dir
+		var/delta_x = (L.x - seer.x)
+		var/delta_y = (L.y - seer.y)
+
+		image_intruder.set_client(seer)
+
+		image_intruder.pixel_x = delta_x*32
+		image_intruder.plane = ABOVE_LIGHTING_PLANE
+		image_intruder.pixel_y = delta_y*32
+		image_intruder.alpha = 200
+		image_intruder.color = COLOR_BLOOD
+
+		animate(image_intruder, alpha = 0, time = 3)
+		seer.client.images += image_intruder // see the mover for a set period of time
+		QDEL_IN(image_intruder, 4)
+
+	count--
+	addtimer(CALLBACK(src, PROC_REF(cast_image), mover, seers, count), 1 SECONDS)
 
 /datum/rune_spell/reveal/cast_talisman()
 	shock_per_obj = 1.5
@@ -1868,6 +1918,24 @@ var/list/confusion_victims = list()
 //								SEER							  //
 //																  //
 ////////////////////////////////////////////////////////////////////
+
+/datum/hover_data/convertability_data/setup_data(mob/living/carbon/source, mob/enterer)
+	. = ..()
+	if(IS_CULTIST(source))
+		return
+
+	var/image/new_image = new(source)
+	new_image.appearance = source.update_convertibility()
+	SET_PLANE_EXPLICIT(new_image, new_image.plane, source)
+	if(!isturf(source.loc))
+		new_image.loc = source.loc
+	else
+		new_image.loc = source
+	add_client_image(new_image, enterer.client)
+
+/mob/living/carbon/Initialize(mapload)
+	. = ..()
+	AddComponent(/datum/component/hovering_information, /datum/hover_data/convertability_data, TRAIT_SEER)
 
 /datum/rune_spell/seer
 	name = "Seer"
@@ -1941,6 +2009,7 @@ var/list/seer_rituals = list()
 
 /obj/effect/cult_ritual/seer/New(var/turf/loc, var/mob/living/user, var/datum/rune_spell/seer/runespell,var/talisman_ritual = FALSE,var/talisman_duration = 60 SECONDS)
 	..()
+	ADD_TRAIT(user, TRAIT_SEER, REF(src))
 	seer_rituals.Add(src)
 	START_PROCESSING(SSobj, src)
 	talisman = talisman_ritual
@@ -1951,7 +2020,6 @@ var/list/seer_rituals = list()
 			source.abort(RITUALABORT_GONE)
 		qdel(src)
 		return
-	//caster.apply_hud(new /datum/visioneffect/cult_conversion)
 	to_chat(caster, "<span class='notice'>You find yourself able to see through the gaps in the veil. You can see and interact with the other side, and also find out the crew's propensity to be successfully converted, whether they are <b><font color='green'>Willing</font></b>, <b><font color='orange'>Uncertain</font></b>, or <b><font color='red'>Unconvertible</font></b>.</span>")
 	if (talisman)
 		spawn(talisman_duration)
@@ -1960,8 +2028,8 @@ var/list/seer_rituals = list()
 
 /obj/effect/cult_ritual/seer/Destroy()
 	seer_rituals.Remove(src)
+	REMOVE_TRAIT(caster, TRAIT_SEER, REF(src))
 	STOP_PROCESSING(SSobj, src)
-	//caster.remove_hud_by_type(/datum/visioneffect/cult_conversion)
 	to_chat(caster, "<span class='notice'>You can no longer discern through the veil.</span>")
 	caster = null
 	if (source)
@@ -2059,11 +2127,13 @@ var/list/seer_rituals = list()
 	for(var/slot in slots_to_store)
 		var/obj/item/user_slot = target.get_item_by_slot(slot)
 		if (user_slot)
-			BT.stored_gear[slot] = user_slot
+			BT.stored_gear |= "[slot]"
+			BT.stored_gear["[slot]"] = user_slot
+
 	//looping again in case the suit had a stored item
 	for(var/slot in BT.stored_gear)
 		var/obj/item/user_slot = BT.stored_gear[slot]
-		BT.stored_gear[slot] = user_slot
+		BT.stored_gear["[slot]"] = user_slot
 		target.dropItemToGround(user_slot)
 		user_slot.forceMove(BT)
 
@@ -2078,8 +2148,8 @@ var/list/seer_rituals = list()
 	var/obj/item/storage/backpack/cultpack/new_pack = new (target)
 	if ((ITEM_SLOT_BACK in BT.stored_gear))
 		var/obj/item/stored_slot = BT.stored_gear[ITEM_SLOT_BACK]
-		if (istype (stored_slot,/obj/item/storage/backpack))
-			for(var/obj/item/I in stored_slot)
+		if (istype (stored_slot, /obj/item/storage/backpack))
+			for(var/obj/item/I in stored_slot.contents)
 				I.forceMove(new_pack)
 	target.equip_to_slot_if_possible(new_pack, ITEM_SLOT_BACK)
 
@@ -2710,7 +2780,7 @@ var/list/bloodcult_exitportals = list()
 	invoke(activator,invocation,1)
 	playsound(T, 'sound/items/Welder2.ogg', 25, 0, -5)
 	playsound(T, 'monkestation/code/modules/bloody_cult/sound/bloodboil.ogg', 25, 0, -5)
-	var/obj/effect/abstract/animation = anim(target = T,a_icon = 'monkestation/code/modules/bloody_cult/icons/cult.dmi', flick_anim = "rune_pulse",sleeptime = 15)
+	var/obj/effect/abstract/animation = anim(target = T,a_icon = 'monkestation/code/modules/bloody_cult/icons/cult.dmi', flick_anim = "rune_pulse",sleeptime = 15, plane = GAME_PLANE_UPPER, lay = MOB_UPPER_LAYER)
 	animation.add_particles(PS_CULT_SMOKE_BOX)
 	spawn(6)
 		animation.adjust_particles(PVAR_SPAWNING,0,PS_CULT_SMOKE_BOX)
@@ -2756,10 +2826,10 @@ var/list/bloodcult_exitportals = list()
 					if((dist <= round(heavy_range + world.view - 2, 1)) && (M_turf.z - epicenter.z <= max_range) && (epicenter.z - M_turf.z <= max_range))
 						M.playsound_local(epicenter, 'monkestation/code/modules/bloody_cult/sound/bloodboil.ogg', 25, 0)
 
-		for(var/turf/T in spiral_range(epicenter,max_range))
+		for(var/turf/T in spiral_range(max_range, epicenter))
 			CHECK_TICK
 			spawn(get_dist(T,epicenter))
-				var/obj/effect/abstract/animation = anim(target = T,a_icon = 'monkestation/code/modules/bloody_cult/icons/cult.dmi', flick_anim = "rune_pulse",sleeptime = 15)
+				var/obj/effect/abstract/animation = anim(target = T,a_icon = 'monkestation/code/modules/bloody_cult/icons/cult.dmi', flick_anim = "rune_pulse",sleeptime = 15, plane = GAME_PLANE_UPPER, lay = MOB_UPPER_LAYER)
 				animation.add_particles(PS_CULT_SMOKE_BOX)
 				sleep(6)
 				animation.adjust_particles(PVAR_SPAWNING,0,PS_CULT_SMOKE_BOX)

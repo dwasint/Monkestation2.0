@@ -290,12 +290,21 @@ var/list/arcane_tomes = list()
 			choice_to_talisman["Blank Talisman[blanks ? " #[blanks+1]" : ""]"] = T
 			blanks++
 
+
+	var/list/made_choices = list()
+	for(var/list/choice in choices)
+		var/datum/radial_menu_choice/option = new
+		option.image = image(choice[2])
+		option.info = span_boldnotice(choice[3])
+		made_choices[choice[1]] = option
+
 	if (state == TOME_CLOSED)
 		icon_state = "tome-open"
 		flick("tome-flickopen",src)
 		playsound(user, "pageturn", 50, 1, -5)
 		state = TOME_OPEN
-	var/choice = show_radial_menu(user,loc,choices,'monkestation/code/modules/bloody_cult/icons/cult_radial3.dmi', "radial-cult2")
+
+	var/choice = show_radial_menu(user,loc,made_choices, tooltips = TRUE, radial_icon = 'monkestation/code/modules/bloody_cult/icons/cult_radial3.dmi')
 	if(!choice)
 		return
 	var/obj/item/weapon/talisman/chosen_talisman = choice_to_talisman[choice]
@@ -714,7 +723,14 @@ var/list/arcane_tomes = list()
 			list("Remove Gem", "radial_removegem", "Remove the soul gem from \the [src]."),
 			)
 
-	var/task = show_radial_menu(user,user,choices,'monkestation/code/modules/bloody_cult/icons/cult_radial.dmi',"radial-cult")//spawning on loc so we aren't offset by pixel_x/pixel_y, or affected by animate()
+	var/list/made_choices = list()
+	for(var/list/choice in choices)
+		var/datum/radial_menu_choice/option = new
+		option.image = image(icon = 'monkestation/code/modules/bloody_cult/icons/cult_radial3.dmi', icon_state = choice[2])
+		option.info = span_boldnotice(choice[3])
+		made_choices[choice[1]] = option
+
+	var/task = show_radial_menu(user,user, made_choices, tooltips = TRUE, radial_icon = 'monkestation/code/modules/bloody_cult/icons/cult_radial3.dmi')//spawning on loc so we aren't offset by pixel_x/pixel_y, or affected by animate()
 	if (user.get_active_hand() != src)
 		to_chat(user,"<span class='warning'>You must hold \the [src] in your active hand.</span>")
 		return
@@ -1248,6 +1264,7 @@ var/list/arcane_tomes = list()
 	desc = "A small totem. Cultists use them as anchors from the other side of the veil to quickly swap gear."
 	gender = NEUTER
 	icon = 'monkestation/code/modules/bloody_cult/icons/cult.dmi'
+	icon_state = "tesseract"
 	throwforce = 2
 	w_class = WEIGHT_CLASS_TINY
 
@@ -1265,7 +1282,7 @@ var/list/arcane_tomes = list()
 	if (loc)
 		var/turf/T = get_turf(src)
 		for(var/slot in stored_gear)
-			var/obj/item/I = stored_gear[slot]
+			var/obj/item/I = stored_gear["[slot]"]
 			stored_gear -= slot
 			I.forceMove(T)
 		for(var/obj/A in contents)
@@ -1306,15 +1323,15 @@ var/list/arcane_tomes = list()
 				qdel(I)
 
 		for(var/slot in stored_gear)
-			var/obj/item/stored_slot = stored_gear[slot]
-			var/obj/item/user_slot = user.get_item_by_slot(ITEM_SLOT_NECK)
+			var/obj/item/stored_slot = stored_gear["[slot]"]
+			var/obj/item/user_slot = user.get_item_by_slot(text2num(slot))
 			if (!user_slot)
-				user.equip_to_slot_if_possible(stored_slot, ITEM_SLOT_NECK)
+				user.equip_to_slot_if_possible(stored_slot, text2num(slot))
 			else
 				if (istype(user_slot,/obj/item/storage/backpack/cultpack))
 					if (istype(stored_slot,/obj/item/storage/backpack))
 						//swapping backpacks
-						for(var/obj/item/I in user_slot)
+						for(var/obj/item/I in user_slot.contents)
 							I.forceMove(stored_slot)
 						user.dropItemToGround(user_slot)
 						qdel(user_slot)
@@ -1326,9 +1343,11 @@ var/list/arcane_tomes = list()
 							I.forceMove(B)
 						user.dropItemToGround(user_slot)
 						qdel(user_slot)
-						user.equip_to_slot_if_possible(B, ITEM_SLOT_NECK)
+						user.equip_to_slot_if_possible(B, text2num(slot))
 						user.put_in_hands(stored_slot)
 				else
+					user.dropItemToGround(user_slot)
+					qdel(user_slot)
 					user.equip_to_slot_if_possible(stored_slot, ITEM_SLOT_NECK)
 			stored_gear.Remove(slot)
 		if (plasma_tank)
