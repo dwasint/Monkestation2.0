@@ -51,7 +51,7 @@
 	deconvertee.adjust_dizzy(30)
 	deconvertee.adjust_stutter(10)
 	deconvertee.adjust_jitter(30)
-	deconvertee.Knockdown(10)
+	deconvertee.Paralyze(10 SECONDS)
 
 	var/datum/team/cult/cult = locate_team(/datum/team/cult)
 	var/living_cultists = 0
