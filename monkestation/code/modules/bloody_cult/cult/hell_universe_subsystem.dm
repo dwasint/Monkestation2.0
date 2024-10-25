@@ -52,9 +52,8 @@ SUBSYSTEM_DEF(hell_universe)
 		lights_to_break |= light_to_break
 
 	SSoutdoor_effects.InitializeTurfs()
-	process()
 
-/datum/controller/subsystem/hell_universe/process(seconds_per_tick)
+/datum/controller/subsystem/hell_universe/fire(resumed)
 	if(!hell_time)
 		return
 

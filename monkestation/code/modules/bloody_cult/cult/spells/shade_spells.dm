@@ -96,20 +96,14 @@
 		qdel(P)
 	var/turf/starting = get_turf(blade)
 	var/turf/target = cast_on
-	var/obj/projectile/soulbullet/SB = new (starting)
-	if(starting != target)
-		SB.original = target
-	else
-		SB.original = second_cast
-	SB.starting = starting
-	SB.secondary_target = second_cast
-	SB.yo = cast_on.y - blade.y
-	SB.xo = cast_on.x - blade.x
-	SB.shade = owner
-	SB.blade = blade
-	blade.forceMove(SB)
-	SB.fire()
-	SB.process()
+	var/obj/projectile/soulbullet/soul_bullet = new (starting)
+	soul_bullet.preparePixelProjectile(target, starting)
+	soul_bullet.secondary_target = second_cast
+	soul_bullet.shade = owner
+	soul_bullet.blade = blade
+	blade.forceMove(soul_bullet)
+	soul_bullet.fire()
+	soul_bullet.process()
 
 
 /client/MouseDrop(atom/over, src_location, over_location, src_control, over_control, params)

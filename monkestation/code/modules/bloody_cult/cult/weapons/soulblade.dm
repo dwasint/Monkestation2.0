@@ -5,8 +5,7 @@
 	lefthand_file = 'monkestation/code/modules/bloody_cult/icons/in_hands/swords_axes_l.dmi'
 	righthand_file = 'monkestation/code/modules/bloody_cult/icons/in_hands/swords_axes_r.dmi'
 	inhand_icon_state = "soulblade"
-	pixel_x = -16 * 1
-	pixel_y = -16 * 1
+	SET_BASE_PIXEL(-16, -16)
 	icon_state = "soulblade"
 	w_class = WEIGHT_CLASS_BULKY
 	force = 30//30 brute, plus 5 burn
@@ -61,7 +60,7 @@
 */
 
 /obj/item/weapon/melee/soulblade/examine(var/mob/user)
-	..()
+	. = ..()
 	if (areYouWorthy(user))
 		. += "<span class='info'>blade blood: [blood]%</span>"
 		. += "<span class='info'>blade health: [round((atom_integrity/max_integrity)*100)]%</span>"
@@ -145,7 +144,7 @@
 	..()
 
 
-/obj/item/weapon/melee/soulblade/afterattack(var/atom/A, var/mob/living/user, var/proximity_flag, var/click_parameters)
+/obj/item/weapon/melee/soulblade/afterattack(atom/target, mob/user, proximity_flag, click_parameters)
 	if(proximity_flag)
 		return
 	if (HAS_TRAIT(user, TRAIT_PACIFISM))
@@ -155,20 +154,15 @@
 		blood = max(0,blood-5)
 		update_icon()
 		var/turf/starting = get_turf(user)
-		var/turf/target = get_turf(A)
-		var/obj/projectile/bloodslash/BS = new (starting)
-		BS.firer = user
-		BS.original = A
-		BS.starting = starting
-		BS.yo = target.y - starting.y
-		BS.xo = target.x - starting.x
+		var/obj/projectile/bloodslash/blood_slash = new (starting)
+		blood_slash.preparePixelProjectile(target, user)
 		if(user.zone_selected)
-			BS.def_zone = user.zone_selected
+			blood_slash.def_zone = user.zone_selected
 		else
-			BS.def_zone = BODY_ZONE_CHEST
-		BS.fire(direct_target = target)
+			blood_slash.def_zone = BODY_ZONE_CHEST
+		blood_slash.fire(direct_target = target)
 		playsound(starting, 'monkestation/code/modules/bloody_cult/sound/forge.ogg', 100, 1)
-		BS.process()
+		blood_slash.process()
 
 /obj/item/weapon/melee/soulblade/attack(mob/living/attacked, mob/living/carbon/human/user)
 	. = ..()
@@ -251,17 +245,16 @@
 /obj/item/weapon/melee/soulblade/throw_at(atom/target, range, speed, mob/thrower, spin = TRUE, diagonals_first = FALSE, datum/callback/callback, force = MOVE_FORCE_STRONG, gentle = FALSE, quickstart = TRUE)
 	var/turf/starting = get_turf(src)
 	var/turf/second_target = target
-	var/obj/projectile/soulbullet/SB = new (starting)
-	SB.original = target
-	SB.starting = starting
-	SB.secondary_target = second_target
-	SB.yo = target.y - starting.y
-	SB.xo = target.x - starting.x
-	SB.shade = shade
-	SB.blade = src
-	src.forceMove(SB)
-	SB.fire()
-	SB.process()
+	var/obj/projectile/soulbullet/soul_bullet = new (starting)
+	soul_bullet.firer = thrower
+	soul_bullet.def_zone = ran_zone(thrower.zone_selected)
+	soul_bullet.preparePixelProjectile(target, starting)
+	soul_bullet.secondary_target = second_target
+	soul_bullet.shade = shade
+	soul_bullet.blade = src
+	src.forceMove(soul_bullet)
+	soul_bullet.fire()
+	soul_bullet.process()
 
 /obj/item/weapon/melee/soulblade/ex_act(var/severity)
 	switch(severity)

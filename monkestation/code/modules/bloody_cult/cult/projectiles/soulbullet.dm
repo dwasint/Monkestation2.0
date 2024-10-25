@@ -13,6 +13,7 @@
 	pixel_y = -10 * 1
 	damage = 30//Only affects obj/turf. Mobs take a regular hit from the sword.
 	mouse_opacity = 1
+	extra_rotation = 45
 	var/turf/secondary_target = null
 	var/obj/item/weapon/melee/soulblade/blade = null
 	var/mob/living/basic/shade/shade = null

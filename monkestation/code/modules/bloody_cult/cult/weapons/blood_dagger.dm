@@ -71,20 +71,15 @@
 
 
 /obj/item/weapon/melee/blood_dagger/throw_at(atom/target, range, speed, mob/thrower, spin = TRUE, diagonals_first = FALSE, datum/callback/callback, force = MOVE_FORCE_STRONG, gentle = FALSE, quickstart = TRUE)
-	var/turf/starting = get_turf(src)
-	var/obj/projectile/blooddagger/BD = new (starting)
-	BD.original = target
-	BD.starting = starting
-	BD.yo = target.y - starting.y
-	BD.xo = target.x - starting.x
-	BD.stacks = stacks
-	BD.damage = 5 + stacks * 5
-	BD.icon_state = icon_state
-	BD.color = color
-	BD.firer = originator
-	BD.fire(direct_target = target)
-	BD.preparePixelProjectile(target, src)
-	BD.process()
+	var/turf/starting = get_turf(thrower)
+	var/obj/projectile/blooddagger/dagger = new (starting)
+	dagger.stacks = stacks
+	dagger.damage = 5 + stacks * 5
+	dagger.icon_state = icon_state
+	dagger.color = color
+	dagger.preparePixelProjectile(target, starting)
+	dagger.fire(direct_target = target)
+	dagger.process()
 	qdel(src)
 
 /obj/item/weapon/melee/blood_dagger/attack(mob/living/attacked, mob/living/carbon/human/user)

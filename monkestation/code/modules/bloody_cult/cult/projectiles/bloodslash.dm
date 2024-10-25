@@ -9,6 +9,8 @@
 	icon = 'monkestation/code/modules/bloody_cult/icons/projectiles_experimental.dmi'
 	icon_state = "bloodslash"
 	damage = 15
+	speed = 0.4
+	extra_rotation = 45
 	damage_type = BURN
 
 /obj/projectile/bloodslash/Destroy()

@@ -10,6 +10,7 @@
 	icon_state = "blood_dagger"
 	damage = 5
 	speed = 0.66
+	extra_rotation = 45
 	var/absorbed = 0
 	var/stacks = 0
 
