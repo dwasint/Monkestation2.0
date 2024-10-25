@@ -419,10 +419,7 @@ GLOBAL_LIST_INIT(blood_communion, list())
 		var/list/data = use_available_blood(user, 5)
 		if (data[BLOODCOST_RESULT] == BLOODCOST_FAILURE)
 			return 0
-		var/dagger_color = COLOR_BLOOD
-		var/datum/reagent/blood/source = data["blood"]
-		if (source)
-			dagger_color = source.color
+		var/dagger_color = user?.get_blood_type()?.color || COLOR_BLOOD
 
 		var/good_hand
 		if(ishuman(user))

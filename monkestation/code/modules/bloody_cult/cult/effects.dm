@@ -1277,6 +1277,7 @@ var/list/dance_platform_prisoners = list()
 
 /obj/effect/rooting_trap/Destroy()
 	if(stuck_to)
+		unbuckle_mob(stuck_to, TRUE)
 		REMOVE_TRAIT(stuck_to, TRAIT_IMMOBILIZED, REF(src))
 	stuck_to = null
 	..()
@@ -1290,6 +1291,7 @@ var/list/dance_platform_prisoners = list()
 	var/mob/living/M = A
 	if(M.stat < 2)
 		stuck_to = A
+		buckle_mob(A, TRUE)
 		ADD_TRAIT(A, TRAIT_IMMOBILIZED, REF(src))
 
 		QDEL_IN(src, duration)
