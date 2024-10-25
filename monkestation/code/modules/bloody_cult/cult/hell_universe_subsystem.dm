@@ -31,6 +31,7 @@ SUBSYSTEM_DEF(hell_universe)
 				continue
 			layer.remove_atom_colour(ADMIN_COLOUR_PRIORITY, GLOB.starlight_color)
 			layer.icon_state = "narsie"
+		client.mob.hud_used?.client_refresh()
 
 	GLOB.starlight_color = COLOR_BLOOD
 

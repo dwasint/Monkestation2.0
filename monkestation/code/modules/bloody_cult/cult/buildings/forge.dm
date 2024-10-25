@@ -1,4 +1,110 @@
- = image('monkestation/code/modules/bloody_cult/icons/cult_64x64.dmi',"[forging.icon_state]-mask")
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+//                       //Spawned from the Raise Structure rune
+//      CULT FORGE       //Also a source of heat
+//                       //
+///////////////////////////
+
+
+/obj/structure/cult/forge
+	name = "forge"
+	desc = "Molten rocks flow down its cracks producing a searing heat, better not stand too close for long."
+	icon = 'monkestation/code/modules/bloody_cult/icons/cult_64x64.dmi'
+	icon_state = ""
+	max_integrity = 100
+	pixel_x = -16 * 1
+	pixel_y = -16 * 1
+	plane = GAME_PLANE
+	light_color = LIGHT_COLOR_ORANGE
+	custom_process = 1
+	var/heating_power = 40000
+	var/set_temperature = 50
+	var/mob/forger = null
+	var/template = null
+	var/forge_icon = ""
+	var/obj/effect/cult_ritual/forge/forging = null
+
+
+/obj/structure/cult/forge/New()
+	..()
+	START_PROCESSING(SSobj, src)
+	set_light(2)
+	flick("forge-spawn",src)
+	spawn(10)
+		setup_overlays()
+
+/obj/structure/cult/forge/Destroy()
+	if (forging)
+		qdel(forging)
+	forging = null
+	forger = null
+	STOP_PROCESSING(SSobj, src)
+	..()
+
+/obj/structure/cult/forge/proc/setup_overlays()
+	animate(src, alpha = 255, time = 10, loop = -1)
+	animate(alpha = 240, time = 2)
+	animate(alpha = 224, time = 2)
+	animate(alpha = 208, time = 1.5)
+	animate(alpha = 192, time = 1.5)
+	animate(alpha = 176, time = 1)
+	animate(alpha = 160, time = 1)
+	animate(alpha = 144, time = 1)
+	animate(alpha = 128, time = 3)
+	animate(alpha = 144, time = 1)
+	animate(alpha = 160, time = 1)
+	animate(alpha = 176, time = 1)
+	animate(alpha = 192, time = 1.5)
+	animate(alpha = 208, time = 1.5)
+	animate(alpha = 224, time = 2)
+	animate(alpha = 240, time = 2)
+	overlays.len = 0
+	var/image/I_base = image('monkestation/code/modules/bloody_cult/icons/cult_64x64.dmi',"forge")
+	SET_PLANE_EXPLICIT(I_base, GAME_PLANE, src)
+	I_base.appearance_flags |= RESET_ALPHA //we don't want the stone to pulse
+	var/image/I_lave = image('monkestation/code/modules/bloody_cult/icons/cult_64x64.dmi',"forge-lightmask")
+	I_lave.plane = ABOVE_LIGHTING_PLANE
+	I_lave.blend_mode = BLEND_ADD
+	overlays += I_base
+	overlays += I_lave
+
+/obj/structure/cult/forge/process()
+	..()
+	if (isturf(loc))
+		var/turf/L = loc
+		if(!isspaceturf(loc))
+			for (var/mob/living/carbon/M in view(src,3))
+				M.bodytemperature += (6-round(M.get_cult_power()/30))/((get_dist(src,M)+1))//cult gear reduces the heat buildup
+		if (forging)
+			if (forger)
+				if (!Adjacent(forger) || forger.incapacitated())
+					if (forger.client)
+						forger.client.images -= progbar
+					forger = null
+					return
+				else
+					timeleft--
+					update_progbar()
+					var/datum/antagonist/cult/C = IS_CULTIST(forger)
+					if (C)
+						C.gain_devotion(10, DEVOTION_TIER_2, "[forge_icon]",timeleft)
+					if (timeleft<=0)
+						playsound_local(L, 'monkestation/code/modules/bloody_cult/sound/forge_over.ogg', 50, 0, -3)
+						if (forger.client)
+							forger.client.images -= progbar
+						QDEL_NULL(forging)
+						var/obj/item/I = new template(L)
+						if (istype(I))
+							SET_PLANE_EXPLICIT(I, GAME_PLANE, src)
+							I.pixel_y = 12
+						else
+							I.forceMove(get_turf(forger))
+						forger = null
+						template = null
+					else
+						anim(target = loc, a_icon = 'monkestation/code/modules/bloody_cult/icons/cult_64x64.dmi', flick_anim = "forge-work", offX = pixel_x, offY = pixel_y, plane = ABOVE_LIGHTING_PLANE)
+						playsound_local(L, 'monkestation/code/modules/bloody_cult/sound/forge.ogg', 50, 0, -4)
+						forging.overlays.len = 0
+						var/image/I = image('monkestation/code/modules/bloody_cult/icons/cult_64x64.dmi',"[forging.icon_state]-mask")
 						I.plane = ABOVE_LIGHTING_PLANE
 						I.blend_mode = BLEND_ADD
 						I.alpha = (timeleft/timetotal)*255
@@ -104,11 +210,11 @@
 	var/list/made_choices = list()
 	for(var/list/choice in choices)
 		var/datum/radial_menu_choice/option = new
-		option.image = image(icon = 'monkestation/code/modules/bloody_cult/icons/cult_radial.dmi', icon_state = choice[2])
+		option.image = image(icon = 'monkestation/code/modules/bloody_cult/icons/cult_radial1.dmi', icon_state = choice[2])
 		option.info = span_boldnotice(choice[3])
 		made_choices[choice[1]] = option
 
-	var/task = show_radial_menu(user,loc, made_choices, tooltips = TRUE, radial_icon = 'monkestation/code/modules/bloody_cult/icons/cult_radial.dmi')//spawning on loc so we aren't offset by pixel_x/pixel_y, or affected by animate()
+	var/task = show_radial_menu(user,loc, made_choices, tooltips = TRUE, radial_icon = 'monkestation/code/modules/bloody_cult/icons/cult_radial1.dmi')//spawning on loc so we aren't offset by pixel_x/pixel_y, or affected by animate()
 	if (template || !Adjacent(user) || !task )
 		return
 	forge_icon = ""
