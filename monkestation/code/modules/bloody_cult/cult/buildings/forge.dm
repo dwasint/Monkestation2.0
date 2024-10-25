@@ -214,7 +214,7 @@
 		option.info = span_boldnotice(choice[3])
 		made_choices[choice[1]] = option
 
-	var/task = show_radial_menu(user,loc, made_choices, tooltips = TRUE, radial_icon = 'monkestation/code/modules/bloody_cult/icons/cult_radial1.dmi')//spawning on loc so we aren't offset by pixel_x/pixel_y, or affected by animate()
+	var/task = show_radial_menu(user,loc, made_choices, tooltips = TRUE, radial_icon = 'monkestation/code/modules/bloody_cult/icons/cult_radial.dmi')//spawning on loc so we aren't offset by pixel_x/pixel_y, or affected by animate()
 	if (template || !Adjacent(user) || !task )
 		return
 	forge_icon = ""
