@@ -104,6 +104,7 @@
 					animate(redshade_B, alpha = 0, time = 2.5 SECONDS)
 					QDEL_IN(redshade_A, 3 SECONDS)
 					QDEL_IN(redshade_B, 3 SECONDS)
+					deconvertee.blood_volume -= 100 // ouch
 
 			if (DECONVERSION_REFUSE)
 				playsound(deconvertee, 'monkestation/code/modules/bloody_cult/sound/deconversion_failed.ogg', 50, 0, -4)
