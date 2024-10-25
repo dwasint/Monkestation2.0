@@ -90,6 +90,9 @@
 				playsound(deconvertee, 'monkestation/code/modules/bloody_cult/sound/deconversion_complete.ogg', 50, 0, -4)
 				deconvertee.visible_message("<span class='notice'>You see [deconvertee]'s eyes become clear. Through the blessing of [cult_chaplain ? "some fanfic headcanon version of [bible.deity_name]" : "[bible.deity_name]"] they have renounced Nar-Sie.</span>","<span class='notice'>You were forgiven by [bible.deity_name]</span><span class='sinister'>[cult_chaplain ? " (YEAH RIGHT...)" : ""]</span><span class='notice'>. You no longer share the cult's goals.</span>")
 				deconvertee.visible_message("<span class='userdanger'>A pair of shades manifests from the occult energies that left them and start attacking them.</span>")
+				cultist.owner.current.add_particles(PS_CULT_HALO)
+				cultist.owner.current.adjust_particles(PVAR_COLOR,"#00000066",PS_CULT_HALO)
+				cultist.owner.current.adjust_particles(PVAR_ICON_STATE,"cult_halo[cultist.get_devotion_rank()]",PS_CULT_HALO
 				cultist.owner.remove_antag_datum(/datum/antagonist/cult)
 				var/list/speak = list("...you shall give back the blood we gave you [deconvertee]...","...one does not simply turn their back on our gift...","...if you won't dedicate your heart to Nar-Sie, you don't need it anymore...")
 				redshade_A.say(pick(speak))
