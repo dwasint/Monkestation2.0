@@ -272,28 +272,22 @@
 				S.upgrade(1)
 		if (BLOODCULT_STAGE_ECLIPSE)
 			setup_hell()
-			/*
-			update_all_parallax()
-			var/datum/zLevel/ZL = map.zLevels[map.zMainStation]
-			ZL.transitionLoops = TRUE
-			spawn()
-				for (var/mob/dead/observer/O in player_list)
-					O.cultify()
-					sleep(rand(1,5))
+			var/list/station_zs = SSmapping.levels_by_trait(ZTRAIT_STATION)
+			for(var/datum/space_level/level as anything in SSmapping.z_list)
+				if(!(level.z_value in station_zs))
+					continue
+				level.set_linkage(SELFLOOPING)
+
+			INVOKE_ASYNC(src, PROC_REF(narnar_ghosts))
 			bloodstone_rising_time = world.time
 			bloodstone_target_time = world.time + bloodstone_duration
 			spawn (3 SECONDS)//leaving just a moment for the blood stone to rise.
-				last_security_level_change = SEC_LEVEL_RED
 				var/sec_change = TRUE
-				for(var/datum/faction/F in ticker.mode.factions)
-					if (F.last_security_level_change == SEC_LEVEL_DELTA)
-						sec_change = FALSE
-				command_alert(/datum/command_alert/eclipse_bloodstone)
+				priority_announce("Bluespace fluctuation patterns match those observed during past incursions by the Cult of Nar-Sie, which means a Blood Stone has risen. Find and destroy it at all costs or this station will be lost. Be careful of the eldritch entities that may manifest across the station.", "Cult Activity Detected")
 				if (sec_change)
-					ticker.StartThematic("endgame")
 					sleep(2 SECONDS)
-					set_security_level("red")
-				*/
+					SSsecurity_level.set_level(SEC_LEVEL_RED, announce = FALSE)
+
 		if (BLOODCULT_STAGE_DEFEATED)
 			GLOB.eclipse.eclipse_end()
 			for (var/obj/effect/new_rune/R in runes)
@@ -329,6 +323,11 @@
 			var/datum/mind_ui/m_ui = M.active_uis["Cultist Panel"]
 			if (m_ui.active)
 				m_ui.Display()
+
+/datum/team/cult/proc/narnar_ghosts()
+	for (var/mob/dead/observer/O in GLOB.player_list)
+		O.narsie_act()
+		sleep(rand(1,5))
 
 /datum/team/cult/proc/HandleRecruitedRole(datum/antagonist/R)
 	if (cult_reminders.len)
@@ -428,18 +427,7 @@
 
 
 /datum/team/cult/proc/setup_hell()
-	for(var/z in SSmapping.levels_by_trait(ZTRAIT_STATION))
-		var/list/turfs = get_area_turfs(/area/space, z)
-		for(var/turf/open/space/space in turfs)
-			space.add_particles(PS_SPACE_RUNES)//visible for everyone
-			space.adjust_particles(PVAR_SPAWNING, rand(5,20)/1000 ,PS_SPACE_RUNES)
-
-	for(var/datum/time_of_day/time in SSoutdoor_effects.time_cycle_steps)
-		time.color = COLOR_BLOOD
-	GLOB.GLOBAL_LIGHT_RANGE = 20
-
-	for (var/atom/movable/screen/fullscreen/lighting_backdrop/sunlight/SP in SSoutdoor_effects.sunlighting_planes)
-		SSoutdoor_effects.transition_sunlight_color(SP)
+	SShell_universe.start_hell()
 
 /datum/team/cult/proc/add_bloody_floor(turf/T)
 	if (!istype(T))

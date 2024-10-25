@@ -133,7 +133,7 @@
 		abort()
 		return
 
-	if (is_station_level(R.z))
+	if (!is_station_level(R.z))
 		to_chat(activator, "<span class='sinister'>The rune pulses but no energies respond to its signal.</span>")
 		to_chat(activator, "<span class='sinister'>You should try again <font color='red'>aboard the station</font>.</span>")
 		abort()

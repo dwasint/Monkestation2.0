@@ -809,7 +809,7 @@ var/list/arcane_tomes = list()
 		else
 			BS.def_zone = BODY_ZONE_CHEST
 		BS.fire(direct_target = target)
-		playsound_local(starting, 'monkestation/code/modules/bloody_cult/sound/forge.ogg', 100, 1)
+		playsound(starting, 'monkestation/code/modules/bloody_cult/sound/forge.ogg', 100, 1)
 		BS.process()
 
 /obj/item/weapon/melee/soulblade/attack(mob/living/attacked, mob/living/carbon/human/user)

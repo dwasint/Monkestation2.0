@@ -634,6 +634,7 @@ var/bloodstone_backup = 0
 	name = "blood nail"
 	desc = "A pointy red nail, appearing to pierce not through what it rests upon, but through the fabric of reality itself."
 	icon_state = "bloodnail"
+	icon = 'monkestation/code/modules/bloody_cult/icons/effects.dmi'
 
 /obj/effect/rooting_trap/bloodnail/New()
 	..()
@@ -1291,8 +1292,7 @@ var/list/dance_platform_prisoners = list()
 		stuck_to = A
 		ADD_TRAIT(A, TRAIT_IMMOBILIZED, REF(src))
 
-		spawn(duration)
-			qdel(src)
+		QDEL_IN(src, duration)
 
 		return TRUE
 	return FALSE
