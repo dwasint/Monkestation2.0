@@ -1,3 +1,7 @@
+#define CULT_VICTORY 1
+#define CULT_LOSS 0
+#define CULT_NARSIE_KILLED -1
+
 /datum/team/cult
 	name = "\improper Cult"
 
@@ -88,16 +92,6 @@
 		return
 	size_at_maximum++
 
-/datum/team/cult/proc/make_image(datum/objective/sacrifice/sac_objective)
-	var/datum/job/job_of_sacrifice = sac_objective.target.assigned_role
-	var/datum/preferences/prefs_of_sacrifice = sac_objective.target.current.client.prefs
-	var/icon/reshape = get_flat_human_icon(null, job_of_sacrifice, prefs_of_sacrifice, list(SOUTH))
-	reshape.Shift(SOUTH, 4)
-	reshape.Shift(EAST, 1)
-	reshape.Crop(7,4,26,31)
-	reshape.Crop(-5,-3,26,30)
-	sac_objective.sac_image = reshape
-
 /datum/team/cult/proc/setup_objectives()
 	START_PROCESSING(SSobj, src)
 	for (var/ritual_type in GLOB.bloodcult_faction_rituals)
@@ -109,14 +103,6 @@
 		to_chat(M, "<span class='sinister'>Our communion must remain small and secretive until we are confident enough.</span>")
 		previously_converted |= mind
 
-	var/datum/objective/sacrifice/sacrifice_objective = new
-	sacrifice_objective.team = src
-	sacrifice_objective.find_target()
-	objectives += sacrifice_objective
-
-	var/datum/objective/eldergod/summon_objective = new
-	summon_objective.team = src
-	objectives += summon_objective
 
 /datum/team/cult/proc/replace_rituals(var/slot)
 	if (!slot)
@@ -401,3 +387,129 @@
 	if (!istype(T))
 		return
 	bloody_floors -= T
+
+/datum/team/cult/proc/check_cult_victory()
+	for(var/datum/objective/O in objectives)
+		if(O.check_completion() == CULT_NARSIE_KILLED)
+			return CULT_NARSIE_KILLED
+		else if(!O.check_completion())
+			return CULT_LOSS
+	return CULT_VICTORY
+
+/datum/team/cult/roundend_report()
+	var/list/parts = list()
+	var/victory = check_cult_victory()
+
+	if(victory == CULT_NARSIE_KILLED) // Epic failure, you summoned your god and then someone killed it.
+		parts += "<span class='redtext big'>Nar'sie has been killed! The cult will haunt the universe no longer!</span>"
+	else if(victory)
+		parts += "<span class='greentext big'>The cult has succeeded! Nar'Sie has snuffed out another torch in the void!</span>"
+	else
+		parts += "<span class='redtext big'>The staff managed to stop the cult! Dark words and heresy are no match for Nanotrasen's finest!</span>"
+
+	if(objectives.len)
+		parts += "<b>The cultists' objectives were:</b>"
+		var/count = 1
+		for(var/datum/objective/objective in objectives)
+			if(objective.check_completion())
+				parts += "<b>Objective #[count]</b>: [objective.explanation_text] [span_greentext("Success!")]"
+			else
+				parts += "<b>Objective #[count]</b>: [objective.explanation_text] [span_redtext("Fail.")]"
+			count++
+
+	if(members.len)
+		parts += "<span class='header'>The cultists were:</span>"
+		if(length(true_cultists))
+			parts += printplayerlist(true_cultists)
+		else
+			parts += printplayerlist(members)
+
+	return "<div class='panel redborder'>[parts.Join("<br>")]</div>"
+
+/// Sets a blood target for the cult.
+/datum/team/cult/proc/set_blood_target(atom/new_target, mob/marker, duration = 90 SECONDS)
+	if(QDELETED(new_target))
+		CRASH("A null or invalid target was passed to set_blood_target.")
+
+	if(duration != INFINITY && blood_target_reset_timer)
+		return FALSE
+
+	deltimer(blood_target_reset_timer)
+	blood_target = new_target
+	RegisterSignal(blood_target, COMSIG_QDELETING, PROC_REF(unset_blood_target_and_timer))
+	var/area/target_area = get_area(new_target)
+
+	blood_target_image = image('icons/effects/mouse_pointers/cult_target.dmi', new_target, "glow", ABOVE_MOB_LAYER)
+	blood_target_image.appearance_flags = RESET_COLOR
+	blood_target_image.pixel_x = -new_target.pixel_x
+	blood_target_image.pixel_y = -new_target.pixel_y
+
+	for(var/datum/mind/cultist as anything in members)
+		if(!cultist.current)
+			continue
+		if(cultist.current.stat == DEAD || !cultist.current.client)
+			continue
+
+		to_chat(cultist.current, span_bold(span_cultlarge("[marker] has marked [blood_target] in the [target_area.name] as the cult's top priority, get there immediately!")))
+		SEND_SOUND(cultist.current, sound(pick('sound/hallucinations/over_here2.ogg','sound/hallucinations/over_here3.ogg'), 0, 1, 75))
+		cultist.current.client.images += blood_target_image
+
+	if(duration != INFINITY)
+		blood_target_reset_timer = addtimer(CALLBACK(src, PROC_REF(unset_blood_target)), duration, TIMER_STOPPABLE)
+	return TRUE
+
+/// Unsets our blood target when they get deleted.
+/datum/team/cult/proc/unset_blood_target_and_timer(datum/source)
+	SIGNAL_HANDLER
+
+	deltimer(blood_target_reset_timer)
+	unset_blood_target()
+
+/// Unsets out blood target, clearing the images from all the cultists.
+/datum/team/cult/proc/unset_blood_target()
+	blood_target_reset_timer = null
+
+	for(var/datum/mind/cultist as anything in members)
+		if(!cultist.current)
+			continue
+		if(cultist.current.stat == DEAD || !cultist.current.client)
+			continue
+
+		if(QDELETED(blood_target))
+			to_chat(cultist.current, span_bold(span_cultlarge("The blood mark's target is lost!")))
+		else
+			to_chat(cultist.current, span_bold(span_cultlarge("The blood mark has expired!")))
+		cultist.current.client.images -= blood_target_image
+
+	UnregisterSignal(blood_target, COMSIG_QDELETING)
+	blood_target = null
+
+	QDEL_NULL(blood_target_image)
+
+/datum/antagonist/cult/antag_token(datum/mind/hosts_mind, mob/spender)
+	var/datum/antagonist/cult/new_cultist = new
+	new_cultist.cult_team = get_team()
+	new_cultist.give_equipment = TRUE
+	if(isobserver(spender))
+		var/mob/living/carbon/human/new_mob = spender.change_mob_type( /mob/living/carbon/human, delete_old_mob = TRUE)
+		new_mob.equipOutfit(/datum/outfit/job/assistant)
+		new_mob.mind.add_antag_datum(new_cultist)
+	else
+		hosts_mind.add_antag_datum(new_cultist)
+
+/datum/outfit/cultist
+	name = "Cultist (Preview only)"
+
+	uniform = /obj/item/clothing/under/color/black
+	suit = /obj/item/clothing/suit/hooded/cultrobes/alt
+	shoes = /obj/item/clothing/shoes/cult/alt
+	r_hand = /obj/item/melee/blood_magic/stun
+
+/datum/outfit/cultist/post_equip(mob/living/carbon/human/equipped, visualsOnly)
+	equipped.eye_color_left = BLOODCULT_EYE
+	equipped.eye_color_right = BLOODCULT_EYE
+	equipped.update_body()
+
+#undef CULT_LOSS
+#undef CULT_NARSIE_KILLED
+#undef CULT_VICTORY

@@ -275,30 +275,6 @@
 	return TRUE
 
 /*
- * Helper to check a cultist is located in one of the ritual / summoning sites.
- *
- * cultist - the mob making the rune
- * cult_team - the team of the mob making the rune
- * fail_if_last_site - whether the check fails if it's the last site in the summoning list.
- */
-/datum/component/cult_ritual_item/proc/check_if_in_ritual_site(mob/living/cultist, datum/team/cult/cult_team, fail_if_last_site = FALSE)
-	var/datum/objective/eldergod/summon_objective = locate() in cult_team.objectives
-	var/area/our_area = get_area(cultist)
-	if(!summon_objective)
-		to_chat(cultist, span_warning("There are no ritual sites on this station to scribe this rune!"))
-		return FALSE
-
-	if(!(our_area in summon_objective.summon_spots))
-		to_chat(cultist, span_warning("This veil is not weak enough here - it can only be scribed in [english_list(summon_objective.summon_spots)]!"))
-		return FALSE
-
-	if(fail_if_last_site && length(summon_objective.summon_spots) <= 1)
-		to_chat(cultist, span_warning("This rune cannot be scribed here - the ritual site must be reserved for the final summoning!"))
-		return FALSE
-
-	return TRUE
-
-/*
  * Removes all shields from the shields list.
  */
 /datum/component/cult_ritual_item/proc/cleanup_shields()

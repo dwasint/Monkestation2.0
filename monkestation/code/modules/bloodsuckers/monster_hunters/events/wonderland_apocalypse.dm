@@ -163,7 +163,6 @@
 		trigger_recoil_typecache = typecacheof(list(
 			/datum/action/innate/cult/blood_spell,
 			/datum/action/innate/cult/blood_magic,
-			/datum/action/innate/cult/master,
 			/datum/action/innate/clockcult/quick_bind,
 			/datum/action/cooldown/bloodsucker
 		))

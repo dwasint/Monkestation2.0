@@ -189,3 +189,26 @@
 		dest_x = max(0, dest_x-distance)
 
 	return locate(dest_x,dest_y,dest_z)
+
+/// Returns whether the given mob is convertable to the blood cult, monkestation edit: or clock cult
+/proc/is_convertable_to_cult(mob/living/target, datum/team/cult/specific_cult, for_clock_cult) //monkestation edit: adds for_clock_cult
+	if(!istype(target))
+		return FALSE
+	if(isnull(target.mind) || !GET_CLIENT(target))
+		return FALSE
+	if(HAS_MIND_TRAIT(target, TRAIT_UNCONVERTABLE)) // monkestation edit: mind.unconvertable -> TRAIT_UNCONVERTABLE
+		return FALSE
+	if(ishuman(target) && target.mind.holy_role)
+		return FALSE
+	var/mob/living/master = target.mind.enslaved_to?.resolve()
+	if(master && (for_clock_cult ? !IS_CLOCK(master) : !IS_CULTIST(master))) //monkestation edit: master is now checked based off of for_clock_cult
+		return FALSE
+	if(IS_HERETIC_OR_MONSTER(target))
+		return FALSE
+	if(HAS_TRAIT(target, TRAIT_MINDSHIELD) || isbot(target)) //monkestation edit: moved isdrone() as well as issilicon() to the next check down
+		return FALSE //can't convert machines, shielded, or braindead
+	if((isdrone(target) || issilicon(target)) && !for_clock_cult) //monkestation edit: clock cult converts them into cogscarabs and clock borgs
+		return FALSE //monkestation edit
+	if(for_clock_cult ? IS_CULTIST(target) : IS_CLOCK(target)) //monkestation edit
+		return FALSE //monkestation edit
+	return TRUE

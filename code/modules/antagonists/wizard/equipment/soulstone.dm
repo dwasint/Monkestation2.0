@@ -296,13 +296,6 @@
 		return FALSE
 
 	if(!forced)
-		var/datum/antagonist/cult/cultist = IS_CULTIST(user)
-		if(cultist)
-			var/datum/team/cult/cult_team = cultist.get_team()
-			if(victim.mind && cult_team.is_sacrifice_target(victim.mind))
-				to_chat(user, span_cult("<b>\"This soul is mine.</b></span> <span class='cultlarge'>SACRIFICE THEM!\""))
-				return FALSE
-
 		if(grab_sleeping ? victim.stat == CONSCIOUS : victim.stat != DEAD)
 			to_chat(user, "[span_userdanger("Capture failed!")]: Kill or maim the victim first!")
 			return FALSE
@@ -507,7 +500,6 @@
 		var/datum/action/innate/seek_master/seek_master = new
 		seek_master.Grant(newstruct)
 	target.mind?.transfer_to(newstruct, force_key_move = TRUE)
-	var/atom/movable/screen/alert/bloodsense/sense_alert
 	if(newstruct.mind && !IS_CULTIST(newstruct) && ((stoner && IS_CULTIST(stoner)) || cultoverride) && SSticker.HasRoundStarted())
 		var/datum/team/cult/cult_team = locate_team(/datum/team/cult)
 
@@ -518,10 +510,6 @@
 		to_chat(newstruct, span_cultbold("You are still bound to serve the cult[stoner ? " and [stoner]" : ""], follow [stoner?.p_their() || "their"] orders and help [stoner?.p_them() || "them"] complete [stoner?.p_their() || "their"] goals at all costs."))
 	else if(stoner)
 		to_chat(newstruct, span_boldwarning("You are still bound to serve your creator, [stoner], follow [stoner.p_their()] orders and help [stoner.p_them()] complete [stoner.p_their()] goals at all costs."))
-	newstruct.clear_alert("bloodsense")
-	sense_alert = newstruct.throw_alert("bloodsense", /atom/movable/screen/alert/bloodsense)
-	if(sense_alert)
-		sense_alert.Cviewer = newstruct
 	newstruct.cancel_camera()
 
 /obj/item/soulstone/anybody

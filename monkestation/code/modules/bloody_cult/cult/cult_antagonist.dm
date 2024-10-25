@@ -155,7 +155,6 @@
 	handle_clown_mutation(current, mob_override ? null : "Your training has allowed you to overcome your clownish nature, allowing you to wield weapons without harming yourself.")
 	current.faction |= FACTION_CULT
 	current.grant_language(/datum/language/narsie, TRUE, TRUE, LANGUAGE_CULTIST)
-	current.throw_alert("bloodsense", /atom/movable/screen/alert/bloodsense)
 	if(cult_team.cult_risen)
 		current.AddElement(/datum/element/cult_eyes, initial_delay = 0 SECONDS)
 	if(cult_team.cult_ascendent)
@@ -211,52 +210,6 @@
 	for(var/o in current.get_all_contents())
 		if(istype(o, /obj/item/melee/cultblade/dagger) || istype(o, /obj/item/stack/sheet/runed_metal))
 			qdel(o)
-
-/datum/antagonist/cult/master
-	ignore_implant = TRUE
-	show_in_antagpanel = FALSE //Feel free to add this later
-	antag_hud_name = "cultmaster"
-	var/datum/action/innate/cult/master/finalreck/reckoning = new
-	var/datum/action/innate/cult/master/cultmark/bloodmark = new
-	var/datum/action/innate/cult/master/pulse/throwing = new
-
-/datum/antagonist/cult/master/Destroy()
-	QDEL_NULL(reckoning)
-	QDEL_NULL(bloodmark)
-	QDEL_NULL(throwing)
-	return ..()
-
-/datum/antagonist/cult/master/greet()
-	to_chat(owner.current, "<span class='warningplain'><span class='cultlarge'>You are the cult's Master</span>. As the cult's Master, you have a unique title and loud voice when communicating, are capable of marking \
-	targets, such as a location or a noncultist, to direct the cult to them, and, finally, you are capable of summoning the entire living cult to your location <b><i>once</i></b>. Use these abilities to direct the cult to victory at any cost.</span>")
-
-/datum/antagonist/cult/master/apply_innate_effects(mob/living/mob_override)
-	. = ..()
-	var/mob/living/current = owner.current
-	if(mob_override)
-		current = mob_override
-	if(!cult_team.reckoning_complete)
-		reckoning.Grant(current)
-	bloodmark.Grant(current)
-	throwing.Grant(current)
-	current.update_mob_action_buttons()
-	current.apply_status_effect(/datum/status_effect/cult_master)
-	if(cult_team.cult_risen)
-		current.AddElement(/datum/element/cult_eyes, initial_delay = 0 SECONDS)
-	if(cult_team.cult_ascendent)
-		current.AddElement(/datum/element/cult_halo, initial_delay = 0 SECONDS)
-	add_team_hud(current, /datum/antagonist/cult)
-
-/datum/antagonist/cult/master/remove_innate_effects(mob/living/mob_override)
-	. = ..()
-	var/mob/living/current = owner.current
-	if(mob_override)
-		current = mob_override
-	reckoning.Remove(current)
-	bloodmark.Remove(current)
-	throwing.Remove(current)
-	current.update_mob_action_buttons()
-	current.remove_status_effect(/datum/status_effect/cult_master)
 
 /datum/antagonist/cult/proc/erase_rune()
 	var/mob/living/user = owner.current
