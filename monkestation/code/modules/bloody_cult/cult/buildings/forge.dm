@@ -88,7 +88,7 @@
 					if (C)
 						C.gain_devotion(10, DEVOTION_TIER_2, "[forge_icon]",timeleft)
 					if (timeleft<=0)
-						playsound_local(L, 'monkestation/code/modules/bloody_cult/sound/forge_over.ogg', 50, 0, -3)
+						playsound(L, 'monkestation/code/modules/bloody_cult/sound/forge_over.ogg', 50, 0, -3)
 						if (forger.client)
 							forger.client.images -= progbar
 						QDEL_NULL(forging)
@@ -102,7 +102,7 @@
 						template = null
 					else
 						anim(target = loc, a_icon = 'monkestation/code/modules/bloody_cult/icons/cult_64x64.dmi', flick_anim = "forge-work", offX = pixel_x, offY = pixel_y, plane = ABOVE_LIGHTING_PLANE)
-						playsound_local(L, 'monkestation/code/modules/bloody_cult/sound/forge.ogg', 50, 0, -4)
+						playsound(L, 'monkestation/code/modules/bloody_cult/sound/forge.ogg', 50, 0, -4)
 						forging.overlays.len = 0
 						var/image/I = image('monkestation/code/modules/bloody_cult/icons/cult_64x64.dmi',"[forging.icon_state]-mask")
 						I.plane = ABOVE_LIGHTING_PLANE
@@ -210,7 +210,7 @@
 	var/list/made_choices = list()
 	for(var/list/choice in choices)
 		var/datum/radial_menu_choice/option = new
-		option.image = image(icon = 'monkestation/code/modules/bloody_cult/icons/cult_radial1.dmi', icon_state = choice[2])
+		option.image = image(icon = 'monkestation/code/modules/bloody_cult/icons/cult_radial.dmi', icon_state = choice[2])
 		option.info = span_boldnotice(choice[3])
 		made_choices[choice[1]] = option
 
