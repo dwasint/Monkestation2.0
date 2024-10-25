@@ -254,7 +254,7 @@ structure_check() searches for nearby cultist structures required for the invoca
 			..()
 			do_sacrifice(new_convertee, invokers, cult_team)
 
-		cult_team.check_size() // Triggers the eye glow or aura effects if the cult has grown large enough relative to the crew
+		//cult_team.check_size() // Triggers the eye glow or aura effects if the cult has grown large enough relative to the crew
 
 	else
 		do_invoke_glow()

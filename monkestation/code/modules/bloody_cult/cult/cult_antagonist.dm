@@ -635,6 +635,8 @@
 				owner.current.remove_particles(PS_CULT_SMOKE)
 				owner.current.remove_particles(PS_CULT_SMOKE2)
 			if (BLOODCULT_STAGE_ECLIPSE)
+				if(!HasElement(owner.current, /datum/element/cult_eyes)) // look into moving this into a single run stage check like teams
+					owner.current.AddElement(/datum/element/cult_eyes)
 				owner.current.add_particles(PS_CULT_SMOKE)
 				owner.current.add_particles(PS_CULT_SMOKE2)
 				owner.current.adjust_particles(PVAR_SPAWNING,0.6,PS_CULT_SMOKE)

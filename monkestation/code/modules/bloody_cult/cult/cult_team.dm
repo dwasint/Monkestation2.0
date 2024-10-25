@@ -81,46 +81,6 @@
 	var/countdown_to_first_rituals = 5
 
 
-/datum/team/cult/proc/check_size()
-	if(cult_ascendent)
-		return
-
-#ifdef UNIT_TESTS
-	// This proc is unnecessary clutter whilst running cult related unit tests
-	// Remove this if, at some point, someone decides to test that halos and eyes are added at expected ratios
-	return
-#endif
-
-	var/alive = 0
-	var/cultplayers = 0
-	for(var/I in GLOB.player_list)
-		var/mob/M = I
-		if(M.stat != DEAD)
-			if(IS_CULTIST(M))
-				++cultplayers
-			else
-				++alive
-
-	ASSERT(cultplayers) //we shouldn't be here.
-	var/ratio = alive ? cultplayers/alive : 1
-	if(ratio > CULT_RISEN && !cult_risen)
-		for(var/datum/mind/mind as anything in members)
-			if(mind.current)
-				SEND_SOUND(mind.current, 'sound/ambience/antag/bloodcult/bloodcult_eyes.ogg')
-				to_chat(mind.current, span_cultlarge(span_warning("The veil weakens as your cult grows, your eyes begin to glow...")))
-				mind.current.AddElement(/datum/element/cult_eyes)
-		cult_risen = TRUE
-		log_game("The blood cult has risen with [cultplayers] players.")
-
-	if(ratio > CULT_ASCENDENT && !cult_ascendent)
-		for(var/datum/mind/mind as anything in members)
-			if(mind.current)
-				SEND_SOUND(mind.current, 'sound/ambience/antag/bloodcult/bloodcult_halos.ogg')
-				to_chat(mind.current, span_cultlarge(span_warning("Your cult is ascendent and the red harvest approaches - you cannot hide your true nature for much longer!!")))
-				mind.current.AddElement(/datum/element/cult_halo)
-		cult_ascendent = TRUE
-		log_game("The blood cult has ascended with [cultplayers] players.")
-
 /datum/team/cult/add_member(datum/mind/new_member)
 	. = ..()
 	// A little hacky, but this checks that cult ghosts don't contribute to the size at maximum value.

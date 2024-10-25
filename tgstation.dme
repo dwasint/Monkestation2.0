@@ -6524,6 +6524,7 @@
 #include "monkestation\code\modules\bloody_cult\cult\weapons\blood_talisman.dm"
 #include "monkestation\code\modules\bloody_cult\cult\weapons\cult_blade.dm"
 #include "monkestation\code\modules\bloody_cult\cult\weapons\soulblade.dm"
+#include "monkestation\code\modules\bloody_cult\gods_power\deconversion_ritual.dm"
 #include "monkestation\code\modules\bloody_cult\mind_uis\adminbus.dm"
 #include "monkestation\code\modules\bloody_cult\mind_uis\blood_cult.dm"
 #include "monkestation\code\modules\bloody_cult\mind_uis\draw_runes.dm"

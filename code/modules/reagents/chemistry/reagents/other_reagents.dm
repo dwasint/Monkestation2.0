@@ -409,8 +409,6 @@
 					to_chat(affected_mob, "<span class=[span_type]>[pick(phrase_list["seizure"])].</span>")
 
 	if(data["misc"] >= (1 MINUTES)) // 24 units
-		if(IS_CULTIST(affected_mob))
-			affected_mob.mind.remove_antag_datum(/datum/antagonist/cult)
 		if(IS_CLOCK(affected_mob))
 			affected_mob.mind.remove_antag_datum(/datum/antagonist/clock_cultist)
 		affected_mob.Unconscious(10 SECONDS)
