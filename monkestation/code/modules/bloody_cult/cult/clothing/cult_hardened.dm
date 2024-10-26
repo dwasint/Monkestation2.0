@@ -2,6 +2,7 @@
 	name = "\improper Nar'Sien hardened armor"
 	desc = "A heavily-armored exosuit worn by warriors of the Nar'Sien cult. It can withstand hard vacuum."
 	icon = 'monkestation/code/modules/bloody_cult/icons/worn/suit.dmi'
+	worn_icon = 'monkestation/code/modules/bloody_cult/icons/worn/suit.dmi'
 	icon_state = "cultarmor"
 
 	inhand_icon_state = null
@@ -30,6 +31,7 @@
 	desc = "A heavily-armored helmet worn by warriors of the Nar'Sien cult. It can withstand hard vacuum."
 	icon_state = "culthelmet"
 	icon = 'monkestation/code/modules/bloody_cult/icons/worn/head.dmi'
+	worn_icon = 'monkestation/code/modules/bloody_cult/icons/worn/head.dmi'
 
 	inhand_icon_state = null
 	armor_type = /datum/armor/cult_hoodie_hardened
