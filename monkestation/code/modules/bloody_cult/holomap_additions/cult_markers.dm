@@ -1,3 +1,6 @@
+/atom/movable/screen/fullscreen/blind/above_hud
+	plane = 41
+
 /datum/controller/subsystem/holomaps/proc/generate_cult_maps()
 	for(var/z_level in SSmapping.levels_by_trait(ZTRAIT_STATION))
 		var/icon/map_base = icon(extra_holomaps["[HOLOMAP_EXTRA_STATIONMAPAREAS]_[z_level]"])
@@ -38,11 +41,11 @@
 	if(break_on_move)
 		RegisterSignal(user, COMSIG_MOVABLE_MOVED, PROC_REF(hide_cult_map), cult_map)
 
-	user.hud_used.holomap.plane = 41
+	user.hud_used.holomap.plane = 42
 	cult_map.loc = user.hud_used.holomap
 	user.client.screen |= user.hud_used.holomap
 	user.client.images |= cult_map
-	user.overlay_fullscreen("map_blocker", /atom/movable/screen/fullscreen/blind)
+	user.overlay_fullscreen("map_blocker", /atom/movable/screen/fullscreen/blind/above_hud)
 	user.update_fullscreen_alpha("map_blocker", 255, 0)
 
 /datum/controller/subsystem/holomaps/proc/hide_cult_map(mob/user, image/cult_map)

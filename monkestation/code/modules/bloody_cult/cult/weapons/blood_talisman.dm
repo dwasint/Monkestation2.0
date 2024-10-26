@@ -24,7 +24,7 @@
 /obj/item/weapon/talisman/salt_act()
 	if (attuned_rune && attuned_rune.active_spell)
 		attuned_rune.active_spell.salt_act(get_turf(src))
-	ignite()
+	fire_act(1000, 200)
 
 
 /obj/item/weapon/talisman/proc/talisman_name()
