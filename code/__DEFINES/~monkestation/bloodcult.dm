@@ -185,6 +185,7 @@ GLOBAL_LIST_INIT(particle_string_to_type, list(
 #define TRAIT_SEER "seer_trait"
 
 #define MODE_CULT "cult"
+#define MODE_TOKEN_CULT ":x"
 
 #define HOLOMAP_MARKER_TEARREALITY		"tearreality"
 #define HOLOMAP_MARKER_BLOODSTONE		"bloodstone"

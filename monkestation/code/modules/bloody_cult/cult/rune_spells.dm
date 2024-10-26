@@ -1262,10 +1262,10 @@ var/list/converted_minds = list()
 		to_chat(M, "<span class='danger'>A surge of dark energies takes hold of your limbs. You stiffen and fall down.</span>")
 		var/mob/living/carbon/C = M
 		C.flash_act(visual = TRUE)
-		C.Knockdown(15)//used to be 25
-		C.Stun(15)//used to be 25
+		C.Knockdown(2.5 SECONDS)//used to be 25
+		C.Stun(2.5 SECONDS)//used to be 25
 		if (isalien(C))
-			C.Paralyze(15)
+			C.Paralyze(2.5 SECONDS)
 
 	if (!(locate(/obj/effect/stun_indicator) in M))
 		new /obj/effect/stun_indicator(M)
@@ -1279,7 +1279,7 @@ var/list/converted_minds = list()
 	alpha = 0
 	//plane = HIDING_MOB_PLANE
 	mouse_opacity = 0
-	var/stun_duration = 5
+	var/stun_duration = 1.5 SECONDS
 
 /obj/effect/cult_ritual/stun/New(turf/loc,var/type=1,var/mob/living/carbon/caster)
 	..()

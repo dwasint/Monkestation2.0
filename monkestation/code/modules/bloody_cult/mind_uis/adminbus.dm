@@ -56,7 +56,10 @@
 			I.pixel_y = 38
 			I.dir = SOUTH
 			if(i <= A.passengers.len)
-				I.overlays += getFlatIcon(A.passengers[i],SOUTH,0)
+				var/atom/passenger = A.passengers[i]
+				var/image/image = image(passenger)
+				image.dir = SOUTH
+				I.overlays += image
 			overlays += I
 
 //------------------------------------------------------------
