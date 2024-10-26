@@ -43,19 +43,25 @@
 	button_icon_state = "soulblade_spin"
 
 	blood_cost = 5
-	var/spin_cooldown = FALSE //gotta use that to get a more strict cooldown at such a small value
+	COOLDOWN_DECLARE(spin_cooldown) //gotta use that to get a more strict cooldown at such a small value
+
+/datum/action/cooldown/spell/pointed/soulblade/blade_spin/PreActivate(atom/target)
+	. = ..()
+	if(!COOLDOWN_FINISHED(src, spin_cooldown))
+		return
 
 /datum/action/cooldown/spell/pointed/soulblade/blade_spin/cast(atom/cast_on)
 	..()
-	spin_cooldown = TRUE
-	spawn(10) // 10 ticks of cooldown starting right now
-		spin_cooldown = FALSE
+	if(!COOLDOWN_FINISHED(src, spin_cooldown))
+		return
+	COOLDOWN_START(src, spin_cooldown, 1 SECONDS)
 	var/obj/item/weapon/melee/soulblade/SB = owner.loc
 	var/turf/source_turf = SB.loc
 	SB.reflector = TRUE
-	spawn(4) // reflects projectiles for 4 ticks
-		SB.reflector = FALSE
-	SB.throwing = 0
+
+	addtimer(VARSET_CALLBACK(SB, reflector, FALSE), 0.4 SECONDS)
+	SB.throwing = FALSE
+
 	if (istype(SB.loc,/obj/projectile))
 		var/obj/projectile/P = SB.loc
 		qdel(P)

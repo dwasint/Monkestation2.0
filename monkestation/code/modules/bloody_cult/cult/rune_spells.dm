@@ -2135,8 +2135,8 @@ var/list/seer_rituals = list()
 		user_slot.forceMove(BT)
 
 		target.equip_to_slot_or_del(new /obj/item/clothing/under/color/black,ITEM_SLOT_ICLOTHING)
-		target.equip_to_slot_or_del(new /obj/item/clothing/suit/hooded/cultrobes/alt(user), ITEM_SLOT_OCLOTHING)
-		target.equip_to_slot_or_del(new /obj/item/clothing/shoes/cult/alt(user), ITEM_SLOT_FEET)
+		target.equip_to_slot_or_del(new /obj/item/clothing/suit/hooded/cultrobes/alt(target), ITEM_SLOT_OCLOTHING)
+		target.equip_to_slot_or_del(new /obj/item/clothing/shoes/cult/alt(target), ITEM_SLOT_FEET)
 		target.equip_to_slot_or_del(new /obj/item/clothing/gloves/black/cult(target), ITEM_SLOT_GLOVES)
 
 	//transferring backpack items
@@ -2149,7 +2149,7 @@ var/list/seer_rituals = list()
 	target.equip_to_slot_if_possible(new_pack, ITEM_SLOT_BACK)
 
 	activator.put_in_hands(BT)
-	target.put_in_hands(new /obj/item/restraints/legcuffs/bola/cult(user))
+	target.put_in_hands(new /obj/item/restraints/legcuffs/bola/cult(target))
 	if(IS_CULTIST(target))
 		to_chat(target, "<span class='notice'>Robes and gear of the followers of Nar-Sie manifests around your body. You feel empowered.</span>")
 	else

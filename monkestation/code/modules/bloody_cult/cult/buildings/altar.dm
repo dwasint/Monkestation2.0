@@ -107,7 +107,6 @@
 			if (cul)
 				cul.gain_devotion(0, DEVOTION_TIER_0, "altar_plant", src)
 			if (istype(blade) && !blade.shade)
-				var/icon/logo_icon = icon('monkestation/code/modules/bloody_cult/icons/logos.dmi', "shade-blade")
 				for(var/mob/dead/observer/M in GLOB.player_list)
 					if(!M.client || is_banned_from(M.key, ROLE_CULTIST) || M.client.is_afk())
 						continue
