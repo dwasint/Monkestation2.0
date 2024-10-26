@@ -311,7 +311,7 @@
 
 /datum/team/cult/process()
 	..()
-	if (cultist_cap > 1) //The first call occurs in OnPostSetup()
+	if (cultist_cap >= 1) //The first call occurs in OnPostSetup()
 		UpdateCap()
 
 	switch(stage)
