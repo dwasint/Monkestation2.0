@@ -549,7 +549,7 @@
 	var/datum/mind/M = owner
 
 	if ("Cult Panel" in M.active_uis)
-		var/datum/mind_ui/m_ui = M.active["Cult Panel"]
+		var/datum/mind_ui/m_ui = M.active_uis["Cult Panel"]
 		if (m_ui.active)
 			m_ui.Display()
 

@@ -55,7 +55,7 @@ var/list/arcane_tomes = list()
 
 /obj/item/weapon/tome/proc/tome_text()
 	var/page_data = null
-	var/dat = {"<title>arcane tome</title><body style="color:#5C1D12" background="tomebg.png">
+	var/dat = {"<title>arcane tome</title><body style="color:#5C1D12">
 
 			<style>
 				label {display: inline-block; width: 50px;text-align: right;float: left;margin: 0 0 0 10px;}
@@ -162,7 +162,6 @@ var/list/arcane_tomes = list()
 		talismans.Remove(T)
 		usr.put_in_hands(T)
 
-	usr << browse_rsc('monkestation/code/modules/bloody_cult/icons/tomebg.png', "tomebg.png")
 	usr << browse(tome_text(), "window=arcanetome;size=900x600")
 
 /obj/item/weapon/tome/attack(var/mob/living/M, var/mob/living/user)
@@ -206,7 +205,6 @@ var/list/arcane_tomes = list()
 /obj/item/weapon/tome/pickup(var/mob/user)
 	. = ..()
 	if(IS_CULTIST(user) && state == TOME_OPEN)
-		usr << browse_rsc('monkestation/code/modules/bloody_cult/icons/tomebg.png', "tomebg.png")
 		usr << browse(tome_text(), "window=arcanetome;size=900x600")
 
 /obj/item/weapon/tome/dropped(var/mob/user)
@@ -232,7 +230,6 @@ var/list/arcane_tomes = list()
 			flick("tome-flickopen",src)
 			playsound(user, "pageturn", 50, 1, -5)
 			state = TOME_OPEN
-			usr << browse_rsc('monkestation/code/modules/bloody_cult/icons/tomebg.png', "tomebg.png")
 			usr << browse(tome_text(), "window=arcanetome;size=900x600")
 		else
 			icon_state = "tome"
@@ -263,7 +260,6 @@ var/list/arcane_tomes = list()
 				I.forceMove(src)
 				to_chat(user, "<span class='notice'>You slip \the [I] into \the [src].</span>")
 				if (state == TOME_OPEN)
-					usr << browse_rsc('monkestation/code/modules/bloody_cult/icons/tomebg.png', "tomebg.png")
 					usr << browse(tome_text(), "window=arcanetome;size=900x600")
 		else
 			to_chat(user, "<span class='warning'>This tome cannot contain any more talismans. Use or remove some first.</span>")

@@ -14,6 +14,8 @@ GLOBAL_LIST_INIT(cult_spires, list())
 	pixel_x = -16 * 1
 	pixel_y = -4 * 1
 	plane = GAME_PLANE
+	map_id = HOLOMAP_MARKER_CULT_SPIRE
+	marker_icon_state = "spire"
 	light_color = "#FF0000"
 	var/stage = 1
 

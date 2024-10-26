@@ -185,3 +185,16 @@ GLOBAL_LIST_INIT(particle_string_to_type, list(
 #define TRAIT_SEER "seer_trait"
 
 #define MODE_CULT "cult"
+
+#define HOLOMAP_MARKER_TEARREALITY		"tearreality"
+#define HOLOMAP_MARKER_BLOODSTONE		"bloodstone"
+#define HOLOMAP_MARKER_CULT_ALTAR		"altar"
+#define HOLOMAP_MARKER_CULT_FORGE		"forge"
+#define HOLOMAP_MARKER_CULT_SPIRE		"spire"
+#define HOLOMAP_MARKER_CULT_ENTRANCE	"path_entrance"
+#define HOLOMAP_MARKER_CULT_EXIT		"path_exit"
+#define HOLOMAP_MARKER_CULT_RUNE		"rune"
+
+#define HOLOMAP_FILTER_CULT (1<<0)
+
+#define HOLOMAP_EXTRA_CULTMAP "cultmap"

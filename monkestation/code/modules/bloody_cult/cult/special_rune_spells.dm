@@ -166,6 +166,15 @@
 	R.plane = GAME_PLANE
 	R.set_light(1, 2, COLOR_RED)
 
+	var/datum/holomap_marker/marker = new(R)
+	marker.id = HOLOMAP_MARKER_TEARREALITY
+	marker.filter = HOLOMAP_FILTER_CULT
+	marker.x = R.x
+	marker.y = R.y
+	marker.z = R.z
+	marker.icon = 'monkestation/code/modules/bloody_cult/icons/holomap_markers.dmi'
+	marker.icon_state = "tearreality"
+
 	anim(target = R.loc, a_icon = 'monkestation/code/modules/bloody_cult/icons/cult_96x96.dmi', flick_anim = "rune_tearreality_activate", lay = SIGIL_LAYER, offX = -32, offY = -32, plane = GAME_PLANE)
 
 	var/list/platforms_to_spawn = list(NORTH, NORTHEAST, EAST, SOUTHEAST, SOUTH, SOUTHWEST, WEST, NORTHWEST)

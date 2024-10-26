@@ -98,7 +98,6 @@
 			if (istype(loc, /obj/item/weapon/tome))
 				var/obj/item/weapon/tome/T = loc
 				T.talismans.Remove(src)
-				user << browse_rsc('monkestation/code/modules/bloody_cult/icons/tomebg.png', "tomebg.png")
 				user << browse(T.tome_text(), "window=arcanetome;size=900x600")
 				user.put_in_hands(src)
 		return

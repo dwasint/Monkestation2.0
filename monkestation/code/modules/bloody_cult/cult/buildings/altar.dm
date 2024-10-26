@@ -16,6 +16,8 @@
 	layer = TABLE_LAYER
 	pass_flags_self = PASSTABLE
 	can_buckle = TRUE
+	map_id = HOLOMAP_MARKER_CULT_ALTAR
+	marker_icon_state = "altar"
 	var/obj/item/weapon/melee/soulblade/blade = null
 	var/altar_task = ALTARTASK_NONE
 	var/gem_delay = 300
@@ -25,8 +27,6 @@
 	var/mutable_appearance/build
 
 	var/list/watching_mobs = list()
-	var/list/watcher_maps = list()
-	var/datum/station_holomap/cult/holomap_datum
 
 	var/list/can_plant = list(
 		/obj/item/knife/ritual,
@@ -54,7 +54,8 @@
 
 /obj/structure/cult/altar/Destroy()
 
-	stopWatching()
+	for(var/mob/mob as anything in watching_mobs)
+		SSholomaps.hide_cult_map(mob)
 	if (blade)
 		if (loc)
 			blade.forceMove(loc)
@@ -236,31 +237,6 @@
 		return FALSE
 	. = ..()
 
-
-/obj/structure/cult/altar/proc/checkPosition()
-	for(var/mob/M in watching_mobs)
-		if(get_dist(src,M) > 1)
-			stopWatching(M)
-
-/obj/structure/cult/altar/proc/stopWatching(var/mob/user)
-	if(!user)
-		for(var/mob/M in watching_mobs)
-			if(M.client)
-				spawn(5)//we give it time to fade out
-					M.client.images -= watcher_maps["\ref[M]"]
-				animate(watcher_maps["\ref[M]"], alpha = 0, time = 5, easing = LINEAR_EASING)
-
-		watching_mobs = list()
-	else
-		if(user.client)
-			spawn(5)//we give it time to fade out
-				if(!(user in watching_mobs))
-					user.client.images -= watcher_maps["\ref[user]"]
-					watcher_maps -= "\ref[user]"
-			animate(watcher_maps["\ref[user]"], alpha = 0, time = 5, easing = LINEAR_EASING)
-
-			watching_mobs -= user
-
 /obj/structure/cult/altar/conceal()
 	if (blade || altar_task)
 		return
@@ -278,9 +254,6 @@
 /obj/structure/cult/altar/cultist_act(var/mob/user,var/menu="default")
 	.=..()
 	if (!.)
-		return
-	if(user in watching_mobs)
-		stopWatching(user)
 		return
 	if (altar_task)
 		switch (altar_task)
@@ -370,106 +343,113 @@
 				playsound(loc, 'sound/weapons/blade1.ogg', 50, 1)
 				update_icon()
 			return
-		else
-			var/list/choices = list(
-				list("Consult Roster", "radial_altar_roster", "Check the names and status of all of the cult's members."),
-				list("Commune with Nar-Sie", "radial_altar_commune", "Make contact with Nar-Sie."),
-				list("Conjure Soul Gem", "radial_altar_gem", "Order the altar to sculpt you a Soul Gem, to capture the soul of your enemies."),
-				)
-			var/list/made_choices = list()
-			for(var/list/choice in choices)
-				var/datum/radial_menu_choice/option = new
-				option.image = image(icon = 'monkestation/code/modules/bloody_cult/icons/cult_radial3.dmi', icon_state = choice[2])
-				option.info = span_boldnotice(choice[3])
-				made_choices[choice[1]] = option
+	else
+		var/list/choices = list(
+			list("Consult Roster", "radial_altar_roster", "Check the names and status of all of the cult's members."),
+			list("Commune with Nar-Sie", "radial_altar_commune", "Make contact with Nar-Sie."),
+			list("Look through Veil", "radial_altar_map", "Check the veil for tears to locate other occult constructions."),
+			list("Conjure Soul Gem", "radial_altar_gem", "Order the altar to sculpt you a Soul Gem, to capture the soul of your enemies."),
+			)
+		var/list/made_choices = list()
+		for(var/list/choice in choices)
+			var/datum/radial_menu_choice/option = new
+			option.image = image(icon = 'monkestation/code/modules/bloody_cult/icons/cult_radial3.dmi', icon_state = choice[2])
+			option.info = span_boldnotice(choice[3])
+			made_choices[choice[1]] = option
 
-			var/task = show_radial_menu(user,src,made_choices, tooltips = TRUE, radial_icon = 'monkestation/code/modules/bloody_cult/icons/cult_radial3.dmi')
-			if (buckled_mobs || !Adjacent(user) || !task)
-				return
-			switch (task)
-				if ("Consult Roster")
-					var/datum/team/cult/cult = locate_team(/datum/team/cult)
-					if (!cult)
-						return
-					var/dat = {"<body style="color:#FFFFFF" bgcolor="#110000">"}
-					dat += "<b>Our cult can currently grow up to [cult.cultist_cap] members.</b>"
-					dat += "<ul>"
-					for (var/datum/mind/mind in cult.members)
-						var/datum/antagonist/cult/C = mind.has_antag_datum(/datum/antagonist/cult)
-						var/conversion = ""
-						var/cult_role = ""
-						switch (C.cultist_role)
-							if (CULTIST_ROLE_ACOLYTE)
-								cult_role = "Acolyte"
-							if (CULTIST_ROLE_MENTOR)
-								cult_role = "Mentor"
-							else
-								cult_role = "Herald"
-						if (C.conversion.len > 0)
-							conversion = pick(C.conversion)
-						var/origin_text = ""
-						switch (conversion)
-							if ("converted")
-								origin_text = "Converted by [C.conversion[conversion]]"
-							if ("resurrected")
-								origin_text = "Resurrected by [C.conversion[conversion]]"
-							if ("soulstone")
-								origin_text = "Soul captured by [C.conversion[conversion]]"
-							if ("altar")
-								origin_text = "Volunteer shade"
-							if ("sacrifice")
-								origin_text = "Sacrifice"
-							else
-								origin_text = "Founder"
-						var/mob/living/carbon/H = mind.current
-						var/extra = ""
-						if (H && istype(H))
-							if (H.stat == DEAD)
-								extra = " - <span style='color:#FF0000'>DEAD</span>"
-						dat += "<li><b>[M.name] ([cult_role])</b></li> - [origin_text][extra]"
-					for(var/obj/item/restraints/handcuffs/cult/cuffs in cult.bindings)
-						if (iscarbon(cuffs.loc))
-							var/mob/living/carbon/C = cuffs.loc
-							if (C.handcuffed == cuffs && cuffs.gaoler && cuffs.gaoler.owner)
-								var/datum/mind/gaoler = cuffs.gaoler.owner
-								var/extra = ""
-								if (C && istype(C))
-									if (C.stat == DEAD)
-										extra = " - <span style='color:#FF0000'>DEAD</span>"
-								dat += "<li><span style='color:#FFFF00'><b>[C.real_name]</b></span></li> - Prisoner of [gaoler.name][extra]"
-					dat += {"</ul></body>"}
-					user << browse("<TITLE>Cult Roster</TITLE>[dat]", "window=cultroster;size=600x400")
-					onclose(user, "cultroster")
-				if ("Commune with Nar-Sie")
-					if(narsie_message_cooldown)
-						to_chat(user, "<span class='warning'>This altar has already sent a message in the past 30 seconds, wait a moment.</span>")
-						return
-					var/input = stripped_input(user, "Please choose a message to transmit to Nar-Sie through the veil. Know that he can be fickle, and abuse of this ritual will leave your body asunder. Communion does not guarantee a response. There is a 30 second delay before you may commune again, be clear, full and concise.", "To abort, send an empty message.", "")
-					if(!input || !Adjacent(user))
-						return
-					usr.pray(input)
-					to_chat(usr, "<span class='notice'>Your communion has been received.</span>")
-					var/turf/T = get_turf(usr)
-					log_say("[key_name(usr)] (@[T.x],[T.y],[T.z]) has communed with Nar-Sie: [input]")
-					narsie_message_cooldown = 1
-					spawn(30 SECONDS)
-						narsie_message_cooldown = 0
-				if ("Conjure Soul Gem")
-					altar_task = ALTARTASK_GEM
+		var/task = show_radial_menu(user,src,made_choices, tooltips = TRUE, radial_icon = 'monkestation/code/modules/bloody_cult/icons/cult_radial3.dmi')
+		if (buckled_mobs || !Adjacent(user) || !task)
+			return
+		switch (task)
+			if ("Consult Roster")
+				var/datum/team/cult/cult = locate_team(/datum/team/cult)
+				if (!cult)
+					return
+				var/dat = {"<body style="color:#FFFFFF" bgcolor="#110000">"}
+				dat += "<b>Our cult can currently grow up to [cult.cultist_cap] members.</b>"
+				dat += "<ul>"
+				for (var/datum/mind/mind in cult.members)
+					var/datum/antagonist/cult/C = mind.has_antag_datum(/datum/antagonist/cult)
+					var/conversion = ""
+					var/cult_role = ""
+					switch (C.cultist_role)
+						if (CULTIST_ROLE_ACOLYTE)
+							cult_role = "Acolyte"
+						if (CULTIST_ROLE_MENTOR)
+							cult_role = "Mentor"
+						else
+							cult_role = "Herald"
+					if (C.conversion.len > 0)
+						conversion = pick(C.conversion)
+					var/origin_text = ""
+					switch (conversion)
+						if ("converted")
+							origin_text = "Converted by [C.conversion[conversion]]"
+						if ("resurrected")
+							origin_text = "Resurrected by [C.conversion[conversion]]"
+						if ("soulstone")
+							origin_text = "Soul captured by [C.conversion[conversion]]"
+						if ("altar")
+							origin_text = "Volunteer shade"
+						if ("sacrifice")
+							origin_text = "Sacrifice"
+						else
+							origin_text = "Founder"
+					var/mob/living/carbon/H = mind.current
+					var/extra = ""
+					if (H && istype(H))
+						if (H.stat == DEAD)
+							extra = " - <span style='color:#FF0000'>DEAD</span>"
+					dat += "<li><b>[H.name] ([cult_role])</b></li> - [origin_text][extra]"
+				for(var/obj/item/restraints/handcuffs/cult/cuffs in cult.bindings)
+					if (iscarbon(cuffs.loc))
+						var/mob/living/carbon/C = cuffs.loc
+						if (C.handcuffed == cuffs && cuffs.gaoler && cuffs.gaoler.owner)
+							var/datum/mind/gaoler = cuffs.gaoler.owner
+							var/extra = ""
+							if (C && istype(C))
+								if (C.stat == DEAD)
+									extra = " - <span style='color:#FF0000'>DEAD</span>"
+							dat += "<li><span style='color:#FFFF00'><b>[C.real_name]</b></span></li> - Prisoner of [gaoler.name][extra]"
+				dat += {"</ul></body>"}
+				user << browse("<TITLE>Cult Roster</TITLE>[dat]", "window=cultroster;size=600x400")
+				onclose(user, "cultroster")
+			if ("Commune with Nar-Sie")
+				if(narsie_message_cooldown)
+					to_chat(user, "<span class='warning'>This altar has already sent a message in the past 30 seconds, wait a moment.</span>")
+					return
+				var/input = stripped_input(user, "Please choose a message to transmit to Nar-Sie through the veil. Know that he can be fickle, and abuse of this ritual will leave your body asunder. Communion does not guarantee a response. There is a 30 second delay before you may commune again, be clear, full and concise.", "To abort, send an empty message.", "")
+				if(!input || !Adjacent(user))
+					return
+				usr.pray(input)
+				to_chat(usr, "<span class='notice'>Your communion has been received.</span>")
+				var/turf/T = get_turf(usr)
+				log_say("[key_name(usr)] (@[T.x],[T.y],[T.z]) has communed with Nar-Sie: [input]")
+				narsie_message_cooldown = 1
+				spawn(30 SECONDS)
+					narsie_message_cooldown = 0
+			if ("Conjure Soul Gem")
+				altar_task = ALTARTASK_GEM
+				update_icon()
+				overlays += "altar-soulstone1"
+				spawn (gem_delay/3)
 					update_icon()
-					overlays += "altar-soulstone1"
-					spawn (gem_delay/3)
-						update_icon()
-						overlays += "altar-soulstone2"
-						sleep (gem_delay/3)
-						update_icon()
-						overlays += "altar-soulstone3"
-						sleep (gem_delay/3)
-						altar_task = ALTARTASK_NONE
-						update_icon()
-						var/obj/item/soulstone/gem/gem = new (loc)
-						gem.pixel_y = 4
+					overlays += "altar-soulstone2"
+					sleep (gem_delay/3)
+					update_icon()
+					overlays += "altar-soulstone3"
+					sleep (gem_delay/3)
+					altar_task = ALTARTASK_NONE
+					update_icon()
+					var/obj/item/soulstone/gem/gem = new (loc)
+					gem.pixel_y = 4
+			if ("Look through Veil")
+				SSholomaps.show_cult_map(user)
+				watching_mobs |= user
+				RegisterSignal(user, COMSIG_MOVABLE_MOVED, PROC_REF(remove_watching))
 
+/obj/structure/cult/altar/proc/remove_watching(mob/user)
+	watching_mobs -= user
 
 /obj/structure/cult/altar/proc/StartSacrifice(var/mob/user)
 	var/mob/M = buckled_mobs[1]

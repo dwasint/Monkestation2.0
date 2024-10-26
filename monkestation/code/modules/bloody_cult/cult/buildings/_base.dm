@@ -14,6 +14,22 @@
 	var/image/progbar = null//progress bar
 	var/cancelling = 3//check to abort the ritual if interrupted
 	var/custom_process = 0
+	//if we have a map id we create a holomap marker
+	var/map_id
+	var/marker_icon = 'monkestation/code/modules/bloody_cult/icons/holomap_markers.dmi'
+	var/marker_icon_state
+
+/obj/structure/cult/Initialize(mapload)
+	. = ..()
+	if(map_id)
+		var/datum/holomap_marker/holomarker = new(src)
+		holomarker.id = map_id
+		holomarker.filter = HOLOMAP_FILTER_CULT
+		holomarker.x = src.x
+		holomarker.y = src.y
+		holomarker.z = src.z
+		holomarker.icon = marker_icon
+		holomarker.icon_state = marker_icon_state
 
 /obj/structure/cult/get_cult_power()
 	return 1//light emitted by those won't be reduced during the eclipse

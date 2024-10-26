@@ -749,7 +749,6 @@
 		to_chat(activator, "<span class='notice'>You slip \the [tool] into \the [target].</span>")
 		if (target.state == TOME_OPEN && ismob(target.loc))
 			var/mob/M = target.loc
-			M << browse_rsc('monkestation/code/modules/bloody_cult/icons/tomebg.png', "tomebg.png")
 			M << browse(target.tome_text(), "window=arcanetome;size=537x375")
 	else
 		to_chat(activator, "<span class='warning'>This tome cannot contain any more talismans.</span>")
@@ -2573,6 +2572,15 @@ var/list/seer_rituals = list()
 	spell_holder.overlays += I_network
 	custom_rune = TRUE
 
+	var/datum/holomap_marker/marker = new(R)
+	marker.id = HOLOMAP_MARKER_CULT_ENTRANCE
+	marker.filter = HOLOMAP_FILTER_CULT
+	marker.x = R.x
+	marker.y = R.y
+	marker.z = R.z
+	marker.icon = 'monkestation/code/modules/bloody_cult/icons/holomap_markers.dmi'
+	marker.icon_state = "path_entrance"
+
 	to_chat(activator, "<span class='notice'>This rune will now let you travel through the \"[network]\" Path.</span>")
 
 	var/datum/antagonist/cult/C = IS_CULTIST(activator)
@@ -2674,6 +2682,16 @@ var/list/bloodcult_exitportals = list()
 	if (!network)
 		qdel(src)
 		return
+
+	var/datum/holomap_marker/marker = new(R)
+	marker.id = HOLOMAP_MARKER_CULT_EXIT
+	marker.filter = HOLOMAP_FILTER_CULT
+	marker.x = R.x
+	marker.y = R.y
+	marker.z = R.z
+	marker.icon = 'monkestation/code/modules/bloody_cult/icons/holomap_markers.dmi'
+	marker.icon_state = "path_exit"
+
 
 	var/datum/rune_word/W = GLOB.rune_words[network]
 

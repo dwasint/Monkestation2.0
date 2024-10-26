@@ -30,6 +30,10 @@ var/list/rune_appearances_cache = list()
 	var/datum/reagent/blood/blood3
 	var/list/datum/disease2/disease/virus2 = list()
 
+	var/map_id = HOLOMAP_MARKER_CULT_RUNE
+	var/marker_icon_state = "rune"
+	var/marker_icon = 'monkestation/code/modules/bloody_cult/icons/holomap_markers.dmi'
+
 	//Used when a nullrod is preventing a rune's activation TODO: REWORK NULL ROD INTERACTIONS
 	var/nullblock = 0
 
@@ -39,8 +43,8 @@ var/list/rune_appearances_cache = list()
 	//Prevents the same rune from being concealed/revealed several times on a row.
 	var/conceal_cooldown = 0
 
-/obj/effect/new_rune/New()
-	..()
+/obj/effect/new_rune/Initialize(mapload)
+	. = ..()
 	blood_image = image(src)
 	var/static/list/loc_connections = list(
 		COMSIG_ATOM_ENTERED = PROC_REF(on_entered),
@@ -55,6 +59,16 @@ var/list/rune_appearances_cache = list()
 			AI.client.images += blood_image
 
 	runes += src
+
+	if(map_id)
+		var/datum/holomap_marker/holomarker = new(src)
+		holomarker.id = map_id
+		holomarker.filter = HOLOMAP_FILTER_CULT
+		holomarker.x = src.x
+		holomarker.y = src.y
+		holomarker.z = src.z
+		holomarker.icon = marker_icon
+		holomarker.icon_state = marker_icon_state
 
 
 /obj/effect/new_rune/Destroy()

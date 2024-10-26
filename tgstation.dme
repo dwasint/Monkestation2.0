@@ -6522,6 +6522,7 @@
 #include "monkestation\code\modules\bloody_cult\cult\weapons\ritual_blade.dm"
 #include "monkestation\code\modules\bloody_cult\cult\weapons\soulblade.dm"
 #include "monkestation\code\modules\bloody_cult\gods_power\deconversion_ritual.dm"
+#include "monkestation\code\modules\bloody_cult\holomap_additions\cult_markers.dm"
 #include "monkestation\code\modules\bloody_cult\mind_uis\adminbus.dm"
 #include "monkestation\code\modules\bloody_cult\mind_uis\blood_cult.dm"
 #include "monkestation\code\modules\bloody_cult\mind_uis\draw_runes.dm"

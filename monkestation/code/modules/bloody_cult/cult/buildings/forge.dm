@@ -16,6 +16,9 @@
 	plane = GAME_PLANE
 	light_color = LIGHT_COLOR_ORANGE
 	custom_process = 1
+	map_id = HOLOMAP_MARKER_CULT_ALTAR
+	marker_icon_state = "forge"
+
 	var/heating_power = 40000
 	var/set_temperature = 50
 	var/mob/forger = null
@@ -24,8 +27,8 @@
 	var/obj/effect/cult_ritual/forge/forging = null
 
 
-/obj/structure/cult/forge/New()
-	..()
+/obj/structure/cult/forge/Initialize(mapload)
+	. = ..()
 	START_PROCESSING(SSobj, src)
 	set_light(2)
 	flick("forge-spawn",src)
