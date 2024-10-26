@@ -131,6 +131,7 @@ GLOBAL_LIST_INIT(mind_ui_id_to_type, list())
 	var/list/sub_uis_to_spawn = list()
 
 	var/display_with_parent = FALSE
+	var/never_move = FALSE
 
 	var/active = TRUE
 
@@ -496,9 +497,10 @@ GLOBAL_LIST_INIT(mind_ui_id_to_type, list())
 		parent.offset_y += dest_y_val - start_y_val
 		parent.UpdateUIScreenLoc()
 		for (var/datum/mind_ui/sub in parent.subUIs)
-			sub.offset_x += dest_x_val - start_x_val
-			sub.offset_y += dest_y_val - start_y_val
-			sub.UpdateUIScreenLoc()
+			if (!sub.never_move)
+				sub.offset_x += dest_x_val - start_x_val
+				sub.offset_y += dest_y_val - start_y_val
+				sub.UpdateUIScreenLoc()
 	else
 		offset_x += dest_x_val - start_x_val
 		offset_y += dest_y_val - start_y_val

@@ -75,8 +75,7 @@
 /datum/antagonist/cult/on_gain()
 	add_objectives()
 	START_PROCESSING(SSobj, src)
-	owner.current.DisplayUI("Cultist Left Panel")
-	owner.current.DisplayUI("Cultist Panel")
+	owner.current.DisplayUI("Cultist")
 	for (var/ritual_type in GLOB.bloodcult_personal_rituals)
 		possible_rituals += new ritual_type()
 	. = ..()
@@ -92,10 +91,7 @@
 
 /datum/antagonist/cult/on_removal()
 	REMOVE_TRAIT(owner.current, TRAIT_HEALS_FROM_CULT_PYLONS, CULT_TRAIT)
-	owner.current.HideUI("Cultist Left Panel")
-	owner.current.HideUI("Cultist Right Panel")
-	owner.current.HideUI("Cult Rituals")
-	owner.current.HideUI("Cultist Panel")
+	owner.current.HideUI("Cultist")
 	STOP_PROCESSING(SSobj, src)
 	if(!silent)
 		owner.current.visible_message(span_deconversion_message("[owner.current] looks like [owner.current.p_theyve()] just reverted to [owner.current.p_their()] old faith!"), ignored_mobs = owner.current)
@@ -317,14 +313,6 @@
 					to_chat(owner.current, "<b>Apply your palms on a wall to draw a sigil on it that lets you and any ally pass through it.</b>")
 					GiveTattoo(/datum/cult_tattoo/shortcut)
 
-	if (owner.current)//because gibbed cultists might still gain devotion through faction rituals
-		if ("Cult Panel" in owner.active_uis)
-			var/datum/mind_ui/m_ui = owner.active_uis["Cult Panel"]
-			if (m_ui.active)
-				m_ui.Display()
-		else
-			owner.current.DisplayUI("Cultist Right Panel")
-
 /datum/antagonist/cult/proc/get_devotion_rank()
 	switch(devotion)
 		if (2000 to INFINITY)
@@ -377,7 +365,6 @@
 /datum/antagonist/cult/proc/update_cult_hud()
 	var/mob/M = owner?.current
 	if(M)
-		M.DisplayUI("Cultist")
 		if (M.client && M.hud_used)
 			if (isshade(M))
 				if (istype(M.loc,/obj/item/weapon/melee/soulblade))
