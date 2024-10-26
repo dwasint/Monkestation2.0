@@ -2137,7 +2137,7 @@ var/list/seer_rituals = list()
 		target.equip_to_slot_or_del(new /obj/item/clothing/under/color/black,ITEM_SLOT_ICLOTHING)
 		target.equip_to_slot_or_del(new /obj/item/clothing/suit/hooded/cultrobes/alt(target), ITEM_SLOT_OCLOTHING)
 		target.equip_to_slot_or_del(new /obj/item/clothing/shoes/cult/alt(target), ITEM_SLOT_FEET)
-		target.equip_to_slot_or_del(new /obj/item/clothing/gloves/black/cult(target), ITEM_SLOT_GLOVES)
+		target.equip_to_slot_or_del(new /obj/item/clothing/gloves/color/black/cult(target), ITEM_SLOT_GLOVES)
 
 	//transferring backpack items
 	var/obj/item/storage/backpack/cultpack/new_pack = new (target)

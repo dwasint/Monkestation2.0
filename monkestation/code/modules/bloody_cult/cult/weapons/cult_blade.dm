@@ -7,6 +7,8 @@
 	righthand_file = 'icons/mob/inhands/64x64_righthand.dmi'
 	icon = 'monkestation/code/modules/bloody_cult/icons/cult.dmi'
 	icon_state = "cultblade"
+	inhand_x_dimension = 64
+	inhand_y_dimension = 64
 	w_class = WEIGHT_CLASS_BULKY
 	force = 30
 	throwforce = 10

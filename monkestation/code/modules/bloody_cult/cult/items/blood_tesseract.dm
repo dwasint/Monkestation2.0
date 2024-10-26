@@ -10,7 +10,7 @@
 	var/discarded_types = list(
 		/obj/item/clothing/shoes/cult,
 		/obj/item/clothing/suit/hooded/cultrobes,
-		/obj/item/clothing/gloves/black/cult,
+		/obj/item/clothing/gloves/color/black/cult,
 		)
 
 	var/list/stored_gear = list()

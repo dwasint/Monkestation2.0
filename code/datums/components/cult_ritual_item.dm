@@ -20,7 +20,7 @@
 
 /datum/component/cult_ritual_item/Initialize(
 	examine_message,
-	action = /datum/action/item_action/cult_dagger,
+	action = null,
 	turfs_that_boost_us = /turf/open/floor/engine/cult,
 	)
 
