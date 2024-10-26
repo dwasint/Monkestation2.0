@@ -43,7 +43,7 @@
 	user.client.screen |= user.hud_used.holomap
 	user.client.images |= cult_map
 	user.overlay_fullscreen("map_blocker", /atom/movable/screen/fullscreen/conversion_border)
-	victim.update_fullscreen_alpha("conversionborder", 255, 0)
+	user.update_fullscreen_alpha("map_blocker", 255, 0)
 
 /datum/controller/subsystem/holomaps/proc/hide_cult_map(mob/user, image/cult_map)
 	user.client.screen -= user.hud_used.holomap
