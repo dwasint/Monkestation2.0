@@ -203,7 +203,6 @@
 	var/list/choices = list(
 		list("Forge Blade", "radial_blade", "A powerful ritual blade, the signature weapon of the bloodthirsty cultists. Features a notch in which a Soul Gem can fit."),
 		list("Forge Construct Shell", "radial_constructshell", "A polymorphic sculpture that can be shaped into a powerful ally by inserting a full Soul Gem or Shard."),
-		list("Forge Helmet", "radial_helmet", "This protective helmet offers the same enhancing powers that a Cult Hood provides, on top of being space proof."),
 		list("Forge Armor", "radial_armor", "This protective armor offers the same enhancing powers that Cult Robes provide, on top of being space proof."),
 	)
 
@@ -224,13 +223,9 @@
 			timeleft = 10
 			forge_icon = "forge_blade"
 		if ("Forge Armor")
-			template = /obj/item/clothing/suit/space/cult
+			template = /obj/item/clothing/suit/hooded/cultrobes/hardened
 			timeleft = 23
 			forge_icon = "forge_armor"
-		if ("Forge Helmet")
-			template = /obj/item/clothing/head/helmet/space/cult
-			timeleft = 8
-			forge_icon = "forge_helmet"
 		if ("Forge Construct Shell")
 			template = /obj/structure/constructshell
 			timeleft = 25

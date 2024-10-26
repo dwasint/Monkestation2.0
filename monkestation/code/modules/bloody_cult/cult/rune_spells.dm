@@ -2134,12 +2134,10 @@ var/list/seer_rituals = list()
 		target.dropItemToGround(user_slot)
 		user_slot.forceMove(BT)
 
-		if(!isplasmaman(target))
-			target.equip_to_slot_if_possible(new /obj/item/clothing/suit/hooded/cultrobes(target), ITEM_SLOT_OCLOTHING)
-
-
-	target.equip_to_slot_if_possible(new /obj/item/clothing/shoes/cult(target), ITEM_SLOT_FEET)
-	target.equip_to_slot_if_possible(new /obj/item/clothing/gloves/black/cult(target), ITEM_SLOT_GLOVES)
+		target.equip_to_slot_or_del(new /obj/item/clothing/under/color/black,ITEM_SLOT_ICLOTHING)
+		target.equip_to_slot_or_del(new /obj/item/clothing/suit/hooded/cultrobes/alt(user), ITEM_SLOT_OCLOTHING)
+		target.equip_to_slot_or_del(new /obj/item/clothing/shoes/cult/alt(user), ITEM_SLOT_FEET)
+		target.equip_to_slot_or_del(new /obj/item/clothing/gloves/black/cult(target), ITEM_SLOT_GLOVES)
 
 	//transferring backpack items
 	var/obj/item/storage/backpack/cultpack/new_pack = new (target)
@@ -2151,6 +2149,7 @@ var/list/seer_rituals = list()
 	target.equip_to_slot_if_possible(new_pack, ITEM_SLOT_BACK)
 
 	activator.put_in_hands(BT)
+	target.put_in_hands(new /obj/item/restraints/legcuffs/bola/cult(user))
 	if(IS_CULTIST(target))
 		to_chat(target, "<span class='notice'>Robes and gear of the followers of Nar-Sie manifests around your body. You feel empowered.</span>")
 	else
