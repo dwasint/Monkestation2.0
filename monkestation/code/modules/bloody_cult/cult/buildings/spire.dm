@@ -204,7 +204,7 @@ GLOBAL_LIST_INIT(cult_spires, list())
 		return FALSE
 	if(user.occult_muted())
 		return
-	if(!user.mind.has_antag_datum(/datum/antagonist/cult) || !istype(user, /mob/living/basic/shade) || !istype(user, /mob/living/basic/astral_projection))
+	if(!user.mind.has_antag_datum(/datum/antagonist/cult) && !istype(user, /mob/living/basic/shade) && !istype(user, /mob/living/basic/astral_projection))
 		return
 
 	if(istype(user, /mob/living/basic/construct))
