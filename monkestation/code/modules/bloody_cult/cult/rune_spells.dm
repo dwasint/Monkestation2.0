@@ -595,13 +595,13 @@
 				if (M && IS_CULTIST(M))
 					i++
 					valid_tomes["[i] - Tome carried by [M.real_name] ([T.talismans.len]/[MAX_TALISMAN_PER_TOME])"] = T
-			/*
-			for (var/spell/cult/arcane_dimension/A in arcane_pockets)
-				if (A.holder && A.holder.loc && ismob(A.holder) && A.stored_tome)
+
+			for (var/datum/action/cooldown/spell/cult/arcane_dimension/A in arcane_pockets)
+				if (A.owner && A.owner.loc && ismob(A.owner) && A.stored_tome)
 					i++
-					var/mob/M = A.holder
+					var/mob/M = A.owner
 					valid_tomes["[i] - Tome in [M.real_name]'s arcane dimension ([A.stored_tome.talismans.len]/[MAX_TALISMAN_PER_TOME])"] = A.stored_tome
-			*/
+
 			if (valid_tomes.len <= 0)
 				to_chat(user, "<span class='warning'>No cultists are currently carrying a tome.</span>")
 				qdel(src)
