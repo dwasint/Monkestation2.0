@@ -88,7 +88,8 @@
 		made_choices[choice[1]] = option
 
 	var/task = show_radial_menu(user,user, made_choices, tooltips = TRUE, radial_icon = 'monkestation/code/modules/bloody_cult/icons/cult_radial3.dmi')//spawning on loc so we aren't offset by pixel_x/pixel_y, or affected by animate()
-	if (user.get_active_hand() != src)
+	var/obj/item/active_hand_item = user.get_active_held_item()
+	if (active_hand_item != src)
 		to_chat(user,"<span class='warning'>You must hold \the [src] in your active hand.</span>")
 		return
 	switch (task)

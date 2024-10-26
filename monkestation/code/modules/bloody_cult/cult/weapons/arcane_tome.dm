@@ -58,7 +58,7 @@ var/list/arcane_tomes = list()
 
 /obj/item/weapon/tome/proc/tome_text()
 	var/page_data = null
-	var/dat = {"<title>arcane tome</title><body style="color:#5C1D12">
+	var/dat = {"<title>arcane tome</title><body style="color:#FFFFFF" bgcolor="#110000">
 
 			<style>
 				label {display: inline-block; width: 50px;text-align: right;float: left;margin: 0 0 0 10px;}

@@ -845,10 +845,10 @@ var/list/converted_minds = list()
 
 	//secondly, let's stun our victim and begin the ritual
 	to_chat(victim, "<span class='danger'>Occult energies surge from below your [issilicon(victim) ? "actuators" : "feet"] and seep into your [issilicon(victim) ? "chassis" : "body"].</span>")
-	victim.Knockdown(5)
-	victim.Stun(5)
+	victim.Knockdown(5 SECONDS)
+	victim.Stun(5 SECONDS)
 	if (isalien(victim))
-		victim.Paralyze(5)
+		victim.Paralyze(5 SECONDS)
 	victim.overlay_fullscreen("conversionborder", /atom/movable/screen/fullscreen/conversion_border)
 	victim.update_fullscreen_alpha("conversionborder", 255, 5)
 	conversion = new(T)
@@ -909,10 +909,10 @@ var/list/converted_minds = list()
 					if (M.client)
 						M.playsound_local(T, 'monkestation/code/modules/bloody_cult/sound/convert_process.ogg', 10, 0, -4)
 				//then progress through the ritual
-				victim.Knockdown(5)
-				victim.Stun(5)
+				victim.Knockdown(5 SECONDS)
+				victim.Stun(5 SECONDS)
 				if (isalien(victim))
-					victim.Paralyze(5)
+					victim.Paralyze(5 SECONDS)
 				var/progress = 10//10 seconds to reach second phase for a naked cultist
 				progress += activator.get_cult_power()//down to 1-2 seconds when wearing cult gear
 				var/delay = 0
@@ -950,10 +950,10 @@ var/list/converted_minds = list()
 		//alright, now the second phase, which always lasts an additional 10 seconds, but no longer requires the proximity of the activator.
 		phase = 2
 		var/acceptance = "Never"
-		victim.Knockdown(15)
-		victim.Stun(15)
+		victim.Knockdown(15 SECONDS)
+		victim.Stun(15 SECONDS)
 		if (isalien(victim))
-			victim.Paralyze(15)
+			victim.Paralyze(15 SECONDS)
 
 		if (victim.client)
 			if(victim.mind.assigned_role == "Chaplain")
@@ -1136,6 +1136,7 @@ var/list/converted_minds = list()
 
 				victim.boxify(TRUE, FALSE, "cult")
 				abort(RITUALABORT_SACRIFICE)
+		victim.clear_fullscreen("conversionborder", 10)
 
 /datum/rune_spell/conversion/proc/convert(var/mob/M, var/mob/converter)
 	var/datum/antagonist/cult/newCultist = new(M.mind)
