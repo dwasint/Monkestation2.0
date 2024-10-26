@@ -33,7 +33,7 @@
 	set_light(4)
 	AddComponent(/datum/component/butchering, 50, 80)
 	AddComponent(/datum/component/two_handed, require_twohands = TRUE)
-	AddComponent(/datum/component/soul_stealer, soulstone_type = /obj/item/soulstone)
+	AddComponent(/datum/component/soul_stealer, soulstone_type = /obj/item/soulstone) //weaker so we can't make perfect constructs.
 	AddComponent( \
 		/datum/component/spin2win, \
 		spin_cooldown_time = 25 SECONDS, \

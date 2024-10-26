@@ -8,6 +8,7 @@
 	name = "tempting goblet"
 	desc = "An obsidian cup in the shape of a skull. Used by the followers of Nar-Sie to collect the blood of their sacrifices."
 	icon_state = "cult"
+	icon = 'monkestation/code/modules/bloody_cult/icons/reagent_containers.dmi'
 
 	fill_icon = 'monkestation/code/modules/bloody_cult/icons/reagentfillings.dmi'
 	fill_icon_state = "cult"

@@ -13,7 +13,14 @@
 	force = 30
 	throwforce = 10
 	sharpness = SHARP_EDGED
-	hitsound = "sound/weapons/bladeslice.ogg"
+	block_chance = 50 // now it's officially a cult esword
+	wound_bonus = -50
+	bare_wound_bonus = 20
+	hitsound = 'sound/weapons/bladeslice.ogg'
+	block_sound = 'sound/weapons/parry.ogg'
+	attack_verb_continuous = list("attacks", "slashes", "stabs", "slices", "tears", "lacerates", "rips", "dices", "rends")
+	attack_verb_simple = list("attack", "slash", "stab", "slice", "tear", "lacerate", "rip", "dice", "rend")
+
 	var/checkcult = 1
 
 /*
@@ -21,6 +28,13 @@
 	new /obj/item/weapon/melee/cultblade/nocult(loc)
 	qdel(src)
 */
+
+/obj/item/weapon/melee/cultblade/Initialize(mapload)
+	. = ..()
+	AddComponent(/datum/component/butchering, \
+	speed = 4 SECONDS, \
+	effectiveness = 100, \
+	)
 
 /obj/item/weapon/melee/cultblade/narsie_act()
 	return
@@ -46,6 +60,7 @@
 			return ..()
 	else
 		user.Paralyze(0.5 SECONDS)
+		user.dropItemToGround(src, TRUE)
 		to_chat(user, "<span class='warning'>An unexplicable force powerfully repels \the [src] from [target]!</span>")
 
 /obj/item/weapon/melee/cultblade/pickup(mob/living/user)
