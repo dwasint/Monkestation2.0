@@ -1256,16 +1256,16 @@ var/list/converted_minds = list()
 
 	if(issilicon(M))
 		to_chat(M, "<span class='danger'>WARNING: Short-circuits detected, Rebooting...</span>")
-		M.Knockdown(15)
+		M.Knockdown(9 SECONDS)
 
 	else if(iscarbon(M))
 		to_chat(M, "<span class='danger'>A surge of dark energies takes hold of your limbs. You stiffen and fall down.</span>")
 		var/mob/living/carbon/C = M
 		C.flash_act(visual = TRUE)
-		C.Knockdown(2.5 SECONDS)//used to be 25
-		C.Stun(2.5 SECONDS)//used to be 25
+		C.Knockdown(5 SECONDS)//used to be 25
+		C.Stun(5 SECONDS)//used to be 25
 		if (isalien(C))
-			C.Paralyze(2.5 SECONDS)
+			C.Paralyze(5 SECONDS)
 
 	if (!(locate(/obj/effect/stun_indicator) in M))
 		new /obj/effect/stun_indicator(M)
@@ -1279,7 +1279,7 @@ var/list/converted_minds = list()
 	alpha = 0
 	//plane = HIDING_MOB_PLANE
 	mouse_opacity = 0
-	var/stun_duration = 1.5 SECONDS
+	var/stun_duration = 4 SECONDS
 
 /obj/effect/cult_ritual/stun/New(turf/loc,var/type=1,var/mob/living/carbon/caster)
 	..()
@@ -1577,10 +1577,10 @@ var/list/confusion_victims = list()
 	page = "This rune causes every non-cultist (both humans and robots) in a 7 tile radius to be unable to hear for 50 seconds. \
 		The durations are halved when cast from a talisman, unless you slap someone directly with one, which will also limits the effects to them.\
 		<br><br>This rune is great to sow disorder and delay the arrival of security, and can potentially combo with a Stun talisman used on an area. The only downside is that you can't hear them scream while they are muted."
-	var/deaf_rune_duration=50//times are in seconds
-	var/deaf_talisman_duration=30
-	var/mute_rune_duration=25
-	var/mute_talisman_duration=15
+	var/deaf_rune_duration= 50 SECONDS//times are in seconds
+	var/deaf_talisman_duration=30 SECONDS
+	var/mute_rune_duration=25 SECONDS
+	var/mute_talisman_duration=15 SECONDS
 	var/effect_range=7
 	touch_cast = 1
 
@@ -1588,8 +1588,11 @@ var/list/confusion_victims = list()
 	invoke(activator,invocation,1)
 
 	var/deaf_duration = deaf_rune_duration
-	//var/mute_duration = mute_rune_duration
-
+	var/mute_duration = mute_rune_duration
+	addtimer(CALLBACK(src, PROC_REF(remove_deaf), M), deaf_duration)
+	addtimer(CALLBACK(src, PROC_REF(remove_mute), M), mute_duration)
+	ADD_TRAIT(M, TRAIT_MUTE, "rune")
+	ADD_TRAIT(M, TRAIT_DEAF, "rune")
 	var/datum/antagonist/cult/C = activator.mind.has_antag_datum(/datum/antagonist/cult)
 	if (!IS_CULTIST(M) && M.mind && M.stat != DEAD)
 		C.gain_devotion(50, DEVOTION_TIER_2, "deafmute_papered", M)
@@ -1620,6 +1623,10 @@ var/list/confusion_victims = list()
 			C.gain_devotion(50, DEVOTION_TIER_2, "deafmute", M)
 		M.overlay_fullscreen("deafborder", /atom/movable/screen/fullscreen/deafmute_border)//victims see a red overlay fade in-out for a second
 		M.update_fullscreen_alpha("deafborder", 100, 5)
+		addtimer(CALLBACK(src, PROC_REF(remove_deaf), M), deaf_duration)
+		addtimer(CALLBACK(src, PROC_REF(remove_mute), M), mute_duration)
+		ADD_TRAIT(M, TRAIT_MUTE, "rune")
+		ADD_TRAIT(M, TRAIT_DEAF, "rune")
 		var/obj/item/organ/internal/ears/ears = M.get_organ_slot(ORGAN_SLOT_EARS)
 		ears?.adjustEarDamage(0, deaf_duration)
 		if (!(HAS_TRAIT(M, TRAIT_DEAF)))
@@ -1638,6 +1645,11 @@ var/list/confusion_victims = list()
 /datum/rune_spell/deafmute/cast_talisman()
 	cast(deaf_talisman_duration, mute_talisman_duration)
 
+/datum/rune_spell/deafmute/proc/remove_deaf(mob/remover)
+	REMOVE_TRAIT(remover, TRAIT_DEAF, "rune")
+
+/datum/rune_spell/deafmute/proc/remove_mute(mob/remover)
+	REMOVE_TRAIT(remover, TRAIT_MUTE, "rune")
 
 ////////////////////////////////////////////////////////////////////
 //																  //
