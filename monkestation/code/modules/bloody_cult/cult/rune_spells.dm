@@ -1261,7 +1261,6 @@ var/list/converted_minds = list()
 	else if(iscarbon(M))
 		to_chat(M, "<span class='danger'>A surge of dark energies takes hold of your limbs. You stiffen and fall down.</span>")
 		var/mob/living/carbon/C = M
-		C.flash_act(visual = TRUE)
 		C.Knockdown(5 SECONDS)//used to be 25
 		C.Stun(5 SECONDS)//used to be 25
 		if (isalien(C))
@@ -1321,7 +1320,6 @@ var/list/converted_minds = list()
 					C.gain_devotion(50, DEVOTION_TIER_2, "stun_rune", L)
 			if(iscarbon(L))
 				var/mob/living/carbon/C = L
-				C.flash_act(visual = TRUE)
 				C.Knockdown(duration)
 				C.Stun(duration)
 				if (isalien(C))
@@ -1454,7 +1452,6 @@ var/list/confusion_victims = list()
 			M.update_fullscreen_alpha("blindblack", 255, 5)
 			spawn(5)
 				M.clear_fullscreen("blindblack", animated = FALSE)
-				M.flash_act(visual = TRUE)
 
 	//now to blind cameras, the effects on cameras do not time out, but they can be fixed
 	if (!specific_victim)
