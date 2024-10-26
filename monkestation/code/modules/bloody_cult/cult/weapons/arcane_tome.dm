@@ -24,6 +24,9 @@ var/list/arcane_tomes = list()
 	..()
 	arcane_tomes.Add(src)
 
+/obj/item/weapon/tome/salt_act()
+	fire_act(1000, 200)
+
 /obj/item/weapon/tome/Destroy()
 	arcane_tomes.Remove(src)
 	for(var/obj/O in talismans)

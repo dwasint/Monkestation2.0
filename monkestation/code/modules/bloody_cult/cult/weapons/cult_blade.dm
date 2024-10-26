@@ -23,11 +23,10 @@
 
 	var/checkcult = 1
 
-/*
+
 /obj/item/weapon/melee/cultblade/salt_act()
 	new /obj/item/weapon/melee/cultblade/nocult(loc)
 	qdel(src)
-*/
 
 /obj/item/weapon/melee/cultblade/Initialize(mapload)
 	. = ..()

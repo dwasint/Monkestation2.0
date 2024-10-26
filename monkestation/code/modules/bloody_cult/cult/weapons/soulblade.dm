@@ -54,10 +54,10 @@
 			linked_cultist = user
 			to_chat(shade, "<spawn class='notice'>You have made contact with [user]. As long as you remain within 5 tiles of them, you can move by yourself without losing blood, and regenerate blood passively at a faster rate.</span>")
 	..()
-/*
+
 /obj/item/weapon/melee/soulblade/salt_act()
 	qdel(src)
-*/
+
 
 /obj/item/weapon/melee/soulblade/examine(var/mob/user)
 	. = ..()

@@ -20,12 +20,12 @@
 	pixel_x=0
 	pixel_y=0
 
-/*
+
 /obj/item/weapon/talisman/salt_act()
 	if (attuned_rune && attuned_rune.active_spell)
 		attuned_rune.active_spell.salt_act(get_turf(src))
 	ignite()
-*/
+
 
 /obj/item/weapon/talisman/proc/talisman_name()
 	var/datum/rune_spell/instance = spell_type

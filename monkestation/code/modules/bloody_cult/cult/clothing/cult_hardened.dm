@@ -16,6 +16,9 @@
 	max_heat_protection_temperature = SPACE_SUIT_MAX_TEMP_PROTECT
 	resistance_flags = NONE
 
+/obj/item/clothing/suit/hooded/cultrobes/hardened/salt_act()
+	acid_melt()
+
 /datum/armor/cultrobes_hardened
 	melee = 50
 	bullet = 40

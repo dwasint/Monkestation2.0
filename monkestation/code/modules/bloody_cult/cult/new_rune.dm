@@ -150,14 +150,14 @@ var/list/rune_appearances_cache = list()
 	return
 
 
-/*
+
 /obj/effect/new_rune/salt_act()
 	var/turf/T = get_turf(src)
-	anim(target = T, a_icon = 'monkestation/code/modules/bloody_cult/icons/effects.dmi', flick_anim = "rune_break", lay = NARSIE_GLOW, plane = ABOVE_LIGHTING_PLANE)
+	anim(target = T, a_icon = 'monkestation/code/modules/bloody_cult/icons/effects.dmi', flick_anim = "rune_break", plane = ABOVE_LIGHTING_PLANE)
 	if (active_spell)
 		active_spell.salt_act(T)
 	qdel(src)
-*/
+
 
 /obj/effect/new_rune/proc/write_word(var/word,var/datum/reagent/blood/blood)
 	if (!word)
