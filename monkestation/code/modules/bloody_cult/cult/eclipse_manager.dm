@@ -16,6 +16,7 @@ GLOBAL_DATUM_INIT(eclipse, /datum/eclipse_manager, new)
 	var/delay_problem_announcement = 3 MINUTES	//how long after the eclipse's supposed end will the crew be warned (in case the cult is extending the eclipse's duration)
 
 	var/problem_announcement = FALSE
+	var/eclipse_finished = FALSE
 
 /proc/eclipse_trigger_cult()
 	if (!GLOB.eclipse)
@@ -66,6 +67,7 @@ GLOBAL_DATUM_INIT(eclipse, /datum/eclipse_manager, new)
 	STOP_PROCESSING(SSobj, src)
 
 	update_station_lights()
+	eclipse_finished = TRUE
 
 	/*
 	spawn(delay_end_announcement)

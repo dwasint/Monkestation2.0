@@ -351,10 +351,8 @@
 			if (bloodspill_ritual)
 				check_ritual("bloodspill", bloody_floors.len)
 		if (BLOODCULT_STAGE_READY)
-			/*
-			if (GLOB.eclipse == ECLIPSE_OVER)
+			if (GLOB.eclipse.eclipse_finished)
 				stage(BLOODCULT_STAGE_MISSED)
-			*/
 		if (BLOODCULT_STAGE_ECLIPSE)
 			bloodstone.update_icon()
 			if (world.time >= bloodstone_target_time)
