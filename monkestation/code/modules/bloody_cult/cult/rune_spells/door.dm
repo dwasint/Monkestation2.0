@@ -23,8 +23,8 @@
 		if (locate(/obj/machinery/door/airlock/cult) in range(spell_holder,1))
 			abort(RITUALABORT_NEAR)
 		else
-			var/datum/antagonist/cult/C = activator.mind.has_antag_datum(/datum/antagonist/cult)
+			var/datum/antagonist/cult/cult_datum = activator.mind.has_antag_datum(/datum/antagonist/cult)
 			var/obj/machinery/door/airlock/cult/new_door = new /obj/machinery/door/airlock/cult(get_turf(spell_holder))
-			C.gain_devotion(10, DEVOTION_TIER_1, "summon_door", new_door)
+			cult_datum.gain_devotion(10, DEVOTION_TIER_1, "summon_door", new_door)
 			qdel(spell_holder)
 	qdel(src)

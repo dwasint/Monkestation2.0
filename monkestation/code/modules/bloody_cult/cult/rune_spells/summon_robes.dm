@@ -49,8 +49,8 @@
 
 	anim(target = target, a_icon = 'monkestation/code/modules/bloody_cult/icons/64x64.dmi', flick_anim = "rune_robes", offX = -32/2, offY = -32/2, plane = ABOVE_LIGHTING_PLANE)
 
-	var/datum/antagonist/cult/C = activator.mind.has_antag_datum(/datum/antagonist/cult)
-	C.gain_devotion(50, DEVOTION_TIER_0, "summon_robes", target)
+	var/datum/antagonist/cult/cult_datum = activator.mind.has_antag_datum(/datum/antagonist/cult)
+	cult_datum.gain_devotion(50, DEVOTION_TIER_0, "summon_robes", target)
 
 	var/obj/item/weapon/blood_tesseract/BT = new(get_turf(activator))
 	if (istype (spell_holder,/obj/item/weapon/talisman))

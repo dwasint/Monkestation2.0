@@ -63,9 +63,9 @@ GLOBAL_LIST_INIT(converted_minds, list())
 	var/list/targets = list()
 
 
-	for (var/mob/living/carbon/C in T)//all carbons can be converted...but only carbons. no cult silicons. (unless it's April 1st)
-		if (!IS_CULTIST(C) && C.stat != DEAD)//no more corpse conversions!
-			targets.Add(C)
+	for (var/mob/living/carbon/carbon in T)//all carbons can be converted...but only carbons. no cult silicons. (unless it's April 1st)
+		if (!IS_CULTIST(carbon) && carbon.stat != DEAD)//no more corpse conversions!
+			targets.Add(carbon)
 	if (targets.len > 0)
 		victim = pick(targets)
 	else
@@ -325,8 +325,8 @@ GLOBAL_LIST_INIT(converted_minds, list())
 				if (cult && victim.mind)
 					if (!(victim.mind in cult.previously_made_prisoner))
 						cult.previously_made_prisoner |= victim.mind
-						var/datum/antagonist/cult/C = activator.mind.has_antag_datum(/datum/antagonist/cult)
-						C.gain_devotion(250, DEVOTION_TIER_3,"made_prisoner",victim)
+						var/datum/antagonist/cult/cult_datum = activator.mind.has_antag_datum(/datum/antagonist/cult)
+						cult_datum.gain_devotion(250, DEVOTION_TIER_3,"made_prisoner",victim)
 
 				//let's start by removing any cuffs they might already have
 				if (victim.handcuffed)
@@ -383,17 +383,17 @@ GLOBAL_LIST_INIT(converted_minds, list())
 	cult.HandleRecruitedRole(newCultist)
 	if (!(victim.mind in cult.previously_converted))
 		cult.previously_made_prisoner |= M.mind
-		var/datum/antagonist/cult/C = converter.mind.has_antag_datum(/datum/antagonist/cult)
+		var/datum/antagonist/cult/cult_datum = converter.mind.has_antag_datum(/datum/antagonist/cult)
 		if (victim.mind in cult.previously_made_prisoner)
-			C.gain_devotion(250, DEVOTION_TIER_4,"converted_prisoner", victim)//making someone prisoner already grants 250 devotion on top.
+			cult_datum.gain_devotion(250, DEVOTION_TIER_4,"converted_prisoner", victim)//making someone prisoner already grants 250 devotion on top.
 		else
-			C.gain_devotion(500, DEVOTION_TIER_4,"conversion", victim)
+			cult_datum.gain_devotion(500, DEVOTION_TIER_4,"conversion", victim)
 	//newCultist.OnPostSetup()
 	//newCultist.Greet(GREET_CONVERTED)
 	newCultist.conversion["converted"] = activator
 	newCultist.update_cult_hud()
 
-/datum/rune_spell/conversion/midcast(var/mob/add_cultist)
+/datum/rune_spell/conversion/midcast(mob/add_cultist)
 	if (add_cultist != activator)
 		return
 	if (phase == 1)

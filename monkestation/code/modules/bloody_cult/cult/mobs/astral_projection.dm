@@ -136,8 +136,8 @@ GLOBAL_LIST_INIT(astral_projections, list())
 
 	if (world.time >= (last_devotion_gain + devotion_gain_delay))
 		last_devotion_gain += devotion_gain_delay
-		var/datum/antagonist/cult/C = mind.has_antag_datum(/datum/antagonist/cult)
-		C.gain_devotion(50, DEVOTION_TIER_2, "astral_journey")
+		var/datum/antagonist/cult/cult_datum = mind.has_antag_datum(/datum/antagonist/cult)
+		cult_datum.gain_devotion(50, DEVOTION_TIER_2, "astral_journey")
 
 
 /mob/living/basic/astral_projection/death(var/gibbed = FALSE)

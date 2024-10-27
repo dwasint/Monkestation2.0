@@ -19,9 +19,9 @@
 		return
 	if (!IS_CULTIST(src))
 		return
-	var/datum/antagonist/cult/C = mind?.has_antag_datum(/datum/antagonist/cult)
-	for (var/tattoo in C.tattoos)
-		var/datum/cult_tattoo/CT = C.tattoos[tattoo]
+	var/datum/antagonist/cult/cult_datum = mind?.has_antag_datum(/datum/antagonist/cult)
+	for (var/tattoo in cult_datum.tattoos)
+		var/datum/cult_tattoo/CT = cult_datum.tattoos[tattoo]
 		if (CT.name == tattoo_name)
 			return CT
 	return null
@@ -40,15 +40,15 @@
 
 /datum/cult_tattoo/bloodpool/getTattoo(var/mob/M)
 	..()
-	var/datum/antagonist/cult/C = M.mind?.has_antag_datum(/datum/antagonist/cult)
-	if (C)
-		GLOB.blood_communion.Add(C)
-		C.blood_pool = TRUE
+	var/datum/antagonist/cult/cult_datum = M.mind?.has_antag_datum(/datum/antagonist/cult)
+	if (cult_datum)
+		GLOB.blood_communion.Add(cult_datum)
+		cult_datum.blood_pool = TRUE
 
 /datum/cult_tattoo/bloodpool/Display()//Since that tattoo is now unlocked fairly early, better let cultists hide it easily by leaving the pool
-	var/datum/antagonist/cult/C = bearer.mind?.has_antag_datum(/datum/antagonist/cult)
-	if (C)
-		return C.blood_pool
+	var/datum/antagonist/cult/cult_datum = bearer.mind?.has_antag_datum(/datum/antagonist/cult)
+	if (cult_datum)
+		return cult_datum.blood_pool
 
 /datum/cult_tattoo/silent
 	name = TATTOO_SILENT

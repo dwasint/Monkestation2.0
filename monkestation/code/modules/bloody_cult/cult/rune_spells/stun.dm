@@ -47,8 +47,8 @@
 		invoke(activator,invocation,1)
 
 	if (M.stat != DEAD)
-		var/datum/antagonist/cult/C = activator.mind.has_antag_datum(/datum/antagonist/cult)
-		C.gain_devotion(100, DEVOTION_TIER_2, "stun_papered", M)
+		var/datum/antagonist/cult/cult_datum = activator.mind.has_antag_datum(/datum/antagonist/cult)
+		cult_datum.gain_devotion(100, DEVOTION_TIER_2, "stun_papered", M)
 
 	if(issilicon(M))
 		to_chat(M, "<span class='danger'>WARNING: Short-circuits detected, Rebooting...</span>")
@@ -112,8 +112,8 @@
 				duration--
 			else if (caster)
 				if (L.stat != DEAD)
-					var/datum/antagonist/cult/C = caster.mind.has_antag_datum(/datum/antagonist/cult)
-					C.gain_devotion(50, DEVOTION_TIER_2, "stun_rune", L)
+					var/datum/antagonist/cult/cult_datum = caster.mind.has_antag_datum(/datum/antagonist/cult)
+					cult_datum.gain_devotion(50, DEVOTION_TIER_2, "stun_rune", L)
 			if(iscarbon(L))
 				var/mob/living/carbon/C = L
 				C.Knockdown(duration)

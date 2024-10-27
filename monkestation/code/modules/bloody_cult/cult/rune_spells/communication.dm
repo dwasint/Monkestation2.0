@@ -38,15 +38,15 @@
 	var/number = cult.cult_reminders.len
 	var/text = "[number + 1]) [reminder], by [user.real_name]."
 	cult.cult_reminders += text
-	for(var/datum/mind/M in cult.members)
-		if (IS_CULTIST(M.current))//failsafe for cultist brains put in MMIs
-			to_chat(M.current, span_cult("<b>[user.real_name]</b>'s voice echoes in your head,[span_cultbold(reminder)]"))
+	for(var/datum/mind/mind in cult.members)
+		if (IS_CULTIST(mind.current))//failsafe for cultist brains put in MMIs
+			to_chat(mind.current, span_cult("<b>[user.real_name]</b>'s voice echoes in your head,[span_cultbold(reminder)]"))
 
-	for(var/mob/living/basic/astral_projection/A in GLOB.astral_projections)
-		to_chat(A, span_cult("<b>[user.real_name]</b>'s voice echoes in your head,[span_cultbold(reminder)]"))
+	for(var/mob/living/basic/astral_projection/astral in GLOB.astral_projections)
+		to_chat(astral, span_cult("<b>[user.real_name]</b>'s voice echoes in your head,[span_cultbold(reminder)]"))
 
-	for(var/mob/dead/observer/O in GLOB.player_list)
-		to_chat(O, span_cult("<b>[user.real_name]</b>'s voice echoes in your head,[span_cultbold(reminder)]"))
+	for(var/mob/dead/observer/observer in GLOB.player_list)
+		to_chat(observer, span_cult("<b>[user.real_name]</b>'s voice echoes in your head,[span_cultbold(reminder)]"))
 
 	//log_cultspeak("[key_name(user)] Cult reminder: [reminder]")
 
@@ -57,15 +57,15 @@
 
 	var/datum/antagonist/cult/team = activator.mind?.has_antag_datum(/datum/antagonist/cult)
 	var/datum/team/cult = team.cult_team
-	for (var/datum/mind/M in cult.members)
-		if (IS_CULTIST(M.current))//failsafe for cultist brains put in MMIs
-			to_chat(M.current, span_cult("<b>[activator.real_name]</b>'s voice echoes in your head,[span_cultbold(message)]"))
+	for (var/datum/mind/mind in cult.members)
+		if (IS_CULTIST(mind.current))//failsafe for cultist brains put in MMIs
+			to_chat(mind.current, span_cult("<b>[activator.real_name]</b>'s voice echoes in your head,[span_cultbold(message)]"))
 
-	for(var/mob/living/basic/astral_projection/A in GLOB.astral_projections)
-		to_chat(A, span_cult("<b>[activator.real_name]</b>'s voice echoes in your head,[span_cultbold(message)]"))
+	for(var/mob/living/basic/astral_projection/astral in GLOB.astral_projections)
+		to_chat(astral, span_cult("<b>[activator.real_name]</b>'s voice echoes in your head,[span_cultbold(message)]"))
 
-	for(var/mob/dead/observer/O in GLOB.player_list)
-		to_chat(O, span_cult("<b>[activator.real_name]</b>'s voice echoes in your head,[span_cultbold(message)]"))
+	for(var/mob/dead/observer/observer in GLOB.player_list)
+		to_chat(observer, span_cult("<b>[activator.real_name]</b>'s voice echoes in your head,[span_cultbold(message)]"))
 
 	//log_cultspeak("[key_name(activator)] Cult Communicate Talisman: [message]")
 
@@ -109,24 +109,24 @@
 			if (!IS_CULTIST(L))//geez we don't want that now do we
 				return
 		if (ishuman(speaker))
-			var/mob/living/carbon/human/H = speaker
-			speaker_name = H.real_name
+			var/mob/living/carbon/human/human = speaker
+			speaker_name = human.real_name
 			L = speaker
 
 		//var/rendered_message =  compose_message(speaker, message_language, raw_message, radio_freq, spans, message_mods)
 		var/datum/antagonist/cult/user = L?.mind?.has_antag_datum(/datum/antagonist/cult)
 		var/datum/team/cult/cult = user.cult_team
-		for (var/datum/mind/M in cult.members)
-			if (M.current == speaker)//echoes are annoying
+		for (var/datum/mind/mind in cult.members)
+			if (mind.current == speaker)//echoes are annoying
 				continue
-			if (IS_CULTIST(M.current))//failsafe for cultist brains put in MMIs
-				to_chat(M.current, "<span class='game say'><b>[speaker_name]</b>'s voice echoes in your head, <B><span class='sinisterbig'>[raw_message]</span></B></span>")
+			if (IS_CULTIST(mind.current))//failsafe for cultist brains put in MMIs
+				to_chat(mind.current, "<span class='game say'><b>[speaker_name]</b>'s voice echoes in your head, <B><span class='sinisterbig'>[raw_message]</span></B></span>")
 
-		for(var/mob/living/basic/astral_projection/A in GLOB.astral_projections)
-			to_chat(A, "<span class='game say'><b>[speaker_name]</b> communicates, <span class='sinisterbig'>[raw_message]</span></span>")
+		for(var/mob/living/basic/astral_projection/astral in GLOB.astral_projections)
+			to_chat(astral, "<span class='game say'><b>[speaker_name]</b> communicates, <span class='sinisterbig'>[raw_message]</span></span>")
 
-		for(var/mob/dead/observer/O in GLOB.player_list)
-			to_chat(O, "<span class='game say'><b>[speaker_name]</b> communicates, <span class='sinisterbig'>[raw_message]</span></span>")
+		for(var/mob/dead/observer/observer in GLOB.player_list)
+			to_chat(observer, "<span class='game say'><b>[speaker_name]</b> communicates, <span class='sinisterbig'>[raw_message]</span></span>")
 		//log_cultspeak("[key_name(speech.speaker)] Cult Communicate Rune: [rendered_message]")
 
 /obj/effect/cult_ritual/cult_communication/HasProximity(var/atom/movable/AM)

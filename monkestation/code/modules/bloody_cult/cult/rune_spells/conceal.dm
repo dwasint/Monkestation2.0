@@ -20,7 +20,7 @@
 	animate(alpha = 0, time = 3)
 	to_chat(activator, "<span class='notice'>All runes and cult structures in range hide themselves behind a thin layer of reality.</span>")
 	playsound(T, 'monkestation/code/modules/bloody_cult/sound/conceal.ogg', 50, 0, -5)
-	var/datum/antagonist/cult/C = activator.mind.has_antag_datum(/datum/antagonist/cult)
+	var/datum/antagonist/cult/cult_datum = activator.mind.has_antag_datum(/datum/antagonist/cult)
 
 	for(var/obj/structure/cult/S in range(effect_range,T))
 		var/dist = cheap_pythag(S.x - T.x, S.y - T.y)
@@ -28,7 +28,7 @@
 			continue
 		if (dist <= effect_range+0.5)
 			S.conceal()
-			C.gain_devotion(10, DEVOTION_TIER_0, "conceal_structure", S)
+			cult_datum.gain_devotion(10, DEVOTION_TIER_0, "conceal_structure", S)
 
 	for(var/obj/effect/new_rune/R in range(effect_range,T))
 		if (R == spell_holder)
@@ -38,7 +38,7 @@
 		var/dist = cheap_pythag(R.x - T.x, R.y - T.y)
 		if (dist <= effect_range+0.5)
 			R.conceal()
-			C.gain_devotion(10, DEVOTION_TIER_0, "conceal_rune", R)
+			cult_datum.gain_devotion(10, DEVOTION_TIER_0, "conceal_rune", R)
 			var/obj/effect/abstract/trail = shadow(R,T,"rune_conceal")
 			trail.alpha = 0
 			animate(trail, alpha = 200, time = 2)

@@ -90,7 +90,7 @@
 	R.active_spell = new type(activator,R)
 	qdel(src)
 
-/datum/rune_spell/raisestructure/midcast(var/mob/add_cultist)
+/datum/rune_spell/raisestructure/midcast(mob/add_cultist)
 	if (add_cultist in contributors)
 		return
 	invoke(add_cultist, invocation)
@@ -161,7 +161,7 @@
 
 /datum/rune_spell/raisestructure/proc/success()
 	for(var/mob/living/L in contributors)
-		var/datum/antagonist/cult/C = L.mind.has_antag_datum(/datum/antagonist/cult)
-		C.gain_devotion(10, DEVOTION_TIER_1,"raise_structure",structure)
+		var/datum/antagonist/cult/cult_datum = L.mind.has_antag_datum(/datum/antagonist/cult)
+		cult_datum.gain_devotion(10, DEVOTION_TIER_1,"raise_structure",structure)
 	new spawntype(spell_holder.loc)
 	qdel(spell_holder) //Deletes the datum as well.

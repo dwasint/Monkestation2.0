@@ -369,26 +369,26 @@
 				dat += "<b>Our cult can currently grow up to [cult.cultist_cap] members.</b>"
 				dat += "<ul>"
 				for (var/datum/mind/mind in cult.members)
-					var/datum/antagonist/cult/C = mind.has_antag_datum(/datum/antagonist/cult)
+					var/datum/antagonist/cult/cult_datum = mind.has_antag_datum(/datum/antagonist/cult)
 					var/conversion = ""
 					var/cult_role = ""
-					switch (C.cultist_role)
+					switch (cult_datum.cultist_role)
 						if (CULTIST_ROLE_ACOLYTE)
 							cult_role = "Acolyte"
 						if (CULTIST_ROLE_MENTOR)
 							cult_role = "Mentor"
 						else
 							cult_role = "Herald"
-					if (C.conversion.len > 0)
-						conversion = pick(C.conversion)
+					if (cult_datum.conversion.len > 0)
+						conversion = pick(cult_datum.conversion)
 					var/origin_text = ""
 					switch (conversion)
 						if ("converted")
-							origin_text = "Converted by [C.conversion[conversion]]"
+							origin_text = "Converted by [cult_datum.conversion[conversion]]"
 						if ("resurrected")
-							origin_text = "Resurrected by [C.conversion[conversion]]"
+							origin_text = "Resurrected by [cult_datum.conversion[conversion]]"
 						if ("soulstone")
-							origin_text = "Soul captured by [C.conversion[conversion]]"
+							origin_text = "Soul captured by [cult_datum.conversion[conversion]]"
 						if ("altar")
 							origin_text = "Volunteer shade"
 						if ("sacrifice")
@@ -654,21 +654,21 @@
 				playsound(src, "gib", 30, 0, -3)
 
 /obj/structure/cult/altar/ritual_reward(var/mob/M)
-	var/datum/antagonist/cult/C = M.mind.has_antag_datum(/datum/antagonist/cult)
-	if (C)
+	var/datum/antagonist/cult/cult_datum = M.mind.has_antag_datum(/datum/antagonist/cult)
+	if (cult_datum)
 		switch(altar_task)
 			if(ALTARTASK_SACRIFICE_HUMAN)
 				var/mob/O = buckled_mobs[1]
 				if (O.mind)
-					C.gain_devotion(500, DEVOTION_TIER_4, "altar_sacrifice_human", O)
+					cult_datum.gain_devotion(500, DEVOTION_TIER_4, "altar_sacrifice_human", O)
 				else//monkey-human
-					C.gain_devotion(200, DEVOTION_TIER_4, "altar_sacrifice_human_nomind", O)
+					cult_datum.gain_devotion(200, DEVOTION_TIER_4, "altar_sacrifice_human_nomind", O)
 			if(ALTARTASK_SACRIFICE_ANIMAL)
 				var/mob/O = buckled_mobs[1]
 				if (ismonkey(O))
-					C.gain_devotion(200, DEVOTION_TIER_3, "altar_sacrifice_monkey", O)
+					cult_datum.gain_devotion(200, DEVOTION_TIER_3, "altar_sacrifice_monkey", O)
 				else
-					C.gain_devotion(200, DEVOTION_TIER_3, "altar_sacrifice_animal", O)
+					cult_datum.gain_devotion(200, DEVOTION_TIER_3, "altar_sacrifice_animal", O)
 
 #undef ALTARTASK_NONE
 #undef ALTARTASK_GEM

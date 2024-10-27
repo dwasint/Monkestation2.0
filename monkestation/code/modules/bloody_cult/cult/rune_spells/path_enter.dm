@@ -66,8 +66,8 @@
 
 	to_chat(activator, "<span class='notice'>This rune will now let you travel through the \"[network]\" Path.</span>")
 
-	var/datum/antagonist/cult/C = IS_CULTIST(activator)
-	C?.gain_devotion(30, DEVOTION_TIER_1, "new_path_entrance", R)
+	var/datum/antagonist/cult/cult_datum = IS_CULTIST(activator)
+	cult_datum?.gain_devotion(30, DEVOTION_TIER_1, "new_path_entrance", R)
 
 	talisman_absorb = RUNE_CAN_ATTUNE//once the network has been set, talismans will attune instead of imbue
 
@@ -87,7 +87,7 @@
 		to_chat(activator, "<span class='warning'>The \"[network]\" Path is closed. Set up a Path Exit rune to establish a Path.</span>")
 		return
 
-	var/datum/antagonist/cult/C = add_cultist.mind.has_antag_datum(/datum/antagonist/cult)
+	var/datum/antagonist/cult/cult_datum = add_cultist.mind.has_antag_datum(/datum/antagonist/cult)
 
 	var/turf/T = get_turf(spell_holder)
 	if(cast_from)
@@ -97,7 +97,7 @@
 	spawn(10)
 		playsound(T, 'monkestation/code/modules/bloody_cult/sound/cultjaunt_land.ogg', 30, 0, -3)
 		var/obj/effect/bloodcult_jaunt/new_jaunt = new /obj/effect/bloodcult_jaunt(T,null,destination,T, activator = activator)
-		C.gain_devotion(10, DEVOTION_TIER_0, "path_entrance", new_jaunt)
+		cult_datum.gain_devotion(10, DEVOTION_TIER_0, "path_entrance", new_jaunt)
 		flick("cult_jaunt_land",landing_animation)
 
 /datum/rune_spell/portalentrance/midcast_talisman(var/mob/add_cultist)

@@ -87,9 +87,9 @@
 				else
 					timeleft--
 					update_progbar()
-					var/datum/antagonist/cult/C = IS_CULTIST(forger)
-					if (C)
-						C.gain_devotion(10, DEVOTION_TIER_2, "[forge_icon]",timeleft)
+					var/datum/antagonist/cult/cult_datum = IS_CULTIST(forger)
+					if (cult_datum)
+						cult_datum.gain_devotion(10, DEVOTION_TIER_2, "[forge_icon]",timeleft)
 					if (timeleft<=0)
 						playsound(L, 'monkestation/code/modules/bloody_cult/sound/forge_over.ogg', 50, 0, -3)
 						if (forger.client)

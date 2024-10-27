@@ -43,11 +43,11 @@
 		return ..()
 	if (IS_CULTIST(user))
 		if (!IS_CULTIST(target) && target.stat != DEAD)
-			var/datum/antagonist/cult/C = user.mind.has_antag_datum(/datum/antagonist/cult)
+			var/datum/antagonist/cult/cult_datum = user.mind.has_antag_datum(/datum/antagonist/cult)
 			if (target.mind)
-				C.gain_devotion(30, DEVOTION_TIER_3, "attack_cultblade", target)
+				cult_datum.gain_devotion(30, DEVOTION_TIER_3, "attack_cultblade", target)
 			else
-				C.gain_devotion(30, DEVOTION_TIER_2, "attack_cultblade_nomind", target)
+				cult_datum.gain_devotion(30, DEVOTION_TIER_2, "attack_cultblade_nomind", target)
 		if (ishuman(target) && target.resting)
 			var/obj/structure/cult/altar/altar = locate() in target.loc
 			if (altar)

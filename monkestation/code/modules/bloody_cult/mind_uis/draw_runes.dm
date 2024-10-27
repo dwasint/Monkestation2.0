@@ -45,9 +45,9 @@
 /obj/abstract/mind_ui_element/hoverable/rune_word/Click()
 	var/mob/M = GetUser()
 	if (M)
-		var/datum/antagonist/cult/C = M.mind?.has_antag_datum(/datum/antagonist/cult)
-		if (C)
-			C.write_rune(word)
+		var/datum/antagonist/cult/cult_datum = M.mind?.has_antag_datum(/datum/antagonist/cult)
+		if (cult_datum)
+			cult_datum.write_rune(word)
 			if (get_word_order() == 3 && icon_state == "rune_1")
 				var/datum/mind_ui/bloodcult_runes/P = parent
 				P.queued_rune = null

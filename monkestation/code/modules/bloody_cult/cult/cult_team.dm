@@ -340,8 +340,8 @@
 				if (countdown_to_first_rituals <= 0)
 					assign_rituals()
 					for (var/datum/mind/mind in members)
-						var/datum/antagonist/cult/C = mind.has_antag_datum(/datum/antagonist/cult)
-						C.assign_rituals()
+						var/datum/antagonist/cult/cult_datum = mind.has_antag_datum(/datum/antagonist/cult)
+						cult_datum.assign_rituals()
 						var/mob/M = mind.current
 						if (M)
 							to_chat(M, "<span class='sinister'>Although you can generate devotion by performing most cult activities, a couple rituals for you to perform are now available. Check the cult panel.</span>")

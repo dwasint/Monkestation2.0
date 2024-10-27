@@ -333,13 +333,13 @@
 	var/datum/antagonist/cult/potential_mentor
 	var/min_acolytes = 10000
 	for (var/datum/mind/mind in cult.members)
-		var/datum/antagonist/cult/C = mind.has_antag_datum(/datum/antagonist/cult)
+		var/datum/antagonist/cult/cult_datum = mind.has_antag_datum(/datum/antagonist/cult)
 		if (!mind.current || mind.current.stat == DEAD)
 			continue
-		if (C.cultist_role == CULTIST_ROLE_MENTOR)
-			if (C.acolytes.len < min_acolytes || (C.acolytes.len == min_acolytes && prob(50)))
-				min_acolytes = C.acolytes.len
-				potential_mentor = C
+		if (cult_datum.cultist_role == CULTIST_ROLE_MENTOR)
+			if (cult_datum.acolytes.len < min_acolytes || (cult_datum.acolytes.len == min_acolytes && prob(50)))
+				min_acolytes = cult_datum.acolytes.len
+				potential_mentor = cult_datum
 
 	if (potential_mentor)
 		mentor = potential_mentor

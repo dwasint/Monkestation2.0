@@ -26,9 +26,9 @@
 	addtimer(CALLBACK(src, PROC_REF(remove_mute), M), mute_duration)
 	ADD_TRAIT(M, TRAIT_MUTE, "rune")
 	ADD_TRAIT(M, TRAIT_DEAF, "rune")
-	var/datum/antagonist/cult/C = activator.mind.has_antag_datum(/datum/antagonist/cult)
+	var/datum/antagonist/cult/cult_datum = activator.mind.has_antag_datum(/datum/antagonist/cult)
 	if (!IS_CULTIST(M) && M.mind && M.stat != DEAD)
-		C.gain_devotion(50, DEVOTION_TIER_2, "deafmute_papered", M)
+		cult_datum.gain_devotion(50, DEVOTION_TIER_2, "deafmute_papered", M)
 	M.overlay_fullscreen("deafborder", /atom/movable/screen/fullscreen/deafmute_border)//victims see a red overlay fade in-out for a second
 	M.update_fullscreen_alpha("deafborder", 100, 5)
 	var/obj/item/organ/internal/ears/ears = M.get_organ_slot(ORGAN_SLOT_EARS)
@@ -51,9 +51,9 @@
 	for(var/mob/living/M in range(effect_range,get_turf(spell_holder)))
 		if (IS_CULTIST(M))
 			continue
-		var/datum/antagonist/cult/C = activator.mind.has_antag_datum(/datum/antagonist/cult)
+		var/datum/antagonist/cult/cult_datum = activator.mind.has_antag_datum(/datum/antagonist/cult)
 		if (M.stat != DEAD)
-			C.gain_devotion(50, DEVOTION_TIER_2, "deafmute", M)
+			cult_datum.gain_devotion(50, DEVOTION_TIER_2, "deafmute", M)
 		M.overlay_fullscreen("deafborder", /atom/movable/screen/fullscreen/deafmute_border)//victims see a red overlay fade in-out for a second
 		M.update_fullscreen_alpha("deafborder", 100, 5)
 		addtimer(CALLBACK(src, PROC_REF(remove_deaf), M), deaf_duration)

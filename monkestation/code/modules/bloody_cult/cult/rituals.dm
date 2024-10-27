@@ -64,8 +64,8 @@ GLOBAL_LIST_INIT(bloodcult_personal_rituals, list(
 	owner?.gain_devotion(reward_achiever, DEVOTION_TIER_4)//no key, duh
 	if (reward_faction)
 		var/datum/team/cult/cult = locate_team(/datum/team/cult)
-		for(var/datum/antagonist/cult/C in cult.members)
-			C.gain_devotion(reward_faction, DEVOTION_TIER_4)//yes this means a larger cult gets more total devotion.
+		for(var/datum/antagonist/cult/cult_datum in cult.members)
+			cult_datum.gain_devotion(reward_faction, DEVOTION_TIER_4)//yes this means a larger cult gets more total devotion.
 
 	if (personal)
 		message_admins("BLOODCULT: [key_name(owner.owner.current)] has completed the [name] ritual.")

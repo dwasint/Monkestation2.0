@@ -28,8 +28,8 @@
 	R.one_pulse()
 
 	if (pay_blood())
-		var/datum/antagonist/cult/C = activator.mind.has_antag_datum(/datum/antagonist/cult)
-		C.gain_devotion(10, DEVOTION_TIER_0, "conjure_paraphernalia", "Arcane Tome")
+		var/datum/antagonist/cult/cult_datum = activator.mind.has_antag_datum(/datum/antagonist/cult)
+		cult_datum.gain_devotion(10, DEVOTION_TIER_0, "conjure_paraphernalia", "Arcane Tome")
 		spell_holder.visible_message("<span class='rose'>The rune's symbols merge into each others, and an Arcane Tome takes form in their place</span>")
 		var/turf/T = get_turf(spell_holder)
 		var/obj/item/weapon/tome/AT = new (T)
@@ -44,8 +44,8 @@
 	if (spell_holder == activator.get_active_hand())
 		activator.dropItemToGround(spell_holder, T)
 		activator.put_in_active_hand(AT)
-		var/datum/antagonist/cult/C = activator.mind.has_antag_datum(/datum/antagonist/cult)
-		C.gain_devotion(10, DEVOTION_TIER_0, "conjure_paraphernalia", "Arcane Tome")
+		var/datum/antagonist/cult/cult_datum = activator.mind.has_antag_datum(/datum/antagonist/cult)
+		cult_datum.gain_devotion(10, DEVOTION_TIER_0, "conjure_paraphernalia", "Arcane Tome")
 	else//are we using the talisman from a tome?
 		activator.put_in_hands(AT)
 	flick("tome_spawn",AT)
@@ -228,7 +228,7 @@
 	R.active_spell = new type(activator,R)
 	qdel(src)
 
-/datum/rune_spell/tearreality/midcast(var/mob/add_cultist)
+/datum/rune_spell/tearreality/midcast(mob/add_cultist)
 	to_chat(add_cultist, "<span class='sinister'>Stand in the surrounding circles with fellow cultists and captured prisoners until every spot is filled.</span>")
 
 /datum/rune_spell/tearreality/abort(var/cause)

@@ -26,8 +26,8 @@
 	if (IS_CULTIST(builder))
 		builder.DisplayUI("Cultist Right Panel")
 
-	var/datum/antagonist/cult/C = user?.mind.has_antag_datum(/datum/antagonist/cult)
-	C?.gain_devotion(40, DEVOTION_TIER_2,"summon_hex",AM)
+	var/datum/antagonist/cult/cult_datum = user?.mind.has_antag_datum(/datum/antagonist/cult)
+	cult_datum?.gain_devotion(40, DEVOTION_TIER_2,"summon_hex",AM)
 
 /datum/action/cooldown/spell/pointed/conjure/struct
 	name = "Conjure Structure"
@@ -71,8 +71,8 @@
 	return Activate(target)
 
 /datum/action/cooldown/spell/pointed/conjure/struct/post_summon(atom/movable/AM, mob/user)
-	var/datum/antagonist/cult/C = user?.mind.has_antag_datum(/datum/antagonist/cult)
-	C?.gain_devotion(10, DEVOTION_TIER_1,"raise_structure",structure)
+	var/datum/antagonist/cult/cult_datum = user?.mind.has_antag_datum(/datum/antagonist/cult)
+	cult_datum?.gain_devotion(10, DEVOTION_TIER_1,"raise_structure",structure)
 
 /datum/action/cooldown/spell/pointed/conjure/pylon
 	name = "Conjure Pylon"
@@ -89,8 +89,8 @@
 
 
 /datum/action/cooldown/spell/pointed/conjure/pylon/post_summon(atom/movable/AM, mob/user)
-	var/datum/antagonist/cult/C = user?.mind.has_antag_datum(/datum/antagonist/cult)
-	C?.gain_devotion(10, DEVOTION_TIER_1,"raise_structure","Pylon")
+	var/datum/antagonist/cult/cult_datum = user?.mind.has_antag_datum(/datum/antagonist/cult)
+	cult_datum?.gain_devotion(10, DEVOTION_TIER_1,"raise_structure","Pylon")
 
 
 /datum/action/cooldown/spell/pointed/conjure/door
@@ -115,5 +115,5 @@
 		QDEL_NULL(animation)
 
 /datum/action/cooldown/spell/pointed/conjure/door/post_summon(atom/movable/AM, mob/user)
-	var/datum/antagonist/cult/C = user?.mind.has_antag_datum(/datum/antagonist/cult)
-	C?.gain_devotion(10, DEVOTION_TIER_1, "summon_door", AM)
+	var/datum/antagonist/cult/cult_datum = user?.mind.has_antag_datum(/datum/antagonist/cult)
+	cult_datum?.gain_devotion(10, DEVOTION_TIER_1, "summon_door", AM)

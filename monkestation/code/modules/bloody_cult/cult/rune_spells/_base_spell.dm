@@ -122,7 +122,7 @@
 
 /datum/rune_spell/proc/Removed(var/mob/M)
 
-/datum/rune_spell/proc/midcast(var/mob/add_cultist)
+/datum/rune_spell/proc/midcast(mob/add_cultist)
 	return
 
 /datum/rune_spell/proc/cast() //Override for your spell functionality.

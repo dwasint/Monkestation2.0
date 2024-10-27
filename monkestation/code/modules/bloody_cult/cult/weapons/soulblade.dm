@@ -132,11 +132,11 @@
 		user.adjustFireLoss(5)
 		return
 	if (IS_CULTIST(user) && !IS_CULTIST(target) && !target.stat == DEAD)
-		var/datum/antagonist/cult/C = user.mind.has_antag_datum(/datum/antagonist/cult)
+		var/datum/antagonist/cult/cult_datum = user.mind.has_antag_datum(/datum/antagonist/cult)
 		if (target.mind)
-			C.gain_devotion(30, DEVOTION_TIER_3, "attack_soulblade", target)
+			cult_datum.gain_devotion(30, DEVOTION_TIER_3, "attack_soulblade", target)
 		else
-			C.gain_devotion(30, DEVOTION_TIER_2, "attack_soulblade_nomind", target)
+			cult_datum.gain_devotion(30, DEVOTION_TIER_2, "attack_soulblade_nomind", target)
 	if (ishuman(target) && target.resting)
 		var/obj/structure/cult/altar/altar = locate() in target.loc
 		if (altar)

@@ -119,7 +119,7 @@ GLOBAL_LIST_INIT(cult_spires, list())
 		return
 
 	var/mob/living/carbon/human/H = user
-	var/datum/antagonist/cult/C = IS_CULTIST(H)
+	var/datum/antagonist/cult/cult_datum = IS_CULTIST(H)
 
 	var/list/available_tattoos = list("tier1","tier2","tier3")
 	for (var/tattoo in C.tattoos)

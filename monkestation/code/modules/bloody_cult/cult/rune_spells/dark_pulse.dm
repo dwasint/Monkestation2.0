@@ -82,7 +82,7 @@
 					if (IS_CULTIST(L))
 						continue
 					else if (L.client && L.stat != DEAD)
-						var/datum/antagonist/cult/C = cultist.mind.has_antag_datum(/datum/antagonist/cult)
-						C.gain_devotion(50, DEVOTION_TIER_2, "EMP", L)
+						var/datum/antagonist/cult/cult_datum = cultist.mind.has_antag_datum(/datum/antagonist/cult)
+						cult_datum.gain_devotion(50, DEVOTION_TIER_2, "EMP", L)
 				A.emp_act(act)
 	return

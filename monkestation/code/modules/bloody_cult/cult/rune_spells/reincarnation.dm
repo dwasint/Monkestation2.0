@@ -46,7 +46,7 @@
 	R.active_spell = new type(activator,R)
 	qdel(src)
 
-/datum/rune_spell/reincarnation/midcast(var/mob/add_cultist)
+/datum/rune_spell/reincarnation/midcast(mob/add_cultist)
 	if (add_cultist in contributors)
 		return
 	invoke(add_cultist, invocation)
@@ -131,8 +131,8 @@
 		M.regenerate_icons()
 
 		for(var/mob/living/L in contributors)
-			var/datum/antagonist/cult/C = L.mind.has_antag_datum(/datum/antagonist/cult)
-			C.gain_devotion(200, DEVOTION_TIER_3, "reincarnation", M)
+			var/datum/antagonist/cult/cult_datum = L.mind.has_antag_datum(/datum/antagonist/cult)
+			cult_datum.gain_devotion(200, DEVOTION_TIER_3, "reincarnation", M)
 
 	else
 		for(var/mob/living/L in contributors)

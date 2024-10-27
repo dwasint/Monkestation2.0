@@ -25,8 +25,8 @@
 /datum/rune_spell/bloodmagnetism/Destroy()
 	target = null
 	for (var/guy in feet_portals)
-		var/obj/O = feet_portals[guy]
-		qdel(O)
+		var/obj/object = feet_portals[guy]
+		qdel(object)
 		feet_portals -= guy
 	feet_portals = list()
 	spell_holder.overlays -= image('monkestation/code/modules/bloody_cult/icons/cult.dmi',"runetrigger-build")
@@ -38,8 +38,8 @@
 	spell_holder.overlays -= image('monkestation/code/modules/bloody_cult/icons/cult.dmi',"runetrigger-build")
 	spell_holder.overlays -= image('monkestation/code/modules/bloody_cult/icons/effects.dmi',"rune_summon")
 	for (var/guy in feet_portals)
-		var/obj/O = feet_portals[guy]
-		qdel(O)
+		var/obj/object = feet_portals[guy]
+		qdel(object)
 	..()
 
 /datum/rune_spell/bloodmagnetism/cast()
@@ -52,35 +52,35 @@
 	var/list/prisoners = list()
 	var/datum/antagonist/cult/cultist = activator.mind?.has_antag_datum(/datum/antagonist/cult)
 	var/datum/team/cult/bloodcult = cultist.cult_team
-	for (var/datum/mind/M in bloodcult.members)
-		if (M.current)
-			if (M.current.occult_muted())
+	for (var/datum/mind/mind in bloodcult.members)
+		if (mind.current)
+			if (mind.current.occult_muted())
 				continue
-			possible_targets.Add(M.current)
+			possible_targets.Add(mind.current)
 
 	//Prisoners are valid Blood Magnetism targets!
 	for(var/obj/item/restraints/handcuffs/cult/cuffs in bloodcult.bindings)
 		if (iscarbon(cuffs.loc))
-			var/mob/living/carbon/C = cuffs.loc
-			if (C.handcuffed == cuffs)
-				prisoners.Add(C)
+			var/mob/living/carbon/carbon = cuffs.loc
+			if (carbon.handcuffed == cuffs)
+				prisoners.Add(carbon)
 
 	var/list/annotated_targets = list()
 	var/list/visible_mobs = viewers(activator)
 	var/i = 1
-	for(var/mob/M in possible_targets)
+	for(var/mob/mob in possible_targets)
 		var/status = ""
-		if(M == activator)
+		if(mob == activator)
 			status = " (You)"
-		else if(M in visible_mobs)
+		else if(mob in visible_mobs)
 			status = " (Visible)"
-		else if(M.stat == DEAD)
+		else if(mob.stat == DEAD)
 			status = " (Dead)"
-		annotated_targets["\Roman[i]-[M.real_name][status]"] = M
+		annotated_targets["\Roman[i]-[mob.real_name][status]"] = mob
 		i++
 
-	for(var/mob/M in prisoners)
-		annotated_targets["\Roman[i]-[M.real_name] (Prisoner)"] = M
+	for(var/mob/prisoner in prisoners)
+		annotated_targets["\Roman[i]-[prisoner.real_name] (Prisoner)"] = prisoner
 		i++
 
 	var/choice = input(activator, "Choose who you wish to [rejoin ? "rejoin" : "summon"]", "Blood Magnetism") as null|anything in annotated_targets
@@ -113,7 +113,7 @@
 	R.active_spell = new type(activator,R)
 	qdel(src)
 
-/datum/rune_spell/bloodmagnetism/midcast(var/mob/add_cultist)
+/datum/rune_spell/bloodmagnetism/midcast(mob/add_cultist)
 	if (add_cultist in contributors)
 		return
 	invoke(add_cultist, invocation)
@@ -130,27 +130,27 @@
 	while(failsafe < 1000)
 		failsafe++
 		//are our payers still here and about?
-		for(var/mob/living/L in contributors)
-			if (!IS_CULTIST(L) || !(L in range(spell_holder,1)) || (L.stat != CONSCIOUS))
-				if (L.client)
-					L.client.images -= progbar
-				var/obj/effect/cult_ritual/feet_portal/P = feet_portals[L]
+		for(var/mob/living/contributor in contributors)
+			if (!IS_CULTIST(contributor) || !(contributor in range(spell_holder,1)) || (contributor.stat != CONSCIOUS))
+				if (contributor.client)
+					contributor.client.images -= progbar
+				var/obj/effect/cult_ritual/feet_portal/P = feet_portals[contributor]
 				qdel(P)
-				feet_portals.Remove(L)
-				contributors.Remove(L)
+				feet_portals.Remove(contributor)
+				contributors.Remove(contributor)
 		//alright then, time to pay in blood
 		var/amount_paid = 0
-		for(var/mob/living/L in contributors)
-			var/data = use_available_blood(L, cost_upkeep/contributors.len,contributors[L])//always 1u total per payment
+		for(var/mob/living/contributor in contributors)
+			var/data = use_available_blood(contributor, cost_upkeep/contributors.len,contributors[contributor])//always 1u total per payment
 			if (data[BLOODCOST_RESULT] == BLOODCOST_FAILURE)//out of blood are we?
-				contributors.Remove(L)
-				var/obj/effect/cult_ritual/feet_portal/P = feet_portals[L]
+				contributors.Remove(contributor)
+				var/obj/effect/cult_ritual/feet_portal/P = feet_portals[contributor]
 				qdel(P)
-				feet_portals.Remove(L)
+				feet_portals.Remove(contributor)
 			else
 				amount_paid += data[BLOODCOST_TOTAL]
-				contributors[L] = data[BLOODCOST_RESULT]
-				make_tracker_effects(L.loc,spell_holder, 1, "soul", 3, /obj/effect/tracker/drain, 1)//visual feedback
+				contributors[contributor] = data[BLOODCOST_RESULT]
+				make_tracker_effects(contributor.loc,spell_holder, 1, "soul", 3, /obj/effect/tracker/drain, 1)//visual feedback
 
 		accumulated_blood += amount_paid
 
@@ -161,8 +161,8 @@
 			cancelling--
 			if (cancelling <= 0)
 				if(accumulated_blood && !(locate(/obj/effect/decal/cleanable/blood/splatter) in spell_holder.loc))
-					var/obj/effect/decal/cleanable/blood/splatter/S = new(spell_holder.loc)//splash
-					S.count = 2
+					var/obj/effect/decal/cleanable/blood/splatter/splatter = new(spell_holder.loc)//splash
+					splatter.count = 2
 				abort(RITUALABORT_BLOOD)
 				return
 
@@ -177,7 +177,7 @@
 
 /datum/rune_spell/bloodmagnetism/proc/success()
 	if (target.occult_muted())
-		for(var/mob/living/L in contributors)
+		for(var/mob/living/contributor in contributors)
 			to_chat(activator, "<span class='warning'>The ritual failed, the target seems to be under a curse that prevents us from reaching them through the veil.</span>")
 	else
 		if (rejoin)
@@ -186,41 +186,41 @@
 				if(!T.is_blocked_turf(TRUE))
 					valid_turfs.Add(T)
 			if (valid_turfs.len)
-				for(var/mob/living/L in contributors)
-					use_available_blood(L, cost_rejoin,contributors[L])
-					var/datum/antagonist/cult/C = L.mind.has_antag_datum(/datum/antagonist/cult)
-					C.gain_devotion(100, DEVOTION_TIER_2, "bloodmagnetism_rejoin", L)
-					make_tracker_effects(L.loc,spell_holder, 1, "soul", 3, /obj/effect/tracker/drain, 3)
-					var/obj/effect/abstract/landing_animation = anim(target = L, a_icon = 'monkestation/code/modules/bloody_cult/icons/effects.dmi', flick_anim = "cult_jaunt_prepare", plane = GAME_PLANE_UPPER)
-					playsound(L, 'monkestation/code/modules/bloody_cult/sound/cultjaunt_prepare.ogg', 75, 0, -3)
+				for(var/mob/living/contributor in contributors)
+					use_available_blood(contributor, cost_rejoin,contributors[contributor])
+					var/datum/antagonist/cult/cult_datum = contributor.mind.has_antag_datum(/datum/antagonist/cult)
+					cult_datum.gain_devotion(100, DEVOTION_TIER_2, "bloodmagnetism_rejoin", contributor)
+					make_tracker_effects(contributor.loc,spell_holder, 1, "soul", 3, /obj/effect/tracker/drain, 3)
+					var/obj/effect/abstract/landing_animation = anim(target = contributor, a_icon = 'monkestation/code/modules/bloody_cult/icons/effects.dmi', flick_anim = "cult_jaunt_prepare", plane = GAME_PLANE_UPPER)
+					playsound(contributor, 'monkestation/code/modules/bloody_cult/sound/cultjaunt_prepare.ogg', 75, 0, -3)
 					spawn(10)
-						playsound(L, 'monkestation/code/modules/bloody_cult/sound/cultjaunt_land.ogg', 30, 0, -3)
-						new /obj/effect/bloodcult_jaunt(get_turf(L),L,pick(valid_turfs))
+						playsound(contributor, 'monkestation/code/modules/bloody_cult/sound/cultjaunt_land.ogg', 30, 0, -3)
+						new /obj/effect/bloodcult_jaunt(get_turf(contributor),contributor,pick(valid_turfs))
 						flick("cult_jaunt_land",landing_animation)
 		else
 			if(target.buckled || !isturf(target.loc))
 				to_chat(target, "<span class='warning'>You feel that some force wants to pull you through the veil, but cannot proceed while you are buckled or inside something.</span>")
-				for(var/mob/living/L in contributors)
+				for(var/mob/living/contributor in contributors)
 					to_chat(activator, "<span class='warning'>The ritual failed, the target seems to be anchored to where they are.</span>")
 			else
-				for(var/mob/living/L in contributors)
-					use_available_blood(L, cost_summon/contributors.len,contributors[L])
-					make_tracker_effects(L.loc,spell_holder, 1, "soul", 3, /obj/effect/tracker/drain, 3)
-					var/datum/antagonist/cult/C = L.mind.has_antag_datum(/datum/antagonist/cult)
-					C.gain_devotion(100, DEVOTION_TIER_2, "bloodmagnetism_summon", L)
+				for(var/mob/living/contributor in contributors)
+					use_available_blood(contributor, cost_summon/contributors.len,contributors[contributor])
+					make_tracker_effects(contributor.loc,spell_holder, 1, "soul", 3, /obj/effect/tracker/drain, 3)
+					var/datum/antagonist/cult/cult_datum = contributor.mind.has_antag_datum(/datum/antagonist/cult)
+					cult_datum.gain_devotion(100, DEVOTION_TIER_2, "bloodmagnetism_summon", contributor)
 				var/obj/effect/abstract/landing_animation = anim(target = src.target, a_icon = 'monkestation/code/modules/bloody_cult/icons/effects.dmi', flick_anim = "cult_jaunt_prepare", lay = CULT_OVERLAY_LAYER, plane = GAME_PLANE_UPPER)
-				var/mob/M = target//so we keep track of them after the datum is ded until we jaunt
+				var/mob/mob_target = target//so we keep track of them after the datum is ded until we jaunt
 				var/turf/T = get_turf(spell_holder)
-				playsound(M, 'monkestation/code/modules/bloody_cult/sound/cultjaunt_prepare.ogg', 75, 0, -3)
+				playsound(mob_target, 'monkestation/code/modules/bloody_cult/sound/cultjaunt_prepare.ogg', 75, 0, -3)
 				spawn(10)
-					playsound(M, 'monkestation/code/modules/bloody_cult/sound/cultjaunt_land.ogg', 30, 0, -3)
-					new /obj/effect/bloodcult_jaunt(get_turf(M),M,T)
+					playsound(mob_target, 'monkestation/code/modules/bloody_cult/sound/cultjaunt_land.ogg', 30, 0, -3)
+					new /obj/effect/bloodcult_jaunt(get_turf(mob_target),mob_target,T)
 					flick("cult_jaunt_land",landing_animation)
 
-	for(var/mob/living/L in contributors)
-		if (L.client)
-			L.client.images -= progbar
-		contributors.Remove(L)
+	for(var/mob/living/contributor in contributors)
+		if (contributor.client)
+			contributor.client.images -= progbar
+		contributors.Remove(contributor)
 
 	if (activator && activator.client)
 		activator.client.images -= progbar

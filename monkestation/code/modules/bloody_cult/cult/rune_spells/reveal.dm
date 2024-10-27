@@ -52,12 +52,12 @@
 	var/list/shocked = list()
 	to_chat(activator, "<span class='notice'>All concealed runes and cult structures in range phase back into reality, stunning nearby foes.</span>")
 	playsound(T, 'monkestation/code/modules/bloody_cult/sound/reveal.ogg', 50, 0, -3)
-	var/datum/antagonist/cult/C = activator.mind.has_antag_datum(/datum/antagonist/cult)
+	var/datum/antagonist/cult/cult_datum = activator.mind.has_antag_datum(/datum/antagonist/cult)
 
 	for(var/obj/structure/cult/concealed/S in range(effect_range,T))//only concealed structures trigger the effect
 		var/dist = cheap_pythag(S.x - T.x, S.y - T.y)
 		if (dist <= effect_range+0.5)
-			C.gain_devotion(10, DEVOTION_TIER_0, "reveal_structure", S)
+			cult_datum.gain_devotion(10, DEVOTION_TIER_0, "reveal_structure", S)
 			anim(target = S, a_icon = 'monkestation/code/modules/bloody_cult/icons/224x224.dmi', flick_anim = "rune_reveal", offX = -32*shock_range, offY = -32*shock_range, plane = ABOVE_LIGHTING_PLANE)
 			for(var/mob/living/L in viewers(S))
 				if (IS_CULTIST(L))
@@ -76,7 +76,7 @@
 		var/dist = cheap_pythag(R.x - T.x, R.y - T.y)
 		if (dist <= effect_range+0.5)
 			if (R.reveal())//only hidden runes trigger the effect
-				C.gain_devotion(10, DEVOTION_TIER_0, "reveal_rune", R)
+				cult_datum.gain_devotion(10, DEVOTION_TIER_0, "reveal_rune", R)
 				anim(target = R, a_icon = 'monkestation/code/modules/bloody_cult/icons/224x224.dmi', flick_anim = "rune_reveal", offX = -32*shock_range, offY = -32*shock_range, plane = ABOVE_LIGHTING_PLANE)
 				for(var/mob/living/L in viewers(R))
 					if (IS_CULTIST(L))
@@ -92,7 +92,7 @@
 
 	for(var/mob/living/L in shocked)
 		if (L.stat != DEAD)
-			C.gain_devotion(50, DEVOTION_TIER_2, "reveal_stun", L)
+			cult_datum.gain_devotion(50, DEVOTION_TIER_2, "reveal_stun", L)
 		new /obj/effect/cult_ritual/reveal(L.loc, L, shocked[L])
 		to_chat(L, "<span class='danger'>You feel a terrifying shock resonate within your body as the hidden runes are revealed!</span>")
 		L.update_fullscreen_alpha("shockborder", 100, 5)

@@ -45,11 +45,11 @@
 			to_chat(user, "<span class='warning'>\The [src] takes a bit of your blood.</span>")
 		return
 	if (IS_CULTIST(user) && !IS_CULTIST(target) && !target.stat == DEAD)
-		var/datum/antagonist/cult/C = user.mind.has_antag_datum(/datum/antagonist/cult)
+		var/datum/antagonist/cult/cult_datum = user.mind.has_antag_datum(/datum/antagonist/cult)
 		if (target.mind)
-			C.gain_devotion(30, DEVOTION_TIER_3, "attack_blooddagger", target)
+			cult_datum.gain_devotion(30, DEVOTION_TIER_3, "attack_blooddagger", target)
 		else
-			C.gain_devotion(30, DEVOTION_TIER_2, "attack_blooddagger_nomind", target)
+			cult_datum.gain_devotion(30, DEVOTION_TIER_2, "attack_blooddagger_nomind", target)
 	..()
 /obj/item/weapon/melee/blood_dagger/attack_hand(var/mob/living/user)
 	if(!ismob(loc))

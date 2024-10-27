@@ -92,7 +92,7 @@
 	button_icon_state = "cultvote"
 
 /datum/action/innate/cult/mastervote/IsAvailable(feedback = FALSE)
-	var/datum/antagonist/cult/C = owner.mind.has_antag_datum(/datum/antagonist/cult,TRUE)
+	var/datum/antagonist/cult/cult_datum = owner.mind.has_antag_datum(/datum/antagonist/cult,TRUE)
 	if(!C || C.cult_team.cult_vote_called || !ishuman(owner))
 		return FALSE
 	return ..()

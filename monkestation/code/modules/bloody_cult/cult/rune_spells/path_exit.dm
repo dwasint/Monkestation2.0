@@ -85,12 +85,12 @@ GLOBAL_LIST_INIT(bloodcult_exitportals, list())
 
 	to_chat(activator, "<span class='notice'>This rune will now serve as a destination for the \"[network]\" Path.</span>")
 
-	var/datum/antagonist/cult/C = IS_CULTIST(activator)
-	C?.gain_devotion(30, DEVOTION_TIER_1, "new_path_exit", R)
+	var/datum/antagonist/cult/cult_datum = IS_CULTIST(activator)
+	cult_datum?.gain_devotion(30, DEVOTION_TIER_1, "new_path_exit", R)
 
 	talisman_absorb = RUNE_CAN_ATTUNE//once the network has been set, talismans will attune instead of imbue
 
-/datum/rune_spell/portalexit/midcast(var/mob/add_cultist)
+/datum/rune_spell/portalexit/midcast(mob/add_cultist)
 	to_chat(add_cultist, "<span class='notice'>You may teleport to this rune by using a Path Entrance, or a talisman attuned to it.</span>")
 
 /datum/rune_spell/portalexit/midcast_talisman(var/mob/add_cultist)

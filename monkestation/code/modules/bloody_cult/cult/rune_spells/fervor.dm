@@ -20,13 +20,13 @@
 	if (pay_blood())
 		for(var/mob/living/L in range(effect_range,get_turf(spell_holder)))
 			if (iscarbon(L))
-				var/mob/living/carbon/C = L
-				if (C.occult_muted())
+				var/mob/living/carbon/carbon = L
+				if (carbon.occult_muted())
 					continue
 			if(L.stat != DEAD && IS_CULTIST(L))
 				if (L != activator)
-					var/datum/antagonist/cult/C = activator.mind.has_antag_datum(/datum/antagonist/cult)
-					C.gain_devotion(50, DEVOTION_TIER_1, "fervor", L)
+					var/datum/antagonist/cult/cult_datum = activator.mind.has_antag_datum(/datum/antagonist/cult)
+					cult_datum.gain_devotion(50, DEVOTION_TIER_1, "fervor", L)
 				playsound(L, 'monkestation/code/modules/bloody_cult/sound/fervor.ogg', 50, 0, -2)
 				anim(target = L, a_icon = 'monkestation/code/modules/bloody_cult/icons/effects.dmi', flick_anim = "rune_fervor", plane = ABOVE_LIGHTING_PLANE, direction = L.dir)
 				L.oxyloss = 0

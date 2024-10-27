@@ -89,8 +89,8 @@
 			return
 		if (pay_blood())
 			R.one_pulse()
-			var/datum/antagonist/cult/C = activator.mind.has_antag_datum(/datum/antagonist/cult)
-			C.gain_devotion(10, DEVOTION_TIER_0, "conjure_paraphernalia", task)
+			var/datum/antagonist/cult/cult_datum = activator.mind.has_antag_datum(/datum/antagonist/cult)
+			cult_datum.gain_devotion(10, DEVOTION_TIER_0, "conjure_paraphernalia", task)
 			var/obj/spawned_object
 			var/turf/T = get_turf(spell_holder)
 			switch (task)
@@ -110,7 +110,7 @@
 			qdel(src)
 
 
-/datum/rune_spell/paraphernalia/midcast(var/mob/add_cultist) // failsafe should someone be hogging the radial menu.
+/datum/rune_spell/paraphernalia/midcast(mob/add_cultist) // failsafe should someone be hogging the radial menu.
 	var/obj/effect/new_rune/R = spell_holder
 	R.active_spell = null
 	R.trigger(add_cultist)

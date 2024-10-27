@@ -70,9 +70,9 @@ GLOBAL_LIST_INIT(blood_communion, list())
 	flick("rune_manual-click",src)
 	var/mob/M = GetUser()
 	if (M)
-		var/datum/antagonist/cult/C = M.mind?.has_antag_datum(/datum/antagonist/cult)
-		if (C)
-			C.verbose = TRUE
+		var/datum/antagonist/cult/cult_datum = M.mind?.has_antag_datum(/datum/antagonist/cult)
+		if (cult_datum)
+			cult_datum.verbose = TRUE
 		M.DisplayUI("Bloodcult Runes")
 
 //------------------------------------------------------------
@@ -118,9 +118,9 @@ GLOBAL_LIST_INIT(blood_communion, list())
 			for(var/datum/mind_ui/bloodcult_runes/BR in parent.subUIs)
 				BR.queued_rune = available_runes[spell_name]
 
-				var/datum/antagonist/cult/C = M.mind?.has_antag_datum(/datum/antagonist/cult)
-				if (C)
-					C.verbose = TRUE
+				var/datum/antagonist/cult/cult_datum = M.mind?.has_antag_datum(/datum/antagonist/cult)
+				if (cult_datum)
+					cult_datum.verbose = TRUE
 				M.DisplayUI("Bloodcult Runes")
 				break
 
@@ -140,9 +140,9 @@ GLOBAL_LIST_INIT(blood_communion, list())
 	flick("rune_erase-click",src)
 	var/mob/M = GetUser()
 	if (M)
-		var/datum/antagonist/cult/C = M.mind?.has_antag_datum(/datum/antagonist/cult)
-		if (C)
-			C.erase_rune()
+		var/datum/antagonist/cult/cult_datum = M.mind?.has_antag_datum(/datum/antagonist/cult)
+		if (cult_datum)
+			cult_datum.erase_rune()
 
 //------------------------------------------------------------
 
@@ -273,8 +273,8 @@ GLOBAL_LIST_INIT(blood_communion, list())
 
 /obj/abstract/mind_ui_element/hoverable/bloodcult_devotion_counter/UpdateIcon()
 	overlays.len = 0
-	var/datum/antagonist/cult/C = parent.mind?.has_antag_datum(/datum/antagonist/cult)
-	var/devotion = min(9999,C.devotion)
+	var/datum/antagonist/cult/cult_datum = parent.mind?.has_antag_datum(/datum/antagonist/cult)
+	var/devotion = min(9999,cult_datum.devotion)
 	var/datum/team/cult/cult = locate_team(/datum/team/cult)
 	if ((cult.stage == BLOODCULT_STAGE_DEFEATED) || (cult.stage == BLOODCULT_STAGE_NARSIE))
 		overlays += String2Image("[add_zero(devotion,4)]",_color="#FF0000",_pixel_x = 4,_pixel_y = 9)
@@ -328,28 +328,28 @@ GLOBAL_LIST_INIT(blood_communion, list())
 
 /obj/abstract/mind_ui_element/hoverable/bloodcult_spell/pool/UpdateIcon(var/appear = FALSE)
 	var/mob/living/M = GetUser()
-	var/datum/antagonist/cult/C = M.mind?.has_antag_datum(/datum/antagonist/cult)
-	icon_state = "power_pool[C.blood_pool ? "" : "_off"]"
+	var/datum/antagonist/cult/cult_datum = M.mind?.has_antag_datum(/datum/antagonist/cult)
+	icon_state = "power_pool[cult_datum.blood_pool ? "" : "_off"]"
 	base_icon_state = icon_state
 
 	var/pool_current = 0
-	for (var/datum/antagonist/cult/CU in GLOB.blood_communion)
-		if (CU.blood_pool && CU.owner && CU.owner.current && iscarbon(CU.owner.current) && !CU.owner.current.stat == DEAD)
+	for (var/datum/antagonist/cult/cult_datumU in GLOB.blood_communion)
+		if (cult_datum.blood_pool && cult_datum.owner && cult_datum.owner.current && iscarbon(cult_datum.owner.current) && !cult_datum.owner.current.stat == DEAD)
 			pool_current++
 	overlays.len = 0
 	overlays += String2Image("[pool_current]",_pixel_x = 2,_pixel_y = 1)
 
 /obj/abstract/mind_ui_element/hoverable/bloodcult_spell/pool/Click()
 	var/mob/living/M = GetUser()
-	var/datum/antagonist/cult/C = M.mind?.has_antag_datum(/datum/antagonist/cult)
+	var/datum/antagonist/cult/cult_datum = M.mind?.has_antag_datum(/datum/antagonist/cult)
 
-	C.blood_pool = !C.blood_pool
+	cult_datum.blood_pool = !cult_datum.blood_pool
 
-	for (var/datum/antagonist/cult/CU in GLOB.blood_communion)
-		CU.owner.DisplayUI("Cultist Right Panel")
+	for (var/datum/antagonist/cult/listed_cult in GLOB.blood_communion)
+		listed_cult.owner.DisplayUI("Cultist Right Panel")
 
 
-	if (C.blood_pool)
+	if (cult_datum.blood_pool)
 		to_chat(M, "<span class='warning'>You return to the blood pool. Blood costs are slightly reduced, on top of getting split between you and other cultists.</span>")
 	else
 		to_chat(M, "<span class='warning'>You remove yourself from the blood pool. Blood costs must now be paid on your own.</span>")
@@ -542,10 +542,10 @@ GLOBAL_LIST_INIT(blood_communion, list())
 	if (M)
 		if (M.client)
 			M.client.images -= click_me
-		var/datum/antagonist/cult/C = M.mind?.has_antag_datum(/datum/antagonist/cult)
-		if (C)
+		var/datum/antagonist/cult/cult_datum = M.mind?.has_antag_datum(/datum/antagonist/cult)
+		if (cult_datum)
 			overlays.len = 0
-			switch(C.cultist_role)
+			switch(cult_datum.cultist_role)
 				if (CULTIST_ROLE_NONE)
 					if (M.client)
 						M.client.images += click_me
@@ -577,15 +577,15 @@ GLOBAL_LIST_INIT(blood_communion, list())
 /obj/abstract/mind_ui_element/hoverable/bloodcult_help/Appear()
 	var/mob/M = GetUser()
 	if (M)
-		var/datum/antagonist/cult/C = M.mind?.has_antag_datum(/datum/antagonist/cult)
+		var/datum/antagonist/cult/cult_datum = M.mind?.has_antag_datum(/datum/antagonist/cult)
 		if (M.client)
 			M.client.images -= click_me
-		if (C)
-			if (C.cultist_role != CULTIST_ROLE_ACOLYTE)
+		if (cult_datum)
+			if (cult_datum.cultist_role != CULTIST_ROLE_ACOLYTE)
 				invisibility = 101	// We only appear to Acolytes
 			else
 				..()
-				if (!C.mentor && !clicked && M.client)
+				if (!cult_datum.mentor && !clicked && M.client)
 					M.client.images += click_me
 
 /obj/abstract/mind_ui_element/hoverable/bloodcult_help/Click()
@@ -953,8 +953,8 @@ GLOBAL_LIST_INIT(blood_communion, list())
 	if (istype(cult))
 		var/mob/M = GetUser()
 		if (M)
-			var/datum/antagonist/cult/C = M.mind?.has_antag_datum(/datum/antagonist/cult)
-			if(C)
+			var/datum/antagonist/cult/cult_datum = M.mind?.has_antag_datum(/datum/antagonist/cult)
+			if(cult_datum)
 				var/i = 1
 				var/cap_placed = 0
 				var/list/ritualized_soulblades = list()//lists minds that undertook a soulblade ritual, saving their cult slot for others
@@ -1006,7 +1006,7 @@ GLOBAL_LIST_INIT(blood_communion, list())
 							S.overlays.len = 0
 							if (cons.occult_muted())
 								S.overlays += "holy"
-							if (C == R)
+							if (cult_datum == R)
 								S.overlays += "you"
 							continue
 					var/obj/abstract/mind_ui_element/hoverable/bloodcult_cultist_slot/slot = BP.cultist_slots[i]
@@ -1029,7 +1029,7 @@ GLOBAL_LIST_INIT(blood_communion, list())
 						slot.overlays += "overflow"
 					if (O.occult_muted())
 						slot.overlays += "holy"
-					if (C == R)
+					if (cult_datum == R)
 						slot.overlays += "you"
 					if (isshade(O))
 						if (!istype(O.loc, /obj/item/soulstone) && !istype(O.loc, /obj/item/weapon/melee/soulblade))
@@ -1280,29 +1280,29 @@ GLOBAL_LIST_INIT(blood_communion, list())
 	if (M)
 		if (M.client)
 			M.client.images -= click_me
-		var/datum/antagonist/cult/C = M.mind?.has_antag_datum(/datum/antagonist/cult)
-		if (C)
-			if (C.cultist_role != CULTIST_ROLE_NONE)
-				if (C.mentor)
-					to_chat(M,"<span class='notice'>You are currently in a mentorship under [C.mentor.owner.name].</span>")
+		var/datum/antagonist/cult/cult_datum = M.mind?.has_antag_datum(/datum/antagonist/cult)
+		if (cult_datum)
+			if (cult_datum.cultist_role != CULTIST_ROLE_NONE)
+				if (cult_datum.mentor)
+					to_chat(M,"<span class='notice'>You are currently in a mentorship under [cult_datum.mentor.owner.name].</span>")
 				var/dat = ""
-				if (C.acolytes.len > 0)
-					for (var/datum/antagonist/cult/U in C.acolytes)
+				if (cult_datum.acolytes.len > 0)
+					for (var/datum/antagonist/cult/U in cult_datum.acolytes)
 						dat += "[U.owner.name], "
 					to_chat(M,"<span class='notice'>You are currently mentoring [dat]</span>")
 				/* Don't think that cooldown was necessary, keeping this here in case I'm wrong in the future
-				if ((world.time - C.time_role_changed_last) < 5 MINUTES)
-					if ((world.time - C.time_role_changed_last) > 4 MINUTES)
-						to_chat(M,"<span class='warning'>You must wait [round((5 MINUTES - (world.time - C.time_role_changed_last))/10) + 1] seconds before you can switch role.</span>")
+				if ((world.time - cult_datum.time_role_changed_last) < 5 MINUTES)
+					if ((world.time - cult_datum.time_role_changed_last) > 4 MINUTES)
+						to_chat(M,"<span class='warning'>You must wait [round((5 MINUTES - (world.time - cult_datum.time_role_changed_last))/10) + 1] seconds before you can switch role.</span>")
 					else
-						to_chat(M,"<span class='warning'>You must wait around [round((5 MINUTES - (world.time - C.time_role_changed_last))/600) + 1] minutes before you can switch role.</span>")
+						to_chat(M,"<span class='warning'>You must wait around [round((5 MINUTES - (world.time - cult_datum.time_role_changed_last))/600) + 1] minutes before you can switch role.</span>")
 					return
 				else
 				*/
-				if (C.mentor)
-					if(alert(M, "Switching roles will put an end to your mentorship by [C.mentor.owner.name]. Do you wish to proceed?", "Confirmation", "Yes", "No") == "No")
+				if (cult_datum.mentor)
+					if(alert(M, "Switching roles will put an end to your mentorship by [cult_datum.mentor.owner.name]. Do you wish to proceed?", "Confirmation", "Yes", "No") == "No")
 						return
-				if (C.acolytes.len > 0)
+				if (cult_datum.acolytes.len > 0)
 					if(alert(M, "Switching roles will put an end to your mentoring of [dat] do you wish to proceed?", "Confirmation", "Yes", "No") == "No")
 						return
 
@@ -1316,10 +1316,10 @@ GLOBAL_LIST_INIT(blood_communion, list())
 	if (M)
 		if (M.client)
 			M.client.images -= click_me
-		var/datum/antagonist/cult/C = M.mind?.has_antag_datum(/datum/antagonist/cult)
-		if (C)
+		var/datum/antagonist/cult/cult_datum = M.mind?.has_antag_datum(/datum/antagonist/cult)
+		if (cult_datum)
 			overlays.len = 0
-			switch(C.cultist_role)
+			switch(cult_datum.cultist_role)
 				if (CULTIST_ROLE_NONE)
 					if (M.client)
 						M.client.images += click_me
@@ -1344,22 +1344,22 @@ GLOBAL_LIST_INIT(blood_communion, list())
 /obj/abstract/mind_ui_element/bloodcult_your_role/UpdateIcon()
 	var/mob/M = GetUser()
 	if (M)
-		var/datum/antagonist/cult/C = M.mind?.has_antag_datum(/datum/antagonist/cult)
-		if (C)
+		var/datum/antagonist/cult/cult_datum = M.mind?.has_antag_datum(/datum/antagonist/cult)
+		if (cult_datum)
 			overlays.len = 0
-			switch(C.cultist_role)
+			switch(cult_datum.cultist_role)
 				if (CULTIST_ROLE_NONE)
 					icon_state = "cultist_herald"
 					offset_y = -69
 				if (CULTIST_ROLE_ACOLYTE)
 					icon_state = "cultist_acolyte"
-					if (C.mentor)
+					if (cult_datum.mentor)
 						offset_y = -55
 						var/image/I = image('monkestation/code/modules/bloody_cult/icons/bloodcult/288x16.dmi',src,"mentored_by")
 						I.pixel_x = 18
 						I.pixel_y = -15
 						overlays += I
-						String2Maptext(C.mentor.owner.name, _pixel_x = 90, _pixel_y = -11)
+						String2Maptext(cult_datum.mentor.owner.name, _pixel_x = 90, _pixel_y = -11)
 					else
 						offset_y = -59
 				if (CULTIST_ROLE_HERALD)
@@ -1367,15 +1367,15 @@ GLOBAL_LIST_INIT(blood_communion, list())
 					offset_y = -69
 				if (CULTIST_ROLE_MENTOR)
 					icon_state = "cultist_mentor"
-					if (C.acolytes.len > 0)
+					if (cult_datum.acolytes.len > 0)
 						offset_y = -55
 						var/image/I = image('monkestation/code/modules/bloody_cult/icons/bloodcult/288x16.dmi',src,"mentoring")
 						I.pixel_x = 18
 						I.pixel_y = -15
 						overlays += I
 						var/ac = 0
-						while (ac < C.acolytes.len)
-							var/datum/antagonist/cult/U = C.acolytes[ac+1]
+						while (ac < cult_datum.acolytes.len)
+							var/datum/antagonist/cult/U = cult_datum.acolytes[ac+1]
 							String2Maptext(U.owner.name, _pixel_x = 80, _pixel_y = -11 + (-13 * ac))
 							ac++
 					else
@@ -1847,9 +1847,9 @@ GLOBAL_LIST_INIT(blood_communion, list())
 		return
 	var/mob/M = GetUser()
 	if (M)
-		var/datum/antagonist/cult/C = M.mind?.has_antag_datum(/datum/antagonist/cult)
-		if (C)
-			C.ChangeCultistRole(P.selected_role)
+		var/datum/antagonist/cult/cult_datum = M.mind?.has_antag_datum(/datum/antagonist/cult)
+		if (cult_datum)
+			cult_datum.ChangeCultistRole(P.selected_role)
 			parent.Hide()
 
 //------------------------------------------------------------
