@@ -444,7 +444,7 @@
 					var/obj/item/soulstone/gem/gem = new (loc)
 					gem.pixel_y = 4
 			if ("Look through Veil")
-				SSholomaps.show_cult_map(user)
+				SSholomaps.show_cult_map(user, src)
 				watching_mobs |= user
 				RegisterSignal(user, COMSIG_MOVABLE_MOVED, PROC_REF(remove_watching))
 
