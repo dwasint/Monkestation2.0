@@ -476,7 +476,6 @@ GLOBAL_LIST_INIT(mind_ui_id_to_type, list())
 
 	//first we need the x and y coordinates in pixels of the element relative to the bottom left corner of the screen
 	var/icon/I = new(icon,icon_state)
-	var/list/start_loc_params = splittext(screen_loc, ",")
 	var/view = get_view_size()
 	var/list/offsets = screen_loc_to_offset(screen_loc, view)
 	var/start_x_val = offsets[1]
