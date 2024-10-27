@@ -212,3 +212,6 @@
 	if(for_clock_cult ? IS_CULTIST(target) : IS_CLOCK(target)) //monkestation edit
 		return FALSE //monkestation edit
 	return TRUE
+
+/proc/locate_team(type)
+	return locate(type) in GLOB.antagonist_teams
