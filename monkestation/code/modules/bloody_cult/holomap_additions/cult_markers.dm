@@ -70,6 +70,13 @@
 	user.clear_fullscreen("map_blocker", 10)
 	UnregisterSignal(user, COMSIG_MOVABLE_MOVED)
 
+/datum/controller/subsystem/holomaps/proc/live_update_cult_map(mob/user)
+	var/image/cult_map = update_cult_map(user, source_object)
+	user.client.images -= user.hud_used.holomap.used_base_map
+	user.hud_used.holomap.used_base_map = cult_map
+	cult_map.loc = user.hud_used.holomap
+	user.client.images |= cult_map
+
 /datum/holomap_marker
 	var/x
 	var/y
