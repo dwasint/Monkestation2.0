@@ -1,3 +1,6 @@
+/mob/living/basic/construct
+	var/construct_type = "Unknown"
+
 /mob/living/basic/construct/juggernaut/perfect
 	icon = 'monkestation/code/modules/bloody_cult/icons/mob.dmi'
 	icon_state = "juggernaut2"
