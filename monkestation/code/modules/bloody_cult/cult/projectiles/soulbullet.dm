@@ -78,13 +78,13 @@
 			var/mob/M = A
 			if (!IS_CULTIST(M))
 				A.attackby(blade,shade)
-			else if (!M.get_active_hand())//cultists and the blade's master can catch the blade on the fly
+			else if (!M.get_active_held_item())//cultists and the blade's master can catch the blade on the fly
 				blade.forceMove(loc)
 				blade.attack_hand(M)
 				to_chat(M, "<span class='warning'>Your hand moves by itself and catches \the [blade] out of the air.</span>")
 				blade = null
 				qdel(src)
-			else if (!M.get_inactive_hand())
+			else if (!M.get_inactive_held_item())
 				blade.forceMove(loc)
 				M.swap_hand() // guarrantees
 				blade.attack_hand(M)
@@ -99,13 +99,13 @@
 			var/mob/M = A
 			if (!IS_CULTIST(M))
 				A.hitby(blade)
-			else if (!M.get_active_hand())//cultists can catch the blade on the fly
+			else if (!M.get_active_held_item())//cultists can catch the blade on the fly
 				blade.forceMove(loc)
 				blade.attack_hand(M)
 				to_chat(M, "<span class='warning'>Your hand moves by itself and catches \the [blade] out of the air.</span>")
 				blade = null
 				qdel(src)
-			else if (!M.get_inactive_hand())
+			else if (!M.get_inactive_held_item())
 				blade.forceMove(loc)
 				M.swap_hand()
 				blade.attack_hand(M)

@@ -37,7 +37,7 @@ var/list/arcane_pockets = list()
 		return 0
 	if (stored_tome)
 		stored_tome.forceMove(get_turf(user))
-		if (user.get_inactive_hand() && user.get_active_hand())//full hands
+		if (user.get_inactive_held_item() && user.get_active_held_item())//full hands
 			to_chat(user,"<span class='warning'>Your hands being full, your [stored_tome] had nowhere to fall but on the ground.</span>")
 		else
 			to_chat(user,"<span class='notice'>You hold your hand palm up, and your [stored_tome] drops in it from thin air.</span>")

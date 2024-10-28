@@ -360,7 +360,7 @@
 
 			if (feedback && !tribute && (previous_result != BLOODCOST_TARGET_USER))
 				if (iscarbon(user))//if the user is holding a sharp weapon, they get a custom message
-					var/obj/item/weapon/W = user.get_active_hand()
+					var/obj/item/weapon/W = user.get_active_held_item()
 					if (W && W.sharpness == SHARP_POINTY)
 						to_chat(user, "<span class='rose'>You slice open your finger with \the [W] to let a bit of blood flow.</span>")
 					else

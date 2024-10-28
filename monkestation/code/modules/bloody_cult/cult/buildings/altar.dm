@@ -197,7 +197,7 @@
 		return
 	if(O.anchored || !Adjacent(user) || !user.Adjacent(O))
 		return
-	if (user.get_active_hand() == O)
+	if (user.get_active_held_item() == O)
 		if(!user.dropItemToGround(O))
 			return
 	else

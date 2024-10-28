@@ -41,7 +41,7 @@
 /datum/rune_spell/summontome/cast_talisman()//The talisman simply turns into a tome.
 	var/turf/T = get_turf(spell_holder)
 	var/obj/item/weapon/tome/AT = new (T)
-	if (spell_holder == activator.get_active_hand())
+	if (spell_holder == activator.get_active_held_item())
 		activator.dropItemToGround(spell_holder, T)
 		activator.put_in_active_hand(AT)
 		var/datum/antagonist/cult/cult_datum = activator.mind.has_antag_datum(/datum/antagonist/cult)
@@ -359,10 +359,10 @@
 			increment += (C.get_cult_power()) / 100
 
 			var/obj/item/candle/blood/candle
-			if (istype(C.get_active_hand(), /obj/item/candle/blood))
-				candle = C.get_active_hand()
-			else if (istype(C.get_inactive_hand(), /obj/item/candle/blood))
-				candle = C.get_inactive_hand()
+			if (istype(C.get_active_held_item(), /obj/item/candle/blood))
+				candle = C.get_active_held_item()
+			else if (istype(C.get_inactive_held_item(), /obj/item/candle/blood))
+				candle = C.get_inactive_held_item()
 			if (candle && candle.lit)
 				increment += 0.5
 		dance_count += increment
