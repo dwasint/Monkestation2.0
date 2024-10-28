@@ -199,7 +199,7 @@ var/list/rune_appearances_cache = list()
 	var/turf/T = get_turf(src)
 	var/write_color = COLOR_BLOOD
 	if (blood)
-		write_color = blood.color
+		write_color = GLOB.blood_types[blood.data["blood_type"]]?.color
 	anim(target = T, a_icon = 'monkestation/code/modules/bloody_cult/icons/deityrunes.dmi', flick_anim = "[word]-write", lay = layer+0.1, col = write_color, plane = plane)
 
 /obj/effect/new_rune/proc/erase_word(var/word,var/datum/reagent/blood/blood)
@@ -208,7 +208,7 @@ var/list/rune_appearances_cache = list()
 	var/turf/T = get_turf(src)
 	var/erase_color = COLOR_BLOOD
 	if (blood)
-		erase_color = blood.color
+		erase_color = GLOB.blood_types[blood.data["blood_type"]]?.color
 	anim(target = T, a_icon = 'monkestation/code/modules/bloody_cult/icons/deityrunes.dmi', flick_anim = "[word]-erase", lay = layer+0.1, col = erase_color, plane = plane)
 
 /obj/effect/new_rune/proc/cast_word(var/word)
@@ -248,11 +248,11 @@ var/list/rune_appearances_cache = list()
 
 	var/lookup = ""
 	if (word1)
-		lookup += "[word1.english]-[animated]-[blood1.data["blood_colour"]]"
+		lookup += "[word1.english]-[animated]-[GLOB.blood_types[blood1.data["blood_type"]]?.color]]"
 	if (word2 && draw_up_to >= 2)
-		lookup += "-[word2.english]-[animated]-[blood2.data["blood_colour"]]"
+		lookup += "-[word2.english]-[animated]-[GLOB.blood_types[blood2.data["blood_type"]]?.color]]"
 	if (word3 && draw_up_to >= 3)
-		lookup += "-[word3.english]-[animated]-[blood3.data["blood_colour"]]"
+		lookup += "-[word3.english]-[animated]-[GLOB.blood_types[blood3.data["blood_type"]]?.color]]"
 
 	var/image/rune_render
 	if (lookup in rune_appearances_cache)
@@ -262,17 +262,17 @@ var/list/rune_appearances_cache = list()
 		if (word1)
 			I1.icon_state = word1.english
 			if (blood1)
-				I1.color = blood1.color
+				I1.color = GLOB.blood_types[blood1.data["blood_type"]]?.color || COLOR_BLOOD
 		var/image/I2 = image('monkestation/code/modules/bloody_cult/icons/deityrunes.dmi',src,"")
 		if (word2 && draw_up_to >= 2)
 			I2.icon_state = word2.english
 			if (blood2)
-				I2.color = blood2.color
+				I2.color = GLOB.blood_types[blood2.data["blood_type"]]?.color || COLOR_BLOOD
 		var/image/I3 = image('monkestation/code/modules/bloody_cult/icons/deityrunes.dmi',src,"")
 		if (word3 && draw_up_to >= 3)
 			I3.icon_state = word3.english
 			if (blood3)
-				I3.color = blood3.color
+				I3.color = GLOB.blood_types[blood3.data["blood_type"]]?.color || COLOR_BLOOD
 
 		rune_render = image('monkestation/code/modules/bloody_cult/icons/deityrunes.dmi',src,"")
 		rune_render.overlays += I1
@@ -557,18 +557,21 @@ var/list/rune_appearances_cache = list()
 	if (!rune.word1)
 		rune.word1 = word
 		rune.blood1 = new()
+		rune.blood1.data = source.data
 		spawn (8)
 			rune.update_icon(1)
 
 	else if (!rune.word2)
 		rune.word2 = word
 		rune.blood2 = new()
+		rune.blood2.data = source.data
 		spawn (8)
 			rune.update_icon(2)
 
 	else if (!rune.word3)
 		rune.word3 = word
 		rune.blood3 = new()
+		rune.blood3.data = source.data
 		spawn (8)
 			rune.update_icon(3)
 
