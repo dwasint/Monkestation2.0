@@ -526,9 +526,9 @@ var/bloodstone_backup = 0
 
 	victim = loc
 	if (isalien(victim))
-		current_dots = clamp(round(victim.AmountParalyzed()/2.5),0,5)
+		current_dots = clamp(round(victim.AmountParalyzed() / 10),0,5)
 	else
-		current_dots = clamp(round(victim.AmountKnockdown()/2.5),0,5)
+		current_dots = clamp(round(victim.AmountKnockdown() / 10),0,5)
 
 	if (!current_dots)
 		qdel(src)
@@ -548,9 +548,9 @@ var/bloodstone_backup = 0
 	while (victim && (victim.stat < DEAD) && (victim.AmountKnockdown() || (isalien(victim) && victim.AmountParalyzed())))
 		for (var/client/C in viewers)
 			C.images -= indicator
-		var/dots = clamp(1+round(victim.AmountKnockdown()/2.5),1,6)
+		var/dots = clamp(1+round(victim.AmountKnockdown() / 10),1,6)
 		if (isalien(victim))
-			dots = clamp(1+round(victim.AmountParalyzed()/2.5),1,6)
+			dots = clamp(1+round(victim.AmountParalyzed() / 10),1,6)
 		var/anim = 0
 		if (dots!=current_dots)
 			anim = 1

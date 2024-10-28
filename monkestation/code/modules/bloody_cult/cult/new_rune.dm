@@ -1,6 +1,38 @@
 var/list/runes = list()
 var/list/rune_appearances_cache = list()
 
+/datum/hover_data/rune_data
+	var/obj/effect/overlay/hover/text_holder
+
+/datum/hover_data/rune_data/New(datum/component/hovering_information, atom/parent)
+	. = ..()
+	text_holder = new(null)
+	text_holder.maptext_width = 128
+	text_holder.maptext_y = 32
+	text_holder.maptext_x = -48
+	text_holder.color = COLOR_BLOOD
+	text_holder.alpha = 180
+
+/datum/hover_data/rune_data/setup_data(obj/effect/new_rune/rune, mob/enterer)
+	. = ..()
+	if(!IS_CULTIST(enterer))
+		return
+
+	var/datum/antagonist/cult/cultist = enterer.mind.has_antag_datum(/datum/antagonist/cult)
+	if(cultist.cultist_role != CULTIST_ROLE_ACOLYTE)
+		return
+
+	var/datum/rune_spell/rune_name = get_rune_spell(null, null, "examine", rune.word1, rune.word2, rune.word3)
+	text_holder.maptext = MAPTEXT_YOU_MURDERER("<span style='text-align: center; -dm-text-outline: 1px black'> [rune_name ? rune_name.name : "Unknown Rune"] </span>")
+	var/image/new_image = new(rune)
+	new_image.appearance = text_holder.appearance
+	SET_PLANE_EXPLICIT(new_image, new_image.plane, rune)
+	if(!isturf(rune.loc))
+		new_image.loc = rune.loc
+	else
+		new_image.loc = rune
+	add_client_image(new_image, enterer.client)
+
 /obj/effect/new_rune //Abstract, currently only supports blood as a reagent without some serious overriding.
 	name = "rune"
 	desc = "A strange collection of symbols drawn in blood."
@@ -60,6 +92,8 @@ var/list/rune_appearances_cache = list()
 
 	runes += src
 
+	AddComponent(/datum/component/hovering_information, /datum/hover_data/rune_data)
+
 	if(map_id)
 		var/datum/holomap_marker/holomarker = new(src)
 		holomarker.id = map_id
@@ -99,21 +133,21 @@ var/list/rune_appearances_cache = list()
 
 	..()
 
-/obj/effect/new_rune/examine(var/mob/user)
-	..()
+/obj/effect/new_rune/examine(mob/user)
+	. = ..()
 	if(can_read_rune(user) || isobserver(user))
 		var/datum/rune_spell/rune_name = get_rune_spell(null, null, "examine", word1,word2,word3)
-		to_chat(user, "<span class='info'>It reads: <i>[word1 ? "[word1.rune]" : ""][word2 ? " [word2.rune]" : ""][word3 ? " [word3.rune]" : ""]</i>. [rune_name ? " That's a <b>[initial(rune_name.name)]</b> rune." : "It doesn't match any rune spells."]</span>")
+		. += "<span class='info'>It reads: <i>[word1 ? "[word1.rune]" : ""][word2 ? " [word2.rune]" : ""][word3 ? " [word3.rune]" : ""]</i>. [rune_name ? " That's a <b>[initial(rune_name.name)]</b> rune." : "It doesn't match any rune spells."]</span>"
 		if(rune_name)
-			to_chat(user, initial(rune_name.desc))
+			. +=initial(rune_name.desc)
 			if (istype(active_spell,/datum/rune_spell/portalentrance))
 				var/datum/rune_spell/portalentrance/PE = active_spell
 				if (PE.network)
-					to_chat(user, "<span class='info'>This entrance was attuned to the <b>[PE.network]</b> path.</span>")
+					. +="<span class='info'>This entrance was attuned to the <b>[PE.network]</b> path.</span>"
 			if (istype(active_spell,/datum/rune_spell/portalexit))
 				var/datum/rune_spell/portalexit/PE = active_spell
 				if (PE.network)
-					to_chat(user, "<span class='info'>This exit was attuned to the <b>[PE.network]</b> path.</span>")
+					. +="<span class='info'>This exit was attuned to the <b>[PE.network]</b> path.</span>"
 
 	/*
 	//"Cult" chaplains can read the words, but they have to figure out the spell themselves. Also has a chance to trigger a taunt from Nar-Sie.

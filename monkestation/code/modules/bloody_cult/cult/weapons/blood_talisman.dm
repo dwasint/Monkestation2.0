@@ -42,7 +42,6 @@
 /obj/item/weapon/talisman/examine(var/mob/user)
 	..()
 	if (blood_text)
-		user << browse_rsc(file("monkestation/code/modules/bloody_cult/fonts/youmurdererbb_reg.otf"))
 		user << browse("<HTML><HEAD><TITLE>[name]</TITLE></HEAD><BODY text=#612014>[blood_text]</BODY></HTML>", "window=[name]")
 		onclose(user, "[name]")
 		return
@@ -65,7 +64,6 @@
 
 /obj/item/weapon/talisman/attack_self(var/mob/living/user)
 	if (blood_text)
-		user << browse_rsc(file("monkestation/code/modules/bloody_cult/fonts/youmurdererbb_reg.otf"))
 		user << browse("<HTML><HEAD><TITLE>[name]</TITLE></HEAD><BODY text=#612014>[blood_text]</BODY></HTML>", "window=[name]")
 		onclose(user, "[name]")
 		onclose(user, "[name]")
@@ -88,7 +86,6 @@
 		return
 
 	if (blood_text)
-		user << browse_rsc(file("monkestation/code/modules/bloody_cult/fonts/youmurdererbb_reg.otf"))
 		user << browse("<HTML><HEAD><TITLE>[name]</TITLE></HEAD><BODY text=#612014>[blood_text]</BODY></HTML>", "window=[name]")
 		onclose(user, "[name]")
 		return
