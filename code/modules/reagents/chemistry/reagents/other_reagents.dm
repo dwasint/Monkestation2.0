@@ -2700,7 +2700,7 @@
 	..()
 
 /datum/reagent/determination/on_mob_life(mob/living/carbon/affected_mob, seconds_per_tick, times_fired)
-	if(!significant && volume >= WOUND_DETERMINATION_SEVERE)
+	if(!significant && volume >= 3)
 		significant = TRUE
 		affected_mob.apply_status_effect(/datum/status_effect/determined) // in addition to the slight healing, limping cooldowns are divided by 4 during the combat high
 
