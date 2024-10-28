@@ -4,6 +4,7 @@
 	icon = 'monkestation/code/modules/bloody_cult/icons/worn/suit.dmi'
 	worn_icon = 'monkestation/code/modules/bloody_cult/icons/worn/suit.dmi'
 	icon_state = "cultarmor"
+	hood_up_affix = null
 
 	inhand_icon_state = null
 	w_class = WEIGHT_CLASS_BULKY
