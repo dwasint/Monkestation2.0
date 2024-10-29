@@ -3,9 +3,9 @@
 	real_name = "Shade"
 	desc = "A bound spirit."
 	gender = PLURAL
-	icon = 'icons/mob/nonhuman-player/cult.dmi'
-	icon_state = "shade_cult"
-	icon_living = "shade_cult"
+	icon = 'monkestation/code/modules/bloody_cult/icons/mob.dmi'
+	icon_state = "shade"
+	icon_living = "shade"
 	mob_biotypes = MOB_SPIRIT
 	maxHealth = 40
 	health = 40
@@ -45,14 +45,20 @@
 	add_traits(list(TRAIT_HEALS_FROM_CULT_PYLONS, TRAIT_SPACEWALK, TRAIT_VENTCRAWLER_ALWAYS), INNATE_TRAIT)
 	if(isnull(theme))
 		return
-	icon_state = "shade_[theme]"
+	if(theme != THEME_CULT)
+		icon = 'icons/mob/nonhuman-player/cult.dmi'
+		icon_state = "shade_[theme]"
 	var/list/remains = string_list(remains_by_theme[theme])
 	if(length(remains))
 		AddElement(/datum/element/death_drops, remains)
 
 /mob/living/basic/shade/update_icon_state()
 	. = ..()
+	if(theme == THEME_CULT)
+		return
+
 	if(!isnull(theme))
+		icon = 'icons/mob/nonhuman-player/cult.dmi'
 		icon_state = "shade_[theme]"
 	icon_living = icon_state
 

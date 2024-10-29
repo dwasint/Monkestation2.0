@@ -284,6 +284,10 @@ GLOBAL_LIST_INIT(converted_minds, list())
 			GLOB.converted_minds += victim.mind
 			if (!cult)
 				message_admins("Blood Cult: A conversion ritual occured...but we cannot find the cult faction...")//failsafe in case of admin varedit fuckery
+			var/datum/antagonist/streamer/streamer_role = activator?.mind?.has_antag_datum(/datum/antagonist/streamer)
+			if(streamer_role && streamer_role.team == "Cult")
+				streamer_role.conversions +=  1
+				streamer_role.update_streamer_hud()
 
 		switch (success)
 			if (CONVERSION_ACCEPT)

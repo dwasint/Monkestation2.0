@@ -1,0 +1,15 @@
+/mob/dead/observer
+	var/appearance_backup
+
+
+/mob/dead/observer/narsie_act()
+	. = ..()
+	if(invisibility != 0)
+		appearance_backup = appearance
+		icon = 'monkestation/code/modules/bloody_cult/icons/mob.dmi'
+		icon_state = "ghost-narsie"
+		invisibility = 0
+		alpha = 0
+		animate(src, alpha = 127, time = 0.5 SECONDS)
+		//to_chat(src, "<span class='sinister'>Even as a non-corporal being, you can feel Nar-Sie's presence altering you. You are now visible to everyone.</span>")
+		flick("rune_seer",src)

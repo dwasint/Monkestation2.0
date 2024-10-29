@@ -13,6 +13,7 @@
 	/// The turf where the camera was last updated.
 	var/turf/last_camera_turf
 	var/list/concurrent_users = list()
+	var/ui_path = "CameraConsole"
 
 	// Stuff needed to render the map
 	var/atom/movable/screen/map_view/cam_screen
@@ -71,7 +72,7 @@
 		cam_screen.display_to(user)
 		user.client.register_map_obj(cam_background)
 		// Open UI
-		ui = new(user, src, "CameraConsole", name)
+		ui = new(user, src, ui_path, name)
 		ui.open()
 
 /obj/machinery/computer/security/ui_status(mob/user)
