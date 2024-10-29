@@ -8,7 +8,7 @@
 	circuit = /obj/item/circuitboard/computer/security
 	light_color = COLOR_SOFT_RED
 
-	var/list/network = list("ss13")
+	var/list/network = list("ss13", "SpessTV")
 	var/obj/machinery/camera/active_camera
 	/// The turf where the camera was last updated.
 	var/turf/last_camera_turf
@@ -123,6 +123,24 @@
 		update_active_camera_screen()
 
 		return TRUE
+
+	switch(action)
+		if("follow")
+			var/obj/machinery/camera/spesstv/camera = active_camera
+			if(!istype(camera))
+				return
+			var/datum/antagonist/streamer/streamer_role = camera.streamer
+			if(!istype(streamer_role))
+				return
+			streamer_role.try_add_follower(usr.mind)
+		if("subscribe")
+			var/obj/machinery/camera/spesstv/camera = active_camera
+			if(!istype(camera))
+				return
+			var/datum/antagonist/streamer/streamer_role = camera.streamer
+			if(!istype(streamer_role))
+				return
+			streamer_role.try_add_subscription(usr.mind, src)
 
 /obj/machinery/computer/security/proc/update_active_camera_screen()
 	// Show static if can't use the camera
