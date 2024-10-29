@@ -8,6 +8,7 @@
 	circuit = /obj/item/circuitboard/computer/security
 	light_color = COLOR_SOFT_RED
 
+	var/clears_camera = FALSE
 	var/list/network = list("ss13", "SpessTV")
 	var/obj/machinery/camera/active_camera
 	/// The turf where the camera was last updated.
@@ -42,6 +43,11 @@
 /obj/machinery/computer/security/Destroy()
 	QDEL_NULL(cam_screen)
 	QDEL_NULL(cam_background)
+	if(active_camera)
+		active_camera.on_deactive_camera(src)
+		active_camera = null
+		last_camera_turf = null
+
 	return ..()
 
 /obj/machinery/computer/security/connect_to_shuttle(mapload, obj/docking_port/mobile/port, obj/docking_port/stationary/dock)
@@ -115,6 +121,7 @@
 	if(action == "switch_camera")
 		var/obj/machinery/camera/selected_camera = locate(params["camera"]) in GLOB.cameranet.cameras
 		active_camera = selected_camera
+		active_camera.on_active_camera(src)
 		playsound(src, get_sfx(SFX_TERMINAL_TYPE), 25, FALSE)
 
 		if(isnull(active_camera))
@@ -186,7 +193,8 @@
 	// Unregister map objects
 	cam_screen.hide_from(user)
 	// Turn off the console
-	if(length(concurrent_users) == 0 && is_living)
+	if(length(concurrent_users) == 0 && is_living && clears_camera)
+		active_camera.on_deactive_camera(src)
 		active_camera = null
 		last_camera_turf = null
 		playsound(src, 'sound/machines/terminal_off.ogg', 25, FALSE)

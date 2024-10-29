@@ -88,6 +88,7 @@
 	ASSERT(istype(new_camera))
 	camera = new_camera
 	camera.streamer = src
+	camera.setup_streamer()
 	camera.name_camera()
 
 
