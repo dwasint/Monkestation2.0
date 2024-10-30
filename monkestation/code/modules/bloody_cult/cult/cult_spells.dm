@@ -18,7 +18,9 @@ var/list/arcane_pockets = list()
 	name = "Arcane Dimension (empty)"
 	desc = "Cast while holding an Arcane Tome to discretly store it through the veil."
 	button_icon_state = "cult_pocket_empty"
-
+	button_icon = 'monkestation/code/modules/bloody_cult/icons/spells.dmi'
+	background_icon = 'monkestation/code/modules/bloody_cult/icons/spells.dmi'
+	background_icon_state = "const_spell_base"
 	invocation_type = INVOCATION_NONE
 	var/obj/item/weapon/tome/stored_tome = null
 
@@ -69,7 +71,9 @@ var/list/arcane_pockets = list()
 	name = "Re-enter Body"
 	desc = "End your astral projection and re-awaken inside your body. If used while tangible you might spook on-lookers, so be mindful."
 	button_icon_state = "astral_return"
-	overlay_icon_state = "cult"
+	button_icon = 'monkestation/code/modules/bloody_cult/icons/spells.dmi'
+	background_icon = 'monkestation/code/modules/bloody_cult/icons/spells.dmi'
+	background_icon_state = "const_spell_base"
 	spell_requirements = NONE
 
 
@@ -82,7 +86,10 @@ var/list/arcane_pockets = list()
 /datum/action/cooldown/spell/astral_toggle
 	name = "Toggle Tangibility"
 	desc = "Turn into a visible copy of your body, able to speak and bump into doors. But note that the slightest source of damage will dispel your astral projection altogether."
-	background_icon_state = "cult"
+	icon_state = "astral_toggle"
+	button_icon = 'monkestation/code/modules/bloody_cult/icons/spells.dmi'
+	background_icon = 'monkestation/code/modules/bloody_cult/icons/spells.dmi'
+	background_icon_state = "const_spell_base"
 	spell_requirements = NONE
 
 /datum/action/cooldown/spell/astral_toggle/cast(mob/living/user)
