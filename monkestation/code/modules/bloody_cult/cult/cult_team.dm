@@ -402,7 +402,7 @@
 			parts += "<span class='redtext big'>The cult missed the chance to summon Nar'Sie. They have failed her!</span>"
 		if(BLOODCULT_STAGE_DEFEATED)
 			parts +=  "<span class='redtext big'>The crew has destroyed the bloodstone preventing Nar'Sie from destroying the station.</span>"
-		if(BLOOD_CULT_STAGE_NARSIE)
+		if(BLOODCULT_STAGE_NARSIE)
 			parts += "<span class='greentext big'>The cult has succeeded! Nar'Sie has snuffed out another torch in the void!</span>"
 
 	if(members.len)

@@ -86,7 +86,7 @@ var/list/arcane_pockets = list()
 /datum/action/cooldown/spell/astral_toggle
 	name = "Toggle Tangibility"
 	desc = "Turn into a visible copy of your body, able to speak and bump into doors. But note that the slightest source of damage will dispel your astral projection altogether."
-	icon_state = "astral_toggle"
+	button_icon_state = "astral_toggle"
 	button_icon = 'monkestation/code/modules/bloody_cult/icons/spells.dmi'
 	background_icon = 'monkestation/code/modules/bloody_cult/icons/spells.dmi'
 	background_icon_state = "const_spell_base"
