@@ -1,6 +1,6 @@
 /// Base font
 /datum/font/YouMurdererBB
-	name = "YouMurderer"
+	name = "YouMurderer BB"
 	font_family = 'interface/fonts/youmurdererbb_reg.ttf'
 
 /*
