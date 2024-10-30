@@ -24,6 +24,9 @@ SUBSYSTEM_DEF(hell_universe)
 	hell_time = TRUE
 	old_starlight_color = GLOB.starlight_color
 
+	for(var/mob/dead/observer/observer in GLOB.player_list)
+		observer.narsie_act()
+
 	for(var/client/client in GLOB.clients)
 		client.parallax_layers_cached += new /atom/movable/screen/parallax_layer/rifts(null, client.mob)
 		for(var/atom/movable/screen/parallax_layer/layer as anything in client.parallax_layers_cached)

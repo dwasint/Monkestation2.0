@@ -7,6 +7,8 @@
 /datum/action/cooldown/spell/pointed/soulblade
 	panel = "Cult"
 	button_icon = 'monkestation/code/modules/bloody_cult/icons/spells.dmi'
+	background_icon = 'monkestation/code/modules/bloody_cult/icons/spells.dmi'
+	background_icon_state = "const_spell_base"
 	var/blood_cost = 0
 
 /datum/action/cooldown/spell/pointed/soulblade/soulblade/PreActivate(atom/target)

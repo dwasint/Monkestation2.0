@@ -6531,6 +6531,7 @@
 #include "monkestation\code\modules\bloody_cult\cult\rune_spells\stun.dm"
 #include "monkestation\code\modules\bloody_cult\cult\rune_spells\summon_robes.dm"
 #include "monkestation\code\modules\bloody_cult\cult\spells\artificer_spells.dm"
+#include "monkestation\code\modules\bloody_cult\cult\spells\blood_doodle.dm"
 #include "monkestation\code\modules\bloody_cult\cult\spells\path_spells.dm"
 #include "monkestation\code\modules\bloody_cult\cult\spells\pointed_conjure.dm"
 #include "monkestation\code\modules\bloody_cult\cult\spells\shade_spells.dm"

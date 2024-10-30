@@ -157,18 +157,6 @@ GLOBAL_VAR_INIT(observer_default_invisibility, INVISIBILITY_OBSERVER)
 	if(!invisibility || camera.see_ghosts)
 		return "You can also see a g-g-g-g-ghooooost!"
 
-/mob/dead/observer/narsie_act()
-	var/old_color = color
-	color = "#960000"
-	animate(src, color = old_color, time = 10, flags = ANIMATION_PARALLEL)
-	addtimer(CALLBACK(src, TYPE_PROC_REF(/atom, update_atom_colour)), 10)
-
-	alpha = 0
-	animate(src, alpha = 127, time = 0.5 SECONDS)
-
-	anim(target = loc, a_icon = 'monkestation/code/modules/bloody_cult/icons/160x160.dmi', flick_anim = "rune_seer", offX = -32*2+pixel_x, offY = -32*2+pixel_y)
-	invisibility = 0
-
 /mob/dead/observer/Destroy()
 	if(data_huds_on)
 		remove_data_huds()

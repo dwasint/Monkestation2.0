@@ -1,10 +1,15 @@
 /mob/dead/observer
 	var/appearance_backup
 
+/mob/dead/observer/Initialize(mapload)
+	. = ..()
+	if(GLOB.eclipse.eclipse_start_time && !GLOB.eclipse.eclipse_finished)
+		narsie_act()
 
 /mob/dead/observer/narsie_act()
-	. = ..()
 	if(invisibility != 0)
+		var/datum/action/cooldown/blood_doodle/doodle = new
+		doodle.Grant(src)
 		appearance_backup = appearance
 		icon = 'monkestation/code/modules/bloody_cult/icons/mob.dmi'
 		icon_state = "ghost-narsie"

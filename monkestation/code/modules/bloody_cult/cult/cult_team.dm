@@ -396,24 +396,14 @@
 
 /datum/team/cult/roundend_report()
 	var/list/parts = list()
-	var/victory = check_cult_victory()
 
-	if(victory == CULT_NARSIE_KILLED) // Epic failure, you summoned your god and then someone killed it.
-		parts += "<span class='redtext big'>Nar'sie has been killed! The cult will haunt the universe no longer!</span>"
-	else if(victory)
-		parts += "<span class='greentext big'>The cult has succeeded! Nar'Sie has snuffed out another torch in the void!</span>"
-	else
-		parts += "<span class='redtext big'>The staff managed to stop the cult! Dark words and heresy are no match for Nanotrasen's finest!</span>"
-
-	if(objectives.len)
-		parts += "<b>The cultists' objectives were:</b>"
-		var/count = 1
-		for(var/datum/objective/objective in objectives)
-			if(objective.check_completion())
-				parts += "<b>Objective #[count]</b>: [objective.explanation_text] [span_greentext("Success!")]"
-			else
-				parts += "<b>Objective #[count]</b>: [objective.explanation_text] [span_redtext("Fail.")]"
-			count++
+	switch(stage)
+		if(BLOODCULT_STAGE_MISSED)
+			parts += "<span class='redtext big'>The cult missed the chance to summon Nar'Sie. They have failed her!</span>"
+		if(BLOODCULT_STAGE_DEFEATED)
+			parts +=  "<span class='redtext big'>The crew has destroyed the bloodstone preventing Nar'Sie from destroying the station.</span>"
+		if(BLOOD_CULT_STAGE_NARSIE)
+			parts += "<span class='greentext big'>The cult has succeeded! Nar'Sie has snuffed out another torch in the void!</span>"
 
 	if(members.len)
 		parts += "<span class='header'>The cultists were:</span>"
