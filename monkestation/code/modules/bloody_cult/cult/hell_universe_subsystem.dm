@@ -11,9 +11,8 @@
 
 SUBSYSTEM_DEF(hell_universe)
 	name = "Hell Universe Processing"
-	flags = SS_NO_INIT
+	flags = SS_NO_INIT | SS_TICKER
 	wait = LIGHTING_INTERVAL
-	flags = SS_TICKER
 
 	var/hell_time = FALSE
 	var/old_starlight_color

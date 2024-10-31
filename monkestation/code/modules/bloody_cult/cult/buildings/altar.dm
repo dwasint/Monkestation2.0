@@ -50,7 +50,7 @@
 		if (is_type_in_list(I, can_plant))
 			I.forceMove(src)
 			blade = I
-			update_icon()
+			update_appearance()
 
 /obj/structure/cult/altar/Destroy()
 
@@ -77,7 +77,7 @@
 		user.dropItemToGround(I)
 		I.forceMove(src)
 		blade = I
-		update_icon()
+		update_appearance()
 		var/mob/living/carbon/C = locate() in loc
 		var/mob/living/basic/S = locate() in loc
 		if (C && C.body_position == LYING_DOWN)
@@ -138,10 +138,12 @@
 			return TRUE
 	..()
 
-/obj/structure/cult/altar/update_icon()
+/obj/structure/cult/altar/update_icon_state()
 	. = ..()
 	icon_state = "altar"
-	overlays.len = 0
+
+/obj/structure/cult/altar/update_overlays()
+	. = ..()
 	if (blade)
 		var/image/I
 		if(istype(blade, /obj/item/knife/ritual))
@@ -154,15 +156,15 @@
 			I = image(icon, "altar-soulblade")
 		SET_PLANE_EXPLICIT(I, GAME_PLANE_UPPER, src)
 		I.pixel_y = 3
-		overlays.Add(I)
+		. += I
 	var/image/I = image(icon, "altar_overlay")
 	SET_PLANE_EXPLICIT(I, GAME_PLANE, src)
-	overlays.Add(I)
+	. += I
 
 	if (atom_integrity < max_integrity/3)
-		overlays.Add("altar_damage2")
+		. += "altar_damage2"
 	else if (atom_integrity < 2*max_integrity/3)
-		overlays.Add("altar_damage1")
+		. += "altar_damage1"
 
 //We want people on top of the altar to appear slightly higher
 /obj/structure/cult/altar/Entered(var/atom/movable/mover)
@@ -305,7 +307,7 @@
 							STOP_PROCESSING(SSobj, src)
 							blade = null
 							playsound(loc, 'sound/weapons/blade1.ogg', 50, 1)
-							update_icon()
+							update_appearance()
 				if ("Sacrifice")
 					// First we'll check for any blockers around it since we'll dance using forceMove to allow up to 8 dancers without them bumping into each others
 					// Of course this means that walls and objects placed AFTER the start of the dance can be crossed by dancing but that's good enough.
@@ -333,7 +335,7 @@
 					STOP_PROCESSING(SSobj, src)
 					blade = null
 					playsound(loc, 'sound/weapons/blade1.ogg', 50, 1)
-					update_icon()
+					update_appearance()
 			else
 				blade.forceMove(loc)
 				blade.attack_hand(user)
@@ -341,7 +343,7 @@
 				STOP_PROCESSING(SSobj, src)
 				blade = null
 				playsound(loc, 'sound/weapons/blade1.ogg', 50, 1)
-				update_icon()
+				update_appearance()
 			return
 	else
 		var/list/choices = list(
@@ -430,17 +432,17 @@
 					narsie_message_cooldown = 0
 			if ("Conjure Soul Gem")
 				altar_task = ALTARTASK_GEM
-				update_icon()
+				update_appearance()
 				overlays += "altar-soulstone1"
 				spawn (gem_delay/3)
-					update_icon()
+					update_appearance()
 					overlays += "altar-soulstone2"
 					sleep (gem_delay/3)
-					update_icon()
+					update_appearance()
 					overlays += "altar-soulstone3"
 					sleep (gem_delay/3)
 					altar_task = ALTARTASK_NONE
-					update_icon()
+					update_appearance()
 					var/obj/item/soulstone/gem/gem = new (loc)
 					gem.pixel_y = 4
 			if ("Look through Veil")
@@ -474,7 +476,7 @@
 	if (cult)
 		if (buckled_mobs)
 			sacrificer = user
-			update_icon()
+			update_appearance()
 			contributors.Add(user)
 			update_progbar()
 			if (user.client)
@@ -509,7 +511,7 @@
 					STOP_PROCESSING(SSobj, src)
 					blade = null
 					playsound(loc, 'sound/weapons/blade1.ogg', 50, 1)
-					update_icon()
+					update_appearance()
 	else if (blade)
 		blade.forceMove(loc)
 		blade.attack_hand(user)
@@ -517,7 +519,7 @@
 		STOP_PROCESSING(SSobj, src)
 		blade = null
 		playsound(loc, 'sound/weapons/blade1.ogg', 50, 1)
-		update_icon()
+		update_appearance()
 		if (trapped) //soulblade sanctum trapped altar
 			trapped = FALSE
 			var/list/possible_floors = list()
@@ -580,8 +582,8 @@
 		shadeMob.cancel_camera()
 		//shadeMob.give_blade_powers()
 		blade.dir = NORTH
-		blade.update_icon()
-		update_icon()
+		blade.update_appearance()
+		update_appearance()
 		//Automatically makes them cultists
 		var/datum/antagonist/cult/newCultist = new/datum/antagonist/cult(shadeMob.mind)
 		newCultist.conversion.Add("altar")
@@ -600,7 +602,7 @@
 	switch(altar_task)
 		if(ALTARTASK_SACRIFICE_HUMAN)
 			altar_task = ALTARTASK_NONE
-			update_icon()
+			update_appearance()
 			var/mob/M = buckled_mobs[1]
 			if (istype(blade) && !blade.shade && M.mind)//If an empty soul blade was the tool used for the ritual, let's make them its shade.
 				var/mob/living/basic/shade/new_shade = M.change_mob_type( /mob/living/basic/shade , null, null, 1 )
@@ -608,7 +610,7 @@
 				blade.blood = blade.maxblood
 				new_shade.forceMove(blade)
 				blade.shade = new_shade
-				blade.update_icon()
+				blade.update_appearance()
 				blade = null
 				for(var/mob/living/L in dview(world.view, loc, INVISIBILITY_MAXIMUM))
 					if (L.client)
