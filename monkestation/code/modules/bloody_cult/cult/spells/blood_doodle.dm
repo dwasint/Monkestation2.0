@@ -49,14 +49,16 @@
 	if(!letter_amount) //If there is no text
 		return
 
+	var/angle = rand(-25, 25)
 	var/image/preview = image(icon = null)
 	preview.maptext = MAPTEXT_YOU_MURDERER("<span style='text-align: center; -dm-text-outline: 1px black; color:[blood_color]'> [message] </span>")
-	preview.maptext_height = 32
+	preview.maptext_height = 64
 	preview.maptext_width = 128
 	preview.maptext_x = -48
 	preview.maptext_y = 8
 	preview.alpha = 180
 	preview.loc = parent_turf
+	preview.transform = matrix(angle, MATRIX_ROTATE)
 
 	owner.client?.images.Add(preview)
 	var/continue_drawing = alert(owner, "This is how your message will look. Continue?", "Bloody writings", "Yes", "Cancel")
@@ -65,15 +67,17 @@
 	preview.loc = null
 	qdel(preview)
 
-	if(continue_drawing != "Yes" || !owner.Adjacent(parent_turf))
+	if(continue_drawing != "Yes")
 		return
 
+	message_admins("[owner] created a blood doodle containing the phrase:[message][ADMIN_JMP(parent_turf)]")
 	var/obj/effect/decal/cleanable/blood/writing/spawned_writing = new /obj/effect/decal/cleanable/blood/writing(parent_turf)
 	spawned_writing.color = blood_color
 
 	spawned_writing.maptext = MAPTEXT_YOU_MURDERER("<span style='text-align: center; -dm-text-outline: 1px black; color:[blood_color]'> [message] </span>")
-	spawned_writing.maptext_height = 32
+	spawned_writing.maptext_height = 64
 	spawned_writing.maptext_width = 128
 	spawned_writing.maptext_x = -48
 	spawned_writing.maptext_y = 8
+	spawned_writing.transform = matrix(angle, MATRIX_ROTATE)
 	qdel(blood)
