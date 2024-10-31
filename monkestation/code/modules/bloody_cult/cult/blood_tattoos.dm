@@ -93,14 +93,6 @@
 	icon_state = "rune"
 	tier = 2
 
-// Obsolete - Spire grants :x communication when built.
-/*
-/datum/cult_tattoo/chat // functionality moved to Spires
-	name = TATTOO_CHAT
-	desc = "Chat with the cult using :x."
-	icon_state = "chat"
-	tier = 2
-*/
 
 ///////////////////////////
 //                       //
@@ -125,15 +117,6 @@
 	H.status_flags &= ~CANSTUN
 	H.status_flags &= ~CANKNOCKDOWN
 	H.regenerate_icons()
-
-// Obsolete - Runes are traced instantly now.
-/*
-/datum/cult_tattoo/fast
-	name = TATTOO_FAST
-	desc = "Trace runes 66% faster."
-	icon_state = "fast"
-	tier = 3
-*/
 
 /datum/cult_tattoo/shortcut
 	name = TATTOO_SHORTCUT
