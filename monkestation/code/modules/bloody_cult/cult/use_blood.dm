@@ -423,7 +423,7 @@
 			if (ishuman(user))
 				var/mob/living/carbon/human/H = user
 				var/blood_before = H.blood_volume
-				H.blood_volume -= data[BLOODCOST_AMOUNT_USER]
+				H.blood_volume -= data[BLOODCOST_AMOUNT_USER] * 3 //doing this yourself is worse then communion
 				var/blood_after = H.blood_volume
 				if (blood_before > BLOOD_VOLUME_SAFE && blood_after < BLOOD_VOLUME_SAFE)
 					to_chat(user, "<span class='sinister'>You start looking pale.</span>")
