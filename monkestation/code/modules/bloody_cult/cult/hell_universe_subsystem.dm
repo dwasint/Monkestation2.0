@@ -27,13 +27,16 @@ SUBSYSTEM_DEF(hell_universe)
 		observer.narsie_act()
 
 	for(var/client/client in GLOB.clients)
+		var/view = client.view || world.view
 		client.parallax_layers_cached += new /atom/movable/screen/parallax_layer/rifts(null, client.mob)
+
 		for(var/atom/movable/screen/parallax_layer/layer as anything in client.parallax_layers_cached)
 			if(!istype(layer, /atom/movable/screen/parallax_layer/layer_1))
 				continue
 			layer.remove_atom_colour(ADMIN_COLOUR_PRIORITY, GLOB.starlight_color)
 			layer.icon_state = "narsie"
-		client.mob.hud_used?.client_refresh()
+			layer.update_o(view)
+		client.mob.hud_used?.update_parallax_pref()
 
 	GLOB.starlight_color = COLOR_BLOOD
 
