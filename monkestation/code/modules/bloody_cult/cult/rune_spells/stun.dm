@@ -4,7 +4,7 @@
 	desc = "Overwhelm everyone's senses with a blast of pure chaotic energy. Cultists will recover their senses a bit faster."
 	desc_talisman = "Use to produce a smaller radius blast, or touch someone with it to focus the entire power of the spell on their person."
 	invocation = "Fuu ma'jin!"
-	touch_cast = 1
+	touch_cast = TRUE
 	word1 = /datum/rune_word/join
 	word2 = /datum/rune_word/hide
 	word3 = /datum/rune_word/technology
