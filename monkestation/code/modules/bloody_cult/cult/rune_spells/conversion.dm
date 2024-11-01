@@ -187,7 +187,7 @@ GLOBAL_LIST_INIT(converted_minds, list())
 
 		//alright, now the second phase, which always lasts an additional 10 seconds, but no longer requires the proximity of the activator.
 		phase = 2
-		var/acceptance = "Never"
+		var/acceptance = "Yes"
 		victim.Knockdown(15 SECONDS)
 		victim.Stun(15 SECONDS)
 		if (isalien(victim))
