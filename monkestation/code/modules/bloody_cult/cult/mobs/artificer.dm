@@ -1,19 +1,10 @@
-/mob/living/basic/construct
-	var/list/healers = list()
-	var/construct_color = "#FFFFFF"
-
-/mob/living/basic/construct/Move(atom/newloc, direct, glide_size_override)
-	. = ..()
-	if (healers.len > 0)
-		for (var/mob/living/basic/construct/artificer/perfect/P in healers)
-			P.move_ray()
-
 /mob/living/basic/construct/artificer/perfect
 	icon_state = "artificer2"
 	icon_living = "artificer2"
 	icon_dead = "artificer2"
 	icon = 'monkestation/code/modules/bloody_cult/icons/mob.dmi'
 	see_in_dark = 7
+	new_glow = TRUE
 	construct_spells = list(
 		/datum/action/cooldown/spell/conjure/cult_floor,
 		/datum/action/cooldown/spell/conjure/cult_wall,

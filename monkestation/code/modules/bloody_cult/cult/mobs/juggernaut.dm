@@ -6,6 +6,7 @@
 	icon_state = "juggernaut2"
 	icon_living = "juggernaut2"
 	icon_dead = "juggernaut2"
+	new_glow = TRUE
 	construct_spells = list(
 		/datum/action/cooldown/spell/forcewall/cult,
 		/datum/action/cooldown/spell/basic_projectile/juggernaut,

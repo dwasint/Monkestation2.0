@@ -6525,6 +6525,7 @@
 #include "monkestation\code\modules\bloody_cult\cult\items\blood_candle.dm"
 #include "monkestation\code\modules\bloody_cult\cult\items\blood_tesseract.dm"
 #include "monkestation\code\modules\bloody_cult\cult\items\cult_storage.dm"
+#include "monkestation\code\modules\bloody_cult\cult\mobs\_construct.dm"
 #include "monkestation\code\modules\bloody_cult\cult\mobs\artificer.dm"
 #include "monkestation\code\modules\bloody_cult\cult\mobs\astral_projection.dm"
 #include "monkestation\code\modules\bloody_cult\cult\mobs\hex.dm"
