@@ -122,11 +122,14 @@
 
 	if(length(validturfs))
 		var/turf/converted_turf = pick(validturfs)
+		var/datum/team/cult/cult = locate_team(/datum/team/cult)
+		var/datum/mind/mind = pick(cult.members)
+		var/datum/antagonist/cult/cultist = mind?.has_antag_datum(/datum/antagonist/cult)
 		if(isplatingturf(converted_turf))
 			converted_turf.PlaceOnTop(/turf/open/floor/engine/cult, flags = CHANGETURF_INHERIT_AIR)
 		else
 			converted_turf.ChangeTurf(/turf/open/floor/engine/cult, flags = CHANGETURF_INHERIT_AIR)
-
+		cultist?.gain_devotion(0, DEVOTION_TIER_0, "convert_floor")
 	else if (length(cultturfs))
 		var/turf/open/floor/engine/cult/cult_turf = pick(cultturfs)
 		new /obj/effect/temp_visual/cult/turf/floor(cult_turf)
