@@ -42,7 +42,7 @@
 
 /obj/effect/tracker/soul
 	name = "soul"
-	icon_state = "soul3"
+	icon_state = "soul2"
 
 /obj/effect/tracker/drain
 	name = "blood"

@@ -14,12 +14,14 @@
 	suffix_tag++
 
 /obj/machinery/camera/spesstv/proc/setup_streamer()
-	RegisterSignal(streamer.owner.current, COMSIG_MOVABLE_HEAR, PROC_REF(handle_hearing))
+	if(streamer)
+		RegisterSignal(streamer.owner.current, COMSIG_MOVABLE_HEAR, PROC_REF(handle_hearing))
 
 /obj/machinery/camera/spesstv/Destroy()
 	. = ..()
 	tuned_in_machines = null
-	UnregisterSignal(streamer.owner.current, COMSIG_MOVABLE_HEAR)
+	if(streamer)
+		UnregisterSignal(streamer.owner.current, COMSIG_MOVABLE_HEAR)
 
 /obj/machinery/camera/spesstv/proc/name_camera()
 	var/team_name = streamer?.team

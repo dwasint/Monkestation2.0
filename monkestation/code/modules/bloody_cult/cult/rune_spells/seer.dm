@@ -89,7 +89,8 @@ var/list/seer_rituals = list()
 
 /obj/effect/cult_ritual/seer/New(var/turf/loc, var/mob/living/user, var/datum/rune_spell/seer/runespell, var/talisman_ritual = FALSE, var/talisman_duration = 60 SECONDS)
 	..()
-	ADD_TRAIT(user, TRAIT_SEER, REF(src))
+	if(user)
+		ADD_TRAIT(user, TRAIT_SEER, REF(src))
 	seer_rituals.Add(src)
 	START_PROCESSING(SSobj, src)
 	talisman = talisman_ritual
@@ -108,9 +109,10 @@ var/list/seer_rituals = list()
 
 /obj/effect/cult_ritual/seer/Destroy()
 	seer_rituals.Remove(src)
-	REMOVE_TRAIT(caster, TRAIT_SEER, REF(src))
 	STOP_PROCESSING(SSobj, src)
-	to_chat(caster, "<span class = 'notice'>You can no longer discern through the veil.</span>")
+	if(caster)
+		REMOVE_TRAIT(caster, TRAIT_SEER, REF(src))
+		to_chat(caster, "<span class = 'notice'>You can no longer discern through the veil.</span>")
 	caster = null
 	if (source)
 		source.abort()

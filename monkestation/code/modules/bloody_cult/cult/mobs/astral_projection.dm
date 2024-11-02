@@ -18,10 +18,9 @@ GLOBAL_LIST_INIT(astral_projections, list())
 	melee_damage_lower = 0
 	melee_damage_upper = 0
 	speed = 1
-	faction = "cult"
+	faction = list("cult")
 	speed = 0.5
 	density = 0
-	anchored = 1
 	status_flags = GODMODE
 	plane = GHOST_PLANE
 	invisibility = INVISIBILITY_REVENANT

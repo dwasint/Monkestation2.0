@@ -245,7 +245,7 @@
 /obj/effect/cult_ritual/feet_portal/New(var/turf/loc, var/mob/living/user, var/datum/rune_spell/seer/runespell)
 	..()
 	caster = user
-	source = get_turf(runespell.spell_holder)
+	source = get_turf(runespell?.spell_holder)
 	if (!caster)
 		qdel(src)
 		return

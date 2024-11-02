@@ -239,7 +239,7 @@
 	initial_pixel_x = pixel_x
 	initial_pixel_y = pixel_y
 	//first of all, if our target is off Z-Level, we're immediately teleporting to the edge of the map closest to the target
-	if (target.z != z)
+	if (target?.z != z)
 		move_to_edge()
 	//quickly making sure that we're not jaunting to where we are
 	bump_target_check()
