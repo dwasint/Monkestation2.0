@@ -38,8 +38,8 @@
 	ADD_TRAIT(M, TRAIT_MUTE, "rune")
 	ADD_TRAIT(M, TRAIT_DEAF, "rune")
 
-	addtimer(CALLBACK(src, PROC_REF(remove_deaf), M), deaf_duration)
-	addtimer(CALLBACK(src, PROC_REF(remove_mute), M), mute_duration)
+	addtimer(CALLBACK(src, GLOBAL_PROC_REF(remove_deaf), M), deaf_duration)
+	addtimer(CALLBACK(src, GLOBAL_PROC_REF(remove_mute), M), mute_duration)
 	spawn(8)
 		M.update_fullscreen_alpha("deafborder", 0, 5)
 		sleep(8)
@@ -66,8 +66,8 @@
 		ADD_TRAIT(M, TRAIT_MUTE, "rune")
 		ADD_TRAIT(M, TRAIT_DEAF, "rune")
 
-		addtimer(CALLBACK(src, PROC_REF(remove_deaf), M), deaf_duration)
-		addtimer(CALLBACK(src, PROC_REF(remove_mute), M), mute_duration)
+		addtimer(CALLBACK(src, GLOBAL_PROC_REF(remove_deaf), M), deaf_duration)
+		addtimer(CALLBACK(src, GLOBAL_PROC_REF(remove_mute), M), mute_duration)
 
 		spawn(8)
 			M.update_fullscreen_alpha("deafborder", 0, 5)
@@ -78,8 +78,8 @@
 /datum/rune_spell/deafmute/cast_talisman()
 	cast(deaf_talisman_duration, mute_talisman_duration)
 
-/datum/rune_spell/deafmute/proc/remove_deaf(mob/remover)
+/proc/remove_deaf(mob/remover) //fuicking why does this not work on server if its not a global
 	REMOVE_TRAIT(remover, TRAIT_DEAF, "rune")
 
-/datum/rune_spell/deafmute/proc/remove_mute(mob/remover)
+/proc/remove_mute(mob/remover)
 	REMOVE_TRAIT(remover, TRAIT_MUTE, "rune")

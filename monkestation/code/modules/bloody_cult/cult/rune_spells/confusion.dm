@@ -157,6 +157,7 @@ GLOBAL_LIST_INIT(confusion_victims, list())
 	var/time_key = world.time
 	time_of_last_confusion = time_key
 	victim.update_fullscreen_alpha("blindblack", 255, 5)
+	ADD_TRAIT(victim, TRAIT_POOR_AIM, "rune")
 	sleep(10)
 	refresh_confusion(T, hallucinated_turfs, time_key)
 
@@ -202,6 +203,7 @@ GLOBAL_LIST_INIT(confusion_victims, list())
 	victim.overlay_fullscreen("blindwhite", /atom/movable/screen/fullscreen/white)
 	victim.update_fullscreen_alpha("blindwhite", 255, 3)
 	sleep(5)
+	REMOVE_TRAIT(victim, TRAIT_POOR_AIM, "rune")
 	GLOB.confusion_victims.Remove(victim)
 	victim.update_fullscreen_alpha("blindwhite", 0, 12)
 	victim.clear_fullscreen("blindblack", animated = FALSE)
