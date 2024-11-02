@@ -48,7 +48,7 @@
 	var/list/ingredients = list()			//Items that should be on the rune for it to work
 	var/list/ingredients_found = list()		//Items that are found on the rune
 
-	var/destroying_self = 0		//Sanity var to prevent abort loops, ignore
+	var/destroying_self = FALSE		//Sanity var to prevent abort loops, ignore
 	var/image/progbar = null	//Bar for channeling spells
 
 	var/talisman_absorb = RUNE_CAN_IMBUE	//Whether the rune is absorbed into the talisman (and thus deleted), or linked to the talisman (RUNE_CAN_ATTUNE)
@@ -72,7 +72,7 @@
 
 
 /datum/rune_spell/Destroy()
-	destroying_self = 1
+	destroying_self = TRUE
 	if(spell_holder)
 		if(istype(spell_holder, /obj/effect/new_rune))
 			var/obj/effect/new_rune/rune_holder = spell_holder
@@ -114,9 +114,9 @@
 	var/data = use_available_blood(activator, cost_invoke)
 	if(data[BLOODCOST_RESULT] == BLOODCOST_FAILURE)
 		to_chat(activator, "<span class = 'warning'>This ritual requires more blood than you can offer.</span>")
-		return 0
+		return FALSE
 	else
-		return 1
+		return TRUE
 
 /datum/rune_spell/proc/Added(var/mob/M)
 
@@ -132,7 +132,7 @@
 /datum/rune_spell/proc/abort(var/cause) //The error message for aborting, usable by any runeset.
 	if(destroying_self)
 		return
-	destroying_self = 1
+	destroying_self = TRUE
 	switch(cause)
 		if (RITUALABORT_ERASED)
 			if (istype (spell_holder, /obj/effect/new_rune))
@@ -218,8 +218,8 @@
 				missing += "."
 		to_chat(activator, "<span class = 'warning'>The necessary ingredients for this ritual are missing. [missing]</span>")
 		abort(RITUALABORT_MISSING)
-		return 1
-	return 0
+		return TRUE
+	return FALSE
 
 /datum/rune_spell/proc/update_progbar()
 	if(!progbar)
