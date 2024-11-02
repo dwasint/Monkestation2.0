@@ -149,29 +149,18 @@ var/list/rune_appearances_cache = list()
 				if (PE.network)
 					. += "<span class = 'info'>This exit was attuned to the <b>[PE.network]</b> path.</span>"
 
-	/*
-	//"Cult" chaplains can read the words, but they have to figure out the spell themselves. Also has a chance to trigger a taunt from Nar-Sie.
-	else if(istype(user, /mob/living/carbon/human) && (user.mind.assigned_role == "Chaplain"))
-		var/list/cult_blood_chaplain = list("cult", "narsie", "nar'sie", "narnar", "nar-sie")
-		var/list/cult_clock_chaplain = list("ratvar", "clockwork", "ratvarism")
-		if (religion_name in cult_blood_chaplain)
-			to_chat(user, "<span class = 'info'>It reads: <i>[word1.rune] [word2.rune] [word3.rune]</i>. What spell was that already?...</span>")
-			if (prob(5))
-				spawn(50)
-					to_chat(user, "<span class = 'game say'><span class = 'danger'>???-???</span> murmurs, <span class = 'sinister'>[pick(\
-							"Your toys won't get you much further", \
-							"Bitter that you weren't chosen?", \
-							"I dig your style, but I crave for your blood.", \
-							"Shall we gamble then? Obviously blood is the only acceptable bargaining chip")].</span></span>")
 
-		//RIP Velard
-		else if (religion_name in cult_clock_chaplain)
-			to_chat(user, "<span class = 'info'>It reads a bunch of stupid shit.</span>")
-			if (prob(5))
-				spawn(50)
-					to_chat(user, "<span class = 'game say'><span class = 'danger'>???-???</span> murmurs, <span class = 'sinister'>[pick(\
-							"Oh just fuck off", )].</span></span>")
-	*/
+	//"Cult" chaplains can read the words, but they have to figure out the spell themselves. Also has a chance to trigger a taunt from Nar-Sie.
+	else if(istype(user, /mob/living/carbon/human) && (user.mind?.assigned_role.title == JOB_CHAPLAIN))
+		to_chat(user, "<span class = 'info'>It reads: <i>[word1.rune] [word2.rune] [word3.rune]</i>. What spell was that already?...</span>")
+		if (prob(25))
+			spawn(50)
+				to_chat(user, "<span class = 'game say'><span class = 'danger'>???-???</span> murmurs, <span class = 'cultlarge'>[pick(\
+						"Your toys won't get you much further", \
+						"Bitter that you weren't chosen?", \
+						"I dig your style, but I crave for your blood.", \
+						"Shall we gamble then? Obviously blood is the only acceptable bargaining chip")].</span></span>")
+
 
 /obj/effect/new_rune/proc/can_read_rune(var/mob/user) //Overload for specific criteria.
 	return IS_CULTIST(user)
