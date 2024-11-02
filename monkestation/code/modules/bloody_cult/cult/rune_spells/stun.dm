@@ -74,7 +74,7 @@
 	alpha = 0
 	//plane = HIDING_MOB_PLANE
 	mouse_opacity = 0
-	var/stun_duration = 4 SECONDS
+	var/stun_duration = 10 SECONDS
 
 /obj/effect/cult_ritual/stun/New(turf/loc, var/type = 1, var/mob/living/carbon/caster)
 	..()
