@@ -40,13 +40,13 @@
 	cult.cult_reminders += text
 	for(var/datum/mind/mind in cult.members)
 		if (IS_CULTIST(mind.current))//failsafe for cultist brains put in MMIs
-			to_chat(mind.current, span_cult("<b>[user.real_name]</b>'s voice echoes in your head,[span_cultbold(reminder)]"))
+			to_chat(mind.current, span_cult("<b>[user.real_name]</b>'s voice echoes in your head, [span_cultbold(reminder)]"))
 
 	for(var/mob/living/basic/astral_projection/astral in GLOB.astral_projections)
-		to_chat(astral, span_cult("<b>[user.real_name]</b>'s voice echoes in your head,[span_cultbold(reminder)]"))
+		to_chat(astral, span_cult("<b>[user.real_name]</b>'s voice echoes in your head, [span_cultbold(reminder)]"))
 
 	for(var/mob/dead/observer/observer in GLOB.player_list)
-		to_chat(observer, span_cult("<b>[user.real_name]</b>'s voice echoes in your head,[span_cultbold(reminder)]"))
+		to_chat(observer, span_cult("<b>[user.real_name]</b>'s voice echoes in your head, [span_cultbold(reminder)]"))
 
 	//log_cultspeak("[key_name(user)] Cult reminder: [reminder]")
 
@@ -59,13 +59,13 @@
 	var/datum/team/cult = team.cult_team
 	for (var/datum/mind/mind in cult.members)
 		if (IS_CULTIST(mind.current))//failsafe for cultist brains put in MMIs
-			to_chat(mind.current, span_cult("<b>[activator.real_name]</b>'s voice echoes in your head,[span_cultbold(message)]"))
+			to_chat(mind.current, span_cult("<b>[activator.real_name]</b>'s voice echoes in your head, [span_cultbold(message)]"))
 
 	for(var/mob/living/basic/astral_projection/astral in GLOB.astral_projections)
-		to_chat(astral, span_cult("<b>[activator.real_name]</b>'s voice echoes in your head,[span_cultbold(message)]"))
+		to_chat(astral, span_cult("<b>[activator.real_name]</b>'s voice echoes in your head, [span_cultbold(message)]"))
 
 	for(var/mob/dead/observer/observer in GLOB.player_list)
-		to_chat(observer, span_cult("<b>[activator.real_name]</b>'s voice echoes in your head,[span_cultbold(message)]"))
+		to_chat(observer, span_cult("<b>[activator.real_name]</b>'s voice echoes in your head, [span_cultbold(message)]"))
 
 	//log_cultspeak("[key_name(activator)] Cult Communicate Talisman: [message]")
 
