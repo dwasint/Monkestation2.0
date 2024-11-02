@@ -286,11 +286,11 @@ var/list/rune_appearances_cache = list()
 				I.appearance_flags = RESET_COLOR
 				rune_render.overlays += I
 
-		if(GLOB.blood_types[blood1.data["blood_type"]]?.glows)
+		if(GLOB.blood_types[blood1?.data["blood_type"]]?.glows)
 			rune_render.overlays += emissive_appearance('monkestation/code/modules/bloody_cult/icons/deityrunes.dmi', word1.english, src)
-		if(GLOB.blood_types[blood2.data["blood_type"]]?.glows)
+		if(GLOB.blood_types[blood2?.data["blood_type"]]?.glows)
 			rune_render.overlays += emissive_appearance('monkestation/code/modules/bloody_cult/icons/deityrunes.dmi', word2.english, src)
-		if(GLOB.blood_types[blood3.data["blood_type"]]?.glows)
+		if(GLOB.blood_types[blood3?.data["blood_type"]]?.glows)
 			rune_render.overlays += emissive_appearance('monkestation/code/modules/bloody_cult/icons/deityrunes.dmi', word3.english, src)
 
 		rune_appearances_cache[lookup] = rune_render
