@@ -116,8 +116,7 @@
 					cult_datum.gain_devotion(50, DEVOTION_TIER_2, "stun_rune", L)
 			if(iscarbon(L))
 				var/mob/living/carbon/C = L
-				if(!IS_CULTIST(L))
-					C.Knockdown(duration)
+				C.Knockdown(duration)
 				C.Stun(duration)
 				if (isalien(C))
 					C.Paralyze(duration)
