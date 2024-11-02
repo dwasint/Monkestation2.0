@@ -109,7 +109,7 @@
 				continue
 			shadow(L, loc, "rune_stun")
 			if (IS_CULTIST(L))
-				duration--
+				duration -= 9 SECONDS
 			else if (caster)
 				if (L.stat != DEAD)
 					var/datum/antagonist/cult/cult_datum = caster.mind.has_antag_datum(/datum/antagonist/cult)
