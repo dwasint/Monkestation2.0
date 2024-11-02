@@ -64,14 +64,14 @@
 	if (!istype(target))
 		return
 	if (locate(src) in target.healers)
-		to_chat(src, "<span class = 'warning'>You are already healing \the [target].</span>")
+		to_chat(src, span_warning("You are already healing \the [target].") )
 		return
 	if (ray)
 		end_ray()
 	target.healers.Add(src)
 	heal_target = target
 	ray = new (loc)
-	to_chat(src, "<span class = 'notice'>You are now healing \the [target].</span>")
+	to_chat(src, span_notice("You are now healing \the [target].") )
 	move_ray()
 
 /mob/living/basic/construct/artificer/perfect/UnarmedAttack(mob/living/basic/construct/attack_target, proximity_flag, list/modifiers)

@@ -58,7 +58,7 @@ GLOBAL_DATUM_INIT(eclipse, /datum/eclipse_manager, new)
 			cult.overtime_announcement = TRUE
 			for (var/datum/mind/mind in cult.members)
 				var/mob/M = mind.current
-				to_chat(M, "<span class = 'sinister'>The Eclipse is entering overtime. Even though its time as run out, Nar-Sie won't let it end as long as the Tear Reality rune is still active, or the Blood Stone is still standing.</span>")
+				to_chat(M, span_cult("The Eclipse is entering overtime. Even though its time as run out, Nar-Sie won't let it end as long as the Tear Reality rune is still active, or the Blood Stone is still standing.") )
 		else if (!problem_announcement && (world.time >= eclipse_problem_announcement))
 			problem_announcement = TRUE
 			//command_alert(/datum/command_alert/eclipse_too_long)

@@ -40,7 +40,7 @@
 /obj/item/weapon/blood_tesseract/examine(var/mob/user)
 	..()
 	if (IS_CULTIST(user))
-		to_chat(user, "<span class = 'info'>Press it in your hands to discard currently equiped cult clothing and re-equip your stored items.</span>")
+		to_chat(user, span_info("Press it in your hands to discard currently equiped cult clothing and re-equip your stored items.") )
 
 /obj/item/weapon/blood_tesseract/attack_self(var/mob/living/user)
 	if (IS_CULTIST(user))

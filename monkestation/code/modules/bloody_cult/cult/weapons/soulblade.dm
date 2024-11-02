@@ -62,8 +62,8 @@
 /obj/item/weapon/melee/soulblade/examine(var/mob/user)
 	. = ..()
 	if (areYouWorthy(user))
-		. += "<span class = 'info'>blade blood: [blood]%</span>"
-		. += "<span class = 'info'>blade health: [round((atom_integrity/max_integrity)*100)]%</span>"
+		. += span_info("blade blood: [blood]%")
+		. += span_info("blade health: [round((atom_integrity/max_integrity)*100)]%")
 
 
 /obj/item/weapon/melee/soulblade/narsie_act()
@@ -90,7 +90,7 @@
 	var/task = show_radial_menu(user, user, made_choices, tooltips = TRUE, radial_icon = 'monkestation/code/modules/bloody_cult/icons/cult_radial3.dmi')//spawning on loc so we aren't offset by pixel_x/pixel_y, or affected by animate()
 	var/obj/item/active_hand_item = user.get_active_held_item()
 	if (active_hand_item != src)
-		to_chat(user, "<span class = 'warning'>You must hold \the [src] in your active hand.</span>")
+		to_chat(user, span_warning("You must hold \the [src] in your active hand.") )
 		return
 	switch (task)
 		if ("Give Blood")
@@ -106,7 +106,7 @@
 				if (iscarbon(user))
 					user.bodytemperature += 60
 				playsound(user.loc, 'monkestation/code/modules/bloody_cult/sound/bloodboil.ogg', 50, 0, -1)
-				to_chat(user, "<span class = 'danger'>You manage to pluck the gem out of \the [src], but a surge of the blade's occult energies makes your blood boil!</span>")
+				to_chat(user, span_danger("You manage to pluck the gem out of \the [src], but a surge of the blade's occult energies makes your blood boil!") )
 			var/turf/T = get_turf(user)
 			playsound(T, 'sound/items/Deconstruct.ogg', 50, 0, -3)
 			user.dropItemToGround(src)
@@ -128,7 +128,7 @@
 /obj/item/weapon/melee/soulblade/attack(var/mob/living/target, var/mob/living/carbon/human/user)
 	if(!areYouWorthy(user))
 		user.Paralyze(5)
-		to_chat(user, "<span class = 'warning'>An unexplicable force powerfully repels \the [src] from \the [target]!</span>")
+		to_chat(user, span_warning("An unexplicable force powerfully repels \the [src] from \the [target]!") )
 		user.adjustFireLoss(5)
 		return
 	if (IS_CULTIST(user) && !IS_CULTIST(target) && !target.stat == DEAD)
@@ -175,11 +175,11 @@
 			if (C.stat != DEAD)
 				C.blood_volume -= 10
 				blood = min(100, blood+20)
-				to_chat(user, "<span class = 'warning'>You steal some of their blood!</span>")
+				to_chat(user, span_warning("You steal some of their blood!") )
 			else
 				C.blood_volume -= 5
 				blood = min(100, blood+10)
-				to_chat(user, "<span class = 'warning'>You steal a bit of their blood, but not much.</span>")
+				to_chat(user, span_warning("You steal a bit of their blood, but not much.") )
 			update_icon()
 			if (shade)
 				shade.DisplayUI("Soulblade")
@@ -187,10 +187,10 @@
 			var/mob/living/simple_animal/SA = M
 			if (SA.stat != DEAD)
 				blood = min(100, blood+20)
-				to_chat(user, "<span class = 'warning'>You steal some of their blood!</span>")
+				to_chat(user, span_warning("You steal some of their blood!") )
 			else
 				blood = min(100, blood+10)
-				to_chat(user, "<span class = 'warning'>You steal a bit of their blood, but not much.</span>")
+				to_chat(user, span_warning("You steal a bit of their blood, but not much.") )
 			update_icon()
 			if (shade)
 				shade.DisplayUI("Soulblade")
@@ -199,7 +199,7 @@
 /obj/item/weapon/melee/soulblade/pickup(var/mob/living/user)
 	..()
 	if(!areYouWorthy(user))
-		to_chat(user, "<span class = 'warning'>An overwhelming feeling of dread comes over you as you pick up \the [src]. It would be wise to rid yourself of this, quickly.</span>")
+		to_chat(user, span_warning("An overwhelming feeling of dread comes over you as you pick up \the [src]. It would be wise to rid yourself of this, quickly.") )
 		user.adjust_dizzy(120)
 	else
 		user.adjust_dizzy(-120)
@@ -282,13 +282,13 @@
 	if(I.force)
 		var/damage = I.force
 		takeDamage(damage)
-		user.visible_message("<span class = 'danger'>\The [src] has been attacked with \the [I] by \the [user]. </span>")
+		user.visible_message(span_danger("\The [src] has been attacked with \the [I] by \the [user]. ") )
 
 /obj/item/weapon/melee/soulblade/hitby(atom/movable/hitting_atom, skipcatch, hitpush, blocked, datum/thrownthing/throwingdatum)
 	if(.)
 		return
 
-	visible_message("<span class = 'warning'>\The [src] was hit by \the [hitting_atom].</span>", 1)
+	visible_message(span_warning("\The [src] was hit by \the [hitting_atom].") , 1)
 	if (isobj(hitting_atom))
 		var/obj/O = hitting_atom
 		takeDamage(O.throwforce)
@@ -313,7 +313,7 @@
 		if (IS_CULTIST(user) && !IS_CULTIST(target))
 			var/datum/team/cult/cult = locate_team(/datum/team/cult)
 			if (cult && !cult.CanConvert())
-				to_chat(user, "<span class = 'danger'>The cult has too many members already. But this shade will obey you nonetheless.</span>")
+				to_chat(user, span_danger("The cult has too many members already. But this shade will obey you nonetheless.") )
 				return
 			var/datum/antagonist/cult/newCultist = new(target.mind)
 			cult.HandleRecruitedRole(newCultist)

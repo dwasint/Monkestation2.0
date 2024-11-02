@@ -60,12 +60,12 @@
 	else
 		user.Paralyze(0.5 SECONDS)
 		user.dropItemToGround(src, TRUE)
-		to_chat(user, "<span class = 'warning'>An unexplicable force powerfully repels \the [src] from [target]!</span>")
+		to_chat(user, span_warning("An unexplicable force powerfully repels \the [src] from [target]!") )
 
 /obj/item/weapon/melee/cultblade/pickup(mob/living/user)
 	. = ..()
 	if(checkcult && !IS_CULTIST(user))
-		to_chat(user, "<span class = 'warning'>An overwhelming feeling of dread comes over you as you pick up \the [src]. It would be wise to rid yourself of this, quickly.</span>")
+		to_chat(user, span_warning("An overwhelming feeling of dread comes over you as you pick up \the [src]. It would be wise to rid yourself of this, quickly.") )
 		user.set_dizzy(12 SECONDS)
 
 
@@ -89,15 +89,15 @@
 			if (shadeMob.mind)
 				shadeMob.give_blade_powers()
 			else
-				to_chat(user, "<span class = 'warning'>Although the game appears to hold a shade, it somehow doesn't appear to have a mind capable of manipulating the blade.</span>")
-				to_chat(user, "<span class = 'danger'>(that's a bug, call Deity, and tell him exactly how you obtained that shade).</span>")
+				to_chat(user, span_warning("Although the game appears to hold a shade, it somehow doesn't appear to have a mind capable of manipulating the blade.") )
+				to_chat(user, span_danger("(that's a bug, call Deity, and tell him exactly how you obtained that shade).") )
 				message_admins("[key_name(usr)] somehow placed a soul gem containing a shade with no mind inside a soul blade.")
 		SB.update_icon()
 		qdel(sgem)
 		qdel(src)
 		return 1
 	if(istype(I, /obj/item/soulstone))
-		to_chat(user, "<span class = 'warning'>\The [I] doesn't fit in \the [src]'s socket.</span>")
+		to_chat(user, span_warning("\The [I] doesn't fit in \the [src]'s socket.") )
 		return 1
 	..()
 

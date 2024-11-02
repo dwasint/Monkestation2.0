@@ -67,7 +67,7 @@
 
 /obj/effect/cult_shortcut/attack_hand(var/mob/living/user)
 	if (!IS_CULTIST(user))
-		to_chat(user, "<span class = 'warning'>The markings on this wall are peculiar. You don't feel comfortable staring at them.</span>")
+		to_chat(user, span_warning("The markings on this wall are peculiar. You don't feel comfortable staring at them.") )
 		return
 	var/turf/T = get_turf(user)
 	if (T == loc)
@@ -200,12 +200,12 @@
 	if (user)
 		var/muted = FALSE
 		if (user.anchored)
-			to_chat(user, "<span class = 'warning'>The blood jaunt fails to grasp you as you are currently anchored.</span>")
+			to_chat(user, span_warning("The blood jaunt fails to grasp you as you are currently anchored.") )
 		if (iscarbon(user))
 			var/mob/living/carbon/C = user
 			if (C.occult_muted())
 				muted = TRUE
-				to_chat(C, "<span class = 'warning'>The holy energies upon your body repel the blood jaunt.</span>")
+				to_chat(C, span_warning("The holy energies upon your body repel the blood jaunt.") )
 		if (!muted && !user.anchored)
 			user.forceMove(src)
 			rider = user
@@ -218,14 +218,14 @@
 			if (AM.anchored)
 				if (ismob(AM))
 					var/mob/M = AM
-					to_chat(M, "<span class = 'warning'>The blood jaunt fails to grasp you as you are currently anchored.</span>")
+					to_chat(M, span_warning("The blood jaunt fails to grasp you as you are currently anchored.") )
 				continue
 			var/muted = FALSE
 			if (iscarbon(AM))
 				var/mob/living/carbon/C = AM
 				if (C.occult_muted())
 					muted = TRUE
-					to_chat(C, "<span class = 'warning'>The holy energies upon your body repel the blood jaunt.</span>")
+					to_chat(C, span_warning("The holy energies upon your body repel the blood jaunt.") )
 				if(!IS_CULTIST(C))
 					noncult_victims += C
 			if (!AM.anchored && !muted)
@@ -431,7 +431,7 @@
 				if (iscarbon(rider))
 					var/mob/living/carbon/C = rider
 					if (istype(C.handcuffed, /obj/item/restraints/handcuffs/cult))
-						to_chat(C, "<span class = 'danger'>Traveling through the veil seems to have a recharging effect on the ghastly bindings as they begin to hurt you anew.</span>")
+						to_chat(C, span_danger("Traveling through the veil seems to have a recharging effect on the ghastly bindings as they begin to hurt you anew.") )
 			rider = null
 		if (packed.len > 0)
 			for(var/atom/movable/AM in packed)
@@ -445,7 +445,7 @@
 					if (iscarbon(AM))
 						var/mob/living/carbon/C = AM
 						if (istype(C.handcuffed, /obj/item/restraints/handcuffs/cult))
-							to_chat(C, "<span class = 'danger'>Traveling through the veil seems to have a recharging effect on the ghastly bindings as they begin to hurt you anew.</span>")
+							to_chat(C, span_danger("Traveling through the veil seems to have a recharging effect on the ghastly bindings as they begin to hurt you anew.") )
 			packed = list()
 
 		if (landing_animation)
@@ -647,7 +647,7 @@ var/bloodstone_backup = 0
 	var/turf/T = get_turf(A)
 	. = ..()
 	if (.)
-		visible_message("<span class = 'warning'>\The [src] nails \the [A] to \the [T].</span>")
+		visible_message(span_warning("\The [src] nails \the [A] to \the [T].") )
 
 ///////////////////////////////////CULT DANCE////////////////////////////////////
 //used by the cultdance emote. other cult dances have their own procs
@@ -950,7 +950,7 @@ var/list/dance_platform_prisoners = list()
 						var/mob_ref = "\ref[C]"
 						if (!(mob_ref in dance_platform_prisoners))//prevents chat spamming by dragging the prisoner across all the dance platforms
 							dance_platform_prisoners += mob_ref
-							to_chat(C, "<span class = 'danger'>Dark tentacles emerge from the rune and trap your legs in place. The occult bindings on your arms seem to react to them. You will need to resist out of those or get some outside help if you are to escape this circle.</span>")
+							to_chat(C, span_danger("Dark tentacles emerge from the rune and trap your legs in place. The occult bindings on your arms seem to react to them. You will need to resist out of those or get some outside help if you are to escape this circle.") )
 							spawn(20 SECONDS)
 								dance_platform_prisoners -= mob_ref
 						source.dancer_check(C)

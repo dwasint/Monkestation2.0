@@ -113,7 +113,7 @@
 /datum/rune_spell/proc/pay_blood()
 	var/data = use_available_blood(activator, cost_invoke)
 	if(data[BLOODCOST_RESULT] == BLOODCOST_FAILURE)
-		to_chat(activator, "<span class = 'warning'>This ritual requires more blood than you can offer.</span>")
+		to_chat(activator, span_warning("This ritual requires more blood than you can offer.") )
 		return FALSE
 	else
 		return TRUE
@@ -126,7 +126,7 @@
 	return
 
 /datum/rune_spell/proc/cast() //Override for your spell functionality.
-	spell_holder.visible_message("<span class = 'warning'>This rune wasn't properly set up, tell a coder.</span>")
+	spell_holder.visible_message(span_warning("This rune wasn't properly set up, tell a coder.") )
 	qdel(src)
 
 /datum/rune_spell/proc/abort(var/cause) //The error message for aborting, usable by any runeset.
@@ -136,44 +136,44 @@
 	switch(cause)
 		if (RITUALABORT_ERASED)
 			if (istype (spell_holder, /obj/effect/new_rune))
-				spell_holder.visible_message("<span class = 'warning'>The rune's destruction ended the ritual.</span>")
+				spell_holder.visible_message(span_warning("The rune's destruction ended the ritual.") )
 		if (RITUALABORT_STAND)
 			if (activator)
-				to_chat(activator, "<span class = 'warning'>The [name] ritual requires you to stand on top of the rune.</span>")
+				to_chat(activator, span_warning("The [name] ritual requires you to stand on top of the rune.") )
 		if (RITUALABORT_GONE)
 			if (activator)
-				to_chat(activator, "<span class = 'warning'>The ritual ends as you move away from the rune.</span>")
+				to_chat(activator, span_warning("The ritual ends as you move away from the rune.") )
 		if (RITUALABORT_BLOCKED)
 			if (activator)
-				to_chat(activator, "<span class = 'warning'>There is a building blocking the ritual..</span>")
+				to_chat(activator, span_warning("There is a building blocking the ritual..") )
 		if (RITUALABORT_BLOOD)
-			spell_holder.visible_message("<span class = 'warning'>Deprived of blood, the channeling is disrupted.</span>")
+			spell_holder.visible_message(span_warning("Deprived of blood, the channeling is disrupted.") )
 		if (RITUALABORT_TOOLS)
 			if (activator)
-				to_chat(activator, "<span class = 'warning'>The necessary tools have been misplaced.</span>")
+				to_chat(activator, span_warning("The necessary tools have been misplaced.") )
 		if (RITUALABORT_TOOLS)
-			spell_holder.visible_message("<span class = 'warning'>The ritual ends as the victim gets pulled away from the rune.</span>")
+			spell_holder.visible_message(span_warning("The ritual ends as the victim gets pulled away from the rune.") )
 		if (RITUALABORT_CONVERT)
 			if (activator)
-				to_chat(activator, "<span class = 'notice'>The conversion ritual successfully brought a new member to the cult. Inform them of the current situation so they can take action.</span>")
+				to_chat(activator, span_notice("The conversion ritual successfully brought a new member to the cult. Inform them of the current situation so they can take action."))
 		if (RITUALABORT_REFUSED)
 			if (activator)
-				to_chat(activator, "<span class = 'notice'>The conversion ritual ended with the target being restrained by some eldritch contraption. Deal with them how you see fit so their life may serve our plans.</span>")
+				to_chat(activator, span_notice("The conversion ritual ended with the target being restrained by some eldritch contraption. Deal with them how you see fit so their life may serve our plans."))
 		if (RITUALABORT_NOCHOICE)
 			if (activator)
-				to_chat(activator, "<span class = 'notice'>The target never manifested any clear reaction to the ritual. As such they were automatically restrained.</span>")
+				to_chat(activator, span_notice("The target never manifested any clear reaction to the ritual. As such they were automatically restrained."))
 		if (RITUALABORT_SACRIFICE)
 			if (activator)
-				to_chat(activator, "<span class = 'warning'>The ritual ends leaving behind nothing but a creepy chest, filled with your lost soul's belongings.</span>")
+				to_chat(activator, span_warning("The ritual ends leaving behind nothing but a creepy chest, filled with your lost soul's belongings.") )
 		if (RITUALABORT_CONCEAL)
 			if (activator)
-				to_chat(activator, "<span class = 'warning'>The ritual is disrupted by the rune's sudden phasing out.</span>")
+				to_chat(activator, span_warning("The ritual is disrupted by the rune's sudden phasing out.") )
 		if (RITUALABORT_NEAR)
 			if (activator)
-				to_chat(activator, "<span class = 'warning'>You cannot perform this ritual that close from another similar structure.</span>")
+				to_chat(activator, span_warning("You cannot perform this ritual that close from another similar structure.") )
 		if (RITUALABORT_OVERCROWDED)
 			if (activator)
-				to_chat(activator, "<span class = 'warning'>There are too many human cultists and constructs already.</span>")
+				to_chat(activator, span_warning("There are too many human cultists and constructs already.") )
 
 	for(var/mob/living/L in contributors)
 		if (L.client)
@@ -216,7 +216,7 @@
 					missing += "and "
 			else
 				missing += "."
-		to_chat(activator, "<span class = 'warning'>The necessary ingredients for this ritual are missing. [missing]</span>")
+		to_chat(activator, span_warning("The necessary ingredients for this ritual are missing. [missing]") )
 		abort(RITUALABORT_MISSING)
 		return TRUE
 	return FALSE

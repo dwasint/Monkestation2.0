@@ -137,22 +137,22 @@ var/list/rune_appearances_cache = list()
 	. = ..()
 	if(can_read_rune(user) || isobserver(user))
 		var/datum/rune_spell/rune_name = get_rune_spell(null, null, "examine", word1, word2, word3)
-		. += "<span class = 'info'>It reads: <i>[word1 ? "[word1.rune]" : ""][word2 ? " [word2.rune]" : ""][word3 ? " [word3.rune]" : ""]</i>. [rune_name ? " That's a <b>[initial(rune_name.name)]</b> rune." : "It doesn't match any rune spells."]</span>"
+		. += span_info("It reads: <i>[word1 ? "[word1.rune]" : ""][word2 ? " [word2.rune]" : ""][word3 ? " [word3.rune]" : ""]</i>. [rune_name ? " That's a <b>[initial(rune_name.name)]</b> rune." : "It doesn't match any rune spells."]")
 		if(rune_name)
 			. += initial(rune_name.desc)
 			if (istype(active_spell, /datum/rune_spell/portalentrance))
 				var/datum/rune_spell/portalentrance/PE = active_spell
 				if (PE.network)
-					. += "<span class = 'info'>This entrance was attuned to the <b>[PE.network]</b> path.</span>"
+					. += span_info("This entrance was attuned to the <b>[PE.network]</b> path.")
 			if (istype(active_spell, /datum/rune_spell/portalexit))
 				var/datum/rune_spell/portalexit/PE = active_spell
 				if (PE.network)
-					. += "<span class = 'info'>This exit was attuned to the <b>[PE.network]</b> path.</span>"
+					. += span_info("This exit was attuned to the <b>[PE.network]</b> path.")
 
 
 	//"Cult" chaplains can read the words, but they have to figure out the spell themselves. Also has a chance to trigger a taunt from Nar-Sie.
 	else if(istype(user, /mob/living/carbon/human) && (user.mind?.assigned_role.title == JOB_CHAPLAIN))
-		to_chat(user, "<span class = 'info'>It reads: <i>[word1.rune] [word2.rune] [word3.rune]</i>. What spell was that already?...</span>")
+		to_chat(user, span_info("It reads: <i>[word1.rune] [word2.rune] [word3.rune]</i>. What spell was that already?...") )
 		if (prob(25))
 			spawn(50)
 				to_chat(user, "<span class = 'game say'><span class = 'danger'>???-???</span> murmurs, <span class = 'cultlarge'>[pick(\
@@ -385,7 +385,7 @@ var/list/rune_appearances_cache = list()
 /obj/effect/new_rune/attackby(obj/I, mob/user)
 	..()
 	if(isholyweapon(I))
-		to_chat(user, "<span class = 'notice'>You disrupt the vile magic with the deadening field of \the [I]!</span>")
+		to_chat(user, span_notice("You disrupt the vile magic with the deadening field of \the [I]!") )
 		qdel(src)
 		return
 	if(istype(I, /obj/item/weapon/tome) || istype(I, /obj/item/weapon/melee/cultblade) || istype(I, /obj/item/weapon/melee/soulblade) || istype(I, /obj/item/weapon/melee/blood_dagger))
@@ -398,22 +398,22 @@ var/list/rune_appearances_cache = list()
 /obj/effect/new_rune/proc/trigger(var/mob/living/user, var/talisman_trigger = 0)
 
 	if(!IS_CULTIST(user))
-		to_chat(user, "<span class = 'danger'>You can't mouth the arcane scratchings without fumbling over them.</span>")
+		to_chat(user, span_danger("You can't mouth the arcane scratchings without fumbling over them.") )
 		return
 
 	if(iscarbon(user))
 		var/mob/living/carbon/C = user
 		if (C.occult_muted())
-			to_chat(user, "<span class = 'danger'>You find yourself unable to focus your mind on the arcane words of the rune.</span>")
+			to_chat(user, span_danger("You find yourself unable to focus your mind on the arcane words of the rune.") )
 			return
 
 	if(!user.checkTattoo(TATTOO_SILENT))
 		if(user.is_muzzled())
-			to_chat(user, "<span class = 'danger'>You are unable to speak the words of the rune because of the muzzle.</span>")
+			to_chat(user, span_danger("You are unable to speak the words of the rune because of the muzzle.") )
 			return
 
 		if(HAS_TRAIT(user, TRAIT_MUTE))
-			to_chat(user, "<span class = 'danger'>You don't have the ability to perform rituals without voicing the incantations, there has to be some way...</span>")
+			to_chat(user, span_danger("You don't have the ability to perform rituals without voicing the incantations, there has to be some way...") )
 			return
 
 	if(!word1 || !word2 || !word3 || prob(user.get_organ_loss(ORGAN_SLOT_BRAIN)))
@@ -446,9 +446,9 @@ var/list/rune_appearances_cache = list()
 	if(!silent)
 		user.say(pick("B'ADMINES SP'WNIN SH'T", "IC'IN O'OC", "RO'SHA'M I'SA GRI'FF'N ME'AI", "TOX'IN'S O'NM FI'RAH", "IA BL'AME TOX'IN'S", "FIR'A NON'AN RE'SONA", "A'OI I'RS ROUA'GE", "LE'OAN JU'STA SP'A'C Z'EE SH'EF", "IA PT'WOBEA'RD, IA A'DMI'NEH'LP", "I'F ON'Y I 'AD 'TAB' E"))
 	one_pulse()
-	visible_message("<span class = 'warning'>The markings pulse with a small burst of light, then fall dark.</span>", \
-	"<span class = 'warning'>The markings pulse with a small burst of light, then fall dark.</span>", \
-	"<span class = 'warning'>You hear a faint fizzle.</span>")
+	visible_message(span_warning("The markings pulse with a small burst of light, then fall dark.") , \
+	span_warning("The markings pulse with a small burst of light, then fall dark.") , \
+	span_warning("You hear a faint fizzle.") )
 
 /obj/effect/new_rune/proc/conceal()
 	if(active_spell && !active_spell.can_conceal)

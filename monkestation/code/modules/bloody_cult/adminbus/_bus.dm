@@ -25,7 +25,7 @@
 	L.anchored = 0
 	L.pixel_x = 0
 	L.pixel_y = 0
-	to_chat(L, "<span class = 'notice'>Thank you for riding with \the [src], have a secure day.</span>")
+	to_chat(L, span_notice("Thank you for riding with \the [src], have a secure day.") )
 	passengers -= L
 	update_rearview()
 
@@ -167,7 +167,7 @@
 	for(var/mob/living/M in orange(src, 3))
 		M.revive(1)
 		M.set_suicide(0)
-		to_chat(M, "<span class = 'notice'>THE ADMINBUS IS LOVE. THE ADMINBUS IS LIFE.</span>")
+		to_chat(M, span_notice("THE ADMINBUS IS LOVE. THE ADMINBUS IS LIFE.") )
 		sleep(2)
 	update_rearview()
 
@@ -227,9 +227,9 @@
 /obj/vehicle/ridden/adminbus/proc/loadsa_goodies(mob/bususer, var/goodie_type)
 	switch(goodie_type)
 		if(1)
-			visible_message("<span class = 'notice'>All Access for Everyone!</span>")
+			visible_message(span_notice("All Access for Everyone!") )
 		if(2)
-			visible_message("<span class = 'notice'>Loads of Money!</span>")
+			visible_message(span_notice("Loads of Money!") )
 
 	var/joy_sound = list('monkestation/code/modules/bloody_cult/sound/SC4Mayor1.ogg', 'monkestation/code/modules/bloody_cult/sound/SC4Mayor2.ogg', 'monkestation/code/modules/bloody_cult/sound/SC4Mayor3.ogg')
 	playsound(src, pick(joy_sound), 50, 0, 0)
@@ -275,7 +275,7 @@
 					if(!M.put_in_hands(B))
 						qdel(B)
 
-					to_chat(M, "<span class = 'warning'>Lit and throw!</span>")
+					to_chat(M, span_warning("Lit and throw!") )
 					break
 
 	for(var/mob/living/carbon/C in passengers)
@@ -286,7 +286,7 @@
 				if(!C.put_in_hands(B))
 					qdel(B)
 
-				to_chat(C, "<span class = 'warning'>Our benefactors have provided you with a bomb. Lit and throw!</span>")
+				to_chat(C, span_warning("Our benefactors have provided you with a bomb. Lit and throw!") )
 				distributed++
 				break
 
@@ -328,7 +328,7 @@
 
 			if(M.put_in_hands(L))
 				spawnedlasers += L
-				to_chat(M, "<span class = 'warning'>Spray and /pray!</span>")
+				to_chat(M, span_warning("Spray and /pray!") )
 			else
 				qdel(L)
 
@@ -337,7 +337,7 @@
 
 		if(C.put_in_hands(L))
 			spawnedlasers += L
-			to_chat(C, "<span class = 'warning'>Our benefactors have provided you with an infinite laser gun. Spray and /pray!</span>")
+			to_chat(C, span_warning("Our benefactors have provided you with an infinite laser gun. Spray and /pray!") )
 			distributed++
 		else
 			qdel(L)
@@ -370,7 +370,7 @@
 
 /obj/vehicle/ridden/adminbus/proc/Mass_Repair(mob/bususer, var/turf/centerloc = null, var/repair_range = 3)//the proc can be called by others, doing (null, <center of the area you want to repair>, <radius of the area you want to repair>)
 
-	visible_message("<span class = 'notice'>WE BUILD!</span>")
+	visible_message(span_notice("WE BUILD!") )
 
 	if(!centerloc)
 		centerloc = src.loc
@@ -481,7 +481,7 @@
 
 
 	if(passengers.len == 0)
-		to_chat(bususer, "<span class = 'warning'>There are no passengers to send.</span>")
+		to_chat(bususer, span_warning("There are no passengers to send.") )
 		return
 
 	if(alert(bususer, "Send all mobs among the passengers back where they first appeared? (Risky: This sends them back where their \"object\" was created. If they were cloned they will teleport back at genetics, If they had their species changed they'll spawn back where it happenned, etc...)", "Adminbus", "Yes", "No") != "Yes")
@@ -504,7 +504,7 @@
 
 
 	if(passengers.len == 0)
-		to_chat(bususer, "<span class = 'warning'>There are no passengers to make antag.</span>")
+		to_chat(bususer, span_warning("There are no passengers to make antag.") )
 		return
 
 	var/list/delays = list("CANCEL", "No Delay", "10 seconds", "30 seconds", "1 minute", "5 minutes", "15 minutes")
@@ -516,7 +516,7 @@
 		if("No Delay")
 			for(var/mob/M in passengers)
 				spawn()
-					to_chat(M, "<span class = 'danger'>YOU JUST REMEMBERED SOMETHING IMPORTANT!</span>")
+					to_chat(M, span_danger("YOU JUST REMEMBERED SOMETHING IMPORTANT!") )
 					sleep(20)
 					antag_madness_adminbus(M)
 		if("10 seconds")
@@ -542,15 +542,15 @@
 	if(!ishuman(M) && !ismonkey(M))
 		return
 
-	to_chat(M, "<span class = 'rose'>You feel like you forgot something important!</span>")
+	to_chat(M, span_rose("You feel like you forgot something important!") )
 
 	sleep(delay/2)
 
-	to_chat(M, "<span class = 'rose'>You're starting to remember...</span>")
+	to_chat(M, span_rose("You're starting to remember...") )
 
 	sleep(delay/2)
 
-	to_chat(M, "<span class = 'danger'>OH THAT'S RIGHT!</span>")
+	to_chat(M, span_danger("OH THAT'S RIGHT!") )
 
 	sleep(20)
 

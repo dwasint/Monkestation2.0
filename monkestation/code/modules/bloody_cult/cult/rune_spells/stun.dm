@@ -51,11 +51,11 @@
 		cult_datum.gain_devotion(100, DEVOTION_TIER_2, "stun_papered", M)
 
 	if(issilicon(M))
-		to_chat(M, "<span class = 'danger'>WARNING: Short-circuits detected, Rebooting...</span>")
+		to_chat(M, span_danger("WARNING: Short-circuits detected, Rebooting...") )
 		M.Knockdown(9 SECONDS)
 
 	else if(iscarbon(M))
-		to_chat(M, "<span class = 'danger'>A surge of dark energies takes hold of your limbs. You stiffen and fall down.</span>")
+		to_chat(M, span_danger("A surge of dark energies takes hold of your limbs. You stiffen and fall down.") )
 		var/mob/living/carbon/C = M
 		C.Knockdown(5 SECONDS)//used to be 25
 		C.Stun(5 SECONDS)//used to be 25
@@ -98,7 +98,7 @@
 	playsound(src, 'monkestation/code/modules/bloody_cult/sound/stun_rune_charge.ogg', 75, 0, 0)
 	spawn(20)
 		playsound(src, 'monkestation/code/modules/bloody_cult/sound/stun_rune.ogg', 75, 0, 0)
-		visible_message("<span class = 'warning'>The rune explodes in a bright flash of chaotic energies.</span>")
+		visible_message(span_warning("The rune explodes in a bright flash of chaotic energies.") )
 
 		for(var/mob/living/L in dview(7, get_turf(src)))
 			var/duration = stun_duration

@@ -249,7 +249,7 @@
 				else
 					var/mob/living/occupant = occupants[1]
 					if(occupant)
-						to_chat(occupant, "<span class = 'warning'>There is no place in the bus for any additional passenger.</span>")
+						to_chat(occupant, span_warning("There is no place in the bus for any additional passenger.") )
 		if(2)
 			var/hit_sound = list('sound/weapons/genhit1.ogg', 'sound/weapons/genhit2.ogg', 'sound/weapons/genhit3.ogg')
 			for(var/mob/living/L in S)
@@ -270,7 +270,7 @@
 
 /obj/vehicle/ridden/adminbus/proc/capture_mob(atom/A, var/selfclimb = 0)
 	if(passengers.len >= 16)
-		to_chat(A, "<span class = 'warning'>\The [src] is full!</span>")
+		to_chat(A, span_warning("\The [src] is full!") )
 		return
 	if(unloading)
 		return
@@ -283,11 +283,11 @@
 		passengers += M
 		buckle_mob(M, TRUE)
 		if(!selfclimb)
-			to_chat(M, "<span class = 'warning'>\The [src] picks you up!</span>")
+			to_chat(M, span_warning("\The [src] picks you up!") )
 			var/mob/living/occupant = occupants[1]
 			if(occupant)
 				to_chat(occupant, "[M.name] captured!")
-		to_chat(M, "<span class = 'notice'>Welcome aboard \the [src]. Please keep your hands and arms inside the bus at all times.</span>")
+		to_chat(M, span_notice("Welcome aboard \the [src]. Please keep your hands and arms inside the bus at all times.") )
 		src.add_fingerprint(M)
 	update_rearview()
 
@@ -296,7 +296,7 @@
 		return
 	var/list/drivers = return_drivers()
 	if(!(check_rights_for(M.client, R_ADMIN)) && !length(drivers))
-		to_chat(M, "<span class = 'notice'>You're a god alright, but you don't seem to have your Adminbus driver license!</span>")
+		to_chat(M, span_notice("You're a god alright, but you don't seem to have your Adminbus driver license!") )
 		return
 	. = ..()
 /*
@@ -304,7 +304,7 @@
 	if(occupant && occupant == user)	//Are you the driver?
 		var/mob/living/M = occupant
 		M.visible_message(
-			"<span class = 'notice'>[M.name] unbuckles \himself!</span>",
+			span_notice("[M.name] unbuckles \himself!") ,
 			"You unbuckle yourself from \the [src].")
 		unlock_atom(M)
 		src.add_fingerprint(user)
@@ -326,10 +326,10 @@
 					return
 			else
 				if(locate(user) in passengers)
-					to_chat(user, "<span class = 'notice'>You may not leave the Adminbus at the current time.</span>")
+					to_chat(user, span_notice("You may not leave the Adminbus at the current time.") )
 					return
 				else
-					to_chat(user, "<span class = 'notice'>You may not climb into \the [src] while its door is closed.</span>")
+					to_chat(user, span_notice("You may not climb into \the [src] while its door is closed.") )
 					return
 */
 
@@ -348,11 +348,11 @@
 	return
 
 /obj/vehicle/ridden/adminbus/bullet_act(obj/projectile/hitting_projectile, def_zone, piercing_hit)
-	visible_message("<span class = 'warning'>The projectile harmlessly bounces off the bus.</span>")
+	visible_message(span_warning("The projectile harmlessly bounces off the bus.") )
 	return ..()
 
 /obj/vehicle/ridden/adminbus/ex_act(severity)
-	visible_message("<span class = 'warning'>The bus withstands the explosion with no damage.</span>")
+	visible_message(span_warning("The bus withstands the explosion with no damage.") )
 	return
 
 /obj/vehicle/ridden/adminbus/blob_act()

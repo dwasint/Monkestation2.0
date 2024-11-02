@@ -23,7 +23,7 @@
 
 	shade = locate(/mob/living/basic/shade) in R.loc
 	if (!shade)
-		to_chat(activator, "<span class = 'warning'>There needs to be a shade standing above the rune.</span>")
+		to_chat(activator, span_warning("There needs to be a shade standing above the rune.") )
 		qdel(src)
 		return
 
@@ -36,7 +36,7 @@
 	if (activator.client)
 		activator.client.images |= progbar
 	spell_holder.overlays += image('monkestation/code/modules/bloody_cult/icons/cult.dmi', "build")
-	to_chat(activator, "<span class = 'rose'>This ritual has a very high blood cost per second, but it can be completed faster by having multiple cultists partake in it.</span>")
+	to_chat(activator, span_rose("This ritual has a very high blood cost per second, but it can be completed faster by having multiple cultists partake in it.") )
 	spawn()
 		payment()
 
@@ -136,7 +136,7 @@
 
 	else
 		for(var/mob/living/L in contributors)
-			to_chat(L, "<span class = 'warning'>Something went wrong with the ritual, the shade appears to have vanished.</span>")
+			to_chat(L, span_warning("Something went wrong with the ritual, the shade appears to have vanished.") )
 
 
 	for(var/mob/living/L in contributors)

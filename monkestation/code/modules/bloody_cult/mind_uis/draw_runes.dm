@@ -144,11 +144,11 @@
 		var/obj/effect/new_rune/rune = locate() in T
 		if(rune)
 			if (rune.word1 && rune.word1.type != initial(queued_rune.word1))
-				to_chat(user, "<span class = 'warning'>This rune's first word conflicts with the [initial(queued_rune.name)] rune's syntax.</span>")
+				to_chat(user, span_warning("This rune's first word conflicts with the [initial(queued_rune.name)] rune's syntax.") )
 			else if (rune.word2 && rune.word2.type != initial(queued_rune.word2))
-				to_chat(user, "<span class = 'warning'>This rune's second word conflicts with the [initial(queued_rune.name)] rune's syntax.</span>")
+				to_chat(user, span_warning("This rune's second word conflicts with the [initial(queued_rune.name)] rune's syntax.") )
 			else if (rune.word3)
-				to_chat(user, "<span class = 'warning'>You cannot add more than 3 words to a rune.</span>")
+				to_chat(user, span_warning("You cannot add more than 3 words to a rune.") )
 
 //------------------------------------------------------------
 

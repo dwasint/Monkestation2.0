@@ -64,7 +64,7 @@
 	marker.icon = 'monkestation/code/modules/bloody_cult/icons/holomap_markers.dmi'
 	marker.icon_state = "path_entrance"
 
-	to_chat(activator, "<span class = 'notice'>This rune will now let you travel through the \"[network]\" Path.</span>")
+	to_chat(activator, span_notice("This rune will now let you travel through the \"[network]\" Path.") )
 
 	var/datum/antagonist/cult/cult_datum = IS_CULTIST(activator)
 	cult_datum?.gain_devotion(30, DEVOTION_TIER_1, "new_path_entrance", R)
@@ -84,7 +84,7 @@
 			break
 
 	if (!destination)
-		to_chat(activator, "<span class = 'warning'>The \"[network]\" Path is closed. Set up a Path Exit rune to establish a Path.</span>")
+		to_chat(activator, span_warning("The \"[network]\" Path is closed. Set up a Path Exit rune to establish a Path.") )
 		return
 
 	var/datum/antagonist/cult/cult_datum = add_cultist.mind.has_antag_datum(/datum/antagonist/cult)

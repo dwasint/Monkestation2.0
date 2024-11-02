@@ -60,7 +60,7 @@
 	if (locate(/obj/effect/cult_ritual/seer) in M)
 		var/obj/item/weapon/talisman/T = spell_holder
 		T.uses++
-		to_chat(M, "<span class = 'warning'>You are still under the effects of a Seer talisman.</span>")
+		to_chat(M, span_warning("You are still under the effects of a Seer talisman.") )
 		qdel(src)
 		return
 
@@ -101,7 +101,7 @@ var/list/seer_rituals = list()
 			source.abort(RITUALABORT_GONE)
 		qdel(src)
 		return
-	to_chat(caster, "<span class = 'notice'>You find yourself able to see through the gaps in the veil. You can see and interact with the other side, and also find out the crew's propensity to be successfully converted, whether they are <b><font color = 'green'>Willing</font></b>, <b><font color = 'orange'>Uncertain</font></b>, or <b><font color = 'red'>Unconvertible</font></b>.</span>")
+	to_chat(caster, span_notice("You find yourself able to see through the gaps in the veil. You can see and interact with the other side, and also find out the crew's propensity to be successfully converted, whether they are <b><font color = 'green'>Willing</font></b>, <b><font color = 'orange'>Uncertain</font></b>, or <b><font color = 'red'>Unconvertible</font></b>.") )
 	if (talisman)
 		spawn(talisman_duration)
 			qdel(src)
@@ -112,7 +112,7 @@ var/list/seer_rituals = list()
 	STOP_PROCESSING(SSobj, src)
 	if(caster)
 		REMOVE_TRAIT(caster, TRAIT_SEER, REF(src))
-		to_chat(caster, "<span class = 'notice'>You can no longer discern through the veil.</span>")
+		to_chat(caster, span_notice("You can no longer discern through the veil.") )
 	caster = null
 	if (source)
 		source.abort()

@@ -17,10 +17,10 @@
 	var/turf/T = get_turf(target)
 	var/obj/effect/new_rune/rune = locate() in T
 	if (rune)
-		to_chat(owner, "<span class = 'warning'>You cannot draw on top of an already existing rune.</span>")
+		to_chat(owner, span_warning("You cannot draw on top of an already existing rune.") )
 		return FALSE
 	if(istype(T, /turf/open/space))
-		to_chat(owner, "<span class = 'warning'>Get over a solid surface first!</span>")
+		to_chat(owner, span_warning("Get over a solid surface first!") )
 		return FALSE
 	return TRUE
 
@@ -52,10 +52,10 @@
 	var/turf/T = get_turf(target)
 	var/obj/effect/new_rune/rune = locate() in T
 	if (rune)
-		to_chat(owner, "<span class = 'warning'>You cannot draw on top of an already existing rune.</span>")
+		to_chat(owner, span_warning("You cannot draw on top of an already existing rune.") )
 		return FALSE
 	if(istype(T, /turf/open/space))
-		to_chat(owner, "<span class = 'warning'>Get over a solid surface first!</span>")
+		to_chat(owner, span_warning("Get over a solid surface first!") )
 		return FALSE
 	return TRUE
 

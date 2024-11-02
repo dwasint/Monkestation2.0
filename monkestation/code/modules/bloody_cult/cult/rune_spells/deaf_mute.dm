@@ -28,12 +28,12 @@
 	M.overlay_fullscreen("deafborder", /atom/movable/screen/fullscreen/deafmute_border)//victims see a red overlay fade in-out for a second
 	M.update_fullscreen_alpha("deafborder", 100, 5)
 	if (!(HAS_TRAIT(M, TRAIT_DEAF)))
-		to_chat(M, "<span class = 'notice'>The world around you suddenly becomes quiet.</span>")
+		to_chat(M, span_notice("The world around you suddenly becomes quiet.") )
 	if (!(HAS_TRAIT(M, TRAIT_MUTE)))
 		if (iscarbon(M))
-			to_chat(M, "<span class = 'warning'>You feel a terrible chill! You find yourself unable to speak a word...</span>")
+			to_chat(M, span_warning("You feel a terrible chill! You find yourself unable to speak a word...") )
 		else if (issilicon(M))
-			to_chat(M, "<span class = 'warning'>A shortcut appears to have temporarily disabled your speaker!</span>")
+			to_chat(M, span_warning("A shortcut appears to have temporarily disabled your speaker!") )
 
 	ADD_TRAIT(M, TRAIT_MUTE, "rune")
 	ADD_TRAIT(M, TRAIT_DEAF, "rune")
@@ -57,12 +57,12 @@
 		M.overlay_fullscreen("deafborder", /atom/movable/screen/fullscreen/deafmute_border)//victims see a red overlay fade in-out for a second
 		M.update_fullscreen_alpha("deafborder", 100, 5)
 		if (!(HAS_TRAIT(M, TRAIT_DEAF)))
-			to_chat(M, "<span class = 'notice'>The world around you suddenly becomes quiet.</span>")
+			to_chat(M, span_notice("The world around you suddenly becomes quiet.") )
 		if (!(HAS_TRAIT(M, TRAIT_MUTE)))
 			if (iscarbon(M))
-				to_chat(M, "<span class = 'warning'>You feel a terrible chill! You find yourself unable to speak a word...</span>")
+				to_chat(M, span_warning("You feel a terrible chill! You find yourself unable to speak a word...") )
 			else if (issilicon(M))
-				to_chat(M, "<span class = 'warning'>A shortcut appears to have temporarily disabled your speaker!</span>")
+				to_chat(M, span_warning("A shortcut appears to have temporarily disabled your speaker!") )
 		ADD_TRAIT(M, TRAIT_MUTE, "rune")
 		ADD_TRAIT(M, TRAIT_DEAF, "rune")
 

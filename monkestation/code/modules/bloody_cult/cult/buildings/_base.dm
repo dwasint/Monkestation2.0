@@ -104,7 +104,7 @@
 /obj/structure/cult/attackby(obj/item/weapon/weapon, mob/user, params)
 	if(istype(weapon))
 		if(!(user.istate & ISTATE_HARM )|| weapon.force == 0)
-			visible_message("<span class = 'warning'>\The [user] gently taps \the [src] with \the [weapon].</span>")
+			visible_message(span_warning("\The [user] gently taps \the [src] with \the [weapon].") )
 		else
 			user.do_attack_animation(src, weapon)
 			if(sound_damaged)
@@ -113,7 +113,7 @@
 				takeDamage(weapon.force*2)
 			else
 				takeDamage(weapon.force)
-			visible_message("<span class = 'warning'>\The [user] hits \the [src] with \the [weapon].</span>")
+			visible_message(span_warning("\The [user] hits \the [src] with \the [weapon].") )
 			..()
 
 
@@ -123,8 +123,8 @@
 
 /obj/structure/cult/attack_hand(mob/living/user)
 	if(user.istate & ISTATE_HARM)
-		user.visible_message("<span class = 'danger'>[user.name] [pick("kicks", "punches")] \the [src]!</span>", \
-							"<span class = 'danger'>You strike at \the [src]!</span>", \
+		user.visible_message(span_danger("[user.name] [pick("kicks", "punches")] \the [src]!") , \
+							span_danger("You strike at \the [src]!") , \
 							"You hear stone cracking.")
 		user.adjustBruteLoss(3)
 		if(sound_damaged)
@@ -138,7 +138,7 @@
 	return 1
 
 /obj/structure/cult/proc/noncultist_act(mob/user)
-	to_chat(user, "<span class = 'sinister'>You feel madness taking its toll, trying to figure out \the [name]'s purpose</span>")
+	to_chat(user, span_cult("You feel madness taking its toll, trying to figure out \the [name]'s purpose") )
 	//might add some hallucinations or brain damage later, checks for cultist chaplains, etc
 	return 1
 

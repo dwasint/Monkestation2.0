@@ -42,20 +42,20 @@
 
 /datum/antagonist/streamer/proc/try_add_follower(datum/mind/new_follower)
 	if(new_follower == owner)
-		to_chat(new_follower.current, "<span class = 'warning'>Following yourself is against Spess.TV's End User License Agreement.</span>")
+		to_chat(new_follower.current, span_warning("Following yourself is against Spess.TV's End User License Agreement.") )
 		return
 	if(followers.Find(new_follower))
-		to_chat(new_follower.current, "<span class = 'warning'>You are already following [owner.name].</span>")
+		to_chat(new_follower.current, span_warning("You are already following [owner.name].") )
 		return
 	followers += new_follower
 	new_follower.current.visible_message("<span class = 'big notice'>[new_follower.current] is now following [owner.name]!</span>")
 
 /datum/antagonist/streamer/proc/try_add_subscription(datum/mind/new_subscriber, obj/machinery/computer/security/telescreen/entertainment/spesstv/tv)
 	if(new_subscriber == owner)
-		to_chat(new_subscriber.current, "<span class = 'warning'>Subscribing to yourself is against Spess.TV's End User License Agreement.</span>")
+		to_chat(new_subscriber.current, span_warning("Subscribing to yourself is against Spess.TV's End User License Agreement.") )
 		return
 	if(subscribers.Find(new_subscriber))
-		to_chat(new_subscriber.current, "<span class = 'warning'>You're already subscribed to [owner.name]!</span>")
+		to_chat(new_subscriber.current, span_warning("You're already subscribed to [owner.name]!") )
 		return
 	var/mob/living/current = new_subscriber.current
 	var/obj/item/card/id/auth = current.get_idcard(TRUE)
@@ -65,7 +65,7 @@
 		playsound(tv, pick('monkestation/code/modules/bloody_cult/sound/noisemaker1.ogg', 'monkestation/code/modules/bloody_cult/sound/noisemaker2.ogg', 'monkestation/code/modules/bloody_cult/sound/noisemaker3.ogg'), 100, TRUE)
 		playsound(owner.current, pick('monkestation/code/modules/bloody_cult/sound/noisemaker1.ogg', 'monkestation/code/modules/bloody_cult/sound/noisemaker2.ogg', 'monkestation/code/modules/bloody_cult/sound/noisemaker3.ogg'), 100, TRUE)
 	else
-		tv.visible_message("<span class = 'warning'>Something went wrong processing [new_subscriber.current]'s payment.</span>")
+		tv.visible_message(span_warning("Something went wrong processing [new_subscriber.current]'s payment.") )
 		return
 	subscribers += new_subscriber
 	/*

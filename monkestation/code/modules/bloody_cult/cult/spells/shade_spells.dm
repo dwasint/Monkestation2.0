@@ -14,7 +14,7 @@
 /datum/action/cooldown/spell/pointed/soulblade/soulblade/PreActivate(atom/target)
 	var/obj/item/weapon/melee/soulblade/SB = owner.loc
 	if (SB.blood < blood_cost)
-		to_chat(owner, "<span class = 'danger'>You don't have enough blood left for this move.</span>")
+		to_chat(owner, span_danger("You don't have enough blood left for this move.") )
 		return FALSE
 	return ..()
 
@@ -173,11 +173,11 @@
 		if (user.blade_harm)
 			user.blade_harm = FALSE
 			button_icon_state = "soulblade_calm"
-			to_chat(user, "<span class = 'notice'>You now allow anyone to wield you.</span>")
+			to_chat(user, span_notice("You now allow anyone to wield you.") )
 		else
 			user.blade_harm = TRUE
 			button_icon_state = "soulblade_harm"
-			to_chat(user, "<span class = 'notice'>You now harm and make dizzy miscreants trying to wield you.</span>")
+			to_chat(user, span_notice("You now harm and make dizzy miscreants trying to wield you.") )
 
 		var/obj/item/weapon/melee/soulblade/SB = user.loc
 		if (istype(SB))
@@ -185,7 +185,7 @@
 			if (istype(M) && !IS_CULTIST(M) && (user.master != M))
 				if (user.blade_harm)
 					M.adjust_dizzy(120)
-					to_chat(M, "<span class = 'warning'>You feel a chill as \the [SB]'s murderous intents suddenly turn against you.</span>")
+					to_chat(M, span_warning("You feel a chill as \the [SB]'s murderous intents suddenly turn against you.") )
 				else
 					M.adjust_dizzy(-120)
-					to_chat(M, "<span class = 'notice'>\The energies emanated by the [SB] subside a little, allowing you to wield it.</span>")
+					to_chat(M, span_notice("\The energies emanated by the [SB] subside a little, allowing you to wield it.") )

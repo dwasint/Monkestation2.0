@@ -34,7 +34,7 @@
 	for(var/mob/living/carbon/C in TU)
 		potential_targets += C
 	if(potential_targets.len == 0)
-		to_chat(activator, "<span class = 'warning'>There needs to be someone standing or lying on top of the rune.</span>")
+		to_chat(activator, span_warning("There needs to be someone standing or lying on top of the rune.") )
 		qdel(src)
 		return
 	var/mob/living/carbon/target
@@ -91,8 +91,8 @@
 	activator.put_in_hands(BT)
 	target.put_in_hands(new /obj/item/restraints/legcuffs/bola/cult(target))
 	if(IS_CULTIST(target))
-		to_chat(target, "<span class = 'notice'>Robes and gear of the followers of Nar-Sie manifests around your body. You feel empowered.</span>")
+		to_chat(target, span_notice("Robes and gear of the followers of Nar-Sie manifests around your body. You feel empowered.") )
 	else
-		to_chat(target, "<span class = 'warning'>Robes and gear of the followers of Nar-Sie manifests around your body. You feel sickened.</span>")
-	to_chat(activator, "<span class = 'notice'>A [BT] materializes in your hand, you may use it to instantly swap back into your stored clothing.</span>")
+		to_chat(target, span_warning("Robes and gear of the followers of Nar-Sie manifests around your body. You feel sickened.") )
+	to_chat(activator, span_notice("A [BT] materializes in your hand, you may use it to instantly swap back into your stored clothing.") )
 	qdel(src)

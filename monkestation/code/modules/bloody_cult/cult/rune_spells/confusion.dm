@@ -167,7 +167,7 @@ GLOBAL_LIST_INIT(confusion_victims, list())
 	if (victim.mind)
 		message_admins("BLOODCULT: [key_name(victim)] is now under the effects of Confusion for [duration/10] seconds.")
 		log_admin("BLOODCULT: [key_name(victim)] is now under the effects of Confusion for [duration/10] seconds.")
-	to_chat(victim, "<span class = 'danger'>Your vision goes dark, panic and paranoia take their toll on your mind.</span>")
+	to_chat(victim, span_danger("Your vision goes dark, panic and paranoia take their toll on your mind.") )
 	victim.overlay_fullscreen("blindborder", /atom/movable/screen/fullscreen/confusion_border)//victims DO still get blinded for a second
 	victim.overlay_fullscreen("blindblack", /atom/movable/screen/fullscreen/black)//which will allow us to subtly reveal the surprise
 	victim.update_fullscreen_alpha("blindblack", 255, 5)

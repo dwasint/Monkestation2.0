@@ -33,9 +33,9 @@
 			var/mob/living/carbon/human/H = M
 			if (!HAS_TRAIT(H, TRAIT_NOBLOOD))
 				H.blood_volume += 5 + stacks * 5
-				to_chat(H, "<span class = 'notice'>[firer ? "\The [firer]'s" : "The"] [src] enters your body painlessly, irrigating your vessels with some fresh blood.</span>")
+				to_chat(H, span_notice("[firer ? "\The [firer]'s" : "The"] [src] enters your body painlessly, irrigating your vessels with some fresh blood.") )
 			else
-				to_chat(H, "<span class = 'notice'>[firer ? "\The [firer]'s" : "The"] [src] enters your body, but you have no vessels to irrigate.</span>")
+				to_chat(H, span_notice("[firer ? "\The [firer]'s" : "The"] [src] enters your body, but you have no vessels to irrigate.") )
 			absorbed = 1
 			playsound(H, 'monkestation/code/modules/bloody_cult/sound/bloodyslice.ogg', 30, 1)
 			return BULLET_ACT_BLOCK
@@ -55,8 +55,8 @@
 				nail.stick_to(target)
 				var/mob/living/L = target
 				L.take_overall_damage(damage, 0)
-				to_chat(L, "<span class = 'warning'>\The [src] stabs your body, sticking you in place.</span>")
-				to_chat(L, "<span class = 'danger'>Resist or click the nail to dislodge it.</span>")
+				to_chat(L, span_warning("\The [src] stabs your body, sticking you in place.") )
+				to_chat(L, span_danger("Resist or click the nail to dislodge it.") )
 			else if(loc)
 				var/turf/T = get_turf(src)
 				nail.stick_to(T, get_dir(src, target))

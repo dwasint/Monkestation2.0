@@ -4,29 +4,29 @@
 	if (!IS_CULTIST(user) && target_mob.reagents?.has_reagent(/datum/reagent/water/holywater) && !(user.istate & ISTATE_HARM))
 		playsound(src, "punch", 25, 1, -1)
 		if (target_mob.stat == DEAD)
-			to_chat(user, "<span class = 'warning'>You cannot deconvert the dead!</span>")
+			to_chat(user, span_warning("You cannot deconvert the dead!") )
 			return 1
 		if (target_mob.health < 20)
-			to_chat(user, "<span class = 'warning'>\The [target_mob] is too weak to handle the deconversion ritual, patch them up a bit first.</span>")
+			to_chat(user, span_warning("\The [target_mob] is too weak to handle the deconversion ritual, patch them up a bit first.") )
 			return 1
 		var/datum/antagonist/cult/cultist
 		if(IS_CULTIST(target_mob))
 			cultist = target_mob.mind?.has_antag_datum(/datum/antagonist/cult)
 			if (cultist.deconversion)
-				to_chat(user, "<span class = 'warning'>There is already a deconversion attempt undergoing!</span>")
+				to_chat(user, span_warning("There is already a deconversion attempt undergoing!") )
 				return 1
 			else
-				to_chat(target_mob, "<span class = 'userdanger'>They are trying to deconvert you!</span>")
+				to_chat(target_mob, span_userdanger("They are trying to deconvert you!") )
 				cultist.deconversion = 1//arbitrary non-null value to prevent deconversion-shade spam, will get replaced with a /datum/deconversion_ritual 5 seconds later
 
 		if (do_after(user, 5 SECONDS, target_mob))
 			if(cultist)
-				to_chat(user, "<span class = 'warning'>In the name of [deity_name], Nar-Sie forsake this body and soul!</span>")
-				user.visible_message("<span class = 'warning'>\The [target_mob] begins to radiate with light.</span>")
+				to_chat(user, span_warning("In the name of [deity_name], Nar-Sie forsake this body and soul!") )
+				user.visible_message(span_warning("\The [target_mob] begins to radiate with light.") )
 				new /datum/deconversion_ritual(user, target_mob, src)
 			else
-				to_chat(user, "<span class = 'warning'>In the name of [deity_name], Nar-Sie forsake this body and soul!</span>")
-				user.visible_message("<span class = 'warning'>...but nothing unusual happens.</span>")
+				to_chat(user, span_warning("In the name of [deity_name], Nar-Sie forsake this body and soul!") )
+				user.visible_message(span_warning("...but nothing unusual happens.") )
 		else
 			cultist.deconversion = null//deconversion attempt got interrupted, you can now try again
 		return 1
@@ -66,11 +66,11 @@
 			if (alert(deconvertee, "You are being compelled by the powers of [bible.deity_name][cult_chaplain ? " (wait what?)" : ""] to give up on serving the Cult of Nar-Sie[cult_chaplain ? " (huh!?)" : ""]", "You have 10 seconds to decide", "[!cult_chaplain ? "Abandon the Cult" : "I am so confused right now, ok I guess?"]", "[!cult_chaplain ? "Resist!" : "This is obviously a trick! Resist!"]") == "[!cult_chaplain ? "Abandon the Cult" : "I am so confused right now, ok I guess?"]")
 				success = DECONVERSION_ACCEPT
 				if (!target && !last_cultist)//no threats if nobody remains to carry them out.
-					to_chat(deconvertee, "<span class = 'sinister'>[cult_chaplain ? "WERE YOU DECEIVED THAT EASILY? SO BE IT THEN." : "THERE WILL BE A PRICE."]</span>")
+					to_chat(deconvertee, span_cult("[cult_chaplain ? "WERE YOU DECEIVED THAT EASILY? SO BE IT THEN." : "THERE WILL BE A PRICE."]") )
 			else
 				success = DECONVERSION_REFUSE
 				if (!target)
-					to_chat(deconvertee, "<span class = 'warning'>You block the sweet promises of forgiveness from your mind.</span>")
+					to_chat(deconvertee, span_warning("You block the sweet promises of forgiveness from your mind.") )
 		new /obj/effect/bible_spin(get_turf(deconvertee), deconverter ,bible)
 		sleep(10 SECONDS)
 		if (!deconvertee || !IS_CULTIST(deconvertee))
@@ -88,8 +88,8 @@
 				for (var/turf/U in orange(1, T))
 					adjacent_turfs += U
 				playsound(deconvertee, 'monkestation/code/modules/bloody_cult/sound/deconversion_complete.ogg', 50, 0, -4)
-				deconvertee.visible_message("<span class = 'notice'>You see [deconvertee]'s eyes become clear. Through the blessing of [cult_chaplain ? "some fanfic headcanon version of [bible.deity_name]" : "[bible.deity_name]"] they have renounced Nar-Sie.</span>", "<span class = 'notice'>You were forgiven by [bible.deity_name]</span><span class = 'sinister'>[cult_chaplain ? " (YEAH RIGHT...)" : ""]</span><span class = 'notice'>. You no longer share the cult's goals.</span>")
-				deconvertee.visible_message("<span class = 'userdanger'>A pair of shades manifests from the occult energies that left them and start attacking them.</span>")
+				deconvertee.visible_message(span_notice("You see [deconvertee]'s eyes become clear. Through the blessing of [cult_chaplain ? "some fanfic headcanon version of [bible.deity_name]" : "[bible.deity_name]"] they have renounced Nar-Sie.") , span_notice("You were forgiven by [bible.deity_name]</span><span class = 'sinister'>[cult_chaplain ? " (YEAH RIGHT...)" : ""]</span><span class = 'notice'>. You no longer share the cult's goals.") )
+				deconvertee.visible_message(span_userdanger("A pair of shades manifests from the occult energies that left them and start attacking them.") )
 				cultist.owner.current.add_particles(PS_CULT_HALO)
 				cultist.owner.current.adjust_particles(PVAR_COLOR, "#00000066", PS_CULT_HALO)
 				cultist.owner.current.adjust_particles(PVAR_ICON_STATE, "cult_halo[cultist.get_devotion_rank()]", PS_CULT_HALO)
@@ -111,8 +111,8 @@
 
 			if (DECONVERSION_REFUSE)
 				playsound(deconvertee, 'monkestation/code/modules/bloody_cult/sound/deconversion_failed.ogg', 50, 0, -4)
-				to_chat(deconvertee, "<span class = 'notice'>You manage to block out the exorcism.</span>")
-				deconvertee.visible_message("<span class = 'userdanger'>The ritual was resisted!</span>", "<span class = 'warning'>The energies you mustered take their toll on your body...</span>")
+				to_chat(deconvertee, span_notice("You manage to block out the exorcism.") )
+				deconvertee.visible_message(span_userdanger("The ritual was resisted!") , span_warning("The energies you mustered take their toll on your body...") )
 		deconvertee.overlays -= image('monkestation/code/modules/bloody_cult/icons/effects.dmi', src, "deconversion")
 		qdel(src)
 

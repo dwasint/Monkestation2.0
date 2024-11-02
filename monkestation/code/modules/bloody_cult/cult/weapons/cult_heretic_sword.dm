@@ -73,7 +73,7 @@
 	. = ..()
 	if(!IS_CULTIST(user))
 		if(!IS_HERETIC(user))
-			to_chat(user, "<span class = 'cultlarge'>\"I wouldn't advise that.\"</span>")
+			to_chat(user, span_cultlarge("\"I wouldn't advise that.\"") )
 			force = 5
 			return
 		else

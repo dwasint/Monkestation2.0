@@ -37,7 +37,7 @@ GLOBAL_LIST_INIT(bloodcult_exitportals, list())
 			available_networks -= P.network
 
 	if (available_networks.len <= 0)
-		to_chat(activator, "<span class = 'warning'>There is no room for any more Paths through the veil.</span>")
+		to_chat(activator, span_warning("There is no room for any more Paths through the veil.") )
 		qdel(src)
 		return
 
@@ -83,7 +83,7 @@ GLOBAL_LIST_INIT(bloodcult_exitportals, list())
 	spell_holder.overlays += I_network
 	custom_rune = TRUE
 
-	to_chat(activator, "<span class = 'notice'>This rune will now serve as a destination for the \"[network]\" Path.</span>")
+	to_chat(activator, span_notice("This rune will now serve as a destination for the \"[network]\" Path.") )
 
 	var/datum/antagonist/cult/cult_datum = IS_CULTIST(activator)
 	cult_datum?.gain_devotion(30, DEVOTION_TIER_1, "new_path_exit", R)
@@ -91,7 +91,7 @@ GLOBAL_LIST_INIT(bloodcult_exitportals, list())
 	talisman_absorb = RUNE_CAN_ATTUNE//once the network has been set, talismans will attune instead of imbue
 
 /datum/rune_spell/portalexit/midcast(mob/add_cultist)
-	to_chat(add_cultist, "<span class = 'notice'>You may teleport to this rune by using a Path Entrance, or a talisman attuned to it.</span>")
+	to_chat(add_cultist, span_notice("You may teleport to this rune by using a Path Entrance, or a talisman attuned to it.") )
 
 /datum/rune_spell/portalexit/midcast_talisman(var/mob/add_cultist)
 	var/turf/T = get_turf(add_cultist)
@@ -108,7 +108,7 @@ GLOBAL_LIST_INIT(bloodcult_exitportals, list())
 			valid_choices.Add(P.network)
 			valid_choices[P.network] = P
 	if (valid_choices.len <= 0)
-		to_chat(activator, "<span class = 'warning'>There are currently no Paths through the veil.</span>")
+		to_chat(activator, span_warning("There are currently no Paths through the veil.") )
 		qdel(src)
 		return
 	var/network = input(activator, "Choose an available Path.", "Path Talisman") as null|anything in valid_choices
@@ -118,7 +118,7 @@ GLOBAL_LIST_INIT(bloodcult_exitportals, list())
 
 	invoke(activator, "[GLOB.rune_words_english[network]]!", 1)
 
-	to_chat(activator, "<span class = 'notice'>This talisman will now serve as a key to the \"[network]\" Path.</span>")
+	to_chat(activator, span_notice("This talisman will now serve as a key to the \"[network]\" Path.") )
 
 	var/datum/rune_spell/portalexit/PE = valid_choices[network]
 

@@ -81,14 +81,14 @@
 			else if (!M.get_active_held_item())//cultists and the blade's master can catch the blade on the fly
 				blade.forceMove(loc)
 				blade.attack_hand(M)
-				to_chat(M, "<span class = 'warning'>Your hand moves by itself and catches \the [blade] out of the air.</span>")
+				to_chat(M, span_warning("Your hand moves by itself and catches \the [blade] out of the air.") )
 				blade = null
 				qdel(src)
 			else if (!M.get_inactive_held_item())
 				blade.forceMove(loc)
 				M.swap_hand() // guarrantees
 				blade.attack_hand(M)
-				to_chat(M, "<span class = 'warning'>Your hand moves by itself and catches \the [blade] out of the air.</span>")
+				to_chat(M, span_warning("Your hand moves by itself and catches \the [blade] out of the air.") )
 				M.swap_hand()
 				blade = null
 				qdel(src)
@@ -102,14 +102,14 @@
 			else if (!M.get_active_held_item())//cultists can catch the blade on the fly
 				blade.forceMove(loc)
 				blade.attack_hand(M)
-				to_chat(M, "<span class = 'warning'>Your hand moves by itself and catches \the [blade] out of the air.</span>")
+				to_chat(M, span_warning("Your hand moves by itself and catches \the [blade] out of the air.") )
 				blade = null
 				qdel(src)
 			else if (!M.get_inactive_held_item())
 				blade.forceMove(loc)
 				M.swap_hand()
 				blade.attack_hand(M)
-				to_chat(M, "<span class = 'warning'>Your hand moves by itself and catches \the [blade] out of the air.</span>")
+				to_chat(M, span_warning("Your hand moves by itself and catches \the [blade] out of the air.") )
 				M.swap_hand()
 				blade = null
 				qdel(src)

@@ -69,7 +69,7 @@ GLOBAL_LIST_INIT(converted_minds, list())
 	if (targets.len > 0)
 		victim = pick(targets)
 	else
-		to_chat(activator, "<span class = 'warning'>There needs to be a potential convert standing or lying on top of the rune.</span>")
+		to_chat(activator, span_warning("There needs to be a potential convert standing or lying on top of the rune.") )
 		qdel(src)
 		return
 
@@ -82,7 +82,7 @@ GLOBAL_LIST_INIT(converted_minds, list())
 		activator.client.images |= progbar
 
 	//secondly, let's stun our victim and begin the ritual
-	to_chat(victim, "<span class = 'danger'>Occult energies surge from below your [issilicon(victim) ? "actuators" : "feet"] and seep into your [issilicon(victim) ? "chassis" : "body"].</span>")
+	to_chat(victim, span_danger("Occult energies surge from below your [issilicon(victim) ? "actuators" : "feet"] and seep into your [issilicon(victim) ? "chassis" : "body"].") )
 	victim.Knockdown(5 SECONDS)
 	victim.Stun(5 SECONDS)
 	if (isalien(victim))
@@ -97,12 +97,12 @@ GLOBAL_LIST_INIT(converted_minds, list())
 
 
 	if (!cult.CanConvert())
-		to_chat(activator, "<span class = 'warning'>There are already too many cultists. \The [victim] will be made a prisoner.</span>")
+		to_chat(activator, span_warning("There are already too many cultists. \The [victim] will be made a prisoner.") )
 
 	if (victim.mind)
 		if (victim.mind.assigned_role in impede_medium)
-			to_chat(victim, "<span class = 'warning'>Your devotion to Nanotrasen slows down the ritual.</span>")
-			to_chat(activator, "<span class = 'warning'>Their devotion to Nanotrasen is strong, the ritual will take longer.</span>")
+			to_chat(victim, span_warning("Your devotion to Nanotrasen slows down the ritual.") )
+			to_chat(activator, span_warning("Their devotion to Nanotrasen is strong, the ritual will take longer.") )
 
 		if (victim.mind.assigned_role in impede_hard)
 			var/higher_cause = "Space Jesus"
@@ -111,8 +111,8 @@ GLOBAL_LIST_INIT(converted_minds, list())
 					higher_cause = "Nanotrasen"
 				if ("Chaplain")
 					higher_cause = "a higher God"
-			to_chat(victim, "<span class = 'warning'>Your devotion to [higher_cause] slows down the ritual.</span>")
-			to_chat(activator, "<span class = 'warning'>Their devotion to [higher_cause] is amazing, the ritual will be lengthy.</span>")
+			to_chat(victim, span_warning("Your devotion to [higher_cause] slows down the ritual.") )
+			to_chat(activator, span_warning("Their devotion to [higher_cause] is amazing, the ritual will be lengthy.") )
 
 	spawn()
 		while (remaining > 0)
@@ -172,13 +172,13 @@ GLOBAL_LIST_INIT(converted_minds, list())
 				var/threshold = min(100, round((100-remaining), 10))
 				if (flavor_text < 3)
 					if (flavor_text == 0 && threshold > 10)//it's ugly but gotta account for the possibility of several messages appearing at once
-						to_chat(victim, "<span class = 'sinister'>WE ARE THE BLOOD PUMPING THROUGH THE FABRIC OF SPACE</span>")
+						to_chat(victim, span_cult("WE ARE THE BLOOD PUMPING THROUGH THE FABRIC OF SPACE") )
 						flavor_text++
 					if (flavor_text == 1 && threshold > 40)
-						to_chat(victim, "<span class = 'sinister'>THE GEOMETER CALLS FOR YET ANOTHER FEAST</span>")
+						to_chat(victim, span_cult("THE GEOMETER CALLS FOR YET ANOTHER FEAST") )
 						flavor_text++
 					if (flavor_text == 2 && threshold > 70)
-						to_chat(victim, "<span class = 'sinister'>FRIEND OR FOE, YOU TOO SHALL JOIN THE FESTIVITIES</span>")
+						to_chat(victim, span_cult("FRIEND OR FOE, YOU TOO SHALL JOIN THE FESTIVITIES") )
 						flavor_text++
 			sleep(10)
 
@@ -219,48 +219,48 @@ GLOBAL_LIST_INIT(converted_minds, list())
 		switch (acceptance)
 			if ("Always", "Yes")
 				conversion.icon_state = "rune_convert_good"
-				to_chat(activator, "<span class = 'sinister'>The ritual immediately stabilizes, \the [victim] appears eager help prepare the festivities.</span>")
+				to_chat(activator, span_cult("The ritual immediately stabilizes, \the [victim] appears eager help prepare the festivities.") )
 				cult.send_flavour_text_accept(victim, activator)
 				success = CONVERSION_ACCEPT
 				conversion_delay = 30
 			if ("No", "???", "Never")
 				if (victim.client)
-					to_chat(activator, "<span class = 'sinister'>The ritual arrives in its final phase. How it ends depends now of \the [victim]. You do not have to remain adjacent for the remainder of the ritual.</span>")
+					to_chat(activator, span_cult("The ritual arrives in its final phase. How it ends depends now of \the [victim]. You do not have to remain adjacent for the remainder of the ritual.") )
 					spawn()
 						if (alert(victim, "The Cult of Nar-Sie has much in store for you, but what specifically?", "You have 10 seconds to decide", "Join the Cult", "Become Prisoner") == "Join the Cult")
 							conversion.icon_state = "rune_convert_good"
 							success = CONVERSION_ACCEPT
-							to_chat(victim, "<span class = 'sinister'>THAT IS GOOD. COME CLOSER. THERE IS MUCH TO TEACH YOU</span>")
+							to_chat(victim, span_cult("THAT IS GOOD. COME CLOSER. THERE IS MUCH TO TEACH YOU") )
 						else
-							to_chat(victim, "<span class = 'danger'>THAT IS ALSO GOOD, FOR YOU WILL ENTERTAIN US</span>")
+							to_chat(victim, span_danger("THAT IS ALSO GOOD, FOR YOU WILL ENTERTAIN US") )
 							success = CONVERSION_REFUSE
 				else//converting a braindead carbon will always lead to them being captured
-					to_chat(activator, "<span class = 'sinister'>\The [victim] doesn't really seem to have all their wits about them. Letting the ritual conclude will let you restrain them.</span>")
+					to_chat(activator, span_cult("\The [victim] doesn't really seem to have all their wits about them. Letting the ritual conclude will let you restrain them.") )
 			if ("Implanted")
 				if (victim.client)
-					to_chat(activator, "<span class = 'sinister'>A loyalty implant interferes with the ritual. They will not be able to accept the conversion.</span>")
-					to_chat(victim, "<span class = 'danger'>Your loyalty implant prevents you from hearing any more of what they have to say.</span>")
+					to_chat(activator, span_cult("A loyalty implant interferes with the ritual. They will not be able to accept the conversion.") )
+					to_chat(victim, span_danger("Your loyalty implant prevents you from hearing any more of what they have to say.") )
 					success = CONVERSION_REFUSE
 				else//converting a braindead carbon will always lead to them being captured
-					to_chat(activator, "<span class = 'sinister'>\The [victim] doesn't really seem to have all their wits about them. Letting the ritual conclude will let you restrain them.</span>")
+					to_chat(activator, span_cult("\The [victim] doesn't really seem to have all their wits about them. Letting the ritual conclude will let you restrain them.") )
 			if ("Chaplain")//Chaplains can never be converted
 				if (victim.client)
-					to_chat(activator, "<span class = 'sinister'>Chaplains won't ever let themselves be converted. They will be restrained.</span>")
-					to_chat(victim, "<span class = 'danger'>Your devotion to Space Jesus shields you from Nar-Sie's temptations.</span>")
+					to_chat(activator, span_cult("Chaplains won't ever let themselves be converted. They will be restrained.") )
+					to_chat(victim, span_danger("Your devotion to Space Jesus shields you from Nar-Sie's temptations.") )
 					success = CONVERSION_REFUSE
 				else//converting a braindead carbon will always lead to them being captured
-					to_chat(activator, "<span class = 'sinister'>\The [victim] doesn't really seem to have all their wits about them. Letting the ritual conclude will let you restrain them.</span>")
+					to_chat(activator, span_cult("\The [victim] doesn't really seem to have all their wits about them. Letting the ritual conclude will let you restrain them.") )
 			if ("Banned")
 				conversion.icon_state = "rune_convert_bad"
-				to_chat(activator, "<span class = 'sinister'>Given how unstable the ritual is becoming, \The [victim] will surely be consumed entirely by it. They weren't meant to become one of us.</span>")
-				to_chat(victim, "<span class = 'danger'>Except your past actions have displeased us. You will be our snack before the feast begins. \[You are banned from this role\]</span>")
+				to_chat(activator, span_cult("Given how unstable the ritual is becoming, \The [victim] will surely be consumed entirely by it. They weren't meant to become one of us.") )
+				to_chat(victim, span_danger("Except your past actions have displeased us. You will be our snack before the feast begins. \[You are banned from this role\]") )
 				success = CONVERSION_BANNED
 			if ("Mindless")
 				conversion.icon_state = "rune_convert_bad"
-				to_chat(activator, "<span class = 'sinister'>This mindless creature will be sacrificed.</span>")
+				to_chat(activator, span_cult("This mindless creature will be sacrificed.") )
 				success = CONVERSION_MINDLESS
 			if ("Overcrowded")
-				to_chat(victim, "<span class = 'sinister'>EXCEPT...THERE ARE NO VACANT SEATS LEFT!</span>")
+				to_chat(victim, span_cult("EXCEPT...THERE ARE NO VACANT SEATS LEFT!") )
 				success = CONVERSION_OVERCROWDED
 				conversion_delay = 30
 
@@ -344,7 +344,7 @@ GLOBAL_LIST_INIT(converted_minds, list())
 
 				if (success == CONVERSION_NOCHOICE)
 					if (convertee.mind)//no need to generate logs when capturing mindless monkeys
-						to_chat(victim, "<span class = 'danger'>Because you didn't give your answer in time, you were automatically made prisoner.</span>")
+						to_chat(victim, span_danger("Because you didn't give your answer in time, you were automatically made prisoner.") )
 						message_admins("BLOODCULT: [key_name(convertee)] has timed-out during conversion by [key_name(converter)].")
 						log_admin("BLOODCULT: [key_name(convertee)] has timed-out during conversion by [key_name(converter)].")
 
@@ -402,10 +402,10 @@ GLOBAL_LIST_INIT(converted_minds, list())
 		return
 	if (phase == 1)
 		if (entrapment)
-			to_chat(add_cultist, "<span class = 'notice'>You perform the conversion sign, allowing the victim to become a cultist if they qualify.</span>")
+			to_chat(add_cultist, span_notice("You perform the conversion sign, allowing the victim to become a cultist if they qualify.") )
 			entrapment = FALSE
 		else
-			to_chat(add_cultist, "<span class = 'warning'>You perform the entrapment sign, ensuring that the victim will be restrained.</span>")
+			to_chat(add_cultist, span_warning("You perform the entrapment sign, ensuring that the victim will be restrained.") )
 			entrapment = TRUE
 
 /datum/rune_spell/conversion/Removed(var/mob/M)

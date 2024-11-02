@@ -70,14 +70,14 @@
 	if (lit && heat)
 		if (istype(W, /obj/item/candle))
 			var/obj/item/candle/C = W
-			C.light("<span class = 'notice'>[user] lights [C] with [src].</span>")
+			C.light(span_notice("[user] lights [C] with [src].") )
 		else if (istype(W, /obj/item/clothing/mask/cigarette))
 			var/obj/item/clothing/mask/cigarette/ciggy = W
-			ciggy.light("<span class = 'notice'>[user] lights \the [ciggy] using \the [src]'s flame.</span>")
+			ciggy.light(span_notice("[user] lights \the [ciggy] using \the [src]'s flame.") )
 	if(W.heat)
-		light("<span class = 'notice'>[user] lights [src] with [W].</span>")
+		light(span_notice("[user] lights [src] with [W].") )
 
-/obj/item/candle/proc/light(var/flavor_text = "<span class = 'notice'>[usr] lights [src].</span>", var/quiet = 0)
+/obj/item/candle/proc/light(var/flavor_text = span_notice("[usr] lights [src].") , var/quiet = 0)
 	if(!lit)
 		lit = 1
 		if(!quiet)
@@ -104,7 +104,7 @@
 				set_light(5 * 0.7)
 				if(heat == 0) //only holocandles don't have source temp, using this so I don't add a new var
 					wax = 0.8 * wax //jury rigged so the wax reduction doesn't nuke the holocandles if flickered
-				visible_message("<span class = 'warning'>\The [src]'s flame starts roaring unnaturally!</span>")
+				visible_message(span_warning("\The [src]'s flame starts roaring unnaturally!") )
 			update_icon()
 			sleep(rand(5, 8))
 			set_light(1)
@@ -131,7 +131,7 @@
 /obj/item/candle/attack_self(mob/user as mob)
 	if(lit)
 		extinguish()
-		to_chat(user, "<span class = 'warning'>You pinch \the [src]'s wick.</span>")
+		to_chat(user, span_warning("You pinch \the [src]'s wick.") )
 
 
 

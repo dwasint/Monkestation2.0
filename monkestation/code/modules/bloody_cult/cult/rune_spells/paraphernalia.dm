@@ -40,7 +40,7 @@
 					valid_tomes["[i] - Tome in [M.real_name]'s arcane dimension ([A.stored_tome.talismans.len]/[MAX_TALISMAN_PER_TOME])"] = A.stored_tome
 
 			if (valid_tomes.len <= 0)
-				to_chat(user, "<span class = 'warning'>No cultists are currently carrying a tome.</span>")
+				to_chat(user, span_warning("No cultists are currently carrying a tome.") )
 				qdel(src)
 				return
 
@@ -54,7 +54,7 @@
 			tool = AT
 
 			if (target.talismans.len >= MAX_TALISMAN_PER_TOME)
-				to_chat(activator, "<span class = 'warning'>This tome cannot contain any more talismans.</span>")
+				to_chat(activator, span_warning("This tome cannot contain any more talismans.") )
 				abort(RITUALABORT_FULL)
 				return
 
@@ -67,7 +67,7 @@
 			spawn()
 				payment()
 		else
-			to_chat(activator, "<span class = 'warning'>You may only transfer an imbued or attuned talisman.</span>")
+			to_chat(activator, span_warning("You may only transfer an imbued or attuned talisman.") )
 			qdel(src)
 	else
 		var/list/choices = list(
@@ -104,7 +104,7 @@
 					spawned_object = new /obj/item/knife/ritual(T)
 				if ("Arcane Tome")
 					spawned_object = new /obj/item/weapon/tome(T)
-			spell_holder.visible_message("<span class = 'rose'>The blood drops merge into the rune, and \a [spawned_object] materializes on top.</span>")
+			spell_holder.visible_message(span_rose("The blood drops merge into the rune, and \a [spawned_object] materializes on top.") )
 			anim(target = spawned_object, a_icon = 'monkestation/code/modules/bloody_cult/icons/effects.dmi', flick_anim = "rune_imbue")
 			new /obj/effect/afterimage/black(T, spawned_object)
 			qdel(src)
@@ -183,10 +183,10 @@
 	if (target.talismans.len < MAX_TALISMAN_PER_TOME)
 		target.talismans.Add(tool)
 		tool.forceMove(target)
-		to_chat(activator, "<span class = 'notice'>You slip \the [tool] into \the [target].</span>")
+		to_chat(activator, span_notice("You slip \the [tool] into \the [target].") )
 		if (target.state == TOME_OPEN && ismob(target.loc))
 			var/mob/M = target.loc
 			M << browse(target.tome_text(), "window = arcanetome;size = 537x375")
 	else
-		to_chat(activator, "<span class = 'warning'>This tome cannot contain any more talismans.</span>")
+		to_chat(activator, span_warning("This tome cannot contain any more talismans.") )
 	qdel(src)

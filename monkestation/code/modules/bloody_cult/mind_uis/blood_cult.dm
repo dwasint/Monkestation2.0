@@ -350,9 +350,9 @@ GLOBAL_LIST_INIT(blood_communion, list())
 
 
 	if (cult_datum.blood_pool)
-		to_chat(M, "<span class = 'warning'>You return to the blood pool. Blood costs are slightly reduced, on top of getting split between you and other cultists.</span>")
+		to_chat(M, span_warning("You return to the blood pool. Blood costs are slightly reduced, on top of getting split between you and other cultists.") )
 	else
-		to_chat(M, "<span class = 'warning'>You remove yourself from the blood pool. Blood costs must now be paid on your own.</span>")
+		to_chat(M, span_warning("You remove yourself from the blood pool. Blood costs must now be paid on your own.") )
 	UpdateIcon()
 
 /////////////////////////////////////////
@@ -391,7 +391,7 @@ GLOBAL_LIST_INIT(blood_communion, list())
 			T.forceMove(M)
 			talisman = T
 	else
-		to_chat(M, "<span class = 'warning'>Hold an imbued talisman in your active hand to fuse it with your skin.</span>")
+		to_chat(M, span_warning("Hold an imbued talisman in your active hand to fuse it with your skin.") )
 	UpdateIcon()
 
 
@@ -414,7 +414,7 @@ GLOBAL_LIST_INIT(blood_communion, list())
 	if(!dagger)  // dagger not pulled out
 
 		if (user.occult_muted())
-			to_chat(user, "<span class = 'warning'>You try grasping your blood but you can't quite will it into the shape of a dagger.</span>")
+			to_chat(user, span_warning("You try grasping your blood but you can't quite will it into the shape of a dagger.") )
 			return
 		var/list/data = use_available_blood(user, 5)
 		if (data[BLOODCOST_RESULT] == BLOODCOST_FAILURE)
@@ -439,20 +439,20 @@ GLOBAL_LIST_INIT(blood_communion, list())
 				BD.icon_state += "-color"
 				BD.color = dagger_color
 			if(user.put_in_hand(BD, good_hand))
-				user.visible_message("<span class = 'warning'>\The [user] squeezes the blood in their hand, and it takes the shape of a dagger!</span>",
-					"<span class = 'warning'>You squeeze the blood in your hand, and it takes the shape of a dagger.</span>")
+				user.visible_message(span_warning("\The [user] squeezes the blood in their hand, and it takes the shape of a dagger!") ,
+					span_warning("You squeeze the blood in your hand, and it takes the shape of a dagger.") )
 				playsound(user, 'monkestation/code/modules/bloody_cult/sound/bloodyslice.ogg', 30, 0, -2)
 
 	else
 		if(ishuman(user))
 			var/mob/living/carbon/human/H = user
 			if (HAS_TRAIT(H, TRAIT_NOBLOOD))
-				to_chat(user, "<span class = 'notice'>You sheath \the [dagger] back inside your body[dagger.stacks ? ", along with the stolen blood" : ""].</span>")
+				to_chat(user, span_notice("You sheath \the [dagger] back inside your body[dagger.stacks ? ", along with the stolen blood" : ""].") )
 				H.blood_volume += 5 + dagger.stacks * 5
 			else
-				to_chat(user, "<span class = 'notice'>You sheath \the [dagger] inside your body, but the blood fails to find vessels to occupy.</span>")
+				to_chat(user, span_notice("You sheath \the [dagger] inside your body, but the blood fails to find vessels to occupy.") )
 		else
-			to_chat(user, "<span class = 'notice'>You sheath \the [dagger] inside your body.</span>")
+			to_chat(user, span_notice("You sheath \the [dagger] inside your body.") )
 		dagger.absorbed = 1
 		playsound(user, 'monkestation/code/modules/bloody_cult/sound/bloodyslice.ogg', 30, 0, -2)
 		qdel(dagger)
@@ -470,7 +470,7 @@ GLOBAL_LIST_INIT(blood_communion, list())
 /obj/abstract/mind_ui_element/hoverable/bloodcult_spell/sigil/Click()
 	var/mob/living/M = GetUser()
 
-	to_chat(M, "<span class = 'notice'>Click an adjacent wall to manifest a sigil on top of it.</span>")
+	to_chat(M, span_notice("Click an adjacent wall to manifest a sigil on top of it.") )
 
 //------------------------------------------------------------
 
@@ -747,7 +747,7 @@ GLOBAL_LIST_INIT(blood_communion, list())
 						cult.soon_announcement = TRUE
 						for (var/datum/mind/mind in cult.members)
 							var/mob/M = mind.current
-							to_chat(M, "<span class = 'sinister'>The Eclipse is almost upon us...</span>")
+							to_chat(M, span_cult("The Eclipse is almost upon us...") )
 
 					red_blink = !red_blink
 					var/image/I = String2Image("[hours_to_go]:[minutes_to_go]:[seconds_to_go]", 10, 'monkestation/code/modules/bloody_cult/icons/font_16x16.dmi', "#FFFFFF")
@@ -1284,18 +1284,18 @@ GLOBAL_LIST_INIT(blood_communion, list())
 		if (cult_datum)
 			if (cult_datum.cultist_role != CULTIST_ROLE_NONE)
 				if (cult_datum.mentor)
-					to_chat(M, "<span class = 'notice'>You are currently in a mentorship under [cult_datum.mentor.owner.name].</span>")
+					to_chat(M, span_notice("You are currently in a mentorship under [cult_datum.mentor.owner.name].") )
 				var/dat = ""
 				if (cult_datum.acolytes.len > 0)
 					for (var/datum/antagonist/cult/U in cult_datum.acolytes)
 						dat += "[U.owner.name], "
-					to_chat(M, "<span class = 'notice'>You are currently mentoring [dat]</span>")
+					to_chat(M, span_notice("You are currently mentoring [dat]") )
 				/* Don't think that cooldown was necessary, keeping this here in case I'm wrong in the future
 				if ((world.time - cult_datum.time_role_changed_last) < 5 MINUTES)
 					if ((world.time - cult_datum.time_role_changed_last) > 4 MINUTES)
-						to_chat(M, "<span class = 'warning'>You must wait [round((5 MINUTES - (world.time - cult_datum.time_role_changed_last))/10) + 1] seconds before you can switch role.</span>")
+						to_chat(M, span_warning("You must wait [round((5 MINUTES - (world.time - cult_datum.time_role_changed_last))/10) + 1] seconds before you can switch role.") )
 					else
-						to_chat(M, "<span class = 'warning'>You must wait around [round((5 MINUTES - (world.time - cult_datum.time_role_changed_last))/600) + 1] minutes before you can switch role.</span>")
+						to_chat(M, span_warning("You must wait around [round((5 MINUTES - (world.time - cult_datum.time_role_changed_last))/600) + 1] minutes before you can switch role.") )
 					return
 				else
 				*/

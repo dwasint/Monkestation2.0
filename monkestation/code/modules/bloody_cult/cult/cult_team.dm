@@ -100,7 +100,7 @@
 	initialize_rune_words()
 	for (var/datum/mind/mind in members)
 		var/mob/M = mind.current
-		to_chat(M, "<span class = 'sinister'>Our communion must remain small and secretive until we are confident enough.</span>")
+		to_chat(M, span_cult("Our communion must remain small and secretive until we are confident enough.") )
 		previously_converted |= mind
 
 
@@ -125,7 +125,7 @@
 	for (var/datum/antagonist/cult/cultist in members)
 		var/mob/O = cultist.owner.current
 		if (O)
-			to_chat(O, "<span class = 'sinister'>A new ritual is available...</span>")
+			to_chat(O, span_cult("A new ritual is available...") )
 		var/datum/mind/M = cultist.owner
 		if ("Cult Panel" in M.active_uis)
 			var/datum/mind_ui/m_ui = M.active_uis["Cult Panel"]
@@ -153,7 +153,7 @@
 		cultist_cap = new_cap
 		for (var/datum/mind/mind in members)
 			var/mob/M = mind.current
-			to_chat(M, "<span class = 'sinister'>The station population is now large enough for <span class = 'userdanger'>[cultist_cap]</span> cultists, plus one of each construct types.</span>")
+			to_chat(M, span_cult("The station population is now large enough for <span class = 'userdanger'>[cultist_cap]</span> cultists, plus one of each construct types.") )
 
 /datum/team/cult/proc/CanConvert(construct_type)
 	var/list/free_construct_slots = list()
@@ -197,7 +197,7 @@
 						for (var/datum/mind/mind in members)
 							var/mob/M = mind.current
 							if (M)
-								to_chat(M, "<span class = 'sinister'>Someone has completed a ritual, rewarding the entire cult...soon another ritual will take its place.</span>")
+								to_chat(M, span_cult("Someone has completed a ritual, rewarding the entire cult...soon another ritual will take its place.") )
 						spawn(10 MINUTES)
 							if (!rituals[ritual_slot])
 								replace_rituals(ritual_slot)
@@ -213,7 +213,7 @@
 			for (var/datum/mind/mind in members)
 				var/mob/M = mind.current
 				if (M)
-					to_chat(M, "<span class = 'sinister'>The Eclipse has passed. You won't be able to tear reality aboard this station anymore. Escape the station alive with your fellow cultists so you may try again another day.</span>")
+					to_chat(M, span_cult("The Eclipse has passed. You won't be able to tear reality aboard this station anymore. Escape the station alive with your fellow cultists so you may try again another day.") )
 			for(var/obj/structure/cult/spire/S in GLOB.cult_spires)
 				S.upgrade(1)
 		if (BLOODCULT_STAGE_ECLIPSE)
@@ -250,11 +250,11 @@
 			spawn(5 SECONDS)
 				for (var/datum/mind/mind in members)
 					var/mob/M = mind.current
-					to_chat(M, "<span class = 'sinister'>With the blood stone destroyed, the tear through the veil has been mended, and a great deal of occult energies have been purged from the Station.</span>")
+					to_chat(M, span_cult("With the blood stone destroyed, the tear through the veil has been mended, and a great deal of occult energies have been purged from the Station.") )
 					sleep(3 SECONDS)
-					to_chat(M, "<span class = 'sinister'>Your connection to the Geometer of Blood has grown weaker and you can no longer recall the runes as easily as you did before. Maybe an Arcane Tome can alleviate the problem.</span>")
+					to_chat(M, span_cult("Your connection to the Geometer of Blood has grown weaker and you can no longer recall the runes as easily as you did before. Maybe an Arcane Tome can alleviate the problem.") )
 					sleep(3 SECONDS)
-					to_chat(M, "<span class = 'sinister'>Lastly it seems that the toll of the ritual on your body hasn't gone away. Going unnoticed will be a lot harder.</span>")
+					to_chat(M, span_cult("Lastly it seems that the toll of the ritual on your body hasn't gone away. Going unnoticed will be a lot harder.") )
 		if (BLOODCULT_STAGE_NARSIE)
 			if (bloodstone)
 				anim(target = bloodstone.loc, a_icon = 'icons/obj/cult/narsie.dmi', flick_anim = "narsie_spawn_anim_start", offX = -236, offY = -256, plane = MASSIVE_OBJ_PLANE)
@@ -277,7 +277,7 @@
 
 /datum/team/cult/proc/HandleRecruitedRole(datum/antagonist/R)
 	if (cult_reminders.len)
-		to_chat(R.owner.current, "<span class = 'notice'>Other cultists have shared some of their knowledge. It will be stored in your memory (check your Notes under the IC tab).</span>")
+		to_chat(R.owner.current, span_notice("Other cultists have shared some of their knowledge. It will be stored in your memory (check your Notes under the IC tab).") )
 	/*
 	for (var/reminder in cult_reminders)
 		R.antag.store_memory("Shared Cultist Knowledge: [reminder].")
@@ -344,7 +344,7 @@
 						cult_datum.assign_rituals()
 						var/mob/M = mind.current
 						if (M)
-							to_chat(M, "<span class = 'sinister'>Although you can generate devotion by performing most cult activities, a couple rituals for you to perform are now available. Check the cult panel.</span>")
+							to_chat(M, span_cult("Although you can generate devotion by performing most cult activities, a couple rituals for you to perform are now available. Check the cult panel.") )
 
 
 		if (BLOODCULT_STAGE_MISSED)
@@ -406,7 +406,7 @@
 			parts += "<span class = 'greentext big'>The cult has succeeded! Nar'Sie has snuffed out another torch in the void!</span>"
 
 	if(members.len)
-		parts += "<span class = 'header'>The cultists were:</span>"
+		parts += span_header("The cultists were:")
 		if(length(true_cultists))
 			parts += printplayerlist(true_cultists)
 		else

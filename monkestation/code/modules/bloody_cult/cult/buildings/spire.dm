@@ -115,7 +115,7 @@ GLOBAL_LIST_INIT(cult_spires, list())
 
 	/*
 	if (!ishuman(user))
-		to_chat(user, "<span class = 'warning'>Only humans can bear the arcane markings granted by this [name].</span>")
+		to_chat(user, span_warning("Only humans can bear the arcane markings granted by this [name].") )
 		return
 
 	var/mob/living/carbon/human/H = user
@@ -128,7 +128,7 @@ GLOBAL_LIST_INIT(cult_spires, list())
 
 	var/tattoo_tier = 0
 	if (available_tattoos.len <= 0)
-		to_chat(user, "<span class = 'warning'>You cannot bear any additional mark.</span>")
+		to_chat(user, span_warning("You cannot bear any additional mark.") )
 		return
 	if ("tier1" in available_tattoos)
 		tattoo_tier = 1
@@ -148,7 +148,7 @@ GLOBAL_LIST_INIT(cult_spires, list())
 				choices += list(list(T.name, "radial_[T.icon_state]", T.desc)) //According to BYOND docs, when adding to a list, "If an argument is itself a list, each item in the list will be added." My solution to that, because I am a genius, is to add a list within a list.
 				to_chat(H, "<span class = 'danger'>[T.name]</span>: [T.desc]")
 	else
-		to_chat(user, "<span class = 'warning'>Come back to acquire another mark once your cult is a step closer to its goal.</span>")
+		to_chat(user, span_warning("Come back to acquire another mark once your cult is a step closer to its goal.") )
 		return
 
 	var/tattoo = show_radial_menu(user, loc, choices, 'monkestation/code/modules/bloody_cult/icons/cult_radial2.dmi', "radial-cult2")//spawning on loc so we aren't offset by pixel_x/pixel_y, or affected by animate()

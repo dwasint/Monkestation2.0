@@ -94,7 +94,7 @@ GLOBAL_LIST_INIT(astral_projections, list())
 					if (M.client)
 						M.playsound_local(loc, get_sfx("disappear_sound"), 75, 0, -2)
 			anchor.key = key
-			to_chat(anchor, "<span class = 'notice'>You reconnect with your body.</span>")
+			to_chat(anchor, span_notice("You reconnect with your body.") )
 			anchor.ajourn = null
 	//if our body was somehow already destroyed however, we'll become a shade right here
 	else if(client)
@@ -106,7 +106,7 @@ GLOBAL_LIST_INIT(astral_projections, list())
 			shade.real_name = "[real_name]"
 			mind.transfer_to(shade)
 			shade.key = key
-			to_chat(shade, "<span class = 'sinister'>It appears your body was unfortunately destroyed. The remains of your soul made their way to your astral projection where they merge together, forming a shade.</span>")
+			to_chat(shade, span_cult("It appears your body was unfortunately destroyed. The remains of your soul made their way to your astral projection where they merge together, forming a shade.") )
 	invisibility = 101
 	set_density(FALSE)
 	sleep(20)
@@ -126,7 +126,7 @@ GLOBAL_LIST_INIT(astral_projections, list())
 		var/turf/T = get_turf(anchor)
 		var/turf/U = get_turf(src)
 		if (T.z != U.z)
-			to_chat(src, "<span class = 'warning'>You cannot sustain the astral projection at such a distance.</span>")
+			to_chat(src, span_warning("You cannot sustain the astral projection at such a distance.") )
 			death()
 			return
 	else
@@ -146,12 +146,12 @@ GLOBAL_LIST_INIT(astral_projections, list())
 /mob/living/basic/astral_projection/examine(mob/user)
 	if (!tangibility)
 		if ((user == src) && anchor)
-			to_chat(user, "<span class = 'notice'>You check yourself to see how others would see you were you tangible:</span>")
+			to_chat(user, span_notice("You check yourself to see how others would see you were you tangible:") )
 			anchor.examine(user)
 		else if (IS_CULTIST(user))
-			to_chat(user, "<span class = 'notice'>It's an astral projection.</span>")
+			to_chat(user, span_notice("It's an astral projection.") )
 		else
-			to_chat(user, "<span class = 'sinister'>Wait something's not right here.</span>")//it's a g-g-g-g-ghost!
+			to_chat(user, span_cult("Wait something's not right here.") )//it's a g-g-g-g-ghost!
 	else if (anchor)
 		anchor.examine(user)//examining the astral projection alone won't be enough to see through it, although the user might want to make sure they cannot be identified first.
 

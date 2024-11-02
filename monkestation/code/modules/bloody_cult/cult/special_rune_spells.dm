@@ -30,7 +30,7 @@
 	if (pay_blood())
 		var/datum/antagonist/cult/cult_datum = activator.mind.has_antag_datum(/datum/antagonist/cult)
 		cult_datum.gain_devotion(10, DEVOTION_TIER_0, "conjure_paraphernalia", "Arcane Tome")
-		spell_holder.visible_message("<span class = 'rose'>The rune's symbols merge into each others, and an Arcane Tome takes form in their place</span>")
+		spell_holder.visible_message(span_rose("The rune's symbols merge into each others, and an Arcane Tome takes form in their place") )
 		var/turf/T = get_turf(spell_holder)
 		var/obj/item/weapon/tome/AT = new (T)
 		anim(target = AT, a_icon = 'monkestation/code/modules/bloody_cult/icons/effects.dmi', flick_anim = "tome_spawn")
@@ -89,60 +89,60 @@
 	//The most fickle rune there ever was
 	var/datum/team/cult/cult = locate_team(/datum/team/cult)
 	if (!istype(cult))
-		to_chat(activator, "<span class = 'warning'>Couldn't find the cult faction. Something's broken, please report the issue to an admin or using the BugReport button at the top.</span>")
+		to_chat(activator, span_warning("Couldn't find the cult faction. Something's broken, please report the issue to an admin or using the BugReport button at the top.") )
 		return
 
 	switch(cult.stage)
 		if (BLOODCULT_STAGE_NORMAL)
-			to_chat(activator, "<span class = 'sinister'>The rune pulses but no energies respond to its signal.</span>")
-			to_chat(activator, "<span class = 'sinister'>The Eclipse is coming, but until then this rune serves no purpose.</span>")
+			to_chat(activator, span_cult("The rune pulses but no energies respond to its signal.") )
+			to_chat(activator, span_cult("The Eclipse is coming, but until then this rune serves no purpose.") )
 			if (!is_station_level(R.z))
-				to_chat(activator, "<span class = 'sinister'>When it does, you should try again <font color = 'red'>aboard the station</font>.</span>")
+				to_chat(activator, span_cult("When it does, you should try again <font color = 'red'>aboard the station</font>.") )
 			var/obj/structure/dance_check/checker = new(T, src)
 			var/list/moves_to_do = list(SOUTH, WEST, NORTH, NORTH, EAST, EAST, SOUTH, SOUTH, WEST)
 			for (var/direction in moves_to_do)
 				if (!checker.Move(get_step(checker, direction)))//The checker passes through mobs and non-dense objects, but bumps against dense objects and turfs
-					to_chat(activator, "<span class = 'sinister'>and <font color = 'red'>in a more open area</font>.</span>")
+					to_chat(activator, span_cult("and <font color = 'red'>in a more open area</font>.") )
 			abort()
 			return
 
 		if (BLOODCULT_STAGE_MISSED)
-			to_chat(activator, "<span class = 'sinister'>The rune pulses but no energies respond to its signal.</span>")
-			to_chat(activator, "<span class = 'sinister'>The window of opportunity has passed along with the Eclipse. Make your way off this space station so you may attempt another day.</span>")
+			to_chat(activator, span_cult("The rune pulses but no energies respond to its signal.") )
+			to_chat(activator, span_cult("The window of opportunity has passed along with the Eclipse. Make your way off this space station so you may attempt another day.") )
 			abort()
 			return
 
 		if (BLOODCULT_STAGE_ECLIPSE)
-			to_chat(activator, "<span class = 'sinister'>The Bloodstone has been raised! Now is not the time to use that rune.</span>")
+			to_chat(activator, span_cult("The Bloodstone has been raised! Now is not the time to use that rune.") )
 			abort()
 			return
 
 		if (BLOODCULT_STAGE_DEFEATED)
-			to_chat(activator, "<span class = 'sinister'>The rune pulses but no energies respond to its signal.</span>")
-			to_chat(activator, "<span class = 'sinister'>With the Bloodstone's collapse, the veil in this region of space has fully mended itself. Another cult will make an attempt in another space station someday.</span>")
+			to_chat(activator, span_cult("The rune pulses but no energies respond to its signal.") )
+			to_chat(activator, span_cult("With the Bloodstone's collapse, the veil in this region of space has fully mended itself. Another cult will make an attempt in another space station someday.") )
 			abort()
 			return
 
 		if (BLOODCULT_STAGE_NARSIE)
-			to_chat(activator, "<span class = 'sinister'>The tear has already be opened. Praise the Geometer in this most unholy day!</span>")
+			to_chat(activator, span_cult("The tear has already be opened. Praise the Geometer in this most unholy day!") )
 			abort()
 			return
 
 	if (cult.stage != BLOODCULT_STAGE_READY)
-		to_chat(activator, "<span class = 'warning'>Cult faction appears to be in an unset stage. Something's broken, please report the issue to an admin or using the BugReport button at the top.</span>")
+		to_chat(activator, span_warning("Cult faction appears to be in an unset stage. Something's broken, please report the issue to an admin or using the BugReport button at the top.") )
 		abort()
 		return
 
 	if (!is_station_level(R.z))
-		to_chat(activator, "<span class = 'sinister'>The rune pulses but no energies respond to its signal.</span>")
-		to_chat(activator, "<span class = 'sinister'>You should try again <font color = 'red'>aboard the station</font>.</span>")
+		to_chat(activator, span_cult("The rune pulses but no energies respond to its signal.") )
+		to_chat(activator, span_cult("You should try again <font color = 'red'>aboard the station</font>.") )
 		abort()
 		return
 
 	if (cult.tear_ritual)
 		var/obj/effect/new_rune/U = cult.tear_ritual.spell_holder
-		to_chat(activator, "<span class = 'sinister'>The rune pulses but no energies respond to its signal.</span>")
-		to_chat(activator, "<span class = 'sinister'>It appears that another tear is currently being opened. Somewhere...<font color = 'red'>to the [dir2text(get_dir(R, U))]</font>.</span>")
+		to_chat(activator, span_cult("The rune pulses but no energies respond to its signal.") )
+		to_chat(activator, span_cult("It appears that another tear is currently being opened. Somewhere...<font color = 'red'>to the [dir2text(get_dir(R, U))]</font>.") )
 		abort()
 		return
 
@@ -151,8 +151,8 @@
 	for (var/direction in moves_to_do)
 		if (!checker.Move(get_step(checker, direction)))//The checker passes through mobs and non-dense objects, but bumps against dense objects and turfs
 			if (blocker)
-				to_chat(activator, "<span class = 'sinister'>The nearby [blocker] will impede the ritual.</span>")
-			to_chat(activator, "<span class = 'sinister'>You should try again <font color = 'red'>in a more open area</font>.</span>")
+				to_chat(activator, span_cult("The nearby [blocker] will impede the ritual.") )
+			to_chat(activator, span_cult("You should try again <font color = 'red'>in a more open area</font>.") )
 			abort()
 			return
 
@@ -190,8 +190,8 @@
 		message_admins("[key_name(activator)] is preparing the Tear Reality ritual at [T.loc] ([T.x], [T.y], [T.z]).")
 		for (var/datum/mind/mind in cult.members)
 			var/mob/living/M = mind.current
-			to_chat(M, "<span class = 'sinister'>The ritual to tear reality apart and pull the station into the realm of Nar-Sie is now taking place in <font color = 'red'>[T.loc]</font>.</span>")
-			to_chat(M, "<span class = 'sinister'>A total of 8 persons, either cultists or prisoners, is required for the ritual to start. Go there to help start and then protect the ritual.</span>")
+			to_chat(M, span_cult("The ritual to tear reality apart and pull the station into the realm of Nar-Sie is now taking place in <font color = 'red'>[T.loc]</font>.") )
+			to_chat(M, span_cult("A total of 8 persons, either cultists or prisoners, is required for the ritual to start. Go there to help start and then protect the ritual.") )
 
 		var/image/I_circle = image('monkestation/code/modules/bloody_cult/icons/cult_96x96.dmi', "rune_tearreality")
 		SET_PLANE_EXPLICIT(I_circle, GAME_PLANE, spell_holder)
@@ -229,7 +229,7 @@
 	qdel(src)
 
 /datum/rune_spell/tearreality/midcast(mob/add_cultist)
-	to_chat(add_cultist, "<span class = 'sinister'>Stand in the surrounding circles with fellow cultists and captured prisoners until every spot is filled.</span>")
+	to_chat(add_cultist, span_cult("Stand in the surrounding circles with fellow cultists and captured prisoners until every spot is filled.") )
 
 /datum/rune_spell/tearreality/abort(var/cause)
 	var/datum/team/cult/cult = locate_team(/datum/team/cult)
@@ -270,7 +270,7 @@
 		if(IS_CULTIST(C))
 			C.say("Tok-lyr rqa'nap g'lt-ulotf!", "C")
 		else
-			to_chat(C, "<span class = 'sinister'>The tentacles shift and force your body to move alongside them, performing some kind of dance.</span>")
+			to_chat(C, span_cult("The tentacles shift and force your body to move alongside them, performing some kind of dance.") )
 		return
 	for(var/obj/effect/cult_ritual/dance_platform/platform in dance_platforms)
 		if (!platform.dancer)
@@ -299,7 +299,7 @@
 			if(IS_CULTIST(platform.dancer))
 				C.say("Tok-lyr rqa'nap g'lt-ulotf!", "C")
 			else
-				to_chat(C, "<span class = 'sinister'>The tentacles shift and force your body to move alongside them, performing some kind of dance.</span>")
+				to_chat(C, span_cult("The tentacles shift and force your body to move alongside them, performing some kind of dance.") )
 
 	dance_manager.tear = src
 	dance_manager.we_can_dance()

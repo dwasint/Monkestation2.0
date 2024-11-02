@@ -35,14 +35,14 @@ var/list/arcane_pockets = list()
 /datum/action/cooldown/spell/cult/arcane_dimension/cast(mob/living/user)
 	..()
 	if (user.occult_muted())
-		to_chat(user, "<span class = 'warning'>You can't seem to remember how to access your arcane dimension right now.</span>")
+		to_chat(user, span_warning("You can't seem to remember how to access your arcane dimension right now.") )
 		return 0
 	if (stored_tome)
 		stored_tome.forceMove(get_turf(user))
 		if (user.get_inactive_held_item() && user.get_active_held_item())//full hands
-			to_chat(user, "<span class = 'warning'>Your hands being full, your [stored_tome] had nowhere to fall but on the ground.</span>")
+			to_chat(user, span_warning("Your hands being full, your [stored_tome] had nowhere to fall but on the ground.") )
 		else
-			to_chat(user, "<span class = 'notice'>You hold your hand palm up, and your [stored_tome] drops in it from thin air.</span>")
+			to_chat(user, span_notice("You hold your hand palm up, and your [stored_tome] drops in it from thin air.") )
 			user.put_in_hands(stored_tome)
 		stored_tome = null
 		name = "Arcane Dimension (empty)"
@@ -58,7 +58,7 @@ var/list/arcane_pockets = list()
 		stored_tome = held_tome
 		user.dropItemToGround(held_tome)
 		held_tome.loc = null
-		to_chat(user, "<span class = 'notice'>With a swift movement of your arm, you drop \the [held_tome] that disappears into thin air before touching the ground.</span>")
+		to_chat(user, span_notice("With a swift movement of your arm, you drop \the [held_tome] that disappears into thin air before touching the ground.") )
 		name = "Arcane Dimension (full)"
 		desc = "Cast to pick up your Arcane Tome back from the veil. You should preferably have a free hand."
 		button_icon_state = "cult_pocket_full"

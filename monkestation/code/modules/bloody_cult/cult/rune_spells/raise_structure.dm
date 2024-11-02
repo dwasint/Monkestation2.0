@@ -58,7 +58,7 @@
 		return
 
 	if(R.active_spell)
-		to_chat(user, "<span class = 'rose'>A structure is already being raised from this rune, so you contribute to that instead.</span>")
+		to_chat(user, span_rose("A structure is already being raised from this rune, so you contribute to that instead.") )
 		R.active_spell.midcast(user)
 		return
 
@@ -80,7 +80,7 @@
 	if(user.client)
 		user.client.images |= progbar
 	spell_holder.overlays += image('monkestation/code/modules/bloody_cult/icons/cult.dmi', "runetrigger-build")
-	to_chat(activator, "<span class = 'rose'>This ritual can be sped up by having multiple cultists partake in it or by wearing cult attire.</span>")
+	to_chat(activator, span_rose("This ritual can be sped up by having multiple cultists partake in it or by wearing cult attire.") )
 	spawn()
 		payment()
 

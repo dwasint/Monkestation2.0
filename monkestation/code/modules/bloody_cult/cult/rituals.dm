@@ -472,28 +472,28 @@ GLOBAL_LIST_INIT(bloodcult_personal_rituals, list(
 		if (CB.lit)
 			found_candles++
 	if (found_candles < required_candles)
-		to_chat(user, "<span class = 'sinister'>Need more lit blood candles...</span>")
+		to_chat(user, span_cult("Need more lit blood candles...") )
 		valid = FALSE
 
 	var/found_tomes = 0
 	for (var/obj/item/weapon/tome/T in range(1, altar))
 		found_tomes++
 	if (found_tomes < required_tomes)
-		to_chat(user, "<span class = 'sinister'>Need more arcane tomes...</span>")
+		to_chat(user, span_cult("Need more arcane tomes...") )
 		valid = FALSE
 
 	var/found_runes = 0
 	for (var/obj/effect/new_rune/R in range(1, altar))
 		found_runes++
 	if (found_runes < required_runes)
-		to_chat(user, "<span class = 'sinister'>Need more runes...</span>")
+		to_chat(user, span_cult("Need more runes...") )
 		valid = FALSE
 
 	var/found_pylons = 0
 	for (var/obj/structure/cult/pylon/P in range(1, altar))
 		found_pylons++
 	if (found_pylons < required_pylons)
-		to_chat(user, "<span class = 'sinister'>You must construct additional pylons...</span>")
+		to_chat(user, span_cult("You must construct additional pylons...") )
 		valid = FALSE
 
 	var/found_animal = FALSE
@@ -505,15 +505,15 @@ GLOBAL_LIST_INIT(bloodcult_personal_rituals, list(
 		if (ismonkey(M) || isanimal(M))
 			found_animal = TRUE
 	if (required_animal && !found_animal)
-		to_chat(user, "<span class = 'sinister'>You must impale an animal on top...</span>")
+		to_chat(user, span_cult("You must impale an animal on top...") )
 		valid = FALSE
 	if (required_humanoid && !found_humanoid)
-		to_chat(user, "<span class = 'sinister'>You must impale an humanoid on top...</span>")
+		to_chat(user, span_cult("You must impale an humanoid on top...") )
 		valid = FALSE
 
 	var/obj/item/weapon/melee/B = altar.blade
 	if (required_cultblade && !istype(B))
-		to_chat(user, "<span class = 'sinister'>Lastly, a mere ritual knife won't do here. Forge a better implement...</span>")
+		to_chat(user, span_cult("Lastly, a mere ritual knife won't do here. Forge a better implement...") )
 
 	return valid
 

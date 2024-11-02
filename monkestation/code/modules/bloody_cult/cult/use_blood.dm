@@ -277,9 +277,9 @@
 						if (isconstruct(CA))//constructs can't get the blood communion tattoo but just in case they do later
 							blood.data["blood_colour"] = "#CC0E00"
 			if (feedback && !tribute && previous_result != BLOODCOST_TRIBUTE)
-				user.visible_message("<span class = 'warning'>Drips of blood seem to appear out of thin air around \the [user], and fall onto the floor!</span>",
-									"<span class = 'rose'>An ally has lent you a drip of their blood for your ritual.</span>",
-									"<span class = 'warning'>You hear a liquid flowing.</span>")
+				user.visible_message(span_warning("Drips of blood seem to appear out of thin air around \the [user], and fall onto the floor!") ,
+									span_rose("An ally has lent you a drip of their blood for your ritual.") ,
+									span_warning("You hear a liquid flowing.") )
 		if (BLOODCOST_TARGET_HANDS)
 			var/mob/living/carbon/human/H = user
 			blood = new()
@@ -288,17 +288,17 @@
 				blood.data =blood_type.get_blood_data(H)
 				//can't get virus data from bloody hands because it'd be a pain in the ass to code for minimal use
 			if (feedback && !tribute && previous_result != BLOODCOST_TARGET_HANDS)
-				user.visible_message("<span class = 'warning'>The blood on \the [user]'s hands drips onto the floor!</span>",
-									"<span class = 'rose'>You let the blood smeared on your hands join the pool of your summoning.</span>",
-									"<span class = 'warning'>You hear a liquid flowing.</span>")
+				user.visible_message(span_warning("The blood on \the [user]'s hands drips onto the floor!") ,
+									span_rose("You let the blood smeared on your hands join the pool of your summoning.") ,
+									span_warning("You hear a liquid flowing.") )
 		if (BLOODCOST_TARGET_SPLATTER)
 			var/obj/effect/decal/cleanable/blood/B = data[BLOODCOST_TARGET_SPLATTER]
 			blood = new()
 			blood.color = B.color
 			if (feedback && !tribute && previous_result != BLOODCOST_TARGET_SPLATTER)
-				user.visible_message("<span class = 'warning'>The blood on the floor below \the [user] starts moving!</span>",
-									"<span class = 'rose'>You redirect the flow of blood inside the splatters on the floor toward the pool of your summoning.</span>",
-									"<span class = 'warning'>You hear a liquid flowing.</span>")
+				user.visible_message(span_warning("The blood on the floor below \the [user] starts moving!") ,
+									span_rose("You redirect the flow of blood inside the splatters on the floor toward the pool of your summoning.") ,
+									span_warning("You hear a liquid flowing.") )
 		if (BLOODCOST_TARGET_GRAB)
 			var/mob/living/carbon/C = data[BLOODCOST_TARGET_GRAB]
 			if (iscarbon(C))
@@ -306,9 +306,9 @@
 				var/datum/blood_type/blood_type = C.get_blood_type()
 				blood.data =blood_type.get_blood_data(C)
 				if (feedback && !tribute && previous_result != BLOODCOST_TARGET_GRAB)
-					user.visible_message("<span class = 'warning'>\The [user] stabs their nails inside \the [data[BLOODCOST_TARGET_GRAB]], drawing blood from them!</span>",
-										"<span class = 'rose'>You stab your nails inside \the [data[BLOODCOST_TARGET_GRAB]] to draw some blood from them.</span>",
-										"<span class = 'warning'>You hear a liquid flowing.</span>")
+					user.visible_message(span_warning("\The [user] stabs their nails inside \the [data[BLOODCOST_TARGET_GRAB]], drawing blood from them!") ,
+										span_rose("You stab your nails inside \the [data[BLOODCOST_TARGET_GRAB]] to draw some blood from them.") ,
+										span_warning("You hear a liquid flowing.") )
 
 		if (BLOODCOST_TARGET_BLEEDER)
 			var/mob/living/carbon/C = data[BLOODCOST_TARGET_BLEEDER]
@@ -317,39 +317,39 @@
 				var/datum/blood_type/blood_type = C.get_blood_type()
 				blood.data =blood_type.get_blood_data(C)
 				if (feedback && !tribute && previous_result != BLOODCOST_TARGET_BLEEDER)
-					user.visible_message("<span class = 'warning'>\The [user] dips their fingers inside \the [data[BLOODCOST_TARGET_BLEEDER]]'s wounds!</span>",
-										"<span class = 'rose'>You dip your fingers inside \the [data[BLOODCOST_TARGET_BLEEDER]]'s wounds to draw some blood from them.</span>",
-										"<span class = 'warning'>You hear a liquid flowing.</span>")
+					user.visible_message(span_warning("\The [user] dips their fingers inside \the [data[BLOODCOST_TARGET_BLEEDER]]'s wounds!") ,
+										span_rose("You dip your fingers inside \the [data[BLOODCOST_TARGET_BLEEDER]]'s wounds to draw some blood from them.") ,
+										span_warning("You hear a liquid flowing.") )
 		if (BLOODCOST_TARGET_HELD)
 			var/obj/item/reagent_containers/G = data[BLOODCOST_TARGET_HELD]
 			blood = locate() in G.reagents.reagent_list
 			if (!tribute && previous_result != BLOODCOST_TARGET_HELD)
-				user.visible_message("<span class = 'warning'>\The [user] tips \the [data[BLOODCOST_TARGET_HELD]], pouring blood!</span>",
-									"<span class = 'rose'>You tip \the [data[BLOODCOST_TARGET_HELD]] to pour the blood contained inside.</span>",
-									"<span class = 'warning'>You hear a liquid flowing.</span>")
+				user.visible_message(span_warning("\The [user] tips \the [data[BLOODCOST_TARGET_HELD]], pouring blood!") ,
+									span_rose("You tip \the [data[BLOODCOST_TARGET_HELD]] to pour the blood contained inside.") ,
+									span_warning("You hear a liquid flowing.") )
 		if (BLOODCOST_TARGET_BLOODPACK)
 			var/obj/item/reagent_containers/blood/B = data[BLOODCOST_TARGET_BLOODPACK]
 			blood = locate() in B.reagents.reagent_list
 			if (feedback && !tribute && previous_result != BLOODCOST_TARGET_BLOODPACK)
-				user.visible_message("<span class = 'warning'>\The [user] squeezes \the [data[BLOODCOST_TARGET_BLOODPACK]], pouring blood!</span>",
-									"<span class = 'rose'>You squeeze \the [data[BLOODCOST_TARGET_BLOODPACK]] to pour the blood contained inside.</span>",
-									"<span class = 'warning'>You hear a liquid flowing.</span>")
+				user.visible_message(span_warning("\The [user] squeezes \the [data[BLOODCOST_TARGET_BLOODPACK]], pouring blood!") ,
+									span_rose("You squeeze \the [data[BLOODCOST_TARGET_BLOODPACK]] to pour the blood contained inside.") ,
+									span_warning("You hear a liquid flowing.") )
 		if (BLOODCOST_TARGET_CONTAINER)
 			var/obj/item/reagent_containers/G = data[BLOODCOST_TARGET_CONTAINER]
 			blood = locate() in G.reagents.reagent_list
 			if (feedback && !tribute && previous_result != BLOODCOST_TARGET_CONTAINER)
-				user.visible_message("<span class = 'warning'>\The [user] dips their fingers inside \the [data[BLOODCOST_TARGET_CONTAINER]], covering them in blood!</span>",
-									"<span class = 'rose'>You dip your fingers inside \the [data[BLOODCOST_TARGET_CONTAINER]], covering them in blood.</span>",
-									"<span class = 'warning'>You hear a liquid flowing.</span>")
+				user.visible_message(span_warning("\The [user] dips their fingers inside \the [data[BLOODCOST_TARGET_CONTAINER]], covering them in blood!") ,
+									span_rose("You dip your fingers inside \the [data[BLOODCOST_TARGET_CONTAINER]], covering them in blood.") ,
+									span_warning("You hear a liquid flowing.") )
 		if (BLOODCOST_TARGET_USER)
 			blood = new()
 			if (!tribute)
 				if (data[BLOODCOST_HOLES_BLOODPACK])
-					to_chat(user, "<span class = 'warning'>You must puncture \the [data[BLOODCOST_TARGET_BLOODPACK]] before you can squeeze blood from it!</span>")
+					to_chat(user, span_warning("You must puncture \the [data[BLOODCOST_TARGET_BLOODPACK]] before you can squeeze blood from it!") )
 				else if (data[BLOODCOST_LID_HELD])
-					to_chat(user, "<span class = 'warning'>Remove \the [data[BLOODCOST_TARGET_HELD]]'s lid first!</span>")
+					to_chat(user, span_warning("Remove \the [data[BLOODCOST_TARGET_HELD]]'s lid first!") )
 				else if (data[BLOODCOST_LID_CONTAINER])
-					to_chat(user, "<span class = 'warning'>Remove \the [data[BLOODCOST_TARGET_CONTAINER]]'s lid first!</span>")
+					to_chat(user, span_warning("Remove \the [data[BLOODCOST_TARGET_CONTAINER]]'s lid first!") )
 			if (iscarbon(user))
 				var/mob/living/carbon/C_user = user
 				var/datum/blood_type/blood_type = C_user.get_blood_type()
@@ -362,25 +362,25 @@
 				if (iscarbon(user))//if the user is holding a sharp weapon, they get a custom message
 					var/obj/item/weapon/W = user.get_active_held_item()
 					if (W && W.sharpness == SHARP_POINTY)
-						to_chat(user, "<span class = 'rose'>You slice open your finger with \the [W] to let a bit of blood flow.</span>")
+						to_chat(user, span_rose("You slice open your finger with \the [W] to let a bit of blood flow.") )
 					else
 						var/obj/item/weapon/W2 = user.get_inactive_held_item()
 						if (W2 && W2.sharpness == SHARP_POINTY)
-							to_chat(user, "<span class = 'rose'>You slice open your finger with \the [W] to let a bit of blood flow.</span>")
+							to_chat(user, span_rose("You slice open your finger with \the [W] to let a bit of blood flow.") )
 						else
-							to_chat(user, "<span class = 'rose'>You bite your finger and let the blood pearl up.</span>")
+							to_chat(user, span_rose("You bite your finger and let the blood pearl up.") )
 				else if (isconstruct(user))
-					to_chat(user, "<span class = 'rose'>Your shell's connection past the veil lets you perform the ritual without the need for a local source of blood.</span>")
+					to_chat(user, span_rose("Your shell's connection past the veil lets you perform the ritual without the need for a local source of blood.") )
 		if (BLOODCOST_FAILURE)
 			if (!tribute)
 				if (data[BLOODCOST_HOLES_BLOODPACK])
-					to_chat(user, "<span class = 'danger'>You must puncture \the [data[BLOODCOST_TARGET_BLOODPACK]] before you can squeeze blood from it!</span>")
+					to_chat(user, span_danger("You must puncture \the [data[BLOODCOST_TARGET_BLOODPACK]] before you can squeeze blood from it!") )
 				else if (data[BLOODCOST_LID_HELD])
-					to_chat(user, "<span class = 'danger'>Remove \the [data[BLOODCOST_TARGET_HELD]]'s lid first!</span>")
+					to_chat(user, span_danger("Remove \the [data[BLOODCOST_TARGET_HELD]]'s lid first!") )
 				else if (data[BLOODCOST_LID_CONTAINER])
-					to_chat(user, "<span class = 'danger'>Remove \the [data[BLOODCOST_TARGET_HELD]]'s lid first!</span>")
+					to_chat(user, span_danger("Remove \the [data[BLOODCOST_TARGET_HELD]]'s lid first!") )
 				else
-					to_chat(user, "<span class = 'danger'>There is no blood available. Not even in your own body!</span>")
+					to_chat(user, span_danger("There is no blood available. Not even in your own body!") )
 
 	//Blood is only consumed if there is enough of it
 	if (!data[BLOODCOST_FAILURE])
@@ -426,13 +426,13 @@
 				H.blood_volume -= data[BLOODCOST_AMOUNT_USER] * 3 //doing this yourself is worse then communion
 				var/blood_after = H.blood_volume
 				if (blood_before > BLOOD_VOLUME_SAFE && blood_after < BLOOD_VOLUME_SAFE)
-					to_chat(user, "<span class = 'sinister'>You start looking pale.</span>")
+					to_chat(user, span_cult("You start looking pale.") )
 				else if (blood_before > BLOOD_VOLUME_OKAY && blood_after < BLOOD_VOLUME_OKAY)
-					to_chat(user, "<span class = 'sinister'>You are about to pass out from the lack of blood.</span>")
+					to_chat(user, span_cult("You are about to pass out from the lack of blood.") )
 				else if (blood_before > BLOOD_VOLUME_BAD && blood_after < BLOOD_VOLUME_BAD)
-					to_chat(user, "<span class = 'sinister'>You have trouble focusing, things will go bad if you keep using your blood.</span>")
+					to_chat(user, span_cult("You have trouble focusing, things will go bad if you keep using your blood.") )
 				else if (blood_before > BLOOD_VOLUME_SURVIVE && blood_after < BLOOD_VOLUME_SURVIVE)
-					to_chat(user, "<span class = 'sinister'>It will be all over soon.</span>")
+					to_chat(user, span_cult("It will be all over soon.") )
 				H.take_overall_damage(data[BLOODCOST_AMOUNT_USER] ? 0.1 : 0)
 			else if (ismonkey(user) || isalien(user))
 				var/mob/living/carbon/C = user
@@ -444,15 +444,15 @@
 				C.updatehealth()
 				var/blood_after = C.health
 				if (blood_before > (C.maxHealth*5/6) && blood_after < (C.maxHealth*5/6))
-					to_chat(user, "<span class = 'sinister'>You start looking pale.</span>")
+					to_chat(user, span_cult("You start looking pale.") )
 				else if (blood_before > (C.maxHealth*4/6) && blood_after < (C.maxHealth*4/6))
-					to_chat(user, "<span class = 'sinister'>You feel weak from the lack of blood.</span>")
+					to_chat(user, span_cult("You feel weak from the lack of blood.") )
 				else if (blood_before > (C.maxHealth*3/6) && blood_after < (C.maxHealth*3/6))
-					to_chat(user, "<span class = 'sinister'>You are about to pass out from the lack of blood.</span>")
+					to_chat(user, span_cult("You are about to pass out from the lack of blood.") )
 				else if (blood_before > (C.maxHealth*2/6) && blood_after < (C.maxHealth*2/6))
-					to_chat(user, "<span class = 'sinister'>You have trouble focusing, things will go bad if you keep using your blood.</span>")
+					to_chat(user, span_cult("You have trouble focusing, things will go bad if you keep using your blood.") )
 				else if (blood_before > (C.maxHealth*1/6) && blood_after < (C.maxHealth*1/6))
-					to_chat(user, "<span class = 'sinister'>It will be all over soon.</span>")
+					to_chat(user, span_cult("It will be all over soon.") )
 
 
 	if (communion && data[BLOODCOST_TOTAL] + total_accumulated >= amount_needed)

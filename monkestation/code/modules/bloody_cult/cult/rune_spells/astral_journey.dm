@@ -21,7 +21,7 @@
 
 	cultist_key = activator.key
 
-	to_chat(activator, "<span class = 'notice'>As you recite the invocation, you feel your consciousness rise up in the air above your body.</span>")
+	to_chat(activator, span_notice("As you recite the invocation, you feel your consciousness rise up in the air above your body.") )
 	//astral = activator.ghostize(1, 1)
 	astral = new(activator.loc)
 	astral.ascend(activator)

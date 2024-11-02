@@ -159,11 +159,11 @@
 /obj/structure/cult/forge/attackby(var/obj/item/I, var/mob/user)
 	if(istype(I, /obj/item/clothing/mask/cigarette))
 		var/obj/item/clothing/mask/cigarette/fag = I
-		fag.light("<span class = 'notice'>\The [user] lights \the [fag] by bringing its tip close to \the [src]'s molten flow.</span>")
+		fag.light(span_notice("\The [user] lights \the [fag] by bringing its tip close to \the [src]'s molten flow.") )
 		return 1
 	if(istype(I, /obj/item/candle))
 		var/obj/item/candle/stick = I
-		stick.light("<span class = 'notice'>\The [user] lights \the [stick] by bringing its wick close to \the [src]'s molten flow.</span>")
+		stick.light(span_notice("\The [user] lights \the [stick] by bringing its wick close to \the [src]'s molten flow.") )
 		return 1
 	..()
 

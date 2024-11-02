@@ -103,7 +103,7 @@
 		feet_portals.Add(activator)
 		var/obj/effect/cult_ritual/feet_portal/P = new (activator.loc, activator, src)
 		feet_portals[activator] = P
-	to_chat(activator, "<span class = 'rose'>This ritual's blood toll can be substantially reduced by having multiple cultists partake in it.</span>")
+	to_chat(activator, span_rose("This ritual's blood toll can be substantially reduced by having multiple cultists partake in it.") )
 	spawn()
 		payment()
 
@@ -178,7 +178,7 @@
 /datum/rune_spell/bloodmagnetism/proc/success()
 	if (target.occult_muted())
 		for(var/mob/living/contributor in contributors)
-			to_chat(activator, "<span class = 'warning'>The ritual failed, the target seems to be under a curse that prevents us from reaching them through the veil.</span>")
+			to_chat(activator, span_warning("The ritual failed, the target seems to be under a curse that prevents us from reaching them through the veil.") )
 	else
 		if (rejoin)
 			var/list/valid_turfs = list()
@@ -199,9 +199,9 @@
 						flick("cult_jaunt_land", landing_animation)
 		else
 			if(target.buckled || !isturf(target.loc))
-				to_chat(target, "<span class = 'warning'>You feel that some force wants to pull you through the veil, but cannot proceed while you are buckled or inside something.</span>")
+				to_chat(target, span_warning("You feel that some force wants to pull you through the veil, but cannot proceed while you are buckled or inside something.") )
 				for(var/mob/living/contributor in contributors)
-					to_chat(activator, "<span class = 'warning'>The ritual failed, the target seems to be anchored to where they are.</span>")
+					to_chat(activator, span_warning("The ritual failed, the target seems to be anchored to where they are.") )
 			else
 				for(var/mob/living/contributor in contributors)
 					use_available_blood(contributor, cost_summon/contributors.len, contributors[contributor])

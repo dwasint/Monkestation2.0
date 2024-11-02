@@ -166,7 +166,7 @@
 
 /mob/living/simple_animal/hostile/hex/death(var/gibbed = FALSE)
 	..(TRUE) //If they qdel, they gib regardless
-	visible_message("<span class = 'warning'>\The [src] collapses in a shattered heap. </span>")
+	visible_message(span_warning("\The [src] collapses in a shattered heap. ") )
 	qdel (src)
 
 /mob/living/simple_animal/hostile/hex/PickTarget(list/Targets)

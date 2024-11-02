@@ -37,7 +37,7 @@
 		return "\[blank\]"
 
 /obj/item/weapon/talisman/suicide_act(mob/living/user)
-	to_chat(viewers(user), "<span class = 'danger'>[user] swallows \a [src] and appears to be choking on it! It looks like \he's trying to commit suicide.</span>")
+	to_chat(viewers(user), span_danger("[user] swallows \a [src] and appears to be choking on it! It looks like \he's trying to commit suicide.") )
 
 /obj/item/weapon/talisman/examine(var/mob/user)
 	..()
@@ -47,20 +47,20 @@
 		return
 
 	if (!spell_type)
-		to_chat(user, "<span class = 'info'>This one, however, seems pretty unremarkable.</span>")
+		to_chat(user, span_info("This one, however, seems pretty unremarkable.") )
 		return
 
 	var/datum/rune_spell/instance = spell_type
 
 	if (IS_CULTIST(user) || isobserver(user))
 		if (attuned_rune)
-			to_chat(user, "<span class = 'info'>This one was attuned to a <b>[initial(instance.name)]</b> rune. [initial(instance.desc_talisman)]</span>")
+			to_chat(user, span_info("This one was attuned to a <b>[initial(instance.name)]</b> rune. [initial(instance.desc_talisman)]") )
 		else
-			to_chat(user, "<span class = 'info'>This one was imbued with a <b>[initial(instance.name)]</b> rune. [initial(instance.desc_talisman)]</span>")
+			to_chat(user, span_info("This one was imbued with a <b>[initial(instance.name)]</b> rune. [initial(instance.desc_talisman)]") )
 		if (uses > 1)
-			to_chat(user, "<span class = 'info'>Its powers can be used [uses] more times.</span>")
+			to_chat(user, span_info("Its powers can be used [uses] more times.") )
 	else
-		to_chat(user, "<span class = 'info'>This one was some arcane drawings on it. You cannot read them.</span>")
+		to_chat(user, span_info("This one was some arcane drawings on it. You cannot read them.") )
 
 /obj/item/weapon/talisman/attack_self(var/mob/living/user)
 	if (blood_text)
@@ -102,7 +102,7 @@
 	if(iscarbon(user))
 		var/mob/living/carbon/C = user
 		if (C.occult_muted())
-			to_chat(user, "<span class = 'danger'>You find yourself unable to focus your mind on the arcane words of the talisman.</span>")
+			to_chat(user, span_danger("You find yourself unable to focus your mind on the arcane words of the talisman.") )
 			return
 
 	if (attuned_rune)
@@ -110,7 +110,7 @@
 			attuned_rune.trigger(user, 1)
 		else//darn, the rune got destroyed one way or another
 			attuned_rune = null
-			to_chat(user, "<span class = 'warning'>The talisman disappears into dust. The rune it was attuned to appears to no longer exist.</span>")
+			to_chat(user, span_warning("The talisman disappears into dust. The rune it was attuned to appears to no longer exist.") )
 	else
 		new spell_type(user, src)
 
@@ -130,7 +130,7 @@
 		return
 
 	if (blood_text)
-		to_chat(user, "<span class = 'warning'>You can't imbue a talisman that has been written on.</span>")
+		to_chat(user, span_warning("You can't imbue a talisman that has been written on.") )
 		return
 
 	var/datum/rune_spell/spell = get_rune_spell(user, null, "examine", R.word1, R.word2, R.word3)
@@ -140,11 +140,11 @@
 		R.attack_hand(user)
 	else
 		if (attuned_rune)
-			to_chat(user, "<span class = 'warning'>\The [src] is already imbued with the power of a rune.</span>")
+			to_chat(user, span_warning("\The [src] is already imbued with the power of a rune.") )
 			return
 
 		if (!spell)
-			to_chat(user, "<span class = 'warning'>There is no power in those runes. \The [src] isn't reacting to it.</span>")
+			to_chat(user, span_warning("There is no power in those runes. \The [src] isn't reacting to it.") )
 			return
 
 		//blood markings
@@ -177,11 +177,11 @@
 		switch(talisman_interaction)
 			if (RUNE_CAN_ATTUNE)
 				playsound(src, 'monkestation/code/modules/bloody_cult/sound/talisman_attune.ogg', 50, 0, -5)
-				to_chat(user, "<span class = 'notice'>\The [src] can now remotely trigger the [initial(spell.name)] rune.</span>")
+				to_chat(user, span_notice("\The [src] can now remotely trigger the [initial(spell.name)] rune.") )
 				attuned_rune = R
 			if (RUNE_CAN_IMBUE)
 				playsound(src, 'monkestation/code/modules/bloody_cult/sound/talisman_imbue.ogg', 50, 0, -5)
-				to_chat(user, "<span class = 'notice'>\The [src] absorbs the power of the [initial(spell.name)] rune.</span>")
+				to_chat(user, span_notice("\The [src] absorbs the power of the [initial(spell.name)] rune.") )
 				qdel(R)
 			if (RUNE_CANNOT)//like, that shouldn't even be possible because of the earlier if() check, but just in case.
 				message_admins("Error! ([key_name(user)]) managed to imbue a Conjure Talisman rune. That shouldn't be possible!")

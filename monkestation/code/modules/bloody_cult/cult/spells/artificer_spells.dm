@@ -48,7 +48,7 @@
 
 /datum/action/cooldown/spell/pointed/conjure/struct/PreActivate(atom/target)
 	if (locate(/obj/structure/cult) in range(owner, 1))
-		to_chat(owner, "<span class = 'warning'>You cannot perform this ritual that close from another similar structure.</span>")
+		to_chat(owner, span_warning("You cannot perform this ritual that close from another similar structure.") )
 		return 1
 	var/turf/T = owner.loc
 	if (!istype(T))
