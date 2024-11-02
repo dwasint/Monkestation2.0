@@ -38,8 +38,8 @@
 	ADD_TRAIT(M, TRAIT_MUTE, "rune")
 	ADD_TRAIT(M, TRAIT_DEAF, "rune")
 
-	addtimer(CALLBACK(src, GLOBAL_PROC_REF(remove_deaf), M), deaf_duration)
-	addtimer(CALLBACK(src, GLOBAL_PROC_REF(remove_mute), M), mute_duration)
+	addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(remove_deaf), M), deaf_duration)
+	addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(remove_mute), M), mute_duration)
 	spawn(8)
 		M.update_fullscreen_alpha("deafborder", 0, 5)
 		sleep(8)
@@ -66,8 +66,8 @@
 		ADD_TRAIT(M, TRAIT_MUTE, "rune")
 		ADD_TRAIT(M, TRAIT_DEAF, "rune")
 
-		addtimer(CALLBACK(src, GLOBAL_PROC_REF(remove_deaf), M), deaf_duration)
-		addtimer(CALLBACK(src, GLOBAL_PROC_REF(remove_mute), M), mute_duration)
+		addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(remove_deaf), M), deaf_duration)
+		addtimer(CALLBACK(GLOBAL_PROC, GLOBAL_PROC_REF(remove_mute), M), mute_duration)
 
 		spawn(8)
 			M.update_fullscreen_alpha("deafborder", 0, 5)
