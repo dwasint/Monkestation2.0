@@ -81,14 +81,14 @@
 
 	switch (type)
 		if (1)
-			stun_duration++
+			stun_duration = 10 SECONDS
 			anim(target = loc, a_icon = 'monkestation/code/modules/bloody_cult/icons/64x64.dmi', flick_anim = "rune_stun", sleeptime = 20, offX = -32/2, offY = -32/2, plane = ABOVE_LIGHTING_PLANE)
 			icon = 'monkestation/code/modules/bloody_cult/icons/480x480.dmi'
 			pixel_x = -224
 			pixel_y = -224
 			animate(src, alpha = 255, time = 10)
 		if (2)
-			stun_duration--
+			stun_duration = 5 SECONDS
 			anim(target = loc, a_icon = 'monkestation/code/modules/bloody_cult/icons/64x64.dmi', flick_anim = "talisman_stun", sleeptime = 20, offX = -32/2, offY = -32/2, plane = ABOVE_LIGHTING_PLANE)
 			icon = 'monkestation/code/modules/bloody_cult/icons/224x224.dmi'
 			pixel_x = -96
