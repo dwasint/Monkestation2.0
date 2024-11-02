@@ -27,7 +27,7 @@
 		builder.DisplayUI("Cultist Right Panel")
 
 	var/datum/antagonist/cult/cult_datum = user?.mind.has_antag_datum(/datum/antagonist/cult)
-	cult_datum?.gain_devotion(40, DEVOTION_TIER_2,"summon_hex",AM)
+	cult_datum?.gain_devotion(40, DEVOTION_TIER_2, "summon_hex", AM)
 
 /datum/action/cooldown/spell/pointed/conjure/struct
 	name = "Conjure Structure"
@@ -47,8 +47,8 @@
 
 
 /datum/action/cooldown/spell/pointed/conjure/struct/PreActivate(atom/target)
-	if (locate(/obj/structure/cult) in range(owner,1))
-		to_chat(owner, "<span class='warning'>You cannot perform this ritual that close from another similar structure.</span>")
+	if (locate(/obj/structure/cult) in range(owner, 1))
+		to_chat(owner, "<span class = 'warning'>You cannot perform this ritual that close from another similar structure.</span>")
 		return 1
 	var/turf/T = owner.loc
 	if (!istype(T))
@@ -58,7 +58,7 @@
 		list("Spire", "radial_spire", "Allows all cultists in the level to communicate with each others using :x"),
 		list("Forge", "radial_forge", "Enables the forging of cult blades and armor, as well as new construct shells. Raise the temperature of nearby creatures."),
 	)
-	structure = show_radial_menu(owner,T,choices,'monkestation/code/modules/bloody_cult/icons/cult_radial3.dmi',"radial-cult")
+	structure = show_radial_menu(owner, T, choices, 'monkestation/code/modules/bloody_cult/icons/cult_radial3.dmi', "radial-cult")
 	if (!T.Adjacent(owner) || !structure )
 		return 1
 	switch(structure)
@@ -72,7 +72,7 @@
 
 /datum/action/cooldown/spell/pointed/conjure/struct/post_summon(atom/movable/AM, mob/user)
 	var/datum/antagonist/cult/cult_datum = user?.mind.has_antag_datum(/datum/antagonist/cult)
-	cult_datum?.gain_devotion(10, DEVOTION_TIER_1,"raise_structure",structure)
+	cult_datum?.gain_devotion(10, DEVOTION_TIER_1, "raise_structure", structure)
 
 /datum/action/cooldown/spell/pointed/conjure/pylon
 	name = "Conjure Pylon"
@@ -90,7 +90,7 @@
 
 /datum/action/cooldown/spell/pointed/conjure/pylon/post_summon(atom/movable/AM, mob/user)
 	var/datum/antagonist/cult/cult_datum = user?.mind.has_antag_datum(/datum/antagonist/cult)
-	cult_datum?.gain_devotion(10, DEVOTION_TIER_1,"raise_structure","Pylon")
+	cult_datum?.gain_devotion(10, DEVOTION_TIER_1, "raise_structure", "Pylon")
 
 
 /datum/action/cooldown/spell/pointed/conjure/door
@@ -109,8 +109,8 @@
 
 /datum/action/cooldown/spell/pointed/conjure/door/conjure_animation(var/obj/effect/abstract/animation, var/turf/target)
 	animation.icon_state = ""
-	flick("",animation)
-	shadow(target,owner.loc,"artificer_convert")
+	flick("", animation)
+	shadow(target, owner.loc, "artificer_convert")
 	spawn(10)
 		QDEL_NULL(animation)
 

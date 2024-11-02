@@ -58,15 +58,15 @@
 
 		else if(istype(obstacle, /mob/living))
 			var/mob/living/L = obstacle
-			if (!(L.status_flags & CANKNOCKDOWN) || istype(L,/mob/living/silicon))
+			if (!(L.status_flags & CANKNOCKDOWN) || istype(L, /mob/living/silicon))
 				//can't be knocked down? you'll still take the damage.
 				src.throwing = 0
 				src.crashing = null
-				L.take_overall_damage(5,0)
+				L.take_overall_damage(5, 0)
 				if(L.buckled)
 					L.buckled.unbuckle_mob(L)
 			else
-				L.take_overall_damage(5,0)
+				L.take_overall_damage(5, 0)
 				if(L.buckled)
 					L.buckled.unbuckle_mob(L)
 				L.Stun(2)
@@ -89,11 +89,11 @@
 	if(istype(obstacle, /obj))
 		var/obj/O = obstacle
 		if(!O.anchored)
-			step(obstacle,src.dir)
+			step(obstacle, src.dir)
 		else
 			obstacle.Bumped(src)
 	else if(istype(obstacle, /mob))
-		step(obstacle,src.dir)
+		step(obstacle, src.dir)
 	else
 		obstacle.Bumped(src)
 

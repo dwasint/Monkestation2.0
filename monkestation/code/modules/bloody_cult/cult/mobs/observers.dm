@@ -16,5 +16,5 @@
 		invisibility = 0
 		alpha = 0
 		animate(src, alpha = 127, time = 0.5 SECONDS)
-		//to_chat(src, "<span class='sinister'>Even as a non-corporal being, you can feel Nar-Sie's presence altering you. You are now visible to everyone.</span>")
-		flick("rune_seer",src)
+		//to_chat(src, "<span class = 'sinister'>Even as a non-corporal being, you can feel Nar-Sie's presence altering you. You are now visible to everyone.</span>")
+		flick("rune_seer", src)

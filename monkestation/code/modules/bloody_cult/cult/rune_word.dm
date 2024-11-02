@@ -1,8 +1,8 @@
 GLOBAL_VAR_INIT(rune_words_initialized, FALSE)
 GLOBAL_LIST_INIT(rune_words, list())
 GLOBAL_LIST_INIT(rune_words_english, list("travel", "blood", "join", "hell", "destroy", "technology", "self", "see", "other", "hide"))
-GLOBAL_LIST_INIT(rune_words_rune, list("ire","ego","nahlizet","certum","veri","jatkaa","mgar","balaq", "karazet", "geeri"))
-GLOBAL_LIST_INIT(rune_words_icons, list("rune-1","rune-2","rune-4","rune-8","rune-16","rune-32","rune-64","rune-128", "rune-256", "rune-512"))
+GLOBAL_LIST_INIT(rune_words_rune, list("ire", "ego", "nahlizet", "certum", "veri", "jatkaa", "mgar", "balaq", "karazet", "geeri"))
+GLOBAL_LIST_INIT(rune_words_icons, list("rune-1", "rune-2", "rune-4", "rune-8", "rune-16", "rune-32", "rune-64", "rune-128", "rune-256", "rune-512"))
 
 /datum/rune_word
 	var/english		= "word"//don't change those

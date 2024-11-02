@@ -27,13 +27,13 @@
 /obj/item/restraints/handcuffs/cult/examine(var/mob/user)
 	..()
 	if (!isliving(loc))//shouldn't happen unless they get admin spawned
-		to_chat(user, "<span class='info'>The tentacles flailing out of this egg-like object seem like they're trying to grasp at their surroundings.</span>")
+		to_chat(user, "<span class = 'info'>The tentacles flailing out of this egg-like object seem like they're trying to grasp at their surroundings.</span>")
 	else
 		var/mob/living/carbon/C = loc
 		if (C.handcuffed == src)
-			to_chat(user, "<span class='info'>These restrict your arms and inflict tremendous pain upon both your body and psyche. But given some time you should be able to break them.</span>")
+			to_chat(user, "<span class = 'info'>These restrict your arms and inflict tremendous pain upon both your body and psyche. But given some time you should be able to break them.</span>")
 		else
-			to_chat(user, "<span class='info'>\The [C] seems to be in pain as these restrict their arms.</span>")
+			to_chat(user, "<span class = 'info'>\The [C] seems to be in pain as these restrict their arms.</span>")
 
 /obj/item/restraints/handcuffs/cult/narsie_act()
 	return

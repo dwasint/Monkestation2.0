@@ -83,19 +83,19 @@
 		. = ..()
 
 /mob/living/basic/shade/Life()
-	if (istype(loc,/obj/item/weapon/melee/soulblade))
+	if (istype(loc, /obj/item/weapon/melee/soulblade))
 		var/obj/item/weapon/melee/soulblade/SB = loc
-		if (istype(SB.loc,/obj/structure/cult/altar))
+		if (istype(SB.loc, /obj/structure/cult/altar))
 			if (SB.blood < SB.maxblood)
-				SB.blood = min(SB.maxblood,SB.blood+10)//fastest blood regen when planted on an altar
+				SB.blood = min(SB.maxblood, SB.blood+10)//fastest blood regen when planted on an altar
 			if (SB.get_integrity() < SB.max_integrity)
-				SB.update_integrity(min(SB.max_integrity,SB.get_integrity()+10))//and health regen on top
-		else if (istype(SB.loc,/mob/living))
+				SB.update_integrity(min(SB.max_integrity, SB.get_integrity()+10))//and health regen on top
+		else if (istype(SB.loc, /mob/living))
 			var/mob/living/L = SB.loc
 			if (IS_CULTIST(L) && SB.blood < SB.maxblood)
-				SB.blood = min(SB.maxblood,SB.blood+3)//fast blood regen when held by a cultist (stacks with the one below for an effective +5)
-		if (SB.linked_cultist && (get_dist(get_turf(SB.linked_cultist),get_turf(src)) <= 5))
-			SB.blood = min(SB.maxblood,SB.blood+2)//slow blood regen when near your linked cultist
+				SB.blood = min(SB.maxblood, SB.blood+3)//fast blood regen when held by a cultist (stacks with the one below for an effective +5)
+		if (SB.linked_cultist && (get_dist(get_turf(SB.linked_cultist), get_turf(src)) <= 5))
+			SB.blood = min(SB.maxblood, SB.blood+2)//slow blood regen when near your linked cultist
 		if (SB.passivebloodregen < (SB.blood/3))
 			SB.passivebloodregen++
 		if ((SB.passivebloodregen >= (SB.blood/3)) && (SB.blood < SB.maxblood))

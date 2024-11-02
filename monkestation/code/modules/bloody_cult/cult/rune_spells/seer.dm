@@ -50,7 +50,7 @@
 	R.one_pulse()
 
 	if (pay_blood())
-		seer_ritual = new /obj/effect/cult_ritual/seer(R.loc,activator,src)
+		seer_ritual = new /obj/effect/cult_ritual/seer(R.loc, activator, src)
 	else
 		qdel(src)
 
@@ -60,13 +60,13 @@
 	if (locate(/obj/effect/cult_ritual/seer) in M)
 		var/obj/item/weapon/talisman/T = spell_holder
 		T.uses++
-		to_chat(M, "<span class='warning'>You are still under the effects of a Seer talisman.</span>")
+		to_chat(M, "<span class = 'warning'>You are still under the effects of a Seer talisman.</span>")
 		qdel(src)
 		return
 
 	M.see_invisible = SEE_INVISIBLE_OBSERVER
 	anim(target = M, a_icon = 'monkestation/code/modules/bloody_cult/icons/160x160.dmi', a_icon_state = "rune_seer", lay = ABOVE_OBJ_LAYER, offX = -32*2, offY = -32*2, plane = GAME_PLANE, invis = INVISIBILITY_OBSERVER, alph = 200, sleeptime = talisman_duration, animate_movement = TRUE)
-	new /obj/effect/cult_ritual/seer(activator,activator,null,TRUE, talisman_duration)
+	new /obj/effect/cult_ritual/seer(activator, activator, null, TRUE, talisman_duration)
 	qdel(src)
 
 var/list/seer_rituals = list()
@@ -78,7 +78,7 @@ var/list/seer_rituals = list()
 	pixel_x = -32*2
 	pixel_y = -32*2
 	alpha = 200
-	invisibility=INVISIBILITY_OBSERVER
+	invisibility = INVISIBILITY_OBSERVER
 	layer = ABOVE_OBJ_LAYER
 	plane = GAME_PLANE
 	mouse_opacity = 0
@@ -87,7 +87,7 @@ var/list/seer_rituals = list()
 	var/list/propension = list()
 	var/talisman = FALSE
 
-/obj/effect/cult_ritual/seer/New(var/turf/loc, var/mob/living/user, var/datum/rune_spell/seer/runespell,var/talisman_ritual = FALSE,var/talisman_duration = 60 SECONDS)
+/obj/effect/cult_ritual/seer/New(var/turf/loc, var/mob/living/user, var/datum/rune_spell/seer/runespell, var/talisman_ritual = FALSE, var/talisman_duration = 60 SECONDS)
 	..()
 	ADD_TRAIT(user, TRAIT_SEER, REF(src))
 	seer_rituals.Add(src)
@@ -100,7 +100,7 @@ var/list/seer_rituals = list()
 			source.abort(RITUALABORT_GONE)
 		qdel(src)
 		return
-	to_chat(caster, "<span class='notice'>You find yourself able to see through the gaps in the veil. You can see and interact with the other side, and also find out the crew's propensity to be successfully converted, whether they are <b><font color='green'>Willing</font></b>, <b><font color='orange'>Uncertain</font></b>, or <b><font color='red'>Unconvertible</font></b>.</span>")
+	to_chat(caster, "<span class = 'notice'>You find yourself able to see through the gaps in the veil. You can see and interact with the other side, and also find out the crew's propensity to be successfully converted, whether they are <b><font color = 'green'>Willing</font></b>, <b><font color = 'orange'>Uncertain</font></b>, or <b><font color = 'red'>Unconvertible</font></b>.</span>")
 	if (talisman)
 		spawn(talisman_duration)
 			qdel(src)
@@ -110,7 +110,7 @@ var/list/seer_rituals = list()
 	seer_rituals.Remove(src)
 	REMOVE_TRAIT(caster, TRAIT_SEER, REF(src))
 	STOP_PROCESSING(SSobj, src)
-	to_chat(caster, "<span class='notice'>You can no longer discern through the veil.</span>")
+	to_chat(caster, "<span class = 'notice'>You can no longer discern through the veil.</span>")
 	caster = null
 	if (source)
 		source.abort()

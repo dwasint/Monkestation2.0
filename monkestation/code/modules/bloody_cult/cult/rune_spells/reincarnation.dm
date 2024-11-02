@@ -23,7 +23,7 @@
 
 	shade = locate(/mob/living/basic/shade) in R.loc
 	if (!shade)
-		to_chat(activator, "<span class='warning'>There needs to be a shade standing above the rune.</span>")
+		to_chat(activator, "<span class = 'warning'>There needs to be a shade standing above the rune.</span>")
 		qdel(src)
 		return
 
@@ -35,15 +35,15 @@
 	update_progbar()
 	if (activator.client)
 		activator.client.images |= progbar
-	spell_holder.overlays += image('monkestation/code/modules/bloody_cult/icons/cult.dmi',"build")
-	to_chat(activator, "<span class='rose'>This ritual has a very high blood cost per second, but it can be completed faster by having multiple cultists partake in it.</span>")
+	spell_holder.overlays += image('monkestation/code/modules/bloody_cult/icons/cult.dmi', "build")
+	to_chat(activator, "<span class = 'rose'>This ritual has a very high blood cost per second, but it can be completed faster by having multiple cultists partake in it.</span>")
 	spawn()
 		payment()
 
 /datum/rune_spell/reincarnation/cast_talisman()//we spawn an invisible rune under our feet that works like the regular one
 	var/obj/effect/new_rune/R = new(get_turf(activator))
 	R.icon_state = "temp"
-	R.active_spell = new type(activator,R)
+	R.active_spell = new type(activator, R)
 	qdel(src)
 
 /datum/rune_spell/reincarnation/midcast(mob/add_cultist)
@@ -55,7 +55,7 @@
 		add_cultist.client.images |= progbar
 
 /datum/rune_spell/reincarnation/abort(var/cause)
-	spell_holder.overlays -= image('monkestation/code/modules/bloody_cult/icons/cult.dmi',"build")
+	spell_holder.overlays -= image('monkestation/code/modules/bloody_cult/icons/cult.dmi', "build")
 	if (shade)
 		shade.loc = husk.loc
 	if (husk)
@@ -70,20 +70,20 @@
 		failsafe++
 		//are our payers still here and about?
 		for(var/mob/living/L in contributors)
-			if (!IS_CULTIST(L) || !(L in range(spell_holder,1)) || (L.stat != CONSCIOUS))
+			if (!IS_CULTIST(L) || !(L in range(spell_holder, 1)) || (L.stat != CONSCIOUS))
 				if (L.client)
 					L.client.images -= progbar
 				contributors.Remove(L)
 		//alright then, time to pay in blood
 		var/amount_paid = 0
 		for(var/mob/living/L in contributors)
-			var/data = use_available_blood(L, cost_upkeep,contributors[L])
+			var/data = use_available_blood(L, cost_upkeep, contributors[L])
 			if (data[BLOODCOST_RESULT] == BLOODCOST_FAILURE)//out of blood are we?
 				contributors.Remove(L)
 			else
 				amount_paid += data[BLOODCOST_TOTAL]
 				contributors[L] = data[BLOODCOST_RESULT]
-				make_tracker_effects(L.loc,spell_holder, 1, "soul", 3, /obj/effect/tracker/drain, 1)//visual feedback
+				make_tracker_effects(L.loc, spell_holder, 1, "soul", 3, /obj/effect/tracker/drain, 1)//visual feedback
 
 		accumulated_blood += amount_paid
 
@@ -106,7 +106,7 @@
 	message_admins("A rune ritual has iterated for over 1000 blood payment procs. Something's wrong there.")
 
 /datum/rune_spell/reincarnation/proc/success()
-	spell_holder.overlays -= image('monkestation/code/modules/bloody_cult/icons/cult.dmi',"build")
+	spell_holder.overlays -= image('monkestation/code/modules/bloody_cult/icons/cult.dmi', "build")
 	var/resurrector = activator.real_name
 	if (shade && husk)
 		shade.loc = husk.loc
@@ -136,7 +136,7 @@
 
 	else
 		for(var/mob/living/L in contributors)
-			to_chat(L, "<span class='warning'>Something went wrong with the ritual, the shade appears to have vanished.</span>")
+			to_chat(L, "<span class = 'warning'>Something went wrong with the ritual, the shade appears to have vanished.</span>")
 
 
 	for(var/mob/living/L in contributors)

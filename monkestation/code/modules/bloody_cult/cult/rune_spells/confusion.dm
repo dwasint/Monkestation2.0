@@ -14,21 +14,21 @@ GLOBAL_LIST_INIT(confusion_victims, list())
 	<br><br>Robots in view will be simply blinded for a short while, cameras however will remain dark until someone resets their wiring.\
 	<br><br>Because it also causes a few seconds of blindness to those affected, this rune is useful as both a way to initiate a fight, escape, or kidnap someone amidst the chaos.\
 	<br><br>The duration is a bit shorter when used from a talisman, but you can slap it directly on someone to only afflict them with the same duration as a rune's."
-	var/rune_duration=300//times are in tenths of a second
-	var/talisman_duration=200
-	var/hallucination_radius=25
+	var/rune_duration = 30 SECONDS
+	var/talisman_duration = 20 SECONDS
+	var/hallucination_radius = 25
 	touch_cast = 1
 
-/datum/rune_spell/confusion/cast_touch(var/mob/M)
-	var/turf/T = get_turf(M)
-	invoke(activator,invocation,1)
+/datum/rune_spell/confusion/cast_touch(mob/mob)
+	var/turf/T = get_turf(mob)
+	invoke(activator, invocation, 1)
 
-	new /obj/effect/cult_ritual/confusion(T,rune_duration,hallucination_radius, M, activator)
+	new /obj/effect/cult_ritual/confusion(T, rune_duration, hallucination_radius, mob, activator)
 
 	qdel(src)
 
-/datum/rune_spell/confusion/cast(var/duration = rune_duration)
-	new /obj/effect/cult_ritual/confusion(spell_holder,duration,hallucination_radius, null, activator)
+/datum/rune_spell/confusion/cast(duration = rune_duration)
+	new /obj/effect/cult_ritual/confusion(spell_holder, duration, hallucination_radius, null, activator)
 	qdel(spell_holder)
 
 /datum/rune_spell/confusion/cast_talisman()//talismans have the same range, but the effect lasts shorter.
@@ -43,9 +43,9 @@ GLOBAL_LIST_INIT(confusion_victims, list())
 	plane = ABOVE_LIGHTING_PLANE
 	mouse_opacity = 0
 	var/duration = 5
-	var/hallucination_radius=25
+	var/hallucination_radius = 25
 
-/obj/effect/cult_ritual/confusion/New(turf/loc,var/duration=300,var/radius=25,var/mob/specific_victim=null, var/mob/culprit)
+/obj/effect/cult_ritual/confusion/New(turf/loc, duration = 30 SECONDS, radius = 25, mob/specific_victim = null, mob/culprit)
 	..()
 	//Alright, this is a pretty interesting rune, first of all we prepare the fake cult floors & walls that the victims will see.
 	var/turf/T = get_turf(src)
@@ -53,7 +53,7 @@ GLOBAL_LIST_INIT(confusion_victims, list())
 	if (!specific_victim)
 		playsound(T, 'monkestation/code/modules/bloody_cult/sound/confusion_start.ogg', 75, 0, 0)
 	for(var/turf/U in range(radius, T))
-		if (istype(U,/area/station/service/chapel))//the chapel is protected against such illusions, the mobs in it will still be affected however.
+		if (istype(U, /area/station/service/chapel))//the chapel is protected against such illusions, the mobs in it will still be affected however.
 			continue
 		var/dist = cheap_pythag(U.x - T.x, U.y - T.y)
 		if (dist < 15 || prob((radius-dist)*4))
@@ -92,7 +92,7 @@ GLOBAL_LIST_INIT(confusion_victims, list())
 			if (M in GLOB.confusion_victims)
 				CM = GLOB.confusion_victims[M]
 			else
-				CM = new(M,duration)
+				CM = new(M, duration)
 				GLOB.confusion_victims[M] = CM
 
 			if (M.stat != DEAD && our_cultist)
@@ -102,10 +102,10 @@ GLOBAL_LIST_INIT(confusion_victims, list())
 					our_cultist.gain_devotion(50, DEVOTION_TIER_2, "confusion_carbon", M)
 
 			spawn()
-				CM.apply_confusion(T,hallucinated_turfs)
+				CM.apply_confusion(T, hallucinated_turfs)
 
 		if (issilicon(M) && !isAI(M))//Silicons get a fade to black, then just a flash, until I can think of something else
-			shadow(M,T)
+			shadow(M, T)
 			if (M.stat != DEAD && our_cultist)
 				our_cultist.gain_devotion(50, DEVOTION_TIER_2, "confusion_silicon", M)
 			M.overlay_fullscreen("blindblack", /atom/movable/screen/fullscreen/black)
@@ -116,7 +116,7 @@ GLOBAL_LIST_INIT(confusion_victims, list())
 	//now to blind cameras, the effects on cameras do not time out, but they can be fixed
 	if (!specific_victim)
 		for(var/obj/machinery/camera/C in dview(world.view, T, INVISIBILITY_MAXIMUM))
-			shadow(C,T)
+			shadow(C, T)
 			var/col = C.color
 			animate(C, color = col, time = 4)
 			animate(color = "black", time = 5)
@@ -132,9 +132,9 @@ GLOBAL_LIST_INIT(confusion_victims, list())
 	var/time_of_last_confusion = 0
 	var/list/my_hallucinated_stuff = list()
 	var/mob/victim = null
-	var/duration = 300
+	var/duration = 30 SECONDS
 
-/datum/confusion_manager/New(var/mob/M,var/D)
+/datum/confusion_manager/New(mob/M, D)
 	..()
 	victim = M
 	duration = D
@@ -144,12 +144,12 @@ GLOBAL_LIST_INIT(confusion_victims, list())
 	victim = null
 	..()
 
-/datum/confusion_manager/proc/apply_confusion(var/turf/T,var/list/hallucinated_turfs)
-	shadow(victim,T)//shadow trail moving from the spell_holder to the victim
+/datum/confusion_manager/proc/apply_confusion(turf/T, list/hallucinated_turfs)
+	shadow(victim, T)//shadow trail moving from the spell_holder to the victim
 	anim(target = victim, a_icon = 'monkestation/code/modules/bloody_cult/icons/effects.dmi', flick_anim = "rune_blind", plane = ABOVE_LIGHTING_PLANE)
 
 	if (!time_of_last_confusion)
-		start_confusion(T,hallucinated_turfs)
+		start_confusion(T, hallucinated_turfs)
 		return
 	if (victim.mind)
 		message_admins("BLOODCULT: [key_name(victim)] had the effects of Confusion refreshed back to [duration/10] seconds.")
@@ -157,35 +157,35 @@ GLOBAL_LIST_INIT(confusion_victims, list())
 	var/time_key = world.time
 	time_of_last_confusion = time_key
 	victim.update_fullscreen_alpha("blindblack", 255, 5)
-	sleep (10)
-	refresh_confusion(T,hallucinated_turfs,time_key)
+	sleep(10)
+	refresh_confusion(T, hallucinated_turfs, time_key)
 
-/datum/confusion_manager/proc/start_confusion(var/turf/T,var/list/hallucinated_turfs)
+/datum/confusion_manager/proc/start_confusion(var/turf/T, var/list/hallucinated_turfs)
 	var/time_key = world.time
 	time_of_last_confusion = time_key
 	if (victim.mind)
 		message_admins("BLOODCULT: [key_name(victim)] is now under the effects of Confusion for [duration/10] seconds.")
 		log_admin("BLOODCULT: [key_name(victim)] is now under the effects of Confusion for [duration/10] seconds.")
-	to_chat(victim, "<span class='danger'>Your vision goes dark, panic and paranoia take their toll on your mind.</span>")
+	to_chat(victim, "<span class = 'danger'>Your vision goes dark, panic and paranoia take their toll on your mind.</span>")
 	victim.overlay_fullscreen("blindborder", /atom/movable/screen/fullscreen/confusion_border)//victims DO still get blinded for a second
 	victim.overlay_fullscreen("blindblack", /atom/movable/screen/fullscreen/black)//which will allow us to subtly reveal the surprise
 	victim.update_fullscreen_alpha("blindblack", 255, 5)
 	victim.playsound_local(victim, 'monkestation/code/modules/bloody_cult/sound/confusion.ogg', 50, 0, 0, 0, 0)
 	sleep(10)
 	victim.overlay_fullscreen("blindblind", /atom/movable/screen/fullscreen/blind)
-	refresh_confusion(T,hallucinated_turfs,time_key)
+	refresh_confusion(T, hallucinated_turfs, time_key)
 
-/datum/confusion_manager/proc/refresh_confusion(var/turf/T,var/list/hallucinated_turfs,var/time_key)
+/datum/confusion_manager/proc/refresh_confusion(turf/T,  list/hallucinated_turfs, time_key)
 	victim.update_fullscreen_alpha("blindblind", 255, 0)
 	victim.update_fullscreen_alpha("blindblack", 0, 10)
 	victim.update_fullscreen_alpha("blindblind", 0, 80)
 	victim.update_fullscreen_alpha("blindborder", 150, 5)
 
 	if (victim.client)
-		var/static/list/hallucination_mobs = list("faithless","forgotten","otherthing")
+		var/static/list/hallucination_mobs = list("faithless", "forgotten", "otherthing")
 		victim.client.images.Remove(my_hallucinated_stuff)//removing images caused by every blind rune used consecutively on that mob
 		my_hallucinated_stuff = hallucinated_turfs.Copy()
-		for(var/mob/living/L in range(T,25))//All mobs in a large radius will look like monsters to the victims.
+		for(var/mob/living/L in range(T, 25))//All mobs in a large radius will look like monsters to the victims.
 			if (L == victim)
 				continue//the victims still see themselves as humans (or whatever they are)
 			var/image/override_overlay = image(icon = 'monkestation/code/modules/bloody_cult/icons/animal.dmi', loc = L, icon_state = pick(hallucination_mobs))
@@ -193,7 +193,7 @@ GLOBAL_LIST_INIT(confusion_victims, list())
 			my_hallucinated_stuff.Add(override_overlay)
 		victim.client.images.Add(my_hallucinated_stuff)
 
-	sleep(duration-5)
+	sleep(duration - 5)
 
 	if (time_of_last_confusion != time_key)//only the last applied confusion gets to end it
 		return

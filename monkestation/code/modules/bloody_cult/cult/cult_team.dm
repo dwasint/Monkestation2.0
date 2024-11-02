@@ -80,7 +80,7 @@
 	var/datum/bloodcult_ritual/bloodspill_ritual = null
 
 	var/list/possible_rituals = list()
-	var/list/rituals = list(RITUAL_FACTION_1,RITUAL_FACTION_2,RITUAL_FACTION_3)
+	var/list/rituals = list(RITUAL_FACTION_1, RITUAL_FACTION_2, RITUAL_FACTION_3)
 
 	var/countdown_to_first_rituals = 5
 
@@ -100,7 +100,7 @@
 	initialize_rune_words()
 	for (var/datum/mind/mind in members)
 		var/mob/M = mind.current
-		to_chat(M, "<span class='sinister'>Our communion must remain small and secretive until we are confident enough.</span>")
+		to_chat(M, "<span class = 'sinister'>Our communion must remain small and secretive until we are confident enough.</span>")
 		previously_converted |= mind
 
 
@@ -125,7 +125,7 @@
 	for (var/datum/antagonist/cult/cultist in members)
 		var/mob/O = cultist.owner.current
 		if (O)
-			to_chat(O, "<span class='sinister'>A new ritual is available...</span>")
+			to_chat(O, "<span class = 'sinister'>A new ritual is available...</span>")
 		var/datum/mind/M = cultist.owner
 		if ("Cult Panel" in M.active_uis)
 			var/datum/mind_ui/m_ui = M.active_uis["Cult Panel"]
@@ -144,16 +144,16 @@
 	for (var/mob/M in GLOB.player_list)
 		if (!M.client)
 			continue
-		if (istype(M,/mob/dead/new_player))
+		if (istype(M, /mob/dead/new_player))
 			continue
 		if (M.stat != DEAD)
 			living_players++
-	new_cap =  clamp(round(living_players / 3),min_cultist_cap,max_cultist_cap)
+	new_cap =  clamp(round(living_players / 3), min_cultist_cap, max_cultist_cap)
 	if (new_cap > cultist_cap)
 		cultist_cap = new_cap
 		for (var/datum/mind/mind in members)
 			var/mob/M = mind.current
-			to_chat(M, "<span class='sinister'>The station population is now large enough for <span class='userdanger'>[cultist_cap]</span> cultists, plus one of each construct types.</span>")
+			to_chat(M, "<span class = 'sinister'>The station population is now large enough for <span class = 'userdanger'>[cultist_cap]</span> cultists, plus one of each construct types.</span>")
 
 /datum/team/cult/proc/CanConvert(construct_type)
 	var/list/free_construct_slots = list()
@@ -197,7 +197,7 @@
 						for (var/datum/mind/mind in members)
 							var/mob/M = mind.current
 							if (M)
-								to_chat(M, "<span class='sinister'>Someone has completed a ritual, rewarding the entire cult...soon another ritual will take its place.</span>")
+								to_chat(M, "<span class = 'sinister'>Someone has completed a ritual, rewarding the entire cult...soon another ritual will take its place.</span>")
 						spawn(10 MINUTES)
 							if (!rituals[ritual_slot])
 								replace_rituals(ritual_slot)
@@ -213,7 +213,7 @@
 			for (var/datum/mind/mind in members)
 				var/mob/M = mind.current
 				if (M)
-					to_chat(M, "<span class='sinister'>The Eclipse has passed. You won't be able to tear reality aboard this station anymore. Escape the station alive with your fellow cultists so you may try again another day.</span>")
+					to_chat(M, "<span class = 'sinister'>The Eclipse has passed. You won't be able to tear reality aboard this station anymore. Escape the station alive with your fellow cultists so you may try again another day.</span>")
 			for(var/obj/structure/cult/spire/S in GLOB.cult_spires)
 				S.upgrade(1)
 		if (BLOODCULT_STAGE_ECLIPSE)
@@ -250,11 +250,11 @@
 			spawn(5 SECONDS)
 				for (var/datum/mind/mind in members)
 					var/mob/M = mind.current
-					to_chat(M, "<span class='sinister'>With the blood stone destroyed, the tear through the veil has been mended, and a great deal of occult energies have been purged from the Station.</span>")
+					to_chat(M, "<span class = 'sinister'>With the blood stone destroyed, the tear through the veil has been mended, and a great deal of occult energies have been purged from the Station.</span>")
 					sleep(3 SECONDS)
-					to_chat(M, "<span class='sinister'>Your connection to the Geometer of Blood has grown weaker and you can no longer recall the runes as easily as you did before. Maybe an Arcane Tome can alleviate the problem.</span>")
+					to_chat(M, "<span class = 'sinister'>Your connection to the Geometer of Blood has grown weaker and you can no longer recall the runes as easily as you did before. Maybe an Arcane Tome can alleviate the problem.</span>")
 					sleep(3 SECONDS)
-					to_chat(M, "<span class='sinister'>Lastly it seems that the toll of the ritual on your body hasn't gone away. Going unnoticed will be a lot harder.</span>")
+					to_chat(M, "<span class = 'sinister'>Lastly it seems that the toll of the ritual on your body hasn't gone away. Going unnoticed will be a lot harder.</span>")
 		if (BLOODCULT_STAGE_NARSIE)
 			if (bloodstone)
 				anim(target = bloodstone.loc, a_icon = 'icons/obj/cult/narsie.dmi', flick_anim = "narsie_spawn_anim_start", offX = -236, offY = -256, plane = MASSIVE_OBJ_PLANE)
@@ -273,11 +273,11 @@
 /datum/team/cult/proc/narnar_ghosts()
 	for (var/mob/dead/observer/O in GLOB.player_list)
 		O.narsie_act()
-		sleep(rand(1,5))
+		sleep(rand(1, 5))
 
 /datum/team/cult/proc/HandleRecruitedRole(datum/antagonist/R)
 	if (cult_reminders.len)
-		to_chat(R.owner.current, "<span class='notice'>Other cultists have shared some of their knowledge. It will be stored in your memory (check your Notes under the IC tab).</span>")
+		to_chat(R.owner.current, "<span class = 'notice'>Other cultists have shared some of their knowledge. It will be stored in your memory (check your Notes under the IC tab).</span>")
 	/*
 	for (var/reminder in cult_reminders)
 		R.antag.store_memory("Shared Cultist Knowledge: [reminder].")
@@ -344,7 +344,7 @@
 						cult_datum.assign_rituals()
 						var/mob/M = mind.current
 						if (M)
-							to_chat(M, "<span class='sinister'>Although you can generate devotion by performing most cult activities, a couple rituals for you to perform are now available. Check the cult panel.</span>")
+							to_chat(M, "<span class = 'sinister'>Although you can generate devotion by performing most cult activities, a couple rituals for you to perform are now available. Check the cult panel.</span>")
 
 
 		if (BLOODCULT_STAGE_MISSED)
@@ -399,20 +399,20 @@
 
 	switch(stage)
 		if(BLOODCULT_STAGE_MISSED)
-			parts += "<span class='redtext big'>The cult missed the chance to summon Nar'Sie. They have failed her!</span>"
+			parts += "<span class = 'redtext big'>The cult missed the chance to summon Nar'Sie. They have failed her!</span>"
 		if(BLOODCULT_STAGE_DEFEATED)
-			parts +=  "<span class='redtext big'>The crew has destroyed the bloodstone preventing Nar'Sie from destroying the station.</span>"
+			parts +=  "<span class = 'redtext big'>The crew has destroyed the bloodstone preventing Nar'Sie from destroying the station.</span>"
 		if(BLOODCULT_STAGE_NARSIE)
-			parts += "<span class='greentext big'>The cult has succeeded! Nar'Sie has snuffed out another torch in the void!</span>"
+			parts += "<span class = 'greentext big'>The cult has succeeded! Nar'Sie has snuffed out another torch in the void!</span>"
 
 	if(members.len)
-		parts += "<span class='header'>The cultists were:</span>"
+		parts += "<span class = 'header'>The cultists were:</span>"
 		if(length(true_cultists))
 			parts += printplayerlist(true_cultists)
 		else
 			parts += printplayerlist(members)
 
-	return "<div class='panel redborder'>[parts.Join("<br>")]</div>"
+	return "<div class = 'panel redborder'>[parts.Join("<br>")]</div>"
 
 /// Sets a blood target for the cult.
 /datum/team/cult/proc/set_blood_target(atom/new_target, mob/marker, duration = 90 SECONDS)
@@ -439,7 +439,7 @@
 			continue
 
 		to_chat(cultist.current, span_bold(span_cultlarge("[marker] has marked [blood_target] in the [target_area.name] as the cult's top priority, get there immediately!")))
-		SEND_SOUND(cultist.current, sound(pick('sound/hallucinations/over_here2.ogg','sound/hallucinations/over_here3.ogg'), 0, 1, 75))
+		SEND_SOUND(cultist.current, sound(pick('sound/hallucinations/over_here2.ogg', 'sound/hallucinations/over_here3.ogg'), 0, 1, 75))
 		cultist.current.client.images += blood_target_image
 
 	if(duration != INFINITY)

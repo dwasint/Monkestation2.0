@@ -23,7 +23,7 @@ var/list/rune_appearances_cache = list()
 		return
 
 	var/datum/rune_spell/rune_name = get_rune_spell(null, null, "examine", rune.word1, rune.word2, rune.word3)
-	text_holder.maptext = MAPTEXT_YOU_MURDERER("<span style='text-align: center; -dm-text-outline: 1px black'> [rune_name ? rune_name.name : "Unknown Rune"] </span>")
+	text_holder.maptext = MAPTEXT_YOU_MURDERER("<span style = 'text-align: center; -dm-text-outline: 1px black'> [rune_name ? rune_name.name : "Unknown Rune"] </span>")
 	var/image/new_image = new(rune)
 	new_image.appearance = text_holder.appearance
 	SET_PLANE_EXPLICIT(new_image, new_image.plane, rune)
@@ -112,13 +112,13 @@ var/list/rune_appearances_cache = list()
 	QDEL_NULL(blood_image)
 
 	if (word1)
-		erase_word(word1.english,blood1)
+		erase_word(word1.english, blood1)
 		word1 = null
 	if (word2)
-		erase_word(word2.english,blood2)
+		erase_word(word2.english, blood2)
 		word2 = null
 	if (word3)
-		erase_word(word3.english,blood3)
+		erase_word(word3.english, blood3)
 		word3 = null
 
 	blood1 = null
@@ -136,18 +136,18 @@ var/list/rune_appearances_cache = list()
 /obj/effect/new_rune/examine(mob/user)
 	. = ..()
 	if(can_read_rune(user) || isobserver(user))
-		var/datum/rune_spell/rune_name = get_rune_spell(null, null, "examine", word1,word2,word3)
-		. += "<span class='info'>It reads: <i>[word1 ? "[word1.rune]" : ""][word2 ? " [word2.rune]" : ""][word3 ? " [word3.rune]" : ""]</i>. [rune_name ? " That's a <b>[initial(rune_name.name)]</b> rune." : "It doesn't match any rune spells."]</span>"
+		var/datum/rune_spell/rune_name = get_rune_spell(null, null, "examine", word1, word2, word3)
+		. += "<span class = 'info'>It reads: <i>[word1 ? "[word1.rune]" : ""][word2 ? " [word2.rune]" : ""][word3 ? " [word3.rune]" : ""]</i>. [rune_name ? " That's a <b>[initial(rune_name.name)]</b> rune." : "It doesn't match any rune spells."]</span>"
 		if(rune_name)
-			. +=initial(rune_name.desc)
-			if (istype(active_spell,/datum/rune_spell/portalentrance))
+			. += initial(rune_name.desc)
+			if (istype(active_spell, /datum/rune_spell/portalentrance))
 				var/datum/rune_spell/portalentrance/PE = active_spell
 				if (PE.network)
-					. +="<span class='info'>This entrance was attuned to the <b>[PE.network]</b> path.</span>"
-			if (istype(active_spell,/datum/rune_spell/portalexit))
+					. += "<span class = 'info'>This entrance was attuned to the <b>[PE.network]</b> path.</span>"
+			if (istype(active_spell, /datum/rune_spell/portalexit))
 				var/datum/rune_spell/portalexit/PE = active_spell
 				if (PE.network)
-					. +="<span class='info'>This exit was attuned to the <b>[PE.network]</b> path.</span>"
+					. += "<span class = 'info'>This exit was attuned to the <b>[PE.network]</b> path.</span>"
 
 	/*
 	//"Cult" chaplains can read the words, but they have to figure out the spell themselves. Also has a chance to trigger a taunt from Nar-Sie.
@@ -155,22 +155,22 @@ var/list/rune_appearances_cache = list()
 		var/list/cult_blood_chaplain = list("cult", "narsie", "nar'sie", "narnar", "nar-sie")
 		var/list/cult_clock_chaplain = list("ratvar", "clockwork", "ratvarism")
 		if (religion_name in cult_blood_chaplain)
-			to_chat(user, "<span class='info'>It reads: <i>[word1.rune] [word2.rune] [word3.rune]</i>. What spell was that already?...</span>")
+			to_chat(user, "<span class = 'info'>It reads: <i>[word1.rune] [word2.rune] [word3.rune]</i>. What spell was that already?...</span>")
 			if (prob(5))
 				spawn(50)
-					to_chat(user, "<span class='game say'><span class='danger'>???-???</span> murmurs, <span class='sinister'>[pick(\
-							"Your toys won't get you much further",\
-							"Bitter that you weren't chosen?",\
-							"I dig your style, but I crave for your blood.",\
+					to_chat(user, "<span class = 'game say'><span class = 'danger'>???-???</span> murmurs, <span class = 'sinister'>[pick(\
+							"Your toys won't get you much further", \
+							"Bitter that you weren't chosen?", \
+							"I dig your style, but I crave for your blood.", \
 							"Shall we gamble then? Obviously blood is the only acceptable bargaining chip")].</span></span>")
 
 		//RIP Velard
 		else if (religion_name in cult_clock_chaplain)
-			to_chat(user, "<span class='info'>It reads a bunch of stupid shit.</span>")
+			to_chat(user, "<span class = 'info'>It reads a bunch of stupid shit.</span>")
 			if (prob(5))
 				spawn(50)
-					to_chat(user, "<span class='game say'><span class='danger'>???-???</span> murmurs, <span class='sinister'>[pick(\
-							"Oh just fuck off",)].</span></span>")
+					to_chat(user, "<span class = 'game say'><span class = 'danger'>???-???</span> murmurs, <span class = 'sinister'>[pick(\
+							"Oh just fuck off", )].</span></span>")
 	*/
 
 /obj/effect/new_rune/proc/can_read_rune(var/mob/user) //Overload for specific criteria.
@@ -193,7 +193,7 @@ var/list/rune_appearances_cache = list()
 	qdel(src)
 
 
-/obj/effect/new_rune/proc/write_word(var/word,var/datum/reagent/blood/blood)
+/obj/effect/new_rune/proc/write_word(var/word, var/datum/reagent/blood/blood)
 	if (!word)
 		return
 	var/turf/T = get_turf(src)
@@ -202,7 +202,7 @@ var/list/rune_appearances_cache = list()
 		write_color = GLOB.blood_types[blood.data["blood_type"]]?.color
 	anim(target = T, a_icon = 'monkestation/code/modules/bloody_cult/icons/deityrunes.dmi', flick_anim = "[word]-write", lay = layer+0.1, col = write_color, plane = plane)
 
-/obj/effect/new_rune/proc/erase_word(var/word,var/datum/reagent/blood/blood)
+/obj/effect/new_rune/proc/erase_word(var/word, var/datum/reagent/blood/blood)
 	if (!word)
 		return
 	var/turf/T = get_turf(src)
@@ -215,7 +215,7 @@ var/list/rune_appearances_cache = list()
 	if (!word)
 		return
 	var/obj/effect/abstract/A = anim(target = get_turf(src), a_icon = 'monkestation/code/modules/bloody_cult/icons/deityrunes.dmi', a_icon_state = "[word]-tear", lay = layer+0.2, plane = plane)
-	animate(A, alpha = 0,time = 5)
+	animate(A, alpha = 0, time = 5)
 
 /obj/effect/new_rune/ex_act(var/severity)
 	switch (severity)
@@ -258,41 +258,41 @@ var/list/rune_appearances_cache = list()
 	if (lookup in rune_appearances_cache)
 		rune_render = image(rune_appearances_cache[lookup])
 	else
-		var/image/I1 = image('monkestation/code/modules/bloody_cult/icons/deityrunes.dmi',src,"")
+		var/image/I1 = image('monkestation/code/modules/bloody_cult/icons/deityrunes.dmi', src, "")
 		if (word1)
 			I1.icon_state = word1.english
 			if (blood1)
 				I1.color = GLOB.blood_types[blood1.data["blood_type"]]?.color || COLOR_BLOOD
 
-		var/image/I2 = image('monkestation/code/modules/bloody_cult/icons/deityrunes.dmi',src,"")
+		var/image/I2 = image('monkestation/code/modules/bloody_cult/icons/deityrunes.dmi', src, "")
 		if (word2 && draw_up_to >= 2)
 			I2.icon_state = word2.english
 			if (blood2)
 				I2.color = GLOB.blood_types[blood2.data["blood_type"]]?.color || COLOR_BLOOD
-		var/image/I3 = image('monkestation/code/modules/bloody_cult/icons/deityrunes.dmi',src,"")
+		var/image/I3 = image('monkestation/code/modules/bloody_cult/icons/deityrunes.dmi', src, "")
 		if (word3 && draw_up_to >= 3)
 			I3.icon_state = word3.english
 			if (blood3)
 				I3.color = GLOB.blood_types[blood3.data["blood_type"]]?.color || COLOR_BLOOD
 
-		rune_render = image('monkestation/code/modules/bloody_cult/icons/deityrunes.dmi',src,"")
+		rune_render = image('monkestation/code/modules/bloody_cult/icons/deityrunes.dmi', src, "")
 		rune_render.overlays += I1
 		rune_render.overlays += I2
 		rune_render.overlays += I3
 
 		if(animated)
 			if (word1)
-				var/image/I =  image('monkestation/code/modules/bloody_cult/icons/deityrunes.dmi',src,"[word1.english]-tear")
+				var/image/I =  image('monkestation/code/modules/bloody_cult/icons/deityrunes.dmi', src, "[word1.english]-tear")
 				I.color = "black"
 				I.appearance_flags = RESET_COLOR
 				rune_render.overlays += I
 			if (word2)
-				var/image/I =  image('monkestation/code/modules/bloody_cult/icons/deityrunes.dmi',src,"[word2.english]-tear")
+				var/image/I =  image('monkestation/code/modules/bloody_cult/icons/deityrunes.dmi', src, "[word2.english]-tear")
 				I.color = "black"
 				I.appearance_flags = RESET_COLOR
 				rune_render.overlays += I
 			if (word3)
-				var/image/I =  image('monkestation/code/modules/bloody_cult/icons/deityrunes.dmi',src,"[word3.english]-tear")
+				var/image/I =  image('monkestation/code/modules/bloody_cult/icons/deityrunes.dmi', src, "[word3.english]-tear")
 				I.color = "black"
 				I.appearance_flags = RESET_COLOR
 				rune_render.overlays += I
@@ -314,35 +314,35 @@ var/list/rune_appearances_cache = list()
 
 /obj/effect/proc/idle_pulse()
 	//This masterpiece of a color matrix stack produces a nice animation no matter which color the rune is.
-	animate(src, color = list(1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1,0,0,0,0), time = 10, loop = -1)//1
-	animate(color = list(1.125,0.06,0,0,0,1.125,0.06,0,0.06,0,1.125,0,0,0,0,1,0,0,0,0), time = 2)//2
-	animate(color = list(1.25,0.12,0,0,0,1.25,0.12,0,0.12,0,1.25,0,0,0,0,1,0,0,0,0), time = 2)//3
-	animate(color = list(1.375,0.19,0,0,0,1.375,0.19,0,0.19,0,1.375,0,0,0,0,1,0,0,0,0), time = 1.5)//4
-	animate(color = list(1.5,0.27,0,0,0,1.5,0.27,0,0.27,0,1.5,0,0,0,0,1,0,0,0,0), time = 1.5)//5
-	animate(color = list(1.625,0.35,0.06,0,0.06,1.625,0.35,0,0.35,0.06,1.625,0,0,0,0,1,0,0,0,0), time = 1)//6
-	animate(color = list(1.75,0.45,0.12,0,0.12,1.75,0.45,0,0.45,0.12,1.75,0,0,0,0,1,0,0,0,0), time = 1)//7
-	animate(color = list(1.875,0.56,0.19,0,0.19,1.875,0.56,0,0.56,0.19,1.875,0,0,0,0,1,0,0,0,0), time = 1)//8
-	animate(color = list(2,0.67,0.27,0,0.27,2,0.67,0,0.67,0.27,2,0,0,0,0,1,0,0,0,0), time = 5)//9
-	animate(color = list(1.875,0.56,0.19,0,0.19,1.875,0.56,0,0.56,0.19,1.875,0,0,0,0,1,0,0,0,0), time = 1)//8
-	animate(color = list(1.75,0.45,0.12,0,0.12,1.75,0.45,0,0.45,0.12,1.75,0,0,0,0,1,0,0,0,0), time = 1)//7
-	animate(color = list(1.625,0.35,0.06,0,0.06,1.625,0.35,0,0.35,0.06,1.625,0,0,0,0,1,0,0,0,0), time = 1)//6
-	animate(color = list(1.5,0.27,0,0,0,1.5,0.27,0,0.27,0,1.5,0,0,0,0,1,0,0,0,0), time = 1)//5
-	animate(color = list(1.375,0.19,0,0,0,1.375,0.19,0,0.19,0,1.375,0,0,0,0,1,0,0,0,0), time = 1)//4
-	animate(color = list(1.25,0.12,0,0,0,1.25,0.12,0,0.12,0,1.25,0,0,0,0,1,0,0,0,0), time = 1)//3
-	animate(color = list(1.125,0.06,0,0,0,1.125,0.06,0,0.06,0,1.125,0,0,0,0,1,0,0,0,0), time = 1)//2
+	animate(src, color = list(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0), time = 10, loop = -1)//1
+	animate(color = list(1.125, 0.06, 0, 0, 0, 1.125, 0.06, 0, 0.06, 0, 1.125, 0, 0, 0, 0, 1, 0, 0, 0, 0), time = 2)//2
+	animate(color = list(1.25, 0.12, 0, 0, 0, 1.25, 0.12, 0, 0.12, 0, 1.25, 0, 0, 0, 0, 1, 0, 0, 0, 0), time = 2)//3
+	animate(color = list(1.375, 0.19, 0, 0, 0, 1.375, 0.19, 0, 0.19, 0, 1.375, 0, 0, 0, 0, 1, 0, 0, 0, 0), time = 1.5)//4
+	animate(color = list(1.5, 0.27, 0, 0, 0, 1.5, 0.27, 0, 0.27, 0, 1.5, 0, 0, 0, 0, 1, 0, 0, 0, 0), time = 1.5)//5
+	animate(color = list(1.625, 0.35, 0.06, 0, 0.06, 1.625, 0.35, 0, 0.35, 0.06, 1.625, 0, 0, 0, 0, 1, 0, 0, 0, 0), time = 1)//6
+	animate(color = list(1.75, 0.45, 0.12, 0, 0.12, 1.75, 0.45, 0, 0.45, 0.12, 1.75, 0, 0, 0, 0, 1, 0, 0, 0, 0), time = 1)//7
+	animate(color = list(1.875, 0.56, 0.19, 0, 0.19, 1.875, 0.56, 0, 0.56, 0.19, 1.875, 0, 0, 0, 0, 1, 0, 0, 0, 0), time = 1)//8
+	animate(color = list(2, 0.67, 0.27, 0, 0.27, 2, 0.67, 0, 0.67, 0.27, 2, 0, 0, 0, 0, 1, 0, 0, 0, 0), time = 5)//9
+	animate(color = list(1.875, 0.56, 0.19, 0, 0.19, 1.875, 0.56, 0, 0.56, 0.19, 1.875, 0, 0, 0, 0, 1, 0, 0, 0, 0), time = 1)//8
+	animate(color = list(1.75, 0.45, 0.12, 0, 0.12, 1.75, 0.45, 0, 0.45, 0.12, 1.75, 0, 0, 0, 0, 1, 0, 0, 0, 0), time = 1)//7
+	animate(color = list(1.625, 0.35, 0.06, 0, 0.06, 1.625, 0.35, 0, 0.35, 0.06, 1.625, 0, 0, 0, 0, 1, 0, 0, 0, 0), time = 1)//6
+	animate(color = list(1.5, 0.27, 0, 0, 0, 1.5, 0.27, 0, 0.27, 0, 1.5, 0, 0, 0, 0, 1, 0, 0, 0, 0), time = 1)//5
+	animate(color = list(1.375, 0.19, 0, 0, 0, 1.375, 0.19, 0, 0.19, 0, 1.375, 0, 0, 0, 0, 1, 0, 0, 0, 0), time = 1)//4
+	animate(color = list(1.25, 0.12, 0, 0, 0, 1.25, 0.12, 0, 0.12, 0, 1.25, 0, 0, 0, 0, 1, 0, 0, 0, 0), time = 1)//3
+	animate(color = list(1.125, 0.06, 0, 0, 0, 1.125, 0.06, 0, 0.06, 0, 1.125, 0, 0, 0, 0, 1, 0, 0, 0, 0), time = 1)//2
 
 
 /obj/effect/new_rune/proc/one_pulse()
-	animate(src, color = list(1.625,0.35,0.06,0,0.06,1.625,0.35,0,0.35,0.06,1.625,0,0,0,0,1,0,0,0,0), time = 1)
-	animate(color = list(2,0.67,0.27,0,0.27,2,0.67,0,0.67,0.27,2,0,0,0,0,1,0,0,0,0), time = 2)
-	animate(color = list(1.875,0.56,0.19,0,0.19,1.875,0.56,0,0.56,0.19,1.875,0,0,0,0,1,0,0,0,0), time = 1)
-	animate(color = list(1.75,0.45,0.12,0,0.12,1.75,0.45,0,0.45,0.12,1.75,0,0,0,0,1,0,0,0,0), time = 1)
-	animate(color = list(1.625,0.35,0.06,0,0.06,1.625,0.35,0,0.35,0.06,1.625,0,0,0,0,1,0,0,0,0), time = 0.75)
-	animate(color = list(1.5,0.27,0,0,0,1.5,0.27,0,0.27,0,1.5,0,0,0,0,1,0,0,0,0), time = 0.75)
-	animate(color = list(1.375,0.19,0,0,0,1.375,0.19,0,0.19,0,1.375,0,0,0,0,1,0,0,0,0), time = 0.5)
-	animate(color = list(1.25,0.12,0,0,0,1.25,0.12,0,0.12,0,1.25,0,0,0,0,1,0,0,0,0), time = 0.5)
-	animate(color = list(1.125,0.06,0,0,0,1.125,0.06,0,0.06,0,1.125,0,0,0,0,1,0,0,0,0), time = 0.25)
-	animate(color = list(1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1,0,0,0,0), time = 1)
+	animate(src, color = list(1.625, 0.35, 0.06, 0, 0.06, 1.625, 0.35, 0, 0.35, 0.06, 1.625, 0, 0, 0, 0, 1, 0, 0, 0, 0), time = 1)
+	animate(color = list(2, 0.67, 0.27, 0, 0.27, 2, 0.67, 0, 0.67, 0.27, 2, 0, 0, 0, 0, 1, 0, 0, 0, 0), time = 2)
+	animate(color = list(1.875, 0.56, 0.19, 0, 0.19, 1.875, 0.56, 0, 0.56, 0.19, 1.875, 0, 0, 0, 0, 1, 0, 0, 0, 0), time = 1)
+	animate(color = list(1.75, 0.45, 0.12, 0, 0.12, 1.75, 0.45, 0, 0.45, 0.12, 1.75, 0, 0, 0, 0, 1, 0, 0, 0, 0), time = 1)
+	animate(color = list(1.625, 0.35, 0.06, 0, 0.06, 1.625, 0.35, 0, 0.35, 0.06, 1.625, 0, 0, 0, 0, 1, 0, 0, 0, 0), time = 0.75)
+	animate(color = list(1.5, 0.27, 0, 0, 0, 1.5, 0.27, 0, 0.27, 0, 1.5, 0, 0, 0, 0, 1, 0, 0, 0, 0), time = 0.75)
+	animate(color = list(1.375, 0.19, 0, 0, 0, 1.375, 0.19, 0, 0.19, 0, 1.375, 0, 0, 0, 0, 1, 0, 0, 0, 0), time = 0.5)
+	animate(color = list(1.25, 0.12, 0, 0, 0, 1.25, 0.12, 0, 0.12, 0, 1.25, 0, 0, 0, 0, 1, 0, 0, 0, 0), time = 0.5)
+	animate(color = list(1.125, 0.06, 0, 0, 0, 1.125, 0.06, 0, 0.06, 0, 1.125, 0, 0, 0, 0, 1, 0, 0, 0, 0), time = 0.25)
+	animate(color = list(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0), time = 1)
 
 	spawn (10)
 		if(animated)
@@ -390,41 +390,41 @@ var/list/rune_appearances_cache = list()
 	var/bleeding = 0
 	block = user.check_contact_sterility(HANDS)
 	bleeding = user.check_bodypart_bleeding(HANDS)
-	user.assume_contact_diseases(virus2,src,block,bleeding)
+	user.assume_contact_diseases(virus2, src, block, bleeding)
 */
 
 /obj/effect/new_rune/attackby(obj/I, mob/user)
 	..()
 	if(isholyweapon(I))
-		to_chat(user, "<span class='notice'>You disrupt the vile magic with the deadening field of \the [I]!</span>")
+		to_chat(user, "<span class = 'notice'>You disrupt the vile magic with the deadening field of \the [I]!</span>")
 		qdel(src)
 		return
 	if(istype(I, /obj/item/weapon/tome) || istype(I, /obj/item/weapon/melee/cultblade) || istype(I, /obj/item/weapon/melee/soulblade) || istype(I, /obj/item/weapon/melee/blood_dagger))
 		trigger(user)
 	if(istype(I, /obj/item/weapon/talisman))
 		var/obj/item/weapon/talisman/T = I
-		T.imbue(user,src)
+		T.imbue(user, src)
 	return
 
-/obj/effect/new_rune/proc/trigger(var/mob/living/user, var/talisman_trigger=0)
+/obj/effect/new_rune/proc/trigger(var/mob/living/user, var/talisman_trigger = 0)
 
 	if(!IS_CULTIST(user))
-		to_chat(user, "<span class='danger'>You can't mouth the arcane scratchings without fumbling over them.</span>")
+		to_chat(user, "<span class = 'danger'>You can't mouth the arcane scratchings without fumbling over them.</span>")
 		return
 
 	if(iscarbon(user))
 		var/mob/living/carbon/C = user
 		if (C.occult_muted())
-			to_chat(user, "<span class='danger'>You find yourself unable to focus your mind on the arcane words of the rune.</span>")
+			to_chat(user, "<span class = 'danger'>You find yourself unable to focus your mind on the arcane words of the rune.</span>")
 			return
 
 	if(!user.checkTattoo(TATTOO_SILENT))
 		if(user.is_muzzled())
-			to_chat(user, "<span class='danger'>You are unable to speak the words of the rune because of the muzzle.</span>")
+			to_chat(user, "<span class = 'danger'>You are unable to speak the words of the rune because of the muzzle.</span>")
 			return
 
 		if(HAS_TRAIT(user, TRAIT_MUTE))
-			to_chat(user, "<span class='danger'>You don't have the ability to perform rituals without voicing the incantations, there has to be some way...</span>")
+			to_chat(user, "<span class = 'danger'>You don't have the ability to perform rituals without voicing the incantations, there has to be some way...</span>")
 			return
 
 	if(!word1 || !word2 || !word3 || prob(user.get_organ_loss(ORGAN_SLOT_BRAIN)))
@@ -455,37 +455,37 @@ var/list/rune_appearances_cache = list()
 /obj/effect/new_rune/proc/fizzle(var/mob/living/user)
 	var/silent = user.checkTattoo(TATTOO_SILENT)
 	if(!silent)
-		user.say(pick("B'ADMINES SP'WNIN SH'T","IC'IN O'OC","RO'SHA'M I'SA GRI'FF'N ME'AI","TOX'IN'S O'NM FI'RAH","IA BL'AME TOX'IN'S","FIR'A NON'AN RE'SONA","A'OI I'RS ROUA'GE","LE'OAN JU'STA SP'A'C Z'EE SH'EF","IA PT'WOBEA'RD, IA A'DMI'NEH'LP","I'F ON'Y I 'AD 'TAB' E"))
+		user.say(pick("B'ADMINES SP'WNIN SH'T", "IC'IN O'OC", "RO'SHA'M I'SA GRI'FF'N ME'AI", "TOX'IN'S O'NM FI'RAH", "IA BL'AME TOX'IN'S", "FIR'A NON'AN RE'SONA", "A'OI I'RS ROUA'GE", "LE'OAN JU'STA SP'A'C Z'EE SH'EF", "IA PT'WOBEA'RD, IA A'DMI'NEH'LP", "I'F ON'Y I 'AD 'TAB' E"))
 	one_pulse()
-	visible_message("<span class='warning'>The markings pulse with a small burst of light, then fall dark.</span>",\
-	"<span class='warning'>The markings pulse with a small burst of light, then fall dark.</span>",\
-	"<span class='warning'>You hear a faint fizzle.</span>")
+	visible_message("<span class = 'warning'>The markings pulse with a small burst of light, then fall dark.</span>", \
+	"<span class = 'warning'>The markings pulse with a small burst of light, then fall dark.</span>", \
+	"<span class = 'warning'>You hear a faint fizzle.</span>")
 
 /obj/effect/new_rune/proc/conceal()
 	if(active_spell && !active_spell.can_conceal)
 		active_spell.abort(RITUALABORT_CONCEAL)
 	alpha = 0
 	if (word1)
-		erase_word(word1.english,blood1)
+		erase_word(word1.english, blood1)
 	if (word2)
-		erase_word(word2.english,blood2)
+		erase_word(word2.english, blood2)
 	if (word3)
-		erase_word(word3.english,blood3)
+		erase_word(word3.english, blood3)
 	spawn(6)
-		invisibility=INVISIBILITY_OBSERVER
+		invisibility = INVISIBILITY_OBSERVER
 		alpha = 127
 
 /obj/effect/new_rune/proc/reveal() //Returns 1 if rune was revealed from a invisible state.
 	if(invisibility != 0)
-		invisibility=0
+		invisibility = 0
 		if (!(active_spell?.custom_rune))
 			overlays.len = 0
 			if (word1)
-				write_word(word1.english,blood1)
+				write_word(word1.english, blood1)
 			if (word2)
-				write_word(word2.english,blood2)
+				write_word(word2.english, blood2)
 			if (word3)
-				write_word(word3.english,blood3)
+				write_word(word3.english, blood3)
 			spawn(8)
 				alpha = 255
 				update_icon()
@@ -556,11 +556,11 @@ var/list/rune_appearances_cache = list()
 
 	if (caster)
 		if (newrune)
-			log_admin("BLOODCULT: [key_name(caster)] has created a new rune at [T.loc] (@[T.x],[T.y],[T.z]).")
+			log_admin("BLOODCULT: [key_name(caster)] has created a new rune at [T.loc] (@[T.x], [T.y], [T.z]).")
 			message_admins("BLOODCULT: [key_name(caster)] has created a new rune at [ADMIN_JMP(T)].")
 		rune.add_hiddenprint(caster)
 
-	rune.write_word(word.english,source)
+	rune.write_word(word.english, source)
 
 	if (!rune.word1)
 		rune.word1 = word

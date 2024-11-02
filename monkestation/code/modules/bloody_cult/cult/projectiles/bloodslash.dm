@@ -37,7 +37,7 @@
 			return BULLET_ACT_BLOCK
 		if (M.stat == DEAD)
 			return BULLET_ACT_BLOCK
-		to_chat(M, "<span class='warning'>You feel a searing heat inside of you!</span>")
+		to_chat(M, "<span class = 'warning'>You feel a searing heat inside of you!</span>")
 
 /obj/projectile/bloodslash/narsie_act()
 	return

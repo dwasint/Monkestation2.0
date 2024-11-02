@@ -31,9 +31,9 @@
 	var/datum/rune_word/W = GLOB.rune_words[network]
 
 	invoke(activator, "[W.rune]")
-	var/image/I_crystals = image('monkestation/code/modules/bloody_cult/icons/cult.dmi',"path_pad")
+	var/image/I_crystals = image('monkestation/code/modules/bloody_cult/icons/cult.dmi', "path_pad")
 	SET_PLANE_EXPLICIT(I_crystals, GAME_PLANE, R)
-	var/image/I_stone = image('monkestation/code/modules/bloody_cult/icons/cult.dmi',"path_entrance")
+	var/image/I_stone = image('monkestation/code/modules/bloody_cult/icons/cult.dmi', "path_entrance")
 	SET_PLANE_EXPLICIT(I_crystals, GAME_PLANE_UPPER, R)
 	I_stone.appearance_flags |= RESET_COLOR//we don't want the stone to pulse
 
@@ -42,7 +42,7 @@
 	if (lookup in rune_appearances_cache)
 		I_network = image(rune_appearances_cache[lookup])
 	else
-		I_network = image('monkestation/code/modules/bloody_cult/icons/deityrunes.dmi',src,W.english)
+		I_network = image('monkestation/code/modules/bloody_cult/icons/deityrunes.dmi', src, W.english)
 		I_network.color = COLOR_BLOOD
 	SET_PLANE_EXPLICIT(I_network, GAME_PLANE, R)
 	I_network.transform /= 1.5
@@ -64,7 +64,7 @@
 	marker.icon = 'monkestation/code/modules/bloody_cult/icons/holomap_markers.dmi'
 	marker.icon_state = "path_entrance"
 
-	to_chat(activator, "<span class='notice'>This rune will now let you travel through the \"[network]\" Path.</span>")
+	to_chat(activator, "<span class = 'notice'>This rune will now let you travel through the \"[network]\" Path.</span>")
 
 	var/datum/antagonist/cult/cult_datum = IS_CULTIST(activator)
 	cult_datum?.gain_devotion(30, DEVOTION_TIER_1, "new_path_entrance", R)
@@ -73,9 +73,9 @@
 
 /datum/rune_spell/portalentrance/midcast(var/mob/add_cultist, turf/cast_from)
 	if (istype(spell_holder, /obj/item/weapon/talisman))
-		invoke(add_cultist,invocation,1)
+		invoke(add_cultist, invocation, 1)
 	else
-		invoke(add_cultist,invocation)
+		invoke(add_cultist, invocation)
 
 	var/turf/destination = null
 	for (var/datum/rune_spell/portalexit/P in GLOB.bloodcult_exitportals)
@@ -84,7 +84,7 @@
 			break
 
 	if (!destination)
-		to_chat(activator, "<span class='warning'>The \"[network]\" Path is closed. Set up a Path Exit rune to establish a Path.</span>")
+		to_chat(activator, "<span class = 'warning'>The \"[network]\" Path is closed. Set up a Path Exit rune to establish a Path.</span>")
 		return
 
 	var/datum/antagonist/cult/cult_datum = add_cultist.mind.has_antag_datum(/datum/antagonist/cult)
@@ -96,9 +96,9 @@
 	playsound(T, 'monkestation/code/modules/bloody_cult/sound/cultjaunt_prepare.ogg', 75, 0, -3)
 	spawn(10)
 		playsound(T, 'monkestation/code/modules/bloody_cult/sound/cultjaunt_land.ogg', 30, 0, -3)
-		var/obj/effect/bloodcult_jaunt/new_jaunt = new /obj/effect/bloodcult_jaunt(T,null,destination,T, activator = activator)
+		var/obj/effect/bloodcult_jaunt/new_jaunt = new /obj/effect/bloodcult_jaunt(T, null, destination, T, activator = activator)
 		cult_datum.gain_devotion(10, DEVOTION_TIER_0, "path_entrance", new_jaunt)
-		flick("cult_jaunt_land",landing_animation)
+		flick("cult_jaunt_land", landing_animation)
 
 /datum/rune_spell/portalentrance/midcast_talisman(var/mob/add_cultist)
 	midcast(add_cultist, get_turf(add_cultist))
@@ -108,5 +108,5 @@
 	for (var/datum/rune_spell/portalexit/P in GLOB.bloodcult_exitportals)
 		if (P.network == network)
 			destination = get_turf(P.spell_holder)
-			new /obj/effect/bloodcult_jaunt/traitor(T,null,destination,null)
+			new /obj/effect/bloodcult_jaunt/traitor(T, null, destination, null)
 			break

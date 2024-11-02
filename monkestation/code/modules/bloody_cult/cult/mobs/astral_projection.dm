@@ -62,8 +62,8 @@ GLOBAL_LIST_INIT(astral_projections, list())
 	..()
 	GLOB.astral_projections += src
 	last_devotion_gain = world.time
-	incorporeal_appearance = image('monkestation/code/modules/bloody_cult/icons/mob.dmi',"blank")
-	tangible_appearance = image('monkestation/code/modules/bloody_cult/icons/mob.dmi',"blank")
+	incorporeal_appearance = image('monkestation/code/modules/bloody_cult/icons/mob.dmi', "blank")
+	tangible_appearance = image('monkestation/code/modules/bloody_cult/icons/mob.dmi', "blank")
 	//change_sight(adding = SEE_TURFS | SEE_MOBS | SEE_OBJS | SEE_SELF)
 	see_in_dark = 100
 
@@ -89,13 +89,13 @@ GLOBAL_LIST_INIT(astral_projections, list())
 	if (anchor && anchor.stat != DEAD && client)
 		if (key)
 			if (tangibility)
-				var/obj/effect/afterimage/A = new (loc,anchor,10)
+				var/obj/effect/afterimage/A = new (loc, anchor, 10)
 				A.dir = dir
 				for(var/mob/M in dview(world.view, loc, INVISIBILITY_MAXIMUM))
 					if (M.client)
 						M.playsound_local(loc, get_sfx("disappear_sound"), 75, 0, -2)
 			anchor.key = key
-			to_chat(anchor, "<span class='notice'>You reconnect with your body.</span>")
+			to_chat(anchor, "<span class = 'notice'>You reconnect with your body.</span>")
 			anchor.ajourn = null
 	//if our body was somehow already destroyed however, we'll become a shade right here
 	else if(client)
@@ -107,7 +107,7 @@ GLOBAL_LIST_INIT(astral_projections, list())
 			shade.real_name = "[real_name]"
 			mind.transfer_to(shade)
 			shade.key = key
-			to_chat(shade, "<span class='sinister'>It appears your body was unfortunately destroyed. The remains of your soul made their way to your astral projection where they merge together, forming a shade.</span>")
+			to_chat(shade, "<span class = 'sinister'>It appears your body was unfortunately destroyed. The remains of your soul made their way to your astral projection where they merge together, forming a shade.</span>")
 	invisibility = 101
 	set_density(FALSE)
 	sleep(20)
@@ -127,7 +127,7 @@ GLOBAL_LIST_INIT(astral_projections, list())
 		var/turf/T = get_turf(anchor)
 		var/turf/U = get_turf(src)
 		if (T.z != U.z)
-			to_chat(src, "<span class='warning'>You cannot sustain the astral projection at such a distance.</span>")
+			to_chat(src, "<span class = 'warning'>You cannot sustain the astral projection at such a distance.</span>")
 			death()
 			return
 	else
@@ -147,12 +147,12 @@ GLOBAL_LIST_INIT(astral_projections, list())
 /mob/living/basic/astral_projection/examine(mob/user)
 	if (!tangibility)
 		if ((user == src) && anchor)
-			to_chat(user, "<span class='notice'>You check yourself to see how others would see you were you tangible:</span>")
+			to_chat(user, "<span class = 'notice'>You check yourself to see how others would see you were you tangible:</span>")
 			anchor.examine(user)
 		else if (IS_CULTIST(user))
-			to_chat(user, "<span class='notice'>It's an astral projection.</span>")
+			to_chat(user, "<span class = 'notice'>It's an astral projection.</span>")
 		else
-			to_chat(user, "<span class='sinister'>Wait something's not right here.</span>")//it's a g-g-g-g-ghost!
+			to_chat(user, "<span class = 'sinister'>Wait something's not right here.</span>")//it's a g-g-g-g-ghost!
 	else if (anchor)
 		anchor.examine(user)//examining the astral projection alone won't be enough to see through it, although the user might want to make sure they cannot be identified first.
 
@@ -238,7 +238,7 @@ GLOBAL_LIST_INIT(astral_projections, list())
 		speed = 0.5
 		overlay_fullscreen("astralborder", /atom/movable/screen/fullscreen/astral_border)
 		update_fullscreen_alpha("astralborder", 255, 5)
-		var/obj/effect/afterimage/A = new (loc,anchor,10)
+		var/obj/effect/afterimage/A = new (loc, anchor, 10)
 		A.dir = dir
 	else
 		set_density(TRUE)
@@ -255,4 +255,4 @@ GLOBAL_LIST_INIT(astral_projections, list())
 
 //saycode
 /mob/living/basic/astral_projection/say(message, bubble_type, list/spans = list(), sanitize = TRUE, datum/language/language = null, ignore_spam = FALSE, forced = null, filterproof = null, message_range = 7, datum/saymode/saymode = null)
-	. = ..(tangibility ? "[message]" : "..[message]",tangibility ? "" : "C")
+	. = ..(tangibility ? "[message]" : "..[message]", tangibility ? "" : "C")

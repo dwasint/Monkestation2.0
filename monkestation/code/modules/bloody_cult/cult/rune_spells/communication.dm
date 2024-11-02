@@ -23,7 +23,7 @@
 	var/obj/effect/new_rune/R = spell_holder
 	R.one_pulse()
 	var/mob/living/user = activator
-	comms = new /obj/effect/cult_ritual/cult_communication(spell_holder.loc,user,src)
+	comms = new /obj/effect/cult_ritual/cult_communication(spell_holder.loc, user, src)
 
 /datum/rune_spell/communication/midcast(var/mob/living/user)
 	var/datum/team/cult/cult = locate_team(/datum/team/cult)
@@ -120,13 +120,13 @@
 			if (mind.current == speaker)//echoes are annoying
 				continue
 			if (IS_CULTIST(mind.current))//failsafe for cultist brains put in MMIs
-				to_chat(mind.current, "<span class='game say'><b>[speaker_name]</b>'s voice echoes in your head, <B><span class='sinisterbig'>[raw_message]</span></B></span>")
+				to_chat(mind.current, "<span class = 'game say'><b>[speaker_name]</b>'s voice echoes in your head, <B><span class = 'sinisterbig'>[raw_message]</span></B></span>")
 
 		for(var/mob/living/basic/astral_projection/astral in GLOB.astral_projections)
-			to_chat(astral, "<span class='game say'><b>[speaker_name]</b> communicates, <span class='sinisterbig'>[raw_message]</span></span>")
+			to_chat(astral, "<span class = 'game say'><b>[speaker_name]</b> communicates, <span class = 'sinisterbig'>[raw_message]</span></span>")
 
 		for(var/mob/dead/observer/observer in GLOB.player_list)
-			to_chat(observer, "<span class='game say'><b>[speaker_name]</b> communicates, <span class='sinisterbig'>[raw_message]</span></span>")
+			to_chat(observer, "<span class = 'game say'><b>[speaker_name]</b> communicates, <span class = 'sinisterbig'>[raw_message]</span></span>")
 		//log_cultspeak("[key_name(speech.speaker)] Cult Communicate Rune: [rendered_message]")
 
 /obj/effect/cult_ritual/cult_communication/HasProximity(var/atom/movable/AM)

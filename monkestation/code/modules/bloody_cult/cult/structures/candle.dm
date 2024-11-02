@@ -17,7 +17,7 @@
 
 /obj/item/candle/New(turf/loc)
 	..()
-	wick = image(icon,src,"candle-wick")
+	wick = image(icon, src, "candle-wick")
 	wick.appearance_flags = RESET_COLOR
 	update_icon()
 
@@ -25,7 +25,7 @@
 	. = ..()
 	if (lit)//pre-mapped lit candles
 		lit = 0
-		light("",TRUE)
+		light("", TRUE)
 
 /obj/item/candle/extinguish()
 	..()
@@ -52,7 +52,7 @@
 	wick.icon_state = "[icon_state]-wick"
 	overlays += wick
 	if (lit)
-		var/image/I = image(icon,src,"[icon_state]_lit")
+		var/image/I = image(icon, src, "[icon_state]_lit")
 		I.appearance_flags = RESET_COLOR
 		I.blend_mode = BLEND_ADD
 		if (isturf(loc))
@@ -70,14 +70,14 @@
 	if (lit && heat)
 		if (istype(W, /obj/item/candle))
 			var/obj/item/candle/C = W
-			C.light("<span class='notice'>[user] lights [C] with [src].</span>")
-		else if (istype(W,/obj/item/clothing/mask/cigarette))
+			C.light("<span class = 'notice'>[user] lights [C] with [src].</span>")
+		else if (istype(W, /obj/item/clothing/mask/cigarette))
 			var/obj/item/clothing/mask/cigarette/ciggy = W
-			ciggy.light("<span class='notice'>[user] lights \the [ciggy] using \the [src]'s flame.</span>")
+			ciggy.light("<span class = 'notice'>[user] lights \the [ciggy] using \the [src]'s flame.</span>")
 	if(W.heat)
-		light("<span class='notice'>[user] lights [src] with [W].</span>")
+		light("<span class = 'notice'>[user] lights [src] with [W].</span>")
 
-/obj/item/candle/proc/light(var/flavor_text = "<span class='notice'>[usr] lights [src].</span>", var/quiet = 0)
+/obj/item/candle/proc/light(var/flavor_text = "<span class = 'notice'>[usr] lights [src].</span>", var/quiet = 0)
 	if(!lit)
 		lit = 1
 		if(!quiet)
@@ -104,9 +104,9 @@
 				set_light(5 * 0.7)
 				if(heat == 0) //only holocandles don't have source temp, using this so I don't add a new var
 					wax = 0.8 * wax //jury rigged so the wax reduction doesn't nuke the holocandles if flickered
-				visible_message("<span class='warning'>\The [src]'s flame starts roaring unnaturally!</span>")
+				visible_message("<span class = 'warning'>\The [src]'s flame starts roaring unnaturally!</span>")
 			update_icon()
-			sleep(rand(5,8))
+			sleep(rand(5, 8))
 			set_light(1)
 			lit = 1
 			update_icon()
@@ -131,7 +131,7 @@
 /obj/item/candle/attack_self(mob/user as mob)
 	if(lit)
 		extinguish()
-		to_chat(user, "<span class='warning'>You pinch \the [src]'s wick.</span>")
+		to_chat(user, "<span class = 'warning'>You pinch \the [src]'s wick.</span>")
 
 
 

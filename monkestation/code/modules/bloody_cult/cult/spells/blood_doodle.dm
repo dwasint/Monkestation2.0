@@ -40,7 +40,7 @@
 	var/blood_color = blood.color
 
 	var/maximum_length = 30
-	var/message = stripped_input(owner,"Write a message. You will be able to preview it.","Bloody writings", "")
+	var/message = stripped_input(owner, "Write a message. You will be able to preview it.", "Bloody writings", "")
 	if(!message)
 		return
 	message = copytext(message, 1, maximum_length)
@@ -51,7 +51,7 @@
 
 	var/angle = rand(-25, 25)
 	var/image/preview = image(icon = null)
-	preview.maptext = MAPTEXT_YOU_MURDERER("<span style='text-align: center; -dm-text-outline: 1px black; color:[blood_color]'> [message] </span>")
+	preview.maptext = MAPTEXT_YOU_MURDERER("<span style = 'text-align: center; -dm-text-outline: 1px black; color:[blood_color]'> [message] </span>")
 	preview.maptext_height = 64
 	preview.maptext_width = 128
 	preview.maptext_x = -48
@@ -74,7 +74,7 @@
 	var/obj/effect/decal/cleanable/blood/writing/spawned_writing = new /obj/effect/decal/cleanable/blood/writing(parent_turf)
 	spawned_writing.color = blood_color
 
-	spawned_writing.maptext = MAPTEXT_YOU_MURDERER("<span style='text-align: center; -dm-text-outline: 1px black; color:[blood_color]'> [message] </span>")
+	spawned_writing.maptext = MAPTEXT_YOU_MURDERER("<span style = 'text-align: center; -dm-text-outline: 1px black; color:[blood_color]'> [message] </span>")
 	spawned_writing.maptext_height = 64
 	spawned_writing.maptext_width = 128
 	spawned_writing.maptext_x = -48

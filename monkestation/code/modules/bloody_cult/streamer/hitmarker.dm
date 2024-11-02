@@ -6,7 +6,7 @@
 			streamer_role.hits += 1
 			streamer_role.update_streamer_hud()
 			//playsound(src, 'monkestation/code/modules/bloody_cult/sound/hitmarker.ogg', 100, FALSE)
-			var/image/hitmarker = image(icon='monkestation/code/modules/bloody_cult/icons/effects.dmi', loc=src, icon_state="hitmarker")
+			var/image/hitmarker = image(icon = 'monkestation/code/modules/bloody_cult/icons/effects.dmi', loc = src, icon_state = "hitmarker")
 			for(var/client/C in GLOB.clients)
 				C.images += hitmarker
 			sleep(3)

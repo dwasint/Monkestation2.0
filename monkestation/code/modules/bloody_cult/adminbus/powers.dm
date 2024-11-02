@@ -13,11 +13,11 @@
 	pixel_y = -32
 	max_buckled_mobs = 16
 	max_occupants = 16
-	var/can_move=1
+	var/can_move = 1
 	var/list/passengers = list()
 	var/unloading = 0
-	var/bumpers = 1//1=capture mobs 2=roll over mobs(deals light brute damage and push them down) 3=gib mobs
-	var/door_mode = 0//0=closed door, players cannot climb or leave on their own 1=openned door, players can climb and leave on their own
+	var/bumpers = 1//1 = capture mobs 2 = roll over mobs(deals light brute damage and push them down) 3 = gib mobs
+	var/door_mode = 0//0 = closed door, players cannot climb or leave on their own 1 = openned door, players can climb and leave on their own
 	var/list/spawned_mobs = list()//keeps track of every mobs spawned by the bus, so we can remove them all with the push of a button in needed
 	var/hook = 1
 	var/list/hookshot = list()
@@ -35,11 +35,11 @@
 	..()
 	AddElement(/datum/element/ridable, /datum/component/riding/vehicle/adminbus)
 	var/turf/T = get_turf(src)
-	T.turf_animation('monkestation/code/modules/bloody_cult/icons/160x160.dmi',"busteleport",-64,-32,MOB_LAYER+1,'monkestation/code/modules/bloody_cult/sound/busteleport.ogg',anim_plane = ABOVE_GAME_PLANE)
-	var/image/underbus = image(icon,"underbus",MOB_LAYER-1)
+	T.turf_animation('monkestation/code/modules/bloody_cult/icons/160x160.dmi', "busteleport", -64, -32, MOB_LAYER+1, 'monkestation/code/modules/bloody_cult/sound/busteleport.ogg', anim_plane = ABOVE_GAME_PLANE)
+	var/image/underbus = image(icon, "underbus", MOB_LAYER-1)
 	underbus.plane = GAME_PLANE
 	overlays += underbus
-	overlays += image(icon,"ad")
+	overlays += image(icon, "ad")
 	src.dir = EAST
 	playsound(src, 'monkestation/code/modules/bloody_cult/sound/adminbus.ogg', 50, 0, 0)
 	lightsource = new/obj/structure/buslight(src.loc)
@@ -52,7 +52,7 @@
 	busjuke.alpha = 0
 
 /obj/vehicle/ridden/adminbus/Destroy()
-	for(var/i=passengers.len;i>0;i--)
+	for(var/i = passengers.len;i>0;i--)
 		var/atom/A = passengers[i]
 		if(isliving(A))
 			var/mob/living/L = A
@@ -78,7 +78,7 @@
 	QDEL_NULL(singulo)
 
 	var/turf/T = get_turf(src)
-	T.turf_animation('monkestation/code/modules/bloody_cult/icons/160x160.dmi',"busteleport",-32*2,-32,MOB_LAYER+1,'monkestation/code/modules/bloody_cult/sound/busteleport.ogg', anim_plane = ABOVE_GAME_PLANE)
+	T.turf_animation('monkestation/code/modules/bloody_cult/icons/160x160.dmi', "busteleport", -32*2, -32, MOB_LAYER+1, 'monkestation/code/modules/bloody_cult/sound/busteleport.ogg', anim_plane = ABOVE_GAME_PLANE)
 
 	..()
 
@@ -114,12 +114,12 @@
 					occupant.pixel_x = 25 * 1
 					occupant.pixel_y = 1 * 1
 
-	for(var/i=1;i<=passengers.len;i++)
+	for(var/i = 1;i< = passengers.len;i++)
 		var/atom/A = passengers[i]
 		if(isliving(A))
 			var/mob/living/L = A
 			switch(i)
-				if(1,5,9,13)
+				if(1, 5, 9, 13)
 					switch(dir)
 						if(SOUTH)
 							L.pixel_x = -6 * 1
@@ -133,7 +133,7 @@
 						if(EAST)
 							L.pixel_x = 12 * 1
 							L.pixel_y = 4 * 1
-				if(2,6,10,14)
+				if(2, 6, 10, 14)
 					switch(dir)
 						if(SOUTH)
 							L.pixel_x = 6 * 1
@@ -147,7 +147,7 @@
 						if(EAST)
 							L.pixel_x = 1 * 1
 							L.pixel_y = 4 * 1
-				if(3,7,11,15)
+				if(3, 7, 11, 15)
 					switch(dir)
 						if(SOUTH)
 							L.pixel_x = -3 * 1
@@ -161,7 +161,7 @@
 						if(EAST)
 							L.pixel_x = -11 * 1
 							L.pixel_y = 4 * 1
-				if(4,8,12,16)
+				if(4, 8, 12, 16)
 					switch(dir)
 						if(SOUTH)
 							L.pixel_x = 7 * 1
@@ -192,23 +192,23 @@
 	if(chain_base)
 		chain_base.move_child(T)
 	for(var/obj/structure/hookshot/H in hookshot)
-		H.forceMove(get_step(H,src.dir))
+		H.forceMove(get_step(H, src.dir))
 
 /obj/vehicle/ridden/adminbus/proc/update_lightsource()
-	var/turf/T = get_step(src,src.dir)
+	var/turf/T = get_step(src, src.dir)
 	if(T.opacity)
 		lightsource.forceMove(T)
 		switch(roadlights)							//if the bus is right against a wall, only the wall's tile is lit
 			if(0)
 				if(lightsource.light_outer_range != 0)
 					lightsource.set_light(0)
-			if(1,2)
+			if(1, 2)
 				if(lightsource.light_outer_range != 1)
 					lightsource.set_light(1)
 	else
-		T = get_step(T,src.dir)						//if there is a wall two tiles in front of the bus, the lightsource is right in front of the bus, though weaker
+		T = get_step(T, src.dir)						//if there is a wall two tiles in front of the bus, the lightsource is right in front of the bus, though weaker
 		if(T.opacity)
-			lightsource.forceMove(get_step(src,src.dir))
+			lightsource.forceMove(get_step(src, src.dir))
 			switch(roadlights)
 				if(0)
 					if(lightsource.light_outer_range != 0)
@@ -249,13 +249,13 @@
 				else
 					var/mob/living/occupant = occupants[1]
 					if(occupant)
-						to_chat(occupant, "<span class='warning'>There is no place in the bus for any additional passenger.</span>")
+						to_chat(occupant, "<span class = 'warning'>There is no place in the bus for any additional passenger.</span>")
 		if(2)
-			var/hit_sound = list('sound/weapons/genhit1.ogg','sound/weapons/genhit2.ogg','sound/weapons/genhit3.ogg')
+			var/hit_sound = list('sound/weapons/genhit1.ogg', 'sound/weapons/genhit2.ogg', 'sound/weapons/genhit3.ogg')
 			for(var/mob/living/L in S)
 				if(L in occupants)
 					continue
-				L.take_overall_damage(5,0)
+				L.take_overall_damage(5, 0)
 				if(L.buckled)
 					L.buckled = 0
 				L.Stun(5)
@@ -268,9 +268,9 @@
 				L.gib()
 				//playsound(src, 'monkestation/code/modules/bloody_cult/sound/bloodyslice.ogg', 50, 0, 0)
 
-/obj/vehicle/ridden/adminbus/proc/capture_mob(atom/A, var/selfclimb=0)
+/obj/vehicle/ridden/adminbus/proc/capture_mob(atom/A, var/selfclimb = 0)
 	if(passengers.len >= 16)
-		to_chat(A, "<span class='warning'>\The [src] is full!</span>")
+		to_chat(A, "<span class = 'warning'>\The [src] is full!</span>")
 		return
 	if(unloading)
 		return
@@ -283,11 +283,11 @@
 		passengers += M
 		buckle_mob(M, TRUE)
 		if(!selfclimb)
-			to_chat(M, "<span class='warning'>\The [src] picks you up!</span>")
+			to_chat(M, "<span class = 'warning'>\The [src] picks you up!</span>")
 			var/mob/living/occupant = occupants[1]
 			if(occupant)
 				to_chat(occupant, "[M.name] captured!")
-		to_chat(M, "<span class='notice'>Welcome aboard \the [src]. Please keep your hands and arms inside the bus at all times.</span>")
+		to_chat(M, "<span class = 'notice'>Welcome aboard \the [src]. Please keep your hands and arms inside the bus at all times.</span>")
 		src.add_fingerprint(M)
 	update_rearview()
 
@@ -296,7 +296,7 @@
 		return
 	var/list/drivers = return_drivers()
 	if(!(check_rights_for(M.client, R_ADMIN)) && !length(drivers))
-		to_chat(M, "<span class='notice'>You're a god alright, but you don't seem to have your Adminbus driver license!</span>")
+		to_chat(M, "<span class = 'notice'>You're a god alright, but you don't seem to have your Adminbus driver license!</span>")
 		return
 	. = ..()
 /*
@@ -304,7 +304,7 @@
 	if(occupant && occupant == user)	//Are you the driver?
 		var/mob/living/M = occupant
 		M.visible_message(
-			"<span class='notice'>[M.name] unbuckles \himself!</span>",
+			"<span class = 'notice'>[M.name] unbuckles \himself!</span>",
 			"You unbuckle yourself from \the [src].")
 		unlock_atom(M)
 		src.add_fingerprint(user)
@@ -314,22 +314,22 @@
 				freed(user)
 				return
 			else
-				capture_mob(user,1)
+				capture_mob(user, 1)
 				return
 		else
-			if(istype(user,/mob/living/carbon/human/dummy) || istype(user,/mob/living/simple_animal/corgi/Ian))
+			if(istype(user, /mob/living/carbon/human/dummy) || istype(user, /mob/living/simple_animal/corgi/Ian))
 				if(locate(user) in passengers)
 					freed(user)
 					return
 				else
-					capture_mob(user,1)
+					capture_mob(user, 1)
 					return
 			else
 				if(locate(user) in passengers)
-					to_chat(user, "<span class='notice'>You may not leave the Adminbus at the current time.</span>")
+					to_chat(user, "<span class = 'notice'>You may not leave the Adminbus at the current time.</span>")
 					return
 				else
-					to_chat(user, "<span class='notice'>You may not climb into \the [src] while its door is closed.</span>")
+					to_chat(user, "<span class = 'notice'>You may not climb into \the [src] while its door is closed.</span>")
 					return
 */
 
@@ -348,11 +348,11 @@
 	return
 
 /obj/vehicle/ridden/adminbus/bullet_act(obj/projectile/hitting_projectile, def_zone, piercing_hit)
-	visible_message("<span class='warning'>The projectile harmlessly bounces off the bus.</span>")
+	visible_message("<span class = 'warning'>The projectile harmlessly bounces off the bus.</span>")
 	return ..()
 
 /obj/vehicle/ridden/adminbus/ex_act(severity)
-	visible_message("<span class='warning'>The bus withstands the explosion with no damage.</span>")
+	visible_message("<span class = 'warning'>The bus withstands the explosion with no damage.</span>")
 	return
 
 /obj/vehicle/ridden/adminbus/blob_act()
@@ -398,7 +398,7 @@
 		H.max_distance = max_distance
 		H.abus = abus
 	if(max_distance > 0)
-		forceMove(get_step(src,toward))
+		forceMove(get_step(src, toward))
 		sleep(2)
 		var/obj/singularity/S2 = hook_throw(toward)
 		if(S2)
@@ -409,7 +409,7 @@
 		return null
 
 /obj/structure/hookshot/proc/hook_back()
-	forceMove(get_step_towards(src,abus))
+	forceMove(get_step_towards(src, abus))
 	max_distance++
 	if(max_distance >= 7)
 		abus.hookshot -= src
@@ -427,7 +427,7 @@
 				var/mob/living/M = abus.occupants[1]
 				M.UpdateUIElementIcon(/obj/abstract/mind_ui_element/hoverable/adminbus_hook)
 			return
-	forceMove(get_step_towards(src,abus))
+	forceMove(get_step_towards(src, abus))
 	max_distance++
 	if(max_distance >= 7)
 		abus.hookshot -= src
@@ -473,18 +473,18 @@
 	if(parent)//I don't see how this could be null but a sanity check won't hurt
 		forceMove(parent)
 	if(child)
-		if(get_dist(src,child) > 1)
+		if(get_dist(src, child) > 1)
 			child.move_child(T)
-		dir = get_dir(child,src)
+		dir = get_dir(child, src)
 	else
-		dir = get_dir(T,src)
+		dir = get_dir(T, src)
 
 /obj/structure/singulo_chain/anchor/move_child(var/turf/parent)
 	var/turf/T = get_turf(src)
 	if(parent)
 		forceMove(parent)
 	else
-		dir = get_dir(T,src)
+		dir = get_dir(T, src)
 	if(target)
 		target.forceMove(loc)
 

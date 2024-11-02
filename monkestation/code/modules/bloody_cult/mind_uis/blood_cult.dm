@@ -67,7 +67,7 @@ GLOBAL_LIST_INIT(blood_communion, list())
 	mouse_opacity = 1
 
 /obj/abstract/mind_ui_element/hoverable/draw_runes_manual/Click()
-	flick("rune_manual-click",src)
+	flick("rune_manual-click", src)
 	var/mob/M = GetUser()
 	if (M)
 		var/datum/antagonist/cult/cult_datum = M.mind?.has_antag_datum(/datum/antagonist/cult)
@@ -99,7 +99,7 @@ GLOBAL_LIST_INIT(blood_communion, list())
 /obj/abstract/mind_ui_element/hoverable/draw_runes_guided/Click()
 	if (!hover_state)
 		return
-	flick("rune_guide-click",src)
+	flick("rune_guide-click", src)
 	var/mob/M = GetUser()
 	if (M)
 
@@ -112,7 +112,7 @@ GLOBAL_LIST_INIT(blood_communion, list())
 			available_runes.Add("[initial(instance.name)] - \Roman[i]")
 			available_runes["[initial(instance.name)] - \Roman[i]"] = instance
 			i++
-		var/spell_name = input(M,"Remember how to trace a given rune.", "Trace Rune with a Guide", null) as null|anything in available_runes
+		var/spell_name = input(M, "Remember how to trace a given rune.", "Trace Rune with a Guide", null) as null|anything in available_runes
 
 		if (spell_name)
 			for(var/datum/mind_ui/bloodcult_runes/BR in parent.subUIs)
@@ -137,7 +137,7 @@ GLOBAL_LIST_INIT(blood_communion, list())
 	mouse_opacity = 1
 
 /obj/abstract/mind_ui_element/hoverable/erase_runes/Click()
-	flick("rune_erase-click",src)
+	flick("rune_erase-click", src)
 	var/mob/M = GetUser()
 	if (M)
 		var/datum/antagonist/cult/cult_datum = M.mind?.has_antag_datum(/datum/antagonist/cult)
@@ -274,12 +274,12 @@ GLOBAL_LIST_INIT(blood_communion, list())
 /obj/abstract/mind_ui_element/hoverable/bloodcult_devotion_counter/UpdateIcon()
 	overlays.len = 0
 	var/datum/antagonist/cult/cult_datum = parent.mind?.has_antag_datum(/datum/antagonist/cult)
-	var/devotion = min(9999,cult_datum.devotion)
+	var/devotion = min(9999, cult_datum.devotion)
 	var/datum/team/cult/cult = locate_team(/datum/team/cult)
 	if ((cult.stage == BLOODCULT_STAGE_DEFEATED) || (cult.stage == BLOODCULT_STAGE_NARSIE))
-		overlays += String2Image("[add_zero(devotion,4)]",_color="#FF0000",_pixel_x = 4,_pixel_y = 9)
+		overlays += String2Image("[add_zero(devotion, 4)]", _color = "#FF0000", _pixel_x = 4, _pixel_y = 9)
 	else
-		overlays += String2Image("[add_zero(devotion,4)]",_color="#FFFFFF",_pixel_x = 4,_pixel_y = 9)
+		overlays += String2Image("[add_zero(devotion, 4)]", _color = "#FFFFFF", _pixel_x = 4, _pixel_y = 9)
 
 
 //------------------------------------------------------------
@@ -337,7 +337,7 @@ GLOBAL_LIST_INIT(blood_communion, list())
 		if (cult_datum.blood_pool && cult_datum.owner && cult_datum.owner.current && iscarbon(cult_datum.owner.current) && !cult_datum.owner.current.stat == DEAD)
 			pool_current++
 	overlays.len = 0
-	overlays += String2Image("[pool_current]",_pixel_x = 2,_pixel_y = 1)
+	overlays += String2Image("[pool_current]", _pixel_x = 2, _pixel_y = 1)
 
 /obj/abstract/mind_ui_element/hoverable/bloodcult_spell/pool/Click()
 	var/mob/living/M = GetUser()
@@ -350,9 +350,9 @@ GLOBAL_LIST_INIT(blood_communion, list())
 
 
 	if (cult_datum.blood_pool)
-		to_chat(M, "<span class='warning'>You return to the blood pool. Blood costs are slightly reduced, on top of getting split between you and other cultists.</span>")
+		to_chat(M, "<span class = 'warning'>You return to the blood pool. Blood costs are slightly reduced, on top of getting split between you and other cultists.</span>")
 	else
-		to_chat(M, "<span class='warning'>You remove yourself from the blood pool. Blood costs must now be paid on your own.</span>")
+		to_chat(M, "<span class = 'warning'>You remove yourself from the blood pool. Blood costs must now be paid on your own.</span>")
 	UpdateIcon()
 
 /////////////////////////////////////////
@@ -369,7 +369,7 @@ GLOBAL_LIST_INIT(blood_communion, list())
 	overlays.len = 0
 
 	if(talisman)
-		var/image/I = image('monkestation/code/modules/bloody_cult/icons/bloodcult/32x32.dmi',src,"blank")
+		var/image/I = image('monkestation/code/modules/bloody_cult/icons/bloodcult/32x32.dmi', src, "blank")
 		I.appearance = talisman.appearance
 		I.layer = FLOAT_LAYER
 		I.plane = FLOAT_PLANE
@@ -391,7 +391,7 @@ GLOBAL_LIST_INIT(blood_communion, list())
 			T.forceMove(M)
 			talisman = T
 	else
-		to_chat(M, "<span class='warning'>Hold an imbued talisman in your active hand to fuse it with your skin.</span>")
+		to_chat(M, "<span class = 'warning'>Hold an imbued talisman in your active hand to fuse it with your skin.</span>")
 	UpdateIcon()
 
 
@@ -414,7 +414,7 @@ GLOBAL_LIST_INIT(blood_communion, list())
 	if(!dagger)  // dagger not pulled out
 
 		if (user.occult_muted())
-			to_chat(user, "<span class='warning'>You try grasping your blood but you can't quite will it into the shape of a dagger.</span>")
+			to_chat(user, "<span class = 'warning'>You try grasping your blood but you can't quite will it into the shape of a dagger.</span>")
 			return
 		var/list/data = use_available_blood(user, 5)
 		if (data[BLOODCOST_RESULT] == BLOODCOST_FAILURE)
@@ -439,20 +439,20 @@ GLOBAL_LIST_INIT(blood_communion, list())
 				BD.icon_state += "-color"
 				BD.color = dagger_color
 			if(user.put_in_hand(BD, good_hand))
-				user.visible_message("<span class='warning'>\The [user] squeezes the blood in their hand, and it takes the shape of a dagger!</span>",
-					"<span class='warning'>You squeeze the blood in your hand, and it takes the shape of a dagger.</span>")
-				playsound(user, 'monkestation/code/modules/bloody_cult/sound/bloodyslice.ogg', 30, 0,-2)
+				user.visible_message("<span class = 'warning'>\The [user] squeezes the blood in their hand, and it takes the shape of a dagger!</span>",
+					"<span class = 'warning'>You squeeze the blood in your hand, and it takes the shape of a dagger.</span>")
+				playsound(user, 'monkestation/code/modules/bloody_cult/sound/bloodyslice.ogg', 30, 0, -2)
 
 	else
 		if(ishuman(user))
 			var/mob/living/carbon/human/H = user
 			if (HAS_TRAIT(H, TRAIT_NOBLOOD))
-				to_chat(user, "<span class='notice'>You sheath \the [dagger] back inside your body[dagger.stacks ? ", along with the stolen blood" : ""].</span>")
+				to_chat(user, "<span class = 'notice'>You sheath \the [dagger] back inside your body[dagger.stacks ? ", along with the stolen blood" : ""].</span>")
 				H.blood_volume += 5 + dagger.stacks * 5
 			else
-				to_chat(user, "<span class='notice'>You sheath \the [dagger] inside your body, but the blood fails to find vessels to occupy.</span>")
+				to_chat(user, "<span class = 'notice'>You sheath \the [dagger] inside your body, but the blood fails to find vessels to occupy.</span>")
 		else
-			to_chat(user, "<span class='notice'>You sheath \the [dagger] inside your body.</span>")
+			to_chat(user, "<span class = 'notice'>You sheath \the [dagger] inside your body.</span>")
 		dagger.absorbed = 1
 		playsound(user, 'monkestation/code/modules/bloody_cult/sound/bloodyslice.ogg', 30, 0, -2)
 		qdel(dagger)
@@ -470,7 +470,7 @@ GLOBAL_LIST_INIT(blood_communion, list())
 /obj/abstract/mind_ui_element/hoverable/bloodcult_spell/sigil/Click()
 	var/mob/living/M = GetUser()
 
-	to_chat(M, "<span class='notice'>Click an adjacent wall to manifest a sigil on top of it.</span>")
+	to_chat(M, "<span class = 'notice'>Click an adjacent wall to manifest a sigil on top of it.</span>")
 
 //------------------------------------------------------------
 
@@ -531,7 +531,7 @@ GLOBAL_LIST_INIT(blood_communion, list())
 	animate(pixel_y = 8, time = 7, loop = -1, easing = SINE_EASING)
 
 /obj/abstract/mind_ui_element/hoverable/bloodcult_panel/Click()
-	flick("role-click",src)
+	flick("role-click", src)
 
 	var/datum/mind_ui/bloodcult_panel/cult_panel = locate() in parent.subUIs
 	if(cult_panel)
@@ -589,7 +589,7 @@ GLOBAL_LIST_INIT(blood_communion, list())
 					M.client.images += click_me
 
 /obj/abstract/mind_ui_element/hoverable/bloodcult_help/Click()
-	flick("help-click",src)
+	flick("help-click", src)
 	if (!clicked)
 		clicked = TRUE
 		var/mob/M = GetUser()
@@ -747,17 +747,17 @@ GLOBAL_LIST_INIT(blood_communion, list())
 						cult.soon_announcement = TRUE
 						for (var/datum/mind/mind in cult.members)
 							var/mob/M = mind.current
-							to_chat(M, "<span class='sinister'>The Eclipse is almost upon us...</span>")
+							to_chat(M, "<span class = 'sinister'>The Eclipse is almost upon us...</span>")
 
 					red_blink = !red_blink
-					var/image/I = String2Image("[hours_to_go]:[minutes_to_go]:[seconds_to_go]",10,'monkestation/code/modules/bloody_cult/icons/font_16x16.dmi',"#FFFFFF")
+					var/image/I = String2Image("[hours_to_go]:[minutes_to_go]:[seconds_to_go]", 10, 'monkestation/code/modules/bloody_cult/icons/font_16x16.dmi', "#FFFFFF")
 					if (red_blink)
 						I.color = "red"
 					else
 						I.color = null
 					overlays += I
 				else
-					overlays += String2Image("[hours_to_go]:[minutes_to_go]:[seconds_to_go]",10,'monkestation/code/modules/bloody_cult/icons/font_16x16.dmi',"#FFFFFF")
+					overlays += String2Image("[hours_to_go]:[minutes_to_go]:[seconds_to_go]", 10, 'monkestation/code/modules/bloody_cult/icons/font_16x16.dmi', "#FFFFFF")
 
 			if (BLOODCULT_STAGE_READY)
 				var/eclipse_ticks_before_end_at_current_rate = max(0, (GLOB.eclipse.eclipse_end_time - world.time)/10)
@@ -766,14 +766,14 @@ GLOBAL_LIST_INIT(blood_communion, list())
 				var/seconds_to_go = add_zero(num2text(round(eclipse_ticks_before_end_at_current_rate) % 60), 2)
 				if (eclipse_ticks_before_end_at_current_rate == 0)
 					red_blink = !red_blink
-					var/image/I = String2Image("0:00:00",10,'monkestation/code/modules/bloody_cult/icons/font_16x16.dmi',"#FFFFFF")
+					var/image/I = String2Image("0:00:00", 10, 'monkestation/code/modules/bloody_cult/icons/font_16x16.dmi', "#FFFFFF")
 					if (red_blink)
 						I.color = "red"
 					else
 						I.color = null
 					overlays += I
 				else
-					overlays += String2Image("[hours_to_go]:[minutes_to_go]:[seconds_to_go]",10,'monkestation/code/modules/bloody_cult/icons/font_16x16.dmi',"#FFFFFF")
+					overlays += String2Image("[hours_to_go]:[minutes_to_go]:[seconds_to_go]", 10, 'monkestation/code/modules/bloody_cult/icons/font_16x16.dmi', "#FFFFFF")
 
 			if (BLOODCULT_STAGE_ECLIPSE)
 				offset_x = -24
@@ -782,15 +782,15 @@ GLOBAL_LIST_INIT(blood_communion, list())
 				var/seconds_to_go
 				if (minutes_to_go == "7")//6:66 lmao
 					minutes_to_go = "6"
-					seconds_to_go = add_zero(num2text((min(6,round(time_before_narsie) % 60))+60), 2)
+					seconds_to_go = add_zero(num2text((min(6, round(time_before_narsie) % 60))+60), 2)
 				else
 					seconds_to_go = add_zero(num2text(round(time_before_narsie) % 60), 2)
-				overlays += String2Image("  [minutes_to_go]:[seconds_to_go]",10,'monkestation/code/modules/bloody_cult/icons/font_16x16.dmi',"#FFFFFF")
+				overlays += String2Image("  [minutes_to_go]:[seconds_to_go]", 10, 'monkestation/code/modules/bloody_cult/icons/font_16x16.dmi', "#FFFFFF")
 
 			if (BLOODCULT_STAGE_NARSIE)
-				overlays += String2Image("0:00:00",10,'monkestation/code/modules/bloody_cult/icons/font_16x16.dmi',"#FF0000")
+				overlays += String2Image("0:00:00", 10, 'monkestation/code/modules/bloody_cult/icons/font_16x16.dmi', "#FF0000")
 			else
-				overlays += String2Image("0:00:00",10,'monkestation/code/modules/bloody_cult/icons/font_16x16.dmi',"#999999")
+				overlays += String2Image("0:00:00", 10, 'monkestation/code/modules/bloody_cult/icons/font_16x16.dmi', "#999999")
 	UpdateUIScreenLoc()
 
 //------------------------------------------------------------
@@ -825,7 +825,7 @@ GLOBAL_LIST_INIT(blood_communion, list())
 			if (BLOODCULT_STAGE_NORMAL)
 				name = "Time before the Eclipse"
 				mask.pixel_x = 288*(cult.eclipse_progress/cult.eclipse_target)
-				adjust_particles(PVAR_POSITION, generator("box", list(mask.pixel_x-16,-1), list(mask.pixel_x-16,-14)))
+				adjust_particles(PVAR_POSITION, generator("box", list(mask.pixel_x-16, -1), list(mask.pixel_x-16, -14)))
 				adjust_particles(PVAR_VELOCITY, list(-1*(mask.pixel_x)/40, 0))
 				overlays.len = 0
 				overlays += mask
@@ -836,7 +836,7 @@ GLOBAL_LIST_INIT(blood_communion, list())
 				if (GLOB.eclipse.eclipse_end_time <= world.time)
 					adjust_particles(PVAR_SPAWNING, 0)
 				else
-					adjust_particles(PVAR_POSITION, generator("box", list(mask.pixel_x-16,-1), list(mask.pixel_x-16,-14)))
+					adjust_particles(PVAR_POSITION, generator("box", list(mask.pixel_x-16, -1), list(mask.pixel_x-16, -14)))
 					adjust_particles(PVAR_VELOCITY, list((288-mask.pixel_x)/40, 0))
 				overlays.len = 0
 				overlays += mask
@@ -844,7 +844,7 @@ GLOBAL_LIST_INIT(blood_communion, list())
 			if (BLOODCULT_STAGE_ECLIPSE)
 				name = "Time until Nar-Sie rises"
 				mask.pixel_x = max(0, 288*((world.time - cult.bloodstone_rising_time)/(cult.bloodstone_target_time - cult.bloodstone_rising_time)))
-				adjust_particles(PVAR_POSITION, generator("box", list(mask.pixel_x-16,-1), list(mask.pixel_x-16,-14)))
+				adjust_particles(PVAR_POSITION, generator("box", list(mask.pixel_x-16, -1), list(mask.pixel_x-16, -14)))
 				adjust_particles(PVAR_VELOCITY, list(-1*(mask.pixel_x)/40, 0))
 				overlays.len = 0
 				overlays += mask
@@ -901,7 +901,7 @@ GLOBAL_LIST_INIT(blood_communion, list())
 	overlays.len = 0
 	var/datum/team/cult/cult = locate_team(/datum/team/cult)
 	var/eclipse_rate = min(99.999, cult.eclipse_increments)
-	overlays += String2Image("[add_zero_before_and_after(round(eclipse_rate, 0.001), 2, 3)]",_pixel_x = 10,_pixel_y = 2)
+	overlays += String2Image("[add_zero_before_and_after(round(eclipse_rate, 0.001), 2, 3)]", _pixel_x = 10, _pixel_y = 2)
 
 
 //------------------------------------------------------------
@@ -928,11 +928,11 @@ GLOBAL_LIST_INIT(blood_communion, list())
 /obj/abstract/mind_ui_element/hoverable/bloodcult_total_devotion/UpdateIcon()
 	overlays.len = 0
 	var/datum/team/cult/cult = locate_team(/datum/team/cult)
-	var/total_devotion = min(9999999,cult.total_devotion)
+	var/total_devotion = min(9999999, cult.total_devotion)
 	if ((cult.stage == BLOODCULT_STAGE_DEFEATED) || (cult.stage == BLOODCULT_STAGE_NARSIE))
-		overlays += String2Image("[add_zero(total_devotion,7)]",_color="#FF0000",_pixel_x = 4,_pixel_y = 4)
+		overlays += String2Image("[add_zero(total_devotion, 7)]", _color = "#FF0000", _pixel_x = 4, _pixel_y = 4)
 	else
-		overlays += String2Image("[add_zero(total_devotion,7)]",_color="#FFFFFF",_pixel_x = 4,_pixel_y = 4)
+		overlays += String2Image("[add_zero(total_devotion, 7)]", _color = "#FFFFFF", _pixel_x = 4, _pixel_y = 4)
 
 
 //------------------------------------------------------------
@@ -958,9 +958,9 @@ GLOBAL_LIST_INIT(blood_communion, list())
 				var/i = 1
 				var/cap_placed = 0
 				var/list/ritualized_soulblades = list()//lists minds that undertook a soulblade ritual, saving their cult slot for others
-				var/accumulated_offset = -12 * max(0,cult.members.len - cult.max_cultist_cap) //in case of suspiciously large overflow, we shift the slots to the left so they remain centered
+				var/accumulated_offset = -12 * max(0, cult.members.len - cult.max_cultist_cap) //in case of suspiciously large overflow, we shift the slots to the left so they remain centered
 				var/list/free_construct_slots = list()
-				var/list/construct_types = list("Artificer","Wraith","Juggernaut")
+				var/list/construct_types = list("Artificer", "Wraith", "Juggernaut")
 				var/datum/mind_ui/bloodcult_panel/BP = parent
 				if (cult.cultist_cap == 0)//blood stone destroyed
 					var/obj/abstract/mind_ui_element/hoverable/bloodcult_cultist_cap/cultist_cap = locate() in BP.elements
@@ -1137,7 +1137,7 @@ GLOBAL_LIST_INIT(blood_communion, list())
 	var/locked = FALSE
 	var/overflow = FALSE
 
-/obj/abstract/mind_ui_element/hoverable/bloodcult_cultist_slot/StartHovering(var/location,var/control,var/params)
+/obj/abstract/mind_ui_element/hoverable/bloodcult_cultist_slot/StartHovering(var/location, var/control, var/params)
 	set_tooltip()
 	..()
 
@@ -1148,14 +1148,14 @@ GLOBAL_LIST_INIT(blood_communion, list())
 /obj/abstract/mind_ui_element/hoverable/bloodcult_cultist_slot/proc/set_tooltip()
 	if (associated_role)
 		add_particles(PS_CULT_HALO)
-		adjust_particles(PVAR_ICON_STATE,"cult_halo[associated_role.get_devotion_rank()]",PS_CULT_HALO)
-		adjust_particles(PVAR_PLANE,HUD_PLANE,PS_CULT_HALO)
-		adjust_particles(PVAR_LAYER,MIND_UI_BUTTON+0.5,PS_CULT_HALO)
-		adjust_particles(PVAR_PIXEL_X,-8,PS_CULT_HALO)
+		adjust_particles(PVAR_ICON_STATE, "cult_halo[associated_role.get_devotion_rank()]", PS_CULT_HALO)
+		adjust_particles(PVAR_PLANE, HUD_PLANE, PS_CULT_HALO)
+		adjust_particles(PVAR_LAYER, MIND_UI_BUTTON+0.5, PS_CULT_HALO)
+		adjust_particles(PVAR_PIXEL_X, -8, PS_CULT_HALO)
 		var/datum/mind/M = associated_role.owner
 		tooltip_title = M.name
 		var/icon/flat = getFlatIconDeluxe(sort_image_datas(get_content_image_datas(M.current)), override_dir = SOUTH)
-		tooltip_content = "<img class='icon' src='data:image/png;base64,[icon2base64(flat)]' style='position:relative; top:10px;'>"
+		tooltip_content = "<img class = 'icon' src = 'data:image/png;base64, [icon2base64(flat)]' style = 'position:relative; top:10px;'>"
 		switch(associated_role.cultist_role)
 			if (CULTIST_ROLE_NONE)
 				tooltip_content += "Cultist Herald"
@@ -1274,7 +1274,7 @@ GLOBAL_LIST_INIT(blood_communion, list())
 	animate(pixel_y = 8, time = 7, loop = -1, easing = SINE_EASING)
 
 /obj/abstract/mind_ui_element/hoverable/bloodcult_role/Click()
-	flick("role-click",src)
+	flick("role-click", src)
 
 	var/mob/M = GetUser()
 	if (M)
@@ -1284,18 +1284,18 @@ GLOBAL_LIST_INIT(blood_communion, list())
 		if (cult_datum)
 			if (cult_datum.cultist_role != CULTIST_ROLE_NONE)
 				if (cult_datum.mentor)
-					to_chat(M,"<span class='notice'>You are currently in a mentorship under [cult_datum.mentor.owner.name].</span>")
+					to_chat(M, "<span class = 'notice'>You are currently in a mentorship under [cult_datum.mentor.owner.name].</span>")
 				var/dat = ""
 				if (cult_datum.acolytes.len > 0)
 					for (var/datum/antagonist/cult/U in cult_datum.acolytes)
 						dat += "[U.owner.name], "
-					to_chat(M,"<span class='notice'>You are currently mentoring [dat]</span>")
+					to_chat(M, "<span class = 'notice'>You are currently mentoring [dat]</span>")
 				/* Don't think that cooldown was necessary, keeping this here in case I'm wrong in the future
 				if ((world.time - cult_datum.time_role_changed_last) < 5 MINUTES)
 					if ((world.time - cult_datum.time_role_changed_last) > 4 MINUTES)
-						to_chat(M,"<span class='warning'>You must wait [round((5 MINUTES - (world.time - cult_datum.time_role_changed_last))/10) + 1] seconds before you can switch role.</span>")
+						to_chat(M, "<span class = 'warning'>You must wait [round((5 MINUTES - (world.time - cult_datum.time_role_changed_last))/10) + 1] seconds before you can switch role.</span>")
 					else
-						to_chat(M,"<span class='warning'>You must wait around [round((5 MINUTES - (world.time - cult_datum.time_role_changed_last))/600) + 1] minutes before you can switch role.</span>")
+						to_chat(M, "<span class = 'warning'>You must wait around [round((5 MINUTES - (world.time - cult_datum.time_role_changed_last))/600) + 1] minutes before you can switch role.</span>")
 					return
 				else
 				*/
@@ -1355,7 +1355,7 @@ GLOBAL_LIST_INIT(blood_communion, list())
 					icon_state = "cultist_acolyte"
 					if (cult_datum.mentor)
 						offset_y = -55
-						var/image/I = image('monkestation/code/modules/bloody_cult/icons/bloodcult/288x16.dmi',src,"mentored_by")
+						var/image/I = image('monkestation/code/modules/bloody_cult/icons/bloodcult/288x16.dmi', src, "mentored_by")
 						I.pixel_x = 18
 						I.pixel_y = -15
 						overlays += I
@@ -1369,7 +1369,7 @@ GLOBAL_LIST_INIT(blood_communion, list())
 					icon_state = "cultist_mentor"
 					if (cult_datum.acolytes.len > 0)
 						offset_y = -55
-						var/image/I = image('monkestation/code/modules/bloody_cult/icons/bloodcult/288x16.dmi',src,"mentoring")
+						var/image/I = image('monkestation/code/modules/bloody_cult/icons/bloodcult/288x16.dmi', src, "mentoring")
 						I.pixel_x = 18
 						I.pixel_y = -15
 						overlays += I
@@ -1393,7 +1393,7 @@ GLOBAL_LIST_INIT(blood_communion, list())
 	layer = MIND_UI_BUTTON
 
 /obj/abstract/mind_ui_element/hoverable/bloodcult_help_other/Click()
-	flick("help-click",src)
+	flick("help-click", src)
 	parent.mind.DisplayUI("Cultist Help")
 
 
@@ -1473,7 +1473,7 @@ GLOBAL_LIST_INIT(blood_communion, list())
 		return
 	M.client.screen -= src
 
-/obj/abstract/mind_ui_element/hoverable/bloodcult_ritual/StartHovering(var/location,var/control,var/params)
+/obj/abstract/mind_ui_element/hoverable/bloodcult_ritual/StartHovering(var/location, var/control, var/params)
 	UpdateIcon()
 	..()
 
@@ -1621,7 +1621,7 @@ GLOBAL_LIST_INIT(blood_communion, list())
 
 	element_flags = MINDUI_FLAG_TOOLTIP
 	tooltip_title = ""
-	tooltip_content = "<span class='sinister'>Hell...</span><br><span class='sinister'>Join...</span><br><span class='sinister'>Self...</span><br>"
+	tooltip_content = "<span class = 'sinister'>Hell...</span><br><span class = 'sinister'>Join...</span><br><span class = 'sinister'>Self...</span><br>"
 	tooltip_theme = "radial-cult"
 
 /obj/abstract/mind_ui_element/hoverable/ritual_narsie/New(turf/loc, var/datum/mind_ui/P)
@@ -1649,7 +1649,7 @@ GLOBAL_LIST_INIT(blood_communion, list())
 		return
 	M.client.screen -= src
 
-/obj/abstract/mind_ui_element/hoverable/ritual_narsie/StartHovering(var/location,var/control,var/params)
+/obj/abstract/mind_ui_element/hoverable/ritual_narsie/StartHovering(var/location, var/control, var/params)
 	UpdateIcon()
 	..()
 
@@ -1944,7 +1944,7 @@ GLOBAL_LIST_INIT(blood_communion, list())
 			..()
 
 /obj/abstract/mind_ui_element/hoverable/bloodcult_help_previous/Click()
-	flick("button_prev-click",src)
+	flick("button_prev-click", src)
 	var/obj/abstract/mind_ui_element/bloodcult_help_background/help = locate() in parent.elements
 	if(help)
 		help.current_page = max(help.current_page-1, 1)
@@ -1969,7 +1969,7 @@ GLOBAL_LIST_INIT(blood_communion, list())
 			..()
 
 /obj/abstract/mind_ui_element/hoverable/bloodcult_help_next/Click()
-	flick("button_next-click",src)
+	flick("button_next-click", src)
 	var/obj/abstract/mind_ui_element/bloodcult_help_background/help = locate() in parent.elements
 	if(help)
 		help.current_page = min(help.current_page+1, help.max_page)
@@ -2139,7 +2139,7 @@ GLOBAL_LIST_INIT(blood_communion, list())
 			var/mob/living/simple_animal/hostile/hex/H = M.minions[P.controller]
 			H.mode = HEX_MODE_ROAMING
 			H.stop_automated_movement = FALSE
-			walk(H,0)
+			walk(H, 0)
 			P.Display()
 
 /obj/abstract/mind_ui_element/hoverable/hex_controller/roam/UpdateIcon()
@@ -2198,7 +2198,7 @@ GLOBAL_LIST_INIT(blood_communion, list())
 			var/mob/living/simple_animal/hostile/hex/H = M.minions[P.controller]
 			H.mode = HEX_MODE_GUARD
 			H.guard_spot = get_turf(H)
-			walk(H,0)
+			walk(H, 0)
 			P.Display()
 
 /obj/abstract/mind_ui_element/hoverable/hex_controller/guard/UpdateIcon()

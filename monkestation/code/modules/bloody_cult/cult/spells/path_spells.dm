@@ -17,17 +17,17 @@
 	var/turf/T = get_turf(target)
 	var/obj/effect/new_rune/rune = locate() in T
 	if (rune)
-		to_chat(owner,"<span class='warning'>You cannot draw on top of an already existing rune.</span>")
+		to_chat(owner, "<span class = 'warning'>You cannot draw on top of an already existing rune.</span>")
 		return FALSE
 	if(istype(T, /turf/open/space))
-		to_chat(owner, "<span class='warning'>Get over a solid surface first!</span>")
+		to_chat(owner, "<span class = 'warning'>Get over a solid surface first!</span>")
 		return FALSE
 	return TRUE
 
 /datum/action/cooldown/spell/pointed/conjure/path_entrance/post_summon(obj/effect/new_rune/R, atom/cast_on)
 	var/turf/T = R.loc
-	log_admin("BLOODCULT: [key_name(owner)] has created a new rune at [T.loc] (@[T.x],[T.y],[T.z]).")
-	message_admins("BLOODCULT: [key_name(owner)] has created a new rune at [T.loc] <A HREF='?_src_=holder;adminplayerobservecoodjump=1;X=[T.x];Y=[T.y];Z=[T.z]'>(JMP)</a>.")
+	log_admin("BLOODCULT: [key_name(owner)] has created a new rune at [T.loc] (@[T.x], [T.y], [T.z]).")
+	message_admins("BLOODCULT: [key_name(owner)] has created a new rune at [T.loc] <A HREF = '?_src_ = holder;adminplayerobservecoodjump = 1;X = [T.x];Y = [T.y];Z = [T.z]'>(JMP)</a>.")
 	write_full_rune(R.loc, /datum/rune_spell/portalentrance)
 	R.one_pulse()
 	R.trigger(owner)
@@ -52,18 +52,18 @@
 	var/turf/T = get_turf(target)
 	var/obj/effect/new_rune/rune = locate() in T
 	if (rune)
-		to_chat(owner,"<span class='warning'>You cannot draw on top of an already existing rune.</span>")
+		to_chat(owner, "<span class = 'warning'>You cannot draw on top of an already existing rune.</span>")
 		return FALSE
 	if(istype(T, /turf/open/space))
-		to_chat(owner, "<span class='warning'>Get over a solid surface first!</span>")
+		to_chat(owner, "<span class = 'warning'>Get over a solid surface first!</span>")
 		return FALSE
 	return TRUE
 
 /datum/action/cooldown/spell/pointed/conjure/path_exit/post_summon(obj/effect/new_rune/R, atom/cast_on)
 	. = ..()
 	var/turf/T = R.loc
-	log_admin("BLOODCULT: [key_name(owner)] has created a new rune at [T.loc] (@[T.x],[T.y],[T.z]).")
-	message_admins("BLOODCULT: [key_name(owner)] has created a new rune at [T.loc] <A HREF='?_src_=holder;adminplayerobservecoodjump=1;X=[T.x];Y=[T.y];Z=[T.z]'>(JMP)</a>.")
+	log_admin("BLOODCULT: [key_name(owner)] has created a new rune at [T.loc] (@[T.x], [T.y], [T.z]).")
+	message_admins("BLOODCULT: [key_name(owner)] has created a new rune at [T.loc] <A HREF = '?_src_ = holder;adminplayerobservecoodjump = 1;X = [T.x];Y = [T.y];Z = [T.z]'>(JMP)</a>.")
 	write_full_rune(R.loc, /datum/rune_spell/portalexit)
 	R.one_pulse()
 	R.trigger(owner)

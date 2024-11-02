@@ -56,12 +56,12 @@
 		if(control_flags & LOCK_MOVEMENT_OF_CONTROLLER)
 			ADD_TRAIT(controller, TRAIT_IMMOBILIZED, REF(src))
 		if(controlled.density)
-			step(controlled,direction)
+			step(controlled, direction)
 			if(!controlled)
 				return
 			controlled.dir = direction
 		else
-			controlled.forceMove(get_step(controlled,direction))
+			controlled.forceMove(get_step(controlled, direction))
 
 /datum/control/proc/Orient_object(var/direction)
 	if(!is_valid())
@@ -89,7 +89,7 @@
 	if (blade.blood <= 0 || move_delay || blade.throwing)
 		return 0
 	if (!isturf(blade.loc))
-		if (istype(blade.loc,/obj/structure/cult/altar))
+		if (istype(blade.loc, /obj/structure/cult/altar))
 			var/obj/structure/cult/altar/A = blade.loc
 			blade.forceMove(A.loc)
 			A.blade = null
@@ -108,11 +108,11 @@
 	var/atom/start = blade.loc
 	if(!is_valid())
 		return
-	step(controlled,direction)
+	step(controlled, direction)
 	controlled.dir = direction
 	if (blade.loc != start)
-		if (!blade.linked_cultist || (get_dist(get_turf(blade.linked_cultist),get_turf(controller)) > 5))
-			blade.blood = max(blade.blood-1,0)
+		if (!blade.linked_cultist || (get_dist(get_turf(blade.linked_cultist), get_turf(controller)) > 5))
+			blade.blood = max(blade.blood-1, 0)
 		move_delay = 1
 		spawn(blade.movespeed)
 			move_delay = 0

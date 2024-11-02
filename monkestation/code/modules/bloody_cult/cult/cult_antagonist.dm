@@ -37,7 +37,7 @@
 
 	var/initial_rituals = FALSE
 	var/list/possible_rituals = list()
-	var/list/rituals = list(RITUAL_CULTIST_1,RITUAL_CULTIST_2)
+	var/list/rituals = list(RITUAL_CULTIST_1, RITUAL_CULTIST_2)
 	var/logo_state = "cult-logo"
 
 /datum/antagonist/cult/get_team()
@@ -65,7 +65,7 @@
 /datum/antagonist/cult/can_be_owned(datum/mind/new_owner)
 	. = ..()
 	if(. && !ignore_implant)
-		. = is_convertable_to_cult(new_owner.current,cult_team)
+		. = is_convertable_to_cult(new_owner.current, cult_team)
 
 /datum/antagonist/cult/greet()
 	. = ..()
@@ -82,7 +82,7 @@
 	var/mob/living/current = owner.current
 	if(give_equipment)
 		equip_cultist(TRUE)
-	current.log_message("has been converted to the cult of Nar'Sie!", LOG_ATTACK, color="#960000")
+	current.log_message("has been converted to the cult of Nar'Sie!", LOG_ATTACK, color = "#960000")
 
 	if(cult_team.blood_target && cult_team.blood_target_image && current.client)
 		current.client.images += cult_team.blood_target_image
@@ -96,7 +96,7 @@
 	if(!silent)
 		owner.current.visible_message(span_deconversion_message("[owner.current] looks like [owner.current.p_theyve()] just reverted to [owner.current.p_their()] old faith!"), ignored_mobs = owner.current)
 		to_chat(owner.current, span_userdanger("An unfamiliar white light flashes through your mind, cleansing the taint of the Geometer and all your memories as her servant."))
-		owner.current.log_message("has renounced the cult of Nar'Sie!", LOG_ATTACK, color="#960000")
+		owner.current.log_message("has renounced the cult of Nar'Sie!", LOG_ATTACK, color = "#960000")
 	if(cult_team.blood_target && cult_team.blood_target_image && owner.current.client)
 		owner.current.client.images -= cult_team.blood_target_image
 
@@ -121,7 +121,7 @@
 
 	return finish_preview_icon(icon)
 
-/datum/antagonist/cult/proc/equip_cultist(metal=TRUE)
+/datum/antagonist/cult/proc/equip_cultist(metal = TRUE)
 	var/mob/living/carbon/H = owner.current
 	if(!istype(H))
 		return
@@ -177,7 +177,7 @@
 		to_chat(owner.current, span_warning("You feel something interfering with your mental conditioning, but you resist it!"))
 	return
 
-/datum/antagonist/cult/admin_add(datum/mind/new_owner,mob/admin)
+/datum/antagonist/cult/admin_add(datum/mind/new_owner, mob/admin)
 	give_equipment = FALSE
 	new_owner.add_antag_datum(src)
 	message_admins("[key_name_admin(admin)] has cult-ed [key_name_admin(new_owner)].")
@@ -194,11 +194,11 @@
 	.["Remove Dagger and Metal"] = CALLBACK(src, PROC_REF(admin_take_all))
 
 /datum/antagonist/cult/proc/admin_give_dagger(mob/admin)
-	if(!equip_cultist(metal=FALSE))
+	if(!equip_cultist(metal = FALSE))
 		to_chat(admin, span_danger("Spawning dagger failed!"))
 
 /datum/antagonist/cult/proc/admin_give_metal(mob/admin)
-	if (!equip_cultist(metal=TRUE))
+	if (!equip_cultist(metal = TRUE))
 		to_chat(admin, span_danger("Spawning runed metal failed!"))
 
 /datum/antagonist/cult/proc/admin_take_all(mob/admin)
@@ -219,14 +219,14 @@
 	var/obj/effect/rune/rune = locate() in T
 
 	if (rune && rune.invisibility == INVISIBILITY_OBSERVER)
-		to_chat(user, "<span class='warning'>You can feel the presence of a concealed rune here, you have to reveal it before you can erase words from it.</span>")
+		to_chat(user, "<span class = 'warning'>You can feel the presence of a concealed rune here, you have to reveal it before you can erase words from it.</span>")
 		return
 
 	var/removed_word = erase_rune_word(get_turf(user))
 	if (removed_word)
-		to_chat(user, "<span class='notice'>You retrace your steps, carefully undoing the lines of the [removed_word] rune.</span>")
+		to_chat(user, "<span class = 'notice'>You retrace your steps, carefully undoing the lines of the [removed_word] rune.</span>")
 	else
-		to_chat(user, "<span class='warning'>There aren't any rune words left to erase.</span>")
+		to_chat(user, "<span class = 'warning'>There aren't any rune words left to erase.</span>")
 
 /datum/antagonist/cult/proc/gain_devotion(var/acquired_devotion = 0, var/tier = DEVOTION_TIER_0, var/key, var/extra)
 	if (cult_team)
@@ -248,7 +248,7 @@
 						rituals[ritual_slot] = null
 						var/mob/M = owner.current
 						if (M)
-							to_chat(M, "<span class='sinister'>You have completed a ritual and been reward for your devotion...soon another ritual will take its place.</span>")
+							to_chat(M, "<span class = 'sinister'>You have completed a ritual and been reward for your devotion...soon another ritual will take its place.</span>")
 						spawn(5 MINUTES)
 							if (!rituals[ritual_slot])
 								replace_rituals(ritual_slot)
@@ -267,9 +267,9 @@
 							var/mob/M = mind.current
 							if (M)
 								if (M == owner.current)
-									to_chat(M, "<span class='sinister'>You have completed a ritual, and rewarded the entire cult...soon another ritual will take its place.</span>")
+									to_chat(M, "<span class = 'sinister'>You have completed a ritual, and rewarded the entire cult...soon another ritual will take its place.</span>")
 								else
-									to_chat(M, "<span class='sinister'>Someone has completed a ritual, rewarding the entire cult...soon another ritual will take its place.</span>")
+									to_chat(M, "<span class = 'sinister'>Someone has completed a ritual, rewarding the entire cult...soon another ritual will take its place.</span>")
 						spawn(10 MINUTES)
 							if (!cult.rituals[ritual_slot])
 								cult.replace_rituals(ritual_slot)
@@ -294,22 +294,22 @@
 	while (new_rank > rank)
 		rank++
 		if (iscarbon(owner.current))//constructs and shades cannot make use of those powers so no point informing them.
-			to_chat(owner.current, "<span class='sinisterbig'>As your devotion to the cult increases, a new power awakens inside you.</span>")
+			to_chat(owner.current, "<span class = 'sinisterbig'>As your devotion to the cult increases, a new power awakens inside you.</span>")
 			switch(rank)
 				if (DEVOTION_TIER_1)
-					to_chat(owner.current, "<span class='danger'>Blood Pooling</span>")
+					to_chat(owner.current, "<span class = 'danger'>Blood Pooling</span>")
 					to_chat(owner.current, "<b>Any blood cost required by a cult rune or ritual will now be reduced and split with other cult members that have attained this power. You can toggle blood pooling as needed.</b>")
 					GiveTattoo(/datum/cult_tattoo/bloodpool)
 				if (DEVOTION_TIER_2)
-					to_chat(owner.current, "<span class='danger'>Blood Dagger</span>")
+					to_chat(owner.current, "<span class = 'danger'>Blood Dagger</span>")
 					to_chat(owner.current, "<b>You can now form a dagger using your own blood (or pooled blood, any blood that you can get your hands on). Hitting someone will let the dagger steal some of their blood, while sheathing the dagger will let you recover all the stolen blood. Throwing the dagger deals damage based on how much blood it carries, and nails the victim down, forcing them to pull the dagger out to move away.</b>")
 					GiveTattoo(/datum/cult_tattoo/dagger)
 				if (DEVOTION_TIER_3)
-					to_chat(owner.current, "<span class='danger'>Runic Skin</span>")
+					to_chat(owner.current, "<span class = 'danger'>Runic Skin</span>")
 					to_chat(owner.current, "<b>You can now fuse a talisman that has a rune imbued or attuned to it with your skin, granting you the ability to cast this talisman hands free, as long as you are conscious and not under the effects of Holy Water.</b>")
 					GiveTattoo(/datum/cult_tattoo/rune_store)
 				if (DEVOTION_TIER_4)
-					to_chat(owner.current, "<span class='danger'>Shortcut Sigil</span>")
+					to_chat(owner.current, "<span class = 'danger'>Shortcut Sigil</span>")
 					to_chat(owner.current, "<b>Apply your palms on a wall to draw a sigil on it that lets you and any ally pass through it.</b>")
 					GiveTattoo(/datum/cult_tattoo/shortcut)
 
@@ -344,8 +344,8 @@
 	if (potential_mentor)
 		mentor = potential_mentor
 		potential_mentor.acolytes |= src
-		to_chat(owner.current, "<span class='sinister'>You are now in a mentorship under <span class='danger'>[mentor.owner.name], the [mentor.owner.assigned_role=="MODE" ? (mentor.owner.special_role) : (mentor.owner.assigned_role)]</span>. Seek their help to learn the ways of our cult.</span>")
-		to_chat(mentor.owner.current, "<span class='sinister'>You are now mentoring <span class='danger'>[owner.name], the [owner.assigned_role=="MODE" ? (owner.special_role) : (owner.assigned_role)]</span>. </span>")
+		to_chat(owner.current, "<span class = 'sinister'>You are now in a mentorship under <span class = 'danger'>[mentor.owner.name], the [mentor.owner.assigned_role == "MODE" ? (mentor.owner.special_role) : (mentor.owner.assigned_role)]</span>. Seek their help to learn the ways of our cult.</span>")
+		to_chat(mentor.owner.current, "<span class = 'sinister'>You are now mentoring <span class = 'danger'>[owner.name], the [owner.assigned_role == "MODE" ? (owner.special_role) : (owner.assigned_role)]</span>. </span>")
 		message_admins("[mentor.owner.key]/([mentor.owner.name]) is now mentoring [owner.name]")
 		log_admin("[mentor.owner.key]/([mentor.owner.name]) is now mentoring [owner.name]")
 
@@ -367,7 +367,7 @@
 	if(M)
 		if (M.client && M.hud_used)
 			if (isshade(M))
-				if (istype(M.loc,/obj/item/weapon/melee/soulblade))
+				if (istype(M.loc, /obj/item/weapon/melee/soulblade))
 					M.DisplayUI("Soulblade")
 
 
@@ -391,7 +391,7 @@
 
 	var/mob/O = owner.current
 	if (O)
-		to_chat(O, "<span class='sinister'>A new ritual is available...</span>")
+		to_chat(O, "<span class = 'sinister'>A new ritual is available...</span>")
 	var/datum/mind/M = owner
 	if ("Cult Panel" in M.active_uis)
 		var/datum/mind_ui/m_ui = M.active_uis["Cult Panel"]
@@ -438,16 +438,16 @@
 
 /datum/antagonist/cult/proc/DropMentorship()
 	if (mentor)
-		to_chat(owner.current,"<span class='warning'>You have ended your mentorship under [mentor.owner.name].</span>")
-		to_chat(mentor.owner.current,"<span class='warning'>[owner.name] has ended their mentorship under you.</span>")
+		to_chat(owner.current, "<span class = 'warning'>You have ended your mentorship under [mentor.owner.name].</span>")
+		to_chat(mentor.owner.current, "<span class = 'warning'>[owner.name] has ended their mentorship under you.</span>")
 		message_admins("[owner.key]/([owner.name]) has ended their mentorship under [mentor.owner.name]")
 		log_admin("[owner.key]/([owner.name]) has ended their mentorship under [mentor.owner.name]")
 		mentor.acolytes -= src
 		mentor = null
 	if (acolytes.len > 0)
 		for (var/datum/antagonist/cult/acolyte in acolytes)
-			to_chat(owner.current,"<span class='warning'>You have ended your mentorship of [acolyte.owner.name].</span>")
-			to_chat(acolyte.owner.current,"<span class='warning'>[owner.name] has ended their mentorship.</span>")
+			to_chat(owner.current, "<span class = 'warning'>You have ended your mentorship of [acolyte.owner.name].</span>")
+			to_chat(acolyte.owner.current, "<span class = 'warning'>[owner.name] has ended their mentorship.</span>")
 			message_admins("[owner.key]/([owner.name]) has ended their mentorship of [acolyte.owner.name]")
 			log_admin("[owner.key]/([owner.name]) has ended their mentorship of [acolyte.owner.name]")
 			acolyte.mentor = null
@@ -461,15 +461,15 @@
 
 	var/muted = user.occult_muted()
 	if (muted)
-		to_chat(user,"<span class='danger'>You find yourself unable to focus your mind on the words of Nar-Sie.</span>")
+		to_chat(user, "<span class = 'danger'>You find yourself unable to focus your mind on the words of Nar-Sie.</span>")
 		return
 
 	if(!istype(user.loc, /turf))
-		to_chat(user, "<span class='warning'>You do not have enough space to write a proper rune.</span>")
+		to_chat(user, "<span class = 'warning'>You do not have enough space to write a proper rune.</span>")
 		return
 
 	if(istype(user.loc, /turf/open/space))
-		to_chat(user, "<span class='warning'>Get over a solid surface first!</span>")
+		to_chat(user, "<span class = 'warning'>Get over a solid surface first!</span>")
 		return
 
 	var/turf/T = get_turf(user)
@@ -477,10 +477,10 @@
 
 	if(rune)
 		if (rune.invisibility == INVISIBILITY_OBSERVER)
-			to_chat(user, "<span class='warning'>You can feel the presence of a concealed rune here. You have to reveal it before you can add more words to it.</span>")
+			to_chat(user, "<span class = 'warning'>You can feel the presence of a concealed rune here. You have to reveal it before you can add more words to it.</span>")
 			return
 		else if (rune.word1 && rune.word2 && rune.word3)
-			to_chat(user, "<span class='warning'>You cannot add more than 3 words to a rune.</span>")
+			to_chat(user, "<span class = 'warning'>You cannot add more than 3 words to a rune.</span>")
 			return
 
 	var/datum/rune_word/word = GLOB.rune_words[word_to_draw]
@@ -490,20 +490,20 @@
 
 	if (verbose)
 		if(rune)
-			user.visible_message("<span class='warning'>\The [user] chants and paints more symbols on the floor.</span>",\
-					"<span class='warning'>You add another word to the rune.</span>",\
-					"<span class='warning'>You hear chanting.</span>")
+			user.visible_message("<span class = 'warning'>\The [user] chants and paints more symbols on the floor.</span>", \
+					"<span class = 'warning'>You add another word to the rune.</span>", \
+					"<span class = 'warning'>You hear chanting.</span>")
 		else
-			user.visible_message("<span class='warning'>\The [user] begins to chant and paint symbols on the floor.</span>",\
-					"<span class='warning'>You begin drawing a rune on the floor.</span>",\
-					"<span class='warning'>You hear some chanting.</span>")
+			user.visible_message("<span class = 'warning'>\The [user] begins to chant and paint symbols on the floor.</span>", \
+					"<span class = 'warning'>You begin drawing a rune on the floor.</span>", \
+					"<span class = 'warning'>You hear some chanting.</span>")
 
 	if(!user.checkTattoo(TATTOO_SILENT))
 		user.whisper("...[word.rune]...")
 
 	if(rune)
 		if(rune.word1 && rune.word2 && rune.word3)
-			to_chat(user, "<span class='warning'>You cannot add more than 3 words to a rune.</span>")
+			to_chat(user, "<span class = 'warning'>You cannot add more than 3 words to a rune.</span>")
 			return
 	gain_devotion(10, DEVOTION_TIER_0, "write_rune", word.english)
 	write_rune_word(get_turf(user), word, rune_blood_data["blood"], caster = user)
@@ -553,7 +553,7 @@
 			assign_rituals()
 			var/mob/M = owner.current
 			if (M)
-				to_chat(M, "<span class='sinister'>Although you can generate devotion by performing most cult activities, a couple rituals for you to perform are now available. Check the cult panel.</span>")
+				to_chat(M, "<span class = 'sinister'>Although you can generate devotion by performing most cult activities, a couple rituals for you to perform are now available. Check the cult panel.</span>")
 		if (!owner.current)
 			return
 		switch(cult.stage)
@@ -562,15 +562,15 @@
 				owner.current.add_particles(PS_CULT_SMOKE2)
 				if (cult.tear_ritual && cult.tear_ritual.dance_count)
 					var/count = clamp(cult.tear_ritual.dance_count / 400, 0.01, 0.6)
-					owner.current.adjust_particles(PVAR_SPAWNING,count,PS_CULT_SMOKE)
-					owner.current.adjust_particles(PVAR_SPAWNING,count,PS_CULT_SMOKE2)
+					owner.current.adjust_particles(PVAR_SPAWNING, count, PS_CULT_SMOKE)
+					owner.current.adjust_particles(PVAR_SPAWNING, count, PS_CULT_SMOKE2)
 				else
 					if (prob(1))
-						owner.current.adjust_particles(PVAR_SPAWNING,0.05,PS_CULT_SMOKE)
-						owner.current.adjust_particles(PVAR_SPAWNING,0.05,PS_CULT_SMOKE2)
+						owner.current.adjust_particles(PVAR_SPAWNING, 0.05, PS_CULT_SMOKE)
+						owner.current.adjust_particles(PVAR_SPAWNING, 0.05, PS_CULT_SMOKE2)
 					else
-						owner.current.adjust_particles(PVAR_SPAWNING,0,PS_CULT_SMOKE)
-						owner.current.adjust_particles(PVAR_SPAWNING,0,PS_CULT_SMOKE2)
+						owner.current.adjust_particles(PVAR_SPAWNING, 0, PS_CULT_SMOKE)
+						owner.current.adjust_particles(PVAR_SPAWNING, 0, PS_CULT_SMOKE2)
 			if (BLOODCULT_STAGE_MISSED)
 				owner.current.remove_particles(PS_CULT_SMOKE)
 				owner.current.remove_particles(PS_CULT_SMOKE2)
@@ -579,25 +579,25 @@
 					owner.current.AddElement(/datum/element/cult_eyes)
 				owner.current.add_particles(PS_CULT_SMOKE)
 				owner.current.add_particles(PS_CULT_SMOKE2)
-				owner.current.adjust_particles(PVAR_SPAWNING,0.6,PS_CULT_SMOKE)
-				owner.current.adjust_particles(PVAR_SPAWNING,0.6,PS_CULT_SMOKE2)
+				owner.current.adjust_particles(PVAR_SPAWNING, 0.6, PS_CULT_SMOKE)
+				owner.current.adjust_particles(PVAR_SPAWNING, 0.6, PS_CULT_SMOKE2)
 				owner.current.add_particles(PS_CULT_HALO)
-				owner.current.adjust_particles(PVAR_ICON_STATE,"cult_halo[get_devotion_rank()]",PS_CULT_HALO)
+				owner.current.adjust_particles(PVAR_ICON_STATE, "cult_halo[get_devotion_rank()]", PS_CULT_HALO)
 			if (BLOODCULT_STAGE_DEFEATED)
 				owner.current.add_particles(PS_CULT_SMOKE)
 				owner.current.add_particles(PS_CULT_SMOKE2)
-				owner.current.adjust_particles(PVAR_SPAWNING,0.19,PS_CULT_SMOKE)
-				owner.current.adjust_particles(PVAR_SPAWNING,0.21,PS_CULT_SMOKE2)
+				owner.current.adjust_particles(PVAR_SPAWNING, 0.19, PS_CULT_SMOKE)
+				owner.current.adjust_particles(PVAR_SPAWNING, 0.21, PS_CULT_SMOKE2)
 				owner.current.add_particles(PS_CULT_HALO)
-				owner.current.adjust_particles(PVAR_COLOR,"#00000066",PS_CULT_HALO)
-				owner.current.adjust_particles(PVAR_ICON_STATE,"cult_halo[get_devotion_rank()]",PS_CULT_HALO)
+				owner.current.adjust_particles(PVAR_COLOR, "#00000066", PS_CULT_HALO)
+				owner.current.adjust_particles(PVAR_ICON_STATE, "cult_halo[get_devotion_rank()]", PS_CULT_HALO)
 			if (BLOODCULT_STAGE_NARSIE)
 				owner.current.add_particles(PS_CULT_SMOKE)
 				owner.current.add_particles(PS_CULT_SMOKE2)
-				owner.current.adjust_particles(PVAR_SPAWNING,0.6,PS_CULT_SMOKE)
-				owner.current.adjust_particles(PVAR_SPAWNING,0.6,PS_CULT_SMOKE2)
+				owner.current.adjust_particles(PVAR_SPAWNING, 0.6, PS_CULT_SMOKE)
+				owner.current.adjust_particles(PVAR_SPAWNING, 0.6, PS_CULT_SMOKE2)
 				owner.current.add_particles(PS_CULT_HALO)
-				owner.current.adjust_particles(PVAR_ICON_STATE,"cult_halo[get_devotion_rank()]",PS_CULT_HALO)
+				owner.current.adjust_particles(PVAR_ICON_STATE, "cult_halo[get_devotion_rank()]", PS_CULT_HALO)
 
 /datum/antagonist/cult/proc/get_eclipse_increment()
 	switch(get_devotion_rank())

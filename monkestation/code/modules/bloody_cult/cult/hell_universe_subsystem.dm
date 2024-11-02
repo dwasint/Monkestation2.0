@@ -66,7 +66,7 @@ SUBSYSTEM_DEF(hell_universe)
 		CHECK_TICK
 
 		space.add_particles(PS_SPACE_RUNES)//visible for everyone
-		space.adjust_particles(PVAR_SPAWNING, rand(5,20)/1000 ,PS_SPACE_RUNES)
+		space.adjust_particles(PVAR_SPAWNING, rand(5, 20)/1000 ,PS_SPACE_RUNES)
 		turfs_to_process -= space
 
 	for(var/obj/machinery/light/light_to_break in lights_to_break)

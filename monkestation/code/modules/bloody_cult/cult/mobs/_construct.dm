@@ -13,7 +13,7 @@
 	. = ..()
 	if(!new_glow)
 		return
-	var/icon/glowicon = icon(icon,"glow-[icon_state]", src)
+	var/icon/glowicon = icon(icon, "glow-[icon_state]", src)
 	glowicon.Blend(construct_color, ICON_ADD)
 	. += emissive_appearance(glowicon, offset_spokesman = src)
 	. += mutable_appearance(glowicon, offset_spokesman = src)
@@ -21,9 +21,9 @@
 	var/damage = maxHealth - health
 	var/icon/damageicon
 	if (damage > (2*maxHealth/3))
-		damageicon = icon(icon,"[icon_state]_damage_high", src)
+		damageicon = icon(icon, "[icon_state]_damage_high", src)
 	else if (damage > (maxHealth/3))
-		damageicon = icon(icon,"[icon_state]_damage_low", src)
+		damageicon = icon(icon, "[icon_state]_damage_low", src)
 	if (damageicon)
 		damageicon.Blend(construct_color, ICON_ADD)
 		. += emissive_appearance(damageicon, offset_spokesman = src)

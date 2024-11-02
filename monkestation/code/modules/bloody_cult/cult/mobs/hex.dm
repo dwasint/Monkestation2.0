@@ -66,9 +66,9 @@
 	var/damage = maxHealth - health
 	var/icon/damageicon
 	if (damage > (2*maxHealth/3))
-		damageicon = icon(icon,"wraith2_damage_high")//fits well enough
+		damageicon = icon(icon, "wraith2_damage_high")//fits well enough
 	else if (damage > (maxHealth/3))
-		damageicon = icon(icon,"wraith2_damage_low")
+		damageicon = icon(icon, "wraith2_damage_low")
 	if (damageicon)
 		damageicon.Blend(glow_color, ICON_ADD)
 		var/image/damage_overlay = image(icon = damageicon)
@@ -81,7 +81,7 @@
 /mob/living/simple_animal/hostile/hex/proc/setupglow(var/_glowcolor = "#FFFFFF")
 	glow_color = _glowcolor
 	overlays -= master_glow
-	var/icon/glowicon = icon(icon,"glow-[icon_state]")
+	var/icon/glowicon = icon(icon, "glow-[icon_state]")
 	glowicon.Blend(_glowcolor, ICON_ADD)
 	master_glow = image(icon = glowicon)
 	master_glow.plane = ABOVE_LIGHTING_PLANE
@@ -117,8 +117,8 @@
 				else
 					var/turf/T = get_turf(src)
 					if (T != guard_spot)
-						if ((T.z == guard_spot.z) && (get_dist(T,guard_spot) < 50))
-							Goto(guard_spot,move_to_delay,0)
+						if ((T.z == guard_spot.z) && (get_dist(T, guard_spot) < 50))
+							Goto(guard_spot, move_to_delay, 0)
 						else
 							guard_spot = get_turf(src)
 					else
@@ -138,15 +138,15 @@
 		if (H == src)
 			spot = escorts
 	if (escorts == 1)
-		Goto(master.satellites[1],move_to_delay,0)//trailing behind
+		Goto(master.satellites[1], move_to_delay, 0)//trailing behind
 		if (!target && (loc == get_turf(master.satellites[1])))
 			dir = master.dir
 	else
-		Goto(master.satellites[spot+1],move_to_delay,0)//trailing on each sides
+		Goto(master.satellites[spot+1], move_to_delay, 0)//trailing on each sides
 		if (!target && (loc == get_turf(master.satellites[spot+1])))
 			dir = master.dir
 
-/mob/living/simple_animal/hostile/hex/Cross(var/atom/movable/mover, var/turf/target, var/height=1.5, var/air_group = 0)
+/mob/living/simple_animal/hostile/hex/Cross(var/atom/movable/mover, var/turf/target, var/height = 1.5, var/air_group = 0)
 	if(istype(mover, /obj/projectile/bloodslash))//stop hitting yourself ffs!
 		return 1
 	if ((mode == HEX_MODE_ESCORT) && (istype(mover, /mob/living/simple_animal/hostile/hex) || (mover == master)))//Escort mode is janky otherwise
@@ -154,7 +154,7 @@
 
 	return ..()
 
-/mob/living/simple_animal/hostile/hex/Move(NewLoc,Dir=0,step_x=0,step_y=0,var/glide_size_override = 0)
+/mob/living/simple_animal/hostile/hex/Move(NewLoc, Dir = 0, step_x = 0, step_y = 0, var/glide_size_override = 0)
 	. = ..()
 	if (target)
 		dir = get_dir(src, target)
@@ -166,7 +166,7 @@
 
 /mob/living/simple_animal/hostile/hex/death(var/gibbed = FALSE)
 	..(TRUE) //If they qdel, they gib regardless
-	visible_message("<span class='warning'>\The [src] collapses in a shattered heap. </span>")
+	visible_message("<span class = 'warning'>\The [src] collapses in a shattered heap. </span>")
 	qdel (src)
 
 /mob/living/simple_animal/hostile/hex/PickTarget(list/Targets)
@@ -180,7 +180,7 @@
 				Targets -= M
 			if (iscarbon(M))
 				var/mob/living/carbon/C = M
-				if (istype(C.handcuffed,/obj/item/restraints/handcuffs/cult)) //hex don't attack prisoners
+				if (istype(C.handcuffed, /obj/item/restraints/handcuffs/cult)) //hex don't attack prisoners
 					Targets -= M
 			if (locate(/obj/effect/stun_indicator) in M)//or people that got stun paper'd
 				Targets -= M
@@ -197,7 +197,7 @@
 		if(isturf(loc))
 			if(target in ListTargets())
 				dir = get_dir(src, target)
-				if(get_dist(src,target) >= 2 && ranged_cooldown <= 0)
+				if(get_dist(src, target) >= 2 && ranged_cooldown <= 0)
 					OpenFire(target)
 				if(target.Adjacent(src))
 					AttackingTarget()

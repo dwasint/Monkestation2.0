@@ -30,7 +30,7 @@
 		if(!QDELETED(O) && (istype(O, /obj/structure) || istype(O, /obj/machinery)))
 			qdel(O)
 	T.ChangeTurf(/turf/open/floor/engine/cult)
-	T.turf_animation('monkestation/code/modules/bloody_cult/icons/effects.dmi',"cultfloor", 0, 0, MOB_LAYER-1, anim_plane = GAME_PLANE)
+	T.turf_animation('monkestation/code/modules/bloody_cult/icons/effects.dmi', "cultfloor", 0, 0, MOB_LAYER-1, anim_plane = GAME_PLANE)
 
 /obj/structure/cult/pillar/Destroy()
 	new /obj/effect/decal/cleanable/ash(loc)

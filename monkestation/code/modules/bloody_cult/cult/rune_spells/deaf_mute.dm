@@ -11,14 +11,14 @@
 		The durations are halved when cast from a talisman, unless you slap someone directly with one, which will also limits the effects to them.\
 		<br><br>This rune is great to sow disorder and delay the arrival of security, and can potentially combo with a Stun talisman used on an area. The only downside is that you can't hear them scream while they are muted."
 	var/deaf_rune_duration= 50 SECONDS//times are in seconds
-	var/deaf_talisman_duration=30 SECONDS
-	var/mute_rune_duration=25 SECONDS
-	var/mute_talisman_duration=15 SECONDS
-	var/effect_range=7
+	var/deaf_talisman_duration = 30 SECONDS
+	var/mute_rune_duration = 25 SECONDS
+	var/mute_talisman_duration = 15 SECONDS
+	var/effect_range = 7
 	touch_cast = 1
 
 /datum/rune_spell/deafmute/cast_touch(var/mob/living/M)
-	invoke(activator,invocation,1)
+	invoke(activator, invocation, 1)
 
 	var/deaf_duration = deaf_rune_duration
 	var/mute_duration = mute_rune_duration
@@ -34,12 +34,12 @@
 	var/obj/item/organ/internal/ears/ears = M.get_organ_slot(ORGAN_SLOT_EARS)
 	ears?.adjustEarDamage(0, deaf_duration)
 	if (!(HAS_TRAIT(M, TRAIT_DEAF)))
-		to_chat(M,"<span class='notice'>The world around you suddenly becomes quiet.</span>")
+		to_chat(M, "<span class = 'notice'>The world around you suddenly becomes quiet.</span>")
 	if (!(HAS_TRAIT(M, TRAIT_MUTE)))
 		if (iscarbon(M))
-			to_chat(M,"<span class='warning'>You feel a terrible chill! You find yourself unable to speak a word...</span>")
+			to_chat(M, "<span class = 'warning'>You feel a terrible chill! You find yourself unable to speak a word...</span>")
 		else if (issilicon(M))
-			to_chat(M,"<span class='warning'>A shortcut appears to have temporarily disabled your speaker!</span>")
+			to_chat(M, "<span class = 'warning'>A shortcut appears to have temporarily disabled your speaker!</span>")
 	spawn(8)
 		M.update_fullscreen_alpha("deafborder", 0, 5)
 		sleep(8)
@@ -48,7 +48,7 @@
 	qdel(src)
 
 /datum/rune_spell/deafmute/cast(var/deaf_duration = deaf_rune_duration, var/mute_duration = mute_rune_duration)
-	for(var/mob/living/M in range(effect_range,get_turf(spell_holder)))
+	for(var/mob/living/M in range(effect_range, get_turf(spell_holder)))
 		if (IS_CULTIST(M))
 			continue
 		var/datum/antagonist/cult/cult_datum = activator.mind.has_antag_datum(/datum/antagonist/cult)
@@ -63,12 +63,12 @@
 		var/obj/item/organ/internal/ears/ears = M.get_organ_slot(ORGAN_SLOT_EARS)
 		ears?.adjustEarDamage(0, deaf_duration)
 		if (!(HAS_TRAIT(M, TRAIT_DEAF)))
-			to_chat(M,"<span class='notice'>The world around you suddenly becomes quiet.</span>")
+			to_chat(M, "<span class = 'notice'>The world around you suddenly becomes quiet.</span>")
 		if (!(HAS_TRAIT(M, TRAIT_MUTE)))
 			if (iscarbon(M))
-				to_chat(M,"<span class='warning'>You feel a terrible chill! You find yourself unable to speak a word...</span>")
+				to_chat(M, "<span class = 'warning'>You feel a terrible chill! You find yourself unable to speak a word...</span>")
 			else if (issilicon(M))
-				to_chat(M,"<span class='warning'>A shortcut appears to have temporarily disabled your speaker!</span>")
+				to_chat(M, "<span class = 'warning'>A shortcut appears to have temporarily disabled your speaker!</span>")
 		spawn(8)
 			M.update_fullscreen_alpha("deafborder", 0, 5)
 			sleep(8)

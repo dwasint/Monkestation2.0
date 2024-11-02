@@ -8,7 +8,7 @@
 
 	inhand_icon_state = null
 	w_class = WEIGHT_CLASS_BULKY
-	allowed = list(/obj/item/weapon/tome,/obj/item/weapon/melee/cultblade,/obj/item/weapon/melee/soulblade, /obj/item/tank,/obj/item/weapon/tome,/obj/item/weapon/talisman,/obj/item/weapon/blood_tesseract)
+	allowed = list(/obj/item/weapon/tome, /obj/item/weapon/melee/cultblade, /obj/item/weapon/melee/soulblade, /obj/item/tank, /obj/item/weapon/tome, /obj/item/weapon/talisman, /obj/item/weapon/blood_tesseract)
 	armor_type = /datum/armor/cultrobes_hardened
 	hoodtype = /obj/item/clothing/head/hooded/cult_hoodie/hardened
 	clothing_flags = STOPSPRESSUREDAMAGE | THICKMATERIAL

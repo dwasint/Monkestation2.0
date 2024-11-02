@@ -9,7 +9,7 @@
 //Does not require sleeptime, specifies for how long the animation should be allowed to exist before returning to pool
 //Does not require animation direction, but you can specify
 //Does not require a name
-/proc/anim(turf/location as turf,target as mob|obj,a_icon,a_icon_state as text,flick_anim as text,sleeptime = 15,direction as num, name as text, lay as num, offX as num, offY as num, col as text, alph as num,plane as num, var/trans, var/invis, var/animate_movement, var/blend)
+/proc/anim(turf/location as turf, target as mob|obj, a_icon, a_icon_state as text, flick_anim as text, sleeptime = 15, direction as num, name as text, lay as num, offX as num, offY as num, col as text, alph as num, plane as num, var/trans, var/invis, var/animate_movement, var/blend)
 //This proc throws up either an icon or an animation for a specified amount of time.
 //The variables should be apparent enough.
 	if(!location && target)
@@ -38,7 +38,7 @@
 		animation.layer = target:layer+1
 	else
 		animation.layer = lay
-	if(target && istype(target,/atom))
+	if(target && istype(target, /atom))
 		if(!plane)
 			animation.plane = target:plane
 		else
@@ -125,15 +125,15 @@
 	I.appearance_flags |= RESET_COLOR|RESET_ALPHA
 
 	//inspired from the rune color matrix because boy am I proud of it
-	animate(I, color = list(2,0.67,0.27,0,0.27,2,0.67,0,0.67,0.27,2,0,0,0,0,1,0,0,0,0), time = 2)//9
-	animate(color = list(1.875,0.56,0.19,0,0.19,1.875,0.56,0,0.56,0.19,1.875,0,0,0,0,1,0,0,0,0), time = 1.7)//8
-	animate(color = list(1.75,0.45,0.12,0,0.12,1.75,0.45,0,0.45,0.12,1.75,0,0,0,0,1,0,0,0,0), time = 1.4)//7
-	animate(color = list(1.625,0.35,0.06,0,0.06,1.625,0.35,0,0.35,0.06,1.625,0,0,0,0,1,0,0,0,0), time = 1.1)//6
-	animate(color = list(1.5,0.27,0,0,0,1.5,0.27,0,0.27,0,1.5,0,0,0,0,1,0,0,0,0), time = 0.8)//5
-	animate(color = list(1.375,0.19,0,0,0,1.375,0.19,0,0.19,0,1.375,0,0,0,0,1,0,0,0,0), time = 0.5)//4
-	animate(color = list(1.25,0.12,0,0,0,1.25,0.12,0,0.12,0,1.25,0,0,0,0,1,0,0,0,0), time = 0.2)//3
-	animate(color = list(1.125,0.06,0,0,0,1.125,0.06,0,0.06,0,1.125,0,0,0,0,1,0,0,0,0), time = 0.1)//2
-	animate(color = list(1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1,0,0,0,0), time = 5)//1
+	animate(I, color = list(2, 0.67, 0.27, 0, 0.27, 2, 0.67, 0, 0.67, 0.27, 2, 0, 0, 0, 0, 1, 0, 0, 0, 0), time = 2)//9
+	animate(color = list(1.875, 0.56, 0.19, 0, 0.19, 1.875, 0.56, 0, 0.56, 0.19, 1.875, 0, 0, 0, 0, 1, 0, 0, 0, 0), time = 1.7)//8
+	animate(color = list(1.75, 0.45, 0.12, 0, 0.12, 1.75, 0.45, 0, 0.45, 0.12, 1.75, 0, 0, 0, 0, 1, 0, 0, 0, 0), time = 1.4)//7
+	animate(color = list(1.625, 0.35, 0.06, 0, 0.06, 1.625, 0.35, 0, 0.35, 0.06, 1.625, 0, 0, 0, 0, 1, 0, 0, 0, 0), time = 1.1)//6
+	animate(color = list(1.5, 0.27, 0, 0, 0, 1.5, 0.27, 0, 0.27, 0, 1.5, 0, 0, 0, 0, 1, 0, 0, 0, 0), time = 0.8)//5
+	animate(color = list(1.375, 0.19, 0, 0, 0, 1.375, 0.19, 0, 0.19, 0, 1.375, 0, 0, 0, 0, 1, 0, 0, 0, 0), time = 0.5)//4
+	animate(color = list(1.25, 0.12, 0, 0, 0, 1.25, 0.12, 0, 0.12, 0, 1.25, 0, 0, 0, 0, 1, 0, 0, 0, 0), time = 0.2)//3
+	animate(color = list(1.125, 0.06, 0, 0, 0, 1.125, 0.06, 0, 0.06, 0, 1.125, 0, 0, 0, 0, 1, 0, 0, 0, 0), time = 0.1)//2
+	animate(color = list(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0), time = 5)//1
 
 	return I
 
@@ -145,7 +145,7 @@
 	if (new_anim)
 		var/obj/effect/cult_ritual/conversion/anim = new(T)
 		anim.icon_state = ""
-		flick("rune_convert_failure",anim)
+		flick("rune_convert_failure", anim)
 		anim.Die()
 	var/obj/item/storage/cult/coffer = new(T)
 	coffer.icon_state = box_state
@@ -188,7 +188,7 @@
 	if(direction & WEST)
 		dest_x = max(0, dest_x-distance)
 
-	return locate(dest_x,dest_y,dest_z)
+	return locate(dest_x, dest_y, dest_z)
 
 /// Returns whether the given mob is convertable to the blood cult, monkestation edit: or clock cult
 /proc/is_convertable_to_cult(mob/living/target, datum/team/cult/specific_cult, for_clock_cult) //monkestation edit: adds for_clock_cult

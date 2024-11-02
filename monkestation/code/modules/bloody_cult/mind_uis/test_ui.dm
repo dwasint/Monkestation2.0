@@ -60,12 +60,12 @@
 	..()
 	mouse_opacity = 1
 	icon_state = "close"
-	flick("close-spawn",src)
+	flick("close-spawn", src)
 
 /obj/abstract/mind_ui_element/hoverable/test_close/Hide()
 	mouse_opacity = 0
 	icon_state = "blank"
-	flick("close-click",src)
+	flick("close-click", src)
 	spawn(10)
 		..()
 
@@ -80,7 +80,7 @@
 	offset_y = -16
 	mouse_opacity = 1
 /obj/abstract/mind_ui_element/hoverable/test_hello/Click()
-	flick("hello-click",src)
+	flick("hello-click", src)
 	to_chat(GetUser(), "[icon2base64html(src)] Hello World!")
 //------------------------------------------------------------
 

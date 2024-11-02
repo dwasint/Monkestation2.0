@@ -30,42 +30,42 @@
 		streamer_display = M.hud_used.streamer_display
 	streamer_display.maptext_width = 84
 	streamer_display.maptext_height = 64
-	var/list/text = list("<div align='left' valign='top' style='position:relative; top:0px; left:6px'>")
+	var/list/text = list("<div align = 'left' valign = 'top' style = 'position:relative; top:0px; left:6px'>")
 	switch(team)
 		if("Cult")
-			text += "Conversions: <font color='#FF1133'>[conversions]</font>"
+			text += "Conversions: <font color = '#FF1133'>[conversions]</font>"
 		if("Security")
-			text += "Hits: <font color='#FF1133'>[hits]</font>"
-	text += "<br>Followers: <font color='#33FF33'>[length(followers)]</font>"
-	text += "<br>Subscribers:<font color='#FFFF00'>[length(subscribers)]</font></div>"
+			text += "Hits: <font color = '#FF1133'>[hits]</font>"
+	text += "<br>Followers: <font color = '#33FF33'>[length(followers)]</font>"
+	text += "<br>Subscribers:<font color = '#FFFF00'>[length(subscribers)]</font></div>"
 	streamer_display.maptext = jointext(text, null)
 
 /datum/antagonist/streamer/proc/try_add_follower(datum/mind/new_follower)
 	if(new_follower == owner)
-		to_chat(new_follower.current, "<span class='warning'>Following yourself is against Spess.TV's End User License Agreement.</span>")
+		to_chat(new_follower.current, "<span class = 'warning'>Following yourself is against Spess.TV's End User License Agreement.</span>")
 		return
 	if(followers.Find(new_follower))
-		to_chat(new_follower.current, "<span class='warning'>You are already following [owner.name].</span>")
+		to_chat(new_follower.current, "<span class = 'warning'>You are already following [owner.name].</span>")
 		return
 	followers += new_follower
-	new_follower.current.visible_message("<span class='big notice'>[new_follower.current] is now following [owner.name]!</span>")
+	new_follower.current.visible_message("<span class = 'big notice'>[new_follower.current] is now following [owner.name]!</span>")
 
 /datum/antagonist/streamer/proc/try_add_subscription(datum/mind/new_subscriber, obj/machinery/computer/security/telescreen/entertainment/spesstv/tv)
 	if(new_subscriber == owner)
-		to_chat(new_subscriber.current, "<span class='warning'>Subscribing to yourself is against Spess.TV's End User License Agreement.</span>")
+		to_chat(new_subscriber.current, "<span class = 'warning'>Subscribing to yourself is against Spess.TV's End User License Agreement.</span>")
 		return
 	if(subscribers.Find(new_subscriber))
-		to_chat(new_subscriber.current, "<span class='warning'>You're already subscribed to [owner.name]!</span>")
+		to_chat(new_subscriber.current, "<span class = 'warning'>You're already subscribed to [owner.name]!</span>")
 		return
 	var/mob/living/current = new_subscriber.current
 	var/obj/item/card/id/auth = current.get_idcard(TRUE)
 	var/datum/bank_account/account = auth.registered_account
 	if(account.adjust_money(-250, "Spess.TV subscription to [owner.name]"))
-		tv.visible_message("<span class='big notice'>[new_subscriber.current] just subscribed to [name]!</span>")
+		tv.visible_message("<span class = 'big notice'>[new_subscriber.current] just subscribed to [name]!</span>")
 		playsound(tv, pick('monkestation/code/modules/bloody_cult/sound/noisemaker1.ogg', 'monkestation/code/modules/bloody_cult/sound/noisemaker2.ogg', 'monkestation/code/modules/bloody_cult/sound/noisemaker3.ogg'), 100, TRUE)
 		playsound(owner.current, pick('monkestation/code/modules/bloody_cult/sound/noisemaker1.ogg', 'monkestation/code/modules/bloody_cult/sound/noisemaker2.ogg', 'monkestation/code/modules/bloody_cult/sound/noisemaker3.ogg'), 100, TRUE)
 	else
-		tv.visible_message("<span class='warning'>Something went wrong processing [new_subscriber.current]'s payment.</span>")
+		tv.visible_message("<span class = 'warning'>Something went wrong processing [new_subscriber.current]'s payment.</span>")
 		return
 	subscribers += new_subscriber
 	/*
@@ -82,7 +82,7 @@
 
 /datum/antagonist/streamer/proc/toggle_streaming()
 	camera.toggle_cam()
-	owner.current.visible_message("<span class='big notice'>[owner.current] is now [camera.status ? "streaming!" : "offline."]</span>")
+	owner.current.visible_message("<span class = 'big notice'>[owner.current] is now [camera.status ? "streaming!" : "offline."]</span>")
 
 /datum/antagonist/streamer/proc/set_camera(obj/machinery/camera/spesstv/new_camera)
 	ASSERT(istype(new_camera))

@@ -24,7 +24,7 @@
 	velocity = 1
 	scale = list(0.6, 0.6)
 	grow = list(0.05, 0.05)
-	rotation = generator("num", 0,360)
+	rotation = generator("num", 0, 360)
 
 //TEAR REALITY DARKNESS
 /particles/tear_reality
@@ -42,7 +42,7 @@
 	velocity = 0
 	scale = list(1, 1)
 	grow = list(0.05, 0.05)
-	rotation = generator("num", 0,360)
+	rotation = generator("num", 0, 360)
 
 	//plane = NOIR_BLOOD_PLANE
 
@@ -57,10 +57,10 @@
 	fade = 0.7 SECONDS
 	icon = 'monkestation/code/modules/bloody_cult/icons/effects_particles.dmi'
 	icon_state = "candle"
-	position = generator("box", list(-1,12), list(1,12))
-	velocity = list(0,3)
+	position = generator("box", list(-1, 12), list(1, 12))
+	velocity = list(0, 3)
 	friction = 0.3
-	drift = generator("box", list(-0.2,-0.2), list(0.2,0.2))
+	drift = generator("box", list(-0.2, -0.2), list(0.2, 0.2))
 
 	appearance_flags = RESET_COLOR
 	blend_mode = BLEND_ADD
@@ -76,8 +76,8 @@
 	fade = 0.3 SECONDS
 	icon = 'monkestation/code/modules/bloody_cult/icons/effects_particles.dmi'
 	icon_state = "candle"
-	position = generator("box", list(-1,12), list(1,12))
-	velocity = list(0,3)
+	position = generator("box", list(-1, 12), list(1, 12))
+	velocity = list(0, 3)
 	friction = 0.3
 	drift = generator("sphere", 0, 1)
 
@@ -96,8 +96,8 @@
 	fade = 0.5 SECONDS
 	icon = 'monkestation/code/modules/bloody_cult/icons/effects_particles.dmi'
 	icon_state = "blood_gauge"
-	position = generator("box", list(-16,-1), list(-16,-14))
-	velocity = list(0,0)
+	position = generator("box", list(-16, -1), list(-16, -14))
+	velocity = list(0, 0)
 
 	plane = HUD_PLANE
 	layer = MIND_UI_BUTTON+0.5
@@ -116,23 +116,23 @@
 	fade = 5
 	icon = 'monkestation/code/modules/bloody_cult/icons/effects_particles.dmi'
 	icon_state = "darkness"
-	position = list(0,-12)
-	scale = generator("num", 0.40,0.45)
-	velocity = generator("box", list(-1,4), list(-2,4))
-	drift = generator("box", list(0.1,0), list(0.2,0))
-	rotation = generator("num", 0,360)
+	position = list(0, -12)
+	scale = generator("num", 0.40, 0.45)
+	velocity = generator("box", list(-1, 4), list(-2, 4))
+	drift = generator("box", list(0.1, 0), list(0.2, 0))
+	rotation = generator("num", 0, 360)
 
 	plane = FLOAT_PLANE
 
 /particles/cult_smoke/alt
-	velocity = generator("box", list(1,4), list(2,4))
-	drift = generator("box", list(-0.1,0), list(-0.2,0))
+	velocity = generator("box", list(1, 4), list(2, 4))
+	drift = generator("box", list(-0.1, 0), list(-0.2, 0))
 
 /particles/cult_smoke/box
 	spawning = 0.8
-	position = generator("box", list(-12,-12), list(12,12))
-	velocity = list(0,4)
-	drift = generator("box", list(-0.2,0), list(0.2,0))
+	position = generator("box", list(-12, -12), list(12, 12))
+	velocity = list(0, 4)
+	drift = generator("box", list(-0.2, 0), list(0.2, 0))
 
 	plane = FLOAT_PLANE
 
@@ -148,8 +148,8 @@
 	fade = 10
 	icon = 'monkestation/code/modules/bloody_cult/icons/effects_particles.dmi'
 	icon_state = "cult_halo4"
-	position = list(0,8)
-	drift = generator("box", list(-0.02,-0.02), list(0.02,0.02))
+	position = list(0, 8)
+	drift = generator("box", list(-0.02, -0.02), list(0.02, 0.02))
 
 	plane = ABOVE_LIGHTING_PLANE
 
@@ -164,8 +164,8 @@
 	fadein = 5
 	fade = 10
 	icon = 'monkestation/code/modules/bloody_cult/icons/effects_particles.dmi'
-	icon_state = list("rune-1","rune-2","rune-4","rune-8","rune-16","rune-32","rune-64","rune-128","rune-256","rune-512",)
-	drift = generator("box", list(-0.02,-0.02), list(0.02,0.02))
+	icon_state = list("rune-1", "rune-2", "rune-4", "rune-8", "rune-16", "rune-32", "rune-64", "rune-128", "rune-256", "rune-512", )
+	drift = generator("box", list(-0.02, -0.02), list(0.02, 0.02))
 
 
 //NAR-SIE HAS RISEN
@@ -180,7 +180,7 @@
 	fade = 10
 	icon = 'monkestation/code/modules/bloody_cult/icons/bloodcult/223x37.dmi'
 	icon_state = "narsie"
-	drift = generator("box", list(-0.05,-0.05), list(0.05,0.05))
+	drift = generator("box", list(-0.05, -0.05), list(0.05, 0.05))
 
 	plane = ABOVE_HUD_PLANE
 
@@ -206,8 +206,8 @@
 	fade = 0.5 SECONDS
 	icon = 'monkestation/code/modules/bloody_cult/icons/effects_particles.dmi'
 	icon_state = "zas_dust"
-	position = generator("box", list(-15,-15), list(15,15))
-	velocity = list(0,0)
+	position = generator("box", list(-15, -15), list(15, 15))
+	velocity = list(0, 0)
 
 
 //DANDELIONS
@@ -222,10 +222,10 @@
 	fade = 0.5 SECONDS
 	icon = 'monkestation/code/modules/bloody_cult/icons/effects_particles.dmi'
 	icon_state = "dandelions"
-	position = generator("box", list(-12,-12), list(12,12))
-	velocity = list(0,0)
+	position = generator("box", list(-12, -12), list(12, 12))
+	velocity = list(0, 0)
 	friction = 0.1
-	drift = generator("box", list(-0.1,-0.1), list(0.1,0.1))
+	drift = generator("box", list(-0.1, -0.1), list(0.1, 0.1))
 
 	plane = ABOVE_GAME_PLANE
 
@@ -240,10 +240,10 @@
 	spawning = 1.5
 
 	icon = 'monkestation/code/modules/bloody_cult/icons/effects_particles.dmi'
-	icon_state = list("cross_dust_1","cross_dust_2","cross_dust_3")
-	position = generator("box", list(-12,-12), list(12,12))
-	velocity = list(0,-2)
-	drift = generator("box", list(-0.2,-0.2), list(0.2,0.2))
+	icon_state = list("cross_dust_1", "cross_dust_2", "cross_dust_3")
+	position = generator("box", list(-12, -12), list(12, 12))
+	velocity = list(0, -2)
+	drift = generator("box", list(-0.2, -0.2), list(0.2, 0.2))
 
 	appearance_flags = RESET_COLOR|RESET_ALPHA
 	blend_mode = BLEND_ADD
@@ -258,10 +258,10 @@
 
 	icon = 'monkestation/code/modules/bloody_cult/icons/effects_particles.dmi'
 	icon_state = list("cross_orb")
-	position = generator("box", list(-12,-12), list(12,12))
-	velocity = list(0,-2)
+	position = generator("box", list(-12, -12), list(12, 12))
+	velocity = list(0, -2)
 	friction = 0.1
-	drift = generator("box", list(-0.2,-0.2), list(0.2,0.2))
+	drift = generator("box", list(-0.2, -0.2), list(0.2, 0.2))
 	grow = list(-0.2, -0.2)
 
 	appearance_flags = RESET_COLOR|RESET_ALPHA
@@ -279,9 +279,9 @@
 
 	icon = 'monkestation/code/modules/bloody_cult/icons/effects_particles.dmi'
 	icon_state = "sacred_flame"
-	position = generator("box", list(-15,-15), list(15,15))
+	position = generator("box", list(-15, -15), list(15, 15))
 	friction = 0.1
-	drift = generator("box", list(-0.2,-0.2), list(0.2,0.2))
+	drift = generator("box", list(-0.2, -0.2), list(0.2, 0.2))
 	scale = list(0.6, 0.6)
 	grow = list(0.1, 0.1)
 
@@ -300,9 +300,9 @@
 
 	icon = 'monkestation/code/modules/bloody_cult/icons/effects_particles.dmi'
 	icon_state = "bible_page"
-	rotation = generator("num", 0,360)
+	rotation = generator("num", 0, 360)
 	spin = 10
-	grow = generator("box", list(-0.3,-0.3), list(0,0))
+	grow = generator("box", list(-0.3, -0.3), list(0, 0))
 
 	appearance_flags = RESET_COLOR|RESET_ALPHA
 	plane = ABOVE_LIGHTING_PLANE

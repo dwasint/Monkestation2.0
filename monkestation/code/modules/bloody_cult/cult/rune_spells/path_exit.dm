@@ -37,7 +37,7 @@ GLOBAL_LIST_INIT(bloodcult_exitportals, list())
 			available_networks -= P.network
 
 	if (available_networks.len <= 0)
-		to_chat(activator, "<span class='warning'>There is no room for any more Paths through the veil.</span>")
+		to_chat(activator, "<span class = 'warning'>There is no room for any more Paths through the veil.</span>")
 		qdel(src)
 		return
 
@@ -59,9 +59,9 @@ GLOBAL_LIST_INIT(bloodcult_exitportals, list())
 	var/datum/rune_word/W = GLOB.rune_words[network]
 
 	invoke(activator, "[W.rune]")
-	var/image/I_crystals = image('monkestation/code/modules/bloody_cult/icons/cult.dmi',"path_crystals")
+	var/image/I_crystals = image('monkestation/code/modules/bloody_cult/icons/cult.dmi', "path_crystals")
 	SET_PLANE_EXPLICIT(I_crystals, GAME_PLANE, spell_holder)
-	var/image/I_stone = image('monkestation/code/modules/bloody_cult/icons/cult.dmi',"path_stone")
+	var/image/I_stone = image('monkestation/code/modules/bloody_cult/icons/cult.dmi', "path_stone")
 	SET_PLANE_EXPLICIT(I_stone, GAME_PLANE, spell_holder)
 	I_stone.appearance_flags |= RESET_COLOR//we don't want the stone to pulse
 
@@ -70,7 +70,7 @@ GLOBAL_LIST_INIT(bloodcult_exitportals, list())
 	if (lookup in rune_appearances_cache)
 		I_network = image(rune_appearances_cache[lookup])
 	else
-		I_network = image('monkestation/code/modules/bloody_cult/icons/deityrunes.dmi',src,W.english)
+		I_network = image('monkestation/code/modules/bloody_cult/icons/deityrunes.dmi', src, W.english)
 		I_network.color = COLOR_BLOOD
 	SET_PLANE_EXPLICIT(I_network, GAME_PLANE, spell_holder)
 	I_network.transform /= 1.5
@@ -83,7 +83,7 @@ GLOBAL_LIST_INIT(bloodcult_exitportals, list())
 	spell_holder.overlays += I_network
 	custom_rune = TRUE
 
-	to_chat(activator, "<span class='notice'>This rune will now serve as a destination for the \"[network]\" Path.</span>")
+	to_chat(activator, "<span class = 'notice'>This rune will now serve as a destination for the \"[network]\" Path.</span>")
 
 	var/datum/antagonist/cult/cult_datum = IS_CULTIST(activator)
 	cult_datum?.gain_devotion(30, DEVOTION_TIER_1, "new_path_exit", R)
@@ -91,11 +91,11 @@ GLOBAL_LIST_INIT(bloodcult_exitportals, list())
 	talisman_absorb = RUNE_CAN_ATTUNE//once the network has been set, talismans will attune instead of imbue
 
 /datum/rune_spell/portalexit/midcast(mob/add_cultist)
-	to_chat(add_cultist, "<span class='notice'>You may teleport to this rune by using a Path Entrance, or a talisman attuned to it.</span>")
+	to_chat(add_cultist, "<span class = 'notice'>You may teleport to this rune by using a Path Entrance, or a talisman attuned to it.</span>")
 
 /datum/rune_spell/portalexit/midcast_talisman(var/mob/add_cultist)
 	var/turf/T = get_turf(add_cultist)
-	invoke(add_cultist,invocation,1)
+	invoke(add_cultist, invocation, 1)
 	anim(target = T, a_icon = 'monkestation/code/modules/bloody_cult/icons/effects.dmi', flick_anim = "rune_teleport")
 	new /obj/effect/bloodcult_jaunt (T, add_cultist, get_turf(spell_holder))
 
@@ -108,7 +108,7 @@ GLOBAL_LIST_INIT(bloodcult_exitportals, list())
 			valid_choices.Add(P.network)
 			valid_choices[P.network] = P
 	if (valid_choices.len <= 0)
-		to_chat(activator, "<span class='warning'>There are currently no Paths through the veil.</span>")
+		to_chat(activator, "<span class = 'warning'>There are currently no Paths through the veil.</span>")
 		qdel(src)
 		return
 	var/network = input(activator, "Choose an available Path.", "Path Talisman") as null|anything in valid_choices
@@ -116,9 +116,9 @@ GLOBAL_LIST_INIT(bloodcult_exitportals, list())
 		qdel(src)
 		return
 
-	invoke(activator,"[GLOB.rune_words_english[network]]!",1)
+	invoke(activator, "[GLOB.rune_words_english[network]]!", 1)
 
-	to_chat(activator, "<span class='notice'>This talisman will now serve as a key to the \"[network]\" Path.</span>")
+	to_chat(activator, "<span class = 'notice'>This talisman will now serve as a key to the \"[network]\" Path.</span>")
 
 	var/datum/rune_spell/portalexit/PE = valid_choices[network]
 
@@ -131,5 +131,5 @@ GLOBAL_LIST_INIT(bloodcult_exitportals, list())
 		for (var/datum/rune_spell/portalexit/P in GLOB.bloodcult_exitportals)
 			if (P.network == network)
 				destination = get_turf(P.spell_holder)
-			new /obj/effect/bloodcult_jaunt/traitor(T,null,destination,null)
+			new /obj/effect/bloodcult_jaunt/traitor(T, null, destination, null)
 			break

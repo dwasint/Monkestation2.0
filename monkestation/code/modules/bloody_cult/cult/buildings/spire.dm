@@ -33,7 +33,7 @@ GLOBAL_LIST_INIT(cult_spires, list())
 				stage = 2
 			if (BLOODCULT_STAGE_READY, BLOODCULT_STAGE_ECLIPSE, BLOODCULT_STAGE_NARSIE)
 				stage = 3
-	flick("spire[stage]-spawn",src)
+	flick("spire[stage]-spawn", src)
 	spawn(10)
 		update_stage()
 
@@ -60,27 +60,27 @@ GLOBAL_LIST_INIT(cult_spires, list())
 	stage = new_stage
 
 /obj/structure/cult/spire/proc/update_stage()
-	animate(src, alpha = 128, color = list(1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1,0,0,0,0), time = 10, loop = -1)
-	animate(alpha = 144, color = list(1.125,0.06,0,0,0,1.125,0.06,0,0.06,0,1.125,0,0,0,0,1,0,0,0,0), time = 2)
-	animate(alpha = 160, color = list(1.25,0.12,0,0,0,1.25,0.12,0,0.12,0,1.25,0,0,0,0,1,0,0,0,0), time = 2)
-	animate(alpha = 176, color = list(1.375,0.19,0,0,0,1.375,0.19,0,0.19,0,1.375,0,0,0,0,1,0,0,0,0), time = 1.5)
-	animate(alpha = 192, color = list(1.5,0.27,0,0,0,1.5,0.27,0,0.27,0,1.5,0,0,0,0,1,0,0,0,0), time = 1.5)
-	animate(alpha = 208, color = list(1.625,0.35,0.06,0,0.06,1.625,0.35,0,0.35,0.06,1.625,0,0,0,0,1,0,0,0,0), time = 1)
-	animate(alpha = 224, color = list(1.75,0.45,0.12,0,0.12,1.75,0.45,0,0.45,0.12,1.75,0,0,0,0,1,0,0,0,0), time = 1)
-	animate(alpha = 240, color = list(1.875,0.56,0.19,0,0.19,1.875,0.56,0,0.56,0.19,1.875,0,0,0,0,1,0,0,0,0), time = 1)
-	animate(alpha = 255, color = list(2,0.67,0.27,0,0.27,2,0.67,0,0.67,0.27,2,0,0,0,0,1,0,0,0,0), time = 5)
-	animate(alpha = 240, color = list(1.875,0.56,0.19,0,0.19,1.875,0.56,0,0.56,0.19,1.875,0,0,0,0,1,0,0,0,0), time = 1)
-	animate(alpha = 224, color = list(1.75,0.45,0.12,0,0.12,1.75,0.45,0,0.45,0.12,1.75,0,0,0,0,1,0,0,0,0), time = 1)
-	animate(alpha = 208, color = list(1.625,0.35,0.06,0,0.06,1.625,0.35,0,0.35,0.06,1.625,0,0,0,0,1,0,0,0,0), time = 1)
-	animate(alpha = 192, color = list(1.5,0.27,0,0,0,1.5,0.27,0,0.27,0,1.5,0,0,0,0,1,0,0,0,0), time = 1)
-	animate(alpha = 176, color = list(1.375,0.19,0,0,0,1.375,0.19,0,0.19,0,1.375,0,0,0,0,1,0,0,0,0), time = 1)
-	animate(alpha = 160, color = list(1.25,0.12,0,0,0,1.25,0.12,0,0.12,0,1.25,0,0,0,0,1,0,0,0,0), time = 1)
-	animate(alpha = 144, color = list(1.125,0.06,0,0,0,1.125,0.06,0,0.06,0,1.125,0,0,0,0,1,0,0,0,0), time = 1)
+	animate(src, alpha = 128, color = list(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0), time = 10, loop = -1)
+	animate(alpha = 144, color = list(1.125, 0.06, 0, 0, 0, 1.125, 0.06, 0, 0.06, 0, 1.125, 0, 0, 0, 0, 1, 0, 0, 0, 0), time = 2)
+	animate(alpha = 160, color = list(1.25, 0.12, 0, 0, 0, 1.25, 0.12, 0, 0.12, 0, 1.25, 0, 0, 0, 0, 1, 0, 0, 0, 0), time = 2)
+	animate(alpha = 176, color = list(1.375, 0.19, 0, 0, 0, 1.375, 0.19, 0, 0.19, 0, 1.375, 0, 0, 0, 0, 1, 0, 0, 0, 0), time = 1.5)
+	animate(alpha = 192, color = list(1.5, 0.27, 0, 0, 0, 1.5, 0.27, 0, 0.27, 0, 1.5, 0, 0, 0, 0, 1, 0, 0, 0, 0), time = 1.5)
+	animate(alpha = 208, color = list(1.625, 0.35, 0.06, 0, 0.06, 1.625, 0.35, 0, 0.35, 0.06, 1.625, 0, 0, 0, 0, 1, 0, 0, 0, 0), time = 1)
+	animate(alpha = 224, color = list(1.75, 0.45, 0.12, 0, 0.12, 1.75, 0.45, 0, 0.45, 0.12, 1.75, 0, 0, 0, 0, 1, 0, 0, 0, 0), time = 1)
+	animate(alpha = 240, color = list(1.875, 0.56, 0.19, 0, 0.19, 1.875, 0.56, 0, 0.56, 0.19, 1.875, 0, 0, 0, 0, 1, 0, 0, 0, 0), time = 1)
+	animate(alpha = 255, color = list(2, 0.67, 0.27, 0, 0.27, 2, 0.67, 0, 0.67, 0.27, 2, 0, 0, 0, 0, 1, 0, 0, 0, 0), time = 5)
+	animate(alpha = 240, color = list(1.875, 0.56, 0.19, 0, 0.19, 1.875, 0.56, 0, 0.56, 0.19, 1.875, 0, 0, 0, 0, 1, 0, 0, 0, 0), time = 1)
+	animate(alpha = 224, color = list(1.75, 0.45, 0.12, 0, 0.12, 1.75, 0.45, 0, 0.45, 0.12, 1.75, 0, 0, 0, 0, 1, 0, 0, 0, 0), time = 1)
+	animate(alpha = 208, color = list(1.625, 0.35, 0.06, 0, 0.06, 1.625, 0.35, 0, 0.35, 0.06, 1.625, 0, 0, 0, 0, 1, 0, 0, 0, 0), time = 1)
+	animate(alpha = 192, color = list(1.5, 0.27, 0, 0, 0, 1.5, 0.27, 0, 0.27, 0, 1.5, 0, 0, 0, 0, 1, 0, 0, 0, 0), time = 1)
+	animate(alpha = 176, color = list(1.375, 0.19, 0, 0, 0, 1.375, 0.19, 0, 0.19, 0, 1.375, 0, 0, 0, 0, 1, 0, 0, 0, 0), time = 1)
+	animate(alpha = 160, color = list(1.25, 0.12, 0, 0, 0, 1.25, 0.12, 0, 0.12, 0, 1.25, 0, 0, 0, 0, 1, 0, 0, 0, 0), time = 1)
+	animate(alpha = 144, color = list(1.125, 0.06, 0, 0, 0, 1.125, 0.06, 0, 0.06, 0, 1.125, 0, 0, 0, 0, 1, 0, 0, 0, 0), time = 1)
 	overlays.len = 0
-	var/image/I_base = image('monkestation/code/modules/bloody_cult/icons/cult_64x64.dmi',"spire[stage]")
+	var/image/I_base = image('monkestation/code/modules/bloody_cult/icons/cult_64x64.dmi', "spire[stage]")
 	SET_PLANE_EXPLICIT(I_base, GAME_PLANE_UPPER, src)
 	I_base.appearance_flags |= RESET_COLOR//we don't want the stone to pulse
-	var/image/I_spire = image('monkestation/code/modules/bloody_cult/icons/cult_64x64.dmi',"spire[stage]-light")
+	var/image/I_spire = image('monkestation/code/modules/bloody_cult/icons/cult_64x64.dmi', "spire[stage]-light")
 	I_spire.plane = ABOVE_LIGHTING_PLANE
 	overlays += I_base
 	overlays += I_spire
@@ -89,7 +89,7 @@ GLOBAL_LIST_INIT(cult_spires, list())
 /obj/structure/cult/spire/conceal()
 	overlays.len = 0
 	set_light(0)
-	anim(location = loc,target = loc,a_icon = 'monkestation/code/modules/bloody_cult/icons/cult_64x64.dmi', flick_anim = "spire[stage]-conceal", offX = pixel_x, offY = pixel_y, plane = GAME_PLANE)
+	anim(location = loc, target = loc, a_icon = 'monkestation/code/modules/bloody_cult/icons/cult_64x64.dmi', flick_anim = "spire[stage]-conceal", offX = pixel_x, offY = pixel_y, plane = GAME_PLANE)
 	..()
 	var/obj/structure/cult/concealed/C = loc
 	if (istype(C))
@@ -101,13 +101,13 @@ GLOBAL_LIST_INIT(cult_spires, list())
 	flick("spire[stage]-spawn", src)
 	animate(src)
 	alpha = 255
-	color = list(1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1,0,0,0,0)
+	color = list(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0)
 	spawn(10)
 		update_stage()
 
 
-/obj/structure/cult/spire/cultist_act(var/mob/user,var/menu="default")
-	.=..()
+/obj/structure/cult/spire/cultist_act(var/mob/user, var/menu = "default")
+	. = ..()
 	if (!.)
 		return
 
@@ -115,20 +115,20 @@ GLOBAL_LIST_INIT(cult_spires, list())
 
 	/*
 	if (!ishuman(user))
-		to_chat(user,"<span class='warning'>Only humans can bear the arcane markings granted by this [name].</span>")
+		to_chat(user, "<span class = 'warning'>Only humans can bear the arcane markings granted by this [name].</span>")
 		return
 
 	var/mob/living/carbon/human/H = user
 	var/datum/antagonist/cult/cult_datum = IS_CULTIST(H)
 
-	var/list/available_tattoos = list("tier1","tier2","tier3")
+	var/list/available_tattoos = list("tier1", "tier2", "tier3")
 	for (var/tattoo in C.tattoos)
 		var/datum/cult_tattoo/CT = C.tattoos[tattoo]
 		available_tattoos -= "tier[CT.tier]"
 
 	var/tattoo_tier = 0
 	if (available_tattoos.len <= 0)
-		to_chat(user,"<span class='warning'>You cannot bear any additional mark.</span>")
+		to_chat(user, "<span class = 'warning'>You cannot bear any additional mark.</span>")
 		return
 	if ("tier1" in available_tattoos)
 		tattoo_tier = 1
@@ -146,12 +146,12 @@ GLOBAL_LIST_INIT(cult_spires, list())
 			var/datum/cult_tattoo/T = new subtype
 			if (T.tier == tattoo_tier)
 				choices += list(list(T.name, "radial_[T.icon_state]", T.desc)) //According to BYOND docs, when adding to a list, "If an argument is itself a list, each item in the list will be added." My solution to that, because I am a genius, is to add a list within a list.
-				to_chat(H, "<span class='danger'>[T.name]</span>: [T.desc]")
+				to_chat(H, "<span class = 'danger'>[T.name]</span>: [T.desc]")
 	else
-		to_chat(user,"<span class='warning'>Come back to acquire another mark once your cult is a step closer to its goal.</span>")
+		to_chat(user, "<span class = 'warning'>Come back to acquire another mark once your cult is a step closer to its goal.</span>")
 		return
 
-	var/tattoo = show_radial_menu(user,loc,choices,'monkestation/code/modules/bloody_cult/icons/cult_radial2.dmi',"radial-cult2")//spawning on loc so we aren't offset by pixel_x/pixel_y, or affected by animate()
+	var/tattoo = show_radial_menu(user, loc, choices, 'monkestation/code/modules/bloody_cult/icons/cult_radial2.dmi', "radial-cult2")//spawning on loc so we aren't offset by pixel_x/pixel_y, or affected by animate()
 
 	for (var/tat in C.tattoos)
 		var/datum/cult_tattoo/CT = C.tattoos[tat]
@@ -213,7 +213,7 @@ GLOBAL_LIST_INIT(cult_spires, list())
 			return
 
 
-	user.log_talk(message, LOG_SAY, tag="cult member [user.name]")
+	user.log_talk(message, LOG_SAY, tag = "cult member [user.name]")
 	var/msg = span_cult("<b>[user.name]:</b> [message]")
 
 	//the recipients can recieve the message

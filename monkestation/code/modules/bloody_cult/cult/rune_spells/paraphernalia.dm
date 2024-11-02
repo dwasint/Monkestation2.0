@@ -40,12 +40,12 @@
 					valid_tomes["[i] - Tome in [M.real_name]'s arcane dimension ([A.stored_tome.talismans.len]/[MAX_TALISMAN_PER_TOME])"] = A.stored_tome
 
 			if (valid_tomes.len <= 0)
-				to_chat(user, "<span class='warning'>No cultists are currently carrying a tome.</span>")
+				to_chat(user, "<span class = 'warning'>No cultists are currently carrying a tome.</span>")
 				qdel(src)
 				return
 
 			var/datum/rune_spell/spell = AT.spell_type
-			var/chosen_tome = input(user,"Choose a tome where to transfer this [initial(spell.name)] talisman.", "Transfer talisman", null) as null|anything in valid_tomes
+			var/chosen_tome = input(user, "Choose a tome where to transfer this [initial(spell.name)] talisman.", "Transfer talisman", null) as null|anything in valid_tomes
 			if (!chosen_tome)
 				qdel(src)
 				return
@@ -54,7 +54,7 @@
 			tool = AT
 
 			if (target.talismans.len >= MAX_TALISMAN_PER_TOME)
-				to_chat(activator, "<span class='warning'>This tome cannot contain any more talismans.</span>")
+				to_chat(activator, "<span class = 'warning'>This tome cannot contain any more talismans.</span>")
 				abort(RITUALABORT_FULL)
 				return
 
@@ -63,11 +63,11 @@
 			update_progbar()
 			if (user.client)
 				user.client.images |= progbar
-			spell_holder.overlays += image('monkestation/code/modules/bloody_cult/icons/cult.dmi',"runetrigger-build")
+			spell_holder.overlays += image('monkestation/code/modules/bloody_cult/icons/cult.dmi', "runetrigger-build")
 			spawn()
 				payment()
 		else
-			to_chat(activator, "<span class='warning'>You may only transfer an imbued or attuned talisman.</span>")
+			to_chat(activator, "<span class = 'warning'>You may only transfer an imbued or attuned talisman.</span>")
 			qdel(src)
 	else
 		var/list/choices = list(
@@ -83,7 +83,7 @@
 			option.image = image(icon = 'monkestation/code/modules/bloody_cult/icons/cult_radial3.dmi', icon_state = choice[2])
 			option.info = span_boldnotice(choice[3])
 			made_choices[choice[1]] = option
-		var/task = show_radial_menu(activator,get_turf(spell_holder),made_choices, tooltips = TRUE, radial_icon = 'monkestation/code/modules/bloody_cult/icons/cult_radial3.dmi')
+		var/task = show_radial_menu(activator, get_turf(spell_holder), made_choices, tooltips = TRUE, radial_icon = 'monkestation/code/modules/bloody_cult/icons/cult_radial3.dmi')
 		if (!spell_holder.Adjacent(activator) || !task || QDELETED(src))
 			qdel(src)
 			return
@@ -104,9 +104,9 @@
 					spawned_object = new /obj/item/knife/ritual(T)
 				if ("Arcane Tome")
 					spawned_object = new /obj/item/weapon/tome(T)
-			spell_holder.visible_message("<span class='rose'>The blood drops merge into the rune, and \a [spawned_object] materializes on top.</span>")
+			spell_holder.visible_message("<span class = 'rose'>The blood drops merge into the rune, and \a [spawned_object] materializes on top.</span>")
 			anim(target = spawned_object, a_icon = 'monkestation/code/modules/bloody_cult/icons/effects.dmi', flick_anim = "rune_imbue")
-			new /obj/effect/afterimage/black(T,spawned_object)
+			new /obj/effect/afterimage/black(T, spawned_object)
 			qdel(src)
 
 
@@ -117,7 +117,7 @@
 	qdel(src)
 
 /datum/rune_spell/paraphernalia/abort(var/cause)
-	spell_holder.overlays -= image('monkestation/code/modules/bloody_cult/icons/cult.dmi',"runetrigger-build")
+	spell_holder.overlays -= image('monkestation/code/modules/bloody_cult/icons/cult.dmi', "runetrigger-build")
 	..()
 
 
@@ -135,20 +135,20 @@
 
 		//are our payers still here and about?
 		for(var/mob/living/L in contributors)
-			if (!IS_CULTIST(L) || !(L in range(spell_holder,1)) || (L.stat != CONSCIOUS))
+			if (!IS_CULTIST(L) || !(L in range(spell_holder, 1)) || (L.stat != CONSCIOUS))
 				if (L.client)
 					L.client.images -= progbar
 				contributors.Remove(L)
 		//alright then, time to pay in blood
 		var/amount_paid = 0
 		for(var/mob/living/L in contributors)
-			var/data = use_available_blood(L, cost_upkeep,contributors[L])
+			var/data = use_available_blood(L, cost_upkeep, contributors[L])
 			if (data[BLOODCOST_RESULT] == BLOODCOST_FAILURE)//out of blood are we?
 				contributors.Remove(L)
 			else
 				amount_paid += data[BLOODCOST_TOTAL]
 				contributors[L] = data[BLOODCOST_RESULT]
-				make_tracker_effects(L.loc,spell_holder, 1, "soul", 3, /obj/effect/tracker/drain, 1)//visual feedback
+				make_tracker_effects(L.loc, spell_holder, 1, "soul", 3, /obj/effect/tracker/drain, 1)//visual feedback
 
 		accumulated_blood += amount_paid
 
@@ -178,15 +178,15 @@
 		contributors.Remove(L)
 	if (progbar)
 		progbar.loc = null
-	spell_holder.overlays -= image('monkestation/code/modules/bloody_cult/icons/cult.dmi',"runetrigger-build")
+	spell_holder.overlays -= image('monkestation/code/modules/bloody_cult/icons/cult.dmi', "runetrigger-build")
 
 	if (target.talismans.len < MAX_TALISMAN_PER_TOME)
 		target.talismans.Add(tool)
 		tool.forceMove(target)
-		to_chat(activator, "<span class='notice'>You slip \the [tool] into \the [target].</span>")
+		to_chat(activator, "<span class = 'notice'>You slip \the [tool] into \the [target].</span>")
 		if (target.state == TOME_OPEN && ismob(target.loc))
 			var/mob/M = target.loc
-			M << browse(target.tome_text(), "window=arcanetome;size=537x375")
+			M << browse(target.tome_text(), "window = arcanetome;size = 537x375")
 	else
-		to_chat(activator, "<span class='warning'>This tome cannot contain any more talismans.</span>")
+		to_chat(activator, "<span class = 'warning'>This tome cannot contain any more talismans.</span>")
 	qdel(src)

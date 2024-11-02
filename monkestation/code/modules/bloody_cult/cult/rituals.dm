@@ -223,7 +223,7 @@ GLOBAL_LIST_INIT(bloodcult_personal_rituals, list(
 			if(tile && isopenturf(tile) && !isspaceturf(tile.loc) && !istype(tile.loc, /area/station/security/prison))
 				floor_count++
 	target_bloodspill = round(floor_count * percent_bloodspill / 100)
-	target_bloodspill += rand(-20,20)
+	target_bloodspill += rand(-20, 20)
 
 	var/datum/team/cult/cult = locate_team(/datum/team/cult)
 	cult.bloodspill_ritual = src
@@ -472,28 +472,28 @@ GLOBAL_LIST_INIT(bloodcult_personal_rituals, list(
 		if (CB.lit)
 			found_candles++
 	if (found_candles < required_candles)
-		to_chat(user, "<span class='sinister'>Need more lit blood candles...</span>")
+		to_chat(user, "<span class = 'sinister'>Need more lit blood candles...</span>")
 		valid = FALSE
 
 	var/found_tomes = 0
 	for (var/obj/item/weapon/tome/T in range(1, altar))
 		found_tomes++
 	if (found_tomes < required_tomes)
-		to_chat(user, "<span class='sinister'>Need more arcane tomes...</span>")
+		to_chat(user, "<span class = 'sinister'>Need more arcane tomes...</span>")
 		valid = FALSE
 
 	var/found_runes = 0
 	for (var/obj/effect/new_rune/R in range(1, altar))
 		found_runes++
 	if (found_runes < required_runes)
-		to_chat(user, "<span class='sinister'>Need more runes...</span>")
+		to_chat(user, "<span class = 'sinister'>Need more runes...</span>")
 		valid = FALSE
 
 	var/found_pylons = 0
 	for (var/obj/structure/cult/pylon/P in range(1, altar))
 		found_pylons++
 	if (found_pylons < required_pylons)
-		to_chat(user, "<span class='sinister'>You must construct additional pylons...</span>")
+		to_chat(user, "<span class = 'sinister'>You must construct additional pylons...</span>")
 		valid = FALSE
 
 	var/found_animal = FALSE
@@ -505,15 +505,15 @@ GLOBAL_LIST_INIT(bloodcult_personal_rituals, list(
 		if (ismonkey(M) || isanimal(M))
 			found_animal = TRUE
 	if (required_animal && !found_animal)
-		to_chat(user, "<span class='sinister'>You must impale an animal on top...</span>")
+		to_chat(user, "<span class = 'sinister'>You must impale an animal on top...</span>")
 		valid = FALSE
 	if (required_humanoid && !found_humanoid)
-		to_chat(user, "<span class='sinister'>You must impale an humanoid on top...</span>")
+		to_chat(user, "<span class = 'sinister'>You must impale an humanoid on top...</span>")
 		valid = FALSE
 
 	var/obj/item/weapon/melee/B = altar.blade
 	if (required_cultblade && !istype(B))
-		to_chat(user, "<span class='sinister'>Lastly, a mere ritual knife won't do here. Forge a better implement...</span>")
+		to_chat(user, "<span class = 'sinister'>Lastly, a mere ritual knife won't do here. Forge a better implement...</span>")
 
 	return valid
 

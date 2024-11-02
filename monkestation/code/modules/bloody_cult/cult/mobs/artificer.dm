@@ -48,7 +48,7 @@
 		move_ray()
 	update_satellites()
 
-/mob/living/basic/construct/artificer/perfect/Move(NewLoc,Dir=0,step_x=0,step_y=0,var/glide_size_override = 0)
+/mob/living/basic/construct/artificer/perfect/Move(NewLoc, Dir = 0, step_x = 0, step_y = 0, var/glide_size_override = 0)
 	. = ..()
 	if (ray)
 		move_ray()
@@ -64,14 +64,14 @@
 	if (!istype(target))
 		return
 	if (locate(src) in target.healers)
-		to_chat(src, "<span class='warning'>You are already healing \the [target].</span>")
+		to_chat(src, "<span class = 'warning'>You are already healing \the [target].</span>")
 		return
 	if (ray)
 		end_ray()
 	target.healers.Add(src)
 	heal_target = target
 	ray = new (loc)
-	to_chat(src, "<span class='notice'>You are now healing \the [target].</span>")
+	to_chat(src, "<span class = 'notice'>You are now healing \the [target].</span>")
 	move_ray()
 
 /mob/living/basic/construct/artificer/perfect/UnarmedAttack(mob/living/basic/construct/attack_target, proximity_flag, list/modifiers)
@@ -97,10 +97,10 @@
 			else if(distx < 0)
 				newangle += 360
 		var/matrix/M = matrix()
-		if (ray.oldloc_source && ray.oldloc_target && get_dist(src,ray.oldloc_source) <= 1 && get_dist(heal_target,ray.oldloc_target) <= 1)
-			animate(ray, transform = turn(M.Scale(1,sqrt(distx*distx+disty*disty)),newangle),time = 1)
+		if (ray.oldloc_source && ray.oldloc_target && get_dist(src, ray.oldloc_source) <= 1 && get_dist(heal_target, ray.oldloc_target) <= 1)
+			animate(ray, transform = turn(M.Scale(1, sqrt(distx*distx+disty*disty)), newangle), time = 1)
 		else
-			ray.transform = turn(M.Scale(1,sqrt(distx*distx+disty*disty)),newangle)
+			ray.transform = turn(M.Scale(1, sqrt(distx*distx+disty*disty)), newangle)
 		ray.oldloc_source = src.loc
 		ray.oldloc_target = heal_target.loc
 	else

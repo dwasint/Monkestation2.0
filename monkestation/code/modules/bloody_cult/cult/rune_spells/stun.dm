@@ -17,24 +17,24 @@
 /datum/rune_spell/stun/pre_cast()
 	var/mob/living/user = activator
 
-	if (istype (spell_holder,/obj/effect/new_rune))
-		invoke(user,invocation)
+	if (istype (spell_holder, /obj/effect/new_rune))
+		invoke(user, invocation)
 		cast()
-	else if (istype (spell_holder,/obj/item/weapon/talisman))
-		invoke(user,invocation,1)
+	else if (istype (spell_holder, /obj/item/weapon/talisman))
+		invoke(user, invocation, 1)
 		cast_talisman()
 
 /datum/rune_spell/stun/cast()
 	var/obj/effect/new_rune/R = spell_holder
 	R.one_pulse()
 
-	new/obj/effect/cult_ritual/stun(R.loc,1,activator)
+	new/obj/effect/cult_ritual/stun(R.loc, 1, activator)
 
 	qdel(R)
 
 /datum/rune_spell/stun/cast_talisman()
 	var/turf/T = get_turf(spell_holder)
-	new/obj/effect/cult_ritual/stun(T,2,activator)
+	new/obj/effect/cult_ritual/stun(T, 2, activator)
 	qdel(src)
 
 /datum/rune_spell/stun/cast_touch(mob/living/M)
@@ -42,20 +42,20 @@
 
 	playsound(spell_holder, 'monkestation/code/modules/bloody_cult/sound/stun_talisman.ogg', 25, 0, -5)
 	if (prob(15))//for old times' sake
-		invoke(activator,"Dream sign ''Evil sealing talisman''!",1)
+		invoke(activator, "Dream sign ''Evil sealing talisman''!", 1)
 	else
-		invoke(activator,invocation,1)
+		invoke(activator, invocation, 1)
 
 	if (M.stat != DEAD)
 		var/datum/antagonist/cult/cult_datum = activator.mind.has_antag_datum(/datum/antagonist/cult)
 		cult_datum.gain_devotion(100, DEVOTION_TIER_2, "stun_papered", M)
 
 	if(issilicon(M))
-		to_chat(M, "<span class='danger'>WARNING: Short-circuits detected, Rebooting...</span>")
+		to_chat(M, "<span class = 'danger'>WARNING: Short-circuits detected, Rebooting...</span>")
 		M.Knockdown(9 SECONDS)
 
 	else if(iscarbon(M))
-		to_chat(M, "<span class='danger'>A surge of dark energies takes hold of your limbs. You stiffen and fall down.</span>")
+		to_chat(M, "<span class = 'danger'>A surge of dark energies takes hold of your limbs. You stiffen and fall down.</span>")
 		var/mob/living/carbon/C = M
 		C.Knockdown(5 SECONDS)//used to be 25
 		C.Stun(5 SECONDS)//used to be 25
@@ -76,7 +76,7 @@
 	mouse_opacity = 0
 	var/stun_duration = 4 SECONDS
 
-/obj/effect/cult_ritual/stun/New(turf/loc,var/type=1,var/mob/living/carbon/caster)
+/obj/effect/cult_ritual/stun/New(turf/loc, var/type = 1, var/mob/living/carbon/caster)
 	..()
 
 	switch (type)
@@ -86,28 +86,28 @@
 			icon = 'monkestation/code/modules/bloody_cult/icons/480x480.dmi'
 			pixel_x = -224
 			pixel_y = -224
-			animate(src,alpha = 255,time = 10)
+			animate(src, alpha = 255, time = 10)
 		if (2)
 			stun_duration--
 			anim(target = loc, a_icon = 'monkestation/code/modules/bloody_cult/icons/64x64.dmi', flick_anim = "talisman_stun", sleeptime = 20, offX = -32/2, offY = -32/2, plane = ABOVE_LIGHTING_PLANE)
 			icon = 'monkestation/code/modules/bloody_cult/icons/224x224.dmi'
 			pixel_x = -96
 			pixel_y = -96
-			animate(src,alpha = 255,time = 10)
+			animate(src, alpha = 255, time = 10)
 
 	playsound(src, 'monkestation/code/modules/bloody_cult/sound/stun_rune_charge.ogg', 75, 0, 0)
 	spawn(20)
 		playsound(src, 'monkestation/code/modules/bloody_cult/sound/stun_rune.ogg', 75, 0, 0)
-		visible_message("<span class='warning'>The rune explodes in a bright flash of chaotic energies.</span>")
+		visible_message("<span class = 'warning'>The rune explodes in a bright flash of chaotic energies.</span>")
 
 		for(var/mob/living/L in dview(7, get_turf(src)))
 			var/duration = stun_duration
 			var/dist = cheap_pythag(L.x - src.x, L.y - src.y)
-			if (type == 1 && dist>=8)
+			if (type == 1 && dist >= 8)
 				continue
-			if (type == 2 && dist>=4)//talismans have a reduced range
+			if (type == 2 && dist >= 4)//talismans have a reduced range
 				continue
-			shadow(L,loc,"rune_stun")
+			shadow(L, loc, "rune_stun")
 			if (IS_CULTIST(L))
 				duration--
 			else if (caster)

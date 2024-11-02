@@ -14,13 +14,13 @@
 
 /datum/rune_spell/pulse/cast_touch(var/mob/M)
 	var/turf/T = get_turf(M)
-	invoke(activator,invocation,1)
+	invoke(activator, invocation, 1)
 	playsound(T, 'sound/items/Welder2.ogg', 25, 0, -5)
 	playsound(T, 'monkestation/code/modules/bloody_cult/sound/bloodboil.ogg', 25, 0, -5)
-	var/obj/effect/abstract/animation = anim(target = T,a_icon = 'monkestation/code/modules/bloody_cult/icons/cult.dmi', flick_anim = "rune_pulse",sleeptime = 15, plane = GAME_PLANE_UPPER, lay = MOB_UPPER_LAYER)
+	var/obj/effect/abstract/animation = anim(target = T, a_icon = 'monkestation/code/modules/bloody_cult/icons/cult.dmi', flick_anim = "rune_pulse", sleeptime = 15, plane = GAME_PLANE_UPPER, lay = MOB_UPPER_LAYER)
 	animation.add_particles(PS_CULT_SMOKE_BOX)
 	spawn(6)
-		animation.adjust_particles(PVAR_SPAWNING,0,PS_CULT_SMOKE_BOX)
+		animation.adjust_particles(PVAR_SPAWNING, 0, PS_CULT_SMOKE_BOX)
 	M.emp_act(1)
 	M.emp_act(1)
 	qdel(src)
@@ -28,12 +28,12 @@
 /datum/rune_spell/pulse/cast()
 	var/turf/T = get_turf(spell_holder)
 	playsound(T, 'sound/items/Welder2.ogg', 25, 1)
-	//T.hotspot_expose(700,125,surfaces=1)
+	//T.hotspot_expose(700, 125, surfaces = 1)
 	spawn(0)
 		darkpulse(T, 3, 3, cultist = activator)
 	qdel(spell_holder)
 
-/proc/darkpulse(turf/epicenter, heavy_range, light_range, log=0, var/mob/living/cultist = null)
+/proc/darkpulse(turf/epicenter, heavy_range, light_range, log = 0, var/mob/living/cultist = null)
 	if(!epicenter)
 		return
 
@@ -50,7 +50,7 @@
 	var/z0 = epicenter.z
 
 	if(log)
-		message_admins("EMP with size ([heavy_range], [light_range]) in area [epicenter.loc.name] ([x0],[y0],[z0]) (<A HREF='?_src_=holder;adminplayerobservecoodjump=1;X=[x0];Y=[y0];Z=[z0]'>JMP</A>).")
+		message_admins("EMP with size ([heavy_range], [light_range]) in area [epicenter.loc.name] ([x0], [y0], [z0]) (<A HREF = '?_src_ = holder;adminplayerobservecoodjump = 1;X = [x0];Y = [y0];Z = [z0]'>JMP</A>).")
 		log_game("EMP with size ([heavy_range], [light_range]) in area [epicenter.loc.name].")
 
 	spawn()
@@ -65,11 +65,11 @@
 
 		for(var/turf/T in spiral_range(max_range, epicenter))
 			CHECK_TICK
-			spawn(get_dist(T,epicenter))
-				var/obj/effect/abstract/animation = anim(target = T,a_icon = 'monkestation/code/modules/bloody_cult/icons/cult.dmi', flick_anim = "rune_pulse",sleeptime = 15, plane = GAME_PLANE_UPPER, lay = MOB_UPPER_LAYER)
+			spawn(get_dist(T, epicenter))
+				var/obj/effect/abstract/animation = anim(target = T, a_icon = 'monkestation/code/modules/bloody_cult/icons/cult.dmi', flick_anim = "rune_pulse", sleeptime = 15, plane = GAME_PLANE_UPPER, lay = MOB_UPPER_LAYER)
 				animation.add_particles(PS_CULT_SMOKE_BOX)
 				sleep(6)
-				animation.adjust_particles(PVAR_SPAWNING,0,PS_CULT_SMOKE_BOX)
+				animation.adjust_particles(PVAR_SPAWNING, 0, PS_CULT_SMOKE_BOX)
 			var/dist = cheap_pythag(T.x - x0, T.y - y0)
 			if(dist > max_range)
 				continue

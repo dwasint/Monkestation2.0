@@ -26,7 +26,7 @@
 		else i = 3
 		icon_state = "bloodcandle[i]"
 	if (lit)
-		var/image/I = image(icon,src,"[icon_state]_lit")
+		var/image/I = image(icon, src, "[icon_state]_lit")
 		I.blend_mode = BLEND_ADD
 		if (isturf(loc))
 			I.plane = ABOVE_LIGHTING_PLANE

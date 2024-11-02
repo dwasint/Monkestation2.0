@@ -3,7 +3,7 @@
 
 // Based on holopad rays. Causes a Shadow to move from T to C
 // "sprite" var can be replaced to use another icon_state from icons/effects/96x96.dmi
-/proc/shadow(var/atom/C,var/turf/T,var/sprite="rune_blind")
+/proc/shadow(var/atom/C, var/turf/T, var/sprite = "rune_blind")
 	var/disty = C.y - T.y
 	var/distx = C.x - T.x
 	var/newangle
@@ -19,7 +19,7 @@
 		else if(distx < 0)
 			newangle += 360
 	var/matrix/M1 = matrix()
-	var/matrix/M2 = turn(M1.Scale(1,sqrt(distx*distx+disty*disty)),newangle)
+	var/matrix/M2 = turn(M1.Scale(1, sqrt(distx*distx+disty*disty)), newangle)
 	return anim(target = C, a_icon = 'monkestation/code/modules/bloody_cult/icons/96x96.dmi', flick_anim = sprite, offX = -32, offY = -32, plane = ABOVE_LIGHTING_PLANE, trans = M2)
 
 
@@ -67,19 +67,19 @@
 
 /obj/effect/cult_shortcut/attack_hand(var/mob/living/user)
 	if (!IS_CULTIST(user))
-		to_chat(user, "<span class='warning'>The markings on this wall are peculiar. You don't feel comfortable staring at them.</span>")
+		to_chat(user, "<span class = 'warning'>The markings on this wall are peculiar. You don't feel comfortable staring at them.</span>")
 		return
 	var/turf/T = get_turf(user)
 	if (T == loc)
 		return
-	var/jump_dir = get_dir(T,loc)
-	shadow(loc,T,"sigil_jaunt")
+	var/jump_dir = get_dir(T, loc)
+	shadow(loc, T, "sigil_jaunt")
 	spawn(1)
-		new /obj/effect/afterimage/red(T,user)
+		new /obj/effect/afterimage/red(T, user)
 		user.forceMove(loc)
 		sleep(1)
-		new /obj/effect/afterimage/red(loc,user)
-		user.forceMove(get_step(loc,jump_dir))
+		new /obj/effect/afterimage/red(loc, user)
+		user.forceMove(get_step(loc, jump_dir))
 
 /obj/effect/cult_shortcut/narsie_act()
 	return
@@ -127,7 +127,7 @@
 			color = image_color
 		layer = lay
 		plane = pla
-	animate(src,alpha = 0, time = fadout)
+	animate(src, alpha = 0, time = fadout)
 	spawn(fadout)
 		qdel(src)
 
@@ -200,12 +200,12 @@
 	if (user)
 		var/muted = FALSE
 		if (user.anchored)
-			to_chat(user, "<span class='warning'>The blood jaunt fails to grasp you as you are currently anchored.</span>")
+			to_chat(user, "<span class = 'warning'>The blood jaunt fails to grasp you as you are currently anchored.</span>")
 		if (iscarbon(user))
 			var/mob/living/carbon/C = user
 			if (C.occult_muted())
 				muted = TRUE
-				to_chat(C, "<span class='warning'>The holy energies upon your body repel the blood jaunt.</span>")
+				to_chat(C, "<span class = 'warning'>The holy energies upon your body repel the blood jaunt.</span>")
 		if (!muted && !user.anchored)
 			user.forceMove(src)
 			rider = user
@@ -218,14 +218,14 @@
 			if (AM.anchored)
 				if (ismob(AM))
 					var/mob/M = AM
-					to_chat(M, "<span class='warning'>The blood jaunt fails to grasp you as you are currently anchored.</span>")
+					to_chat(M, "<span class = 'warning'>The blood jaunt fails to grasp you as you are currently anchored.</span>")
 				continue
 			var/muted = FALSE
 			if (iscarbon(AM))
 				var/mob/living/carbon/C = AM
 				if (C.occult_muted())
 					muted = TRUE
-					to_chat(C, "<span class='warning'>The holy energies upon your body repel the blood jaunt.</span>")
+					to_chat(C, "<span class = 'warning'>The holy energies upon your body repel the blood jaunt.</span>")
 				if(!IS_CULTIST(C))
 					noncult_victims += C
 			if (!AM.anchored && !muted)
@@ -278,7 +278,7 @@
 
 /obj/effect/bloodcult_jaunt/Bump(atom/bumped_atom)
 	. = ..()
-	forceMove(get_step(loc,dir))
+	forceMove(get_step(loc, dir))
 	bump_target_check()
 
 /obj/effect/bloodcult_jaunt/proc/move_to_edge()
@@ -287,19 +287,19 @@
 	var/dx = abs(target.x - world.maxx/2)
 	var/dy = abs(target.y - world.maxy/2)
 	if (dx > dy)
-		target_y = world.maxy/2 + rand(-4,4)
+		target_y = world.maxy/2 + rand(-4, 4)
 		if (target.x > world.maxx/2)
-			target_x = world.maxx - TRANSITIONEDGE - rand(16,20)
+			target_x = world.maxx - TRANSITIONEDGE - rand(16, 20)
 		else
-			target_x = TRANSITIONEDGE + rand(16,20)
+			target_x = TRANSITIONEDGE + rand(16, 20)
 	else
-		target_x = world.maxx/2 + rand(-4,4)
+		target_x = world.maxx/2 + rand(-4, 4)
 		if (target.y > world.maxy/2)
-			target_y = world.maxy - TRANSITIONEDGE - rand(16,20)
+			target_y = world.maxy - TRANSITIONEDGE - rand(16, 20)
 		else
-			target_y = TRANSITIONEDGE + rand(16,20)
+			target_y = TRANSITIONEDGE + rand(16, 20)
 
-	var/turf/T = locate(target_x,target_y,target.z)
+	var/turf/T = locate(target_x, target_y, target.z)
 	starting = T
 	forceMove(T)
 
@@ -327,8 +327,8 @@
 	else
 		error = dist_y/2 - dist_x
 
-	target_angle = round(get_angle(starting,target))
-	var/transform_matrix = turn(matrix(),target_angle+45)
+	target_angle = round(get_angle(starting, target))
+	var/transform_matrix = turn(matrix(), target_angle+45)
 	transform = transform_matrix
 
 /obj/effect/bloodcult_jaunt/proc/update_pixel()
@@ -352,7 +352,7 @@
 		pixel_y = PixelY
 
 /obj/effect/bloodcult_jaunt/proc/bresenham_step(var/distA, var/distB, var/dA, var/dB)
-	var/dist = get_dist(src,target)
+	var/dist = get_dist(src, target)
 	if (dist > 135)
 		make_bresenham_step(distA, distB, dA, dB)
 	if (dist > 45)
@@ -392,9 +392,9 @@
 	var/sleeptime = 1
 	if(src.loc)
 		if(dist_x > dist_y)
-			sleeptime = bresenham_step(dist_x,dist_y,dx,dy)
+			sleeptime = bresenham_step(dist_x, dist_y, dx, dy)
 		else
-			sleeptime = bresenham_step(dist_y,dist_x,dy,dx)
+			sleeptime = bresenham_step(dist_y, dist_x, dy, dx)
 		update_pixel()
 		sleep(sleeptime)
 
@@ -430,8 +430,8 @@
 					M.see_invisible = 0
 				if (iscarbon(rider))
 					var/mob/living/carbon/C = rider
-					if (istype(C.handcuffed,/obj/item/restraints/handcuffs/cult))
-						to_chat(C,"<span class='danger'>Traveling through the veil seems to have a recharging effect on the ghastly bindings as they begin to hurt you anew.</span>")
+					if (istype(C.handcuffed, /obj/item/restraints/handcuffs/cult))
+						to_chat(C, "<span class = 'danger'>Traveling through the veil seems to have a recharging effect on the ghastly bindings as they begin to hurt you anew.</span>")
 			rider = null
 		if (packed.len > 0)
 			for(var/atom/movable/AM in packed)
@@ -444,12 +444,12 @@
 							break
 					if (iscarbon(AM))
 						var/mob/living/carbon/C = AM
-						if (istype(C.handcuffed,/obj/item/restraints/handcuffs/cult))
-							to_chat(C,"<span class='danger'>Traveling through the veil seems to have a recharging effect on the ghastly bindings as they begin to hurt you anew.</span>")
+						if (istype(C.handcuffed, /obj/item/restraints/handcuffs/cult))
+							to_chat(C, "<span class = 'danger'>Traveling through the veil seems to have a recharging effect on the ghastly bindings as they begin to hurt you anew.</span>")
 			packed = list()
 
 		if (landing_animation)
-			flick("cult_jaunt_land",landing_animation)
+			flick("cult_jaunt_land", landing_animation)
 		qdel(src)
 
 /obj/effect/bloodcult_jaunt/traitor
@@ -483,18 +483,18 @@ var/bloodstone_backup = 0
 		bloodstone_backup++
 		var/mobtype
 		switch (bloodstone_backup)
-			if (0,1,2)
+			if (0, 1, 2)
 				mobtype = pick(
 					1;/mob/living/basic/bat,
 					2;/mob/living/basic/bat,
 					)
-			if (3,4)
+			if (3, 4)
 				mobtype = pick(
 					1;/mob/living/basic/bat,
 					3;/mob/living/basic/bat,
 					2;/mob/living/basic/bat,
 					)
-			if (5,6)
+			if (5, 6)
 				mobtype = pick(
 					2;/mob/living/basic/bat,
 					2;/mob/living/basic/bat,
@@ -526,9 +526,9 @@ var/bloodstone_backup = 0
 
 	victim = loc
 	if (isalien(victim))
-		current_dots = clamp(round(victim.AmountParalyzed() / 10),0,5)
+		current_dots = clamp(round(victim.AmountParalyzed() / 10), 0, 5)
 	else
-		current_dots = clamp(round(victim.AmountKnockdown() / 10),0,5)
+		current_dots = clamp(round(victim.AmountKnockdown() / 10), 0, 5)
 
 	if (!current_dots)
 		qdel(src)
@@ -540,7 +540,7 @@ var/bloodstone_backup = 0
 		if (IS_CULTIST(M) && M.client)
 			viewers += M.client
 
-	indicator = image(icon='monkestation/code/modules/bloody_cult/icons/cult.dmi',loc=victim,icon_state="")
+	indicator = image(icon = 'monkestation/code/modules/bloody_cult/icons/cult.dmi', loc = victim, icon_state = "")
 	update_indicator()
 
 /obj/effect/stun_indicator/proc/update_indicator()
@@ -548,15 +548,15 @@ var/bloodstone_backup = 0
 	while (victim && (victim.stat < DEAD) && (victim.AmountKnockdown() || (isalien(victim) && victim.AmountParalyzed())))
 		for (var/client/C in viewers)
 			C.images -= indicator
-		var/dots = clamp(1+round(victim.AmountKnockdown() / 10),1,6)
+		var/dots = clamp(1+round(victim.AmountKnockdown() / 10), 1, 6)
 		if (isalien(victim))
-			dots = clamp(1+round(victim.AmountParalyzed() / 10),1,6)
+			dots = clamp(1+round(victim.AmountParalyzed() / 10), 1, 6)
 		var/anim = 0
-		if (dots!=current_dots)
+		if (dots != current_dots)
 			anim = 1
 			current_dots = dots
 		indicator.overlays.len = 0
-		indicator = image(icon='monkestation/code/modules/bloody_cult/icons/cult.dmi',loc=victim,icon_state="")
+		indicator = image(icon = 'monkestation/code/modules/bloody_cult/icons/cult.dmi', loc = victim, icon_state = "")
 		SET_PLANE_EXPLICIT(indicator, GAME_PLANE_UPPER, victim)
 		indicator.pixel_y = 8
 		for (var/i = 1 to dots)
@@ -564,31 +564,31 @@ var/bloodstone_backup = 0
 			if (current_dots == i)
 				if (anim)
 					state = "stun_dot2-flick"
-					var/image/I = image(icon='monkestation/code/modules/bloody_cult/icons/cult.dmi',icon_state="stun_dot-gone")
+					var/image/I = image(icon = 'monkestation/code/modules/bloody_cult/icons/cult.dmi', icon_state = "stun_dot-gone")
 					SET_PLANE_EXPLICIT(I, GAME_PLANE_UPPER, victim)
-					I = place_indicator(I,i+1)
+					I = place_indicator(I, i+1)
 					indicator.overlays += I
 				else
 					state = "stun_dot2"
-			var/image/I = image(icon='monkestation/code/modules/bloody_cult/icons/cult.dmi',icon_state=state)
+			var/image/I = image(icon = 'monkestation/code/modules/bloody_cult/icons/cult.dmi', icon_state = state)
 			SET_PLANE_EXPLICIT(I, GAME_PLANE_UPPER, victim)
-			I = place_indicator(I,i)
+			I = place_indicator(I, i)
 			indicator.overlays += I
 		for (var/client/C in viewers)
 			C.images += indicator
 		sleep(10)
 	qdel(src)
 
-/obj/effect/stun_indicator/proc/place_indicator(var/image/I,var/dot)
+/obj/effect/stun_indicator/proc/place_indicator(var/image/I, var/dot)
 	switch (dot)
-		if (2,3)
+		if (2, 3)
 			I.pixel_x = -8
-		if (5,6)
+		if (5, 6)
 			I.pixel_x = 8
 	switch (dot)
-		if (2,6)
+		if (2, 6)
 			I.pixel_y = 4
-		if (3,5)
+		if (3, 5)
 			I.pixel_y = -4
 		if (1)
 			I.pixel_y = 8
@@ -647,7 +647,7 @@ var/bloodstone_backup = 0
 	var/turf/T = get_turf(A)
 	. = ..()
 	if (.)
-		visible_message("<span class='warning'>\The [src] nails \the [A] to \the [T].</span>")
+		visible_message("<span class = 'warning'>\The [src] nails \the [A] to \the [T].</span>")
 
 ///////////////////////////////////CULT DANCE////////////////////////////////////
 //used by the cultdance emote. other cult dances have their own procs
@@ -675,7 +675,7 @@ var/bloodstone_backup = 0
 /obj/effect/cult_ritual/dance/proc/i_can_dance(var/mob/living/carbon/M)
 	if (!M.incapacitated())
 		return  TRUE
-	else if (istype(M) && istype(M.handcuffed,/obj/item/restraints/handcuffs/cult)) //prisoners will be forced to dance even if incapacitated
+	else if (istype(M) && istype(M.handcuffed, /obj/item/restraints/handcuffs/cult)) //prisoners will be forced to dance even if incapacitated
 		return TRUE
 	return FALSE
 
@@ -692,7 +692,7 @@ var/bloodstone_backup = 0
 		icon_state = "tear"
 		while(src && loc)
 			for (var/mob/M in dancers)
-				if (get_dist(src,M) > 1 || !i_can_dance(M) || M.occult_muted())
+				if (get_dist(src, M) > 1 || !i_can_dance(M) || M.occult_muted())
 					dancers -= M
 					continue
 			if ((dancers.len <= 0) && (tear.dance_count < tear.dance_target))
@@ -704,8 +704,8 @@ var/bloodstone_backup = 0
 			sleep(3)
 			dance_move()
 			if (tear.dance_count < tear.dance_target+10)
-				adjust_particles(PVAR_SPAWNING, clamp(0.1 + 0.00375 * tear.dance_count,0.1,1), PS_TEAR_REALITY)
-				var/scale = clamp(1 + 0.00416 * tear.dance_count,1,1.9)
+				adjust_particles(PVAR_SPAWNING, clamp(0.1 + 0.00375 * tear.dance_count, 0.1, 1), PS_TEAR_REALITY)
+				var/scale = clamp(1 + 0.00416 * tear.dance_count, 1, 1.9)
 				adjust_particles(PVAR_SCALE, list(scale, scale), PS_TEAR_REALITY)
 			else
 				remove_particles(PS_TEAR_REALITY)
@@ -714,7 +714,7 @@ var/bloodstone_backup = 0
 	else
 		while(TRUE)
 			for (var/mob/M in dancers)
-				if (get_dist(src,M) > 1 || M.incapacitated() || M.occult_muted())
+				if (get_dist(src, M) > 1 || M.incapacitated() || M.occult_muted())
 					dancers -= M
 					continue
 			if (dancers.len <= 0)
@@ -733,30 +733,30 @@ var/bloodstone_backup = 0
 	dancers += dancer
 
 /obj/effect/cult_ritual/dance/proc/dance_step()
-	var/dance_move = pick("clock","counter","spin")
+	var/dance_move = pick("clock", "counter", "spin")
 	switch(dance_move)
 		if ("clock")
 			for (var/mob/M in dancers)
-				switch (get_dir(src,M))
-					if (NORTHWEST,NORTH)
-						step_to(M, get_step(M,EAST))
-					if (NORTHEAST,EAST)
-						step_to(M, get_step(M,SOUTH))
-					if (SOUTHEAST,SOUTH)
-						step_to(M, get_step(M,WEST))
-					if (SOUTHWEST,WEST)
-						step_to(M, get_step(M,NORTH))
+				switch (get_dir(src, M))
+					if (NORTHWEST, NORTH)
+						step_to(M, get_step(M, EAST))
+					if (NORTHEAST, EAST)
+						step_to(M, get_step(M, SOUTH))
+					if (SOUTHEAST, SOUTH)
+						step_to(M, get_step(M, WEST))
+					if (SOUTHWEST, WEST)
+						step_to(M, get_step(M, NORTH))
 		if ("counter")
 			for (var/mob/M in dancers)
-				switch (get_dir(src,M))
-					if (NORTHEAST,NORTH)
-						step_to(M, get_step(M,WEST))
-					if (SOUTHEAST,EAST)
-						step_to(M, get_step(M,NORTH))
-					if (SOUTHWEST,SOUTH)
-						step_to(M, get_step(M,EAST))
-					if (NORTHWEST,WEST)
-						step_to(M, get_step(M,SOUTH))
+				switch (get_dir(src, M))
+					if (NORTHEAST, NORTH)
+						step_to(M, get_step(M, WEST))
+					if (SOUTHEAST, EAST)
+						step_to(M, get_step(M, NORTH))
+					if (SOUTHWEST, SOUTH)
+						step_to(M, get_step(M, EAST))
+					if (NORTHWEST, WEST)
+						step_to(M, get_step(M, SOUTH))
 		if ("spin")
 			for (var/mob/M in dancers)
 				spawn()
@@ -773,63 +773,63 @@ var/bloodstone_backup = 0
 
 
 /obj/effect/cult_ritual/dance/proc/dance_move()
-	var/dance_move = pick("clock","counter","spin")
+	var/dance_move = pick("clock", "counter", "spin")
 	switch(dance_move)
 		if ("clock")
 			for (var/obj/effect/cult_ritual/dance_platform/P in extras)
 				P.moving = TRUE
 			for (var/mob/M in dancers)
-				switch (get_dir(src,M))
-					if (NORTHWEST,NORTH)
-						M.forceMove(get_step(M,EAST))
+				switch (get_dir(src, M))
+					if (NORTHWEST, NORTH)
+						M.forceMove(get_step(M, EAST))
 						M.dir = EAST
-					if (NORTHEAST,EAST)
-						M.forceMove(get_step(M,SOUTH))
+					if (NORTHEAST, EAST)
+						M.forceMove(get_step(M, SOUTH))
 						M.dir = SOUTH
-					if (SOUTHEAST,SOUTH)
-						M.forceMove(get_step(M,WEST))
+					if (SOUTHEAST, SOUTH)
+						M.forceMove(get_step(M, WEST))
 						M.dir = WEST
-					if (SOUTHWEST,WEST)
-						M.forceMove(get_step(M,NORTH))
+					if (SOUTHWEST, WEST)
+						M.forceMove(get_step(M, NORTH))
 						M.dir = NORTH
 			for (var/obj/effect/cult_ritual/dance_platform/P in extras)
-				switch (get_dir(src,P))
-					if (NORTHWEST,NORTH)
-						step_to(P, get_step(P,EAST))
-					if (NORTHEAST,EAST)
-						step_to(P, get_step(P,SOUTH))
-					if (SOUTHEAST,SOUTH)
-						step_to(P, get_step(P,WEST))
-					if (SOUTHWEST,WEST)
-						step_to(P, get_step(P,NORTH))
+				switch (get_dir(src, P))
+					if (NORTHWEST, NORTH)
+						step_to(P, get_step(P, EAST))
+					if (NORTHEAST, EAST)
+						step_to(P, get_step(P, SOUTH))
+					if (SOUTHEAST, SOUTH)
+						step_to(P, get_step(P, WEST))
+					if (SOUTHWEST, WEST)
+						step_to(P, get_step(P, NORTH))
 				P.moving = FALSE
 		if ("counter")
 			for (var/obj/effect/cult_ritual/dance_platform/P in extras)
 				P.moving = TRUE
 			for (var/mob/M in dancers)
-				switch (get_dir(src,M))
-					if (NORTHEAST,NORTH)
-						M.forceMove(get_step(M,WEST))
+				switch (get_dir(src, M))
+					if (NORTHEAST, NORTH)
+						M.forceMove(get_step(M, WEST))
 						M.dir = WEST
-					if (SOUTHEAST,EAST)
-						M.forceMove(get_step(M,NORTH))
+					if (SOUTHEAST, EAST)
+						M.forceMove(get_step(M, NORTH))
 						M.dir = NORTH
-					if (SOUTHWEST,SOUTH)
-						M.forceMove(get_step(M,EAST))
+					if (SOUTHWEST, SOUTH)
+						M.forceMove(get_step(M, EAST))
 						M.dir = EAST
-					if (NORTHWEST,WEST)
-						M.forceMove(get_step(M,SOUTH))
+					if (NORTHWEST, WEST)
+						M.forceMove(get_step(M, SOUTH))
 						M.dir = SOUTH
 			for (var/obj/effect/cult_ritual/dance_platform/P in extras)
-				switch (get_dir(src,P))
-					if (NORTHEAST,NORTH)
-						step_to(P, get_step(P,WEST))
-					if (SOUTHEAST,EAST)
-						step_to(P, get_step(P,NORTH))
-					if (SOUTHWEST,SOUTH)
-						step_to(P, get_step(P,EAST))
-					if (NORTHWEST,WEST)
-						step_to(P, get_step(P,SOUTH))
+				switch (get_dir(src, P))
+					if (NORTHEAST, NORTH)
+						step_to(P, get_step(P, WEST))
+					if (SOUTHEAST, EAST)
+						step_to(P, get_step(P, NORTH))
+					if (SOUTHWEST, SOUTH)
+						step_to(P, get_step(P, EAST))
+					if (NORTHWEST, WEST)
+						step_to(P, get_step(P, SOUTH))
 				P.moving = FALSE
 		if ("spin")
 			for (var/mob/M in dancers)
@@ -925,14 +925,14 @@ var/list/dance_platform_prisoners = list()
 					var/image/I_circle = image(icon, src, "dance_platform_full")
 					SET_PLANE_EXPLICIT(I_circle, GAME_PLANE, dancer)
 					I_circle.appearance_flags |= RESET_COLOR
-					var/image/I_markings = image(icon, src,"dance_platform_markings")
+					var/image/I_markings = image(icon, src, "dance_platform_markings")
 					SET_PLANE_EXPLICIT(I_markings, GAME_PLANE, dancer)
 					overlays += I_circle
 					overlays += I_markings
 					source.dancer_check(C)
 					return TRUE
 				else
-					if (istype(C.handcuffed,/obj/item/restraints/handcuffs/cult))
+					if (istype(C.handcuffed, /obj/item/restraints/handcuffs/cult))
 						dancer = C
 						prisoner = TRUE
 						dancer.SetStun(4)
@@ -940,7 +940,7 @@ var/list/dance_platform_prisoners = list()
 						var/image/I_circle = image(icon, src, "dance_platform_full")
 						SET_PLANE_EXPLICIT(I_circle, GAME_PLANE, dancer)
 						I_circle.appearance_flags |= RESET_COLOR
-						var/image/I_markings = image(icon, src,"dance_platform_markings")
+						var/image/I_markings = image(icon, src, "dance_platform_markings")
 						SET_PLANE_EXPLICIT(I_markings, GAME_PLANE, dancer)
 						overlays += I_circle
 						overlays += I_markings
@@ -950,7 +950,7 @@ var/list/dance_platform_prisoners = list()
 						var/mob_ref = "\ref[C]"
 						if (!(mob_ref in dance_platform_prisoners))//prevents chat spamming by dragging the prisoner across all the dance platforms
 							dance_platform_prisoners += mob_ref
-							to_chat(C, "<span class='danger'>Dark tentacles emerge from the rune and trap your legs in place. The occult bindings on your arms seem to react to them. You will need to resist out of those or get some outside help if you are to escape this circle.</span>")
+							to_chat(C, "<span class = 'danger'>Dark tentacles emerge from the rune and trap your legs in place. The occult bindings on your arms seem to react to them. You will need to resist out of those or get some outside help if you are to escape this circle.</span>")
 							spawn(20 SECONDS)
 								dance_platform_prisoners -= mob_ref
 						source.dancer_check(C)
@@ -964,7 +964,7 @@ var/list/dance_platform_prisoners = list()
 					var/image/I_circle = image(icon, src, "dance_platform_full")
 					SET_PLANE_EXPLICIT(I_circle, GAME_PLANE, dancer)
 					I_circle.appearance_flags |= RESET_COLOR
-					var/image/I_markings = image(icon, src,"dance_platform_markings")
+					var/image/I_markings = image(icon, src, "dance_platform_markings")
 					SET_PLANE_EXPLICIT(I_markings, GAME_PLANE, dancer)
 					overlays += I_circle
 					overlays += I_markings
@@ -1092,11 +1092,11 @@ var/list/dance_platform_prisoners = list()
 
 /obj/effect/cult_ritual/tear_spawners/vertical_spawner/after_step()
 	if (steps == steps_to_pillars)
-		new /obj/effect/cult_ritual/tear_spawners/horizontal_spawner/alt/left(loc,source)
-		new /obj/effect/cult_ritual/tear_spawners/horizontal_spawner/alt/right(loc,source)
+		new /obj/effect/cult_ritual/tear_spawners/horizontal_spawner/alt/left(loc, source)
+		new /obj/effect/cult_ritual/tear_spawners/horizontal_spawner/alt/right(loc, source)
 	if (steps == steps_to_pillars_and_gateways)
-		new /obj/effect/cult_ritual/tear_spawners/horizontal_spawner/left(loc,source)
-		new /obj/effect/cult_ritual/tear_spawners/horizontal_spawner/right(loc,source)
+		new /obj/effect/cult_ritual/tear_spawners/horizontal_spawner/left(loc, source)
+		new /obj/effect/cult_ritual/tear_spawners/horizontal_spawner/right(loc, source)
 		ready_to_spawn_pillars_and_gateways = TRUE
 		steps = 0
 
@@ -1303,7 +1303,7 @@ var/list/dance_platform_prisoners = list()
 	unstick_attempt(user)
 
 /obj/effect/rooting_trap/proc/unstick_attempt(var/mob/user)
-	if (do_after(user,1.5 SECONDS, src))
+	if (do_after(user, 1.5 SECONDS, src))
 		unstick()
 
 /obj/effect/rooting_trap/proc/unstick()

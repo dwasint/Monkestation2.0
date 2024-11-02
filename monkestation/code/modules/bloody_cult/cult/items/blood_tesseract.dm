@@ -40,7 +40,7 @@
 /obj/item/weapon/blood_tesseract/examine(var/mob/user)
 	..()
 	if (IS_CULTIST(user))
-		to_chat(user, "<span class='info'>Press it in your hands to discard currently equiped cult clothing and re-equip your stored items.</span>")
+		to_chat(user, "<span class = 'info'>Press it in your hands to discard currently equiped cult clothing and re-equip your stored items.</span>")
 
 /obj/item/weapon/blood_tesseract/attack_self(var/mob/living/user)
 	if (IS_CULTIST(user))
@@ -67,8 +67,8 @@
 			if (!user_slot)
 				user.equip_to_slot_if_possible(stored_slot, text2num(slot))
 			else
-				if (istype(user_slot,/obj/item/storage/backpack/cultpack))
-					if (istype(stored_slot,/obj/item/storage/backpack))
+				if (istype(user_slot, /obj/item/storage/backpack/cultpack))
+					if (istype(stored_slot, /obj/item/storage/backpack))
 						//swapping backpacks
 						for(var/obj/item/I in user_slot.contents)
 							I.forceMove(stored_slot)

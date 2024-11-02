@@ -18,7 +18,7 @@
 	if (istype(R))
 		R.one_pulse()
 
-	spell_holder.overlays += image('monkestation/code/modules/bloody_cult/icons/cult.dmi',"build")
+	spell_holder.overlays += image('monkestation/code/modules/bloody_cult/icons/cult.dmi', "build")
 	casting = TRUE
 	sleep(3 SECONDS)
 	var/obj/item/toy/plush/narplush/plush = new /obj/item/toy/plush/narplush(get_turf(R))
@@ -27,5 +27,5 @@
 	animate(plush, alpha = 255, 1.4 SECONDS)
 	sleep(1.5 SECONDS)
 	plush.anchored = FALSE
-	spell_holder.overlays -= image('monkestation/code/modules/bloody_cult/icons/cult.dmi',"build")
+	spell_holder.overlays -= image('monkestation/code/modules/bloody_cult/icons/cult.dmi', "build")
 	qdel(R)

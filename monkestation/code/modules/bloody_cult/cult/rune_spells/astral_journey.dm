@@ -21,13 +21,13 @@
 
 	cultist_key = activator.key
 
-	to_chat(activator, "<span class='notice'>As you recite the invocation, you feel your consciousness rise up in the air above your body.</span>")
-	//astral = activator.ghostize(1,1)
+	to_chat(activator, "<span class = 'notice'>As you recite the invocation, you feel your consciousness rise up in the air above your body.</span>")
+	//astral = activator.ghostize(1, 1)
 	astral = new(activator.loc)
 	astral.ascend(activator)
 	activator.ajourn = src
 
-	step(astral,NORTH)
+	step(astral, NORTH)
 	astral.dir = SOUTH
 
 	spawn()
@@ -36,7 +36,7 @@
 /datum/rune_spell/astraljourney/cast_talisman()//we spawn an invisible rune under our feet that works like the regular one
 	var/obj/effect/new_rune/R = new(get_turf(activator))
 	R.icon_state = "temp"
-	R.active_spell = new type(activator,R)
+	R.active_spell = new type(activator, R)
 	qdel(src)
 
 

@@ -95,9 +95,9 @@
 	var/next_y = absolute_Y/32
 
 	if (density && ((x != next_x) || (y != next_y)))//changing tile, let's check for collisions if enabled
-		var/turf/T_old = locate(x,y,z)
-		var/turf/T_new = locate(next_x,next_y,z)
-		if (!T_new.Cross(src,T_old))
+		var/turf/T_old = locate(x, y, z)
+		var/turf/T_new = locate(next_x, next_y, z)
+		if (!T_new.Cross(src, T_old))
 			if (Bump(T_new))
 				on_expire(TRUE)
 				qdel(src)
@@ -105,7 +105,7 @@
 		for (var/atom/A in T_new)
 			if (A == src)
 				continue
-			if (!A.Cross(src,T_old))
+			if (!A.Cross(src, T_old))
 				if (Bump(A))
 					on_expire(TRUE)
 					qdel(src)

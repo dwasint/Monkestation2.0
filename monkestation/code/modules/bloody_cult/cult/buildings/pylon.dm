@@ -65,7 +65,7 @@
 	..()
 	if(atom_integrity <= 20 && !broken)
 		playsound(src, 'sound/effects/Glassbr3.ogg', 75, 1)
-		visible_message("<span class='warning'>\The [src] breaks apart!</span>")
+		visible_message("<span class = 'warning'>\The [src] breaks apart!</span>")
 		icon_state = "pylon-broken"
 		set_light(0)
 		density = FALSE

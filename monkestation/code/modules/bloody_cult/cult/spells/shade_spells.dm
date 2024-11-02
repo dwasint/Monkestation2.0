@@ -14,14 +14,14 @@
 /datum/action/cooldown/spell/pointed/soulblade/soulblade/PreActivate(atom/target)
 	var/obj/item/weapon/melee/soulblade/SB = owner.loc
 	if (SB.blood < blood_cost)
-		to_chat(owner, "<span class='danger'>You don't have enough blood left for this move.</span>")
+		to_chat(owner, "<span class = 'danger'>You don't have enough blood left for this move.</span>")
 		return FALSE
 	return ..()
 
 /datum/action/cooldown/spell/pointed/soulblade/after_cast(atom/cast_on)
 	..()
 	var/obj/item/weapon/melee/soulblade/SB = owner.loc
-	SB.blood = max(0,SB.blood-blood_cost)
+	SB.blood = max(0, SB.blood-blood_cost)
 	var/mob/shade = owner
 	shade.DisplayUI("Soulblade")
 
@@ -64,24 +64,24 @@
 	addtimer(VARSET_CALLBACK(SB, reflector, FALSE), 0.4 SECONDS)
 	SB.throwing = FALSE
 
-	if (istype(SB.loc,/obj/projectile))
+	if (istype(SB.loc, /obj/projectile))
 		var/obj/projectile/P = SB.loc
 		qdel(P)
 	var/obj/structure/cult/altar/altar = cast_on
 	var/turf/step_turf = get_step(source_turf, SB.dir)
 	if (istype(altar))
-		altar.attackby(SB,owner)
+		altar.attackby(SB, owner)
 		return//gotta make sure we're not gonna bug ourselves out of the altar if there's one by hitting a table or something.
-	flick("soulblade-spin",SB)
+	flick("soulblade-spin", SB)
 	for(var/atom/listed in source_turf.contents)
 		if(listed == SB)
 			continue
 
-		listed.attackby(SB,owner)
+		listed.attackby(SB, owner)
 	for(var/atom/listed in step_turf.contents)
 		if(listed == SB)
 			continue
-		listed.attackby(SB,owner)
+		listed.attackby(SB, owner)
 
 //////////////////////////////Puts the blade inside a bullet that shoots forward.
 //                          //Can be used by drag n dropping from turf A to turf B. Will cause the bullet to fire first toward A then change direction toward B
@@ -99,7 +99,7 @@
 /datum/action/cooldown/spell/pointed/soulblade/blade_perforate/cast(atom/cast_on, atom/second_cast)
 	..()
 	var/obj/item/weapon/melee/soulblade/blade = owner.loc
-	if (istype(blade.loc,/obj/projectile))
+	if (istype(blade.loc, /obj/projectile))
 		var/obj/projectile/P = blade.loc
 		qdel(P)
 	var/turf/starting = get_turf(blade)
@@ -115,7 +115,7 @@
 
 
 /client/MouseDrop(atom/over, src_location, over_location, src_control, over_control, params)
-	if(!mob || !isshade(mob) || !istype(mob.loc,/obj/item/weapon/melee/soulblade))
+	if(!mob || !isshade(mob) || !istype(mob.loc, /obj/item/weapon/melee/soulblade))
 		return ..()
 	var/obj/item/weapon/melee/soulblade/SB = mob.loc
 	if(!isturf(src_location) || !isturf(over_location))
@@ -144,15 +144,15 @@
 	..()
 	var/obj/item/weapon/melee/soulblade/SB = owner.loc
 	var/mob/living/wielder = SB.loc
-	if(istype(wielder,/mob/living/carbon/human))
+	if(istype(wielder, /mob/living/carbon/human))
 		var/mob/living/carbon/human/H = wielder
 		for(var/datum/wound/wound as anything in H.all_wounds)
 			wound.adjust_blood_flow(-20)
 
 	//playsound(wielder.loc, 'sound/effects/mend.ogg', 50, 0, -2)
 	wielder.adjustBruteLoss(-10)
-	to_chat(owner,"You heal some of your wielder's wounds.")
-	to_chat(wielder,"\The [owner] heals some of your wounds.")
+	to_chat(owner, "You heal some of your wielder's wounds.")
+	to_chat(wielder, "\The [owner] heals some of your wounds.")
 
 
 //////////////////////////////
@@ -173,11 +173,11 @@
 		if (user.blade_harm)
 			user.blade_harm = FALSE
 			button_icon_state = "soulblade_calm"
-			to_chat(user, "<span class='notice'>You now allow anyone to wield you.</span>")
+			to_chat(user, "<span class = 'notice'>You now allow anyone to wield you.</span>")
 		else
 			user.blade_harm = TRUE
 			button_icon_state = "soulblade_harm"
-			to_chat(user, "<span class='notice'>You now harm and make dizzy miscreants trying to wield you.</span>")
+			to_chat(user, "<span class = 'notice'>You now harm and make dizzy miscreants trying to wield you.</span>")
 
 		var/obj/item/weapon/melee/soulblade/SB = user.loc
 		if (istype(SB))
@@ -185,7 +185,7 @@
 			if (istype(M) && !IS_CULTIST(M) && (user.master != M))
 				if (user.blade_harm)
 					M.adjust_dizzy(120)
-					to_chat(M, "<span class='warning'>You feel a chill as \the [SB]'s murderous intents suddenly turn against you.</span>")
+					to_chat(M, "<span class = 'warning'>You feel a chill as \the [SB]'s murderous intents suddenly turn against you.</span>")
 				else
 					M.adjust_dizzy(-120)
-					to_chat(M, "<span class='notice'>\The energies emanated by the [SB] subside a little, allowing you to wield it.</span>")
+					to_chat(M, "<span class = 'notice'>\The energies emanated by the [SB] subside a little, allowing you to wield it.</span>")

@@ -144,7 +144,7 @@ var/list/acceptance_lines_numerous_cultists =  list(
 		valid_lines += acceptance_lines_same_dept
 
 	var/chosen_line = pick_weight(valid_lines)
-	to_chat(victim, "<span class='game say'><span class='danger'>Nar-Sie</span> murmurs, <span class='sinister'>[chosen_line]</span>")
+	to_chat(victim, "<span class = 'game say'><span class = 'danger'>Nar-Sie</span> murmurs, <span class = 'sinister'>[chosen_line]</span>")
 
 
 
@@ -273,15 +273,15 @@ var/list/failure_lines_numerous_cultists = list(
 		var/list/cult_blood_chaplain = list("cult", "narsie", "nar'sie", "narnar", "nar-sie")
 		var/list/cult_clock_chaplain = list("ratvar", "clockwork", "ratvarism")
 		if (religion_name in cult_blood_chaplain)
-			to_chat(victim, "<span class='game say'><span class='danger'>Nar-Sie</span> murmurs, <span class='sinister'>Rejoice, I will give you the ending you desired.</span></span>")
+			to_chat(victim, "<span class = 'game say'><span class = 'danger'>Nar-Sie</span> murmurs, <span class = 'sinister'>Rejoice, I will give you the ending you desired.</span></span>")
 		else if (religion_name in cult_clock_chaplain)
-			to_chat(victim, "<span class='game say'><span class='danger'>Nar-Sie</span> murmurs, <span class='sinister'>I will take your body, but when your soul returns to Ratvar, tell him that[pick(\
-				"... he SUCKS!",\
-				" there isn't room enough for the two of us on this plane!",\
+			to_chat(victim, "<span class = 'game say'><span class = 'danger'>Nar-Sie</span> murmurs, <span class = 'sinister'>I will take your body, but when your soul returns to Ratvar, tell him that[pick(\
+				"... he SUCKS!", \
+				" there isn't room enough for the two of us on this plane!", \
 				" he'll never be anything but a lame copycat.")]</span></span>")
 
 	var/chosen_line = pickweight(valid_lines)
-	to_chat(victim, "<span class='game say'><span class='danger'>Nar-Sie</span> murmurs, <span class='sinister'>[chosen_line]</span>")
-	//to_chat(converter, "Nar-Sie murmurs to [victim]... <span class='warning'>[chosen_line]</span>")
+	to_chat(victim, "<span class = 'game say'><span class = 'danger'>Nar-Sie</span> murmurs, <span class = 'sinister'>[chosen_line]</span>")
+	//to_chat(converter, "Nar-Sie murmurs to [victim]... <span class = 'warning'>[chosen_line]</span>")
 
 */

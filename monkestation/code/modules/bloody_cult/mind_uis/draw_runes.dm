@@ -11,7 +11,7 @@
 	..()
 	if (word && !mouse_opacity)
 		mouse_opacity = 1
-		flick("rune_appear",src)
+		flick("rune_appear", src)
 
 
 /obj/abstract/mind_ui_element/hoverable/rune_word/proc/get_word_order()
@@ -38,7 +38,7 @@
 			overlays += word_overlay
 		icon_state = "blank"
 		if (word)
-			flick("rune_hide",src)
+			flick("rune_hide", src)
 	spawn(10)
 		..()
 
@@ -82,8 +82,8 @@
 		var/datum/blood_type/blood = L.get_blood_type()
 		blood_color = blood?.color || COLOR_BLOOD
 		var/datum/rune_word/W = GLOB.rune_words[word]
-		word_overlay = image('monkestation/code/modules/bloody_cult/icons/deityrunes.dmi',src,word)
-		var/image/rune_tear = image('monkestation/code/modules/bloody_cult/icons/deityrunes.dmi',src,"[word]-tear")
+		word_overlay = image('monkestation/code/modules/bloody_cult/icons/deityrunes.dmi', src, word)
+		var/image/rune_tear = image('monkestation/code/modules/bloody_cult/icons/deityrunes.dmi', src, "[word]-tear")
 		word_overlay.color = blood_color
 		rune_tear.color = "black"
 		word_overlay.overlays += rune_tear
@@ -144,11 +144,11 @@
 		var/obj/effect/new_rune/rune = locate() in T
 		if(rune)
 			if (rune.word1 && rune.word1.type != initial(queued_rune.word1))
-				to_chat(user, "<span class='warning'>This rune's first word conflicts with the [initial(queued_rune.name)] rune's syntax.</span>")
+				to_chat(user, "<span class = 'warning'>This rune's first word conflicts with the [initial(queued_rune.name)] rune's syntax.</span>")
 			else if (rune.word2 && rune.word2.type != initial(queued_rune.word2))
-				to_chat(user, "<span class='warning'>This rune's second word conflicts with the [initial(queued_rune.name)] rune's syntax.</span>")
+				to_chat(user, "<span class = 'warning'>This rune's second word conflicts with the [initial(queued_rune.name)] rune's syntax.</span>")
 			else if (rune.word3)
-				to_chat(user, "<span class='warning'>You cannot add more than 3 words to a rune.</span>")
+				to_chat(user, "<span class = 'warning'>You cannot add more than 3 words to a rune.</span>")
 
 //------------------------------------------------------------
 

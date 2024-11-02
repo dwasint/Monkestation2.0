@@ -29,14 +29,14 @@
 		qdel(object)
 		feet_portals -= guy
 	feet_portals = list()
-	spell_holder.overlays -= image('monkestation/code/modules/bloody_cult/icons/cult.dmi',"runetrigger-build")
-	spell_holder.overlays -= image('monkestation/code/modules/bloody_cult/icons/effects.dmi',"rune_summon")
+	spell_holder.overlays -= image('monkestation/code/modules/bloody_cult/icons/cult.dmi', "runetrigger-build")
+	spell_holder.overlays -= image('monkestation/code/modules/bloody_cult/icons/effects.dmi', "rune_summon")
 	..()
 
 
 /datum/rune_spell/bloodmagnetism/abort()
-	spell_holder.overlays -= image('monkestation/code/modules/bloody_cult/icons/cult.dmi',"runetrigger-build")
-	spell_holder.overlays -= image('monkestation/code/modules/bloody_cult/icons/effects.dmi',"rune_summon")
+	spell_holder.overlays -= image('monkestation/code/modules/bloody_cult/icons/cult.dmi', "runetrigger-build")
+	spell_holder.overlays -= image('monkestation/code/modules/bloody_cult/icons/effects.dmi', "rune_summon")
 	for (var/guy in feet_portals)
 		var/obj/object = feet_portals[guy]
 		qdel(object)
@@ -46,7 +46,7 @@
 	var/obj/effect/new_rune/R = spell_holder
 	R.one_pulse()
 
-	rejoin = alert(activator, "Will you pull them toward you, or pull yourself toward them?","Blood Magnetism","Summon Cultist","Rejoin Cultist") == "Rejoin Cultist"
+	rejoin = alert(activator, "Will you pull them toward you, or pull yourself toward them?", "Blood Magnetism", "Summon Cultist", "Rejoin Cultist") == "Rejoin Cultist"
 
 	var/list/possible_targets = list()
 	var/list/prisoners = list()
@@ -96,21 +96,21 @@
 	update_progbar()
 	if (activator.client)
 		activator.client.images |= progbar
-	spell_holder.overlays += image('monkestation/code/modules/bloody_cult/icons/cult.dmi',"runetrigger-build")
+	spell_holder.overlays += image('monkestation/code/modules/bloody_cult/icons/cult.dmi', "runetrigger-build")
 	if (!rejoin)
-		spell_holder.overlays += image('monkestation/code/modules/bloody_cult/icons/effects.dmi',"rune_summon")
+		spell_holder.overlays += image('monkestation/code/modules/bloody_cult/icons/effects.dmi', "rune_summon")
 	else
 		feet_portals.Add(activator)
 		var/obj/effect/cult_ritual/feet_portal/P = new (activator.loc, activator, src)
 		feet_portals[activator] = P
-	to_chat(activator, "<span class='rose'>This ritual's blood toll can be substantially reduced by having multiple cultists partake in it.</span>")
+	to_chat(activator, "<span class = 'rose'>This ritual's blood toll can be substantially reduced by having multiple cultists partake in it.</span>")
 	spawn()
 		payment()
 
 /datum/rune_spell/bloodmagnetism/cast_talisman()//we spawn an invisible rune under our feet that works like the regular one
 	var/obj/effect/new_rune/R = new(get_turf(activator))
 	R.icon_state = "temp"
-	R.active_spell = new type(activator,R)
+	R.active_spell = new type(activator, R)
 	qdel(src)
 
 /datum/rune_spell/bloodmagnetism/midcast(mob/add_cultist)
@@ -131,7 +131,7 @@
 		failsafe++
 		//are our payers still here and about?
 		for(var/mob/living/contributor in contributors)
-			if (!IS_CULTIST(contributor) || !(contributor in range(spell_holder,1)) || (contributor.stat != CONSCIOUS))
+			if (!IS_CULTIST(contributor) || !(contributor in range(spell_holder, 1)) || (contributor.stat != CONSCIOUS))
 				if (contributor.client)
 					contributor.client.images -= progbar
 				var/obj/effect/cult_ritual/feet_portal/P = feet_portals[contributor]
@@ -141,7 +141,7 @@
 		//alright then, time to pay in blood
 		var/amount_paid = 0
 		for(var/mob/living/contributor in contributors)
-			var/data = use_available_blood(contributor, cost_upkeep/contributors.len,contributors[contributor])//always 1u total per payment
+			var/data = use_available_blood(contributor, cost_upkeep/contributors.len, contributors[contributor])//always 1u total per payment
 			if (data[BLOODCOST_RESULT] == BLOODCOST_FAILURE)//out of blood are we?
 				contributors.Remove(contributor)
 				var/obj/effect/cult_ritual/feet_portal/P = feet_portals[contributor]
@@ -150,7 +150,7 @@
 			else
 				amount_paid += data[BLOODCOST_TOTAL]
 				contributors[contributor] = data[BLOODCOST_RESULT]
-				make_tracker_effects(contributor.loc,spell_holder, 1, "soul", 3, /obj/effect/tracker/drain, 1)//visual feedback
+				make_tracker_effects(contributor.loc, spell_holder, 1, "soul", 3, /obj/effect/tracker/drain, 1)//visual feedback
 
 		accumulated_blood += amount_paid
 
@@ -178,34 +178,34 @@
 /datum/rune_spell/bloodmagnetism/proc/success()
 	if (target.occult_muted())
 		for(var/mob/living/contributor in contributors)
-			to_chat(activator, "<span class='warning'>The ritual failed, the target seems to be under a curse that prevents us from reaching them through the veil.</span>")
+			to_chat(activator, "<span class = 'warning'>The ritual failed, the target seems to be under a curse that prevents us from reaching them through the veil.</span>")
 	else
 		if (rejoin)
 			var/list/valid_turfs = list()
-			for(var/turf/T in orange(target,1))
+			for(var/turf/T in orange(target, 1))
 				if(!T.is_blocked_turf(TRUE))
 					valid_turfs.Add(T)
 			if (valid_turfs.len)
 				for(var/mob/living/contributor in contributors)
-					use_available_blood(contributor, cost_rejoin,contributors[contributor])
+					use_available_blood(contributor, cost_rejoin, contributors[contributor])
 					var/datum/antagonist/cult/cult_datum = contributor.mind.has_antag_datum(/datum/antagonist/cult)
 					cult_datum.gain_devotion(100, DEVOTION_TIER_2, "bloodmagnetism_rejoin", contributor)
-					make_tracker_effects(contributor.loc,spell_holder, 1, "soul", 3, /obj/effect/tracker/drain, 3)
+					make_tracker_effects(contributor.loc, spell_holder, 1, "soul", 3, /obj/effect/tracker/drain, 3)
 					var/obj/effect/abstract/landing_animation = anim(target = contributor, a_icon = 'monkestation/code/modules/bloody_cult/icons/effects.dmi', flick_anim = "cult_jaunt_prepare", plane = GAME_PLANE_UPPER)
 					playsound(contributor, 'monkestation/code/modules/bloody_cult/sound/cultjaunt_prepare.ogg', 75, 0, -3)
 					spawn(10)
 						playsound(contributor, 'monkestation/code/modules/bloody_cult/sound/cultjaunt_land.ogg', 30, 0, -3)
-						new /obj/effect/bloodcult_jaunt(get_turf(contributor),contributor,pick(valid_turfs))
-						flick("cult_jaunt_land",landing_animation)
+						new /obj/effect/bloodcult_jaunt(get_turf(contributor), contributor, pick(valid_turfs))
+						flick("cult_jaunt_land", landing_animation)
 		else
 			if(target.buckled || !isturf(target.loc))
-				to_chat(target, "<span class='warning'>You feel that some force wants to pull you through the veil, but cannot proceed while you are buckled or inside something.</span>")
+				to_chat(target, "<span class = 'warning'>You feel that some force wants to pull you through the veil, but cannot proceed while you are buckled or inside something.</span>")
 				for(var/mob/living/contributor in contributors)
-					to_chat(activator, "<span class='warning'>The ritual failed, the target seems to be anchored to where they are.</span>")
+					to_chat(activator, "<span class = 'warning'>The ritual failed, the target seems to be anchored to where they are.</span>")
 			else
 				for(var/mob/living/contributor in contributors)
-					use_available_blood(contributor, cost_summon/contributors.len,contributors[contributor])
-					make_tracker_effects(contributor.loc,spell_holder, 1, "soul", 3, /obj/effect/tracker/drain, 3)
+					use_available_blood(contributor, cost_summon/contributors.len, contributors[contributor])
+					make_tracker_effects(contributor.loc, spell_holder, 1, "soul", 3, /obj/effect/tracker/drain, 3)
 					var/datum/antagonist/cult/cult_datum = contributor.mind.has_antag_datum(/datum/antagonist/cult)
 					cult_datum.gain_devotion(100, DEVOTION_TIER_2, "bloodmagnetism_summon", contributor)
 				var/obj/effect/abstract/landing_animation = anim(target = src.target, a_icon = 'monkestation/code/modules/bloody_cult/icons/effects.dmi', flick_anim = "cult_jaunt_prepare", lay = CULT_OVERLAY_LAYER, plane = GAME_PLANE_UPPER)
@@ -214,8 +214,8 @@
 				playsound(mob_target, 'monkestation/code/modules/bloody_cult/sound/cultjaunt_prepare.ogg', 75, 0, -3)
 				spawn(10)
 					playsound(mob_target, 'monkestation/code/modules/bloody_cult/sound/cultjaunt_land.ogg', 30, 0, -3)
-					new /obj/effect/bloodcult_jaunt(get_turf(mob_target),mob_target,T)
-					flick("cult_jaunt_land",landing_animation)
+					new /obj/effect/bloodcult_jaunt(get_turf(mob_target), mob_target, T)
+					flick("cult_jaunt_land", landing_animation)
 
 	for(var/mob/living/contributor in contributors)
 		if (contributor.client)

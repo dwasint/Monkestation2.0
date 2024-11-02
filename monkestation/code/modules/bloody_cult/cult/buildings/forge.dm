@@ -31,7 +31,7 @@
 	. = ..()
 	START_PROCESSING(SSobj, src)
 	set_light(2)
-	flick("forge-spawn",src)
+	flick("forge-spawn", src)
 	spawn(10)
 		setup_overlays()
 
@@ -61,10 +61,10 @@
 	animate(alpha = 224, time = 2)
 	animate(alpha = 240, time = 2)
 	overlays.len = 0
-	var/image/I_base = image('monkestation/code/modules/bloody_cult/icons/cult_64x64.dmi',"forge")
+	var/image/I_base = image('monkestation/code/modules/bloody_cult/icons/cult_64x64.dmi', "forge")
 	SET_PLANE_EXPLICIT(I_base, GAME_PLANE, src)
 	I_base.appearance_flags |= RESET_ALPHA //we don't want the stone to pulse
-	var/image/I_lave = image('monkestation/code/modules/bloody_cult/icons/cult_64x64.dmi',"forge-lightmask")
+	var/image/I_lave = image('monkestation/code/modules/bloody_cult/icons/cult_64x64.dmi', "forge-lightmask")
 	I_lave.plane = ABOVE_LIGHTING_PLANE
 	I_lave.blend_mode = BLEND_ADD
 	overlays += I_base
@@ -75,8 +75,8 @@
 	if (isturf(loc))
 		var/turf/L = loc
 		if(!isspaceturf(loc))
-			for (var/mob/living/carbon/M in view(src,3))
-				M.bodytemperature += (6-round(M.get_cult_power()/30))/((get_dist(src,M)+1))//cult gear reduces the heat buildup
+			for (var/mob/living/carbon/M in view(src, 3))
+				M.bodytemperature += (6-round(M.get_cult_power()/30))/((get_dist(src, M)+1))//cult gear reduces the heat buildup
 		if (forging)
 			if (forger)
 				if (!Adjacent(forger) || forger.incapacitated())
@@ -89,8 +89,8 @@
 					update_progbar()
 					var/datum/antagonist/cult/cult_datum = IS_CULTIST(forger)
 					if (cult_datum)
-						cult_datum.gain_devotion(10, DEVOTION_TIER_2, "[forge_icon]",timeleft)
-					if (timeleft<=0)
+						cult_datum.gain_devotion(10, DEVOTION_TIER_2, "[forge_icon]", timeleft)
+					if (timeleft <= 0)
 						playsound(L, 'monkestation/code/modules/bloody_cult/sound/forge_over.ogg', 50, 0, -3)
 						if (forger.client)
 							forger.client.images -= progbar
@@ -107,7 +107,7 @@
 						anim(target = loc, a_icon = 'monkestation/code/modules/bloody_cult/icons/cult_64x64.dmi', flick_anim = "forge-work", offX = pixel_x, offY = pixel_y, plane = ABOVE_LIGHTING_PLANE)
 						playsound(L, 'monkestation/code/modules/bloody_cult/sound/forge.ogg', 50, 0, -4)
 						forging.overlays.len = 0
-						var/image/I = image('monkestation/code/modules/bloody_cult/icons/cult_64x64.dmi',"[forging.icon_state]-mask")
+						var/image/I = image('monkestation/code/modules/bloody_cult/icons/cult_64x64.dmi', "[forging.icon_state]-mask")
 						I.plane = ABOVE_LIGHTING_PLANE
 						I.blend_mode = BLEND_ADD
 						I.alpha = (timeleft/timetotal)*255
@@ -118,7 +118,7 @@
 /obj/structure/cult/forge/conceal()
 	overlays.len = 0
 	set_light(0)
-	anim(location = loc,target = loc,a_icon = 'monkestation/code/modules/bloody_cult/icons/cult_64x64.dmi', flick_anim = "forge-conceal", offX = pixel_x, offY = pixel_y, plane = GAME_PLANE)
+	anim(location = loc, target = loc, a_icon = 'monkestation/code/modules/bloody_cult/icons/cult_64x64.dmi', flick_anim = "forge-conceal", offX = pixel_x, offY = pixel_y, plane = GAME_PLANE)
 	..()
 	var/obj/structure/cult/concealed/C = loc
 	if (istype(C))
@@ -147,23 +147,23 @@
 		animate(alpha = 208, time = 1.5)
 		animate(alpha = 224, time = 2)
 		animate(alpha = 240, time = 2)
-		var/image/I_base = image('monkestation/code/modules/bloody_cult/icons/cult_64x64.dmi',"forge")
+		var/image/I_base = image('monkestation/code/modules/bloody_cult/icons/cult_64x64.dmi', "forge")
 		SET_PLANE_EXPLICIT(I_base, GAME_PLANE, src)
 		I_base.appearance_flags |= RESET_ALPHA //we don't want the stone to pulse
-		var/image/I_lave = image('monkestation/code/modules/bloody_cult/icons/cult_64x64.dmi',"forge-lightmask")
+		var/image/I_lave = image('monkestation/code/modules/bloody_cult/icons/cult_64x64.dmi', "forge-lightmask")
 		I_lave.plane = ABOVE_LIGHTING_PLANE
 		I_lave.blend_mode = BLEND_ADD
 		overlays += I_base
 		overlays += I_lave
 
 /obj/structure/cult/forge/attackby(var/obj/item/I, var/mob/user)
-	if(istype(I,/obj/item/clothing/mask/cigarette))
+	if(istype(I, /obj/item/clothing/mask/cigarette))
 		var/obj/item/clothing/mask/cigarette/fag = I
-		fag.light("<span class='notice'>\The [user] lights \the [fag] by bringing its tip close to \the [src]'s molten flow.</span>")
+		fag.light("<span class = 'notice'>\The [user] lights \the [fag] by bringing its tip close to \the [src]'s molten flow.</span>")
 		return 1
-	if(istype(I,/obj/item/candle))
+	if(istype(I, /obj/item/candle))
 		var/obj/item/candle/stick = I
-		stick.light("<span class='notice'>\The [user] lights \the [stick] by bringing its wick close to \the [src]'s molten flow.</span>")
+		stick.light("<span class = 'notice'>\The [user] lights \the [stick] by bringing its wick close to \the [src]'s molten flow.</span>")
 		return 1
 	..()
 
@@ -184,8 +184,8 @@
 		progbar.plane = HUD_PLANE
 	progbar.icon_state = "prog_bar_[round((100 - min(1, timeleft / timetotal) * 100), 10)]"
 
-/obj/structure/cult/forge/cultist_act(var/mob/user,var/menu="default")
-	.=..()
+/obj/structure/cult/forge/cultist_act(var/mob/user, var/menu = "default")
+	. = ..()
 	if (!.)
 		return
 
@@ -216,7 +216,7 @@
 		option.info = span_boldnotice(choice[3])
 		made_choices[choice[1]] = option
 
-	var/task = show_radial_menu(user,loc, made_choices, tooltips = TRUE, radial_icon = 'monkestation/code/modules/bloody_cult/icons/cult_radial.dmi')//spawning on loc so we aren't offset by pixel_x/pixel_y, or affected by animate()
+	var/task = show_radial_menu(user, loc, made_choices, tooltips = TRUE, radial_icon = 'monkestation/code/modules/bloody_cult/icons/cult_radial.dmi')//spawning on loc so we aren't offset by pixel_x/pixel_y, or affected by animate()
 	if (template || !Adjacent(user) || !task )
 		return
 	forge_icon = ""
@@ -238,7 +238,7 @@
 	update_progbar()
 	if (forger.client)
 		forger.client.images |= progbar
-	forging = new (loc,forge_icon)
+	forging = new (loc, forge_icon)
 
 /obj/effect/cult_ritual/forge
 	icon = 'monkestation/code/modules/bloody_cult/icons/cult_64x64.dmi'
@@ -247,10 +247,10 @@
 	pixel_y = -16 * 1
 	plane = GAME_PLANE
 
-/obj/effect/cult_ritual/forge/New(var/turf/loc, var/i_forge="")
+/obj/effect/cult_ritual/forge/New(var/turf/loc, var/i_forge = "")
 	..()
 	icon_state = i_forge
-	var/image/I = image('monkestation/code/modules/bloody_cult/icons/cult_64x64.dmi',"[i_forge]-mask")
+	var/image/I = image('monkestation/code/modules/bloody_cult/icons/cult_64x64.dmi', "[i_forge]-mask")
 	I.plane = ABOVE_LIGHTING_PLANE
 	I.blend_mode = BLEND_ADD
 	overlays += I

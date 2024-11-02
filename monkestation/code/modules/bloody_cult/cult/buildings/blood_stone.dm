@@ -26,19 +26,19 @@
 	..()
 	set_light(3)
 	cult = locate_team(/datum/team/cult)
-	image_base = image('monkestation/code/modules/bloody_cult/icons/cult_64x64.dmi',"bloodstone-base-old")
+	image_base = image('monkestation/code/modules/bloody_cult/icons/cult_64x64.dmi', "bloodstone-base-old")
 	image_base.appearance_flags |= RESET_COLOR
-	image_damage = image('monkestation/code/modules/bloody_cult/icons/cult_64x64.dmi',"bloodstone_damage0")
+	image_damage = image('monkestation/code/modules/bloody_cult/icons/cult_64x64.dmi', "bloodstone_damage0")
 
-	image_circle = image('monkestation/code/modules/bloody_cult/icons/cult_64x64.dmi',"large_circle")
+	image_circle = image('monkestation/code/modules/bloody_cult/icons/cult_64x64.dmi', "large_circle")
 	SET_PLANE_EXPLICIT(image_circle, GAME_PLANE_UPPER, src)
 	image_circle.appearance_flags |= RESET_COLOR
 	image_circle.pixel_y = -16
-	image_stones = image('monkestation/code/modules/bloody_cult/icons/cult_64x64.dmi',"tear_stones")
+	image_stones = image('monkestation/code/modules/bloody_cult/icons/cult_64x64.dmi', "tear_stones")
 	SET_PLANE_EXPLICIT(image_stones, GAME_PLANE, src)
 	image_stones.appearance_flags |= RESET_COLOR
 	image_stones.pixel_y = -16
-	image_lights = image('monkestation/code/modules/bloody_cult/icons/cult_64x64.dmi',"tear_stones_light")
+	image_lights = image('monkestation/code/modules/bloody_cult/icons/cult_64x64.dmi', "tear_stones_light")
 	SET_PLANE_EXPLICIT(image_lights, GAME_PLANE_UPPER, src)
 	image_lights.pixel_y = -16
 
@@ -61,7 +61,7 @@
 
 /obj/structure/cult/bloodstone/proc/flashy_entrance(var/datum/rune_spell/tearreality/TR)
 	for (var/obj/O in loc)
-		if (O != src && !istype(O,/obj/item/weapon/melee/soulblade))
+		if (O != src && !istype(O, /obj/item/weapon/melee/soulblade))
 			O.ex_act(2)
 	safe_space()
 	overlays_pre()
@@ -73,13 +73,13 @@
 		icon_state = "bloodstone-enter2"
 		explosion_sound(TR)
 		TR?.pillar_update(2)
-		var/turf/T1 = locate(x-2,y-2,z)
+		var/turf/T1 = locate(x-2, y-2, z)
 		pillars += new /obj/structure/cult/pillar(T1)
-		var/turf/T2 = locate(x+2,y-2,z)
+		var/turf/T2 = locate(x+2, y-2, z)
 		pillars += new /obj/structure/cult/pillar/alt(T2)
-		var/turf/T3 = locate(x-2,y+2,z)
+		var/turf/T3 = locate(x-2, y+2, z)
 		pillars += new /obj/structure/cult/pillar(T3)
-		var/turf/T4 = locate(x+2,y+2,z)
+		var/turf/T4 = locate(x+2, y+2, z)
 		pillars += new /obj/structure/cult/pillar/alt(T4)
 		sleep(10)
 		icon_state = "bloodstone-enter3"
@@ -95,7 +95,7 @@
 /obj/structure/cult/bloodstone/proc/explosion_sound(var/datum/rune_spell/tearreality/TR)
 	for(var/mob/M in GLOB.player_list)
 		if (M.z == z && M.client)
-			if (TR || (get_dist(M,src)<=20))//If there's a tear reality rune, then spires should be appearing all over the station, so no point not having it be loud
+			if (TR || (get_dist(M, src)<= 20))//If there's a tear reality rune, then spires should be appearing all over the station, so no point not having it be loud
 				M.playsound_local(src, get_sfx("explosion"), 50, 1)
 				shake_camera(M, 4, 1)
 			else
@@ -115,7 +115,7 @@
 
 /*
 /obj/structure/cult/bloodstone/cultist_act(var/mob/user)
-	.=..()
+	. = ..()
 	if (!.)
 		return
 	if(isliving(user))
@@ -126,9 +126,9 @@
 			dance_center = new(loc, user)
 
 		if (prob(5))
-			user.say("Let me show you the dance of my people!","C")
+			user.say("Let me show you the dance of my people!", "C")
 		else
-			user.say("Tok-lyr rqa'nap g'lt-ulotf!","C")
+			user.say("Tok-lyr rqa'nap g'lt-ulotf!", "C")
 */
 
 /obj/structure/cult/bloodstone/conceal()
@@ -187,20 +187,20 @@
 
 
 /obj/structure/cult/bloodstone/proc/set_animate()
-	animate(src, color = list(1,0,0,0,0,1,0,0,0,0,1,0,0,0,0,1,0,0,0,0), time = 10, loop = -1)
-	animate(color = list(1.125,0.06,0,0,0,1.125,0.06,0,0.06,0,1.125,0,0,0,0,1,0,0,0,0), time = 2)
-	animate(color = list(1.25,0.12,0,0,0,1.25,0.12,0,0.12,0,1.25,0,0,0,0,1,0,0,0,0), time = 2)
-	animate(color = list(1.375,0.19,0,0,0,1.375,0.19,0,0.19,0,1.375,0,0,0,0,1,0,0,0,0), time = 1.5)
-	animate(color = list(1.5,0.27,0,0,0,1.5,0.27,0,0.27,0,1.5,0,0,0,0,1,0,0,0,0), time = 1.5)
-	animate(color = list(1.625,0.35,0.06,0,0.06,1.625,0.35,0,0.35,0.06,1.625,0,0,0,0,1,0,0,0,0), time = 1)
-	animate(color = list(1.75,0.45,0.12,0,0.12,1.75,0.45,0,0.45,0.12,1.75,0,0,0,0,1,0,0,0,0), time = 1)
-	animate(color = list(1.875,0.56,0.19,0,0.19,1.875,0.56,0,0.56,0.19,1.875,0,0,0,0,1,0,0,0,0), time = 1)
-	animate(color = list(2,0.67,0.27,0,0.27,2,0.67,0,0.67,0.27,2,0,0,0,0,1,0,0,0,0), time = 5)
-	animate(color = list(1.875,0.56,0.19,0,0.19,1.875,0.56,0,0.56,0.19,1.875,0,0,0,0,1,0,0,0,0), time = 1)
-	animate(color = list(1.75,0.45,0.12,0,0.12,1.75,0.45,0,0.45,0.12,1.75,0,0,0,0,1,0,0,0,0), time = 1)
-	animate(color = list(1.625,0.35,0.06,0,0.06,1.625,0.35,0,0.35,0.06,1.625,0,0,0,0,1,0,0,0,0), time = 1)
-	animate(color = list(1.5,0.27,0,0,0,1.5,0.27,0,0.27,0,1.5,0,0,0,0,1,0,0,0,0), time = 1)
-	animate(color = list(1.375,0.19,0,0,0,1.375,0.19,0,0.19,0,1.375,0,0,0,0,1,0,0,0,0), time = 1)
-	animate(color = list(1.25,0.12,0,0,0,1.25,0.12,0,0.12,0,1.25,0,0,0,0,1,0,0,0,0), time = 1)
-	animate(color = list(1.125,0.06,0,0,0,1.125,0.06,0,0.06,0,1.125,0,0,0,0,1,0,0,0,0), time = 1)
+	animate(src, color = list(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0), time = 10, loop = -1)
+	animate(color = list(1.125, 0.06, 0, 0, 0, 1.125, 0.06, 0, 0.06, 0, 1.125, 0, 0, 0, 0, 1, 0, 0, 0, 0), time = 2)
+	animate(color = list(1.25, 0.12, 0, 0, 0, 1.25, 0.12, 0, 0.12, 0, 1.25, 0, 0, 0, 0, 1, 0, 0, 0, 0), time = 2)
+	animate(color = list(1.375, 0.19, 0, 0, 0, 1.375, 0.19, 0, 0.19, 0, 1.375, 0, 0, 0, 0, 1, 0, 0, 0, 0), time = 1.5)
+	animate(color = list(1.5, 0.27, 0, 0, 0, 1.5, 0.27, 0, 0.27, 0, 1.5, 0, 0, 0, 0, 1, 0, 0, 0, 0), time = 1.5)
+	animate(color = list(1.625, 0.35, 0.06, 0, 0.06, 1.625, 0.35, 0, 0.35, 0.06, 1.625, 0, 0, 0, 0, 1, 0, 0, 0, 0), time = 1)
+	animate(color = list(1.75, 0.45, 0.12, 0, 0.12, 1.75, 0.45, 0, 0.45, 0.12, 1.75, 0, 0, 0, 0, 1, 0, 0, 0, 0), time = 1)
+	animate(color = list(1.875, 0.56, 0.19, 0, 0.19, 1.875, 0.56, 0, 0.56, 0.19, 1.875, 0, 0, 0, 0, 1, 0, 0, 0, 0), time = 1)
+	animate(color = list(2, 0.67, 0.27, 0, 0.27, 2, 0.67, 0, 0.67, 0.27, 2, 0, 0, 0, 0, 1, 0, 0, 0, 0), time = 5)
+	animate(color = list(1.875, 0.56, 0.19, 0, 0.19, 1.875, 0.56, 0, 0.56, 0.19, 1.875, 0, 0, 0, 0, 1, 0, 0, 0, 0), time = 1)
+	animate(color = list(1.75, 0.45, 0.12, 0, 0.12, 1.75, 0.45, 0, 0.45, 0.12, 1.75, 0, 0, 0, 0, 1, 0, 0, 0, 0), time = 1)
+	animate(color = list(1.625, 0.35, 0.06, 0, 0.06, 1.625, 0.35, 0, 0.35, 0.06, 1.625, 0, 0, 0, 0, 1, 0, 0, 0, 0), time = 1)
+	animate(color = list(1.5, 0.27, 0, 0, 0, 1.5, 0.27, 0, 0.27, 0, 1.5, 0, 0, 0, 0, 1, 0, 0, 0, 0), time = 1)
+	animate(color = list(1.375, 0.19, 0, 0, 0, 1.375, 0.19, 0, 0.19, 0, 1.375, 0, 0, 0, 0, 1, 0, 0, 0, 0), time = 1)
+	animate(color = list(1.25, 0.12, 0, 0, 0, 1.25, 0.12, 0, 0.12, 0, 1.25, 0, 0, 0, 0, 1, 0, 0, 0, 0), time = 1)
+	animate(color = list(1.125, 0.06, 0, 0, 0, 1.125, 0.06, 0, 0.06, 0, 1.125, 0, 0, 0, 0, 1, 0, 0, 0, 0), time = 1)
 	update_icon()

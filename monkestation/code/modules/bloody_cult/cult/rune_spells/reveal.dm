@@ -40,21 +40,21 @@
 
 	walk_effect = TRUE
 
-	var/effect_range=7
-	var/shock_range=3
-	var/shock_per_obj=2
-	var/max_shock=10
+	var/effect_range = 7
+	var/shock_range = 3
+	var/shock_per_obj = 2
+	var/max_shock = 10
 	var/last_threshold = -1
 	var/total_uses = 5
 
 /datum/rune_spell/reveal/cast()
 	var/turf/T = get_turf(spell_holder)
 	var/list/shocked = list()
-	to_chat(activator, "<span class='notice'>All concealed runes and cult structures in range phase back into reality, stunning nearby foes.</span>")
+	to_chat(activator, "<span class = 'notice'>All concealed runes and cult structures in range phase back into reality, stunning nearby foes.</span>")
 	playsound(T, 'monkestation/code/modules/bloody_cult/sound/reveal.ogg', 50, 0, -3)
 	var/datum/antagonist/cult/cult_datum = activator.mind.has_antag_datum(/datum/antagonist/cult)
 
-	for(var/obj/structure/cult/concealed/S in range(effect_range,T))//only concealed structures trigger the effect
+	for(var/obj/structure/cult/concealed/S in range(effect_range, T))//only concealed structures trigger the effect
 		var/dist = cheap_pythag(S.x - T.x, S.y - T.y)
 		if (dist <= effect_range+0.5)
 			cult_datum.gain_devotion(10, DEVOTION_TIER_0, "reveal_structure", S)
@@ -65,14 +65,14 @@
 				var/dist2 = cheap_pythag(L.x - S.x, L.y - S.y)
 				if (dist2 > shock_range+0.5)
 					continue
-				shadow(L,S.loc,"rune_reveal")
+				shadow(L, S.loc, "rune_reveal")
 				if (L in shocked)
-					shocked[L] = min(shocked[L]+shock_per_obj,max_shock)
+					shocked[L] = min(shocked[L]+shock_per_obj, max_shock)
 				else
 					shocked[L] = 2
 			S.reveal()
 
-	for(var/obj/effect/new_rune/R in range(effect_range,T))
+	for(var/obj/effect/new_rune/R in range(effect_range, T))
 		var/dist = cheap_pythag(R.x - T.x, R.y - T.y)
 		if (dist <= effect_range+0.5)
 			if (R.reveal())//only hidden runes trigger the effect
@@ -84,9 +84,9 @@
 					var/dist2 = cheap_pythag(L.x - R.x, L.y - R.y)
 					if (dist2 > shock_range+0.5)
 						continue
-					shadow(L,R.loc,"rune_reveal")
+					shadow(L, R.loc, "rune_reveal")
 					if (L in shocked)
-						shocked[L] = min(shocked[L]+shock_per_obj,max_shock)
+						shocked[L] = min(shocked[L]+shock_per_obj, max_shock)
 					else
 						shocked[L] = 2
 
@@ -94,7 +94,7 @@
 		if (L.stat != DEAD)
 			cult_datum.gain_devotion(50, DEVOTION_TIER_2, "reveal_stun", L)
 		new /obj/effect/cult_ritual/reveal(L.loc, L, shocked[L])
-		to_chat(L, "<span class='danger'>You feel a terrifying shock resonate within your body as the hidden runes are revealed!</span>")
+		to_chat(L, "<span class = 'danger'>You feel a terrifying shock resonate within your body as the hidden runes are revealed!</span>")
 		L.update_fullscreen_alpha("shockborder", 100, 5)
 		spawn(8)
 			L.update_fullscreen_alpha("shockborder", 0, 5)
@@ -169,7 +169,7 @@
 	anim(target = loc, a_icon = 'monkestation/code/modules/bloody_cult/icons/effects.dmi', flick_anim = "rune_reveal-stop", plane = ABOVE_LIGHTING_PLANE)
 	..()
 
-/obj/effect/cult_ritual/reveal/New(var/turf/loc,var/mob/living/vic=null,var/dur=2)
+/obj/effect/cult_ritual/reveal/New(var/turf/loc, var/mob/living/vic = null, var/dur = 2)
 	..()
 	if (!vic)
 		vic = locate() in loc
@@ -184,7 +184,7 @@
 		victim.Paralyze(duration)
 	spawn (duration*10)
 		if (src && loc && victim && victim.loc == loc && !victim.IsKnockdown())
-			to_chat(victim, "<span class='warning'>You come back to your senses.</span>")
+			to_chat(victim, "<span class = 'warning'>You come back to your senses.</span>")
 			victim.AdjustStun(-duration)
 			if (isalien(victim))
 				victim.AdjustParalyzed(-duration)
@@ -199,7 +199,7 @@
 	if (victim.loc != loc)
 		if (!victim.IsKnockdown())//if knockdown (by any cause), moving away doesn't purge you from the remaining stun.
 			if (victim.pulledby)
-				to_chat(victim, "<span class='warning'>You come back to your senses as \the [victim.pulledby] drags you away.</span>")
+				to_chat(victim, "<span class = 'warning'>You come back to your senses as \the [victim.pulledby] drags you away.</span>")
 			victim.AdjustStun(-duration)
 			if (isalien(victim))
 				victim.AdjustParalyzed(-duration)

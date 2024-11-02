@@ -34,7 +34,7 @@
 	for(var/mob/living/carbon/C in TU)
 		potential_targets += C
 	if(potential_targets.len == 0)
-		to_chat(activator, "<span class='warning'>There needs to be someone standing or lying on top of the rune.</span>")
+		to_chat(activator, "<span class = 'warning'>There needs to be someone standing or lying on top of the rune.</span>")
 		qdel(src)
 		return
 	var/mob/living/carbon/target
@@ -53,7 +53,7 @@
 	cult_datum.gain_devotion(50, DEVOTION_TIER_0, "summon_robes", target)
 
 	var/obj/item/weapon/blood_tesseract/BT = new(get_turf(activator))
-	if (istype (spell_holder,/obj/item/weapon/talisman))
+	if (istype (spell_holder, /obj/item/weapon/talisman))
 		var/obj/item/weapon/talisman/T = spell_holder
 		if (!T.linked_ui)
 			activator.dropItemToGround(spell_holder)
@@ -74,7 +74,7 @@
 		target.dropItemToGround(user_slot)
 		user_slot.forceMove(BT)
 
-		target.equip_to_slot_or_del(new /obj/item/clothing/under/color/black,ITEM_SLOT_ICLOTHING)
+		target.equip_to_slot_or_del(new /obj/item/clothing/under/color/black, ITEM_SLOT_ICLOTHING)
 		target.equip_to_slot_or_del(new /obj/item/clothing/suit/hooded/cultrobes/alt(target), ITEM_SLOT_OCLOTHING)
 		target.equip_to_slot_or_del(new /obj/item/clothing/shoes/cult/alt(target), ITEM_SLOT_FEET)
 		target.equip_to_slot_or_del(new /obj/item/clothing/gloves/color/black/cult(target), ITEM_SLOT_GLOVES)
@@ -91,8 +91,8 @@
 	activator.put_in_hands(BT)
 	target.put_in_hands(new /obj/item/restraints/legcuffs/bola/cult(target))
 	if(IS_CULTIST(target))
-		to_chat(target, "<span class='notice'>Robes and gear of the followers of Nar-Sie manifests around your body. You feel empowered.</span>")
+		to_chat(target, "<span class = 'notice'>Robes and gear of the followers of Nar-Sie manifests around your body. You feel empowered.</span>")
 	else
-		to_chat(target, "<span class='warning'>Robes and gear of the followers of Nar-Sie manifests around your body. You feel sickened.</span>")
-	to_chat(activator, "<span class='notice'>A [BT] materializes in your hand, you may use it to instantly swap back into your stored clothing.</span>")
+		to_chat(target, "<span class = 'warning'>Robes and gear of the followers of Nar-Sie manifests around your body. You feel sickened.</span>")
+	to_chat(activator, "<span class = 'notice'>A [BT] materializes in your hand, you may use it to instantly swap back into your stored clothing.</span>")
 	qdel(src)

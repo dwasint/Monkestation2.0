@@ -104,7 +104,7 @@
 /obj/structure/cult/attackby(obj/item/weapon/weapon, mob/user, params)
 	if(istype(weapon))
 		if(!(user.istate & ISTATE_HARM )|| weapon.force == 0)
-			visible_message("<span class='warning'>\The [user] gently taps \the [src] with \the [weapon].</span>")
+			visible_message("<span class = 'warning'>\The [user] gently taps \the [src] with \the [weapon].</span>")
 		else
 			user.do_attack_animation(src, weapon)
 			if(sound_damaged)
@@ -113,7 +113,7 @@
 				takeDamage(weapon.force*2)
 			else
 				takeDamage(weapon.force)
-			visible_message("<span class='warning'>\The [user] hits \the [src] with \the [weapon].</span>")
+			visible_message("<span class = 'warning'>\The [user] hits \the [src] with \the [weapon].</span>")
 			..()
 
 
@@ -123,8 +123,8 @@
 
 /obj/structure/cult/attack_hand(mob/living/user)
 	if(user.istate & ISTATE_HARM)
-		user.visible_message("<span class='danger'>[user.name] [pick("kicks","punches")] \the [src]!</span>", \
-							"<span class='danger'>You strike at \the [src]!</span>", \
+		user.visible_message("<span class = 'danger'>[user.name] [pick("kicks", "punches")] \the [src]!</span>", \
+							"<span class = 'danger'>You strike at \the [src]!</span>", \
 							"You hear stone cracking.")
 		user.adjustBruteLoss(3)
 		if(sound_damaged)
@@ -138,31 +138,31 @@
 	return 1
 
 /obj/structure/cult/proc/noncultist_act(mob/user)
-	to_chat(user,"<span class='sinister'>You feel madness taking its toll, trying to figure out \the [name]'s purpose</span>")
+	to_chat(user, "<span class = 'sinister'>You feel madness taking its toll, trying to figure out \the [name]'s purpose</span>")
 	//might add some hallucinations or brain damage later, checks for cultist chaplains, etc
 	return 1
 
 /obj/structure/cult/proc/safe_space()
-	for(var/turf/turf in range(5,src))
+	for(var/turf/turf in range(5, src))
 		var/dist = cheap_pythag(turf.x - src.x, turf.y - src.y)
 		if(dist <= 2.5)
 			turf.ChangeTurf(/turf/open/floor/engine/cult)
-			turf.turf_animation('monkestation/code/modules/bloody_cult/icons/effects.dmi',"cultfloor", 0, 0, MOB_LAYER-1, anim_plane = GAME_PLANE)
+			turf.turf_animation('monkestation/code/modules/bloody_cult/icons/effects.dmi', "cultfloor", 0, 0, MOB_LAYER-1, anim_plane = GAME_PLANE)
 			for(var/obj/structure/structure in turf)
-				if(!istype(structure,/obj/structure/cult))
+				if(!istype(structure, /obj/structure/cult))
 					qdel(structure)
 			for(var/obj/machinery/machine in turf)
 				qdel(machine)
 		else if(dist <= 4.5)
 			if(istype(turf, /turf/open/space))
 				turf.ChangeTurf(/turf/open/floor/engine/cult)
-				turf.turf_animation('monkestation/code/modules/bloody_cult/icons/effects.dmi',"cultfloor", 0, 0, MOB_LAYER-1, anim_plane = GAME_PLANE)
+				turf.turf_animation('monkestation/code/modules/bloody_cult/icons/effects.dmi', "cultfloor", 0, 0, MOB_LAYER-1, anim_plane = GAME_PLANE)
 			else
 				turf.narsie_act()
 		else if(dist <= 5.5)
 			if(istype(turf, /turf/open/space))
 				turf.ChangeTurf(/turf/closed/wall/mineral/cult)
-				turf.turf_animation('monkestation/code/modules/bloody_cult/icons/effects.dmi',"cultwall", 0, 0, MOB_LAYER-1, anim_plane = GAME_PLANE)
+				turf.turf_animation('monkestation/code/modules/bloody_cult/icons/effects.dmi', "cultwall", 0, 0, MOB_LAYER-1, anim_plane = GAME_PLANE)
 			else
 				turf.narsie_act()
 
@@ -170,7 +170,7 @@
 /obj/structure/cult/proc/dance_start()
 	while(timeleft > 0)
 		for(var/mob/contributor in contributors)
-			if(!IS_CULTIST(contributor) || get_dist(src,contributor) > 1 || contributor.incapacitated() || contributor.occult_muted())
+			if(!IS_CULTIST(contributor) || get_dist(src, contributor) > 1 || contributor.incapacitated() || contributor.occult_muted())
 				if(contributor.client)
 					contributor.client.images -= progbar
 				contributors.Remove(contributor)
@@ -199,38 +199,38 @@
 	return
 
 /obj/structure/cult/proc/dance_step()
-	var/dance_move = pick("clock","counter","spin")
+	var/dance_move = pick("clock", "counter", "spin")
 
 	switch(dance_move)
 		if("clock")
 			for(var/mob/contributor in contributors)
-				switch(get_dir(src,contributor))
-					if(NORTHWEST,NORTH)
-						contributor.forceMove(get_step(contributor,EAST))
+				switch(get_dir(src, contributor))
+					if(NORTHWEST, NORTH)
+						contributor.forceMove(get_step(contributor, EAST))
 						contributor.dir = EAST
-					if(NORTHEAST,EAST)
-						contributor.forceMove(get_step(contributor,SOUTH))
+					if(NORTHEAST, EAST)
+						contributor.forceMove(get_step(contributor, SOUTH))
 						contributor.dir = SOUTH
-					if(SOUTHEAST,SOUTH)
-						contributor.forceMove(get_step(contributor,WEST))
+					if(SOUTHEAST, SOUTH)
+						contributor.forceMove(get_step(contributor, WEST))
 						contributor.dir = WEST
-					if(SOUTHWEST,WEST)
-						contributor.forceMove(get_step(contributor,NORTH))
+					if(SOUTHWEST, WEST)
+						contributor.forceMove(get_step(contributor, NORTH))
 						contributor.dir = NORTH
 		if("counter")
 			for(var/mob/contributor in contributors)
-				switch(get_dir(src,contributor))
-					if(NORTHEAST,NORTH)
-						contributor.forceMove(get_step(contributor,WEST))
+				switch(get_dir(src, contributor))
+					if(NORTHEAST, NORTH)
+						contributor.forceMove(get_step(contributor, WEST))
 						contributor.dir = WEST
-					if(SOUTHEAST,EAST)
-						contributor.forceMove(get_step(contributor,NORTH))
+					if(SOUTHEAST, EAST)
+						contributor.forceMove(get_step(contributor, NORTH))
 						contributor.dir = NORTH
-					if(SOUTHWEST,SOUTH)
-						contributor.forceMove(get_step(contributor,EAST))
+					if(SOUTHWEST, SOUTH)
+						contributor.forceMove(get_step(contributor, EAST))
 						contributor.dir = EAST
-					if(NORTHWEST,WEST)
-						contributor.forceMove(get_step(contributor,SOUTH))
+					if(NORTHWEST, WEST)
+						contributor.forceMove(get_step(contributor, SOUTH))
 						contributor.dir = SOUTH
 		if("spin")
 			for(var/mob/contributor in contributors)

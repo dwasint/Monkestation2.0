@@ -51,7 +51,7 @@
 	if (M && istype(M.buckled, /obj/vehicle/ridden/adminbus))
 		var/obj/vehicle/ridden/adminbus/A = M.buckled
 		for(var/i = 1 to 16)
-			var/image/I = image('monkestation/code/modules/bloody_cult/icons/32x32.dmi',src,"blank")
+			var/image/I = image('monkestation/code/modules/bloody_cult/icons/32x32.dmi', src, "blank")
 			I.pixel_x = 365 - (16 * i)
 			I.pixel_y = 38
 			I.dir = SOUTH
@@ -73,7 +73,7 @@
 	offset_y = -38
 
 /obj/abstract/mind_ui_element/hoverable/adminbus_thunderdome_split/Click()
-	flick("[base_icon_state]-push",src)
+	flick("[base_icon_state]-push", src)
 
 //------------------------------------------------------------
 
@@ -86,7 +86,7 @@
 	offset_y = -38
 
 /obj/abstract/mind_ui_element/hoverable/adminbus_thunderdome_red/Click()
-	flick("[base_icon_state]-push",src)
+	flick("[base_icon_state]-push", src)
 
 //------------------------------------------------------------
 
@@ -99,7 +99,7 @@
 	offset_y = -38
 
 /obj/abstract/mind_ui_element/hoverable/adminbus_thunderdome_green/Click()
-	flick("[base_icon_state]-push",src)
+	flick("[base_icon_state]-push", src)
 
 
 //------------------------------------------------------------
@@ -113,7 +113,7 @@
 	offset_y = -4
 
 /obj/abstract/mind_ui_element/hoverable/adminbus_thunderdome_obs/Click()
-	flick("[base_icon_state]-push",src)
+	flick("[base_icon_state]-push", src)
 
 
 //------------------------------------------------------------
@@ -127,7 +127,7 @@
 	offset_y = -38
 
 /obj/abstract/mind_ui_element/hoverable/adminbus_give_bombs/Click()
-	flick("[base_icon_state]-push",src)
+	flick("[base_icon_state]-push", src)
 
 	var/mob/M = GetUser()
 	if (M && istype(M.buckled, /obj/vehicle/ridden/adminbus))
@@ -145,7 +145,7 @@
 	offset_y = -38
 
 /obj/abstract/mind_ui_element/hoverable/adminbus_delete_bombs/Click()
-	flick("[base_icon_state]-push",src)
+	flick("[base_icon_state]-push", src)
 
 	var/mob/M = GetUser()
 	if (M && istype(M.buckled, /obj/vehicle/ridden/adminbus))
@@ -163,7 +163,7 @@
 	offset_y = -38
 
 /obj/abstract/mind_ui_element/hoverable/adminbus_give_guns/Click()
-	flick("[base_icon_state]-push",src)
+	flick("[base_icon_state]-push", src)
 
 	var/mob/M = GetUser()
 	if (M && istype(M.buckled, /obj/vehicle/ridden/adminbus))
@@ -181,7 +181,7 @@
 	offset_y = -38
 
 /obj/abstract/mind_ui_element/hoverable/adminbus_delete_guns/Click()
-	flick("[base_icon_state]-push",src)
+	flick("[base_icon_state]-push", src)
 
 	var/mob/M = GetUser()
 	if (M && istype(M.buckled, /obj/vehicle/ridden/adminbus))
@@ -199,7 +199,7 @@
 	offset_y = -12
 
 /obj/abstract/mind_ui_element/adminbus_release/Click()
-	flick("[base_icon_state]-push",src)
+	flick("[base_icon_state]-push", src)
 
 	var/mob/M = GetUser()
 	if (M && istype(M.buckled, /obj/vehicle/ridden/adminbus))
@@ -217,7 +217,7 @@
 	offset_y = -12
 
 /obj/abstract/mind_ui_element/adminbus_send_home/Click()
-	flick("[base_icon_state]-push",src)
+	flick("[base_icon_state]-push", src)
 
 	var/mob/M = GetUser()
 	if (M && istype(M.buckled, /obj/vehicle/ridden/adminbus))
@@ -235,7 +235,7 @@
 	offset_y = -12
 
 /obj/abstract/mind_ui_element/adminbus_antag_madness/Click()
-	flick("[base_icon_state]-push",src)
+	flick("[base_icon_state]-push", src)
 
 	alert(usr, "This button still hasn't been updated to use Role Datums. Sorry.")
 
@@ -281,7 +281,7 @@
 	offset_y = -82
 
 /obj/abstract/mind_ui_element/hoverable/adminbus_delete_mobs/Click()
-	flick("[base_icon_state]-push",src)
+	flick("[base_icon_state]-push", src)
 
 	var/mob/M = GetUser()
 	if (M && istype(M.buckled, /obj/vehicle/ridden/adminbus))
@@ -299,12 +299,12 @@
 	offset_y = -50
 
 /obj/abstract/mind_ui_element/hoverable/adminbus_spawn_clowns/Click()
-	flick("[base_icon_state]-push",src)
+	flick("[base_icon_state]-push", src)
 
 	var/mob/M = GetUser()
 	if (M && istype(M.buckled, /obj/vehicle/ridden/adminbus))
 		var/obj/vehicle/ridden/adminbus/A = M.buckled
-		A.spawn_mob(M,1,5)
+		A.spawn_mob(M, 1, 5)
 
 //------------------------------------------------------------
 
@@ -317,12 +317,12 @@
 	offset_y = -22
 
 /obj/abstract/mind_ui_element/hoverable/adminbus_spawn_carps/Click()
-	flick("[base_icon_state]-push",src)
+	flick("[base_icon_state]-push", src)
 
 	var/mob/M = GetUser()
 	if (M && istype(M.buckled, /obj/vehicle/ridden/adminbus))
 		var/obj/vehicle/ridden/adminbus/A = M.buckled
-		A.spawn_mob(M,2,5)
+		A.spawn_mob(M, 2, 5)
 
 //------------------------------------------------------------
 
@@ -335,12 +335,12 @@
 	offset_y = 6
 
 /obj/abstract/mind_ui_element/hoverable/adminbus_spawn_bears/Click()
-	flick("[base_icon_state]-push",src)
+	flick("[base_icon_state]-push", src)
 
 	var/mob/M = GetUser()
 	if (M && istype(M.buckled, /obj/vehicle/ridden/adminbus))
 		var/obj/vehicle/ridden/adminbus/A = M.buckled
-		A.spawn_mob(M,3,5)
+		A.spawn_mob(M, 3, 5)
 
 //------------------------------------------------------------
 
@@ -353,12 +353,12 @@
 	offset_y = 34
 
 /obj/abstract/mind_ui_element/hoverable/adminbus_spawn_trees/Click()
-	flick("[base_icon_state]-push",src)
+	flick("[base_icon_state]-push", src)
 
 	var/mob/M = GetUser()
 	if (M && istype(M.buckled, /obj/vehicle/ridden/adminbus))
 		var/obj/vehicle/ridden/adminbus/A = M.buckled
-		A.spawn_mob(M,4,5)
+		A.spawn_mob(M, 4, 5)
 
 //------------------------------------------------------------
 
@@ -371,12 +371,12 @@
 	offset_y = 62
 
 /obj/abstract/mind_ui_element/hoverable/adminbus_spawn_spiders/Click()
-	flick("[base_icon_state]-push",src)
+	flick("[base_icon_state]-push", src)
 
 	var/mob/M = GetUser()
 	if (M && istype(M.buckled, /obj/vehicle/ridden/adminbus))
 		var/obj/vehicle/ridden/adminbus/A = M.buckled
-		A.spawn_mob(M,5,5)
+		A.spawn_mob(M, 5, 5)
 
 //------------------------------------------------------------
 
@@ -389,12 +389,12 @@
 	offset_y = 90
 
 /obj/abstract/mind_ui_element/hoverable/adminbus_spawn_alien/Click()
-	flick("[base_icon_state]-push",src)
+	flick("[base_icon_state]-push", src)
 
 	var/mob/M = GetUser()
 	if (M && istype(M.buckled, /obj/vehicle/ridden/adminbus))
 		var/obj/vehicle/ridden/adminbus/A = M.buckled
-		A.spawn_mob(M,6,1)
+		A.spawn_mob(M, 6, 1)
 
 ////////////////////////////////////////////////////////////////////
 //																  //
@@ -446,12 +446,12 @@
 	offset_y = 69
 
 /obj/abstract/mind_ui_element/hoverable/adminbus_money/Click()
-	flick("[base_icon_state]-push",src)
+	flick("[base_icon_state]-push", src)
 
 	var/mob/M = GetUser()
 	if (M && istype(M.buckled, /obj/vehicle/ridden/adminbus))
 		var/obj/vehicle/ridden/adminbus/A = M.buckled
-		A.loadsa_goodies(M,2)
+		A.loadsa_goodies(M, 2)
 
 //------------------------------------------------------------
 
@@ -464,12 +464,12 @@
 	offset_y = 41
 
 /obj/abstract/mind_ui_element/hoverable/adminbus_spares/Click()
-	flick("[base_icon_state]-push",src)
+	flick("[base_icon_state]-push", src)
 
 	var/mob/M = GetUser()
 	if (M && istype(M.buckled, /obj/vehicle/ridden/adminbus))
 		var/obj/vehicle/ridden/adminbus/A = M.buckled
-		A.loadsa_goodies(M,1)
+		A.loadsa_goodies(M, 1)
 
 //------------------------------------------------------------
 
@@ -482,7 +482,7 @@
 	offset_y = 69
 
 /obj/abstract/mind_ui_element/hoverable/adminbus_healing/Click()
-	flick("[base_icon_state]-push",src)
+	flick("[base_icon_state]-push", src)
 
 	var/mob/M = GetUser()
 	if (M && istype(M.buckled, /obj/vehicle/ridden/adminbus))
@@ -500,7 +500,7 @@
 	offset_y = 41
 
 /obj/abstract/mind_ui_element/hoverable/adminbus_repair/Click()
-	flick("[base_icon_state]-push",src)
+	flick("[base_icon_state]-push", src)
 
 	var/mob/M = GetUser()
 	if (M && istype(M.buckled, /obj/vehicle/ridden/adminbus))
@@ -548,7 +548,7 @@
 	offset_y = 71
 
 /obj/abstract/mind_ui_element/hoverable/adminbus_jukebox/Click()
-	flick("[base_icon_state]-push",src)
+	flick("[base_icon_state]-push", src)
 
 	var/mob/M = GetUser()
 	if (M && istype(M.buckled, /obj/vehicle/ridden/adminbus))
@@ -566,7 +566,7 @@
 	offset_y = 71
 
 /obj/abstract/mind_ui_element/hoverable/adminbus_teleport/Click()
-	flick("[base_icon_state]-push",src)
+	flick("[base_icon_state]-push", src)
 
 	var/mob/M = GetUser()
 	if (M && istype(M.buckled, /obj/vehicle/ridden/adminbus))
@@ -598,7 +598,7 @@
 	var/mob/M = GetUser()
 	if (M && istype(M.buckled, /obj/vehicle/ridden/adminbus))
 		var/obj/vehicle/ridden/adminbus/A = M.buckled
-		A.toggle_bumpers(M,1)
+		A.toggle_bumpers(M, 1)
 
 //------------------------------------------------------------
 
@@ -625,7 +625,7 @@
 	var/mob/M = GetUser()
 	if (M && istype(M.buckled, /obj/vehicle/ridden/adminbus))
 		var/obj/vehicle/ridden/adminbus/A = M.buckled
-		A.toggle_bumpers(M,2)
+		A.toggle_bumpers(M, 2)
 
 //------------------------------------------------------------
 
@@ -652,7 +652,7 @@
 	var/mob/M = GetUser()
 	if (M && istype(M.buckled, /obj/vehicle/ridden/adminbus))
 		var/obj/vehicle/ridden/adminbus/A = M.buckled
-		A.toggle_bumpers(M,3)
+		A.toggle_bumpers(M, 3)
 
 //------------------------------------------------------------
 
@@ -679,7 +679,7 @@
 	var/mob/M = GetUser()
 	if (M && istype(M.buckled, /obj/vehicle/ridden/adminbus))
 		var/obj/vehicle/ridden/adminbus/A = M.buckled
-		A.toggle_door(M,0)
+		A.toggle_door(M, 0)
 
 //------------------------------------------------------------
 
@@ -706,7 +706,7 @@
 	var/mob/M = GetUser()
 	if (M && istype(M.buckled, /obj/vehicle/ridden/adminbus))
 		var/obj/vehicle/ridden/adminbus/A = M.buckled
-		A.toggle_door(M,1)
+		A.toggle_door(M, 1)
 
 //------------------------------------------------------------
 
@@ -733,7 +733,7 @@
 	var/mob/M = GetUser()
 	if (M && istype(M.buckled, /obj/vehicle/ridden/adminbus))
 		var/obj/vehicle/ridden/adminbus/A = M.buckled
-		A.toggle_lights(M,0)
+		A.toggle_lights(M, 0)
 
 //------------------------------------------------------------
 
@@ -760,7 +760,7 @@
 	var/mob/M = GetUser()
 	if (M && istype(M.buckled, /obj/vehicle/ridden/adminbus))
 		var/obj/vehicle/ridden/adminbus/A = M.buckled
-		A.toggle_lights(M,1)
+		A.toggle_lights(M, 1)
 
 //------------------------------------------------------------
 
@@ -787,7 +787,7 @@
 	var/mob/M = GetUser()
 	if (M && istype(M.buckled, /obj/vehicle/ridden/adminbus))
 		var/obj/vehicle/ridden/adminbus/A = M.buckled
-		A.toggle_lights(M,2)
+		A.toggle_lights(M, 2)
 
 //------------------------------------------------------------
 

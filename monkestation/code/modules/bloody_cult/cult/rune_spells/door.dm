@@ -20,7 +20,7 @@
 		R.one_pulse()
 
 	if (pay_blood())
-		if (locate(/obj/machinery/door/airlock/cult) in range(spell_holder,1))
+		if (locate(/obj/machinery/door/airlock/cult) in range(spell_holder, 1))
 			abort(RITUALABORT_NEAR)
 		else
 			var/datum/antagonist/cult/cult_datum = activator.mind.has_antag_datum(/datum/antagonist/cult)

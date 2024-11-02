@@ -18,7 +18,7 @@
 		R.one_pulse()
 
 	if (pay_blood())
-		for(var/mob/living/L in range(effect_range,get_turf(spell_holder)))
+		for(var/mob/living/L in range(effect_range, get_turf(spell_holder)))
 			if (iscarbon(L))
 				var/mob/living/carbon/carbon = L
 				if (carbon.occult_muted())

@@ -30,7 +30,7 @@
 	..()
 
 /obj/item/weapon/melee/blood_dagger/suicide_act(var/mob/living/user)
-	to_chat(viewers(user), "<span class='danger'>[user] is slitting \his throat with \the [src]! It looks like \he's trying to commit suicide.</span>")
+	to_chat(viewers(user), "<span class = 'danger'>[user] is slitting \his throat with \the [src]! It looks like \he's trying to commit suicide.</span>")
 
 /obj/item/weapon/melee/blood_dagger/dropped(var/mob/user)
 	..()
@@ -39,10 +39,10 @@
 /obj/item/weapon/melee/blood_dagger/attack(var/mob/living/target, var/mob/living/carbon/human/user)
 	if(target == user)
 		if (stacks < 5)
-			user.blood_volume -=5
+			user.blood_volume -= 5
 			stacks++
 			playsound(user, 'sound/weapons/bladeslice.ogg', 30, 0, -2)
-			to_chat(user, "<span class='warning'>\The [src] takes a bit of your blood.</span>")
+			to_chat(user, "<span class = 'warning'>\The [src] takes a bit of your blood.</span>")
 		return
 	if (IS_CULTIST(user) && !IS_CULTIST(target) && !target.stat == DEAD)
 		var/datum/antagonist/cult/cult_datum = user.mind.has_antag_datum(/datum/antagonist/cult)
@@ -61,10 +61,10 @@
 	if (ishuman(user) && IS_CULTIST(user))
 		var/mob/living/carbon/human/H = user
 		if (!HAS_TRAIT(H, TRAIT_NOBLOOD))
-			to_chat(user, "<span class='notice'>You sheath \the [src] back inside your body[stacks ? ", along with the stolen blood" : ""].</span>")
+			to_chat(user, "<span class = 'notice'>You sheath \the [src] back inside your body[stacks ? ", along with the stolen blood" : ""].</span>")
 			H.blood_volume += 5 + stacks * 5
 		else
-			to_chat(user, "<span class='notice'>You sheath \the [src] inside your body, but the blood fails to find vessels to occupy.</span>")
+			to_chat(user, "<span class = 'notice'>You sheath \the [src] inside your body, but the blood fails to find vessels to occupy.</span>")
 		absorbed = 1
 		playsound(H, 'monkestation/code/modules/bloody_cult/sound/bloodyslice.ogg', 30, 0, -2)
 		qdel(src)
@@ -91,4 +91,4 @@
 			C.blood_volume -= 5
 			if (stacks < 5)
 				stacks++
-				to_chat(user, "<span class='warning'>\The [src] steals a bit of their blood.</span>")
+				to_chat(user, "<span class = 'warning'>\The [src] steals a bit of their blood.</span>")

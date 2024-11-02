@@ -19,11 +19,11 @@
 
 /datum/rune_spell/raisestructure/proc/proximity_check()
 	var/obj/effect/new_rune/R = spell_holder
-	if (locate(/obj/structure/cult) in range(R.loc,0))
+	if (locate(/obj/structure/cult) in range(R.loc, 0))
 		abort(RITUALABORT_BLOCKED)
 		return FALSE
 
-	if (locate(/obj/machinery/door/airlock/cult) in range(R.loc,1))
+	if (locate(/obj/machinery/door/airlock/cult) in range(R.loc, 1))
 		abort(RITUALABORT_NEAR)
 		return FALSE
 
@@ -51,14 +51,14 @@
 		option.info = span_boldnotice(choice[3])
 		made_choices[choice[1]] = option
 
-	structure = show_radial_menu(user,R.loc,made_choices ,tooltips = TRUE, radial_icon = 'monkestation/code/modules/bloody_cult/icons/cult_radial3.dmi')
+	structure = show_radial_menu(user, R.loc, made_choices ,tooltips = TRUE, radial_icon = 'monkestation/code/modules/bloody_cult/icons/cult_radial3.dmi')
 
 	if(!R.Adjacent(user) || !structure )
 		abort()
 		return
 
 	if(R.active_spell)
-		to_chat(user, "<span class='rose'>A structure is already being raised from this rune, so you contribute to that instead.</span>")
+		to_chat(user, "<span class = 'rose'>A structure is already being raised from this rune, so you contribute to that instead.</span>")
 		R.active_spell.midcast(user)
 		return
 
@@ -79,15 +79,15 @@
 	update_progbar()
 	if(user.client)
 		user.client.images |= progbar
-	spell_holder.overlays += image('monkestation/code/modules/bloody_cult/icons/cult.dmi',"runetrigger-build")
-	to_chat(activator, "<span class='rose'>This ritual can be sped up by having multiple cultists partake in it or by wearing cult attire.</span>")
+	spell_holder.overlays += image('monkestation/code/modules/bloody_cult/icons/cult.dmi', "runetrigger-build")
+	to_chat(activator, "<span class = 'rose'>This ritual can be sped up by having multiple cultists partake in it or by wearing cult attire.</span>")
 	spawn()
 		payment()
 
 /datum/rune_spell/raisestructure/cast_talisman() //Raise structure talismans create an invisible summoning rune beneath the caster's feet.
 	var/obj/effect/new_rune/R = new(get_turf(activator))
 	R.icon_state = "temp"
-	R.active_spell = new type(activator,R)
+	R.active_spell = new type(activator, R)
 	qdel(src)
 
 /datum/rune_spell/raisestructure/midcast(mob/add_cultist)
@@ -99,7 +99,7 @@
 		add_cultist.client.images |= progbar
 
 /datum/rune_spell/raisestructure/abort(var/cause)
-	spell_holder.overlays -= image('monkestation/code/modules/bloody_cult/icons/cult.dmi',"runetrigger-build")
+	spell_holder.overlays -= image('monkestation/code/modules/bloody_cult/icons/cult.dmi', "runetrigger-build")
 	..()
 
 /datum/rune_spell/raisestructure/proc/payment()
@@ -107,9 +107,9 @@
 	while(failsafe < 1000)
 		failsafe++
 		//are our payers still here and about?
-		var/summoners = 2//the higher, the easier it is to perform the ritual without many cultists. default=2
+		var/summoners = 2//the higher, the easier it is to perform the ritual without many cultists. default = 2
 		for(var/mob/living/L in contributors)
-			if (IS_CULTIST(L) && (L in range(spell_holder,1)) && (L.stat == CONSCIOUS))
+			if (IS_CULTIST(L) && (L in range(spell_holder, 1)) && (L.stat == CONSCIOUS))
 				summoners++
 				summoners += round(L.get_cult_power()/30)	//For every 30 cult power, you count as one additional cultist. So with Robes and Shoes, you already count as 3 cultists.
 			else											//This makes using the rune alone hard at roundstart, but fairly easy later on.
@@ -118,13 +118,13 @@
 				contributors.Remove(L)
 		var/amount_paid = 0
 		for(var/mob/living/L in contributors)
-			var/data = use_available_blood(L, cost_upkeep,contributors[L])
+			var/data = use_available_blood(L, cost_upkeep, contributors[L])
 			if (data[BLOODCOST_RESULT] == BLOODCOST_FAILURE)//out of blood are we?
 				contributors.Remove(L)
 			else
 				amount_paid += data[BLOODCOST_TOTAL]
 				contributors[L] = data[BLOODCOST_RESULT]
-				make_tracker_effects(L.loc,spell_holder, 1, "soul", 3, /obj/effect/tracker/drain, 1)//visual feedback
+				make_tracker_effects(L.loc, spell_holder, 1, "soul", 3, /obj/effect/tracker/drain, 1)//visual feedback
 
 		accumulated_blood += amount_paid
 
@@ -162,6 +162,6 @@
 /datum/rune_spell/raisestructure/proc/success()
 	for(var/mob/living/L in contributors)
 		var/datum/antagonist/cult/cult_datum = L.mind.has_antag_datum(/datum/antagonist/cult)
-		cult_datum.gain_devotion(10, DEVOTION_TIER_1,"raise_structure",structure)
+		cult_datum.gain_devotion(10, DEVOTION_TIER_1, "raise_structure", structure)
 	new spawntype(spell_holder.loc)
 	qdel(spell_holder) //Deletes the datum as well.

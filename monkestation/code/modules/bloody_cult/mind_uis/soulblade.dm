@@ -37,7 +37,7 @@
 
 	var/image/gauge = image('monkestation/code/modules/bloody_cult/icons/soulblade/18x200.dmi', src, "blood")
 	var/matrix/gauge_matrix = matrix()
-	gauge_matrix.Scale(1,SB.blood/SB.maxblood)
+	gauge_matrix.Scale(1, SB.blood/SB.maxblood)
 	gauge.transform = gauge_matrix
 	gauge.layer = MIND_UI_BUTTON
 	gauge.pixel_y = round(-77 + 100 * (SB.blood/SB.maxblood))

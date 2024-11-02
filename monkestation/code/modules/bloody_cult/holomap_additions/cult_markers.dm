@@ -7,8 +7,8 @@
 		if(!map_base)
 			continue
 		var/icon/canvas = icon('monkestation/code/modules/bloody_cult/icons/cult_map.dmi', "cultmap")
-		map_base.Blend("#E30000",ICON_MULTIPLY)
-		canvas.Blend(map_base,ICON_OVERLAY)
+		map_base.Blend("#E30000", ICON_MULTIPLY)
+		canvas.Blend(map_base, ICON_OVERLAY)
 		extra_holomaps["[HOLOMAP_EXTRA_CULTMAP]_[z_level]"] = canvas
 
 /datum/controller/subsystem/holomaps/proc/update_cult_map(mob/user, atom/source_object)

@@ -17,8 +17,8 @@
 
 /obj/item/weapon/talisman/New()
 	..()
-	pixel_x=0
-	pixel_y=0
+	pixel_x = 0
+	pixel_y = 0
 
 
 /obj/item/weapon/talisman/salt_act()
@@ -37,34 +37,34 @@
 		return "\[blank\]"
 
 /obj/item/weapon/talisman/suicide_act(mob/living/user)
-	to_chat(viewers(user), "<span class='danger'>[user] swallows \a [src] and appears to be choking on it! It looks like \he's trying to commit suicide.</span>")
+	to_chat(viewers(user), "<span class = 'danger'>[user] swallows \a [src] and appears to be choking on it! It looks like \he's trying to commit suicide.</span>")
 
 /obj/item/weapon/talisman/examine(var/mob/user)
 	..()
 	if (blood_text)
-		user << browse("<HTML><HEAD><TITLE>[name]</TITLE></HEAD><BODY text=#612014>[blood_text]</BODY></HTML>", "window=[name]")
+		user << browse("<HTML><HEAD><TITLE>[name]</TITLE></HEAD><BODY text = #612014>[blood_text]</BODY></HTML>", "window = [name]")
 		onclose(user, "[name]")
 		return
 
 	if (!spell_type)
-		to_chat(user, "<span class='info'>This one, however, seems pretty unremarkable.</span>")
+		to_chat(user, "<span class = 'info'>This one, however, seems pretty unremarkable.</span>")
 		return
 
 	var/datum/rune_spell/instance = spell_type
 
 	if (IS_CULTIST(user) || isobserver(user))
 		if (attuned_rune)
-			to_chat(user, "<span class='info'>This one was attuned to a <b>[initial(instance.name)]</b> rune. [initial(instance.desc_talisman)]</span>")
+			to_chat(user, "<span class = 'info'>This one was attuned to a <b>[initial(instance.name)]</b> rune. [initial(instance.desc_talisman)]</span>")
 		else
-			to_chat(user, "<span class='info'>This one was imbued with a <b>[initial(instance.name)]</b> rune. [initial(instance.desc_talisman)]</span>")
+			to_chat(user, "<span class = 'info'>This one was imbued with a <b>[initial(instance.name)]</b> rune. [initial(instance.desc_talisman)]</span>")
 		if (uses > 1)
-			to_chat(user, "<span class='info'>Its powers can be used [uses] more times.</span>")
+			to_chat(user, "<span class = 'info'>Its powers can be used [uses] more times.</span>")
 	else
-		to_chat(user, "<span class='info'>This one was some arcane drawings on it. You cannot read them.</span>")
+		to_chat(user, "<span class = 'info'>This one was some arcane drawings on it. You cannot read them.</span>")
 
 /obj/item/weapon/talisman/attack_self(var/mob/living/user)
 	if (blood_text)
-		user << browse("<HTML><HEAD><TITLE>[name]</TITLE></HEAD><BODY text=#612014>[blood_text]</BODY></HTML>", "window=[name]")
+		user << browse("<HTML><HEAD><TITLE>[name]</TITLE></HEAD><BODY text = #612014>[blood_text]</BODY></HTML>", "window = [name]")
 		onclose(user, "[name]")
 		onclose(user, "[name]")
 		return
@@ -86,7 +86,7 @@
 		return
 
 	if (blood_text)
-		user << browse("<HTML><HEAD><TITLE>[name]</TITLE></HEAD><BODY text=#612014>[blood_text]</BODY></HTML>", "window=[name]")
+		user << browse("<HTML><HEAD><TITLE>[name]</TITLE></HEAD><BODY text = #612014>[blood_text]</BODY></HTML>", "window = [name]")
 		onclose(user, "[name]")
 		return
 
@@ -95,22 +95,22 @@
 			if (istype(loc, /obj/item/weapon/tome))
 				var/obj/item/weapon/tome/T = loc
 				T.talismans.Remove(src)
-				user << browse(T.tome_text(), "window=arcanetome;size=900x600")
+				user << browse(T.tome_text(), "window = arcanetome;size = 900x600")
 				user.put_in_hands(src)
 		return
 
 	if(iscarbon(user))
 		var/mob/living/carbon/C = user
 		if (C.occult_muted())
-			to_chat(user, "<span class='danger'>You find yourself unable to focus your mind on the arcane words of the talisman.</span>")
+			to_chat(user, "<span class = 'danger'>You find yourself unable to focus your mind on the arcane words of the talisman.</span>")
 			return
 
 	if (attuned_rune)
 		if (attuned_rune.loc)
-			attuned_rune.trigger(user,1)
+			attuned_rune.trigger(user, 1)
 		else//darn, the rune got destroyed one way or another
 			attuned_rune = null
-			to_chat(user, "<span class='warning'>The talisman disappears into dust. The rune it was attuned to appears to no longer exist.</span>")
+			to_chat(user, "<span class = 'warning'>The talisman disappears into dust. The rune it was attuned to appears to no longer exist.</span>")
 	else
 		new spell_type(user, src)
 
@@ -118,7 +118,7 @@
 	if (uses > 0)
 		return
 
-	if (istype(loc,/obj/item/weapon/tome))
+	if (istype(loc, /obj/item/weapon/tome))
 		var/obj/item/weapon/tome/T = loc
 		T.talismans.Remove(src)
 	if (linked_ui)
@@ -130,31 +130,31 @@
 		return
 
 	if (blood_text)
-		to_chat(user, "<span class='warning'>You can't imbue a talisman that has been written on.</span>")
+		to_chat(user, "<span class = 'warning'>You can't imbue a talisman that has been written on.</span>")
 		return
 
-	var/datum/rune_spell/spell = get_rune_spell(user,null,"examine",R.word1, R.word2, R.word3)
+	var/datum/rune_spell/spell = get_rune_spell(user, null, "examine", R.word1, R.word2, R.word3)
 	if(initial(spell.talisman_absorb) == RUNE_CANNOT)//placing a talisman on a Conjure Talisman rune to try and fax it
 		user.dropItemToGround(src)
 		src.forceMove(get_turf(R))
 		R.attack_hand(user)
 	else
 		if (attuned_rune)
-			to_chat(user, "<span class='warning'>\The [src] is already imbued with the power of a rune.</span>")
+			to_chat(user, "<span class = 'warning'>\The [src] is already imbued with the power of a rune.</span>")
 			return
 
 		if (!spell)
-			to_chat(user, "<span class='warning'>There is no power in those runes. \The [src] isn't reacting to it.</span>")
+			to_chat(user, "<span class = 'warning'>There is no power in those runes. \The [src] isn't reacting to it.</span>")
 			return
 
 		//blood markings
-		overlays += image(icon,"talisman-[R.word1.icon_state]a")
-		overlays += image(icon,"talisman-[R.word2.icon_state]a")
-		overlays += image(icon,"talisman-[R.word3.icon_state]a")
+		overlays += image(icon, "talisman-[R.word1.icon_state]a")
+		overlays += image(icon, "talisman-[R.word2.icon_state]a")
+		overlays += image(icon, "talisman-[R.word3.icon_state]a")
 		//black markings
-		overlays += image(icon,"talisman-[R.word1.icon_state]")
-		overlays += image(icon,"talisman-[R.word2.icon_state]")
-		overlays += image(icon,"talisman-[R.word3.icon_state]")
+		overlays += image(icon, "talisman-[R.word1.icon_state]")
+		overlays += image(icon, "talisman-[R.word2.icon_state]")
+		overlays += image(icon, "talisman-[R.word3.icon_state]")
 
 		spell_type = spell
 		uses = initial(spell.talisman_uses)
@@ -165,11 +165,11 @@
 			return
 		if (active_spell)//some runes may change their interaction type dynamically (ie: Path Exit runes)
 			talisman_interaction = active_spell.talisman_absorb
-			if (istype(active_spell,/datum/rune_spell/portalentrance))
+			if (istype(active_spell, /datum/rune_spell/portalentrance))
 				var/datum/rune_spell/portalentrance/entrance = active_spell
 				if (entrance.network)
 					word_pulse(GLOB.rune_words[entrance.network])
-			else if (istype(active_spell,/datum/rune_spell/portalexit))
+			else if (istype(active_spell, /datum/rune_spell/portalexit))
 				var/datum/rune_spell/portalentrance/exit = active_spell
 				if (exit.network)
 					word_pulse(GLOB.rune_words[exit.network])
@@ -177,30 +177,30 @@
 		switch(talisman_interaction)
 			if (RUNE_CAN_ATTUNE)
 				playsound(src, 'monkestation/code/modules/bloody_cult/sound/talisman_attune.ogg', 50, 0, -5)
-				to_chat(user, "<span class='notice'>\The [src] can now remotely trigger the [initial(spell.name)] rune.</span>")
+				to_chat(user, "<span class = 'notice'>\The [src] can now remotely trigger the [initial(spell.name)] rune.</span>")
 				attuned_rune = R
 			if (RUNE_CAN_IMBUE)
 				playsound(src, 'monkestation/code/modules/bloody_cult/sound/talisman_imbue.ogg', 50, 0, -5)
-				to_chat(user, "<span class='notice'>\The [src] absorbs the power of the [initial(spell.name)] rune.</span>")
+				to_chat(user, "<span class = 'notice'>\The [src] absorbs the power of the [initial(spell.name)] rune.</span>")
 				qdel(R)
 			if (RUNE_CANNOT)//like, that shouldn't even be possible because of the earlier if() check, but just in case.
 				message_admins("Error! ([key_name(user)]) managed to imbue a Conjure Talisman rune. That shouldn't be possible!")
 				return
 
 /obj/item/weapon/talisman/proc/word_pulse(var/datum/rune_word/W)
-	var/image/I1 = image(icon,"talisman-[W.icon_state]a")
-	animate(I1, color = list(2,0.67,0.27,0,0.27,2,0.67,0,0.67,0.27,2,0,0,0,0,1,0,0,0,0), time = 5, loop = -1)
-	animate(color = list(1.875,0.56,0.19,0,0.19,1.875,0.56,0,0.56,0.19,1.875,0,0,0,0,1,0,0,0,0), time = 1)
-	animate(color = list(1.75,0.45,0.12,0,0.12,1.75,0.45,0,0.45,0.12,1.75,0,0,0,0,1,0,0,0,0), time = 1)
-	animate(color = list(1.625,0.35,0.06,0,0.06,1.625,0.35,0,0.35,0.06,1.625,0,0,0,0,1,0,0,0,0), time = 1)
-	animate(color = list(1.75,0.45,0.12,0,0.12,1.75,0.45,0,0.45,0.12,1.75,0,0,0,0,1,0,0,0,0), time = 1)
-	animate(color = list(1.875,0.56,0.19,0,0.19,1.875,0.56,0,0.56,0.19,1.875,0,0,0,0,1,0,0,0,0), time = 1)
+	var/image/I1 = image(icon, "talisman-[W.icon_state]a")
+	animate(I1, color = list(2, 0.67, 0.27, 0, 0.27, 2, 0.67, 0, 0.67, 0.27, 2, 0, 0, 0, 0, 1, 0, 0, 0, 0), time = 5, loop = -1)
+	animate(color = list(1.875, 0.56, 0.19, 0, 0.19, 1.875, 0.56, 0, 0.56, 0.19, 1.875, 0, 0, 0, 0, 1, 0, 0, 0, 0), time = 1)
+	animate(color = list(1.75, 0.45, 0.12, 0, 0.12, 1.75, 0.45, 0, 0.45, 0.12, 1.75, 0, 0, 0, 0, 1, 0, 0, 0, 0), time = 1)
+	animate(color = list(1.625, 0.35, 0.06, 0, 0.06, 1.625, 0.35, 0, 0.35, 0.06, 1.625, 0, 0, 0, 0, 1, 0, 0, 0, 0), time = 1)
+	animate(color = list(1.75, 0.45, 0.12, 0, 0.12, 1.75, 0.45, 0, 0.45, 0.12, 1.75, 0, 0, 0, 0, 1, 0, 0, 0, 0), time = 1)
+	animate(color = list(1.875, 0.56, 0.19, 0, 0.19, 1.875, 0.56, 0, 0.56, 0.19, 1.875, 0, 0, 0, 0, 1, 0, 0, 0, 0), time = 1)
 	overlays += I1
-	var/image/I2 = image(icon,"talisman-[W.icon_state]")
-	animate(I2, color = list(2,0.67,0.27,0,0.27,2,0.67,0,0.67,0.27,2,0,0,0,0,1,0,0,0,0), time = 5, loop = -1)
-	animate(color = list(1.875,0.56,0.19,0,0.19,1.875,0.56,0,0.56,0.19,1.875,0,0,0,0,1,0,0,0,0), time = 1)
-	animate(color = list(1.75,0.45,0.12,0,0.12,1.75,0.45,0,0.45,0.12,1.75,0,0,0,0,1,0,0,0,0), time = 1)
-	animate(color = list(1.625,0.35,0.06,0,0.06,1.625,0.35,0,0.35,0.06,1.625,0,0,0,0,1,0,0,0,0), time = 1)
-	animate(color = list(1.75,0.45,0.12,0,0.12,1.75,0.45,0,0.45,0.12,1.75,0,0,0,0,1,0,0,0,0), time = 1)
-	animate(color = list(1.875,0.56,0.19,0,0.19,1.875,0.56,0,0.56,0.19,1.875,0,0,0,0,1,0,0,0,0), time = 1)
+	var/image/I2 = image(icon, "talisman-[W.icon_state]")
+	animate(I2, color = list(2, 0.67, 0.27, 0, 0.27, 2, 0.67, 0, 0.67, 0.27, 2, 0, 0, 0, 0, 1, 0, 0, 0, 0), time = 5, loop = -1)
+	animate(color = list(1.875, 0.56, 0.19, 0, 0.19, 1.875, 0.56, 0, 0.56, 0.19, 1.875, 0, 0, 0, 0, 1, 0, 0, 0, 0), time = 1)
+	animate(color = list(1.75, 0.45, 0.12, 0, 0.12, 1.75, 0.45, 0, 0.45, 0.12, 1.75, 0, 0, 0, 0, 1, 0, 0, 0, 0), time = 1)
+	animate(color = list(1.625, 0.35, 0.06, 0, 0.06, 1.625, 0.35, 0, 0.35, 0.06, 1.625, 0, 0, 0, 0, 1, 0, 0, 0, 0), time = 1)
+	animate(color = list(1.75, 0.45, 0.12, 0, 0.12, 1.75, 0.45, 0, 0.45, 0.12, 1.75, 0, 0, 0, 0, 1, 0, 0, 0, 0), time = 1)
+	animate(color = list(1.875, 0.56, 0.19, 0, 0.19, 1.875, 0.56, 0, 0.56, 0.19, 1.875, 0, 0, 0, 0, 1, 0, 0, 0, 0), time = 1)
 	overlays += I2
