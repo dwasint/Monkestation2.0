@@ -52,7 +52,7 @@
 
 	var/eclipse_progress = 0
 	var/eclipse_target = 1800
-	var/eclipse_window = 10 MINUTES
+	var/eclipse_window = 15 MINUTES
 	var/eclipse_increments = 0
 	var/eclipse_contributors = list()//associative list: /mind = score
 

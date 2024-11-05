@@ -29,7 +29,7 @@ GLOBAL_DATUM_INIT(eclipse, /datum/eclipse_manager, new)
 /proc/eclipse_trigger_random()
 	if (!GLOB.eclipse)
 		return
-	GLOB.eclipse.eclipse_start(rand(8 MINUTES, 12 MINUTES))
+	GLOB.eclipse.eclipse_start(rand(12 MINUTES, 20 MINUTES))
 
 /datum/eclipse_manager/proc/eclipse_start(var/duration)
 	eclipse_start_time = world.time
