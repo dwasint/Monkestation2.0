@@ -32,8 +32,6 @@
 /obj/projectile/boomerang/Destroy()
 	if(boomerang)
 		return_to_sender()
-	if(QDELETED(src))
-		return //weird movement shit causes this to happen.
 	. = ..()
 
 /obj/projectile/boomerang/Moved(atom/old_loc, movement_dir, forced, list/old_locs, momentum_change)
