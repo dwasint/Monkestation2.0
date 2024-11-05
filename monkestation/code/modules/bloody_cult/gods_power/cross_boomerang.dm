@@ -152,7 +152,7 @@
 /obj/item/nullrod/cross_boomerang
 	name = "battle cross"
 	desc = "A holy silver cross that dispels evil and smites unholy creatures."
-	throw_force = 20
+	throwforce = 20
 
 	icon = 'monkestation/code/modules/bloody_cult/icons/boomerang.dmi'
 	icon_state = "cross_modern"
