@@ -175,7 +175,8 @@ GLOBAL_LIST_INIT(particle_string_to_type, list(
 	))
 
 #define isholyweapon(I) (istype(I, /obj/item/book/bible)\
-						|| istype(I, /obj/item/nullrod))
+						|| istype(I, /obj/item/nullrod) \
+						|| istype(I, /obj/projectile/boomerang))
 
 #define REVERT_ON_CONTROLLER_DAMAGED 1
 #define LOCK_EYE_TO_CONTROLLED 2
