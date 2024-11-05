@@ -122,7 +122,8 @@ var/list/acceptance_lines_numerous_cultists =  list(
 	// The race
 	if (ishuman(victim))
 		var/mob/living/carbon/human/dude = victim
-		valid_lines += acceptance_lines_by_specific_race[dude.dna.species.type]
+		if(dude.dna.species.type in acceptance_lines_by_specific_race)
+			valid_lines += acceptance_lines_by_specific_race[dude.dna.species.type]
 
 	// -- Dynamic context
 	// Cultist count
