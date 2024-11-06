@@ -401,7 +401,7 @@
 					var/extra = ""
 					if (H && istype(H))
 						if (H.stat == DEAD)
-							extra = " - <span style = 'color:#FF0000'>DEAD</span>"
+							extra = " - <span style='color:#FF0000'>DEAD</span>"
 					dat += "<li><b>[H.name] ([cult_role])</b></li> - [origin_text][extra]"
 				for(var/obj/item/restraints/handcuffs/cult/cuffs in cult.bindings)
 					if (iscarbon(cuffs.loc))
@@ -411,10 +411,10 @@
 							var/extra = ""
 							if (C && istype(C))
 								if (C.stat == DEAD)
-									extra = " - <span style = 'color:#FF0000'>DEAD</span>"
-							dat += "<li><span style = 'color:#FFFF00'><b>[C.real_name]</b></span></li> - Prisoner of [gaoler.name][extra]"
+									extra = " - <span style='color:#FF0000'>DEAD</span>"
+							dat += "<li><span style='color:#FFFF00'><b>[C.real_name]</b></span></li> - Prisoner of [gaoler.name][extra]"
 				dat += {"</ul></body>"}
-				user << browse("<TITLE>Cult Roster</TITLE>[dat]", "window = cultroster;size = 600x400")
+				user << browse("<TITLE>Cult Roster</TITLE>[dat]", "window=cultroster;size=600x400")
 				onclose(user, "cultroster")
 			if ("Commune with Nar-Sie")
 				if(narsie_message_cooldown)
