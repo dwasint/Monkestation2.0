@@ -38,6 +38,7 @@
 	var/soulblade_ritual = FALSE
 	var/blade_harm = TRUE
 	var/mob/master = null
+	var/mob/living/carbon/human/body
 
 /mob/living/basic/shade/Initialize(mapload)
 	. = ..()
@@ -65,6 +66,8 @@
 /mob/living/basic/shade/death()
 	if(death_message == initial(death_message))
 		death_message = "lets out a contented sigh as [p_their()] form unwinds."
+	if(body)
+		body.forceMove(get_turf(src))
 	..()
 
 /mob/living/basic/shade/can_suicide()

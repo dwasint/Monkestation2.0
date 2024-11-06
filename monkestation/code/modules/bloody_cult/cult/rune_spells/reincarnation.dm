@@ -1,3 +1,15 @@
+/mob/living/carbon/human/death(gibbed, cause_of_death)
+	. = ..()
+	if(!client || !IS_CULTIST(src))
+		return
+	var/mob/living/basic/shade/shade = new (get_turf(src))
+	shade.name = "[real_name] the Shade"
+	shade.real_name = "[real_name]"
+	mind.transfer_to(shade)
+
+	to_chat(shade, span_cult("Dark energies rip your dying body appart, anchoring your soul inside the form of a Shade. You retain your memories, and devotion to the cult."))
+	shade.body = src
+	src.forceMove(shade)
 
 /datum/rune_spell/reincarnation
 	name = "Reincarnation"
@@ -57,7 +69,7 @@
 /datum/rune_spell/reincarnation/abort(var/cause)
 	spell_holder.overlays -= image('monkestation/code/modules/bloody_cult/icons/cult.dmi', "build")
 	if (shade)
-		shade.loc = husk.loc
+		shade.forceMove(get_turf(husk))
 	if (husk)
 		qdel(husk)
 	if (spell_holder.loc && (!cause || cause != RITUALABORT_MISSING))
@@ -83,7 +95,7 @@
 			else
 				amount_paid += data[BLOODCOST_TOTAL]
 				contributors[L] = data[BLOODCOST_RESULT]
-				make_tracker_effects(L.loc, spell_holder, 1, "soul", 3, /obj/effect/tracker/drain, 1)//visual feedback
+				make_tracker_effects(L.loc, spell_holder, 1, "soul2", 3, /obj/effect/tracker/drain, 1)//visual feedback
 
 		accumulated_blood += amount_paid
 
@@ -109,11 +121,13 @@
 	spell_holder.overlays -= image('monkestation/code/modules/bloody_cult/icons/cult.dmi', "build")
 	var/resurrector = activator.real_name
 	if (shade && husk)
-		shade.loc = husk.loc
+		shade.forceMove(get_turf(husk))
 		var/mob/living/carbon/human/M = new /mob/living/carbon/human(shade.loc)
+		shade.client?.prefs.apply_prefs_to(M, TRUE)
 		M.mind = shade.mind
 		M.key = shade.key
 		qdel(husk)
+		qdel(shade)
 		playsound(M, 'monkestation/code/modules/bloody_cult/sound/spawn.ogg', 50, 0, 0)
 		var/datum/antagonist/cult/newCultist = M.mind?.has_antag_datum(/datum/antagonist/cult)
 		if (!newCultist)
