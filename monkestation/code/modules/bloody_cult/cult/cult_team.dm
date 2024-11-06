@@ -207,7 +207,7 @@
 	switch(stage)
 		if (BLOODCULT_STAGE_READY)
 			eclipse_trigger_cult()
-			addtimer(CALLBACK(srcm, PROC_REF(stage), BLOODCULT_STAGE_ECLIPSE), 5 SECONDS)
+			addtimer(CALLBACK(src, PROC_REF(stage), BLOODCULT_STAGE_ECLIPSE), 5 SECONDS)
 			for(var/obj/structure/cult/spire/S in GLOB.cult_spires)
 				S.upgrade(3)
 		if (BLOODCULT_STAGE_MISSED)

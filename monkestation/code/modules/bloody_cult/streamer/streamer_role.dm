@@ -50,7 +50,7 @@
 	followers += new_follower
 	new_follower.current.visible_message("<span class = 'big notice'>[new_follower.current] is now following [owner.name]!</span>")
 
-/datum/antagonist/streamer/proc/try_add_subscription(datum/mind/new_subscriber, obj/machinery/computer/security/telescreen/entertainment/spesstv/tv)
+/datum/antagonist/streamer/proc/try_add_subscription(datum/mind/new_subscriber, obj/machinery/computer/security/spesstv/tv)
 	if(new_subscriber == owner)
 		to_chat(new_subscriber.current, span_warning("Subscribing to yourself is against Spess.TV's End User License Agreement.") )
 		return
