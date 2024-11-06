@@ -123,3 +123,9 @@ var/list/seer_rituals = list()
 	if (!talisman)
 		if (!caster || caster.loc != loc)
 			qdel(src)
+
+/obj/effect/cult_ritual/seer/process(seconds_per_tick)
+	if(!HasProximity(caster))
+		caster.see_invisible = SEE_INVISIBLE_LIVING
+		return
+	caster.see_invisible = SEE_INVISIBLE_OBSERVER
