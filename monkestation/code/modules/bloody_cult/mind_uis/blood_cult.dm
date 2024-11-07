@@ -1876,7 +1876,7 @@ GLOBAL_LIST_INIT(blood_communion, list())
 /datum/mind_ui/bloodcult_help
 	uniqueID = "Cultist Help"
 	element_types_to_spawn = list(
-		/obj/abstract/mind_ui_element/bloodcult_help_background,
+		/obj/abstract/mind_ui_element/hoverable/bloodcult_help_background,
 		/obj/abstract/mind_ui_element/hoverable/bloodcult_help_close,
 		/obj/abstract/mind_ui_element/hoverable/bloodcult_help_previous,
 		/obj/abstract/mind_ui_element/hoverable/bloodcult_help_next,
@@ -1895,21 +1895,66 @@ GLOBAL_LIST_INIT(blood_communion, list())
 
 //------------------------------------------------------------
 
-/obj/abstract/mind_ui_element/bloodcult_help_background
+/obj/abstract/mind_ui_element/hoverable/bloodcult_help_background
 	name = "How do I Cult?"
 	icon = 'monkestation/code/modules/bloody_cult/icons/bloodcult/192x192.dmi'
 	icon_state = "cult_help"
 	offset_x = -80
 	offset_y = -150
 	layer = MIND_UI_BACK + 6
+	tooltip_title = "More Details"
+	element_flags = MINDUI_FLAG_TOOLTIP
+	tooltip_theme = "radial-cult"
 	var/current_page = 1
 	var/max_page = 13
 
-/obj/abstract/mind_ui_element/bloodcult_help_background/UpdateIcon()
+	var/static/list/help_info = list(
+		"There are various different ways to use blood. Some of which include: Blood bags, People you are grabbing, Bloodied hands, Blood Splatters below you, Any thing that can hold reagents as long as it has blood in it, Yourself.",
+		null,
+		null,
+		null,
+		null,
+		null,
+		null,
+		"You can get a blank talisman from the Paraphanelia Rune.",
+		null,
+		null,
+		"If they are unable to be converted they become a prisoner to the cult while they have the restraints on, they can be used in the final ritual to summon narsie in place of cultists.",
+		"In text form: A gem is made in the altar, you use it on either a ghost or dead person to fill it, then use that on a construct shell and choose the construct.",
+		"As a final note: During the eclispe you need to follow the words Nar'Sie tells you in the main cult menu. This helps start the final ritual.",
+	)
+
+//copy paste ew
+/obj/abstract/mind_ui_element/hoverable/bloodcult_help_background/StartHovering(location, control, params)
+	if(isnull(help_info[current_page]))
+		return
+	var/mob/M = GetUser()
+	if (M)
+		//I hate this, I hate this, but somehow the tooltips won't appear in the right place unless I do this black magic
+		//this only happens with mindUI elements, but the more offset from the center the elements are, tooltips become even more offset.
+		//this code corrects this extra offset.
+		var/list/param_list = params2list(params)
+		var/screenloc = param_list["screen-loc"]
+		var/x_index = findtext(screenloc, ":", 1, 0)
+		var/comma_index = findtext(screenloc,",", x_index, 0)
+		var/y_index = findtext(screenloc,":", comma_index, 0)
+		var/x_loc = text2num(copytext(screenloc, 1, x_index))
+		var/y_loc = text2num(copytext(screenloc, comma_index+1, y_index))
+		if (x_loc <= 7)
+			x_loc = 7
+		else
+			x_loc = 9
+		if (y_loc <= 7)
+			y_loc = 7
+		else
+			y_loc = 9
+		openToolTip(M,src,"icon-x=1;icon-y=1;screen-loc=[x_loc]:1,[y_loc]:1",title = tooltip_title,content = help_info[current_page],theme = tooltip_theme)
+
+/obj/abstract/mind_ui_element/hoverable/bloodcult_help_background/UpdateIcon()
 	overlays.len = 0
 	overlays += "cult_help[current_page]"
 
-/obj/abstract/mind_ui_element/bloodcult_help_background/Click()
+/obj/abstract/mind_ui_element/hoverable/bloodcult_help_background/Click()
 	parent.Hide()
 
 //------------------------------------------------------------
@@ -1936,7 +1981,7 @@ GLOBAL_LIST_INIT(blood_communion, list())
 	layer = MIND_UI_BUTTON + 6
 
 /obj/abstract/mind_ui_element/hoverable/bloodcult_help_previous/Appear()
-	var/obj/abstract/mind_ui_element/bloodcult_help_background/help = locate() in parent.elements
+	var/obj/abstract/mind_ui_element/hoverable/bloodcult_help_background/help = locate() in parent.elements
 	if(help)
 		if (help.current_page <= 1)
 			invisibility = 101
@@ -1945,7 +1990,7 @@ GLOBAL_LIST_INIT(blood_communion, list())
 
 /obj/abstract/mind_ui_element/hoverable/bloodcult_help_previous/Click()
 	flick("button_prev-click", src)
-	var/obj/abstract/mind_ui_element/bloodcult_help_background/help = locate() in parent.elements
+	var/obj/abstract/mind_ui_element/hoverable/bloodcult_help_background/help = locate() in parent.elements
 	if(help)
 		help.current_page = max(help.current_page-1, 1)
 		parent.Display()
@@ -1961,7 +2006,7 @@ GLOBAL_LIST_INIT(blood_communion, list())
 	layer = MIND_UI_BUTTON + 6
 
 /obj/abstract/mind_ui_element/hoverable/bloodcult_help_next/Appear()
-	var/obj/abstract/mind_ui_element/bloodcult_help_background/help = locate() in parent.elements
+	var/obj/abstract/mind_ui_element/hoverable/bloodcult_help_background/help = locate() in parent.elements
 	if(help)
 		if (help.current_page >= help.max_page)
 			invisibility = 101
@@ -1970,7 +2015,7 @@ GLOBAL_LIST_INIT(blood_communion, list())
 
 /obj/abstract/mind_ui_element/hoverable/bloodcult_help_next/Click()
 	flick("button_next-click", src)
-	var/obj/abstract/mind_ui_element/bloodcult_help_background/help = locate() in parent.elements
+	var/obj/abstract/mind_ui_element/hoverable/bloodcult_help_background/help = locate() in parent.elements
 	if(help)
 		help.current_page = min(help.current_page+1, help.max_page)
 		parent.Display()

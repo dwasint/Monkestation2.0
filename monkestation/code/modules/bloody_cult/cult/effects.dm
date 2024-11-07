@@ -77,9 +77,19 @@
 	spawn(1)
 		new /obj/effect/afterimage/red(T, user)
 		user.forceMove(loc)
-		sleep(1)
-		new /obj/effect/afterimage/red(loc, user)
-		user.forceMove(get_step(loc, jump_dir))
+		var/steps = 0
+		var/turf/last_turf = get_turf(src)
+		while(steps < 255)//at most we check for the entire world
+			if(isopenturf(get_turf(user)))
+				var/turf/open/open_turf = get_turf(user)
+				if(!open_turf.check_blocking_content(TRUE))
+					break
+			steps++
+			sleep(1)
+			new /obj/effect/afterimage/red(last_turf, user)
+			user.forceMove(get_step(last_turf, jump_dir))
+			shadow(get_turf(user), get_step(last_turf, jump_dir), "sigil_jaunt")
+			last_turf = get_step(last_turf, jump_dir)
 
 /obj/effect/cult_shortcut/narsie_act()
 	return

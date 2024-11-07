@@ -369,7 +369,8 @@
 			if (isshade(M))
 				if (istype(M.loc, /obj/item/weapon/melee/soulblade))
 					M.DisplayUI("Soulblade")
-
+			else
+				M.DisplayUI("Cultist")
 
 /datum/antagonist/cult/proc/replace_rituals(var/slot)
 	if (!slot)

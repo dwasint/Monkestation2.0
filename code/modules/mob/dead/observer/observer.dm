@@ -200,7 +200,7 @@ GLOBAL_VAR_INIT(observer_default_invisibility, INVISIBILITY_OBSERVER)
 		facial_hair_overlay = null
 
 
-	if(new_form)
+	if(new_form && !(!GLOB.eclipse.eclipse_finished && GLOB.eclipse.eclipse_start_time))
 		icon_state = new_form
 		if(icon_state in GLOB.ghost_forms_with_directions_list)
 			ghostimage_default.icon_state = new_form + "_nodir" //if this icon has dirs, the default ghostimage must use its nodir version or clients with the preference set to default sprites only will see the dirs
