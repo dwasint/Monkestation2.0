@@ -6547,6 +6547,7 @@
 #include "monkestation\code\modules\bloody_cult\cult\rune_spells\deaf_mute.dm"
 #include "monkestation\code\modules\bloody_cult\cult\rune_spells\door.dm"
 #include "monkestation\code\modules\bloody_cult\cult\rune_spells\fervor.dm"
+#include "monkestation\code\modules\bloody_cult\cult\rune_spells\metal_conversion.dm"
 #include "monkestation\code\modules\bloody_cult\cult\rune_spells\paraphernalia.dm"
 #include "monkestation\code\modules\bloody_cult\cult\rune_spells\path_enter.dm"
 #include "monkestation\code\modules\bloody_cult\cult\rune_spells\path_exit.dm"
