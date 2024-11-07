@@ -157,6 +157,8 @@ GLOBAL_LIST_INIT(blood_communion, list())
 
 	move_whole_ui = TRUE
 
+	const_offset_y = -32
+	const_offset_x = -16
 
 
 //////////////////////////////////////////////////Valid//////////////////
@@ -485,6 +487,9 @@ GLOBAL_LIST_INIT(blood_communion, list())
 
 	move_whole_ui = TRUE
 
+	const_offset_y = -18
+	const_offset_x = -16
+
 ////////////////////////////////////////////////////////////////////
 //																  //
 //					BLOODCULT - LEFT PANEL						  //
@@ -705,6 +710,8 @@ GLOBAL_LIST_INIT(blood_communion, list())
 	mouse_opacity = 1
 
 	move_whole_ui = TRUE
+	const_offset_y = -16
+	const_offset_x = -16
 
 //------------------------------------------------------------
 
@@ -1864,6 +1871,8 @@ GLOBAL_LIST_INIT(blood_communion, list())
 	mouse_opacity = 1
 
 	move_whole_ui = TRUE
+	const_offset_y = -16
+	const_offset_x = -16
 
 
 
@@ -2032,6 +2041,8 @@ GLOBAL_LIST_INIT(blood_communion, list())
 	mouse_opacity = 1
 
 	move_whole_ui = TRUE
+	const_offset_x = -16
+	const_offset_y = -16
 
 //------------------------------------------------------------
 

@@ -268,6 +268,9 @@ GLOBAL_LIST_INIT(mind_ui_id_to_type, list())
 	var/offset_x = 0
 	var/offset_y = 0
 
+	var/const_offset_y = 0 //these are constant offsets to ensure moving is seemless
+	var/const_offset_x = 0 //these are constant offsets to ensure moving is seemless
+
 /obj/abstract/mind_ui_element/New(turf/loc, var/datum/mind_ui/P)
 	if (!istype(P))
 		qdel(src)
@@ -487,8 +490,8 @@ GLOBAL_LIST_INIT(mind_ui_id_to_type, list())
 	var/list/dest_loc_Y = splittext(dest_loc_params[2],":")
 	var/dest_pix_x = text2num(dest_loc_X[2]) - round(I.Width()/2)
 	var/dest_pix_y = text2num(dest_loc_Y[2]) - round(I.Height()/2)
-	var/dest_x_val = text2num(dest_loc_X[1])*32 + dest_pix_x
-	var/dest_y_val = text2num(dest_loc_Y[1])*32 + dest_pix_y
+	var/dest_x_val = text2num(dest_loc_X[1])*32 + dest_pix_x + const_offset_x
+	var/dest_y_val = text2num(dest_loc_Y[1])*32 + dest_pix_y + const_offset_y //this probably needs some more advanced math based on screen pos type
 
 	//and calculate the offset between the two, which we can then add to either the element or the whole UI
 	if (move_whole_ui)
