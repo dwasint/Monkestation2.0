@@ -213,7 +213,7 @@ GLOBAL_LIST_INIT(converted_minds, list())
 		if (entrapment)
 			acceptance = "Overcrowded"
 
-		//Players with cult enabled in their preferences will always get converted.
+		//Players with cult enabled in their preferences will always get converted. TBAfor
 		//Others get a choice, unless they're cult-banned or have their preferences set to Never (or disconnected), in which case they always die.
 		var/conversion_delay = 100
 		switch (acceptance)
