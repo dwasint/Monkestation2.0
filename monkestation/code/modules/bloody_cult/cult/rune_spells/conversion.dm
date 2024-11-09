@@ -197,9 +197,9 @@ GLOBAL_LIST_INIT(converted_minds, list())
 			if(victim.mind.assigned_role == "Chaplain")
 				acceptance = "Chaplain"
 
-				for(var/obj/item/implant/mindshield/I in victim)
-					if(I.imp_in)
-						acceptance = "Implanted"
+			for(var/obj/item/implant/mindshield/I in victim.implants)
+				acceptance = "Implanted"
+
 		else if (!victim.mind)
 			acceptance = "Mindless"
 

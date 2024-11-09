@@ -36,6 +36,7 @@ GLOBAL_DATUM_INIT(eclipse, /datum/eclipse_manager, new)
 	eclipse_duration = duration
 	eclipse_end_time = eclipse_start_time + eclipse_duration
 	eclipse_problem_announcement = eclipse_end_time + delay_problem_announcement
+	SSshuttle.registerHostileEnvironment(src)
 
 	START_PROCESSING(SSobj, src)
 	update_station_lights()
@@ -68,6 +69,7 @@ GLOBAL_DATUM_INIT(eclipse, /datum/eclipse_manager, new)
 
 	update_station_lights()
 	eclipse_finished = TRUE
+	SSshuttle.clearHostileEnvironment(src)
 
 	/*
 	spawn(delay_end_announcement)
