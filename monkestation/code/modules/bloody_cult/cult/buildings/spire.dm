@@ -236,6 +236,6 @@ GLOBAL_LIST_INIT(cult_spires, list())
 
 		to_chat(cult_member, msg)
 
-	for(var/mob/dead/ghost as anything in GLOB.dead_mob_list)
+	for(var/mob/dead/ghost in GLOB.dead_mob_list)
 		to_chat(ghost, "[FOLLOW_LINK(ghost, user)] [msg]")
 	return FALSE

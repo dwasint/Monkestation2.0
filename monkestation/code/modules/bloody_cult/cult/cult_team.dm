@@ -104,6 +104,10 @@
 		previously_converted |= mind
 
 
+/datum/team/cult/proc/check_destroy()
+	if(!length(members))
+		qdel(src)
+
 /datum/team/cult/proc/replace_rituals(var/slot)
 	if (!slot)
 		return
