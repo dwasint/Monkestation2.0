@@ -68,6 +68,7 @@
 		death_message = "lets out a contented sigh as [p_their()] form unwinds."
 	if(body)
 		body.forceMove(get_turf(src))
+		mind?.transfer_to(body)
 	..()
 
 /mob/living/basic/shade/can_suicide()

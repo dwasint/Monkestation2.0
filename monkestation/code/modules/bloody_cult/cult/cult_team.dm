@@ -211,9 +211,12 @@
 	switch(stage)
 		if (BLOODCULT_STAGE_READY)
 			eclipse_trigger_cult()
-			addtimer(CALLBACK(src, PROC_REF(stage), BLOODCULT_STAGE_ECLIPSE), 5 SECONDS)
 			for(var/obj/structure/cult/spire/S in GLOB.cult_spires)
 				S.upgrade(3)
+			for(var/datum/mind/mind in members)
+				var/mob/mob = mind.current
+				if(mob)
+					to_chat(span_cultlarge("The time to start summoning Nar'Sie has come, check the cultist menu for more information on the ritual she wants you to perform."))
 		if (BLOODCULT_STAGE_MISSED)
 			for (var/datum/mind/mind in members)
 				var/mob/M = mind.current
@@ -222,7 +225,6 @@
 			for(var/obj/structure/cult/spire/S in GLOB.cult_spires)
 				S.upgrade(1)
 		if (BLOODCULT_STAGE_ECLIPSE)
-			setup_hell()
 			var/list/station_zs = SSmapping.levels_by_trait(ZTRAIT_STATION)
 			for(var/datum/space_level/level as anything in SSmapping.z_list)
 				if(!(level.z_value in station_zs))
@@ -374,9 +376,6 @@
 			else
 				eclipse_increments += R.get_eclipse_increment()
 
-
-/datum/team/cult/proc/setup_hell()
-	SShell_universe.start_hell()
 
 /datum/team/cult/proc/add_bloody_floor(turf/T)
 	if (!istype(T))

@@ -335,8 +335,8 @@ GLOBAL_LIST_INIT(blood_communion, list())
 	base_icon_state = icon_state
 
 	var/pool_current = 0
-	for (var/datum/antagonist/cult/cult_datumU in GLOB.blood_communion)
-		if (cult_datum.blood_pool && cult_datum.owner && cult_datum.owner.current && iscarbon(cult_datum.owner.current) && !cult_datum.owner.current.stat == DEAD)
+	for (var/datum/antagonist/cult/listed_datum in GLOB.blood_communion)
+		if (listed_datum.blood_pool && listed_datum.owner && listed_datum.owner.current && iscarbon(listed_datum.owner.current) && !listed_datum.owner.current.stat == DEAD)
 			pool_current++
 	overlays.len = 0
 	overlays += String2Image("[pool_current]", _pixel_x = 2, _pixel_y = 1)

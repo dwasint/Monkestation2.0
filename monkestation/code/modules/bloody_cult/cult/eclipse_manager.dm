@@ -37,6 +37,7 @@ GLOBAL_DATUM_INIT(eclipse, /datum/eclipse_manager, new)
 	eclipse_end_time = eclipse_start_time + eclipse_duration
 	eclipse_problem_announcement = eclipse_end_time + delay_problem_announcement
 	SSshuttle.registerHostileEnvironment(src)
+	SShell_universe.start_hell()
 
 	START_PROCESSING(SSobj, src)
 	update_station_lights()

@@ -124,8 +124,7 @@
 		shade.forceMove(get_turf(husk))
 		var/mob/living/carbon/human/M = new /mob/living/carbon/human(shade.loc)
 		shade.client?.prefs.apply_prefs_to(M, TRUE)
-		M.mind = shade.mind
-		M.key = shade.key
+		shade.mind.transfer_to(M)
 		qdel(husk)
 		qdel(shade)
 		playsound(M, 'monkestation/code/modules/bloody_cult/sound/spawn.ogg', 50, 0, 0)
@@ -136,13 +135,16 @@
 			cult.HandleRecruitedRole(newCultist)
 			newCultist.conversion["resurrected"] = resurrector
 
+		/*
 		if (ishuman(M))
 			// purely cosmetic tattoos. giving cultists some way to have tattoos until those get reworked
 			newCultist.tattoos[TATTOO_POOL] = new /datum/cult_tattoo/bloodpool()
 			newCultist.tattoos[TATTOO_HOLY] = new /datum/cult_tattoo/holy()
 			newCultist.tattoos[TATTOO_MANIFEST] = new /datum/cult_tattoo/manifest()
+		*/
 
 		M.regenerate_icons()
+		newCultist.update_cult_hud()
 
 		for(var/mob/living/L in contributors)
 			var/datum/antagonist/cult/cult_datum = L.mind.has_antag_datum(/datum/antagonist/cult)
