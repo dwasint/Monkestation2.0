@@ -9,7 +9,8 @@ Since it was drawn in layers exporting each layer as a png means its properly se
 ## Step 3: Import into a DMI file
 ![alt text](image-1.png)
 ## Step 4: Do the basic code
-```/datum/mind_ui/tamogatchi
+```
+/datum/mind_ui/tamogatchi
 	uniqueID = "Tamogatchi"
 	element_types_to_spawn = list(
 		/obj/abstract/mind_ui_element/tamogatchi_background,
@@ -42,7 +43,8 @@ keep the last section in unless you are making groups of uis.
 
 
 ### How to handle a button click.
-```/obj/abstract/mind_ui_element/hoverable/tamogatchi_close
+```
+/obj/abstract/mind_ui_element/hoverable/tamogatchi_close
 	name = "Close"
 	icon = 'monkestation/code/modules/bloody_cult/icons/tamogatchi/320x320.dmi'
 	icon_state = "close"
