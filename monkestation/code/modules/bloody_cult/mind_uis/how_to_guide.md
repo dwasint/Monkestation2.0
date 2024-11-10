@@ -60,3 +60,5 @@ If you are doing this following this guide a movable has a little more work, you
 
 ### Testing a UI
 In game you open your characters View Variables and select ProcCall. Then call DisplayUI. After which you give it 1 variable, no custom name, text, then give it the UniqueID. The UI should appear. You can mess with offsets and such aswell to get everything looking how you want it then add those to the code.
+
+If everything worked the UI will show up in your game like so: ![alt text](image-2.png)
