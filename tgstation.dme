@@ -6590,6 +6590,7 @@
 #include "monkestation\code\modules\bloody_cult\mind_uis\blood_cult.dm"
 #include "monkestation\code\modules\bloody_cult\mind_uis\draw_runes.dm"
 #include "monkestation\code\modules\bloody_cult\mind_uis\soulblade.dm"
+#include "monkestation\code\modules\bloody_cult\mind_uis\tamogatchi_test.dm"
 #include "monkestation\code\modules\bloody_cult\mind_uis\test_ui.dm"
 #include "monkestation\code\modules\bloody_cult\streamer\attached_camera.dm"
 #include "monkestation\code\modules\bloody_cult\streamer\hitmarker.dm"
