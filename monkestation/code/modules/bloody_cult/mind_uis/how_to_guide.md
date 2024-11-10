@@ -32,7 +32,7 @@ uniqueID is the name provided to the ui to open it via DisplayUI.
 
 element_types_to_spawn is the list of elements basically the layers
 
-keep the last section in unless you are making groups of uis.
+keep the last section in unless you are making groups of uis. But if you want to change its starting point adjust the y and x values.
 
 ## Step 5: Create the objects itself
  Hoverables require an extra icon_state which is the name-hover so close-hover. These allow you to add tooltips and make buttons pop more.
@@ -62,3 +62,16 @@ If you are doing this following this guide a movable has a little more work, you
 In game you open your characters View Variables and select ProcCall. Then call DisplayUI. After which you give it 1 variable, no custom name, text, then give it the UniqueID. The UI should appear. You can mess with offsets and such aswell to get everything looking how you want it then add those to the code.
 
 If everything worked the UI will show up in your game like so: ![alt text](image-2.png)
+
+
+## Splitting Elements into different DMI's
+If you are splitting elements into correctly sized DMI's which is ideal but not required you will need to do a few more things
+First: you will need to apply the dmi name change,
+Second: you need to apply the offset_x and offset_y so that they are at the pixel position you want it to be
+ie 
+```
+	offset_x = 192
+	offset_y = -110
+```
+
+You can get the perfect value in game by adjusting its offset_x and offset_y then calling UpdateUIScreenLoc() on the ui itself which you can find in your characters mind. 
