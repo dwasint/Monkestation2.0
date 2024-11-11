@@ -182,7 +182,10 @@ GLOBAL_LIST_INIT(confusion_victims, list())
 
 	if (victim.client)
 		var/static/list/hallucination_mobs = list("faithless", "forgotten", "otherthing")
-		victim.client.images.Remove(my_hallucinated_stuff)//removing images caused by every blind rune used consecutively on that mob
+		for(var/image/image as anything in my_hallucinated_stuff)
+			if(!istype(image))
+				continue
+			victim.client.images -= image //removing images caused by every blind rune used consecutively on that mob
 		my_hallucinated_stuff = hallucinated_turfs.Copy()
 		for(var/mob/living/L in range(T, 25))//All mobs in a large radius will look like monsters to the victims.
 			if (L == victim)
