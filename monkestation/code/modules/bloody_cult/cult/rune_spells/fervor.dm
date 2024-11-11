@@ -35,6 +35,7 @@
 				L.SetKnockdown(0)
 				L.bodytemperature = L.standard_body_temperature
 				L.reagents?.add_reagent(/datum/reagent/determination, 3)
+				L.stamina?.adjust(300, TRUE)
 
 				L.stat = CONSCIOUS
 				if (L.reagents)
