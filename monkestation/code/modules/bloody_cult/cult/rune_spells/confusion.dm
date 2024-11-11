@@ -158,8 +158,7 @@ GLOBAL_LIST_INIT(confusion_victims, list())
 	time_of_last_confusion = time_key
 	victim.update_fullscreen_alpha("blindblack", 255, 5)
 	ADD_TRAIT(victim, TRAIT_POOR_AIM, "rune")
-	sleep(10)
-	refresh_confusion(T, hallucinated_turfs, time_key)
+	addtimer(CALLBACK(src, PROC_REF(refresh_confusion), T, hallucinated_turfs, time_key), 1 SECONDS)
 
 /datum/confusion_manager/proc/start_confusion(var/turf/T, var/list/hallucinated_turfs)
 	var/time_key = world.time
@@ -172,9 +171,8 @@ GLOBAL_LIST_INIT(confusion_victims, list())
 	victim.overlay_fullscreen("blindblack", /atom/movable/screen/fullscreen/black)//which will allow us to subtly reveal the surprise
 	victim.update_fullscreen_alpha("blindblack", 255, 5)
 	victim.playsound_local(victim, 'monkestation/code/modules/bloody_cult/sound/confusion.ogg', 50, 0, 0, 0, 0)
-	sleep(10)
 	victim.overlay_fullscreen("blindblind", /atom/movable/screen/fullscreen/blind)
-	refresh_confusion(T, hallucinated_turfs, time_key)
+	addtimer(CALLBACK(src, PROC_REF(refresh_confusion), T, hallucinated_turfs, time_key), 1 SECONDS)
 
 /datum/confusion_manager/proc/refresh_confusion(turf/T,  list/hallucinated_turfs, time_key)
 	victim.update_fullscreen_alpha("blindblind", 255, 0)
@@ -192,10 +190,14 @@ GLOBAL_LIST_INIT(confusion_victims, list())
 			var/image/override_overlay = image(icon = 'monkestation/code/modules/bloody_cult/icons/animal.dmi', loc = L, icon_state = pick(hallucination_mobs))
 			override_overlay.override = TRUE
 			my_hallucinated_stuff.Add(override_overlay)
-		victim.client.images.Add(my_hallucinated_stuff)
+		for(var/image/image as anything in my_hallucinated_stuff)
+			if(!istype(image))
+				continue
+			victim.client.images |= image
 
-	sleep(duration - 5)
+	addtimer(CALLBACK(src, PROC_REF(clear_confusion), time_key), duration - 5)
 
+/datum/confusion_manager/proc/clear_confusion(time_key)
 	if (time_of_last_confusion != time_key)//only the last applied confusion gets to end it
 		return
 
@@ -211,7 +213,10 @@ GLOBAL_LIST_INIT(confusion_victims, list())
 	victim.clear_fullscreen("blindblind", animated = FALSE)
 	anim(target = victim, a_icon = 'monkestation/code/modules/bloody_cult/icons/effects.dmi', flick_anim = "rune_blind_remove", plane = ABOVE_LIGHTING_PLANE)
 	if (victim.client)
-		victim.client.images.Remove(my_hallucinated_stuff)//removing images caused by every blind rune used consecutively on that mob
+		for(var/image/image as anything in my_hallucinated_stuff)
+			if(!istype(image))
+				continue
+			victim.client.images -= image //removing images caused by every blind rune used consecutively on that mob
 	if (victim.mind)
 		message_admins("BLOODCULT: [key_name(victim)] is no longer under the effects of Confusion.")
 		log_admin("BLOODCULT: [key_name(victim)] is no longer under the effects of Confusion.")
