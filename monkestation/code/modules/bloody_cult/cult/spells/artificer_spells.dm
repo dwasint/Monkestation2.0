@@ -99,7 +99,7 @@
 	cooldown_time = 25 SECONDS
 	invocation_type = INVOCATION_NONE
 	spell_requirements = NONE
-	cast_range = 4
+	cast_range = 1
 	cast_delay = 4 SECONDS
 
 	summon_type = list(/obj/machinery/door/airlock/cult)
