@@ -23,7 +23,7 @@
 	melee_damage_upper = 15
 	//attack_sound = 'sound/weapons/rapidslice.ogg'
 	speed = 5
-	faction = "cult"
+	faction = list("cult")
 	var/mob/living/basic/construct/artificer/perfect/master = null
 	var/no_master = TRUE
 	var/glow_color = "#FFFFFF"
@@ -50,8 +50,12 @@
 	animate(src, pixel_y = 4 * 1 , time = 10, loop = -1, easing = SINE_EASING)
 	animate(pixel_y = 2 * 1, time = 10, loop = -1, easing = SINE_EASING)
 
+/mob/living/simple_animal/hostile/hex/Initialize(mapload)
+	. = ..()
+	toggle_ai(AI_ON)
+
 /mob/living/simple_animal/hostile/hex/FindTarget(list/possible_targets)
-	if(stance != HOSTILE_STANCE_ATTACK || stance != HOSTILE_STANCE_ATTACKING)
+	if(stance != HOSTILE_STANCE_ATTACK && stance != HOSTILE_STANCE_ATTACKING)
 		return
 	. = ..()
 
@@ -105,6 +109,7 @@
 	if (mode != HEX_MODE_ROAMING)
 		stop_automated_movement = 1
 	. = ..()
+	handle_automated_action()
 	if (!no_master)
 		if (!master || QDELETED(master) || master.stat == DEAD)
 			adjustBruteLoss(20)//we shortly die out after our master's demise
@@ -210,3 +215,11 @@
 
 /mob/living/simple_animal/hostile/hex/narsie_act()
 	return
+
+/mob/living/simple_animal/hostile/hex/CanAttack(mob/living/the_target)
+	if(istype(the_target))
+		if(IS_CULTIST(the_target) || isconstruct(the_target) || istype(the_target, /mob/living/simple_animal/hostile/hex))
+			return
+		if("cult" in the_target.faction)
+			return
+	. = ..()

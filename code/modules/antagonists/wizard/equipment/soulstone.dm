@@ -168,6 +168,10 @@
 
 //////////////////////////////Capturing////////////////////////////////////////////////////////
 
+/obj/item/soulstone/pre_attack(atom/A, mob/living/user, params)
+	if(isobserver(A))
+		capture_soul(A, user)
+	. = ..()
 /obj/item/soulstone/attack(mob/living/carbon/human/M, mob/living/user)
 	if(!role_check(user))
 		user.Unconscious(10 SECONDS)
@@ -290,7 +294,7 @@
 /// Transfer the mind of a carbon mob (which is then dusted) into a shade mob inside src.
 /// If forced, sacrifical and stat checks are skipped.
 /obj/item/soulstone/proc/capture_soul(mob/living/carbon/victim, mob/user, forced = FALSE)
-	if(!iscarbon(victim)) //TODO: Add sacrifice stoning for non-organics, just because you have no body doesnt mean you dont have a soul
+	if(!iscarbon(victim) && !isobserver(victim)) //TODO: Add sacrifice stoning for non-organics, just because you have no body doesnt mean you dont have a soul
 		return FALSE
 	if(contents.len)
 		return FALSE

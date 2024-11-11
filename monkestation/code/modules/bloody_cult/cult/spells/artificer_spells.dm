@@ -8,7 +8,7 @@
 	spell_requirements = NONE
 
 	cast_range = 3
-	cast_delay = 60
+	cast_delay = 6 SECONDS
 	summon_type = list(/mob/living/simple_animal/hostile/hex)
 
 
@@ -35,11 +35,11 @@
 
 
 	cast_range = 4
-	cast_delay = 60
+	cast_delay = 12 SECONDS
 	summon_type = list(/obj/structure/cult/altar)
 
 	school = SCHOOL_CONJURATION
-	cooldown_time = 2 SECONDS
+	cooldown_time = 120 SECONDS
 	invocation_type = INVOCATION_NONE
 	spell_requirements = NONE
 
@@ -79,12 +79,11 @@
 	desc = "This spell conjures a fragile crystal from Nar-Sie's realm. Makes for a convenient light source, or a weak obstacle."
 
 	school = SCHOOL_CONJURATION
-	cooldown_time = 2 SECONDS
+	cooldown_time = 60 SECONDS
 	invocation_type = INVOCATION_NONE
 	spell_requirements = NONE
 	cast_range = 4
-	cast_delay = 20
-
+	cast_delay = 10 SECONDS
 	summon_type = list(/obj/structure/cult/pylon)
 
 
@@ -97,11 +96,11 @@
 	name = "Conjure Door"
 	desc = "This spell conjures a cult door. Those automatically open and close upon the passage of a cultist, construct or shade."
 	school = SCHOOL_CONJURATION
-	cooldown_time = 2 SECONDS
+	cooldown_time = 25 SECONDS
 	invocation_type = INVOCATION_NONE
 	spell_requirements = NONE
 	cast_range = 4
-	cast_delay = 4
+	cast_delay = 4 SECONDS
 
 	summon_type = list(/obj/machinery/door/airlock/cult)
 

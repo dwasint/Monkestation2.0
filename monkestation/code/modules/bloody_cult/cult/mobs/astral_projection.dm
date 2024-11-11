@@ -63,7 +63,6 @@ GLOBAL_LIST_INIT(astral_projections, list())
 	last_devotion_gain = world.time
 	incorporeal_appearance = image('monkestation/code/modules/bloody_cult/icons/mob.dmi', "blank")
 	tangible_appearance = image('monkestation/code/modules/bloody_cult/icons/mob.dmi', "blank")
-	//change_sight(adding = SEE_TURFS | SEE_MOBS | SEE_OBJS | SEE_SELF)
 	see_in_dark = 100
 
 	astral_return = new

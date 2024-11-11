@@ -30,6 +30,12 @@
 			S.conceal()
 			cult_datum.gain_devotion(10, DEVOTION_TIER_0, "conceal_structure", S)
 
+	for(var/obj/structure/destructible/cult/item_dispenser/dispenser in range(effect_range, T))
+		var/dist = cheap_pythag(dispenser.x - T.x, dispenser.y - T.y)
+		if (dist <= effect_range+0.5)
+			dispenser.conceal()
+			cult_datum.gain_devotion(10, DEVOTION_TIER_0, "conceal_structure", dispenser)
+
 	for(var/obj/effect/new_rune/R in range(effect_range, T))
 		if (R == spell_holder)
 			continue

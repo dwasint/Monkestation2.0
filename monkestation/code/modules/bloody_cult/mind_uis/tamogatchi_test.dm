@@ -31,6 +31,12 @@
 	layer = MIND_UI_FRONT + 1
 	var/angry = FALSE
 
+/obj/abstract/mind_ui_element/tamogatchi/New(turf/loc, datum/mind_ui/P)
+	. = ..()
+	animate(src, pixel_y = 2 , time = 10, loop = -1, easing = SINE_EASING)
+	animate(pixel_y = -2, time = 10, loop = -1, easing = SINE_EASING)
+
+
 /obj/abstract/mind_ui_element/hoverable/tamogatchi_paw
 	icon = 'monkestation/code/modules/bloody_cult/icons/tamogatchi/320x320.dmi'
 	icon_state = "paw_button"
@@ -72,3 +78,6 @@
 	icon_state = "move"
 	layer = MIND_UI_BUTTON + 6
 	move_whole_ui = TRUE
+
+	const_offset_y =  -100
+	const_offset_x = -100

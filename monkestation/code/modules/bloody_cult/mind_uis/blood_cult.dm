@@ -1462,8 +1462,8 @@ GLOBAL_LIST_INIT(blood_communion, list())
 	cultist = M.mind?.has_antag_datum(/datum/antagonist/cult)
 
 	//This horseshit magically lets have screen objects use animate(). Maybe I should make it a default mindUI feature at some point. -Deity
-	animate(src, pixel_y = 2 * 1 , time = 10, loop = -1, easing = SINE_EASING)
-	animate(pixel_y = -2 * 1, time = 10, loop = -1, easing = SINE_EASING)
+	animate(src, pixel_y = 2 , time = 10, loop = -1, easing = SINE_EASING)
+	animate(pixel_y = -2, time = 10, loop = -1, easing = SINE_EASING)
 	var/obj/abstract/mind_ui_element/ritual_holder/my_holder = new(null, P)
 	my_holder.offset_x = offset_x
 	my_holder.offset_y = offset_y
@@ -2143,6 +2143,7 @@ GLOBAL_LIST_INIT(blood_communion, list())
 /obj/abstract/mind_ui_element/hoverable/hex_controller/harm
 	name = "Aggressive"
 	icon_state = "hexcontrol_harm"
+	tooltip_theme = "radial-cult"
 
 /obj/abstract/mind_ui_element/hoverable/hex_controller/harm/Click()
 	var/mob/living/basic/construct/artificer/perfect/M = GetUser()
@@ -2162,6 +2163,7 @@ GLOBAL_LIST_INIT(blood_communion, list())
 				icon_state = "hexcontrol_harm"
 				var/list/possible_targets = H.ListTargets()
 				var/new_target = H.FindTarget(possible_targets)
+				H.stance = HOSTILE_STANCE_ATTACK
 				H.GiveTarget(new_target)
 				if (H.target)
 					H.MoveToTarget()
@@ -2176,9 +2178,11 @@ GLOBAL_LIST_INIT(blood_communion, list())
 			if (H.passive)
 				name = "Passive"
 				icon_state = "hexcontrol_passive"
+				tooltip_content = "This Hex is currently passive and will not attack targets"
 			else
 				name = "Aggressive"
 				icon_state = "hexcontrol_harm"
+				tooltip_content = "This Hex is currently aggressive and will attack targets"
 			base_icon_state = icon_state
 
 ////////////////////////
@@ -2186,6 +2190,7 @@ GLOBAL_LIST_INIT(blood_communion, list())
 /obj/abstract/mind_ui_element/hoverable/hex_controller/roam
 	name = "Roam"
 	icon_state = "hexcontrol_roam"
+	tooltip_theme = "radial-cult"
 
 /obj/abstract/mind_ui_element/hoverable/hex_controller/roam/Click()
 	var/mob/living/basic/construct/artificer/perfect/M = GetUser()
@@ -2207,8 +2212,10 @@ GLOBAL_LIST_INIT(blood_communion, list())
 			switch (H.mode)
 				if (HEX_MODE_ROAMING)
 					icon_state = "hexcontrol_roam"
+					tooltip_content = "The hex is currently roaming"
 				else
 					icon_state = "hexcontrol_roam-off"
+					tooltip_content = ""
 			base_icon_state = icon_state
 
 ////////////////////////
@@ -2216,6 +2223,7 @@ GLOBAL_LIST_INIT(blood_communion, list())
 /obj/abstract/mind_ui_element/hoverable/hex_controller/escort
 	name = "Escort"
 	icon_state = "hexcontrol_escort-off"
+	tooltip_theme = "radial-cult"
 
 /obj/abstract/mind_ui_element/hoverable/hex_controller/escort/Click()
 	var/mob/living/basic/construct/artificer/perfect/M = GetUser()
@@ -2236,8 +2244,10 @@ GLOBAL_LIST_INIT(blood_communion, list())
 			switch (H.mode)
 				if (HEX_MODE_ESCORT)
 					icon_state = "hexcontrol_escort"
+					tooltip_content = "This Hex will follow you at all times only going away if it sees a target."
 				else
 					icon_state = "hexcontrol_escort-off"
+					tooltip_content = ""
 			base_icon_state = icon_state
 
 ////////////////////////
@@ -2245,6 +2255,7 @@ GLOBAL_LIST_INIT(blood_communion, list())
 /obj/abstract/mind_ui_element/hoverable/hex_controller/guard
 	name = "Guard"
 	icon_state = "hexcontrol_guard-off"
+	tooltip_theme = "radial-cult"
 
 /obj/abstract/mind_ui_element/hoverable/hex_controller/guard/Click()
 	var/mob/living/basic/construct/artificer/perfect/M = GetUser()
@@ -2266,8 +2277,10 @@ GLOBAL_LIST_INIT(blood_communion, list())
 			switch (H.mode)
 				if (HEX_MODE_GUARD)
 					icon_state = "hexcontrol_guard"
+					tooltip_content = "This Hex will guard around its current location."
 				else
 					icon_state = "hexcontrol_guard-off"
+					tooltip_content = ""
 			base_icon_state = icon_state
 
 //example: add_zero(217, 6) = "000217"

@@ -122,9 +122,16 @@
 	var/resurrector = activator.real_name
 	if (shade && husk)
 		shade.forceMove(get_turf(husk))
-		var/mob/living/carbon/human/M = new /mob/living/carbon/human(shade.loc)
-		shade.client?.prefs.apply_prefs_to(M, TRUE)
-		shade.mind.transfer_to(M)
+		shade.mind.transfer_to(shade.body)
+		shade.body.forceMove(shade.loc)
+		shade.body.fully_heal()
+		var/mob/living/carbon/human/M = shade.body
+		if(HAS_TRAIT(shade.body, TRAIT_USES_SKINTONES)) // make them deathly white, afterall they dont have a soul anymore
+			shade.body.skin_tone = "albino"
+		else
+			var/datum/color_palette/generic_colors/located = shade.body.dna.color_palettes[/datum/color_palette/generic_colors]
+			located.mutant_color = "#FFFFFF"
+		shade.body = null
 		qdel(husk)
 		qdel(shade)
 		playsound(M, 'monkestation/code/modules/bloody_cult/sound/spawn.ogg', 50, 0, 0)
@@ -144,6 +151,7 @@
 		*/
 
 		M.regenerate_icons()
+		M.update_body(is_creating = TRUE)
 		newCultist.update_cult_hud()
 
 		for(var/mob/living/L in contributors)

@@ -20,11 +20,16 @@
 /obj/item/reagent_containers/cup/cult/examine(var/mob/user)
 	..()
 	if (IS_CULTIST(user))
-		if(issilicon(user))
-			to_chat(user, span_info("Drinking blood from this cup will always safely replenish the vessels of cultists, regardless of blood type. It's a shame you're a robot.") )
-		else
-			to_chat(user, span_info("Drinking blood from this cup will always safely replenish your own vessels, regardless of blood types. The opposite is true to non-cultists. Throwing this cup at them may force them to swallow some of its content if their face isn't covered.") )
+		. += "Drinking blood from this cup will always safely replenish your own vessels, regardless of blood types. The opposite is true to non-cultists. Throwing this cup at them may force them to swallow some of its content if their face isn't covered."
 
+
+/obj/item/reagent_containers/cup/cult/throw_impact(var/atom/hit_atom)
+	if(reagents.total_volume)
+		if (ishuman(hit_atom))
+			var/mob/living/carbon/human/H = hit_atom
+			if(!(H.is_mouth_covered()))
+				H.visible_message("<span class='warning'>Some of \the [src]'s content spills into \the [H]'s mouth.</span>","<span class='danger'>Some of \the [src]'s content spills into your mouth.</span>")
+				reagents.trans_to(H, gulp_size, methods = INGEST)
 
 /obj/item/reagent_containers/cup/cult/gamer
 	name = "gamer goblet"

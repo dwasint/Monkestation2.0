@@ -86,15 +86,18 @@ var/list/seer_rituals = list()
 	var/datum/rune_spell/seer/source = null
 	var/list/propension = list()
 	var/talisman = FALSE
+	///Proximity monitor associated with this atom, needed for proximity checks.
+	var/datum/proximity_monitor/proximity_monitor
 
 /obj/effect/cult_ritual/seer/New(var/turf/loc, var/mob/living/user, var/datum/rune_spell/seer/runespell, var/talisman_ritual = FALSE, var/talisman_duration = 60 SECONDS)
 	..()
+	proximity_monitor = new(src, 1)
 	if(user)
 		ADD_TRAIT(user, TRAIT_SEER, REF(src))
 	seer_rituals.Add(src)
-	START_PROCESSING(SSobj, src)
 	talisman = talisman_ritual
 	caster = user
+	caster.see_invisible = SEE_INVISIBLE_OBSERVER
 	source = runespell
 	if (!caster)
 		if (source)
@@ -109,10 +112,10 @@ var/list/seer_rituals = list()
 
 /obj/effect/cult_ritual/seer/Destroy()
 	seer_rituals.Remove(src)
-	STOP_PROCESSING(SSobj, src)
 	if(caster)
 		REMOVE_TRAIT(caster, TRAIT_SEER, REF(src))
-		to_chat(caster, span_notice("You can no longer discern through the veil.") )
+		to_chat(caster, span_notice("You can no longer discern through the veil."))
+		caster.see_invisible = SEE_INVISIBLE_LIVING
 	caster = null
 	if (source)
 		source.abort()
@@ -123,9 +126,3 @@ var/list/seer_rituals = list()
 	if (!talisman)
 		if (!caster || caster.loc != loc)
 			qdel(src)
-
-/obj/effect/cult_ritual/seer/process(seconds_per_tick)
-	if(!HasProximity(caster))
-		caster.see_invisible = SEE_INVISIBLE_LIVING
-		return
-	caster.see_invisible = SEE_INVISIBLE_OBSERVER
