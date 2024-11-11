@@ -12,6 +12,3 @@
 		icon_state = "soulstone2"
 	else
 		icon_state = "soulstone"
-
-/obj/item/soulstone/gem/attack_self(mob/living/user)
-	. = ..()
