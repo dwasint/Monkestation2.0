@@ -46,6 +46,7 @@
 		B.Move(get_step_rand(T))
 		new /obj/item/soulstone(T)
 	shade = null
+	linked_cultist = null
 	..()
 
 /obj/item/weapon/melee/soulblade/attack_hand(var/mob/living/user)
@@ -117,7 +118,7 @@
 			if (shade)
 				shade.forceMove(SG)
 				SG.contents += shade
-				//shade.remove_blade_powers()
+				shade.remove_blade_powers()
 				shade.soulblade_ritual = FALSE
 				SG.icon_state = "soulstone2"
 				SG.name = "Soul Gem: [shade.real_name]"

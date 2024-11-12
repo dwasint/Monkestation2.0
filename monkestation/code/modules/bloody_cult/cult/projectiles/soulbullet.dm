@@ -71,7 +71,7 @@
 		return 0
 */
 
-/obj/projectile/soulbullet/Bump(atom/A)
+/obj/projectile/soulbullet/on_hit(atom/A, blocked, pierce_hit)
 	. = ..()
 	if (shade)
 		if (ismob(A))

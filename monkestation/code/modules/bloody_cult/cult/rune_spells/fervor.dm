@@ -36,6 +36,7 @@
 				L.bodytemperature = L.standard_body_temperature
 				L.reagents?.add_reagent(/datum/reagent/determination, 3)
 				L.stamina?.adjust(300, TRUE)
+				L.exit_stamina_stun()
 
 				L.stat = CONSCIOUS
 				if (L.reagents)

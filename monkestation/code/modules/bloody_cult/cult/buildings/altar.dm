@@ -626,12 +626,10 @@
 					cult.HandleRecruitedRole(newCultist)
 					newCultist.conversion.Add("sacrifice")
 
-				new_shade.status_flags |= GODMODE
-				ADD_TRAIT(new_shade, TRAIT_IMMOBILIZED, REF(src))
 				new_shade.soulblade_ritual = TRUE
 				new_shade.name = "[M.real_name] the Shade"
 				new_shade.real_name = "[M.real_name]"
-				//new_shade.give_blade_powers()
+				new_shade.give_blade_powers()
 				playsound(src, get_sfx("soulstone"), 50, 1)
 			else
 				anim(target = src, a_icon = 'monkestation/code/modules/bloody_cult/icons/effects.dmi', flick_anim = "rune_sac", plane = ABOVE_GAME_PLANE)

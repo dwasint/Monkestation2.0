@@ -58,7 +58,15 @@
 		list("Spire", "radial_spire", "Allows all cultists in the level to communicate with each others using :x"),
 		list("Forge", "radial_forge", "Enables the forging of cult blades and armor, as well as new construct shells. Raise the temperature of nearby creatures."),
 	)
-	structure = show_radial_menu(owner, T, choices, 'monkestation/code/modules/bloody_cult/icons/cult_radial3.dmi', "radial-cult")
+
+	var/list/made_choices = list()
+	for(var/list/choice in choices)
+		var/datum/radial_menu_choice/option = new
+		option.image = image(icon = 'monkestation/code/modules/bloody_cult/icons/cult_radial3.dmi', icon_state = choice[2])
+		option.info = span_boldnotice(choice[3])
+		made_choices[choice[1]] = option
+
+	structure = show_radial_menu(owner, T, made_choices, 'monkestation/code/modules/bloody_cult/icons/cult_radial3.dmi', "radial-cult")
 	if (!T.Adjacent(owner) || !structure )
 		return 1
 	switch(structure)
