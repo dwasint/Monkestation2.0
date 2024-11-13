@@ -50,19 +50,6 @@
 		boomerang.dropped()
 		boomerang = null
 		return
-	//if there is no air, no return trip
-	var/datum/gas_mixture/current_air = T.return_air()
-	var/atmosphere = 0
-	if(current_air)
-		atmosphere = current_air.return_pressure()
-
-	if (atmosphere < ONE_ATMOSPHERE/2)
-		visible_message("\The [boomerang] dramatically fails to come back due to the lack of air pressure.")
-		boomerang.forceMove(T)
-		boomerang.thrown = FALSE
-		boomerang.dropped()
-		boomerang = null
-		return
 
 	var/atom/return_target
 	if (firer)
