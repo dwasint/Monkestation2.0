@@ -106,6 +106,16 @@
 /obj/effect/cult_shortcut/singularity_act()
 	return
 
+/atom/movable/proc/get_afterimage()
+	return ""
+
+/atom/movable/proc/spawn_afterimage(var/afterimage,var/afterimage_step)
+	switch(afterimage)
+		if ("red")
+			new /obj/effect/afterimage/red(loc,src)
+		if ("richter tackle")
+			var/obj/effect/afterimage/richter_tackle/RT = new (loc,src)
+			RT.overlays += image('monkestation/code/modules/bloody_cult/icons/effects.dmi', src, "castlevania_tackle", dir = turn(SOUTH, 90 * afterimage_step))
 
 /obj/effect/afterimage
 	icon = null
