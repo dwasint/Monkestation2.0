@@ -40,10 +40,9 @@
 	var/blood_color = blood.color
 
 	var/maximum_length = 30
-	var/message = stripped_input(owner, "Write a message. You will be able to preview it.", "Bloody writings", "")
+	var/message = tgui_input_text(owner, "Write a message. You will be able to preview it.", "Bloody writings", "", maximum_length)
 	if(!message)
 		return
-	message = copytext(message, 1, maximum_length)
 
 	var/letter_amount = length(replacetext(message, " ", ""))
 	if(!letter_amount) //If there is no text
