@@ -601,6 +601,8 @@
 				owner.current.adjust_particles(PVAR_ICON_STATE, "cult_halo[get_devotion_rank()]", PS_CULT_HALO)
 
 /datum/antagonist/cult/proc/get_eclipse_increment()
+	if(isshade(owner.current) || isobserver(owner.current))
+		return -0.05
 	switch(get_devotion_rank())
 		if (DEVOTION_TIER_0)
 			return 0.10
