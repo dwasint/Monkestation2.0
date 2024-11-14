@@ -170,6 +170,13 @@
 
 /obj/item/soulstone/pre_attack(atom/A, mob/living/user, params)
 	if(isobserver(A))
+		var/mob/dead/observer/observer = A
+		var/prompt = tgui_alert(observer, "Do you wish to become a shade?", "[name]", list("Yes", "No"))
+		if(prompt != "Yes")
+			to_chat(user, span_notice("The ghost denied becoming a shade"))
+			return
+		if(!observer.mind)
+			observer.mind_initialize()
 		capture_soul(A, user)
 	. = ..()
 /obj/item/soulstone/attack(mob/living/carbon/human/M, mob/living/user)
