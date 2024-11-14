@@ -16,7 +16,7 @@
 	hub = "Exadv1.spacestation13"
 	hub_password = "kMZy3U5jJHSiBQjr"
 	name = "MonkeStation 2.0" // monkestation edit: rebranding
-	fps = 40
+	fps = 20
 #ifdef FIND_REF_NO_CHECK_TICK
 	loop_checks = FALSE
 #endif
