@@ -71,8 +71,9 @@
 		return 0
 */
 
-/obj/projectile/soulbullet/on_hit(atom/A, blocked, pierce_hit)
+/obj/projectile/soulbullet/on_hit(atom/target, blocked, pierce_hit)
 	. = ..()
+	var/atom/A = target
 	if (shade)
 		if (ismob(A))
 			var/mob/M = A
