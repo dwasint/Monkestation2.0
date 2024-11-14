@@ -52,7 +52,7 @@
 
 	var/eclipse_progress = 0
 	var/eclipse_target = 1800
-	var/eclipse_window = 15 MINUTES
+	var/eclipse_window = 20 MINUTES //I Don't really know how much longer I can make this, for gods sake read your chat window that tells you, that you NEED to do the ritual
 	var/eclipse_increments = 0
 	var/eclipse_contributors = list()//associative list: /mind = score
 
@@ -83,6 +83,8 @@
 	var/list/rituals = list(RITUAL_FACTION_1, RITUAL_FACTION_2, RITUAL_FACTION_3)
 
 	var/countdown_to_first_rituals = 5
+
+	COOLDOWN_DECLARE(last_reminder)
 
 
 /datum/team/cult/add_member(datum/mind/new_member)
@@ -216,7 +218,8 @@
 			for(var/datum/mind/mind in members)
 				var/mob/mob = mind.current
 				if(mob)
-					to_chat(span_cultlarge("The time to start summoning Nar'Sie has come, check the cultist menu for more information on the ritual she wants you to perform."))
+					to_chat(mob, span_cultlarge("The time to start summoning Nar'Sie has come, check the cultist menu for more information on the ritual she wants you to perform. You have until the end of the eclipse to start the summoning."))
+			COOLDOWN_START(src, last_reminder, 1 MINUTES)
 		if (BLOODCULT_STAGE_MISSED)
 			for (var/datum/mind/mind in members)
 				var/mob/M = mind.current
@@ -358,6 +361,12 @@
 			if (bloodspill_ritual)
 				check_ritual("bloodspill", bloody_floors.len)
 		if (BLOODCULT_STAGE_READY)
+			if(COOLDOWN_FINISHED(src, last_reminder))
+				for(var/datum/mind/mind in members)
+					var/mob/mob = mind.current
+					if(mob)
+						to_chat(mob, span_cultlarge("The eclipse is still ongoing and you haven't started the ritual yet, your time is fading."))
+				COOLDOWN_START(src, last_reminder, 1 MINUTES)
 			if (GLOB.eclipse.eclipse_finished)
 				stage(BLOODCULT_STAGE_MISSED)
 		if (BLOODCULT_STAGE_ECLIPSE)
