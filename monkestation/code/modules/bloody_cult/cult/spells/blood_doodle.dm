@@ -44,7 +44,7 @@
 	if(!message)
 		return
 
-	var/letter_amount = length(replacetext(message, " ", ""))
+	var/letter_amount = length(replacetext(html_decode(message), " ", ""))
 	if(!letter_amount) //If there is no text
 		return
 
