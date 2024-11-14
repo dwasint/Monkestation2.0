@@ -122,10 +122,17 @@
 	var/resurrector = activator.real_name
 	if (shade && husk)
 		shade.forceMove(get_turf(husk))
-		shade.mind.transfer_to(shade.body)
-		shade.body.forceMove(shade.loc)
-		shade.body.fully_heal()
-		var/mob/living/carbon/human/M = shade.body
+		var/mob/living/carbon/human/M
+		if(shade.body)
+			shade.mind.transfer_to(shade.body)
+			shade.body?.forceMove(shade.loc)
+			shade.body?.fully_heal()
+			M = shade.body
+		else
+			M = new(get_turf(shade))
+			shade.client?.prefs.apply_prefs_to(M)
+			shade.mind.transfer_to(M)
+
 		if(HAS_TRAIT(shade.body, TRAIT_USES_SKINTONES)) // make them deathly white, afterall they dont have a soul anymore
 			shade.body.skin_tone = "albino"
 		else
