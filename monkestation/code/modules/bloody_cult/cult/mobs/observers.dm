@@ -7,6 +7,9 @@
 		narsie_act()
 
 /mob/dead/observer/narsie_act()
+	var/prompt = tgui_alert(src, "Do you wish to become a cult ghost?", "[name]", list("Yes", "No"), timeout = 20 SECONDS)
+	if(prompt == "No")
+		return
 	if(invisibility != 0)
 		var/datum/action/cooldown/blood_doodle/doodle = new
 		doodle.Grant(src)
