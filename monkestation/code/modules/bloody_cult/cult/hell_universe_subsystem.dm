@@ -80,6 +80,6 @@ SUBSYSTEM_DEF(hell_universe)
 		light_to_break.break_light_tube()
 		lights_to_break -= light_to_break
 
-	if(!length(turfs_to_process) && !length(lights_to_break))
+	if(!length(lights_to_break))
 		hell_time = FALSE
 
