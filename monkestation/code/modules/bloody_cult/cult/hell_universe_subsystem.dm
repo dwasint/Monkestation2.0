@@ -16,7 +16,7 @@ SUBSYSTEM_DEF(hell_universe)
 
 	var/hell_time = FALSE
 	var/old_starlight_color
-	var/list/turfs_to_process = list()
+	//var/list/turfs_to_process = list()
 	var/list/lights_to_break = list()
 
 /datum/controller/subsystem/hell_universe/proc/start_hell()
@@ -44,7 +44,7 @@ SUBSYSTEM_DEF(hell_universe)
 		var/list/turfs = get_area_turfs(/area/space, z)
 		for(var/turf/open/space/space in turfs)
 			space.update_starlight()
-			turfs_to_process |= space
+			//turfs_to_process |= space
 
 	for(var/datum/time_of_day/time in SSoutdoor_effects.time_cycle_steps)
 		time.color = COLOR_BLOOD
@@ -61,13 +61,14 @@ SUBSYSTEM_DEF(hell_universe)
 /datum/controller/subsystem/hell_universe/fire(resumed)
 	if(!hell_time)
 		return
-
+	/*
 	for(var/turf/open/space/space as anything in turfs_to_process)
 		CHECK_TICK
 
 		space.add_particles(PS_SPACE_RUNES)//visible for everyone
 		space.adjust_particles(PVAR_SPAWNING, rand(5, 20)/1000 ,PS_SPACE_RUNES)
 		turfs_to_process -= space
+	*/
 
 	for(var/obj/machinery/light/light_to_break in lights_to_break)
 		if(QDELETED(light_to_break))
