@@ -73,7 +73,7 @@
 				spawned_mobs += M
 				T.turf_animation('monkestation/code/modules/bloody_cult/icons/96x96.dmi', "beamin", -32, 0, MOB_LAYER+1, 'sound/weapons/emitter2.ogg', "#3B2D1C", anim_plane = ABOVE_GAME_PLANE)
 			if(6)
-				var/mob/living/simple_animal/hostile/alien/queen/large/M = new /mob/living/simple_animal/hostile/alien/queen/large(T)
+				var/mob/living/basic/hostile/alien/queen/large/M = new /mob/living/basic/hostile/alien/queen/large(T)
 				M.faction = "adminbus mob"
 				spawned_mobs += M
 				T.turf_animation('monkestation/code/modules/bloody_cult/icons/96x96.dmi', "beamin", -16, 0, MOB_LAYER+1, 'sound/weapons/emitter2.ogg', "#525288", anim_plane = ABOVE_GAME_PLANE)
@@ -82,7 +82,7 @@
 /obj/vehicle/ridden/adminbus/proc/remove_mobs(mob/bususer)
 	for(var/mob/M in spawned_mobs)
 		var/xoffset = -32
-		if(istype(M, /mob/living/simple_animal/hostile/alien/queen/large))
+		if(istype(M, /mob/living/basic/hostile/alien/queen/large))
 			xoffset = -16
 		var/turf/T = get_turf(M)
 		if(T)
