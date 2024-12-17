@@ -372,7 +372,7 @@ GLOBAL_LIST_EMPTY(preferences_datums)
 			continue
 
 		value_cache -= preference.type
-		if(!parent || QDELETED(parent))
+		if(QDELETED(parent))
 			return
 		preference.apply_to_client(parent, read_preference(preference.type))
 
