@@ -59,7 +59,6 @@ GLOBAL_LIST_INIT(patreon_etoken_values, list(
 /datum/meta_token_holder/proc/convert_list_to_tokens(list/saved_tokens)
 	if(!length(saved_tokens))
 		return
-	var/trigger
 	for(var/token in saved_tokens)
 		if(isnull(saved_tokens[token]))
 			saved_tokens[token] = 0
