@@ -62,7 +62,7 @@ GLOBAL_LIST_INIT(patreon_etoken_values, list(
 	for(var/token in saved_tokens)
 		if(isnull(saved_tokens[token]))
 			saved_tokens[token] = 0
-		if(!"donator" in saved_tokens)
+		if(!("donator" in saved_tokens))
 			saved_tokens |= "donator"
 			saved_tokens["donator"] = 0
 
