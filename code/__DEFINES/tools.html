@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <base href="../../" />
+    <link rel="stylesheet" href="dmdoc.css" />
+    <title>code&#x2F;__DEFINES&#x2F;tools.dm - MonkeStation 2.0</title>
+</head>
+<body>
+<header>
+    <a href="index.html">MonkeStation 2.0</a> -
+    <a href="index.html#modules">Modules</a> -
+    <a href="index.html#types">Types</a>
+ &mdash; <a href="code/__DEFINES/tools.html#define">Define Details</a></header>
+<main>
+<h1>code/__DEFINES/tools.dm 
+            <a href="https://github.com/dwasint/Monkestation2.0/blob/a7cd8a22c207184eea05a0401bf015e70aa67eeb/code/__DEFINES/tools.dm">
+        <img src="git.png" width="16" height="16" title="code&#x2F;__DEFINES&#x2F;tools.dm"/></a></h1>
+
+<table class="summary" cellspacing="0">
+        <tr><th><a href="code/__DEFINES/tools.html#define/TOOL_RUSTSCRAPER">TOOL_RUSTSCRAPER</a></th><td>Can be used to scrape rust off an any atom; which will result in the Rust Component being qdel'd</td></tr>
+        <tr><th><a href="code/__DEFINES/tools.html#define/TOOL_ACT_TOOLTYPE_SUCCESS">TOOL_ACT_TOOLTYPE_SUCCESS</a></th><td>When a tooltype_act proc is successful</td></tr>
+        <tr><th><a href="code/__DEFINES/tools.html#define/TOOL_ACT_SIGNAL_BLOCKING">TOOL_ACT_SIGNAL_BLOCKING</a></th><td>When <a href="code/__DEFINES/dcs/signals/signals_atom/signals_atom_x_act.html#define/COMSIG_ATOM_TOOL_ACT" title="COMSIG_ATOM_TOOL_ACT">COMSIG_ATOM_TOOL_ACT</a> blocks the act</td></tr>
+        <tr><th><a href="code/__DEFINES/tools.html#define/TOOL_ACT_MELEE_CHAIN_BLOCKING">TOOL_ACT_MELEE_CHAIN_BLOCKING</a></th><td>When <a href="code/__DEFINES/tools.html#define/TOOL_ACT_TOOLTYPE_SUCCESS" title="TOOL_ACT_TOOLTYPE_SUCCESS">TOOL_ACT_TOOLTYPE_SUCCESS</a> or <a href="code/__DEFINES/tools.html#define/TOOL_ACT_SIGNAL_BLOCKING" title="TOOL_ACT_SIGNAL_BLOCKING">TOOL_ACT_SIGNAL_BLOCKING</a> are set</td></tr>
+        <tr><th><a href="code/__DEFINES/tools.html#define/ITEM_INTERACT_SUCCESS">ITEM_INTERACT_SUCCESS</a></th><td>Return when an item interaction is successful.
+This cancels the rest of the chain entirely and indicates success.</td></tr>
+        <tr><th><a href="code/__DEFINES/tools.html#define/ITEM_INTERACT_BLOCKING">ITEM_INTERACT_BLOCKING</a></th><td>Return to prevent the rest of the attack chain from being executed / preventing the item user from thwacking the target.
+Similar to <a href="code/__DEFINES/tools.html#define/ITEM_INTERACT_SUCCESS" title="ITEM_INTERACT_SUCCESS">ITEM_INTERACT_SUCCESS</a>, but does not necessarily indicate success.</td></tr>
+        <tr><th><a href="code/__DEFINES/tools.html#define/ITEM_INTERACT_FAILURE">ITEM_INTERACT_FAILURE</a></th><td>Only for people who get confused by the naming scheme</td></tr>
+        <tr><th><a href="code/__DEFINES/tools.html#define/ITEM_INTERACT_SKIP_TO_ATTACK">ITEM_INTERACT_SKIP_TO_ATTACK</a></th><td>Return to skip the rest of the interaction chain, going straight to attack.</td></tr></table><h2 id="define">Define Details</h2>
+<h3 id="define/ITEM_INTERACT_BLOCKING"><aside class="declaration">#define </aside>ITEM_INTERACT_BLOCKING
+            <a href="https://github.com/dwasint/Monkestation2.0/blob/a7cd8a22c207184eea05a0401bf015e70aa67eeb/code/__DEFINES/tools.dm#L42">
+        <img src="git.png" width="16" height="16" title="code&#x2F;__DEFINES&#x2F;tools.dm 42"/></a>
+    </h3>
+    <p>Return to prevent the rest of the attack chain from being executed / preventing the item user from thwacking the target.
+Similar to <a href="code/__DEFINES/tools.html#define/ITEM_INTERACT_SUCCESS" title="ITEM_INTERACT_SUCCESS">ITEM_INTERACT_SUCCESS</a>, but does not necessarily indicate success.</p><h3 id="define/ITEM_INTERACT_FAILURE"><aside class="declaration">#define </aside>ITEM_INTERACT_FAILURE
+            <a href="https://github.com/dwasint/Monkestation2.0/blob/a7cd8a22c207184eea05a0401bf015e70aa67eeb/code/__DEFINES/tools.dm#L44">
+        <img src="git.png" width="16" height="16" title="code&#x2F;__DEFINES&#x2F;tools.dm 44"/></a>
+    </h3>
+    <p>Only for people who get confused by the naming scheme</p><h3 id="define/ITEM_INTERACT_SKIP_TO_ATTACK"><aside class="declaration">#define </aside>ITEM_INTERACT_SKIP_TO_ATTACK
+            <a href="https://github.com/dwasint/Monkestation2.0/blob/a7cd8a22c207184eea05a0401bf015e70aa67eeb/code/__DEFINES/tools.dm#L46">
+        <img src="git.png" width="16" height="16" title="code&#x2F;__DEFINES&#x2F;tools.dm 46"/></a>
+    </h3>
+    <p>Return to skip the rest of the interaction chain, going straight to attack.</p><h3 id="define/ITEM_INTERACT_SUCCESS"><aside class="declaration">#define </aside>ITEM_INTERACT_SUCCESS
+            <a href="https://github.com/dwasint/Monkestation2.0/blob/a7cd8a22c207184eea05a0401bf015e70aa67eeb/code/__DEFINES/tools.dm#L39">
+        <img src="git.png" width="16" height="16" title="code&#x2F;__DEFINES&#x2F;tools.dm 39"/></a>
+    </h3>
+    <p>Return when an item interaction is successful.
+This cancels the rest of the chain entirely and indicates success.</p><h3 id="define/TOOL_ACT_MELEE_CHAIN_BLOCKING"><aside class="declaration">#define </aside>TOOL_ACT_MELEE_CHAIN_BLOCKING
+            <a href="https://github.com/dwasint/Monkestation2.0/blob/a7cd8a22c207184eea05a0401bf015e70aa67eeb/code/__DEFINES/tools.dm#L36">
+        <img src="git.png" width="16" height="16" title="code&#x2F;__DEFINES&#x2F;tools.dm 36"/></a>
+    </h3>
+    <p>When <a href="code/__DEFINES/tools.html#define/TOOL_ACT_TOOLTYPE_SUCCESS" title="TOOL_ACT_TOOLTYPE_SUCCESS">TOOL_ACT_TOOLTYPE_SUCCESS</a> or <a href="code/__DEFINES/tools.html#define/TOOL_ACT_SIGNAL_BLOCKING" title="TOOL_ACT_SIGNAL_BLOCKING">TOOL_ACT_SIGNAL_BLOCKING</a> are set</p><h3 id="define/TOOL_ACT_SIGNAL_BLOCKING"><aside class="declaration">#define </aside>TOOL_ACT_SIGNAL_BLOCKING
+            <a href="https://github.com/dwasint/Monkestation2.0/blob/a7cd8a22c207184eea05a0401bf015e70aa67eeb/code/__DEFINES/tools.dm#L33">
+        <img src="git.png" width="16" height="16" title="code&#x2F;__DEFINES&#x2F;tools.dm 33"/></a>
+    </h3>
+    <p>When <a href="code/__DEFINES/dcs/signals/signals_atom/signals_atom_x_act.html#define/COMSIG_ATOM_TOOL_ACT" title="COMSIG_ATOM_TOOL_ACT">COMSIG_ATOM_TOOL_ACT</a> blocks the act</p><h3 id="define/TOOL_ACT_TOOLTYPE_SUCCESS"><aside class="declaration">#define </aside>TOOL_ACT_TOOLTYPE_SUCCESS
+            <a href="https://github.com/dwasint/Monkestation2.0/blob/a7cd8a22c207184eea05a0401bf015e70aa67eeb/code/__DEFINES/tools.dm#L31">
+        <img src="git.png" width="16" height="16" title="code&#x2F;__DEFINES&#x2F;tools.dm 31"/></a>
+    </h3>
+    <p>When a tooltype_act proc is successful</p><h3 id="define/TOOL_RUSTSCRAPER"><aside class="declaration">#define </aside>TOOL_RUSTSCRAPER
+            <a href="https://github.com/dwasint/Monkestation2.0/blob/a7cd8a22c207184eea05a0401bf015e70aa67eeb/code/__DEFINES/tools.dm#L22">
+        <img src="git.png" width="16" height="16" title="code&#x2F;__DEFINES&#x2F;tools.dm 22"/></a>
+    </h3>
+    <p>Can be used to scrape rust off an any atom; which will result in the Rust Component being qdel'd</p></main>
+<footer>
+    tgstation.dme
+    <a href="https://github.com/dwasint/Monkestation2.0/tree/a7cd8a22c207184eea05a0401bf015e70aa67eeb">a7cd8a2</a>
+        (master) &mdash; <a href="https://github.com/SpaceManiac/SpacemanDMM/blob/master/crates/dmdoc/README.md">dmdoc 1.8.0</a></footer>
+</body>
+</html>
