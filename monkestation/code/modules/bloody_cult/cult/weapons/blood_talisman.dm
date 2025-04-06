@@ -54,13 +54,13 @@
 
 	if (IS_CULTIST(user) || isobserver(user))
 		if (attuned_rune)
-			to_chat(user, span_info("This one was attuned to a <b>[initial(instance.name)]</b> rune. [initial(instance.desc_talisman)]") )
+			. += span_info("This one was attuned to a <b>[initial(instance.name)]</b> rune. [initial(instance.desc_talisman)]")
 		else
-			to_chat(user, span_info("This one was imbued with a <b>[initial(instance.name)]</b> rune. [initial(instance.desc_talisman)]") )
+			. += span_info("This one was imbued with a <b>[initial(instance.name)]</b> rune. [initial(instance.desc_talisman)]")
 		if (uses > 1)
-			to_chat(user, span_info("Its powers can be used [uses] more times.") )
+			. += span_info("This one was imbued with a <b>[initial(instance.name)]</b> rune. [initial(instance.desc_talisman)]")
 	else
-		to_chat(user, span_info("This one was some arcane drawings on it. You cannot read them.") )
+		. += span_info("This one was some arcane drawings on it. You cannot read them.")
 
 /obj/item/weapon/talisman/attack_self(var/mob/living/user)
 	if (blood_text)

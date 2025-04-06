@@ -259,6 +259,7 @@ GLOBAL_LIST_INIT(mind_ui_id_to_type, list())
 	icon_state = ""
 	mouse_opacity = 1
 	plane = HUD_PLANE
+	flags_1 = DEMO_IGNORE_1
 
 	var/datum/mind_ui/parent = null
 	var/element_flags = 0
