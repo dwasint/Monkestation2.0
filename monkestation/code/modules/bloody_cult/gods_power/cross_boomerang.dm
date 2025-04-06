@@ -141,6 +141,7 @@
 
 	icon = 'monkestation/code/modules/bloody_cult/icons/boomerang.dmi'
 	icon_state = "cross_modern"
+	worn_icon = null
 	var/thrown = FALSE
 
 	var/flickering = 0

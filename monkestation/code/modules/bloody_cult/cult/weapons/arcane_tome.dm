@@ -11,6 +11,7 @@ var/list/arcane_tomes=list()
 	desc = "A dark, dusty tome with frayed edges and a sinister cover. Its surface is hard and cold to the touch."
 	icon = 'monkestation/code/modules/bloody_cult/icons/cult.dmi'
 	icon_state = "tome"
+	worn_icon = null
 	throw_speed = 1
 	throw_range = 5
 	w_class = WEIGHT_CLASS_SMALL
