@@ -560,7 +560,7 @@
 			return
 		var/mob/living/basic/shade/shadeMob = new(blade)
 		blade.shade = shadeMob
-		shadeMob.status_flags |= GODMODE
+		ADD_TRAIT(shadeMob, TRAIT_GODMODE, type)
 		ADD_TRAIT(shadeMob, TRAIT_IMMOBILIZED, REF(src))
 		var/datum/antagonist/cult/cultist = IS_CULTIST(M)
 		cultist.second_chance = 0

@@ -21,7 +21,6 @@ GLOBAL_LIST_INIT(astral_projections, list())
 	faction = list("cult")
 	speed = 0.5
 	density = 0
-	status_flags = GODMODE
 	plane = GHOST_PLANE
 	invisibility = INVISIBILITY_REVENANT
 	see_invisible = INVISIBILITY_REVENANT
@@ -59,6 +58,7 @@ GLOBAL_LIST_INIT(astral_projections, list())
 
 /mob/living/basic/astral_projection/New()
 	..()
+	ADD_TRAIT(src, TRAIT_GODMODE, type)
 	GLOB.astral_projections += src
 	last_devotion_gain = world.time
 	incorporeal_appearance = image('monkestation/code/modules/bloody_cult/icons/mob.dmi', "blank")

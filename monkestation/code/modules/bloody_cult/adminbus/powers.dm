@@ -562,7 +562,7 @@
 /obj/vehicle/ridden/adminbus/add_occupant(mob/M, control_flags)
 	. = ..()
 	M.store_position()
-	M.status_flags |= GODMODE
+	ADD_TRAIT(M, TRAIT_GODMODE, type)
 	if(!(M in passengers))
 		capture_mob(M)
 	var/list/drivers = return_drivers()
@@ -574,7 +574,7 @@
 
 /obj/vehicle/ridden/adminbus/remove_occupant(mob/M)
 	. = ..()
-	M.status_flags &= ~GODMODE
+	REMOVE_TRAIT(M, TRAIT_GODMODE, type)
 	freed(M)
 	var/list/drivers = return_drivers()
 	if(!(M in drivers))

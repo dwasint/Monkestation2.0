@@ -36,10 +36,6 @@ INITIALIZE_IMMEDIATE(/mob/living/carbon/human/dummy)
 	if(only_apply_in_prefs)
 		return ..()
 
-// Not necessary with above
-/mob/living/carbon/human/dummy/apply_height_offsets(image/appearance, upper_torso)
-	return
-
 
 
 ///Let's extract our dummies organs and limbs for storage, to reduce the cache missed that spamming a dummy cause

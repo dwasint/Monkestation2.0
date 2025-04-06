@@ -113,7 +113,6 @@
 	if (!istype(H))
 		return
 	H.revive(0)
-	H.status_flags &= ~GODMODE
 	H.status_flags &= ~CANSTUN
 	H.status_flags &= ~CANKNOCKDOWN
 	H.regenerate_icons()

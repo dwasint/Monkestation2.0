@@ -30,7 +30,7 @@
 		if (T)
 			shade.soulblade_ritual = FALSE
 			shade.forceMove(T)
-			shade.status_flags &= ~GODMODE
+			REMOVE_TRAIT(src, TRAIT_GODMODE, type)
 			//shade.canmove = 1
 			shade.cancel_camera()
 			var/datum/control/C = shade.control_object[src]
@@ -300,7 +300,7 @@
 		to_chat(user, "<span class = 'danger'>Capture failed!: </span>\The [src] already has a shade! Remove its soul gem if you wish to harm this shade nonetheless.")
 	else
 		target.forceMove(src) //put shade in blade
-		target.status_flags |= GODMODE
+		ADD_TRAIT(src, TRAIT_GODMODE, type)
 		target.health = target.maxHealth//full heal
 		target.give_blade_powers()
 		shade = target
