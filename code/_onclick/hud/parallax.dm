@@ -14,11 +14,11 @@
 
 	if(!length(C.parallax_layers_cached))
 		C.parallax_layers_cached = list()
-		C.parallax_layers_cached += new /atom/movable/screen/parallax_layer/layer_1(null, screenmob)
-		C.parallax_layers_cached += new /atom/movable/screen/parallax_layer/stars(null, screenmob) //monkestation edit
+		C.parallax_layers_cached += new /atom/movable/screen/parallax_layer/layer_1(null, src)
+		C.parallax_layers_cached += new /atom/movable/screen/parallax_layer/stars(null, src) //monkestation edit
 		if(GLOB.eclipse.eclipse_start_time)
 			var/view = C.view || world.view
-			C.parallax_layers_cached += new /atom/movable/screen/parallax_layer/rifts(null, screenmob)
+			C.parallax_layers_cached += new /atom/movable/screen/parallax_layer/rifts(null, src)
 			for(var/atom/movable/screen/parallax_layer/layer as anything in C.parallax_layers_cached)
 				if(!istype(layer, /atom/movable/screen/parallax_layer/layer_1))
 					continue

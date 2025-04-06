@@ -32,9 +32,13 @@ INITIALIZE_IMMEDIATE(/mob/living/carbon/human/dummy)
 	. = ..()
 	apply_height_filters(src, only_apply_in_prefs = TRUE)
 
-/mob/living/carbon/human/dummy/apply_height_filters(image/appearance, only_apply_in_prefs = FALSE)
+/mob/living/carbon/human/dummy/apply_height_filters(image/appearance, only_apply_in_prefs = FALSE, parent_adjust_y=0)
 	if(only_apply_in_prefs)
 		return ..()
+
+// Not necessary with above
+/mob/living/carbon/human/dummy/apply_height_offsets(image/appearance, upper_torso)
+	return
 
 
 
