@@ -206,13 +206,33 @@
 		visible_message(span_danger("[src] is hit by [thrown_item]!"), \
 						span_userdanger("You're hit by [thrown_item]!"))
 		if(!thrown_item.throwforce)
+			//MONKESTATION EDIT START
+			if (HAS_TRAIT(src, TRAIT_FEEBLE) && body_position != LYING_DOWN && thrown_item.w_class > WEIGHT_CLASS_NORMAL && !buckled)
+				Knockdown(4 SECONDS)
+				emote("scream", intentional=FALSE)
+			//MONKESTATION EDIT END
 			return
+
 		var/armor = run_armor_check(zone, MELEE, "Your armor has protected your [parse_zone(zone)].", "Your armor has softened hit to your [parse_zone(zone)].", thrown_item.armour_penetration, "", FALSE, thrown_item.weak_against_armour)
-		apply_damage(thrown_item.throwforce, thrown_item.damtype, zone, armor, sharpness = thrown_item.get_sharpness(), wound_bonus = (nosell_hit * CANT_WOUND))
+		//MONKESTATION EDIT START
+		if(istype(AM, /obj/item/slasher_machette))
+			if(istype(thrown_by) && IS_SLASHER(thrown_by)) // Must be slasher must have a mind and slasher antag datum.
+				apply_damage(5, thrown_item.damtype, zone, armor, sharpness = thrown_item.get_sharpness(), wound_bonus = (nosell_hit * CANT_WOUND))
+			else
+				return // Cancels the damage. Hope this works and doesn't cause a runtime.
+		else
+			apply_damage(thrown_item.throwforce, thrown_item.damtype, zone, armor, sharpness = thrown_item.get_sharpness(), wound_bonus = (nosell_hit * CANT_WOUND))
+		//MONKESTATION EDIT END
+
 		if(QDELETED(src)) //Damage can delete the mob.
 			return
 		if(body_position == LYING_DOWN) // physics says it's significantly harder to push someone by constantly chucking random furniture at them if they are down on the floor.
 			hitpush = FALSE
+		//MONKESTATION EDIT START
+		else if (HAS_TRAIT(src, TRAIT_FEEBLE) && thrown_item.w_class > WEIGHT_CLASS_SMALL && !buckled)
+			Knockdown(4 SECONDS)
+			emote("scream", intentional=FALSE)
+		//MONKESTATION EDIT END
 		return ..()
 
 	playsound(loc, 'sound/weapons/genhit.ogg', 50, TRUE, -1) //Item sounds are handled in the item itself
@@ -478,7 +498,7 @@
 	return 20
 
 /mob/living/narsie_act()
-	if(status_flags & GODMODE || QDELETED(src))
+	if(HAS_TRAIT(src, TRAIT_GODMODE) || QDELETED(src))
 		return
 
 	if(GLOB.cult_narsie && GLOB.cult_narsie.souls_needed[src])

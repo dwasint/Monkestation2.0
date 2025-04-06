@@ -278,3 +278,46 @@
 	gold_core_spawnable = NO_SPAWN
 	ai_controller = /datum/ai_controller/basic_controller/
 	ckeywhitelist = list("Eacles13")
+
+/mob/living/basic/pet/fluffydonator
+	name = "fluffy"
+	desc = "A big black spider wearing pajama's from Central Command!"
+	icon = 'monkestation/code/modules/donator/icons/mob/pets.dmi'
+	icon_state = "fluffy"
+	icon_living = "fluffy"
+	icon_dead = "fluffy-dead"
+	icon_gib = null
+	gold_core_spawnable = NO_SPAWN
+	ai_controller = /datum/ai_controller/basic_controller/
+	ckeywhitelist = list("Jason Farqiour")
+
+/mob/living/basic/pet/robottoything
+	name = "robot toy"
+	desc = "It's a small robot toy. It's made of metal"
+	icon = 'monkestation/code/modules/donator/icons/mob/pets.dmi'
+	icon_state = "robottoything"
+	icon_living = "robottoything"
+	icon_dead = "robottoything-dead"
+	icon_gib = null
+	gold_core_spawnable = NO_SPAWN
+	ai_controller = /datum/ai_controller/basic_controller/
+	ckeywhitelist = list("TheSpecialSnowflake")
+
+/mob/living/basic/pet/babypukeko
+	name = "baby pukeko"
+	desc = "DAMN!!!!!!!"
+	icon = 'monkestation/code/modules/donator/icons/mob/pets.dmi'
+	icon_state = "babypukeko"
+	icon_living = "babypukeko"
+	icon_dead = "babypukeko-dead"
+	icon_gib = null
+	gold_core_spawnable = NO_SPAWN
+	ai_controller = /datum/ai_controller/basic_controller/
+	ckeywhitelist = list("Cobalt Velvet 235")
+
+/mob/living/basic/pet/babypukeko/tall
+	icon = 'monkestation/code/modules/donator/icons/mob/pets_160x160.dmi'
+	icon_state = "tallbabypukeko"
+	icon_living = "tallbabypukeko"
+	icon_dead = "tallbabypukeko-dead"
+	pixel_x = -96

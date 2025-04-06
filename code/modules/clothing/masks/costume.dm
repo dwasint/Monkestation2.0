@@ -66,3 +66,34 @@
 /obj/item/clothing/mask/kitsune/attack_self(mob/user)
 	weldingvisortoggle(user)
 	alternate_worn_layer = up ? ABOVE_BODY_FRONT_HEAD_LAYER : null
+
+/obj/item/clothing/mask/joy/manhunt
+	name = "smiley mask"
+	desc = "A happy mask! Doesn't seem like there is anything wrong with it...right?"
+	icon_state = "happy"
+	unique_reskin = list(
+			"Happy" = "happy",
+			"Bloodied" = "bloodied",
+			"Stop me" = "stop_me",
+			"Cracked bloodied" = "cracked_bloodied",
+			"Cracked" = "cracked",
+	)
+
+
+// Sprungle's mask
+
+/obj/item/clothing/mask/sprungle
+	name = "porcelain mask"
+	desc = "An ill omen of things to come."
+	icon_state = "protector"
+	worn_icon = 'monkestation/icons/mob/clothing/mask.dmi'
+	icon = 'monkestation/icons/obj/clothing/masks.dmi'
+	flags_inv = HIDEFACE|HIDEFACIALHAIR|HIDESNOUT|HIDEHAIR
+
+/obj/item/clothing/mask/sprungle/Initialize(mapload)
+	. = ..()
+	AddComponent(/datum/component/toggle_icon, "hood")
+
+/obj/item/clothing/mask/sprungle/personal
+	name = "golden mask"
+	icon_state = "lordprotector"

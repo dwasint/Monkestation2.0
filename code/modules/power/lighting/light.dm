@@ -196,14 +196,15 @@
 
 /obj/machinery/light/proc/handle_fire(area/source, new_fire)
 	SIGNAL_HANDLER
-	update()
+	update(dont_burn_out = TRUE)
 
 // update the icon_state and luminosity of the light depending on its state
-/obj/machinery/light/proc/update(trigger = TRUE)
+/obj/machinery/light/proc/update(trigger = TRUE, dont_burn_out = FALSE)
 	switch(status)
 		if(LIGHT_BROKEN,LIGHT_BURNED,LIGHT_EMPTY)
 			on = FALSE
 	low_power_mode = FALSE
+	var/should_update_light = !isnull(set_light_on(on))
 	if(on)
 		var/IR = bulb_inner_range
 		var/brightness_set = bulb_outer_range
@@ -228,28 +229,33 @@
 		else if (major_emergency)
 			color_set = bulb_low_power_colour
 			brightness_set = bulb_outer_range * bulb_major_emergency_brightness_mul
-		var/matching = light && brightness_set == light.light_outer_range && power_set == light.light_power && color_set == light.light_color && FC == light.light_falloff_curve && IR == light.light_inner_range
+		var/matching = !QDELETED(light) && brightness_set == light.light_outer_range && power_set == light.light_power && color_set == light.light_color && FC == light.light_falloff_curve && IR == light.light_inner_range
 		if(!matching)
-			switchcount++
-			if( prob( min(60, (switchcount**2)*0.01) ) )
-				if(trigger)
+			var/should_set = TRUE
+			if(!dont_burn_out)
+				switchcount++
+				if(trigger && prob(min(60, (switchcount ** 2) * 0.01)))
 					burn_out()
-			else
+					should_set = FALSE
+			if(should_set)
 				use_power = ACTIVE_POWER_USE
+				should_update_light = TRUE
 				set_light(
 					l_outer_range = brightness_set,
 					l_inner_range = IR,
 					l_power = power_set,
 					l_falloff_curve = FC,
-					l_color = color_set
-					)
+					l_color = color_set,
+					update = FALSE
+				)
 	else if(has_emergency_power(LIGHT_EMERGENCY_POWER_USE) && !turned_off())
 		use_power = IDLE_POWER_USE
 		low_power_mode = TRUE
 		START_PROCESSING(SSmachines, src)
 	else
 		use_power = IDLE_POWER_USE
-		set_light(0)
+	if(should_update_light)
+		update_light()
 	update_appearance()
 	update_current_power_usage()
 	broken_sparks(start_only=TRUE)
@@ -304,7 +310,7 @@
 		status = LIGHT_BURNED
 		icon_state = "[base_state]-burned"
 		on = FALSE
-		set_light(l_outer_range = 0)
+		set_light(l_outer_range = 0, l_on = FALSE)
 
 // attempt to set the light's on/off status
 // will not switch on if broken/burned/empty
@@ -393,6 +399,11 @@
 		do_sparks(3, TRUE, src)
 		if (prob(75))
 			electrocute_mob(user, get_area(src), src, (rand(7,10) * 0.1), TRUE)
+
+/obj/machinery/light/hitby(atom/movable/AM, skipcatch, hitpush, blocked, datum/thrownthing/throwingdatum)
+	if(isliving(throwingdatum.thrownthing) && (HAS_TRAIT_FROM(throwingdatum.thrownthing, VACPACK_THROW, "vacpack"))) // For now. If gentle doesnt cause issue with lights just remove these checks and switch.
+		return
+	..()
 
 /obj/machinery/light/deconstruct(disassembled = TRUE)
 	if(flags_1 & NODECONSTRUCT_1)

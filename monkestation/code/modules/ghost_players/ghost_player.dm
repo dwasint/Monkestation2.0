@@ -38,12 +38,13 @@ GLOBAL_VAR_INIT(disable_ghost_spawning, FALSE)
 	created_ability.Grant(src)
 
 /mob/living/carbon/human/ghost/Destroy()
-	if(dueling && linked_button)
-		addtimer(CALLBACK(linked_button, TYPE_PROC_REF(/obj/structure/fight_button, end_duel), src), 3 SECONDS)
-
 	if(linked_button)
-		linked_button.remove_user(src)
-		linked_button = null
+		if(dueling)
+			addtimer(CALLBACK(linked_button, TYPE_PROC_REF(/obj/structure/fight_button, end_duel), src), 3 SECONDS)
+		else
+			linked_button.remove_user(src)
+			linked_button = null
+
 	return ..()
 
 /mob/living/carbon/human/ghost/Life(seconds_per_tick, times_fired)
@@ -51,7 +52,10 @@ GLOBAL_VAR_INIT(disable_ghost_spawning, FALSE)
 	if(. && stat > SOFT_CRIT)
 		life_or_death()
 
-/mob/living/carbon/human/ghost/proc/disolve_ghost()
+/mob/living/carbon/human/ghost/final_checkout(obj/item/suicide_tool, apply_damage)
+	dissolve_and_ghost()
+
+/mob/living/carbon/human/ghost/proc/dissolve_and_ghost()
 	var/mob/dead/observer/new_ghost = ghostize(can_reenter_corpse = FALSE)
 	if(!QDELETED(new_ghost))
 		new_ghost.key = old_key
@@ -64,7 +68,7 @@ GLOBAL_VAR_INIT(disable_ghost_spawning, FALSE)
 	if(dueling)
 		linked_button?.end_duel(src)
 	if(QDELING(src) || QDELETED(client) || client.is_afk())
-		disolve_ghost()
+		dissolve_and_ghost()
 	else
 		move_to_ghostspawn()
 		revive(full_heal_flags = ADMIN_HEAL_ALL)
@@ -88,7 +92,7 @@ GLOBAL_VAR_INIT(disable_ghost_spawning, FALSE)
 		return
 	if(living_owner.revive_prepped)
 		return TRUE
-	living_owner.disolve_ghost()
+	living_owner.dissolve_and_ghost()
 	return TRUE
 
 

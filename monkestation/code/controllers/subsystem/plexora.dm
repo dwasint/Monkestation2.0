@@ -20,8 +20,8 @@
 		INVOKE_ASYNC(SSplexora, TYPE_PROC_REF(/datum/controller/subsystem/plexora, topic_listener_response), input["emitter_token"], returning); \
 		return; \
 	};
-
 #define AUTH_HEADER ("Basic " + CONFIG_GET(string/comms_key))
+#define OLD_PLEXORA_CONFIG "config/plexora.json"
 
 SUBSYSTEM_DEF(plexora)
 	name = "Plexora"
@@ -36,25 +36,18 @@ SUBSYSTEM_DEF(plexora)
 
 	// MUST INCREMENT BY ONE FOR EVERY CHANGE MADE TO PLEXORA
 	var/version_increment_counter = 2
-	var/configuration_path = "config/plexora.json"
 	var/plexora_is_alive = FALSE
-	var/http_root = ""
-	var/http_port = 0
+	var/vanderlin_available = FALSE
+	var/base_url = ""
 	var/enabled = TRUE
 	var/tripped_bad_version = FALSE
 	var/list/default_headers
 
+	//other thingys!
+	var/hrp_available = FALSE
+
 /datum/controller/subsystem/plexora/Initialize()
-	if (!rustg_file_exists(configuration_path))
-		stack_trace("SSplexora has no configuration file! (missing: [configuration_path])")
-		enabled = FALSE
-		flags |= SS_NO_FIRE
-		return SS_INIT_FAILURE
-
-	// Get config
-	var/list/config = json_decode(rustg_file_read(configuration_path))
-
-	if (!config["enabled"])
+	if(!CONFIG_GET(flag/plexora_enabled) && !load_old_plexora_config())
 		enabled = FALSE
 		flags |= SS_NO_FIRE
 		return SS_INIT_NO_NEED
@@ -66,8 +59,12 @@ SUBSYSTEM_DEF(plexora)
 		flags |= SS_NO_FIRE
 		return SS_INIT_FAILURE
 
-	http_root = config["ip"]
-	http_port = config["port"]
+	base_url = CONFIG_GET(string/plexora_url)
+
+	default_headers = list(
+		"Content-Type" = "application/json",
+		"Authorization" = AUTH_HEADER,
+	)
 
 	// Do a ping test to check if Plexora is actually running
 	if (!is_plexora_alive())
@@ -77,34 +74,42 @@ SUBSYSTEM_DEF(plexora)
 
 	RegisterSignal(SSticker, COMSIG_TICKER_ROUND_STARTING, PROC_REF(roundstarted))
 
-	default_headers = list(
-		"Content-Type" = "application/json",
-		"Authorization" = AUTH_HEADER,
-	)
 	return SS_INIT_SUCCESS
 
 /datum/controller/subsystem/plexora/Recover()
 	flags |= SS_NO_INIT // Make extra sure we don't initialize twice.
 	initialized = SSplexora.initialized
 	plexora_is_alive = SSplexora.plexora_is_alive
-	http_root = SSplexora.http_root
-	http_port = SSplexora.http_port
+	base_url = SSplexora.base_url
 	enabled = SSplexora.enabled
 	tripped_bad_version = SSplexora.tripped_bad_version
 	default_headers = SSplexora.default_headers
 	if(initialized && !enabled)
 		flags |= SS_NO_FIRE
 
+// compat thing so that it'll load plexora.json if it's still used
+/datum/controller/subsystem/plexora/proc/load_old_plexora_config()
+	if(!rustg_file_exists(OLD_PLEXORA_CONFIG))
+		return FALSE
+	var/list/old_config = json_decode(rustg_file_read(OLD_PLEXORA_CONFIG))
+	if(!old_config["enabled"])
+		return FALSE
+	stack_trace("Falling back to [OLD_PLEXORA_CONFIG], you should really migrate to the PLEXORA_ENABLED and PLEXORA_URL config entries!")
+	CONFIG_SET(flag/plexora_enabled, TRUE)
+	CONFIG_SET(string/plexora_url, "http://[old_config["ip"]]:[old_config["port"]]")
+	return TRUE
+
 /datum/controller/subsystem/plexora/proc/is_plexora_alive()
 	. = FALSE
 	if(!enabled) return
 
-	var/datum/http_request/request = new(RUSTG_HTTP_METHOD_GET, "http://[http_root]:[http_port]/alive")
+	var/datum/http_request/request = new(RUSTG_HTTP_METHOD_GET, "[base_url]/alive")
 	request.begin_async()
 	UNTIL_OR_TIMEOUT(request.is_complete(), 10 SECONDS)
 	var/datum/http_response/response = request.into_response()
 	if (response.errored)
 		plexora_is_alive = FALSE
+		log_admin("Failed to check if Plexora is alive! She probably isn't. Check config on both sides")
 		CRASH("Failed to check if Plexora is alive! She probably isn't. Check config on both sides")
 	else
 		var/list/json_body = json_decode(response.body)
@@ -117,6 +122,10 @@ SUBSYSTEM_DEF(plexora)
 		return TRUE
 
 /datum/controller/subsystem/plexora/fire()
+	/*if((cur_day == "Sat") && (cur_hour >= 12 && cur_hour <= 18))
+  	//hrp_available = check_byondserver_status("7cfa7daf")
+	//else
+    		hrp_available = FALSE */
 	if(!is_plexora_alive()) return
 	// Send current status to Plexora
 	var/datum/world_topic/status/status_handler = new()
@@ -124,7 +133,7 @@ SUBSYSTEM_DEF(plexora)
 
 	http_request(
 		RUSTG_HTTP_METHOD_POST,
-		"http://[http_root]:[http_port]/status",
+		"[base_url]/status",
 		json_encode(status),
 		default_headers
 	).begin_async()
@@ -192,6 +201,40 @@ SUBSYSTEM_DEF(plexora)
 		"status" = interview.status,
 		"ip" = interview.owner?.address,
 		"computer_id" = interview.owner?.computer_id,
+	))
+
+/datum/controller/subsystem/plexora/proc/check_byondserver_status(id)
+	if (isnull(id)) return
+
+	var/list/body = list(
+		"id" = id
+	)
+
+	var/datum/http_request/request = new(RUSTG_HTTP_METHOD_GET, "[base_url]/byondserver_alive", json_encode(body), default_headers)
+	request.begin_async()
+	UNTIL_OR_TIMEOUT(request.is_complete(), 5 SECONDS)
+	var/datum/http_response/response = request.into_response()
+	if (response.errored)
+		stack_trace("check_byondserver_status failed, likely an bad id passed ([id]) aka id of a server that doesnt exist")
+		return FALSE
+	else
+		var/list/json_body = json_decode(response.body)
+		return json_body["alive_likely"]
+
+
+/datum/controller/subsystem/plexora/proc/relay_mentor_say(client/user, message, prefix)
+	http_basicasync("relay_mentor_say", list(
+		"prefix" = prefix,
+		"key" = user.key,
+		"message" = message,
+		"icon_b64" = icon2base64(getFlatIcon(user.mob, SOUTH, no_anim = TRUE)),
+	))
+
+/datum/controller/subsystem/plexora/proc/relay_admin_say(client/user, message)
+	http_basicasync("relay_admin_say", list(
+		"key" = user.key,
+		"message" = message,
+		"icon_b64" = icon2base64(getFlatIcon(user.mob, SOUTH, no_anim = TRUE)),
 	))
 
 // note: recover_all_SS_and_recreate_master to force mc shit
@@ -334,7 +377,7 @@ SUBSYSTEM_DEF(plexora)
 
 	var/datum/http_request/request = new(
 		RUSTG_HTTP_METHOD_POST,
-		"http://[http_root]:[http_port]/[path]",
+		"[base_url]/[path]",
 		json_encode(body),
 		default_headers,
 		"tmp/response.json"
@@ -681,7 +724,7 @@ SUBSYSTEM_DEF(plexora)
 	else
 		prefs = userclient.prefs
 
-	prefs.adjust_metacoins(ckey, amount, reason, donator_multipler = FALSE, respects_roundcap = FALSE, announces = FALSE)
+	prefs.adjust_metacoins(ckey, amount, reason, donator_multiplier = FALSE, respects_roundcap = FALSE, announces = FALSE)
 
 	return list("totalcoins" = prefs.metacoins)
 
@@ -904,7 +947,7 @@ SUBSYSTEM_DEF(plexora)
 		confidential = TRUE)
 
 	recipient.receive_ahelp(
-		"<a href='?priv_msg=[stealthkey]'>[adminname]</a>",
+		"<a href='byond://?priv_msg=[stealthkey]'>[adminname]</a>",
 		message,
 	)
 
@@ -951,5 +994,76 @@ SUBSYSTEM_DEF(plexora)
 			html = "<B><font color='green'>Mentor PM: [key_name_mentor(sender, honked_client, FALSE, FALSE)]-&gt;[key_name_mentor(recipient, honked_client, FALSE, FALSE)]:</B> <font color = #5c00e6> <span class='message linkify'>[message]</span></font>",
 			confidential = TRUE)
 
+/datum/world_topic/plx_relayadminsay
+	keyword = "PLX_relayadminsay"
+	require_comms_key = TRUE
+
+/datum/world_topic/plx_relayadminsay/Run(list/input)
+	var/sender = input["sender"]
+	var/msg = input["message"]
+
+	msg = emoji_parse(copytext_char(sanitize(msg), 1, MAX_MESSAGE_LEN))
+	if(!msg)
+		return
+
+	if(findtext(msg, "@") || findtext(msg, "#"))
+		var/list/link_results = check_asay_links(msg)
+		if(length(link_results))
+			msg = link_results[ASAY_LINK_NEW_MESSAGE_INDEX]
+			link_results[ASAY_LINK_NEW_MESSAGE_INDEX] = null
+			var/list/pinged_admin_clients = link_results[ASAY_LINK_PINGED_ADMINS_INDEX]
+			for(var/iter_ckey in pinged_admin_clients)
+				var/client/iter_admin_client = pinged_admin_clients[iter_ckey]
+				if(!iter_admin_client?.holder)
+					continue
+				window_flash(iter_admin_client)
+				SEND_SOUND(iter_admin_client.mob, sound('sound/misc/asay_ping.ogg'))
+
+	msg = keywords_lookup(msg)
+
+	// TODO: Load sender's color prefs? idk
+	msg = span_adminsay("[span_prefix("ADMIN (DISCORD):")] <EM>[sender]</EM>: <span class='message linkify'>[msg]</span>")
+
+	to_chat(GLOB.admins,
+		type = MESSAGE_TYPE_ADMINCHAT,
+		html = msg,
+		confidential = TRUE)
+
+	SSblackbox.record_feedback("tally", "admin_say_relay", 1, "Asay external") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
+
+/datum/world_topic/plx_relaymentorsay
+	keyword = "PLX_relaymentorsay"
+	require_comms_key = TRUE
+
+/datum/world_topic/plx_relaymentorsay/Run(list/input)
+	var/sender = input["sender"]
+	var/msg = input["message"]
+
+	msg = emoji_parse(copytext(sanitize(msg), 1, MAX_MESSAGE_LEN))
+	if(!msg)
+		return
+
+	var/list/pinged_mentor_clients = check_mentor_pings(msg)
+	if(length(pinged_mentor_clients) && pinged_mentor_clients[ASAY_LINK_PINGED_ADMINS_INDEX])
+		msg = pinged_mentor_clients[ASAY_LINK_PINGED_ADMINS_INDEX]
+		pinged_mentor_clients -= ASAY_LINK_PINGED_ADMINS_INDEX
+
+	for(var/iter_ckey in pinged_mentor_clients)
+		var/client/iter_mentor_client = pinged_mentor_clients[iter_ckey]
+		if(!iter_mentor_client?.mentor_datum)
+			continue
+		window_flash(iter_mentor_client)
+		SEND_SOUND(iter_mentor_client.mob, sound('sound/misc/bloop.ogg'))
+
+	log_mentor("MSAY(DISCORD): [sender] : [msg]")
+	msg = "<b><font color='#7544F0'><span class='prefix'>DISCORD:</span> <EM>[sender]</EM>: <span class='message linkify'>[msg]</span></font></b>"
+
+	to_chat(GLOB.admins | GLOB.mentors,
+		type = MESSAGE_TYPE_MODCHAT,
+		html = msg,
+		confidential = TRUE)
+
+	SSblackbox.record_feedback("tally", "mentor_say_relay", 1, "Msay external") //If you are copy-pasting this, ensure the 2nd parameter is unique to the new proc!
+#undef OLD_PLEXORA_CONFIG
 #undef AUTH_HEADER
 #undef TOPIC_EMITTER

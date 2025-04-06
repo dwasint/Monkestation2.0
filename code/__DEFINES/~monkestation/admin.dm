@@ -16,3 +16,10 @@
 #define AHELP_CLOSEREASON_NONE 0
 #define AHELP_CLOSEREASON_IC 1
 #define AHELP_CLOSEREASON_MENTOR 2
+
+#define ADMIN_SUSINFO(user) "[ADMIN_LOOKUP(user)] [ADMIN_PP(user)] [ADMIN_INDIVIDUALLOG(user)] [ADMIN_SMITE(user)]"
+
+// Command reports
+#define DEFAULT_COMMANDREPORT_SOUND "default_commandreport"
+#define DEFAULT_ALERT_SOUND "default_alert"
+#define CUSTOM_ALERT_SOUND "custom_alert"

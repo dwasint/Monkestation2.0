@@ -7,6 +7,16 @@
 	name = "None"
 	icon_state = "none"
 
+/datum/sprite_accessory/anime_head/elf1
+	name = "Short Elf Ears"
+	icon_state = "elf1"
+	color_src = SKIN_COLOR
+
+/datum/sprite_accessory/anime_head/elf2
+	name = "Long Elf Ears"
+	icon_state = "elf2"
+	color_src = SKIN_COLOR
+
 /datum/sprite_accessory/anime_head/pony
 	name = "Pony Ears"
 	icon_state = "pony"
@@ -30,7 +40,6 @@
 
 /datum/sprite_accessory/anime_head/tallhorns
 	name = "Tall Horns"
-	icon = 'monkestation/icons/mob/anime/anime_head32x48.dmi'
 	icon_state = "tallhorns"
 
 /datum/sprite_accessory/anime_head/antlers
@@ -39,7 +48,6 @@
 
 /datum/sprite_accessory/anime_head/bigantlers
 	name = "Big Antlers"
-	icon = 'monkestation/icons/mob/anime/anime_head32x48.dmi'
 	icon_state = "bigantlers"
 
 
@@ -55,7 +63,6 @@
 
 /datum/sprite_accessory/anime_head/rabbit
 	name = "Rabbit Ears"
-	icon = 'monkestation/icons/mob/anime/anime_head32x48.dmi'
 	icon_state = "rabbit"
 
 /datum/sprite_accessory/anime_head/mouse
@@ -65,7 +72,6 @@
 
 /datum/sprite_accessory/anime_head/playbunny
 	name = "Bunny Ears"
-	icon = 'monkestation/icons/mob/anime/anime_head32x48.dmi'
 	icon_state = "playbunny"
 
 /datum/sprite_accessory/anime_middle

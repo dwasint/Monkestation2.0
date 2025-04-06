@@ -12,6 +12,7 @@ GLOBAL_LIST_INIT(freqtospan, list(
 	"[FREQ_SECURITY]" = "secradio",
 	"[FREQ_COMMAND]" = "comradio",
 	"[FREQ_AI_PRIVATE]" = "aiprivradio",
+	"[FREQ_ENTERTAINMENT]" = "enteradio",
 	"[FREQ_SYNDICATE]" = "syndradio",
 	"[FREQ_UPLINK]" = "syndradio",  // this probably shouldnt appear ingame
 	"[FREQ_CENTCOM]" = "centcomradio",
@@ -19,7 +20,8 @@ GLOBAL_LIST_INIT(freqtospan, list(
 	"[FREQ_CTF_BLUE]" = "blueteamradio",
 	"[FREQ_CTF_GREEN]" = "greenteamradio",
 	"[FREQ_CTF_YELLOW]" = "yellowteamradio",
-	"[FREQ_RADIO]" = "radioradio"
+	"[FREQ_RADIO]" = "radioradio",
+	"[FREQ_UNCOMMON]" = "uncommonradio"
 	))
 
 /atom/movable/proc/say(message, bubble_type, list/spans = list(), sanitize = TRUE, datum/language/language = null, ignore_spam = FALSE, forced = null, filterproof = FALSE, message_range = 7, datum/saymode/saymode = null)
@@ -178,7 +180,13 @@ GLOBAL_LIST_INIT(freqtospan, list(
 ///	Modifies the message by comparing the languages of the speaker with the languages of the hearer. Called on the hearer.
 /atom/movable/proc/translate_language(atom/movable/speaker, datum/language/language, raw_message, list/spans, list/message_mods = list())
 	if(!language)
+		// monkestation edit start
+		/* original
 		return "makes a strange sound."
+		*/
+		var/datum/language/dialect = GLOB.language_datum_instances[/datum/language/common]
+		return dialect.scramble(raw_message)
+		// monkestation edit end
 
 	if(!has_language(language))
 		var/datum/language/dialect = GLOB.language_datum_instances[language]

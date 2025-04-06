@@ -3,7 +3,6 @@
 
 /obj/item/organ/internal/cyberimp
 	var/hacked = FALSE
-	var/syndicate_implant = FALSE //Makes the implant invisible to health analyzers and medical HUDs.
 
 	var/list/encode_info = AUGMENT_NO_REQ
 
@@ -171,22 +170,28 @@
 /obj/item/organ/internal/cyberimp/cyberlink/nt_low
 	name = "NT Cyberlink 1.0"
 	encode_info = AUGMENT_NT_LOWLEVEL_LINK
+	implant_color = "#FFFF00"
 
 /obj/item/organ/internal/cyberimp/cyberlink/nt_high
 	name = "NT Cyberlink 2.0"
 	encode_info = AUGMENT_NT_HIGHLEVEL_LINK
+	implant_color = "#DE7E00"
 
 /obj/item/organ/internal/cyberimp/cyberlink/terragov
 	name = "Terran Cyberware System"
 	encode_info = AUGMENT_TG_LEVEL_LINK
+	implant_color = "#1044a5"
 
 /obj/item/organ/internal/cyberimp/cyberlink/syndicate
 	name = "Cybersun Cybernetics Access System"
+	organ_flags = parent_type::organ_flags | ORGAN_HIDDEN
 	encode_info = AUGMENT_SYNDICATE_LEVEL_LINK
+	implant_color = "#780606"
 
 /obj/item/organ/internal/cyberimp/cyberlink/admin
 	name = "G.O.D. Cybernetics System"
 	encode_info = AUGMENT_ADMIN_LEVEL_LINK
+	implant_color = "#f3f3f3"
 
 /obj/item/autosurgeon/organ/cyberlink_nt_low
 	starting_organ = /obj/item/organ/internal/cyberimp/cyberlink/nt_low
@@ -200,7 +205,7 @@
 	starting_organ = /obj/item/organ/internal/cyberimp/cyberlink/terragov
 	uses = 1
 
-/obj/item/autosurgeon/organ/cyberlink_syndicate
+/obj/item/autosurgeon/syndicate/cyberlink_syndicate
 	starting_organ = /obj/item/organ/internal/cyberimp/cyberlink/syndicate
 	uses = 1
 

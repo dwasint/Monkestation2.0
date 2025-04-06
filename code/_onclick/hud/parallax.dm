@@ -27,12 +27,12 @@
 				layer.update_o(view)
 
 		/* monkestation removal
-		C.parallax_layers_cached += new /atom/movable/screen/parallax_layer/layer_2(null, screenmob)
-		C.parallax_layers_cached += new /atom/movable/screen/parallax_layer/planet(null, screenmob)
-		C.parallax_layers_cached += new /atom/movable/screen/parallax_layer/nebula(null, screenmob)
+		C.parallax_layers_cached += new /atom/movable/screen/parallax_layer/layer_2(null, src)
+		C.parallax_layers_cached += new /atom/movable/screen/parallax_layer/planet(null, src)
+		C.parallax_layers_cached += new /atom/movable/screen/parallax_layer/nebula(null, src)
 		if(SSparallax.random_layer)
-			C.parallax_layers_cached += new SSparallax.random_layer(null, screenmob)
-		C.parallax_layers_cached += new /atom/movable/screen/parallax_layer/layer_3(null, screenmob)
+			C.parallax_layers_cached += new SSparallax.random_layer(null, src)
+		C.parallax_layers_cached += new /atom/movable/screen/parallax_layer/layer_3(null, src)
 		*/ //monkestation removal end
 
 	C.parallax_layers = C.parallax_layers_cached.Copy()
@@ -48,6 +48,7 @@
 		if(screenmob != mymob)
 			C.screen -= locate(/atom/movable/screen/plane_master/parallax_white) in C.screen
 			C.screen += plane_master
+		// this color makes parallax not black
 		plane_master.color = list(
 			0, 0, 0, 0,
 			0, 0, 0, 0,
@@ -187,7 +188,7 @@
 		var/newstate = initial(L.icon_state)
 		var/T = PARALLAX_LOOP_TIME / L.speed
 
-		if (newstate in icon_states(L.icon))
+		if (icon_exists(L.icon, newstate)) //MONKESTATION EDIT - Refactored to `icon_exists`.
 			L.icon_state = newstate
 			L.update_o(C.view)
 
@@ -288,9 +289,13 @@ INITIALIZE_IMMEDIATE(/atom/movable/screen/parallax_layer)
 	screen_loc = "CENTER-7,CENTER-7"
 	mouse_opacity = MOUSE_OPACITY_TRANSPARENT
 
-/atom/movable/screen/parallax_layer/Initialize(mapload, mob/owner)
+/atom/movable/screen/parallax_layer/Initialize(mapload, datum/hud/hud_owner)
 	. = ..()
-	var/client/boss = owner?.client
+	// Parallax layers are independant of hud, they care about client
+	// Not doing this will just create a bunch of hard deletes
+	set_new_hud(hud_owner = null)
+
+	var/client/boss = hud_owner?.mymob?.canon_client
 	if(!boss) // If this typepath all starts to harddel your culprit is likely this
 		return INITIALIZE_HINT_QDEL
 
@@ -331,7 +336,7 @@ INITIALIZE_IMMEDIATE(/atom/movable/screen/parallax_layer)
 	speed = 0.5
 	layer = 1
 
-/atom/movable/screen/parallax_layer/layer_1/Initialize(mapload, mob/owner)
+/atom/movable/screen/parallax_layer/layer_1/Initialize(mapload, datum/hud/hud_owner)
 	. = ..()
 	src.add_atom_colour(GLOB.starlight_color, ADMIN_COLOUR_PRIORITY)
 
@@ -364,9 +369,9 @@ INITIALIZE_IMMEDIATE(/atom/movable/screen/parallax_layer)
 /atom/movable/screen/parallax_layer/random/space_gas
 	icon_state = "space_gas"
 
-/atom/movable/screen/parallax_layer/random/space_gas/Initialize(mapload, mob/owner)
+/atom/movable/screen/parallax_layer/random/space_gas/Initialize(mapload, datum/hud/hud_owner)
 	. = ..()
-	src.add_atom_colour(SSparallax.random_parallax_color, ADMIN_COLOUR_PRIORITY)
+	add_atom_colour(SSparallax.random_parallax_color, ADMIN_COLOUR_PRIORITY)
 
 /atom/movable/screen/parallax_layer/random/asteroids
 	icon_state = "asteroids"
@@ -378,16 +383,17 @@ INITIALIZE_IMMEDIATE(/atom/movable/screen/parallax_layer)
 	speed = 3
 	layer = 30
 
-/atom/movable/screen/parallax_layer/planet/Initialize(mapload, mob/owner)
+/atom/movable/screen/parallax_layer/planet/Initialize(mapload, datum/hud/hud_owner)
 	. = ..()
-	if(!owner?.client)
+	var/client/boss = hud_owner?.mymob?.canon_client
+	if(!boss)
 		return
 	var/static/list/connections = list(
 		COMSIG_MOVABLE_Z_CHANGED = PROC_REF(on_z_change),
 		COMSIG_MOB_LOGOUT = PROC_REF(on_mob_logout),
 	)
-	AddComponent(/datum/component/connect_mob_behalf, owner.client, connections)
-	on_z_change(owner)
+	AddComponent(/datum/component/connect_mob_behalf, boss, connections)
+	on_z_change(hud_owner?.mymob)
 
 /atom/movable/screen/parallax_layer/planet/proc/on_mob_logout(mob/source)
 	SIGNAL_HANDLER

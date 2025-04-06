@@ -54,7 +54,10 @@
 		//make the sensor mode favor higher levels, except coords.
 		sensor_mode = pick(SENSOR_VITALS, SENSOR_VITALS, SENSOR_VITALS, SENSOR_LIVING, SENSOR_LIVING, SENSOR_COORDS, SENSOR_COORDS, SENSOR_OFF)
 	register_context()
-	AddElement(/datum/element/update_icon_updates_onmob, flags = ITEM_SLOT_ICLOTHING|ITEM_SLOT_OCLOTHING, body = TRUE)
+	// MONKESTATION EDIT START
+	// AddElement(/datum/element/update_icon_updates_onmob, flags = ITEM_SLOT_ICLOTHING|ITEM_SLOT_OCLOTHING, body = TRUE) - original
+	AddElement(/datum/element/update_icon_updates_onmob, flags = ITEM_SLOT_ICLOTHING|ITEM_SLOT_OCLOTHING|ITEM_SLOT_NECK, body = TRUE)
+	// MONKESTATION EDIT END
 
 /obj/item/clothing/under/add_context(atom/source, list/context, obj/item/held_item, mob/living/user)
 	. = NONE
@@ -244,6 +247,15 @@
 	accessory_overlay = mutable_appearance(prime_accessory.worn_icon, prime_accessory.icon_state)
 	accessory_overlay.alpha = prime_accessory.alpha
 	accessory_overlay.color = prime_accessory.color
+
+/// Updates the accessory's worn overlay mutable appearance
+/obj/item/clothing/under/proc/update_accessory_overlay()
+	if(isnull(accessory_overlay))
+		return
+
+	cut_overlay(accessory_overlay)
+	create_accessory_overlay()
+	update_appearance() // so we update the suit inventory overlay too
 
 /obj/item/clothing/under/Exited(atom/movable/gone, direction)
 	. = ..()

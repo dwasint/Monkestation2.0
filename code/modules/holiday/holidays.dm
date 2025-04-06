@@ -300,7 +300,8 @@
 	begin_month = APRIL
 
 /datum/holiday/tea/getStationPrefix()
-	return pick("Crumpet","Assam","Oolong","Pu-erh","Sweet Tea","Green","Black")
+	return pick("Crumpet","Assam","Oolong","Pu-erh","Sweet Tea","Green","Black","White")
+//White tea is my favourite
 
 /datum/holiday/earth
 	name = "Earth Day"
@@ -693,7 +694,7 @@
 
 /datum/holiday/xmas
 	name = CHRISTMAS
-	begin_day = 23
+	begin_day = 8 // monkestation edit
 	begin_month = DECEMBER
 	end_day = 27
 	holiday_hat = /obj/item/clothing/head/costume/santa
@@ -892,3 +893,13 @@
 /proc/print_holiday(datum/holiday/path, min_month, max_month, min_year, max_year, max_day)
 	var/list/deets = poll_holiday(path, min_month, max_month, min_year, max_year, max_day)
 	message_admins("The accepted dates for [path] in the input range [min_year]-[max_year]/[min_month]-[max_month]/1-[max_day] are [deets.Join("\n")]")
+
+/datum/holiday/spring
+	name = SPRING
+	begin_day = 20
+	begin_month = MARCH
+	end_day = 20
+	end_month = JUNE
+
+/datum/holiday/spring/greet()
+	return "Spring Has Sprung"

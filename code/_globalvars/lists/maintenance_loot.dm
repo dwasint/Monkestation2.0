@@ -28,7 +28,7 @@ GLOBAL_LIST_INIT(trash_loot, list(//junk: useless, very easy to get, or ghetto c
 		/obj/item/trash/candle = 1,
 
 		/obj/item/c_tube = 1,
-		/obj/item/disk/data = 1,
+		/obj/item/disk/data/random = 1, // monkestation edit: use random dna data disks
 		/obj/item/folder/yellow = 1,
 		/obj/item/hand_labeler = 1,
 		/obj/item/paper = 1,
@@ -71,6 +71,13 @@ GLOBAL_LIST_INIT(trash_loot, list(//junk: useless, very easy to get, or ghetto c
 	))
 
 
+// monkestation addition: just trash_loot with a chance of banana peels
+GLOBAL_LIST_INIT(trash_pile_loot, list(
+	GLOB.trash_loot = 500,
+	/obj/item/grown/bananapeel = 10,
+	/obj/item/grown/bananapeel/bluespace = 0.1, // I am SO going to regret this later ~Lucy
+))
+// monkestation end
 
 GLOBAL_LIST_INIT(common_loot, list( //common: basic items
 	list(//tools
@@ -129,7 +136,9 @@ GLOBAL_LIST_INIT(common_loot, list( //common: basic items
 		/obj/item/grenade/chem_grenade/cleaner = 1,
 		/obj/item/lead_pipe = 1,
 		/obj/item/reagent_containers/cup/beaker = 1,
+/* monkestation removal: we don't use ph or purity
 		/obj/item/reagent_containers/cup/bottle/random_buffer = 2,
+monkestation end */
 		/obj/item/reagent_containers/cup/rag = 1,
 		/obj/item/reagent_containers/hypospray/medipen/pumpup = 2,
 		/obj/item/reagent_containers/syringe = 1,
@@ -291,6 +300,7 @@ GLOBAL_LIST_INIT(uncommon_loot, list(//uncommon: useful items
 
 	list(//MONKESTATION ADDITION: misc
 		/obj/item/vending_refill/plushvendor = 1,
+		/obj/item/comically_large_spoon = 1,
 		) = 2,
 
 	list(//fakeout items, keep this list at low relative weight
@@ -361,6 +371,7 @@ GLOBAL_LIST_INIT(rarity_loot, list(//rare: really good items
 		/obj/item/tattoo_kit = 1,
 		/obj/item/folder/ancient_paperwork = 1,
 		/obj/item/seeds/tree/money = 1, //monkestation edit
+		/obj/item/disk/design_disk/fss = 1, //monkestation edit
 		) = 1,
 
 ))
@@ -368,7 +379,7 @@ GLOBAL_LIST_INIT(rarity_loot, list(//rare: really good items
 
 
 GLOBAL_LIST_INIT(oddity_loot, list(//oddity: strange or crazy items
-		/obj/effect/rune/teleport = 1,
+		/* /obj/effect/rune/teleport = 1, */ // monkestation removal: this should really only have /obj/items
 		/obj/item/clothing/head/helmet/abductor = 1,
 		/obj/item/clothing/shoes/jackboots/fast = 1,
 		/obj/item/clothing/suit/armor/reactive/table = 1,

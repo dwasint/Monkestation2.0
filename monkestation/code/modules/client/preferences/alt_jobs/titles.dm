@@ -67,6 +67,7 @@
 		"Herbalist",
 		"Florist",
 		"Rancher",
+		"Druid",
 	)
 
 /datum/job/brig_physician
@@ -87,6 +88,7 @@
 		"Site Manager",
 		"Criminally Underpaid Babysitter",
 		"Princess",
+		"Head of Command",
 	)
 
 /datum/job/cargo_technician
@@ -295,6 +297,7 @@
 		"Research Supervisor",
 		"Chief Science Officer",
 		"Chief Artificer",
+		"Head of Science",
 	)
 
 /datum/job/roboticist
@@ -371,14 +374,4 @@
 		"Dispatch Officer",
 		"Brig Governor",
 		"Jailer",
-	)
-
-/datum/job/blueshield
-	alt_titles = list(
-		"Blueshield",
-		"Corporate Henchman",
-		"Bodyguard",
-		"Revolutionary Repellent",
-		"Heavily Armed Butler",
-		"Honor Guard",
 	)

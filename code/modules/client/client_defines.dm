@@ -248,6 +248,9 @@
 	var/list/keys_held = list()
 	/// A buffer for combinations such of modifiers + keys (ex: CtrlD, AltE, ShiftT). Format: `"key"` -> `"combo"` (ex: `"D"` -> `"CtrlD"`)
 	var/list/key_combos_held = list()
+	/// The direction we WANT to move, based off our keybinds
+	/// Will be udpated to be the actual direction later on
+	var/intended_direction = NONE
 	/*
 	** These next two vars are to apply movement for keypresses and releases made while move delayed.
 	** Because discarding that input makes the game less responsive.
@@ -271,6 +274,3 @@
 
 	/// Does this client have typing indicators enabled?
 	var/typing_indicators = FALSE
-
-	/// used for rewarding players monkecoins at round end
-	var/reward_this_person = 0

@@ -21,7 +21,6 @@
 	var/failed = FALSE
 	var/operated = FALSE //whether we can still have our damages fixed through surgery
 
-
 	food_reagents = list(/datum/reagent/consumable/nutriment = 5, /datum/reagent/medicine/salbutamol = 5)
 
 	/// Our previous breath's partial pressures, in the form gas id -> partial pressure
@@ -115,6 +114,8 @@
 
 	///our last lung pop adventure
 	var/lung_pop_tick = 0
+	//fucking checks if the last breath failed was actually from something or not, and if not clears it
+	var/failed_last_breath_checker = 0
 
 // assign the respiration_type
 /obj/item/organ/internal/lungs/Initialize(mapload)
@@ -482,6 +483,7 @@
 /obj/item/organ/internal/lungs/proc/too_much_miasma(mob/living/carbon/breather, datum/gas_mixture/breath, miasma_pp, old_miasma_pp)
 	// Inhale Miasma. Exhale nothing.
 	breathe_gas_volume(breath, /datum/gas/miasma)
+	/* monkestation removal: Death to advance
 	// Miasma sickness
 	if(prob(0.5 * miasma_pp))
 		var/datum/disease/advance/miasma_disease = new /datum/disease/advance/random(max_symptoms = min(round(max(miasma_pp / 2, 1), 1), 6), max_level = min(round(max(miasma_pp, 1), 1), 8))
@@ -489,6 +491,7 @@
 		// Each argument has a minimum of 1 and rounds to the nearest value. Feel free to change the pp scaling I couldn't decide on good numbers for it.
 		miasma_disease.name = "Unknown"
 		miasma_disease.try_infect(breather)
+		*/
 	// Miasma side effects
 	switch(miasma_pp)
 		if(0.25 to 5)
@@ -621,7 +624,7 @@
  * * breather: A carbon mob that is using the lungs to breathe.
  */
 /obj/item/organ/internal/lungs/proc/check_breath(datum/gas_mixture/breath, mob/living/carbon/human/breather, skip_breath)
-	if(breather.status_flags & GODMODE)
+	if(HAS_TRAIT(breather, TRAIT_GODMODE))
 		breather.failed_last_breath = FALSE
 		return FALSE
 
@@ -641,6 +644,10 @@
 	// Check for moles of gas and handle partial pressures / special conditions.
 	if(num_moles > 0 && not_low_pressure && not_high_pressure)
 		// Breath has more than 0 moles of gas.
+		//checks if the last breath was one of the not- this fucking breaths so it can clear it
+		if(failed_last_breath_checker)
+			breather.failed_last_breath = FALSE
+			failed_last_breath_checker = FALSE
 		// Route gases through mask filter if breather is wearing one.
 		if(istype(breather.wear_mask) && (breather.wear_mask.clothing_flags & GAS_FILTERING) && breather.wear_mask.has_filter)
 			breath = breather.wear_mask.consume_filter(breath)
@@ -659,25 +666,23 @@
 	// We're in a low / high pressure environment, can't breathe, but trying to, so this hurts the lungs
 	// Unless it's cybernetic then it just doesn't care. Handwave magic whatever
 	else if(!skip_breath && (owner && !HAS_TRAIT(owner, TRAIT_ASSISTED_BREATHING)))
-		if(lung_pop_tick > 10)
+		if(lung_pop_tick > 5)
 			lung_pop_tick = 0
-			if(!failed)
+			if(!failed && num_moles < 0.02)
 				// Lungs are poppin
-				if(damage >= 40 && damage <= 50 && breather.can_feel_pain())
-					to_chat(breather, span_userdanger("You feel a stabbing pain in your chest!"))
-				else if(num_moles < 0.02)
-					to_chat(breather, span_boldwarning("You feel air rapidly exiting your lungs!"))
-				else if(num_moles > 0.1)
-					to_chat(breather, span_boldwarning("You feel air force itself into your lungs!"))
-
+				to_chat(breather, span_boldwarning("You feel air rapidly exiting your lungs!"))
+				breather.failed_last_breath = TRUE
 				breather.cause_pain(BODY_ZONE_CHEST, 10, BRUTE)
-				apply_organ_damage(5)
-		breather.failed_last_breath = TRUE
-		lung_pop_tick++
+				apply_organ_damage(35)
+
+		failed_last_breath_checker = TRUE
+		if(num_moles < 0.02)
+			lung_pop_tick++
 	// Robot, don't care lol
 	else if((owner && !HAS_TRAIT(owner, TRAIT_ASSISTED_BREATHING)))
 		// Can't breathe!
 		breather.failed_last_breath = TRUE
+		failed_last_breath_checker = TRUE
 
 	// The list of gases in the breath.
 	var/list/breath_gases = breath.gases
@@ -862,7 +867,7 @@
 	var/breath_dir = breather.dir
 
 	var/list/particle_grav = list(0, 0.1, 0)
-	var/list/particle_pos = list(0, breather.get_mob_height() + 2, 0)
+	var/list/particle_pos = list(0, breather.mob_height + 2, 0)
 	if(breath_dir & NORTH)
 		particle_grav[2] = 0.2
 		breath_particle.rotation = pick(-45, 45)
@@ -934,6 +939,9 @@
 /obj/item/organ/internal/lungs/get_availability(datum/species/owner_species, mob/living/owner_mob)
 	return owner_species.mutantlungs
 
+#define SMOKER_ORGAN_HEALTH (STANDARD_ORGAN_THRESHOLD * 0.75)
+#define SMOKER_LUNG_HEALING (STANDARD_ORGAN_HEALING * 0.75)
+
 /obj/item/organ/internal/lungs/plasmaman
 	name = "plasma filter"
 	desc = "A spongy rib-shaped mass for filtering plasma from the air."
@@ -943,6 +951,14 @@
 	safe_oxygen_min = 0 //We don't breathe this
 	safe_plasma_min = 4 //We breathe THIS!
 	safe_plasma_max = 0
+
+/obj/item/organ/internal/lungs/plasmaman/plasmaman_smoker
+	name = "smoker plasma filter"
+	desc = "A plasma filter that look discolored, a result from smoking a lot."
+	icon_state = "lungs_plasma_smoker"
+
+	maxHealth = SMOKER_ORGAN_HEALTH
+	healing_factor = SMOKER_LUNG_HEALING
 
 /obj/item/organ/internal/lungs/slime
 	name = "vacuole"
@@ -955,6 +971,14 @@
 	if (breath?.gases[/datum/gas/plasma] && !skip_breath)
 		var/plasma_pp = breath.get_breath_partial_pressure(breath.gases[/datum/gas/plasma][MOLES])
 		breather_slime.blood_volume += (0.2 * plasma_pp) // 10/s when breathing literally nothing but plasma, which will suffocate you.
+
+/obj/item/organ/internal/lungs/smoker_lungs
+	name = "smoker lungs"
+	desc = "A pair of lungs that look sickly, a result from smoking a lot."
+	icon_state = "lungs_smoker"
+
+	maxHealth = SMOKER_ORGAN_HEALTH
+	healing_factor = SMOKER_LUNG_HEALING
 
 /obj/item/organ/internal/lungs/cybernetic
 	name = "basic cybernetic lungs"
@@ -1009,6 +1033,7 @@
 #define GAS_TOLERANCE 5
 
 /obj/item/organ/internal/lungs/lavaland/Initialize(mapload)
+	CACHE_PLANETARY_ATMOS(LAVALAND_DEFAULT_ATMOS)
 	var/datum/gas_mixture/immutable/planetary/mix = SSair.planetary[LAVALAND_DEFAULT_ATMOS]
 
 	if(!mix?.total_moles()) // this typically means we didn't load lavaland, like if we're using the LOWMEMORYMODE define
@@ -1067,6 +1092,14 @@
 	heat_level_hazard_threshold = CELCIUS_TO_KELVIN(200 CELCIUS)
 	heat_level_danger_threshold = CELCIUS_TO_KELVIN(800 CELCIUS)
 
+/obj/item/organ/internal/lungs/ethereal/ethereal_smoker
+	name = "smoker aeration reticulum"
+	desc = "A pair of exotic lungs that look pale and sickly, a result from smoking a lot."
+	icon_state = "lungs_ethereal_smoker"
+
+	maxHealth = SMOKER_ORGAN_HEALTH
+	healing_factor = SMOKER_LUNG_HEALING
+
 /obj/item/organ/internal/lungs/ethereal/Initialize(mapload)
 	. = ..()
 	add_gas_reaction(/datum/gas/water_vapor, while_present = PROC_REF(consume_water))
@@ -1082,3 +1115,5 @@
 #undef BREATH_RELATIONSHIP_INITIAL_GAS
 #undef BREATH_RELATIONSHIP_CONVERT
 #undef BREATH_RELATIONSHIP_MULTIPLIER
+#undef SMOKER_ORGAN_HEALTH
+#undef SMOKER_LUNG_HEALING

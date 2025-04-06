@@ -43,7 +43,7 @@
 			HELMET_LAYER = NECK_LAYER,
 			HELMET_FLAGS = list(
 				UNSEALED_CLOTHING = SNUG_FIT,
-				SEALED_CLOTHING = THICKMATERIAL|STOPSPRESSUREDAMAGE,
+				SEALED_CLOTHING = THICKMATERIAL|STOPSPRESSUREDAMAGE|HEADINTERNALS,
 				UNSEALED_INVISIBILITY = HIDEFACIALHAIR,
 				SEALED_INVISIBILITY = HIDEMASK|HIDEEARS|HIDEEYES|HIDEFACE|HIDEHAIR|HIDESNOUT,
 				SEALED_COVER = HEADCOVERSMOUTH|HEADCOVERSEYES|PEPPERPROOF,
@@ -97,6 +97,13 @@
 		/obj/item/mod/module/magnetic_harness,
 		/obj/item/mod/module/tether,
 		/obj/item/mod/module/holster,
+	)
+
+	default_pins = list(
+
+		/obj/item/mod/module/holster,
+		/obj/item/mod/module/stealth,
+		/obj/item/mod/module/chameleon/contractor,
 	)
 
 /obj/machinery/suit_storage_unit/industrial/assault_operative

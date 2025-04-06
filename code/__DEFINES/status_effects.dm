@@ -7,6 +7,18 @@
 /// if it only allows one, and new instances just instead refresh the timer
 #define STATUS_EFFECT_REFRESH 3
 
+/// Use in status effect "duration" to make it last forever
+#define STATUS_EFFECT_PERMANENT -1
+/// Use in status effect "tick_interval" to prevent it from calling tick()
+#define STATUS_EFFECT_NO_TICK -1
+/// Use in status effect "tick_interval" to guarantee that tick() gets called on every process()
+#define STATUS_EFFECT_AUTO_TICK 0
+
+/// Indicates this status effect is an abstract type, ie not instantiated
+/// Doesn't actually do anything in practice, primarily just a marker / used in unit tests,
+/// so don't worry if your abstract status effect doesn't actually set this
+#define STATUS_EFFECT_ID_ABSTRACT "abstract"
+
 ///Processing flags - used to define the speed at which the status will work
 ///This is fast - 0.2s between ticks (I believe!)
 #define STATUS_EFFECT_FAST_PROCESS 0

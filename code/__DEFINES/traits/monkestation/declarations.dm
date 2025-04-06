@@ -11,6 +11,8 @@
 #define TRAIT_DISORIENTED "disoriented"
 /// User cannot sprint.
 #define TRAIT_NO_SPRINT "no_sprint"
+/// Their monitors are corrupted (this should be IPC exclusive trait). Currently used to set special examine text on IPCs. Examine text is overridden by TRAIT_CORRUPTED_MONITOR.
+#define TRAIT_CORRUPTED_MONITOR "corrupted_monitor"
 /// One can breath under water, you get me?
 #define TRAIT_WATER_BREATHING "water_breathing"
 /// Does not take damage from bloodloss (or any blood shenanigans)
@@ -57,12 +59,16 @@
 #define TRAIT_CONVERSION_FLASHED "conversion_flashed"
 /// For when a mob has been consumed by a zombie
 #define TRAIT_ZOMBIE_CONSUMED "zombie_consumed"
+/// Applied when blight is cured. Prevents getting blight again while present.
+#define TRAIT_REVENANT_BLIGHT_PROTECTION "revenant_blight_protection"
 
 // /datum/mind + /mob/living
 /// Prevents the user from casting spells using sign language. Works on both /datum/mind and /mob/living.
 #define TRAIT_CANT_SIGN_SPELLS	"cant_sign_spells"
 /// You have special interactions with bloodsuckers and the occult.
 #define TRAIT_OCCULTIST			"occultist"
+/// Cannot be turned into a borg or AI under any circumstances (outside of adminbus I guess).
+#define TRAIT_UNBORGABLE	"unborgable"
 
 // /datum/mind
 /// Indicates that the user has been removed from the crew manifest. Used to track if multiple antags have removed the same person.
@@ -81,13 +87,15 @@
 // Traits given by quirks
 #define TRAIT_ANIME				"anime"
 #define TRAIT_CAT				"cat"
+#define TRAIT_FEEBLE			"feeble"
 #define TRAIT_GOURMAND			"gourmand"
-#define TRAIT_HIDDEN_CLOWN		"clown_disbelief"
+#define TRAIT_CLOWN_DISBELIEVER	"clown_disbeliever"
 #define TRAIT_HIDDEN_IMAGE		"generic-hidden-image"
 #define TRAIT_JAILBIRD			"jailbird"
 #define TRAIT_LOUD_ASS			"loud_ass"
 #define TRAIT_MINING_CALLOUTS	"miner_callouts"
 #define TRAIT_PARANOIA			"paranoia"
+#define TRAIT_PRIDE_PIN			"pride_pin"
 #define TRAIT_STABLE_ASS		"stable_ass"
 #define TRAIT_STOWAWAY			"stowaway"
 #define TRAIT_UNSTABLE_ASS		"unstable_ass"
@@ -119,6 +127,14 @@
 #define TRAIT_BYPASS_COMPRESS_CHECK	"can_compress_anyways"
 /// This item is considered "trash" (and will be eaten by cleaner slimes)
 #define TRAIT_TRASH_ITEM			"trash_item"
+/// This item came from a gift.
+#define TRAIT_GIFT_ITEM				"gift_item"
+/// The mob can see pathogen clouds and such.
+#define TRAIT_VIRUS_SCANNER "virus_scanner"
+/// This item always renders. (only used for stupid magboots rn)
+#define TRAIT_ALWAYS_RENDER			"always_render"
+/// Prevents mechcomp interaction components from interacting with this object.
+#define TRAIT_MECHCOMP_INTERACTION_BANNED "mechcomp_interaction_banned"
 
 // /atom/movable
 /// Things with this trait can pass through wooden barricades.
@@ -145,5 +161,8 @@
 
 /// Mob can't strip other mobs, overrides TRAIT_CAN_STRIP. Importantly, they cannot *open* strip menus, so this is used for mayhem in a bottle.
 #define TRAIT_CANT_STRIP "cant_strip"
-
+/// Mob sleeps less, counter to TRAIT_HEAVY_SLEEPER
+#define TRAIT_LIGHT_SLEEPER "light_sleeper"
+/// Makes a mob throw guns instead of shooting them, works with TRAIT_NOGUNS
+#define TRAIT_THROW_GUNS "throw_guns"
 // END TRAIT DEFINES

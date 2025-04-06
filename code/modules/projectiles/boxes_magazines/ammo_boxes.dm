@@ -55,20 +55,6 @@
 	desc = "Designed to quickly reload revolvers. Iceblox bullets contain a cryogenic payload."
 	ammo_type = /obj/item/ammo_casing/c38/iceblox
 
-/obj/item/ammo_box/g45l
-	name = "ammo box (.45 Long Lethal)"
-	desc = "This box contains .45 Long lethal cartridges."
-	ammo_type = /obj/item/ammo_casing/g45l
-	icon_state = "45box"
-	max_ammo = 24
-
-/obj/item/ammo_box/g45l/rubber
-	name = "ammo box (.45 Long Rubber)"
-	desc = "Brought to you at great expense,this box contains .45 Long rubber cartridges."
-	icon_state = "45box"
-	ammo_type = /obj/item/ammo_casing/g45l/rubber
-	max_ammo = 24
-
 /obj/item/ammo_box/c9mm
 	name = "ammo box (9mm)"
 	icon_state = "9mmbox"
@@ -86,7 +72,13 @@
 	icon_state = "45box"
 	ammo_type = /obj/item/ammo_casing/c45
 	max_ammo = 20
-
+/// Monkestation edit start
+/obj/item/ammo_box/c45/rubber
+	name = "ammo box (.45 rubber"
+	icon_state = "45box"
+	ammo_type = /obj/item/ammo_casing/c45
+	max_ammo = 20
+/// Monekstation edit end
 /obj/item/ammo_box/a40mm
 	name = "ammo box (40mm grenades)"
 	icon_state = "40mm"

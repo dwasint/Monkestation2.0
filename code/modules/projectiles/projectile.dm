@@ -50,6 +50,13 @@
 	/// We are flagged PHASING temporarily to not stop moving when we Bump something but want to keep going anyways.
 	var/temporary_unstoppable_movement = FALSE
 
+	//monkestation edit start
+	/// Do we damage walls?
+	var/damage_walls = FALSE
+	/// demolition mod on walls
+	var/wall_dem_mod = 1
+	//monkestation edit end
+
 	/** PROJECTILE PIERCING
 	  * WARNING:
 	  * Projectile piercing MUST be done using these variables.
@@ -213,6 +220,10 @@
 	var/paralyze_timer = 0
 	///the angle we add when rotating via matrix (used by projectiles that are drawn diagonally)
 	var/extra_rotation = 0
+	/// If this projectile inflicts debilitating
+	var/debilitating = FALSE
+	/// How many stacks the projectile applies per hit. Default is 1, each stack adds 0.05, it stacks up to 2x stamina damage
+	var/debilitate_mult = 1
 
 /obj/projectile/Initialize(mapload)
 	. = ..()
@@ -258,13 +269,13 @@
 
 	// i know that this is probably more with wands and gun mods in mind, but it's a bit silly that the projectile on_hit signal doesn't ping the projectile itself.
 	// maybe we care what the projectile thinks! See about combining these via args some time when it's not 5AM
-	if(stamina >= 10 && isliving(target))
+	if(debilitating == TRUE && isliving(target))
 		var/mob/living/living = target
 		var/datum/status_effect/stacking/debilitated/effect = living.has_status_effect(/datum/status_effect/stacking/debilitated)
 		if(effect)
-			effect.add_stacks(1)
+			effect.add_stacks(debilitate_mult)
 		else
-			living.apply_status_effect(/datum/status_effect/stacking/debilitated, 1)
+			living.apply_status_effect(/datum/status_effect/stacking/debilitated, debilitate_mult)
 
 	if(fired_from)
 		SEND_SIGNAL(fired_from, COMSIG_PROJECTILE_ON_HIT, firer, target, Angle, def_zone, blocked)
@@ -283,7 +294,7 @@
 		hitx = target.pixel_x + rand(-8, 8)
 		hity = target.pixel_y + rand(-8, 8)
 
-	if((isturf(target) || (isobj(target) && target.density)) && hitsound_wall)
+	if(isturf(target_turf) && hitsound_wall)
 		var/volume = clamp(vol_by_damage() + 20, 0, 100)
 		if(suppressed)
 			volume = 5
@@ -295,11 +306,11 @@
 		if(damage > 0 && (damage_type == BRUTE || damage_type == BURN) && iswallturf(target_turf) && prob(75))
 			var/turf/closed/wall/target_wall = target_turf
 			target_wall.add_dent(WALL_DENT_SHOT, hitx, hity)
-		if(isturf(target) && hitsound_wall)
-			var/volume = clamp(vol_by_damage() + 20, 0, 100)
-			if(suppressed)
-				volume = 5
-			playsound(loc, hitsound_wall, volume, TRUE, -1)
+			//monkestation edit start
+			if(damage_walls)
+				target_wall.take_damage(damage * wall_dem_mod, damage_type, armor_flag, armour_penetration = 100)
+			//monkestation edit end
+
 		return BULLET_ACT_HIT
 
 	var/mob/living/living_target = target

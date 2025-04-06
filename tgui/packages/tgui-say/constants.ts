@@ -25,10 +25,12 @@ export const RADIO_PREFIXES = {
   ':m ': 'Med',
   ':n ': 'Sci',
   ':o ': 'AI',
+  ':p ': 'Ent',
   ':s ': 'Sec',
   ':t ': 'Synd',
   ':u ': 'Supp',
   ':v ': 'Svc',
   ':y ': 'CCom',
   ':x ': 'Cult',
+  ':f ': 'Uncom',
 } as const;

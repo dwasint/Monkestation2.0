@@ -12,12 +12,14 @@
 #define LOADOUT_ITEM_INHAND "inhand_items"
 #define LOADOUT_ITEM_MISC "pocket_items"
 #define LOADOUT_ITEM_TOYS "toys"
+#define LOADOUT_ITEM_PLUSHIES "plushies"
 
 #define INFO_GREYSCALE "greyscale"
 #define INFO_NAMED "name"
 
 /// Max amonut of misc / backpack items that are allowed.
 #define MAX_ALLOWED_MISC_ITEMS 3
+#define MAX_ALLOWED_PLUSHIES 3
 
 /// Defines for extra info blurbs, for loadout items.
 #define TOOLTIP_NO_ARMOR "ARMORLESS - This item has no armor and is entirely cosmetic."

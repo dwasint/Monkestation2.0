@@ -161,6 +161,9 @@ SUBSYSTEM_DEF(gamemode)
 	var/list/triggered_round_events = list()
 
 /datum/controller/subsystem/gamemode/Initialize(time, zlevel)
+#if defined(UNIT_TESTS) || defined(AUTOWIKI) // lazy way of doing this but idc
+	CONFIG_SET(flag/disable_storyteller, TRUE)
+#endif
 	// Populate event pools
 	for(var/track in event_tracks)
 		event_pools[track] = list()
@@ -274,6 +277,8 @@ SUBSYSTEM_DEF(gamemode)
 	var/list/candidate_candidates = list() //lol
 
 	for(var/mob/player as anything in GLOB.player_list)
+		if(QDELETED(player) || player.mind?.picking)
+			continue
 		if(ready_newplayers && isnewplayer(player))
 			var/mob/dead/new_player/new_player = player
 			if(new_player.ready == PLAYER_READY_TO_PLAY && new_player.mind && new_player.check_preferences())

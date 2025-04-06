@@ -186,6 +186,11 @@
 		if ("changeSecurityLevel")
 			if (!authenticated_as_silicon_or_captain(usr))
 				return
+			//monkestation edit start:
+			if(istype(get_area(src), /area/shuttle/syndicate/cruiser)) // monkestation edit: Prevents assault ops from modifying the alert level from their shuttle
+				to_chat(usr, span_warning("Unable to connect to security level systems due to local interference"))
+				return
+			//monkestation edit end
 
 			// Check if they have
 			if (!issilicon(usr))
@@ -201,19 +206,21 @@
 					return
 
 			// monkestation start: prevent lowering alert level from delta
-			var/new_sec_level = SSsecurity_level.text_level_to_number(params["newSecurityLevel"])
-			var/current_sec_level = SSsecurity_level.get_current_level_as_number()
-			if (current_sec_level > SEC_LEVEL_RED)
+			var/datum/security_level/new_sec_level = SSsecurity_level.available_levels[params["newSecurityLevel"]]
+			if(!new_sec_level)
+				return
+			var/datum/security_level/current_sec_level = SSsecurity_level.current_security_level
+			if(!current_sec_level.can_crew_change_alert)
 				to_chat(usr, span_warning("Alert cannot be manually lowered from the current security level!"))
 				playsound(src, 'sound/machines/terminal_prompt_deny.ogg', 50, FALSE)
 				return
-			if (new_sec_level != SEC_LEVEL_GREEN && new_sec_level != SEC_LEVEL_BLUE)
+			if(!new_sec_level.can_set_via_comms_console)
 				return
-			if (current_sec_level == new_sec_level)
+			if(current_sec_level == new_sec_level)
 				return
 			// monkestation end
 
-			SSsecurity_level.set_level(new_sec_level)
+			SSsecurity_level.set_level(new_sec_level.name)
 
 			to_chat(usr, span_notice("Authorization confirmed. Modifying security level."))
 			playsound(src, 'sound/machines/terminal_prompt_confirm.ogg', 50, FALSE)
@@ -297,9 +304,12 @@
 			var/clock_user = IS_CLOCK(usr) //monkestation edit
 			if (!authenticated(usr) || issilicon(usr) || syndicate || (clock_user && GLOB.main_clock_cult?.member_recalled)) //monkestation edit: adds the CWC check
 				return
-//monkestation edit start
+//monkestation edit start:
 			if(clock_user)
 				GLOB.main_clock_cult?.member_recalled = TRUE
+			if(istype(get_area(src), /area/shuttle/syndicate/cruiser)) // monkestation edit: Prevents assault ops from recalling from their shuttle
+				to_chat(usr, span_warning("Unable to connect to shuttle systems due to local interference"))
+				return
 //monkestation edit end
 			SSshuttle.cancelEvac(usr)
 		if ("requestNukeCodes")
@@ -584,7 +594,8 @@
 
 					data["alertLevelTick"] = alert_level_tick
 					data["canMakeAnnouncement"] = TRUE
-					data["canSetAlertLevel"] = issilicon(user) ? "NO_SWIPE_NEEDED" : "SWIPE_NEEDED"
+					if(SSsecurity_level.current_security_level?.can_crew_change_alert)
+						data["canSetAlertLevel"] = issilicon(user) ? "NO_SWIPE_NEEDED" : "SWIPE_NEEDED"
 				else if(syndicate)
 					data["canMakeAnnouncement"] = TRUE
 
@@ -648,11 +659,17 @@
 		ui.open()
 
 /obj/machinery/computer/communications/ui_static_data(mob/user)
-	return list(
+	. = list(
 		"callShuttleReasonMinLength" = CALL_SHUTTLE_REASON_LENGTH,
 		"maxStatusLineLength" = MAX_STATUS_LINE_LENGTH,
 		"maxMessageLength" = MAX_MESSAGE_LEN,
+		"settableLevels" = list(),
 	)
+	for(var/level_name in SSsecurity_level.available_levels)
+		var/datum/security_level/level = SSsecurity_level.available_levels[level_name]
+		if(!level.can_set_via_comms_console)
+			continue
+		.["settableLevels"] += level_name
 
 /obj/machinery/computer/communications/Topic(href, href_list)
 	if (href_list["reject_cross_comms_message"])
