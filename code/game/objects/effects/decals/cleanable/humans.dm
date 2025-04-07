@@ -25,6 +25,7 @@
 	/// When dried, this becomes the desc of the blood
 	var/dry_desc = "Looks like it's been here a while. Eew."
 
+	var/base_color
 	/// How long it takes to dry out
 	var/drying_time = 5 MINUTES
 	/// The process to drying out, recorded in deciseconds
@@ -65,6 +66,7 @@
 	. = ..()
 	// get a default color based on DNA if it ends up unset somehow
 	color ||= (GET_ATOM_BLOOD_DNA_LENGTH(src) ? get_blood_dna_color() : COLOR_BLOOD)
+	base_color = color
 	// stop existing drying animations
 	animate(src)
 	// ok let's make the dry color now

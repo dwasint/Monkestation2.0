@@ -156,10 +156,10 @@
 		overlays += I_base
 		overlays += I_lave
 
-/obj/structure/cult/forge/attackby(var/obj/item/I, var/mob/user)
+/obj/structure/cult/forge/attackby(obj/item/I, mob/user)
 	if(istype(I, /obj/item/clothing/mask/cigarette))
-		var/obj/item/clothing/mask/cigarette/fag = I
-		fag.light(span_notice("\The [user] lights \the [fag] by bringing its tip close to \the [src]'s molten flow.") )
+		var/obj/item/clothing/mask/cigarette/cig = I
+		cig.light(span_notice("\The [user] lights \the [cig] by bringing its tip close to \the [src]'s molten flow.") )
 		return 1
 	if(istype(I, /obj/item/candle))
 		var/obj/item/candle/stick = I
@@ -184,7 +184,7 @@
 		progbar.plane = HUD_PLANE
 	progbar.icon_state = "prog_bar_[round((100 - min(1, timeleft / timetotal) * 100), 10)]"
 
-/obj/structure/cult/forge/cultist_act(var/mob/user, var/menu = "default")
+/obj/structure/cult/forge/cultist_act(mob/user, menu = "default")
 	. = ..()
 	if (!.)
 		return
@@ -247,7 +247,7 @@
 	pixel_y = -16 * 1
 	plane = GAME_PLANE
 
-/obj/effect/cult_ritual/forge/New(var/turf/loc, var/i_forge = "")
+/obj/effect/cult_ritual/forge/New(turf/loc, i_forge = "")
 	..()
 	icon_state = i_forge
 	var/image/I = image('monkestation/code/modules/bloody_cult/icons/cult_64x64.dmi', "[i_forge]-mask")

@@ -37,7 +37,7 @@
 		to_chat(span_cultbold("There is no blood to draw with here!"))
 		return
 
-	var/blood_color = blood.color
+	var/blood_color = blood.base_color
 
 	var/maximum_length = 30
 	var/message = stripped_input(owner, "Write a message. You will be able to preview it.", "Bloody writings", "")
