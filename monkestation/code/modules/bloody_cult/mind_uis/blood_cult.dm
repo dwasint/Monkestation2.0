@@ -1161,8 +1161,9 @@ GLOBAL_LIST_INIT(blood_communion, list())
 		adjust_particles(PVAR_PIXEL_X, -8, PS_CULT_HALO)
 		var/datum/mind/M = associated_role.owner
 		tooltip_title = M.name
-		var/icon/flat = getFlatIconDeluxe(sort_image_datas(get_content_image_datas(M.current)), override_dir = SOUTH)
-		tooltip_content = "<img class = 'icon' src = 'data:image/png;base64, [icon2base64(flat)]' style = 'position:relative; top:10px;'>"
+		var/icon/flat = getFlatIcon(M.current, SOUTH)
+
+		tooltip_content = "<img class = 'icon' src = 'data:image/png;base64, [icon2base64(flat)]' style = 'position:relative; top:10px;'>\n"
 		switch(associated_role.cultist_role)
 			if (CULTIST_ROLE_NONE)
 				tooltip_content += "Cultist Herald"

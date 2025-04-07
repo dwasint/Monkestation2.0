@@ -107,6 +107,7 @@ cons:
 			add.ChangeOpacity(0.5)
 
 		// Apply any color or alpha settings
+		/*
 		if(data[GFI_DX_COLOR] || data[GFI_DX_ALPHA] != 255)
 			if (islist(data[GFI_DX_COLOR]))
 				var/list/color_matrix = data[GFI_DX_COLOR]
@@ -119,7 +120,7 @@ cons:
 				if (length(rgba) < 8)
 					rgba += copytext(rgb(0,0,0,data[GFI_DX_ALPHA]), 8)
 				add.Blend(rgba, ICON_MULTIPLY)
-
+		*/
 		// Blend the overlay into the flattened icon
 
 		if (center)
