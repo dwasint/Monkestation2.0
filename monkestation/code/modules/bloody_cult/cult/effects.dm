@@ -1211,6 +1211,7 @@ var/list/dance_platform_prisoners = list()
 				switch(direction)
 					if (EAST)
 						pillar = new /obj/structure/cult/pillar/alt(loc)
+
 					if (WEST)
 						pillar = new /obj/structure/cult/pillar(loc)
 			for (var/turf/U in near_turfs)

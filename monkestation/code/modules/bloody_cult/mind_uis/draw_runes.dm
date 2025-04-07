@@ -3,7 +3,7 @@
 	icon = 'monkestation/code/modules/bloody_cult/icons/bloodcult/32x32.dmi'
 	icon_state = "rune_back"
 	layer = MIND_UI_BUTTON
-	mouse_opacity = 0
+	element_flags = MINDUI_FLAG_HOVERINFO
 	var/word = ""
 	var/image/word_overlay
 

@@ -386,6 +386,8 @@ GLOBAL_LIST_INIT(mind_ui_id_to_type, list())
 /obj/abstract/mind_ui_element/hoverable/MouseEntered(location,control,params)
 	StartHovering(location,control,params)
 	hovering = 1
+	if(element_flags & MINDUI_FLAG_HOVERINFO)
+		. = ..()
 
 /obj/abstract/mind_ui_element/hoverable/MouseExited()
 	StopHovering()
