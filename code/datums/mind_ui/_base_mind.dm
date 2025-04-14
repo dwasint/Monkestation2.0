@@ -29,84 +29,8 @@ GLOBAL_LIST_INIT(mind_ui_id_to_type, list())
 		var/datum/mind_ui/ui = mind_ui_type
 		GLOB.mind_ui_id_to_type[initial(ui.uniqueID)] = mind_ui_type
 
-//////////////////////MIND UI PROCS/////////////////////////////
-
-/datum/mind
-	var/list/active_uis = list()
-
-/datum/mind/Destroy()
-	. = ..()
-	RemoveAllUIs()
-	QDEL_LIST_ASSOC_VAL(active_uis)
-
-/datum/mind/proc/ResendAllUIs() // Re-sends all mind uis to client.screen, called on mob/living/Login()
-	for (var/mind_ui in active_uis)
-		var/datum/mind_ui/ui = active_uis[mind_ui]
-		ui.SendToClient()
-
-/datum/mind/proc/RemoveAllUIs() // Removes all mind uis from client.screen, called on mob/Logout()
-	for (var/mind_ui in active_uis)
-		var/datum/mind_ui/ui = active_uis[mind_ui]
-		ui.RemoveFromClient()
-
-
-/datum/mind/proc/DisplayUI(ui_ID)
-	var/datum/mind_ui/ui
-	if (ui_ID in active_uis)
-		ui = active_uis[ui_ID]
-	else
-		if (!(ui_ID in GLOB.mind_ui_id_to_type))
-			return
-		var/ui_type = GLOB.mind_ui_id_to_type[ui_ID]
-		ui = new ui_type(src)
-	if(!ui.Valid())
-		ui.Hide()
-	else
-		ui.Display()
-
-/datum/mind/proc/HideUI(var/ui_ID)
-	if (ui_ID in active_uis)
-		var/datum/mind_ui/ui = active_uis[ui_ID]
-		ui.Hide()
-
-/datum/mind/proc/UpdateUIScreenLoc()
-	for (var/mind_ui in active_uis)
-		var/datum/mind_ui/ui = active_uis[mind_ui]
-		ui.UpdateUIScreenLoc()
 
 //////////////////////MOB SHORTCUT PROCS////////////////////////
-
-/mob/proc/ResendAllUIs()
-	if (mind)
-		mind.ResendAllUIs()
-
-/mob/proc/RemoveAllUIs()
-	if (mind)
-		mind.RemoveAllUIs()
-
-/mob/proc/DisplayUI(var/ui_ID)
-	if (mind)
-		mind.DisplayUI(ui_ID)
-
-/mob/proc/HideUI(var/ui_ID)
-	if (mind)
-		mind.HideUI(ui_ID)
-
-/mob/proc/UpdateUIScreenLoc()
-	if (mind)
-		mind.UpdateUIScreenLoc()
-
-/mob/proc/UpdateUIElementIcon(var/element_type)
-	if (client)
-		var/obj/abstract/mind_ui_element/element = locate(element_type) in client.screen
-		if (element)
-			element.UpdateIcon()
-
-/mob/proc/UpdateAllElementIcons()
-	if (client)
-		for (var/obj/abstract/mind_ui_element/element in client.screen)
-			element.UpdateIcon()
-
 
 ////////////////////////////////////////////////////////////////////
 //																  //

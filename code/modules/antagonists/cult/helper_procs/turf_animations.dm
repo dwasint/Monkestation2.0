@@ -2,7 +2,7 @@
 	// Flick animation shit
 	var/obj/effect/abstract/c_animation = null
 
-/turf/proc/turf_animation(var/anim_icon, var/anim_state, var/anim_x = 0, var/anim_y = 0, var/anim_layer = MOB_LAYER+1, var/anim_sound = null, var/anim_color = null, var/anim_plane = 0)
+/turf/proc/turf_animation(anim_icon, anim_state, anim_x = 0, anim_y = 0, anim_layer = MOB_LAYER+1, anim_sound = null, anim_color = null, anim_plane = 0)
 	if(!c_animation)//spamming turf animations can have unintended effects, such as the overlays never disapearing. hence this check.
 		if(anim_sound)
 			playsound(src, anim_sound, 50, 1)
