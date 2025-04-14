@@ -187,7 +187,7 @@
 	anim(target = loc, a_icon = 'monkestation/code/modules/bloody_cult/icons/effects.dmi', flick_anim = "rune_reveal-stop", plane = ABOVE_LIGHTING_PLANE)
 	..()
 
-/obj/effect/cult_ritual/reveal/New(var/turf/loc, var/mob/living/vic = null, var/dur = 2)
+/obj/effect/cult_ritual/reveal/New(turf/loc, mob/living/vic = null, dur = 2)
 	..()
 	if (!vic)
 		vic = locate() in loc
@@ -209,7 +209,7 @@
 			victim = null
 		qdel(src)
 
-/obj/effect/cult_ritual/reveal/HasProximity(var/atom/movable/AM)//Pulling victims will immediately dispel the effects
+/obj/effect/cult_ritual/reveal/HasProximity(atom/movable/AM)//Pulling victims will immediately dispel the effects
 	if (!victim)
 		qdel(src)
 		return
