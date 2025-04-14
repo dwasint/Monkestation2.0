@@ -13,7 +13,7 @@
 	COOLDOWN_DECLARE(corruption_cooldown)
 
 /obj/structure/cult/pylon/attack_hand(var/mob/M)
-	attackpylon(M, 5)
+	attack_pylon(M, 5)
 
 /*
 /obj/structure/cult/pylon/attack_basic_mob(mob/user, list/modifiers)
@@ -22,13 +22,13 @@
 		if(broken)
 			repair(user)
 			return
-	attackpylon(user, user.melee_damage_upper)
+	attack_pylon(user, user.melee_damage_upper)
 */
 
-/obj/structure/cult/pylon/attackby(var/obj/item/W, var/mob/user)
-	attackpylon(user, W.force)
+/obj/structure/cult/pylon/attackby(obj/item/W, mob/user)
+	attack_pylon(user, W.force)
 
-/obj/structure/cult/pylon/proc/attackpylon(mob/user as mob, var/damage)
+/obj/structure/cult/pylon/proc/attack_pylon(mob/user as mob, damage)
 	if(!broken)
 		if(prob(1+ damage * 5))
 			to_chat(user, "You hit the pylon, and its crystal breaks apart!")
@@ -52,7 +52,7 @@
 		else
 			to_chat(user, "You hit the pylon!")
 
-/obj/structure/cult/pylon/proc/repair(var/mob/user)
+/obj/structure/cult/pylon/proc/repair(mob/user)
 	if(broken)
 		to_chat(user, "You repair the pylon.")
 		broken = FALSE

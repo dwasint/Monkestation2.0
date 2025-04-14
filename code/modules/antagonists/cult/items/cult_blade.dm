@@ -194,3 +194,115 @@ Striking a noncultist, however, will tear their flesh."}
 		return TRUE
 	else
 		return FALSE
+
+
+/obj/item/melee/cultblade/halberd
+	name = "bloody halberd"
+	desc = "A halberd with a volatile axehead made from crystallized blood. It seems linked to its creator. And, admittedly, more of a poleaxe than a halberd."
+	icon = 'icons/obj/cult/items_and_weapons.dmi'
+	icon_state = "occultpoleaxe0"
+	base_icon_state = "occultpoleaxe"
+	inhand_icon_state = "occultpoleaxe0"
+	w_class = WEIGHT_CLASS_HUGE
+	force = 17
+	throwforce = 40
+	throw_speed = 2
+	armour_penetration = 30
+	block_chance = 30
+	slot_flags = null
+	attack_verb_continuous = list("attacks", "slices", "shreds", "sunders", "lacerates", "cleaves")
+	attack_verb_simple = list("attack", "slice", "shred", "sunder", "lacerate", "cleave")
+	sharpness = SHARP_EDGED
+	hitsound = 'sound/weapons/bladeslice.ogg'
+	block_sound = 'sound/weapons/parry.ogg'
+	var/datum/action/innate/cult/halberd/halberd_act
+
+/obj/item/melee/cultblade/halberd/Initialize(mapload)
+	. = ..()
+	AddComponent(/datum/component/butchering, \
+		speed = 10 SECONDS, \
+		effectiveness = 90, \
+	)
+	AddComponent(/datum/component/two_handed, \
+		force_unwielded = 17, \
+		force_wielded = 24, \
+	)
+
+/obj/item/melee/cultblade/halberd/update_icon_state()
+	icon_state = HAS_TRAIT(src, TRAIT_WIELDED) ? "[base_icon_state]1" : "[base_icon_state]0"
+	inhand_icon_state = HAS_TRAIT(src, TRAIT_WIELDED) ? "[base_icon_state]1" : "[base_icon_state]0"
+	return ..()
+
+/obj/item/melee/cultblade/halberd/Destroy()
+	if(halberd_act)
+		QDEL_NULL(halberd_act)
+	return ..()
+
+/obj/item/melee/cultblade/halberd/throw_impact(atom/hit_atom, datum/thrownthing/throwingdatum)
+	var/turf/T = get_turf(hit_atom)
+	if(isliving(hit_atom))
+		var/mob/living/target = hit_atom
+
+		if(IS_CULTIST(target) && target.put_in_active_hand(src))
+			playsound(src, 'sound/weapons/throwtap.ogg', 50)
+			target.visible_message(span_warning("[target] catches [src] out of the air!"))
+			return
+		if(target.can_block_magic() || IS_CULTIST(target))
+			target.visible_message(span_warning("[src] bounces off of [target], as if repelled by an unseen force!"))
+			return
+		if(!..())
+			target.Paralyze(50)
+			break_halberd(T)
+	else
+		..()
+
+/obj/item/melee/cultblade/halberd/proc/break_halberd(turf/T)
+	if(src)
+		if(!T)
+			T = get_turf(src)
+		if(T)
+			T.visible_message(span_warning("[src] shatters and melts back into blood!"))
+			new /obj/effect/temp_visual/cult/sparks(T)
+			new /obj/effect/decal/cleanable/blood/splatter(T)
+			playsound(T, 'sound/effects/glassbr3.ogg', 100)
+	qdel(src)
+
+/obj/item/melee/cultblade/halberd/hit_reaction(mob/living/carbon/human/owner, atom/movable/hitby, attack_text = "the attack", final_block_chance = 0, damage = 0, attack_type = MELEE_ATTACK)
+	if(HAS_TRAIT(src, TRAIT_WIELDED))
+		final_block_chance *= 2
+	if(IS_CULTIST(owner) && prob(final_block_chance))
+		owner.visible_message(span_danger("[owner] parries [attack_text] with [src]!"))
+		new /obj/effect/temp_visual/cult/sparks(get_turf(owner))
+		return TRUE
+	else
+		return FALSE
+
+/datum/action/innate/cult/halberd
+	name = "Bloody Bond"
+	desc = "Call the bloody halberd back to your hand!"
+	background_icon_state = "bg_demon"
+	overlay_icon_state = "bg_demon_border"
+
+	button_icon_state = "bloodspear"
+	default_button_position = "6:157,4:-2"
+	var/obj/item/melee/cultblade/halberd/halberd
+	var/cooldown = 0
+
+/datum/action/innate/cult/halberd/Grant(mob/user, obj/blood_halberd)
+	. = ..()
+	halberd = blood_halberd
+
+/datum/action/innate/cult/halberd/Activate()
+	if(owner == halberd.loc || cooldown > world.time)
+		return
+	var/halberd_location = get_turf(halberd)
+	var/owner_location = get_turf(owner)
+	if(get_dist(owner_location, halberd_location) > 10)
+		to_chat(owner,span_cult("The halberd is too far away!"))
+	else
+		cooldown = world.time + 20
+		if(isliving(halberd.loc))
+			var/mob/living/current_owner = halberd.loc
+			current_owner.dropItemToGround(halberd)
+			current_owner.visible_message(span_warning("An unseen force pulls the bloody halberd from [current_owner]'s hands!"))
+		halberd.throw_at(owner, 10, 2, owner)

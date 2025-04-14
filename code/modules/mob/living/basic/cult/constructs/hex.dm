@@ -151,7 +151,7 @@
 		if (!target && (loc == get_turf(master.satellites[spot+1])))
 			dir = master.dir
 
-/mob/living/simple_animal/hostile/hex/Cross(var/atom/movable/mover, var/turf/target, var/height = 1.5, var/air_group = 0)
+/mob/living/simple_animal/hostile/hex/Cross(atom/movable/mover, turf/target, height = 1.5, air_group = 0)
 	if(istype(mover, /obj/projectile/bloodslash))//stop hitting yourself ffs!
 		return 1
 	if ((mode == HEX_MODE_ESCORT) && (istype(mover, /mob/living/simple_animal/hostile/hex) || (mover == master)))//Escort mode is janky otherwise
@@ -159,7 +159,7 @@
 
 	return ..()
 
-/mob/living/simple_animal/hostile/hex/Move(NewLoc, Dir = 0, step_x = 0, step_y = 0, var/glide_size_override = 0)
+/mob/living/simple_animal/hostile/hex/Move(NewLoc, Dir = 0, step_x = 0, step_y = 0, glide_size_override = 0)
 	. = ..()
 	if (target)
 		dir = get_dir(src, target)
