@@ -457,6 +457,7 @@
 	icon = 'icons/obj/storage/storage.dmi'
 	icon_state = "belongings"
 	w_class = WEIGHT_CLASS_NORMAL
+	item_flags = parent_type::item_flags | ABSTRACT
 
 /obj/item/packobelongings/New()
 	..()

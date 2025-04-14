@@ -20,7 +20,7 @@
 //------------------------------------------------------------
 /obj/abstract/mind_ui_element/test_back
 	icon = 'monkestation/code/modules/bloody_cult/icons/480x480.dmi'
-	icon_state = "test_background"
+	icon_state = null
 	layer = FULLSCREEN_LAYER
 	plane = FULLSCREEN_PLANE
 	blend_mode = BLEND_ADD
@@ -87,7 +87,7 @@
 
 /obj/abstract/mind_ui_element/hoverable/movable/test_move
 	icon = 'monkestation/code/modules/bloody_cult/icons/32x32.dmi'
-	icon_state = "move"
+	icon_state = null
 	layer = MIND_UI_BUTTON
 	offset_x = -80
 	offset_y = 16

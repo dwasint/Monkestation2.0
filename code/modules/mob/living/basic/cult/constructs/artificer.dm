@@ -109,7 +109,7 @@
 	mouse_opacity = 0
 	invisibility = 101
 	icon = 'monkestation/code/modules/bloody_cult/icons/effects.dmi'
-	icon_state = "blank"
+	icon_state = null
 
 /mob/living/basic/construct/artificer/perfect/proc/update_satellites()
 	var/turf/T = get_turf(src)

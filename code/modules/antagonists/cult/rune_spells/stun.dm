@@ -68,7 +68,8 @@
 	qdel(src)
 
 /obj/effect/cult_ritual/stun
-	icon_state = "stun_warning"
+	//icon_state = "stun_warning"
+	icon_state = null
 	color = "black"
 	anchored = 1
 	alpha = 0
@@ -76,7 +77,7 @@
 	mouse_opacity = 0
 	var/stun_duration = 10 SECONDS
 
-/obj/effect/cult_ritual/stun/New(turf/loc, var/type = 1, var/mob/living/carbon/caster)
+/obj/effect/cult_ritual/stun/New(turf/loc, type = 1, mob/living/carbon/caster)
 	..()
 
 	switch (type)
