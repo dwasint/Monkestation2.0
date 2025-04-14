@@ -931,6 +931,9 @@ var/list/dance_platform_prisoners = list()
 		for (var/mob/living/carbon/C in loc)
 			if (valid_dancer(C))
 				break
+		for(var/mob/living/basic/basic in loc)
+			if(valid_dancer(basic))
+				break
 
 /obj/effect/cult_ritual/dance_platform/Entered(atom/movable/arrived, atom/old_loc, list/atom/old_locs)
 	. = ..()
