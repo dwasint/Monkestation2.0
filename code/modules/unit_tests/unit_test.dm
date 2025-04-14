@@ -258,13 +258,13 @@ GLOBAL_VAR_INIT(focused_tests, focused_tests())
 		/obj/effect/transmission_beam, // relies on the existence of a PTL
 		/obj/item/radio/entertainment/speakers/pda, // shouldn't outside of a modular computer
 		/mob/living/carbon/human/dummy/mechcomp, // shouldn't outside of an interaction component
-		/obj/item/weapon/tome,
+		/obj/item/tome,
 		/obj/item/weapon/blood_tesseract,
 		/obj/item/restraints/handcuffs/cult,
 		/mob/living/basic/astral_projection,
 		/mob/living/simple_animal/hostile/hex,
-		/obj/item/weapon/melee/blood_dagger,
-		/obj/item/weapon/melee/soulblade,
+		/obj/item/melee/blood_dagger,
+		/obj/item/melee/soulblade,
 		/obj/effect/tracker/boomerang,
 		/obj/effect/new_rune,
 		/obj/vehicle/ridden/adminbus,

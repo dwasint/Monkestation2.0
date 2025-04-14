@@ -365,7 +365,7 @@ GLOBAL_LIST_INIT(blood_communion, list())
 	required_tattoo = TATTOO_RUNESTORE
 	icon_state = "power_runic"
 
-	var/obj/item/weapon/talisman/talisman
+	var/obj/item/talisman/talisman
 
 /obj/abstract/mind_ui_element/hoverable/bloodcult_spell/talisman/UpdateIcon(var/appear = FALSE)
 	overlays.len = 0
@@ -385,8 +385,8 @@ GLOBAL_LIST_INIT(blood_communion, list())
 
 	if(talisman)
 		talisman.trigger(M)
-	else if(istype(M.get_active_held_item(), /obj/item/weapon/talisman))
-		var/obj/item/weapon/talisman/T = M.get_active_held_item()
+	else if(istype(M.get_active_held_item(), /obj/item/talisman))
+		var/obj/item/talisman/T = M.get_active_held_item()
 		if(T.spell_type)
 			M.dropItemToGround(T)
 			T.linked_ui = src
@@ -407,7 +407,7 @@ GLOBAL_LIST_INIT(blood_communion, list())
 	required_tattoo = TATTOO_DAGGER
 	icon_state = "power_dagger"
 
-	var/obj/item/weapon/melee/blood_dagger/dagger
+	var/obj/item/melee/blood_dagger/dagger
 
 /obj/abstract/mind_ui_element/hoverable/bloodcult_spell/dagger/Click()
 
@@ -433,7 +433,7 @@ GLOBAL_LIST_INIT(blood_communion, list())
 
 		if(good_hand)
 			user.dropItemToGround(user.get_active_held_item())
-			var/obj/item/weapon/melee/blood_dagger/BD = new (user)
+			var/obj/item/melee/blood_dagger/BD = new (user)
 			BD.originator = user
 			BD.linked_ui = src
 			dagger = BD
@@ -1039,7 +1039,7 @@ GLOBAL_LIST_INIT(blood_communion, list())
 					if (cult_datum == R)
 						slot.overlays += "you"
 					if (isshade(O))
-						if (!istype(O.loc, /obj/item/soulstone) && !istype(O.loc, /obj/item/weapon/melee/soulblade))
+						if (!istype(O.loc, /obj/item/soulstone) && !istype(O.loc, /obj/item/melee/soulblade))
 							slot.overlays += "shade"
 					slot.offset_x = -98 + accumulated_offset
 					accumulated_offset += 17

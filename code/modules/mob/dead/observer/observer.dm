@@ -40,6 +40,7 @@ GLOBAL_VAR_INIT(observer_default_invisibility, INVISIBILITY_OBSERVER)
 	var/gas_scan = FALSE //Are gas scans currently enabled?
 	var/list/datahuds = list(DATA_HUD_SECURITY_ADVANCED, DATA_HUD_MEDICAL_ADVANCED, DATA_HUD_DIAGNOSTIC_ADVANCED, DATA_HUD_CREW) //list of data HUDs shown to ghosts.
 	var/ghost_orbit = GHOST_ORBIT_CIRCLE
+	var/appearance_backup
 
 	//These variables store hair data if the ghost originates from a species with head and/or facial hair.
 	var/hairstyle
@@ -63,6 +64,9 @@ GLOBAL_VAR_INIT(observer_default_invisibility, INVISIBILITY_OBSERVER)
 	var/datum/minigames_menu/minigames_menu
 
 /mob/dead/observer/Initialize(mapload)
+	if(GLOB.eclipse.eclipse_start_time && !GLOB.eclipse.eclipse_finished)
+		narsie_act()
+
 	set_invisibility(GLOB.observer_default_invisibility)
 
 	add_verb(src, list(
@@ -901,6 +905,21 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 			client.clear_screen()
 			hud_used.show_hud(hud_used.hud_version)
 
+/mob/dead/observer/narsie_act()
+	var/prompt = tgui_alert(src, "Do you wish to become a cult ghost?", "[name]", list("Yes", "No"), timeout = 20 SECONDS)
+	if(prompt == "No")
+		return
+	if(invisibility != 0)
+		var/datum/action/cooldown/blood_doodle/doodle = new
+		doodle.Grant(src)
+		appearance_backup = appearance
+		icon = 'monkestation/code/modules/bloody_cult/icons/mob.dmi'
+		icon_state = "ghost-narsie"
+		invisibility = 0
+		alpha = 0
+		animate(src, alpha = 127, time = 0.5 SECONDS)
+		//to_chat(src, span_cult("Even as a non-corporal being, you can feel Nar-Sie's presence altering you. You are now visible to everyone.") )
+		flick("rune_seer", src)
 
 /mob/dead/observer/proc/cleanup_observe()
 	if(isnull(observetarget))

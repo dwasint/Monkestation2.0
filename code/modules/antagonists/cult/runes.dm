@@ -213,12 +213,6 @@ structure_check() searches for nearby cultist structures required for the invoca
 	color = RUNE_COLOR_TALISMAN
 	construct_invoke = FALSE
 
-/obj/effect/rune/empower/invoke(list/invokers)
-	. = ..()
-	var/mob/living/user = invokers[1] //the first invoker is always the user
-	for(var/datum/action/innate/cult/blood_magic/BM in user.actions)
-		BM.Activate()
-
 /obj/effect/rune/teleport
 	cultist_name = "Teleport"
 	cultist_desc = "warps everything above it to another chosen teleport rune."

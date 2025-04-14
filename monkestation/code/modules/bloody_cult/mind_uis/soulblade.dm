@@ -15,7 +15,7 @@
 
 /datum/mind_ui/soulblade/Valid()
 	var/mob/M = mind.current
-	if (isshade(M) && istype(M.loc, /obj/item/weapon/melee/soulblade))
+	if (isshade(M) && istype(M.loc, /obj/item/melee/soulblade))
 		return TRUE
 	return FALSE
 
@@ -30,9 +30,9 @@
 
 /obj/abstract/mind_ui_element/blood_gauge/UpdateIcon()
 	var/mob/living/basic/shade/M = GetUser()
-	if(!istype(M) || !istype(M.loc, /obj/item/weapon/melee/soulblade))
+	if(!istype(M) || !istype(M.loc, /obj/item/melee/soulblade))
 		return
-	var/obj/item/weapon/melee/soulblade/SB = M.loc
+	var/obj/item/melee/soulblade/SB = M.loc
 	overlays.len = 0
 
 	var/image/gauge = image('monkestation/code/modules/bloody_cult/icons/soulblade/18x200.dmi', src, "blood")
@@ -57,9 +57,9 @@
 
 /obj/abstract/mind_ui_element/blood_count/UpdateIcon()
 	var/mob/living/basic/shade/M = GetUser()
-	if(!istype(M) || !istype(M.loc, /obj/item/weapon/melee/soulblade))
+	if(!istype(M) || !istype(M.loc, /obj/item/melee/soulblade))
 		return
-	var/obj/item/weapon/melee/soulblade/SB = M.loc
+	var/obj/item/melee/soulblade/SB = M.loc
 	overlays.len = 0
 	overlays += String2Image("[SB.blood]")
 	if(SB.blood >= 100)

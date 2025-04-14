@@ -16,7 +16,7 @@
 /turf/open/lava,
 /area/centcom/tdome/arena/actual)
 "bk" = (
-/obj/structure/destructible/cult/item_dispenser/altar,
+/obj/structure/cult/altar,
 /obj/item/toy/plush/narplush,
 /turf/open/floor/cult,
 /area/centcom/tdome/arena/actual)
