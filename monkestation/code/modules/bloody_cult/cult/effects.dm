@@ -978,20 +978,19 @@ var/list/dance_platform_prisoners = list()
 						source.dancer_check(C)
 						return TRUE
 		else if (isshade(mover) || isconstruct(mover))
-			var/mob/living/simple_animal/SA = mover
+			var/mob/living/basic/SA = mover
 			if (SA.mind && SA.stat != DEAD)
-				if (IS_CULTIST(SA))
-					dancer = SA
-					overlays.len = 0
-					var/image/I_circle = image(icon, src, "dance_platform_full")
-					SET_PLANE_EXPLICIT(I_circle, GAME_PLANE, dancer)
-					I_circle.appearance_flags |= RESET_COLOR
-					var/image/I_markings = image(icon, src, "dance_platform_markings")
-					SET_PLANE_EXPLICIT(I_markings, GAME_PLANE, dancer)
-					overlays += I_circle
-					overlays += I_markings
-					source.dancer_check(SA)
-					return TRUE
+				dancer = SA
+				overlays.len = 0
+				var/image/I_circle = image(icon, src, "dance_platform_full")
+				SET_PLANE_EXPLICIT(I_circle, GAME_PLANE, dancer)
+				I_circle.appearance_flags |= RESET_COLOR
+				var/image/I_markings = image(icon, src, "dance_platform_markings")
+				SET_PLANE_EXPLICIT(I_markings, GAME_PLANE, dancer)
+				overlays += I_circle
+				overlays += I_markings
+				source.dancer_check(SA)
+				return TRUE
 	return FALSE
 
 /obj/effect/cult_ritual/dance_platform/Exit(atom/movable/mover, direction)
