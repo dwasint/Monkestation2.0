@@ -30,6 +30,15 @@
 			S.conceal()
 			cult_datum.gain_devotion(10, DEVOTION_TIER_0, "conceal_structure", S)
 
+
+	for(var/obj/machinery/door/airlock/cult/S in range(effect_range, T))
+		var/dist = cheap_pythag(S.x - T.x, S.y - T.y)
+		if (S.conceal_cooldown)
+			continue
+		if (dist <= effect_range+0.5)
+			S.conceal()
+			cult_datum.gain_devotion(10, DEVOTION_TIER_0, "conceal_structure", S)
+
 	for(var/obj/structure/destructible/cult/item_dispenser/dispenser in range(effect_range, T))
 		var/dist = cheap_pythag(dispenser.x - T.x, dispenser.y - T.y)
 		if (dist <= effect_range+0.5)

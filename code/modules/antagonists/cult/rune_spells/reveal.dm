@@ -72,6 +72,24 @@
 					shocked[L] = 2
 			S.reveal()
 
+	for(var/obj/machinery/door/airlock/cult/S in range(effect_range, T))//only concealed structures trigger the effect
+		var/dist = cheap_pythag(S.x - T.x, S.y - T.y)
+		if (dist <= effect_range+0.5)
+			cult_datum.gain_devotion(10, DEVOTION_TIER_0, "reveal_structure", S)
+			anim(target = S, a_icon = 'monkestation/code/modules/bloody_cult/icons/224x224.dmi', flick_anim = "rune_reveal", offX = -32*shock_range, offY = -32*shock_range, plane = ABOVE_LIGHTING_PLANE)
+			for(var/mob/living/L in viewers(S))
+				if (IS_CULTIST(L))
+					continue
+				var/dist2 = cheap_pythag(L.x - S.x, L.y - S.y)
+				if (dist2 > shock_range+0.5)
+					continue
+				shadow(L, S.loc, "rune_reveal")
+				if (L in shocked)
+					shocked[L] = min(shocked[L]+shock_per_obj, max_shock)
+				else
+					shocked[L] = 2
+			S.reveal()
+
 	for(var/obj/effect/new_rune/R in range(effect_range, T))
 		var/dist = cheap_pythag(R.x - T.x, R.y - T.y)
 		if (dist <= effect_range+0.5)
