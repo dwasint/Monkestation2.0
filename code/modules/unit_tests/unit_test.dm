@@ -271,8 +271,6 @@ GLOBAL_VAR_INIT(focused_tests, focused_tests())
 		/obj/projectile/soulbullet,
 		/obj/projectile/blooddagger,
 		/obj/projectile/bloodslash,
-		/mob/living/simple_animal/hostile/hex,
-		/mob/living/basic/astral_projection,
 		// monkestation end
 	)
 	//Say it with me now, type template
