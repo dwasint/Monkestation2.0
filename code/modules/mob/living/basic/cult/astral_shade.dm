@@ -109,6 +109,7 @@ GLOBAL_LIST_INIT(astral_projections, list())
 	invisibility = 101
 	set_density(FALSE)
 	sleep(20)
+	anchor = null
 	if (!direct_delete)
 		qdel(src)
 

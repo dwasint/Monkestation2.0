@@ -42,6 +42,12 @@
 	HEX_MODE_GUARD 		: Stands in place. If it spots an enemy, will chase it, then attempt to return to the spot where they were placed.
 	HEX_MODE_ESCORT		: Follows the Artificer that summoned them around if they're close enough, otherwise stays idle. Shoots at enemies but doesn't chase them.
 	*/
+/mob/living/simple_animal/hostile/hex/Destroy()
+	. = ..()
+	QDEL_NULL(master_glow)
+	QDEL_NULL(harm_glow)
+	guard_spot = null
+	master = null
 
 /mob/living/simple_animal/hostile/hex/New()
 	..()
