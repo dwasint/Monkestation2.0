@@ -123,6 +123,8 @@
 	if(length(validturfs))
 		var/turf/converted_turf = pick(validturfs)
 		var/datum/team/cult/cult = locate_team(/datum/team/cult)
+		if(!cult)
+			return
 		var/datum/mind/mind = pick(cult.members)
 		var/datum/antagonist/cult/cultist = mind?.has_antag_datum(/datum/antagonist/cult)
 		if(isplatingturf(converted_turf))
