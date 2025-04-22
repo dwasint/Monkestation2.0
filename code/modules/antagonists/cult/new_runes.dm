@@ -87,8 +87,7 @@ var/list/rune_appearances_cache = list()
 
 	//AI cannot see runes, instead they see blood splatters.
 	for(var/mob/living/silicon/ai/AI in GLOB.player_list)
-		if(AI.client)
-			AI.client.images += blood_image
+		AI.client.images += blood_image
 
 	runes += src
 

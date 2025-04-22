@@ -425,7 +425,7 @@ GLOBAL_LIST_INIT(bibleitemstates, list(
 	var/datum/team/cult/cult = locate_team(/datum/team/cult)
 	var/living_cultists = 0
 	for(var/datum/mind/mind in cult.members)
-		if (mind.current.stat != DEAD)
+		if (mind.current?.stat != DEAD)
 			living_cultists++
 	if (living_cultists <= 1)
 		last_cultist = TRUE
