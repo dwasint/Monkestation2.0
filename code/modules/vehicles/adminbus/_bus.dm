@@ -557,9 +557,6 @@
 
 	antag_madness_adminbus(M)
 */
-/obj/vehicle/ridden/adminbus/proc/Mounted_Jukebox(mob/bususer)
-	busjuke.attack_hand(bususer)
-
 /obj/vehicle/ridden/adminbus/proc/Adminbus_Deletion(mob/bususer)//make sure to always use this proc when deleting an adminbus
 	if(bususer)
 		if(alert(bususer, "This will free all passengers, remove any spawned mobs/laserguns/bombs, [singulo ? "free the captured singularity" : ""], and remove all the entities associated with the bus(chains, roadlights, jukebox, ...) Are you sure?", "Adminbus Deletion", "Yes", "No") != "Yes")

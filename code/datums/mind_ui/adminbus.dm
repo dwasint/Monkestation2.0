@@ -553,7 +553,6 @@
 	var/mob/M = GetUser()
 	if (M && istype(M.buckled, /obj/vehicle/ridden/adminbus))
 		var/obj/vehicle/ridden/adminbus/A = M.buckled
-		A.Mounted_Jukebox(M)
 
 //------------------------------------------------------------
 
