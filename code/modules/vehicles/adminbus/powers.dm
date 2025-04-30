@@ -29,7 +29,6 @@
 	var/list/spawnedbombs = list()
 	var/list/spawnedlasers = list()
 	var/obj/structure/teleportwarp/warp = null
-	var/obj/machinery/media/jukebox/busjuke = null
 
 /obj/vehicle/ridden/adminbus/New()
 	..()
@@ -65,9 +64,6 @@
 		hookshot -= H
 		qdel(H)
 
-	if (busjuke)
-		busjuke.disconnect_media_source()
-	QDEL_NULL(busjuke)
 	QDEL_NULL(warp)
 	QDEL_NULL(lightsource)
 	QDEL_NULL(singulo)
@@ -180,9 +176,6 @@
 	handle_mob_bumping()
 	if(warp)
 		warp.forceMove(loc)
-	if(busjuke)
-		busjuke.forceMove(loc)
-		busjuke.setDir(dir)
 
 	if(chain_base)
 		chain_base.move_child(T)
