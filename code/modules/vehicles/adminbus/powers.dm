@@ -45,11 +45,6 @@
 	lightsource = new/obj/structure/buslight(src.loc)
 	update_lightsource()
 	warp = new/obj/structure/teleportwarp(src.loc)
-	busjuke = new/obj/machinery/media/jukebox(src.loc)
-	busjuke.plane = ABOVE_GAME_PLANE
-	busjuke.dir = EAST
-	busjuke.density = FALSE
-	busjuke.alpha = 0
 
 /obj/vehicle/ridden/adminbus/Destroy()
 	for(var/i = passengers.len;i>0;i--)
