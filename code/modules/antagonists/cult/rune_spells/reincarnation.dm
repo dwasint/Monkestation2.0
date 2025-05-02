@@ -127,6 +127,7 @@
 			shade.mind.transfer_to(shade.body)
 			shade.body?.forceMove(shade.loc)
 			shade.body?.fully_heal()
+			shade.body?.revive()
 			M = shade.body
 		else
 			M = new(get_turf(shade))
