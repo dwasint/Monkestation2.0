@@ -40,7 +40,7 @@
 	to_chat(viewers(user), span_danger("[user] swallows \a [src] and appears to be choking on it! It looks like \he's trying to commit suicide.") )
 
 /obj/item/talisman/examine(var/mob/user)
-	..()
+	. = ..()
 	if (blood_text)
 		user << browse("<HTML><HEAD><TITLE>[name]</TITLE></HEAD><BODY text = #612014>[blood_text]</BODY></HTML>", "window = [name]")
 		onclose(user, "[name]")
