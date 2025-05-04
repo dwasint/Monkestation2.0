@@ -41,7 +41,7 @@
 	anim(target = M, a_icon = 'monkestation/code/modules/bloody_cult/icons/64x64.dmi', flick_anim = "touch_stun", offX = -32/2, offY = -32/2, plane = ABOVE_LIGHTING_PLANE)
 
 	playsound(spell_holder, 'monkestation/code/modules/bloody_cult/sound/stun_talisman.ogg', 25, 0, -5)
-	if (prob(15))//for old times' sake
+	if (prob(15) || istype(activator.get_item_by_slot(ITEM_SLOT_OCLOTHING), /obj/item/clothing/suit/costume/shrine_maiden))//for old times' sake
 		invoke(activator, "Dream sign ''Evil sealing talisman''!", 1)
 	else
 		invoke(activator, invocation, 1)
