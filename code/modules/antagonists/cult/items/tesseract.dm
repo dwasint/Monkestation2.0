@@ -37,12 +37,12 @@
 		anim(target = T, a_icon = 'icons/effects/effects.dmi', flick_anim = "tesseract_break", plane = ABOVE_LIGHTING_PLANE)
 	qdel(src)
 
-/obj/item/weapon/blood_tesseract/examine(var/mob/user)
-	..()
+/obj/item/weapon/blood_tesseract/examine(mob/user)
+	. = ..()
 	if (IS_CULTIST(user))
-		to_chat(user, span_info("Press it in your hands to discard currently equiped cult clothing and re-equip your stored items.") )
+		. += span_info("Press it in your hands to discard currently equiped cult clothing and re-equip your stored items.")
 
-/obj/item/weapon/blood_tesseract/attack_self(var/mob/living/user)
+/obj/item/weapon/blood_tesseract/attack_self(mob/living/user)
 	if (IS_CULTIST(user))
 		//Alright so we'll discard cult gear and equip the stuff stored inside.
 		anim(target = user, a_icon = 'icons/effects/64x64.dmi', flick_anim = "rune_tesseract", offX = -32/2, offY = -32/2, plane = ABOVE_LIGHTING_PLANE)

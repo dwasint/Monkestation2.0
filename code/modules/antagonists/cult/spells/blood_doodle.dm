@@ -29,12 +29,12 @@
 	var/turf/parent_turf = get_turf(owner)
 
 	if(locate(/obj/effect/decal/cleanable/blood/writing) in parent_turf)
-		to_chat(span_cultbold("There is already a blood drawing here"))
+		to_chat(owner, span_cultbold("There is already a blood drawing here"))
 		return
 
 	var/obj/effect/decal/cleanable/blood/blood = locate(/obj/effect/decal/cleanable/blood) in parent_turf
 	if(!blood)
-		to_chat(span_cultbold("There is no blood to draw with here!"))
+		to_chat(owner, span_cultbold("There is no blood to draw with here!"))
 		return
 
 	var/blood_color = blood.base_color

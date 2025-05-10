@@ -33,7 +33,7 @@
 			REMOVE_TRAIT(src, TRAIT_GODMODE, type)
 			//shade.canmove = 1
 			shade.cancel_camera()
-			var/datum/control/C = shade.control_object[src]
+			var/datum/control/C = shade.control_object
 			if(C)
 				C.break_control()
 				qdel(C)
