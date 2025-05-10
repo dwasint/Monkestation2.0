@@ -39,7 +39,7 @@
 /obj/item/talisman/suicide_act(mob/living/user)
 	to_chat(viewers(user), span_danger("[user] swallows \a [src] and appears to be choking on it! It looks like \he's trying to commit suicide.") )
 
-/obj/item/talisman/examine(var/mob/user)
+/obj/item/talisman/examine(mob/user)
 	. = ..()
 	if (blood_text)
 		user << browse("<HTML><HEAD><TITLE>[name]</TITLE></HEAD><BODY text = #612014>[blood_text]</BODY></HTML>", "window = [name]")
@@ -62,7 +62,7 @@
 	else
 		. += span_info("This one was some arcane drawings on it. You cannot read them.")
 
-/obj/item/talisman/attack_self(var/mob/living/user)
+/obj/item/talisman/attack_self(mob/living/user)
 	if (blood_text)
 		user << browse("<HTML><HEAD><TITLE>[name]</TITLE></HEAD><BODY text = #612014>[blood_text]</BODY></HTML>", "window = [name]")
 		onclose(user, "[name]")
@@ -81,7 +81,7 @@
 			return
 	..()
 
-/obj/item/talisman/proc/trigger(var/mob/user)
+/obj/item/talisman/proc/trigger(mob/user)
 	if (!user)
 		return
 
@@ -163,6 +163,7 @@
 		var/datum/rune_spell/active_spell = R.active_spell
 		if(!istype(R))
 			return
+		name = "[active_spell.name] Talisman"
 		if (active_spell)//some runes may change their interaction type dynamically (ie: Path Exit runes)
 			talisman_interaction = active_spell.talisman_absorb
 			if (istype(active_spell, /datum/rune_spell/portalentrance))
