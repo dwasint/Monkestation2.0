@@ -4,6 +4,7 @@
 	anchored = 1
 	icon = 'monkestation/code/modules/bloody_cult/icons/cult.dmi'
 	max_integrity = 50
+	obj_flags = CAN_BE_HIT
 	var/sound_damaged = null
 	var/sound_destroyed = null
 	var/conceal_cooldown = 0
@@ -101,7 +102,7 @@
 	takeDamage(Proj.damage)
 	return ..()
 
-/obj/structure/cult/attackby(obj/item/weapon/weapon, mob/user, params)
+/obj/structure/cult/attackby(obj/item/weapon, mob/user, params)
 	if(istype(weapon))
 		if(!(user.istate & ISTATE_HARM )|| weapon.force == 0)
 			visible_message(span_warning("\The [user] gently taps \the [src] with \the [weapon].") )
