@@ -323,9 +323,9 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 /// We have some form of forced gravity acting on us
 #define TRAIT_FORCED_GRAVITY "forced_gravity"
 /// Makes whispers clearly heard from seven tiles away, the full hearing range
-/* #define TRAIT_GOOD_HEARING "good_hearing" */
+#define TRAIT_GOOD_HEARING "good_hearing"
 /// Allows you to hear speech through walls
-/* #define TRAIT_XRAY_HEARING "xray_hearing" */
+#define TRAIT_XRAY_HEARING "xray_hearing"
 
 /// This mob can not enter or move on a shuttle
 /* #define TRAIT_BLOCK_SHUTTLE_MOVEMENT "block_shuttle_movement" */
@@ -590,7 +590,7 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 /* #define TRAIT_HIGH_VALUE_RANSOM "high_value_ransom" */
 
 /// Makes the user handcuff others faster
-/* #define TRAIT_FAST_CUFFING "fast_cuffing" */
+#define TRAIT_FAST_CUFFING "fast_cuffing"
 
 ///Given by /obj/item/virgin_mary, mobs that used this can no longer use it again ever
 /* #define TRAIT_MAFIAINITIATE "mafiainitiate" */
@@ -660,7 +660,7 @@ Remember to update _globalvars/traits.dm if you're adding/removing/renaming trai
 /// Allows chef's to chefs kiss their food, to make them with love
 #define TRAIT_CHEF_KISS "chefs_kiss"
 /// Allows clowns to bend balloons into animals
-/* #define TRAIT_BALLOON_SUTRA "balloon_sutra" */
+#define TRAIT_BALLOON_SUTRA "balloon_sutra"
 /// Allows detectives to identify chemicals by taste
 /* #define TRAIT_DETECTIVES_TASTE "detectives_taste" */
 

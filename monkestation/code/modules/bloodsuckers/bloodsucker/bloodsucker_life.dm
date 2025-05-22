@@ -19,9 +19,10 @@
 			to_chat(owner.current, span_notice("The power of your blood begins knitting your wounds..."))
 			COOLDOWN_START(src, bloodsucker_spam_healing, BLOODSUCKER_SPAM_HEALING)
 	// Standard Updates
+
+	update_blood()
 	SEND_SIGNAL(src, COMSIG_BLOODSUCKER_ON_LIFETICK)
 	INVOKE_ASYNC(src, PROC_REF(HandleStarving))
-	INVOKE_ASYNC(src, PROC_REF(update_blood))
 	INVOKE_ASYNC(src, PROC_REF(update_hud))
 
 /datum/antagonist/bloodsucker/proc/on_death(mob/living/source, gibbed)
@@ -70,6 +71,11 @@
 		target.reagents.trans_to(owner.current, INGEST, 1) // Run transfer of 1 unit of reagent from them to me.
 	owner.current.playsound_local(null, 'sound/effects/singlebeat.ogg', vol = 40, vary = TRUE) // Play THIS sound for user only. The "null" is where turf would go if a location was needed. Null puts it right in their head.
 	total_blood_drank += blood_taken
+	if(target.mind) // Checks if the target has a mind
+		if(IS_VASSAL(target)) // Checks if the target is a vassal
+			blood_level_gain += blood_taken / 4
+		else
+			blood_level_gain += blood_taken
 	return blood_taken
 
 /**
@@ -86,9 +92,12 @@
 		return FALSE
 	if(!in_torpor && (HAS_TRAIT(owner.current, TRAIT_MASQUERADE) || owner.current.has_status_effect(/datum/status_effect/bloodsucker_sol)))
 		return FALSE
+	var/in_coffin = istype(owner.current.loc, /obj/structure/closet/crate/coffin)
 	var/actual_regen = bloodsucker_regen_rate + additional_regen
 	owner.current.adjustCloneLoss(-1 * (actual_regen * 4) * mult)
 	owner.current.adjustOrganLoss(ORGAN_SLOT_BRAIN, -1 * (actual_regen * 4) * mult) //adjustBrainLoss(-1 * (actual_regen * 4) * mult, 0)
+	if(in_coffin && in_torpor) // if we're in a coffin, in torpor, stabilize our body temperature.
+		owner.current.update_homeostasis_level(type, owner.current.standard_body_temperature, 10 KELVIN)
 	if(!iscarbon(owner.current)) // Damage Heal: Do I have damage to ANY bodypart?
 		return
 	var/mob/living/carbon/user = owner.current
@@ -99,7 +108,7 @@
 	if (blood_over_cap > 0)
 		costMult += round(blood_over_cap / 1000, 0.1) // effectively 1 (normal) + 0.1 for every 100 blood you are over cap
 	if(in_torpor)
-		if(istype(user.loc, /obj/structure/closet/crate/coffin))
+		if(in_coffin)
 			if(HAS_TRAIT(owner.current, TRAIT_MASQUERADE) && (COOLDOWN_FINISHED(src, bloodsucker_spam_healing)))
 				to_chat(user, span_alert("You do not heal while your Masquerade ability is active."))
 				COOLDOWN_START(src, bloodsucker_spam_healing, BLOODSUCKER_SPAM_MASQUERADE)
@@ -292,7 +301,7 @@
 		COMSIG_LIVING_LIFE,
 		COMSIG_LIVING_DEATH,
 	))
-	UnregisterSignal(SSsunlight, list(
+	UnregisterSignal(SSsol, list(
 		COMSIG_SOL_RANKUP_BLOODSUCKERS,
 		COMSIG_SOL_NEAR_START,
 		COMSIG_SOL_END,
@@ -311,7 +320,7 @@
 	user.remove_all_embedded_objects()
 	playsound(owner.current, 'sound/effects/tendril_destroyed.ogg', vol = 40, vary = TRUE)
 
-	if(SEND_SIGNAL(src, BLOODSUCKER_FINAL_DEATH) & DONT_DUST)
+	if(SEND_SIGNAL(src, COMSIG_BLOODSUCKER_FINAL_DEATH) & DONT_DUST)
 		return
 
 	// Elders get dusted, Fledglings get gibbed.
