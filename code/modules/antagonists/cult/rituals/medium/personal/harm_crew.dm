@@ -27,7 +27,7 @@
 /datum/bloodcult_ritual/harm_crew/update_desc()
 	desc = "wield cult weaponry...<br>spill their blood...<br>sear their skin...<br>at least [targets - hit_targets.len] different individuals..."
 
-/datum/bloodcult_ritual/harm_crew/key_found(var/mob/living/L)
+/datum/bloodcult_ritual/harm_crew/key_found(mob/living/L)
 	if (IS_CULTIST(L))
 		return FALSE
 	if (L.mind in hit_targets)

@@ -12,18 +12,9 @@
 	/// The cooldown for corruptions.
 	COOLDOWN_DECLARE(corruption_cooldown)
 
-/obj/structure/cult/pylon/attack_hand(var/mob/M)
+/obj/structure/cult/pylon/attack_hand(mob/M)
 	attack_pylon(M, 5)
 
-/*
-/obj/structure/cult/pylon/attack_basic_mob(mob/user, list/modifiers)
-	. = ..()
-	if(istype(user, /mob/living/basic/construct/artificer))
-		if(broken)
-			repair(user)
-			return
-	attack_pylon(user, user.melee_damage_upper)
-*/
 
 /obj/structure/cult/pylon/attackby(obj/item/W, mob/user)
 	attack_pylon(user, W.force)

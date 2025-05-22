@@ -1450,7 +1450,7 @@ GLOBAL_LIST_INIT(blood_communion, list())
 	var/datum/team/cult/cult
 	var/datum/antagonist/cult/cultist
 
-/obj/abstract/mind_ui_element/hoverable/bloodcult_ritual/New(turf/loc, var/datum/mind_ui/P)
+/obj/abstract/mind_ui_element/hoverable/bloodcult_ritual/New(turf/loc, datum/mind_ui/P)
 	if (!istype(P))
 		qdel(src)
 		return

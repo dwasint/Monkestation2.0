@@ -5,7 +5,7 @@
 	icon_state = "bloodpool"
 	tier = 1
 
-/datum/cult_tattoo/bloodpool/getTattoo(/mob/M)
+/datum/cult_tattoo/bloodpool/getTattoo(mob/M)
 	..()
 	var/datum/antagonist/cult/cult_datum = M.mind?.has_antag_datum(/datum/antagonist/cult)
 	if (cult_datum)

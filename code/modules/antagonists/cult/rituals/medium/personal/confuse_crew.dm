@@ -14,7 +14,7 @@
 		"confusion_papered",
 		)
 
-/datum/bloodcult_ritual/confuse_crew/key_found(var/mob/living/extra)
+/datum/bloodcult_ritual/confuse_crew/key_found(mob/living/extra)
 	if (!extra.client)
 		return FALSE
 	return TRUE

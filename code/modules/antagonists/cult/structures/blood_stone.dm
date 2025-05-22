@@ -134,7 +134,7 @@
 /obj/structure/cult/bloodstone/conceal()
 	return
 
-/obj/structure/cult/bloodstone/takeDamage(/damage)
+/obj/structure/cult/bloodstone/takeDamage(damage)
 	if (cult && (cult.stage == BLOODCULT_STAGE_NARSIE))
 		return
 	atom_integrity -= damage

@@ -267,7 +267,7 @@
 		if (3)
 			takeDamage(20)
 
-/obj/item/melee/soulblade/proc/takeDamage(/damage)
+/obj/item/melee/soulblade/proc/takeDamage(damage)
 	if (!damage)
 		return
 	atom_integrity -= damage
