@@ -19,7 +19,7 @@
 
 	keys = list("altar_plant")
 
-/datum/bloodcult_ritual/altar/key_found(var/obj/structure/cult/altar/altar)
+/datum/bloodcult_ritual/altar/key_found(obj/structure/cult/altar/altar)
 	var/mob/user = owner.owner.current
 
 	var/valid = TRUE

@@ -9,7 +9,7 @@
 	..()
 	target = new(loc)
 
-/obj/item/weapon/bloodcult_jaunter/attack_self(var/mob/user)
+/obj/item/weapon/bloodcult_jaunter/attack_self(mob/user)
 	new /obj/effect/bloodcult_jaunt(get_turf(src), user, get_turf(target))
 
 /obj/structure/bloodcult_jaunt_target

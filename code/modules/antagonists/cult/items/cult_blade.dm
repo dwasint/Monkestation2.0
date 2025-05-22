@@ -38,7 +38,7 @@
 /obj/item/melee/cultblade/narsie_act()
 	return
 
-/obj/item/melee/cultblade/attack(var/mob/living/target, var/mob/living/carbon/human/user)
+/obj/item/melee/cultblade/attack(mob/living/target, mob/living/carbon/human/user)
 	if(!checkcult)
 		return ..()
 	if (IS_CULTIST(user))
@@ -69,7 +69,7 @@
 		user.set_dizzy(12 SECONDS)
 
 
-/obj/item/melee/cultblade/attackby(var/obj/item/I, var/mob/user)
+/obj/item/melee/cultblade/attackby(obj/item/I, mob/user)
 	if(istype(I, /obj/item/soulstone/gem))
 		var/turf/T = get_turf(user)
 		playsound(T, 'sound/items/Deconstruct.ogg', 50, 1)
@@ -109,7 +109,7 @@
 	checkcult = 0
 	force = 15
 
-/obj/item/melee/cultblade/nocult/attackby(var/obj/item/I, var/mob/user)
+/obj/item/melee/cultblade/nocult/attackby(obj/item/I, mob/user)
 	if(istype(I, /obj/item/talisman) || istype(I, /obj/item/paper))
 		return 1
 	..()

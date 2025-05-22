@@ -12,7 +12,7 @@
 	var/near_turfs = list()
 	var/far_turfs = list()
 
-/obj/effect/cult_ritual/tear_spawners/New(turf/loc, var/datum/rune_spell/tearreality/_source)
+/obj/effect/cult_ritual/tear_spawners/New(turf/loc, datum/rune_spell/tearreality/_source)
 	if (!_source)
 		qdel(src)
 		return

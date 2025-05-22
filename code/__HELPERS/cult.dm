@@ -27,7 +27,7 @@
 //Does not require sleeptime, specifies for how long the animation should be allowed to exist before returning to pool
 //Does not require animation direction, but you can specify
 //Does not require a name
-/proc/anim(turf/location as turf, target as mob|obj, a_icon, a_icon_state as text, flick_anim as text, sleeptime = 15, direction as num, name as text, lay as num, offX as num, offY as num, col as text, alph as num, plane as num, var/trans, var/invis, var/animate_movement, var/blend)
+/proc/anim(turf/location as turf, target as mob|obj, a_icon, a_icon_state as text, flick_anim as text, sleeptime = 15, direction as num, name as text, lay as num, offX as num, offY as num, col as text, alph as num, plane as num, trans, invis, animate_movement, blend)
 //This proc throws up either an icon or an animation for a specified amount of time.
 //The variables should be apparent enough.
 	if(!location && target)
@@ -161,7 +161,7 @@
 
 	return I
 
-/mob/living/carbon/proc/boxify(var/delete_body = TRUE, var/new_anim = TRUE, var/box_state = "cult")//now its own proc so admins may atomProcCall it if they so desire.
+/mob/living/carbon/proc/boxify(delete_body = TRUE, new_anim = TRUE, box_state = "cult")//now its own proc so admins may atomProcCall it if they so desire.
 	var/turf/T = get_turf(src)
 	for(var/mob/living/M in dview(world.view, T, INVISIBILITY_MAXIMUM))
 		if (M.client)

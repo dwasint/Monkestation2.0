@@ -253,7 +253,7 @@
 	else
 		ui.Display()
 
-/datum/mind/proc/HideUI(var/ui_ID)
+/datum/mind/proc/HideUI(ui_ID)
 	if (ui_ID in active_uis)
 		var/datum/mind_ui/ui = active_uis[ui_ID]
 		ui.Hide()

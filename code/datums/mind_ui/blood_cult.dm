@@ -1478,7 +1478,7 @@ GLOBAL_LIST_INIT(blood_communion, list())
 		return
 	M.client.screen -= src
 
-/obj/abstract/mind_ui_element/hoverable/bloodcult_ritual/StartHovering(var/location, var/control, var/params)
+/obj/abstract/mind_ui_element/hoverable/bloodcult_ritual/StartHovering(location, control, params)
 	UpdateIcon()
 	..()
 

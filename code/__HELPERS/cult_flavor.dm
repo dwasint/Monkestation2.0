@@ -87,7 +87,7 @@ GLOBAL_LIST_INIT(acceptance_lines_numerous_cultists, list(
 )
 
 
-/datum/team/cult/proc/send_flavour_text_accept(var/mob/victim, var/mob/converter)
+/datum/team/cult/proc/send_flavour_text_accept(mob/victim, mob/converter)
 	// -- Static context
 	// Default lines
 	var/list/valid_lines = list(
