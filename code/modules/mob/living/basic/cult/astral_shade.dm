@@ -119,7 +119,6 @@ GLOBAL_LIST_INIT(astral_projections, list())
 		astral_return.Remove(src)
 		astral_toggle.Remove(src)
 		projection_destroyed = TRUE
-		an
 		GLOB.astral_projections -= src
 		//the projection has ended, let's return to our body
 		if (anchor && anchor.stat != DEAD && client)

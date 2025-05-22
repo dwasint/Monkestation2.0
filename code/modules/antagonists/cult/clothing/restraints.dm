@@ -27,7 +27,7 @@
 /obj/item/restraints/handcuffs/cult/examine(mob/user)
 	..()
 	if (!isliving(loc))//shouldn't happen unless they get admin spawned
-		. == span_info("The tentacles flailing out of this egg-like object seem like they're trying to grasp at their surroundings.")
+		. += span_info("The tentacles flailing out of this egg-like object seem like they're trying to grasp at their surroundings.")
 	else
 		var/mob/living/carbon/C = loc
 		if (C.handcuffed == src)
