@@ -359,6 +359,7 @@ GLOBAL_VAR_INIT(focused_tests, focused_tests())
 	ignore += typesof(/obj/projectile/boomerang)
 	ignore += typesof(/obj/structure/cult)
 	ignore += typesof(/obj/abstract/mind_ui_element)
+	ignore += typesof(/datum/rune_spell)
 	// monkestation end
 
 	return ignore

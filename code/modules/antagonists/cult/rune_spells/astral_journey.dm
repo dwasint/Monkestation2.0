@@ -15,6 +15,9 @@
 	var/cultist_key = ""
 	var/list/restricted_verbs = list()
 
+/datum/rune_spell/astraljourney/Destroy()
+	. = ..()
+	QDEL_NULL(astral)
 /datum/rune_spell/astraljourney/cast()
 	var/obj/effect/new_rune/R = spell_holder
 	R.one_pulse()
@@ -41,7 +44,7 @@
 
 
 /datum/rune_spell/astraljourney/abort(cause)
-	qdel(astral)
+	QDEL_NULL(astral)
 	..()
 
 /datum/rune_spell/astraljourney/proc/handle_astral()
