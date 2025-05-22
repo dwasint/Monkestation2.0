@@ -42,13 +42,8 @@ GLOBAL_LIST_INIT(astral_projections, list())
 	//sechud stuff
 	var/cardjob = "hudunknown"
 
-	//convertibility HUD
-	var/list/propension = list()
-
 	var/projection_destroyed = FALSE
 	var/direct_delete = FALSE
-
-	var/image/hudicon
 
 	var/last_devotion_gain = 0
 	var/devotion_gain_delay = 60 SECONDS
@@ -81,6 +76,10 @@ GLOBAL_LIST_INIT(astral_projections, list())
 /mob/living/basic/astral_projection/proc/destroy_projection()
 	if (projection_destroyed)
 		return
+	incorporeal_appearance = null
+	tangible_appearance = null
+	astral_return.Remove(src)
+	astral_toggle.Remove(src)
 	projection_destroyed = TRUE
 	GLOB.astral_projections -= src
 	//the projection has ended, let's return to our body
@@ -139,7 +138,7 @@ GLOBAL_LIST_INIT(astral_projections, list())
 		cult_datum.gain_devotion(50, DEVOTION_TIER_2, "astral_journey")
 
 
-/mob/living/basic/astral_projection/death(var/gibbed = FALSE)
+/mob/living/basic/astral_projection/death(gibbed = FALSE)
 	spawn()
 		destroy_projection(src)
 
@@ -171,13 +170,13 @@ GLOBAL_LIST_INIT(astral_projections, list())
 		death()
 
 
-/mob/living/basic/astral_projection/ex_act(var/severity)
+/mob/living/basic/astral_projection/ex_act(severity)
 	if(tangibility)
 		death()
 
 
 //called once when we are created, shapes our appearance in the image of our anchor
-/mob/living/basic/astral_projection/proc/ascend(var/mob/living/body)
+/mob/living/basic/astral_projection/proc/ascend(mob/living/body)
 	if (!body)
 		return
 	anchor = body

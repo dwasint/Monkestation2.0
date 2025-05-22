@@ -200,6 +200,9 @@ GLOBAL_LIST_INIT(converted_minds, list())
 			for(var/obj/item/implant/mindshield/I in victim.implants)
 				acceptance = "Implanted"
 
+		if(IS_HERETIC(victim) || IS_CLOCK(victim) || HAS_MIND_TRAIT(victim, TRAIT_UNCONVERTABLE))
+			acceptance = "Another God"
+
 		else if (!victim.mind)
 			acceptance = "Mindless"
 
@@ -263,6 +266,9 @@ GLOBAL_LIST_INIT(converted_minds, list())
 				to_chat(victim, span_cult("EXCEPT...THERE ARE NO VACANT SEATS LEFT!") )
 				success = CONVERSION_OVERCROWDED
 				conversion_delay = 30
+			if ("Another God")
+				to_chat(victim, span_cult("EXCEPT...THEY SERVE... ANOTHER!") )
+				success = CONVERSION_REFUSE
 
 		//since we're no longer checking for the cultist's adjacency, let's finish this ritual without a loop
 		sleep(conversion_delay)

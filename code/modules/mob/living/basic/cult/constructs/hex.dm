@@ -47,7 +47,12 @@
 	QDEL_NULL(master_glow)
 	QDEL_NULL(harm_glow)
 	guard_spot = null
+	if (master)
+		master.minions.Remove(src)
+		if (IS_CULTIST(master))
+			master.DisplayUI("Cultist Right Panel")
 	master = null
+
 
 /mob/living/simple_animal/hostile/hex/New()
 	..()
@@ -103,13 +108,6 @@
 	harm_glow.plane = ABOVE_LIGHTING_PLANE+1
 	overlays += harm_glow
 
-/mob/living/simple_animal/hostile/hex/Destroy()
-	if (master)
-		master.minions.Remove(src)
-		if (IS_CULTIST(master))
-			master.DisplayUI("Cultist Right Panel")
-	master = null
-	..()
 
 /mob/living/simple_animal/hostile/hex/Life()
 	if (mode != HEX_MODE_ROAMING)
