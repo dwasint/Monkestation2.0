@@ -200,7 +200,7 @@
 
 	..()
 
-/datum/rune_spell/tearreality/proc/dancer_check(var/mob/living/C)
+/datum/rune_spell/tearreality/proc/dancer_check(mob/living/C)
 	var/obj/effect/new_rune/R=spell_holder
 	if (dance_platforms.len <= 0)
 		return
@@ -270,7 +270,7 @@
 		else
 			R.overlays += narsie_glint
 
-/datum/rune_spell/tearreality/proc/pillar_update(var/update_level)
+/datum/rune_spell/tearreality/proc/pillar_update(update_level)
 	for (var/obj/effect/cult_ritual/tear_spawners/pillar_spawner/PS in pillar_spawners)
 		PS.execute(update_level)
 
@@ -290,7 +290,7 @@
 	top_crystal.appearance_flags |= RESET_COLOR
 	R.overlays += top_crystal
 
-/datum/rune_spell/tearreality/proc/dance_increment(var/mob/living/L)
+/datum/rune_spell/tearreality/proc/dance_increment(mob/living/L)
 	if (dance_manager)
 		var/increment=0.5
 		if (iscarbon(L))

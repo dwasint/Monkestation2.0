@@ -215,7 +215,7 @@
 /obj/machinery/media/jukebox/attack_ai(mob/user as mob)
 	return src.attack_hand(user)
 
-/obj/machinery/media/jukebox/attack_hand(var/mob/user as mob)
+/obj/machinery/media/jukebox/attack_hand(mob/user as mob)
 	interact(user)
 
 /obj/machinery/media/jukebox/attackby(obj/item/W as obj, mob/user as mob)

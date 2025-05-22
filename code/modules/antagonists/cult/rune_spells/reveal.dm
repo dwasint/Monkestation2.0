@@ -121,7 +121,7 @@
 
 	qdel(spell_holder)
 
-/datum/rune_spell/reveal/Added(var/mob/mover)
+/datum/rune_spell/reveal/Added(mob/mover)
 	if (total_uses <= 0)
 		return
 	if (!isliving(mover))

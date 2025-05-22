@@ -25,7 +25,7 @@
 	var/mob/living/user = activator
 	comms = new /obj/effect/cult_ritual/cult_communication(spell_holder.loc, user, src)
 
-/datum/rune_spell/communication/midcast(var/mob/living/user)
+/datum/rune_spell/communication/midcast(mob/living/user)
 	var/datum/team/cult/cult = locate_team(/datum/team/cult)
 	if (!istype(cult))
 		return
@@ -90,7 +90,7 @@
 	var/datum/rune_spell/communication/source = null
 
 
-/obj/effect/cult_ritual/cult_communication/New(var/turf/loc, var/mob/living/user, var/datum/rune_spell/communication/runespell)
+/obj/effect/cult_ritual/cult_communication/New(turf/loc, mob/living/user, datum/rune_spell/communication/runespell)
 	..()
 	caster = user
 	source = runespell

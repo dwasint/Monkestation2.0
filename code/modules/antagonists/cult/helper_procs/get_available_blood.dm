@@ -14,7 +14,7 @@
 
 	returns: a /list with information on nearby available blood. For use by use_available_blood().
 */
-/proc/get_available_blood(var/mob/user, var/amount_needed = 0)
+/proc/get_available_blood(mob/user, amount_needed = 0)
 	var/data = list(
 		BLOODCOST_TARGET_BLEEDER = null,
 		BLOODCOST_AMOUNT_BLEEDER = 0,

@@ -31,7 +31,7 @@ GLOBAL_DATUM_INIT(eclipse, /datum/eclipse_manager, new)
 		return
 	GLOB.eclipse.eclipse_start(rand(12 MINUTES, 20 MINUTES))
 
-/datum/eclipse_manager/proc/eclipse_start(var/duration)
+/datum/eclipse_manager/proc/eclipse_start(duration)
 	eclipse_start_time = world.time
 	eclipse_duration = duration
 	eclipse_end_time = eclipse_start_time + eclipse_duration

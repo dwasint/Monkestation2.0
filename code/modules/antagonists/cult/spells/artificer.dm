@@ -12,7 +12,7 @@
 	summon_type = list(/mob/living/simple_animal/hostile/hex)
 
 
-/datum/action/cooldown/spell/pointed/conjure/hex/post_summon(var/mob/living/simple_animal/hostile/hex/AM, var/mob/user)
+/datum/action/cooldown/spell/pointed/conjure/hex/post_summon(mob/living/simple_animal/hostile/hex/AM, mob/user)
 	var/mob/living/basic/construct/artificer/perfect/builder = owner
 	AM.master = builder
 	AM.no_master = FALSE

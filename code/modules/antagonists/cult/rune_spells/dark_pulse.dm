@@ -12,7 +12,7 @@
 		<br><br>You may also slap  someone directly with the talisman to have its effects only affect them, but with double intensity."
 	touch_cast = 1
 
-/datum/rune_spell/pulse/cast_touch(var/mob/M)
+/datum/rune_spell/pulse/cast_touch(mob/M)
 	var/turf/T = get_turf(M)
 	invoke(activator, invocation, 1)
 	playsound(T, 'sound/items/Welder2.ogg', 25, 0, -5)
@@ -33,7 +33,7 @@
 		darkpulse(T, 3, 3, cultist = activator)
 	qdel(spell_holder)
 
-/proc/darkpulse(turf/epicenter, heavy_range, light_range, log = 0, var/mob/living/cultist = null)
+/proc/darkpulse(turf/epicenter, heavy_range, light_range, log = 0, mob/living/cultist = null)
 	if(!epicenter)
 		return
 

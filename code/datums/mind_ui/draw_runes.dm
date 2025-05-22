@@ -53,7 +53,7 @@
 				P.queued_rune = null
 			parent.Display()
 
-/obj/abstract/mind_ui_element/hoverable/rune_word/UpdateIcon(var/appear = FALSE)
+/obj/abstract/mind_ui_element/hoverable/rune_word/UpdateIcon(appear = FALSE)
 	overlays.len = 0
 
 	if (hovering)

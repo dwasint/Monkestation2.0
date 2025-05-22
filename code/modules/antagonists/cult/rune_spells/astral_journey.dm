@@ -49,6 +49,6 @@
 		sleep(10)
 	abort()
 
-/datum/rune_spell/astraljourney/Removed(var/mob/M)
+/datum/rune_spell/astraljourney/Removed(mob/M)
 	if (M == activator)
 		abort(RITUALABORT_GONE)

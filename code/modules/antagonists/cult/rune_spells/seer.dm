@@ -89,7 +89,7 @@ GLOBAL_LIST_EMPTY(seer_rituals)
 	///Proximity monitor associated with this atom, needed for proximity checks.
 	var/datum/proximity_monitor/proximity_monitor
 
-/obj/effect/cult_ritual/seer/New(var/turf/loc, var/mob/living/user, var/datum/rune_spell/seer/runespell, var/talisman_ritual = FALSE, var/talisman_duration = 60 SECONDS)
+/obj/effect/cult_ritual/seer/New(turf/loc, mob/living/user, datum/rune_spell/seer/runespell, talisman_ritual = FALSE, talisman_duration = 60 SECONDS)
 	..()
 	proximity_monitor = new(src, 1)
 	if(user)

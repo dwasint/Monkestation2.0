@@ -29,14 +29,14 @@
 			S.update_icon()
 	..()
 
-/obj/item/melee/blood_dagger/suicide_act(var/mob/living/user)
+/obj/item/melee/blood_dagger/suicide_act(mob/living/user)
 	to_chat(viewers(user), span_danger("[user] is slitting \his throat with \the [src]! It looks like \he's trying to commit suicide.") )
 
-/obj/item/melee/blood_dagger/dropped(var/mob/user)
+/obj/item/melee/blood_dagger/dropped(mob/user)
 	..()
 	qdel(src)
 
-/obj/item/melee/blood_dagger/attack(var/mob/living/target, var/mob/living/carbon/human/user)
+/obj/item/melee/blood_dagger/attack(mob/living/target, mob/living/carbon/human/user)
 	if(target == user)
 		if (stacks < 5)
 			user.blood_volume -= 5
@@ -51,13 +51,13 @@
 		else
 			cult_datum.gain_devotion(30, DEVOTION_TIER_2, "attack_blooddagger_nomind", target)
 	..()
-/obj/item/melee/blood_dagger/attack_hand(var/mob/living/user)
+/obj/item/melee/blood_dagger/attack_hand(mob/living/user)
 	if(!ismob(loc))
 		qdel(src)
 		return
 	..()
 
-/obj/item/melee/blood_dagger/attack_self(var/mob/user)
+/obj/item/melee/blood_dagger/attack_self(mob/user)
 	if (ishuman(user) && IS_CULTIST(user))
 		var/mob/living/carbon/human/H = user
 		if (!HAS_TRAIT(H, TRAIT_NOBLOOD))

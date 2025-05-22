@@ -121,7 +121,7 @@
 /obj/projectile/soulbullet/narsie_act()
 	return
 
-/obj/projectile/soulbullet/attackby(var/obj/item/I, var/mob/user)
+/obj/projectile/soulbullet/attackby(obj/item/I, mob/user)
 	if (blade)
 		return blade.attackby(I, user)
 
@@ -129,7 +129,7 @@
 	if (blade)
 		return blade.hitby(hitting_atom)
 
-/obj/projectile/soulbullet/bullet_act(var/obj/projectile/P)
+/obj/projectile/soulbullet/bullet_act(obj/projectile/P)
 	. = ..()
 	if (blade)
 		return blade.bullet_act(P)

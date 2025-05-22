@@ -160,7 +160,7 @@ GLOBAL_LIST_INIT(confusion_victims, list())
 	ADD_TRAIT(victim, TRAIT_POOR_AIM, "rune")
 	addtimer(CALLBACK(src, PROC_REF(refresh_confusion), T, hallucinated_turfs, time_key), 1 SECONDS)
 
-/datum/confusion_manager/proc/start_confusion(var/turf/T, var/list/hallucinated_turfs)
+/datum/confusion_manager/proc/start_confusion(turf/T, list/hallucinated_turfs)
 	var/time_key = world.time
 	time_of_last_confusion = time_key
 	if (victim.mind)

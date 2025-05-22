@@ -49,7 +49,7 @@
 	linked_cultist = null
 	..()
 
-/obj/item/melee/soulblade/attack_hand(var/mob/living/user)
+/obj/item/melee/soulblade/attack_hand(mob/living/user)
 	if (shade)
 		if (IS_CULTIST(user) && (linked_cultist != user))
 			linked_cultist = user
@@ -60,7 +60,7 @@
 	qdel(src)
 
 
-/obj/item/melee/soulblade/examine(var/mob/user)
+/obj/item/melee/soulblade/examine(mob/user)
 	. = ..()
 	if (areYouWorthy(user))
 		. += span_info("blade blood: [blood]%")
@@ -70,7 +70,7 @@
 /obj/item/melee/soulblade/narsie_act()
 	return
 
-/obj/item/melee/soulblade/attack_self(var/mob/living/user)
+/obj/item/melee/soulblade/attack_self(mob/living/user)
 	var/choices = list(
 		list("Give Blood", "radial_giveblood", "Transfer some of your blood to \the [src] to repair it and refuel its blood level, or you could just slash someone."),
 		list("Remove Gem", "radial_removegem", "Remove the soul gem from the blade."),
@@ -126,7 +126,7 @@
 			loc = null//so we won't drop a broken blade and shard
 			qdel(src)
 
-/obj/item/melee/soulblade/attack(var/mob/living/target, var/mob/living/carbon/human/user)
+/obj/item/melee/soulblade/attack(mob/living/target, mob/living/carbon/human/user)
 	if(!areYouWorthy(user))
 		user.Paralyze(5)
 		to_chat(user, span_warning("An unexplicable force powerfully repels \the [src] from \the [target]!") )
@@ -197,7 +197,7 @@
 				shade.DisplayUI("Soulblade")
 
 
-/obj/item/melee/soulblade/pickup(var/mob/living/user)
+/obj/item/melee/soulblade/pickup(mob/living/user)
 	..()
 	if(!areYouWorthy(user))
 		to_chat(user, span_warning("An overwhelming feeling of dread comes over you as you pick up \the [src]. It would be wise to rid yourself of this, quickly.") )
@@ -206,7 +206,7 @@
 		user.adjust_dizzy(-120)
 	update_icon()
 
-/obj/item/melee/soulblade/proc/areYouWorthy(var/mob/living/user)
+/obj/item/melee/soulblade/proc/areYouWorthy(mob/living/user)
 	if (IS_CULTIST(user))
 		return TRUE
 	else if (!shade)
@@ -215,7 +215,7 @@
 		return TRUE
 	return TRUE
 
-/obj/item/melee/soulblade/dropped(var/mob/user)
+/obj/item/melee/soulblade/dropped(mob/user)
 	..()
 	update_icon()
 
@@ -277,7 +277,7 @@
 	else
 		playsound(loc, "trayhit", 70, 1)
 
-/obj/item/melee/soulblade/attackby(var/obj/item/I, var/mob/user)
+/obj/item/melee/soulblade/attackby(obj/item/I, mob/user)
 	if (HAS_TRAIT(user, TRAIT_PACIFISM))
 		return
 	if(I.force)
@@ -294,7 +294,7 @@
 		var/obj/O = hitting_atom
 		takeDamage(O.throwforce)
 
-/obj/item/melee/soulblade/proc/capture_shade(var/mob/living/basic/shade/target, var/mob/user)
+/obj/item/melee/soulblade/proc/capture_shade(mob/living/basic/shade/target, mob/user)
 
 	if(shade)
 		to_chat(user, "<span class = 'danger'>Capture failed!: </span>\The [src] already has a shade! Remove its soul gem if you wish to harm this shade nonetheless.")

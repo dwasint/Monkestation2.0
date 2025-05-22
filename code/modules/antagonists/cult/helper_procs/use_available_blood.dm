@@ -6,7 +6,7 @@
 
 	returns: a /list with information on the success/failure of the proc, and in the former case, information the blood that was used (color, type, dna)
 */
-/proc/use_available_blood(var/mob/user, var/amount_needed = 0, var/previous_result = "", var/tribute = 0, var/feedback = TRUE)
+/proc/use_available_blood(mob/user, amount_needed = 0, previous_result = "", tribute = 0, feedback = TRUE)
 	//Blood Communion
 	var/communion = 0
 	var/communion_data = null

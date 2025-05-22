@@ -372,14 +372,6 @@ GLOBAL_LIST_EMPTY(rune_appearances_cache)
 /obj/effect/new_rune/attack_robot(mob/living/user) //Allows for robots to remotely trigger runes, since attack_robot has infinite range.
 	trigger(user)
 
-/*
-/obj/effect/new_rune/proc/assume_contact_diseases(var/mob/living/user)
-	var/block = 0
-	var/bleeding = 0
-	block = user.check_contact_sterility(HANDS)
-	bleeding = user.check_bodypart_bleeding(HANDS)
-	user.assume_contact_diseases(virus2, src, block, bleeding)
-*/
 
 /obj/effect/new_rune/attackby(obj/I, mob/user)
 	..()

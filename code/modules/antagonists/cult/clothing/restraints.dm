@@ -24,16 +24,16 @@
 
 	cult.bindings -= src
 
-/obj/item/restraints/handcuffs/cult/examine(var/mob/user)
+/obj/item/restraints/handcuffs/cult/examine(mob/user)
 	..()
 	if (!isliving(loc))//shouldn't happen unless they get admin spawned
-		to_chat(user, span_info("The tentacles flailing out of this egg-like object seem like they're trying to grasp at their surroundings.") )
+		. == span_info("The tentacles flailing out of this egg-like object seem like they're trying to grasp at their surroundings.")
 	else
 		var/mob/living/carbon/C = loc
 		if (C.handcuffed == src)
-			to_chat(user, span_info("These restrict your arms and inflict tremendous pain upon both your body and psyche. But given some time you should be able to break them.") )
+			. += span_info("These restrict your arms and inflict tremendous pain upon both your body and psyche. But given some time you should be able to break them.")
 		else
-			to_chat(user, span_info("\The [C] seems to be in pain as these restrict their arms.") )
+			. += span_info("\The [C] seems to be in pain as these restrict their arms.")
 
 /obj/item/restraints/handcuffs/cult/narsie_act()
 	return

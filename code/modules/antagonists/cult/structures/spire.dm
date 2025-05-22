@@ -41,7 +41,7 @@ GLOBAL_LIST_INIT(cult_spires, list())
 	GLOB.cult_spires -= src
 	..()
 
-/obj/structure/cult/spire/proc/upgrade(var/new_stage)
+/obj/structure/cult/spire/proc/upgrade(new_stage)
 	new_stage = clamp(new_stage, 1, 3)
 	if (new_stage>stage)
 		alpha = 255

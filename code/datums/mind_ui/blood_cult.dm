@@ -1144,7 +1144,7 @@ GLOBAL_LIST_INIT(blood_communion, list())
 	var/locked = FALSE
 	var/overflow = FALSE
 
-/obj/abstract/mind_ui_element/hoverable/bloodcult_cultist_slot/StartHovering(var/location, var/control, var/params)
+/obj/abstract/mind_ui_element/hoverable/bloodcult_cultist_slot/StartHovering(location, control, params)
 	set_tooltip()
 	..()
 

@@ -13,7 +13,7 @@
 /datum/cult_tattoo/proc/Display()
 	return TRUE
 
-/mob/proc/checkTattoo(var/tattoo_name)
+/mob/proc/checkTattoo(tattoo_name)
 	if (!tattoo_name)
 		return
 	if (!IS_CULTIST(src))
