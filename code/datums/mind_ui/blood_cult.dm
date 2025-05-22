@@ -328,7 +328,7 @@ GLOBAL_LIST_INIT(blood_communion, list())
 	icon_state = "power_pool"
 
 
-/obj/abstract/mind_ui_element/hoverable/bloodcult_spell/pool/UpdateIcon(var/appear = FALSE)
+/obj/abstract/mind_ui_element/hoverable/bloodcult_spell/pool/UpdateIcon(appear = FALSE)
 	var/mob/living/M = GetUser()
 	var/datum/antagonist/cult/cult_datum = M.mind?.has_antag_datum(/datum/antagonist/cult)
 	icon_state = "power_pool[cult_datum.blood_pool ? "" : "_off"]"
@@ -367,7 +367,7 @@ GLOBAL_LIST_INIT(blood_communion, list())
 
 	var/obj/item/talisman/talisman
 
-/obj/abstract/mind_ui_element/hoverable/bloodcult_spell/talisman/UpdateIcon(var/appear = FALSE)
+/obj/abstract/mind_ui_element/hoverable/bloodcult_spell/talisman/UpdateIcon(appear = FALSE)
 	overlays.len = 0
 
 	if(talisman)
@@ -1629,7 +1629,7 @@ GLOBAL_LIST_INIT(blood_communion, list())
 	tooltip_content = "<span class = 'sinister'>Hell...</span><br><span class = 'sinister'>Join...</span><br><span class = 'sinister'>Self...</span><br>"
 	tooltip_theme = "radial-cult"
 
-/obj/abstract/mind_ui_element/hoverable/ritual_narsie/New(turf/loc, var/datum/mind_ui/P)
+/obj/abstract/mind_ui_element/hoverable/ritual_narsie/New(turf/loc, datum/mind_ui/P)
 	if (!istype(P))
 		qdel(src)
 		return
@@ -1654,7 +1654,7 @@ GLOBAL_LIST_INIT(blood_communion, list())
 		return
 	M.client.screen -= src
 
-/obj/abstract/mind_ui_element/hoverable/ritual_narsie/StartHovering(var/location, var/control, var/params)
+/obj/abstract/mind_ui_element/hoverable/ritual_narsie/StartHovering(location, control, params)
 	UpdateIcon()
 	..()
 
@@ -2127,7 +2127,7 @@ GLOBAL_LIST_INIT(blood_communion, list())
 	offset_y = -87
 	layer = MIND_UI_BUTTON
 
-/obj/abstract/mind_ui_element/hoverable/hex_controller/New(turf/loc, var/datum/mind_ui/hex_controller/P)
+/obj/abstract/mind_ui_element/hoverable/hex_controller/New(turf/loc, datum/mind_ui/hex_controller/P)
 	if (!istype(P))
 		qdel(src)
 		return

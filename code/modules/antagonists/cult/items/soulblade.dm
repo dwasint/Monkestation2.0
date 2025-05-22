@@ -258,7 +258,7 @@
 	soul_bullet.fire()
 	soul_bullet.process()
 
-/obj/item/melee/soulblade/ex_act(var/severity)
+/obj/item/melee/soulblade/ex_act(severity)
 	switch(severity)
 		if (1)
 			takeDamage(100)
@@ -267,7 +267,7 @@
 		if (3)
 			takeDamage(20)
 
-/obj/item/melee/soulblade/proc/takeDamage(var/damage)
+/obj/item/melee/soulblade/proc/takeDamage(/damage)
 	if (!damage)
 		return
 	atom_integrity -= damage

@@ -12,7 +12,7 @@
 		return FALSE
 
 // Not sure what to do with this spell really, it always kinda sucked and tomes as a whole need an overhaul. Runic Skin is a better power.
-var/list/arcane_pockets = list()
+GLOBAL_LIST_EMPTY(arcane_pockets)
 
 /datum/action/cooldown/spell/cult/arcane_dimension
 	name = "Arcane Dimension (empty)"
@@ -26,10 +26,10 @@ var/list/arcane_pockets = list()
 
 /datum/action/cooldown/spell/cult/arcane_dimension/New()
 	..()
-	arcane_pockets.Add(src)
+	LAZYADD(GLOB.arcane_pockets, src)
 
 /datum/action/cooldown/spell/cult/arcane_dimension/Destroy()
-	arcane_pockets.Remove(src)
+	LAZYREMOVE(GLOB.arcane_pockets, src)
 	..()
 
 /datum/action/cooldown/spell/cult/arcane_dimension/cast(mob/living/user)

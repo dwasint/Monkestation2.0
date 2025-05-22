@@ -54,7 +54,7 @@
 /obj/structure/cult/pillar/conceal()
 	return
 
-/obj/structure/cult/pillar/ex_act(var/severity)
+/obj/structure/cult/pillar/ex_act(severity)
 	switch(severity)
 		if (1)
 			takeDamage(200)

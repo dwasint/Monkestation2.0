@@ -129,7 +129,7 @@
 			to_chat(observer, "<span class = 'game say'><b>[speaker_name]</b> communicates, <span class = 'sinisterbig'>[raw_message]</span></span>")
 		//log_cultspeak("[key_name(speech.speaker)] Cult Communicate Rune: [rendered_message]")
 
-/obj/effect/cult_ritual/cult_communication/HasProximity(var/atom/movable/AM)
+/obj/effect/cult_ritual/cult_communication/HasProximity(atom/movable/AM)
 	if (!caster || caster.loc != loc)
 		if (source)
 			source.abort(RITUALABORT_GONE)

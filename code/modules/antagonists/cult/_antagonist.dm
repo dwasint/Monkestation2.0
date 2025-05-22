@@ -228,7 +228,7 @@
 	else
 		to_chat(user, span_warning("There aren't any rune words left to erase.") )
 
-/datum/antagonist/cult/proc/gain_devotion(var/acquired_devotion = 0, var/tier = DEVOTION_TIER_0, var/key, var/extra)
+/datum/antagonist/cult/proc/gain_devotion(acquired_devotion = 0, tier = DEVOTION_TIER_0, key, extra)
 	if (cult_team)
 		switch(cult_team.stage)
 			if (BLOODCULT_STAGE_DEFEATED)//no more devotion gains if the bloodstone has been destroyed
@@ -349,7 +349,7 @@
 		message_admins("[mentor.owner.key]/([mentor.owner.name]) is now mentoring [owner.name]")
 		log_admin("[mentor.owner.key]/([mentor.owner.name]) is now mentoring [owner.name]")
 
-/datum/antagonist/cult/proc/GiveTattoo(var/type)
+/datum/antagonist/cult/proc/GiveTattoo(type)
 	if(locate(type) in tattoos)
 		return
 	var/datum/cult_tattoo/T = new type
@@ -372,7 +372,7 @@
 			else
 				M.DisplayUI("Cultist")
 
-/datum/antagonist/cult/proc/replace_rituals(var/slot)
+/datum/antagonist/cult/proc/replace_rituals(slot)
 	if (!slot)
 		return
 
@@ -399,7 +399,7 @@
 		if (m_ui.active)
 			m_ui.Display()
 
-/datum/antagonist/cult/proc/ChangeCultistRole(var/new_role)
+/datum/antagonist/cult/proc/ChangeCultistRole(new_role)
 	if (!new_role)
 		return
 	var/datum/team/cult/cult = cult_team
@@ -454,7 +454,7 @@
 			acolyte.mentor = null
 		acolytes = list()
 
-/datum/antagonist/cult/proc/write_rune(var/word_to_draw)
+/datum/antagonist/cult/proc/write_rune(word_to_draw)
 	var/mob/living/user = owner.current
 
 	if (user.incapacitated())

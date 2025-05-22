@@ -1,5 +1,5 @@
 
-/proc/make_tracker_effects(tr_source, tr_destination, var/tr_number = 10, var/custom_icon_state = "soul", var/number_of_icons = 3, var/tr_type = /obj/effect/tracker/soul, var/force_size)
+/proc/make_tracker_effects(tr_source, tr_destination, tr_number = 10, custom_icon_state = "soul", number_of_icons = 3, tr_type = /obj/effect/tracker/soul, force_size)
 	spawn()
 		var/list/possible_icons = list()
 		if(custom_icon_state)
@@ -133,7 +133,7 @@
 /obj/effect/tracker/singularity_pull()
 	return
 
-/obj/effect/tracker/proc/on_expire(var/bumped_atom = FALSE)
+/obj/effect/tracker/proc/on_expire(bumped_atom = FALSE)
 	return
 
 /obj/effect/tracker/proc/on_step()

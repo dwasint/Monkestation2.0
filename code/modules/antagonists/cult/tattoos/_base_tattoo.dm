@@ -7,7 +7,7 @@
 	var/mob/bearer = null
 	var/blood_cost = 0
 
-/datum/cult_tattoo/proc/getTattoo(var/mob/M)
+/datum/cult_tattoo/proc/getTattoo(/mob/M)
 	bearer = M
 
 /datum/cult_tattoo/proc/Display()

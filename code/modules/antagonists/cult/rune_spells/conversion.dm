@@ -386,7 +386,7 @@ GLOBAL_LIST_INIT(converted_minds, list())
 				abort(RITUALABORT_SACRIFICE)
 		victim.clear_fullscreen("conversionborder", 10)
 
-/datum/rune_spell/conversion/proc/convert(var/mob/M, var/mob/converter)
+/datum/rune_spell/conversion/proc/convert(mob/M, mob/converter)
 	var/datum/antagonist/cult/newCultist = new(M.mind)
 	M.mind.add_antag_datum(newCultist)
 	var/datum/team/cult/cult = locate_team(/datum/team/cult)
@@ -414,7 +414,7 @@ GLOBAL_LIST_INIT(converted_minds, list())
 			to_chat(add_cultist, span_warning("You perform the entrapment sign, ensuring that the victim will be restrained.") )
 			entrapment = TRUE
 
-/datum/rune_spell/conversion/Removed(var/mob/M)
+/datum/rune_spell/conversion/Removed(mob/M)
 	if (victim == M)
 		for(var/mob/living/L in dview(world.view, spell_holder.loc, INVISIBILITY_MAXIMUM))
 			if (L.client)
@@ -426,7 +426,7 @@ GLOBAL_LIST_INIT(converted_minds, list())
 /datum/rune_spell/conversion/cast_talisman()//handled by /obj/item/talisman/proc/trigger instead
 	return
 
-/datum/rune_spell/conversion/abort(var/cause)
+/datum/rune_spell/conversion/abort(cause)
 	if (victim)
 		victim.clear_fullscreen("conversionborder", 10)
 		victim = null

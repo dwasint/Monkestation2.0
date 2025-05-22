@@ -172,7 +172,7 @@
 /datum/rune_spell/tearreality/midcast(mob/add_cultist)
 	to_chat(add_cultist, span_cult("Stand in the surrounding circles with fellow cultists and captured prisoners until every spot is filled."))
 
-/datum/rune_spell/tearreality/abort(var/cause)
+/datum/rune_spell/tearreality/abort(cause)
 	var/datum/team/cult/cult=locate_team(/datum/team/cult)
 	if (cult && (cult.tear_ritual == src))
 		cult.tear_ritual=null

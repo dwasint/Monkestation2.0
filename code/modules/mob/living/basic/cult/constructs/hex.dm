@@ -93,7 +93,7 @@
 	setupglow(glow_color)
 	update_harmglow()
 
-/mob/living/simple_animal/hostile/hex/proc/setupglow(var/_glowcolor = "#FFFFFF")
+/mob/living/simple_animal/hostile/hex/proc/setupglow(_glowcolor = "#FFFFFF")
 	glow_color = _glowcolor
 	overlays -= master_glow
 	var/icon/glowicon = icon(icon, "glow-[icon_state]")
@@ -173,7 +173,7 @@
 	if (target)
 		dir = get_dir(src, target)
 
-/mob/living/simple_animal/hostile/hex/death(var/gibbed = FALSE)
+/mob/living/simple_animal/hostile/hex/death(gibbed = FALSE)
 	..(TRUE) //If they qdel, they gib regardless
 	visible_message(span_warning("\The [src] collapses in a shattered heap. ") )
 	qdel (src)

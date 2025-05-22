@@ -66,7 +66,7 @@
 	if (add_cultist.client)
 		add_cultist.client.images |= progbar
 
-/datum/rune_spell/reincarnation/abort(var/cause)
+/datum/rune_spell/reincarnation/abort(cause)
 	spell_holder.overlays -= image('monkestation/code/modules/bloody_cult/icons/cult.dmi', "build")
 	if (shade)
 		shade.forceMove(get_turf(husk))

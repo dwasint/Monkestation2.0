@@ -17,7 +17,7 @@
 	var/effect_range = 7
 	touch_cast = 1
 
-/datum/rune_spell/deafmute/cast_touch(var/mob/living/M)
+/datum/rune_spell/deafmute/cast_touch(mob/living/M)
 	invoke(activator, invocation, 1)
 
 	var/deaf_duration = deaf_rune_duration
@@ -47,7 +47,7 @@
 
 	qdel(src)
 
-/datum/rune_spell/deafmute/cast(var/deaf_duration = deaf_rune_duration, var/mute_duration = mute_rune_duration)
+/datum/rune_spell/deafmute/cast(deaf_duration = deaf_rune_duration, mute_duration = mute_rune_duration)
 	for(var/mob/living/M in range(effect_range, get_turf(spell_holder)))
 		if (IS_CULTIST(M))
 			continue

@@ -17,7 +17,7 @@
 /datum/bloodcult_ritual/blind_cameras_multi/update_desc()
 	desc = "confusion runes and talismans...<br>darken their lenses...<br>[target_cameras] to go..."
 
-/datum/bloodcult_ritual/blind_cameras_multi/key_found(var/extra)
+/datum/bloodcult_ritual/blind_cameras_multi/key_found(extra)
 	target_cameras--
 	if(target_cameras <= 0)
 		return TRUE

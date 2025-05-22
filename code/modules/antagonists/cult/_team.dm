@@ -246,7 +246,7 @@
 
 		if (BLOODCULT_STAGE_DEFEATED)
 			GLOB.eclipse.eclipse_end()
-			for (var/obj/effect/new_rune/R in runes)
+			for (var/obj/effect/new_rune/R in GLOB.runes)
 				qdel(R)//new runes can be written, but any pre-existing one gets nuked.
 			cultist_cap = 0
 			spawn()

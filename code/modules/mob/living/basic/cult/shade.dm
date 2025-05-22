@@ -142,5 +142,5 @@
 	for(var/datum/action/cooldown/spell/pointed/soulblade/spell_to_remove in actions)
 		qdel(spell_to_remove)
 
-/mob/living/basic/shade/proc/add_HUD(var/mob/user)
+/mob/living/basic/shade/proc/add_HUD(mob/user)
 	DisplayUI("Soulblade")

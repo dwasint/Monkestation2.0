@@ -242,7 +242,7 @@
 	var/mob/living/caster = null
 	var/turf/source = null
 
-/obj/effect/cult_ritual/feet_portal/New(var/turf/loc, var/mob/living/user, var/datum/rune_spell/seer/runespell)
+/obj/effect/cult_ritual/feet_portal/New(turf/loc, mob/living/user, datum/rune_spell/seer/runespell)
 	..()
 	caster = user
 	source = get_turf(runespell?.spell_holder)
@@ -255,6 +255,6 @@
 	source = null
 	..()
 
-/obj/effect/cult_ritual/feet_portal/HasProximity(var/atom/movable/AM)
+/obj/effect/cult_ritual/feet_portal/HasProximity(atom/movable/AM)
 	if (caster && caster.loc != loc)
 		forceMove(get_turf(caster))

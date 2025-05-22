@@ -11,5 +11,5 @@
 
 	keys = list("altar_sacrifice_monkey")
 
-/datum/bloodcult_ritual/sacrifice_monkey/key_found(var/extra)
+/datum/bloodcult_ritual/sacrifice_monkey/key_found(extra)
 	return TRUE

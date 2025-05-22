@@ -4,7 +4,7 @@
 	var/list/extras = list()
 	var/datum/rune_spell/tearreality/tear
 
-/obj/effect/cult_ritual/dance/New(var/turf/loc, mob/first_dancer)
+/obj/effect/cult_ritual/dance/New(turf/loc, mob/first_dancer)
 	..()
 
 	if (first_dancer)

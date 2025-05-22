@@ -61,7 +61,7 @@ GLOBAL_LIST_INIT(mind_ui_id_to_type, list())
 
 	var/obj/abstract/mind_ui_element/failsafe/failsafe	// All mind UI datums include one of those so we can detect if the elements somehow disappeared from client.screen
 
-/datum/mind_ui/New(var/datum/mind/M)
+/datum/mind_ui/New(datum/mind/M)
 	if (!istype(M))
 		qdel(src)
 		return
@@ -123,16 +123,16 @@ GLOBAL_LIST_INIT(mind_ui_id_to_type, list())
 			else
 				child.Hide()
 
-/datum/mind_ui/proc/Hide(var/override = FALSE)
+/datum/mind_ui/proc/Hide(override = FALSE)
 	active = FALSE
 	HideChildren(override)
 	HideElements(override)
 
-/datum/mind_ui/proc/HideChildren(var/override = FALSE)
+/datum/mind_ui/proc/HideChildren(override = FALSE)
 	for (var/datum/mind_ui/child in subUIs)
 		child.Hide(override)
 
-/datum/mind_ui/proc/HideElements(var/override = FALSE)
+/datum/mind_ui/proc/HideElements(override = FALSE)
 	for (var/obj/abstract/mind_ui_element/element in elements)
 		if (override)
 			element.invisibility = 101
@@ -146,7 +146,7 @@ GLOBAL_LIST_INIT(mind_ui_id_to_type, list())
 	for (var/obj/abstract/mind_ui_element/element in elements)
 		element.UpdateUIScreenLoc()
 
-/datum/mind_ui/proc/HideParent(var/levels=0)
+/datum/mind_ui/proc/HideParent(levels=0)
 	if (levels <= 0)
 		var/datum/mind_ui/ancestor = GetAncestor()
 		ancestor.Hide()
@@ -196,7 +196,7 @@ GLOBAL_LIST_INIT(mind_ui_id_to_type, list())
 	var/const_offset_y = 0 //these are constant offsets to ensure moving is seemless
 	var/const_offset_x = 0 //these are constant offsets to ensure moving is seemless
 
-/obj/abstract/mind_ui_element/New(turf/loc, var/datum/mind_ui/P)
+/obj/abstract/mind_ui_element/New(turf/loc, datum/mind_ui/P)
 	if (!istype(P))
 		qdel(src)
 		return
@@ -233,17 +233,16 @@ GLOBAL_LIST_INIT(mind_ui_id_to_type, list())
 	invisibility = 101
 
 /obj/abstract/mind_ui_element/proc/GetUser()
-	ASSERT(parent && parent.mind && parent.mind.current)
 	return parent.mind.current
 
 /obj/abstract/mind_ui_element/proc/UpdateUIScreenLoc()
 	screen_loc = "[parent.x]:[offset_x + parent.offset_x],[parent.y]:[offset_y+parent.offset_y]"
 	layer = initial(layer) + parent.offset_layer
 
-/obj/abstract/mind_ui_element/proc/UpdateIcon(var/appear = FALSE)
+/obj/abstract/mind_ui_element/proc/UpdateIcon(appear = FALSE)
 	return
 
-/obj/abstract/mind_ui_element/proc/String2Image(var/string,var/spacing=6,var/image_font='monkestation/code/modules/bloody_cult/icons/font_8x8.dmi',var/_color="#FFFFFF",var/_pixel_x = 0,var/_pixel_y = 0) // only supports numbers right now
+/obj/abstract/mind_ui_element/proc/String2Image(string,spacing=6,image_font='monkestation/code/modules/bloody_cult/icons/font_8x8.dmi',_color="#FFFFFF",_pixel_x = 0,_pixel_y = 0) // only supports numbers right now
 	if (!string)
 		return image(image_font,"")
 
@@ -257,7 +256,7 @@ GLOBAL_LIST_INIT(mind_ui_id_to_type, list())
 	result.pixel_y = _pixel_y
 	return result
 
-/obj/abstract/mind_ui_element/proc/String2Maptext(var/string,var/font="Consolas",var/font_size="8pt",var/_color="#FFFFFF",var/_pixel_x = 0,var/_pixel_y = 0)
+/obj/abstract/mind_ui_element/proc/String2Maptext(string,font="Consolas", font_size="8pt", _color="#FFFFFF", _pixel_x = 0, _pixel_y = 0)
 	if (!string)
 		return image(icon = null)
 
@@ -278,7 +277,7 @@ GLOBAL_LIST_INIT(mind_ui_id_to_type, list())
 	overlays += I
 
 
-/obj/abstract/mind_ui_element/proc/SlideUIElement(var/new_x = 0, var/new_y = 0, var/duration, var/layer = MIND_UI_BACK, var/hide_after = FALSE)
+/obj/abstract/mind_ui_element/proc/SlideUIElement(new_x = 0, new_y = 0, duration, layer = MIND_UI_BACK, hide_after = FALSE)
 	invisibility = 101
 	var/image/ui_image = image(icon, src, icon_state, layer)
 	ui_image.overlays = overlays
@@ -327,7 +326,7 @@ GLOBAL_LIST_INIT(mind_ui_id_to_type, list())
 	StopHovering()
 	hovering = 0
 
-/obj/abstract/mind_ui_element/hoverable/proc/StartHovering(var/location,var/control,var/params)
+/obj/abstract/mind_ui_element/hoverable/proc/StartHovering(location,control,params)
 	if (hover_state)
 		icon_state = "[base_icon_state]-hover"
 	if (element_flags & MINDUI_FLAG_TOOLTIP)
@@ -398,7 +397,7 @@ GLOBAL_LIST_INIT(mind_ui_id_to_type, list())
 	M.client.mouse_pointer_icon = initial(M.client.mouse_pointer_icon)
 	MoveLoc(params)
 
-/obj/abstract/mind_ui_element/hoverable/movable/proc/MoveLoc(var/params)
+/obj/abstract/mind_ui_element/hoverable/movable/proc/MoveLoc(params)
 	moving = FALSE
 	var/list/PM = params2list(params)
 	if(!PM || !PM["screen-loc"])

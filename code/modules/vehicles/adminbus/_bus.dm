@@ -20,7 +20,7 @@
 
 	return
 
-/obj/vehicle/ridden/adminbus/proc/freed(var/mob/living/L)
+/obj/vehicle/ridden/adminbus/proc/freed(mob/living/L)
 	L.forceMove(get_step(src, turn(src.dir, -90)))
 	L.anchored = 0
 	L.pixel_x = 0
@@ -30,7 +30,7 @@
 	update_rearview()
 
 //MOB SPAWNING
-/obj/vehicle/ridden/adminbus/proc/spawn_mob(mob/bususer, var/mob_type, var/count)
+/obj/vehicle/ridden/adminbus/proc/spawn_mob(mob/bususer, mob_type, count)
 	var/turflist[] = list()
 	for(var/turf/T in orange(src, 1))
 		if((T.density == 0) && (T!= src.loc))
@@ -92,7 +92,7 @@
 
 //SINGULARITY/NARSIE HOOK&CHAIN
 
-/obj/vehicle/ridden/adminbus/proc/capture_singulo(var/obj/singularity/S)
+/obj/vehicle/ridden/adminbus/proc/capture_singulo(obj/singularity/S)
 	for(var/atom/A in hookshot)																//first we remove the hookshot and its chain
 		qdel(A)
 	hookshot.len = 0
@@ -171,7 +171,7 @@
 		sleep(2)
 	update_rearview()
 
-/obj/vehicle/ridden/adminbus/proc/toggle_lights(mob/bususer, var/lightpower = 0)
+/obj/vehicle/ridden/adminbus/proc/toggle_lights(mob/bususer, lightpower = 0)
 
 
 	if(lightpower == roadlights)
@@ -198,7 +198,7 @@
 
 	update_lightsource()
 
-/obj/vehicle/ridden/adminbus/proc/toggle_bumpers(mob/bususer, var/bumperpower = 1)
+/obj/vehicle/ridden/adminbus/proc/toggle_bumpers(mob/bususer, bumperpower = 1)
 
 
 	if(bumperpower == bumpers)
@@ -210,7 +210,7 @@
 	bususer.UpdateUIElementIcon(/obj/abstract/mind_ui_element/adminbus_bumpers_high)
 
 
-/obj/vehicle/ridden/adminbus/proc/toggle_door(mob/bususer, var/doorstate = 0)
+/obj/vehicle/ridden/adminbus/proc/toggle_door(mob/bususer, doorstate = 0)
 
 
 	if(doorstate == door_mode)
@@ -224,7 +224,7 @@
 	else
 		overlays -= image(icon, "opendoor")
 
-/obj/vehicle/ridden/adminbus/proc/loadsa_goodies(mob/bususer, var/goodie_type)
+/obj/vehicle/ridden/adminbus/proc/loadsa_goodies(mob/bususer, goodie_type)
 	switch(goodie_type)
 		if(1)
 			visible_message(span_notice("All Access for Everyone!") )
@@ -368,7 +368,7 @@
 	update_rearview()
 	to_chat(bususer, "Deleted all [distributed] laser guns.</span>")
 
-/obj/vehicle/ridden/adminbus/proc/Mass_Repair(mob/bususer, var/turf/centerloc = null, var/repair_range = 3)//the proc can be called by others, doing (null, <center of the area you want to repair>, <radius of the area you want to repair>)
+/obj/vehicle/ridden/adminbus/proc/Mass_Repair(mob/bususer, turf/centerloc = null, repair_range = 3)//the proc can be called by others, doing (null, <center of the area you want to repair>, <radius of the area you want to repair>)
 
 	visible_message(span_notice("WE BUILD!") )
 
@@ -500,63 +500,7 @@
 		var/turf/T2 = get_turf(M)
 		if(T2)
 			T2.turf_animation('monkestation/code/modules/bloody_cult/icons/96x96.dmi', "beamin", -32, 0, MOB_LAYER+1, 'sound/weapons/emitter2.ogg', anim_plane = ABOVE_GAME_PLANE)
-/*
-/obj/vehicle/ridden/adminbus/proc/Make_Antag(mob/bususer)
 
-
-	if(passengers.len == 0)
-		to_chat(bususer, span_warning("There are no passengers to make antag.") )
-		return
-
-	var/list/delays = list("CANCEL", "No Delay", "10 seconds", "30 seconds", "1 minute", "5 minutes", "15 minutes")
-	var/delay = input("How much delay before the transformation occurs?", "Antag Madness") in delays
-
-	switch(delay)
-		if("CANCEL")
-			return
-		if("No Delay")
-			for(var/mob/M in passengers)
-				spawn()
-					to_chat(M, span_danger("YOU JUST REMEMBERED SOMETHING IMPORTANT!") )
-					sleep(20)
-					antag_madness_adminbus(M)
-		if("10 seconds")
-			antagify_passengers(100)
-		if("30 seconds")
-			antagify_passengers(300)
-		if("1 minute")
-			antagify_passengers(600)
-		if("5 minutes")
-			antagify_passengers(3000)
-		if("15 minutes")
-			antagify_passengers(9000)
-
-
-/obj/vehicle/ridden/adminbus/proc/antagify_passengers(var/delay)
-	for(var/mob/M in passengers)
-		spawn()
-			Delay_Antag(M, delay)
-
-/obj/vehicle/ridden/adminbus/proc/Delay_Antag(var/mob/M, var/delay = 100)
-	if(!M.mind)
-		return
-	if(!ishuman(M) && !ismonkey(M))
-		return
-
-	to_chat(M, span_rose("You feel like you forgot something important!") )
-
-	sleep(delay/2)
-
-	to_chat(M, span_rose("You're starting to remember...") )
-
-	sleep(delay/2)
-
-	to_chat(M, span_danger("OH THAT'S RIGHT!") )
-
-	sleep(20)
-
-	antag_madness_adminbus(M)
-*/
 /obj/vehicle/ridden/adminbus/proc/Adminbus_Deletion(mob/bususer)//make sure to always use this proc when deleting an adminbus
 	if(bususer)
 		if(alert(bususer, "This will free all passengers, remove any spawned mobs/laserguns/bombs, [singulo ? "free the captured singularity" : ""], and remove all the entities associated with the bus(chains, roadlights, jukebox, ...) Are you sure?", "Adminbus Deletion", "Yes", "No") != "Yes")

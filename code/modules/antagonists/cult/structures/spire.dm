@@ -106,7 +106,7 @@ GLOBAL_LIST_INIT(cult_spires, list())
 		update_stage()
 
 
-/obj/structure/cult/spire/cultist_act(var/mob/user, var/menu = "default")
+/obj/structure/cult/spire/cultist_act(/mob/user, menu = "default")
 	. = ..()
 	if (!.)
 		return

@@ -132,7 +132,7 @@
 		move_ray()
 	update_satellites()
 
-/mob/living/basic/construct/artificer/perfect/Move(NewLoc, Dir = 0, step_x = 0, step_y = 0, var/glide_size_override = 0)
+/mob/living/basic/construct/artificer/perfect/Move(NewLoc, Dir = 0, step_x = 0, step_y = 0, glide_size_override = 0)
 	. = ..()
 	if (ray)
 		move_ray()
@@ -144,7 +144,7 @@
 		move_ray()
 	update_satellites()
 
-/mob/living/basic/construct/artificer/perfect/proc/start_ray(var/mob/living/basic/construct/target)
+/mob/living/basic/construct/artificer/perfect/proc/start_ray(mob/living/basic/construct/target)
 	if (!istype(target))
 		return
 	if (locate(src) in target.healers)

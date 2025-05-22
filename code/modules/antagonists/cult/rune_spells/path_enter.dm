@@ -39,8 +39,8 @@
 
 	var/image/I_network
 	var/lookup = "[W.english]-0-[COLOR_BLOOD]"//0 because the rune will pulse anyway, and make this overlay pulse along
-	if (lookup in rune_appearances_cache)
-		I_network = image(rune_appearances_cache[lookup])
+	if (lookup in GLOB.rune_appearances_cache)
+		I_network = image(GLOB.rune_appearances_cache[lookup])
 	else
 		I_network = image('monkestation/code/modules/bloody_cult/icons/deityrunes.dmi', src, W.english)
 		I_network.color = COLOR_BLOOD
@@ -71,7 +71,7 @@
 
 	talisman_absorb = RUNE_CAN_ATTUNE//once the network has been set, talismans will attune instead of imbue
 
-/datum/rune_spell/portalentrance/midcast(var/mob/add_cultist, turf/cast_from)
+/datum/rune_spell/portalentrance/midcast(mob/add_cultist, turf/cast_from)
 	if (istype(spell_holder, /obj/item/talisman))
 		invoke(add_cultist, invocation, 1)
 	else
@@ -100,10 +100,10 @@
 		cult_datum.gain_devotion(10, DEVOTION_TIER_0, "path_entrance", new_jaunt)
 		flick("cult_jaunt_land", landing_animation)
 
-/datum/rune_spell/portalentrance/midcast_talisman(var/mob/add_cultist)
+/datum/rune_spell/portalentrance/midcast_talisman(mob/add_cultist)
 	midcast(add_cultist, get_turf(add_cultist))
 
-/datum/rune_spell/portalentrance/salt_act(var/turf/T)
+/datum/rune_spell/portalentrance/salt_act(turf/T)
 	var/turf/destination = null
 	for (var/datum/rune_spell/portalexit/P in GLOB.bloodcult_exitportals)
 		if (P.network == network)

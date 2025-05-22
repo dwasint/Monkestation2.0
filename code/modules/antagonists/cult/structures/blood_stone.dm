@@ -59,7 +59,7 @@
 /obj/structure/cult/bloodstone/admin/overlays_post()
 	return
 
-/obj/structure/cult/bloodstone/proc/flashy_entrance(var/datum/rune_spell/tearreality/TR)
+/obj/structure/cult/bloodstone/proc/flashy_entrance(datum/rune_spell/tearreality/TR)
 	for (var/obj/O in loc)
 		if (O != src && !istype(O, /obj/item/melee/soulblade))
 			O.ex_act(2)
@@ -92,7 +92,7 @@
 		overlays_post()
 		set_animate()
 
-/obj/structure/cult/bloodstone/proc/explosion_sound(var/datum/rune_spell/tearreality/TR)
+/obj/structure/cult/bloodstone/proc/explosion_sound(datum/rune_spell/tearreality/TR)
 	for(var/mob/M in GLOB.player_list)
 		if (M.z == z && M.client)
 			if (TR || (get_dist(M, src)<= 20))//If there's a tear reality rune, then spires should be appearing all over the station, so no point not having it be loud
@@ -114,7 +114,7 @@
 	..()
 
 /*
-/obj/structure/cult/bloodstone/cultist_act(var/mob/user)
+/obj/structure/cult/bloodstone/cultist_act(/mob/user)
 	. = ..()
 	if (!.)
 		return
@@ -134,7 +134,7 @@
 /obj/structure/cult/bloodstone/conceal()
 	return
 
-/obj/structure/cult/bloodstone/takeDamage(var/damage)
+/obj/structure/cult/bloodstone/takeDamage(/damage)
 	if (cult && (cult.stage == BLOODCULT_STAGE_NARSIE))
 		return
 	atom_integrity -= damage
@@ -145,7 +145,7 @@
 	else
 		update_icon()
 
-/obj/structure/cult/bloodstone/ex_act(var/severity)
+/obj/structure/cult/bloodstone/ex_act(severity)
 	switch(severity)
 		if (1)
 			takeDamage(250)

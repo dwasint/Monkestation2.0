@@ -17,13 +17,13 @@
 	force = 5
 	throwforce = 7
 
-/obj/item/reagent_containers/cup/cult/examine(var/mob/user)
+/obj/item/reagent_containers/cup/cult/examine(mob/user)
 	..()
 	if (IS_CULTIST(user))
 		. += "Drinking blood from this cup will always safely replenish your own vessels, regardless of blood types. The opposite is true to non-cultists. Throwing this cup at them may force them to swallow some of its content if their face isn't covered."
 
 
-/obj/item/reagent_containers/cup/cult/throw_impact(var/atom/hit_atom)
+/obj/item/reagent_containers/cup/cult/throw_impact(atom/hit_atom)
 	if(reagents.total_volume)
 		if (ishuman(hit_atom))
 			var/mob/living/carbon/human/H = hit_atom

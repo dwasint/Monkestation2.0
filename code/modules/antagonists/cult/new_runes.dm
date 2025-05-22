@@ -1,5 +1,5 @@
-var/list/runes = list()
-var/list/rune_appearances_cache = list()
+GLOBAL_LIST_EMPTY(runes)
+GLOBAL_LIST_EMPTY(rune_appearances_cache)
 
 /datum/hover_data/rune_data
 	var/obj/effect/overlay/hover/text_holder
@@ -89,7 +89,7 @@ var/list/rune_appearances_cache = list()
 	for(var/mob/living/silicon/ai/AI in GLOB.player_list)
 		AI.client.images += blood_image
 
-	runes += src
+	LAZYADD(GLOB.runes, src)
 
 	AddComponent(/datum/component/hovering_information, /datum/hover_data/rune_data)
 
@@ -128,7 +128,7 @@ var/list/rune_appearances_cache = list()
 		active_spell.abort()
 		active_spell = null
 
-	runes -= src
+	LAZYREMOVE(GLOB.runes, src)
 
 	..()
 
@@ -161,7 +161,7 @@ var/list/rune_appearances_cache = list()
 						"Shall we gamble then? Obviously blood is the only acceptable bargaining chip")].</span></span>")
 
 
-/obj/effect/new_rune/proc/can_read_rune(var/mob/user) //Overload for specific criteria.
+/obj/effect/new_rune/proc/can_read_rune(mob/user) //Overload for specific criteria.
 	return IS_CULTIST(user)
 
 
@@ -181,7 +181,7 @@ var/list/rune_appearances_cache = list()
 	qdel(src)
 
 
-/obj/effect/new_rune/proc/write_word(var/word, var/datum/reagent/blood/blood)
+/obj/effect/new_rune/proc/write_word(word, datum/reagent/blood/blood)
 	if (!word)
 		return
 	var/turf/T = get_turf(src)
@@ -190,7 +190,7 @@ var/list/rune_appearances_cache = list()
 		write_color = GLOB.blood_types[blood.data["blood_type"]]?.color
 	anim(target = T, a_icon = 'monkestation/code/modules/bloody_cult/icons/deityrunes.dmi', flick_anim = "[word]-write", lay = layer+0.1, col = write_color, plane = plane)
 
-/obj/effect/new_rune/proc/erase_word(var/word, var/datum/reagent/blood/blood)
+/obj/effect/new_rune/proc/erase_word(word, datum/reagent/blood/blood)
 	if (!word)
 		return
 	var/turf/T = get_turf(src)
@@ -199,13 +199,13 @@ var/list/rune_appearances_cache = list()
 		erase_color = GLOB.blood_types[blood.data["blood_type"]]?.color
 	anim(target = T, a_icon = 'monkestation/code/modules/bloody_cult/icons/deityrunes.dmi', flick_anim = "[word]-erase", lay = layer+0.1, col = erase_color, plane = plane)
 
-/obj/effect/new_rune/proc/cast_word(var/word)
+/obj/effect/new_rune/proc/cast_word(word)
 	if (!word)
 		return
 	var/obj/effect/abstract/A = anim(target = get_turf(src), a_icon = 'monkestation/code/modules/bloody_cult/icons/deityrunes.dmi', a_icon_state = "[word]-tear", lay = layer+0.2, plane = plane)
 	animate(A, alpha = 0, time = 5)
 
-/obj/effect/new_rune/ex_act(var/severity)
+/obj/effect/new_rune/ex_act(severity)
 	switch (severity)
 		if (1)
 			qdel(src)
@@ -219,7 +219,7 @@ var/list/rune_appearances_cache = list()
 /obj/effect/new_rune/blob_act()
 	return
 
-/obj/effect/new_rune/update_icon(var/draw_up_to = 3)
+/obj/effect/new_rune/update_icon(draw_up_to = 3)
 	. = ..()
 	var/datum/rune_spell/spell = get_rune_spell(null, null, "examine", word1, word2, word3)
 
@@ -243,8 +243,8 @@ var/list/rune_appearances_cache = list()
 		lookup += "-[word3.english]-[animated]-[GLOB.blood_types[blood3.data["blood_type"]]?.color]]"
 
 	var/image/rune_render
-	if (lookup in rune_appearances_cache)
-		rune_render = image(rune_appearances_cache[lookup])
+	if (lookup in GLOB.rune_appearances_cache)
+		rune_render = image(GLOB.rune_appearances_cache[lookup])
 	else
 		var/image/I1 = image('monkestation/code/modules/bloody_cult/icons/deityrunes.dmi', src, "")
 		if (word1)
@@ -292,7 +292,7 @@ var/list/rune_appearances_cache = list()
 		if(GLOB.blood_types[blood3?.data["blood_type"]]?.glows)
 			rune_render.overlays += emissive_appearance('monkestation/code/modules/bloody_cult/icons/deityrunes.dmi', word3.english, src)
 
-		rune_appearances_cache[lookup] = rune_render
+		LAZYADDASSOC(GLOB.rune_appearances_cache, lookup, rune_render)
 	overlays += rune_render
 
 	if(animated)
@@ -350,26 +350,26 @@ var/list/rune_appearances_cache = list()
 	if (active_spell && ismob(mover))
 		active_spell.Removed(mover)
 
-/obj/effect/new_rune/attack_animal(var/mob/living/simple_animal/user)
+/obj/effect/new_rune/attack_animal(mob/living/simple_animal/user)
 	if(istype(user, /mob/living/basic/construct))
 		trigger(user)
 	if(istype(user, /mob/living/basic/shade))
 		trigger(user)
 
-/obj/effect/new_rune/attack_paw(var/mob/living/user)
+/obj/effect/new_rune/attack_paw(mob/living/user)
 	if(ismonkey(user))
 		//assume_contact_diseases(user)
 		trigger(user)
 
-/obj/effect/new_rune/attack_alien(var/mob/living/user)
+/obj/effect/new_rune/attack_alien(mob/living/user)
 	if(isalien(user))
 		trigger(user)
 
-/obj/effect/new_rune/attack_hand(var/mob/living/user)
+/obj/effect/new_rune/attack_hand(mob/living/user)
 	//assume_contact_diseases(user)
 	trigger(user)
 
-/obj/effect/new_rune/attack_robot(var/mob/living/user) //Allows for robots to remotely trigger runes, since attack_robot has infinite range.
+/obj/effect/new_rune/attack_robot(mob/living/user) //Allows for robots to remotely trigger runes, since attack_robot has infinite range.
 	trigger(user)
 
 /*
@@ -394,7 +394,7 @@ var/list/rune_appearances_cache = list()
 		T.imbue(user, src)
 	return
 
-/obj/effect/new_rune/proc/trigger(var/mob/living/user, var/talisman_trigger = 0)
+/obj/effect/new_rune/proc/trigger(mob/living/user, talisman_trigger = 0)
 
 	if(!IS_CULTIST(user))
 		to_chat(user, span_danger("You can't mouth the arcane scratchings without fumbling over them.") )
@@ -440,7 +440,7 @@ var/list/rune_appearances_cache = list()
 		if (active_spell.destroying_self)
 			active_spell = null
 
-/obj/effect/new_rune/proc/fizzle(var/mob/living/user)
+/obj/effect/new_rune/proc/fizzle(mob/living/user)
 	var/silent = user.checkTattoo(TATTOO_SILENT)
 	if(!silent)
 		user.say(pick("B'ADMINES SP'WNIN SH'T", "IC'IN O'OC", "RO'SHA'M I'SA GRI'FF'N ME'AI", "TOX'IN'S O'NM FI'RAH", "IA BL'AME TOX'IN'S", "FIR'A NON'AN RE'SONA", "A'OI I'RS ROUA'GE", "LE'OAN JU'STA SP'A'C Z'EE SH'EF", "IA PT'WOBEA'RD, IA A'DMI'NEH'LP", "I'F ON'Y I 'AD 'TAB' E"))
@@ -486,43 +486,7 @@ var/list/rune_appearances_cache = list()
 		return 1
 	return 0
 
-/*
-/obj/effect/new_rune/proc/manage_diseases(var/datum/reagent/blood/source)
-	virus2 = list()
-
-	if (blood1)
-		blood1.data["virus2"] = virus_copylist(source.data["virus2"])
-		var/list/datum/disease2/disease/blood1_diseases = blood1.data["virus2"]
-		for (var/ID in blood1_diseases)
-			var/datum/disease2/disease/V = blood1_diseases[ID]
-			if(istype(V))
-				virus2["[V.uniqueID]-[V.subID]"] = V.getcopy()
-	if (blood2)
-		blood2.data["virus2"] = virus_copylist(source.data["virus2"])
-		var/list/datum/disease2/disease/blood2_diseases = blood2.data["virus2"]
-		for (var/ID in blood2_diseases)
-			if (ID in virus2)
-				continue
-			var/datum/disease2/disease/V = blood2_diseases[ID]
-			if(istype(V))
-				virus2["[V.uniqueID]-[V.subID]"] = V.getcopy()
-	if (blood3)
-		blood3.data["virus2"] = virus_copylist(source.data["virus2"])
-		var/list/datum/disease2/disease/blood3_diseases = blood3.data["virus2"]
-		for (var/ID in blood3_diseases)
-			if (ID in virus2)
-				continue
-			var/datum/disease2/disease/V = blood3_diseases[ID]
-			if(istype(V))
-				virus2["[V.uniqueID]-[V.subID]"] = V.getcopy()
-*/
-
-/*
-/obj/effect/new_rune/clean_act(var/cleanliness)
-	qdel(src)
-*/
-
-/proc/write_rune_word(var/turf/T, var/datum/rune_word/word = null, var/datum/reagent/blood/source, var/mob/caster = null)
+/proc/write_rune_word(turf/T, datum/rune_word/word = null, datum/reagent/blood/source, mob/caster = null)
 	if (!word)
 		return RUNE_WRITE_CANNOT
 
@@ -577,7 +541,7 @@ var/list/rune_appearances_cache = list()
 		return RUNE_WRITE_COMPLETE
 	return RUNE_WRITE_CONTINUE
 
-/proc/erase_rune_word(var/turf/T)
+/proc/erase_rune_word(turf/T)
 	var/obj/effect/new_rune/rune = locate() in T
 	if(!rune)
 		return null
@@ -614,7 +578,7 @@ var/list/rune_appearances_cache = list()
 	return word_erased
 
 
-/proc/write_full_rune(var/turf/T, var/spell_type, var/datum/reagent/blood/source, var/mob/caster = null)
+/proc/write_full_rune(turf/T, spell_type, datum/reagent/blood/source, mob/caster = null)
 	if (!spell_type)
 		return
 

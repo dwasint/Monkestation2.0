@@ -765,10 +765,10 @@
 	else
 		qdel(src)
 
-/obj/effect/tracker/boomerang/Bumped(var/atom/movable/AM)
+/obj/effect/tracker/boomerang/Bumped(atom/movable/AM)
 	make_contact(AM)
 
-/obj/effect/tracker/boomerang/proc/make_contact(var/atom/Obstacle)
+/obj/effect/tracker/boomerang/proc/make_contact(atom/Obstacle)
 	if (boomerang)
 		if (!(Obstacle in hit_atoms))
 			hit_atoms += Obstacle
@@ -795,7 +795,7 @@
 		qdel(src)
 		return FALSE
 
-/obj/effect/tracker/boomerang/on_expire(var/bumped_atom = FALSE)
+/obj/effect/tracker/boomerang/on_expire(bumped_atom = FALSE)
 	if (boomerang && boomerang.originator && Adjacent(boomerang.originator))
 		if (boomerang.on_return())
 			if (boomerang)
@@ -854,7 +854,7 @@
 	rang.fire()
 	rang.process()
 
-/obj/item/nullrod/cross_boomerang/proc/on_step(var/obj/O)
+/obj/item/nullrod/cross_boomerang/proc/on_step(obj/O)
 	if (COOLDOWN_FINISHED(src, last_sound_loop))
 		COOLDOWN_START(src, last_sound_loop, 1 SECONDS)
 		playsound(loc,sound_loop, 35, 0)
@@ -875,7 +875,7 @@
 /obj/item/nullrod/cross_boomerang/proc/return_check()//lets you add conditions for the boomerang to come back
 	return TRUE
 
-/obj/item/nullrod/cross_boomerang/proc/apply_status_effects(var/mob/living/carbon/C, var/minimal_effect = 0)
+/obj/item/nullrod/cross_boomerang/proc/apply_status_effects(mob/living/carbon/C, minimal_effect = 0)
 	C.Stun(max(minimal_effect, 1 SECONDS))
 
 /obj/item/nullrod/cross_boomerang/proc/on_return()

@@ -43,7 +43,7 @@
 	var/image/I = image(icon, "altar_overlay")
 	SET_PLANE_EXPLICIT(I, GAME_PLANE, src)
 
-/obj/structure/cult/altar/Initialize()
+/obj/structure/cult/altar/Initialize(mapload)
 	. = ..()
 	//mostly for mappers
 	for (var/obj/item/I in loc)
@@ -65,7 +65,7 @@
 	flick("[icon_state]-break", src)
 	..()
 
-/obj/structure/cult/altar/attackby(var/obj/item/I, var/mob/user, params)
+/obj/structure/cult/altar/attackby(obj/item/I, mob/user, params)
 	if (altar_task)
 		return ..()
 	if(is_type_in_list(I, can_plant))
@@ -167,16 +167,16 @@
 		. += "altar_damage1"
 
 //We want people on top of the altar to appear slightly higher
-/obj/structure/cult/altar/Entered(var/atom/movable/mover)
+/obj/structure/cult/altar/Entered(atom/movable/mover)
 	if (iscarbon(mover))
 		mover.pixel_y += 7 * 1
 
-/obj/structure/cult/altar/Exited(var/atom/movable/mover)
+/obj/structure/cult/altar/Exited(atom/movable/mover)
 	if (iscarbon(mover))
 		mover.pixel_y -= 7 * 1
 
 //They're basically the height of regular tables
-/obj/structure/cult/altar/Cross(var/atom/movable/mover, var/turf/target, var/height = 1.5, var/air_group = 0)
+/obj/structure/cult/altar/Cross(atom/movable/mover, turf/target, height = 1.5, air_group = 0)
 	if(air_group || (height == 0))
 		return 1
 
@@ -190,7 +190,7 @@
 	else
 		return 0
 
-/obj/structure/cult/altar/MouseDrop_T(var/atom/movable/O, var/mob/living/user)
+/obj/structure/cult/altar/MouseDrop_T(atom/movable/O, mob/living/user)
 	if (altar_task)
 		return
 	if (!istype(O))
@@ -253,7 +253,7 @@
 	for (var/mob/living/carbon/C in loc)
 		Crossed(C)
 
-/obj/structure/cult/altar/cultist_act(var/mob/user, var/menu = "default")
+/obj/structure/cult/altar/cultist_act(mob/user, menu = "default")
 	. = ..()
 	if (!.)
 		return
@@ -453,7 +453,7 @@
 /obj/structure/cult/altar/proc/remove_watching(mob/user)
 	watching_mobs -= user
 
-/obj/structure/cult/altar/proc/StartSacrifice(var/mob/user)
+/obj/structure/cult/altar/proc/StartSacrifice(mob/user)
 	var/mob/M = buckled_mobs[1]
 	switch(altar_task)
 		if(ALTARTASK_SACRIFICE_HUMAN)
@@ -497,7 +497,7 @@
 			spawn()
 				dance_start()
 
-/obj/structure/cult/altar/noncultist_act(var/mob/user)//Non-cultists can still remove blades planted on altars.
+/obj/structure/cult/altar/noncultist_act(mob/user)//Non-cultists can still remove blades planted on altars.
 	if(buckled_mobs)
 		var/mob/M = buckled_mobs[1]
 		if(M != user)
@@ -653,7 +653,7 @@
 				//bloodmess_splatter(TU)
 				playsound(src, "gib", 30, 0, -3)
 
-/obj/structure/cult/altar/ritual_reward(var/mob/M)
+/obj/structure/cult/altar/ritual_reward(mob/M)
 	var/datum/antagonist/cult/cult_datum = M.mind.has_antag_datum(/datum/antagonist/cult)
 	if (cult_datum)
 		switch(altar_task)

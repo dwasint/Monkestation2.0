@@ -67,8 +67,8 @@ GLOBAL_LIST_INIT(bloodcult_exitportals, list())
 
 	var/image/I_network
 	var/lookup = "[W.english]-0-[COLOR_BLOOD]"//0 because the rune will pulse anyway, and make this overlay pulse along
-	if (lookup in rune_appearances_cache)
-		I_network = image(rune_appearances_cache[lookup])
+	if (lookup in GLOB.rune_appearances_cache)
+		I_network = image(GLOB.rune_appearances_cache[lookup])
 	else
 		I_network = image('monkestation/code/modules/bloody_cult/icons/deityrunes.dmi', src, W.english)
 		I_network.color = COLOR_BLOOD

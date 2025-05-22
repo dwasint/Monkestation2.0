@@ -68,7 +68,7 @@
 		sleep(10)
 	qdel(src)
 
-/obj/effect/stun_indicator/proc/place_indicator(var/image/I, dot)
+/obj/effect/stun_indicator/proc/place_indicator(image/I, dot)
 	switch (dot)
 		if (2, 3)
 			I.pixel_x = -8

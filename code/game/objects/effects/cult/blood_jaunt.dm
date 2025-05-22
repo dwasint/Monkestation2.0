@@ -214,7 +214,7 @@
 		landing_animation = anim(target = src.target, a_icon = 'icons/effects/effects.dmi', flick_anim = "cult_jaunt_prepare", plane = GAME_PLANE_UPPER)
 	return make_bresenham_step(distA, distB, dA, dB)
 
-/obj/effect/bloodcult_jaunt/proc/make_bresenham_step(var/distA, distB, dA, dB)
+/obj/effect/bloodcult_jaunt/proc/make_bresenham_step(distA, distB, dA, dB)
 	if(error < 0)
 		var/atom/step = get_step(src, dB)
 		if(!step)
@@ -271,7 +271,7 @@
 				var/mob/M = rider
 				M.see_invisible = 0
 				var/jaunter = FALSE
-				for (var/obj/effect/cult_ritual/seer/seer_ritual in seer_rituals)
+				for (var/obj/effect/cult_ritual/seer/seer_ritual in GLOB.seer_rituals)
 					if (seer_ritual.caster == M)
 						jaunter = TRUE
 						break
@@ -288,7 +288,7 @@
 				if (ismob(AM))
 					var/mob/M = AM
 					M.see_invisible = SEE_INVISIBLE_LIVING
-					for (var/obj/effect/cult_ritual/seer/seer_ritual in seer_rituals)
+					for (var/obj/effect/cult_ritual/seer/seer_ritual in GLOB.seer_rituals)
 						if (seer_ritual.caster == M)
 							break
 					if (iscarbon(AM))

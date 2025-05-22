@@ -30,7 +30,7 @@
 	/// The various images and icons for the map are stored in here, as well as the actual big map itself.
 	var/datum/station_holomap/holomap_datum
 
-/obj/machinery/station_map/Initialize()
+/obj/machinery/station_map/Initialize(mapload)
 	. = ..()
 	if(!current_z_level)
 		current_z_level = loc.z
@@ -86,7 +86,7 @@
 	holomap_datum.base_map.loc = user_hud.holomap  // Put the image on the holomap hud
 	holomap_datum.base_map.alpha = 0 // Set to transparent so we can fade in
 
-	RegisterSignal(user, COMSIG_MOVABLE_MOVED, .proc/check_position)
+	RegisterSignal(user, COMSIG_MOVABLE_MOVED, PROC_REF(check_position))
 
 	playsound(src, 'monkestation/code/modules/holomaps/sounds/holomap_open.ogg', 125)
 	animate(holomap_datum.base_map, alpha = 255, time = 5, easing = LINEAR_EASING)

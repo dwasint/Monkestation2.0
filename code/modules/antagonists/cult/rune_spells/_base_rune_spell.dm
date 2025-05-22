@@ -55,11 +55,11 @@
 	var/talisman_uses = 1					//How many times can a spell be cast from a single talisman. The talisman disappears upon the last use.
 
 	var/page = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, \
-			 sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\
-			  Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut\
-			   aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in\
-			    voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint\
-			     occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum." //Arcane tome page description.
+			sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.\
+			Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut\
+			aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in\
+			voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint\
+			occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum." //Arcane tome page description.
 
 /datum/rune_spell/New(mob/user, obj/holder, use = "ritual", mob/target)
 	spell_holder = holder
@@ -84,7 +84,7 @@
 	activator = null
 	..()
 
-/datum/rune_spell/proc/invoke(var/mob/user, var/text = "", var/whisper = 0)
+/datum/rune_spell/proc/invoke(mob/user, text = "", whisper = 0)
 	if(user.checkTattoo(TATTOO_SILENT) || (spell_holder.icon_state == "temp"))
 		return
 	if(!whisper)
@@ -118,9 +118,9 @@
 	else
 		return TRUE
 
-/datum/rune_spell/proc/Added(var/mob/M)
+/datum/rune_spell/proc/Added(mob/M)
 
-/datum/rune_spell/proc/Removed(var/mob/M)
+/datum/rune_spell/proc/Removed(mob/M)
 
 /datum/rune_spell/proc/midcast(mob/add_cultist)
 	return
@@ -129,7 +129,7 @@
 	spell_holder.visible_message(span_warning("This rune wasn't properly set up, tell a coder.") )
 	qdel(src)
 
-/datum/rune_spell/proc/abort(var/cause) //The error message for aborting, usable by any runeset.
+/datum/rune_spell/proc/abort(cause) //The error message for aborting, usable by any runeset.
 	if(destroying_self)
 		return
 	destroying_self = TRUE
@@ -191,7 +191,7 @@
 	else
 		qdel(src)
 
-/datum/rune_spell/proc/salt_act(var/turf/T)
+/datum/rune_spell/proc/salt_act(turf/T)
 	return
 
 /datum/rune_spell/proc/missing_ingredients_count()
@@ -233,8 +233,8 @@
 /datum/rune_spell/proc/cast_talisman() //Override for unique talisman behavior.
 	cast()
 
-/datum/rune_spell/proc/cast_touch(var/mob/M) //Behavior on using the talisman on somebody. See - stun talisman.
+/datum/rune_spell/proc/cast_touch(mob/M) //Behavior on using the talisman on somebody. See - stun talisman.
 	return
 
-/datum/rune_spell/proc/midcast_talisman(var/mob/add_cultist)
+/datum/rune_spell/proc/midcast_talisman(mob/add_cultist)
 	return

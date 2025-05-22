@@ -98,7 +98,7 @@
 	if (add_cultist.client)
 		add_cultist.client.images |= progbar
 
-/datum/rune_spell/raisestructure/abort(var/cause)
+/datum/rune_spell/raisestructure/abort(cause)
 	spell_holder.overlays -= image('monkestation/code/modules/bloody_cult/icons/cult.dmi', "runetrigger-build")
 	..()
 

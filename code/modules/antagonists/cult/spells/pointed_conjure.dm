@@ -64,5 +64,5 @@
 /datum/action/cooldown/spell/pointed/conjure/proc/post_summon(atom/summoned_object, atom/cast_on)
 	return
 
-/datum/action/cooldown/spell/pointed/conjure/proc/conjure_animation(var/obj/effect/abstract/animation, var/turf/target)
+/datum/action/cooldown/spell/pointed/conjure/proc/conjure_animation(obj/effect/abstract/animation, turf/target)
 	QDEL_NULL(animation)

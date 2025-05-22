@@ -256,7 +256,7 @@
 				L.gib()
 				//playsound(src, 'monkestation/code/modules/bloody_cult/sound/bloodyslice.ogg', 50, 0, 0)
 
-/obj/vehicle/ridden/adminbus/proc/capture_mob(atom/A, var/selfclimb = 0)
+/obj/vehicle/ridden/adminbus/proc/capture_mob(atom/A, selfclimb = 0)
 	if(passengers.len >= 16)
 		to_chat(A, span_warning("\The [src] is full!") )
 		return
@@ -321,10 +321,10 @@
 					return
 */
 
-/obj/vehicle/ridden/adminbus/proc/add_HUD(var/mob/user)
+/obj/vehicle/ridden/adminbus/proc/add_HUD(mob/user)
 	user.DisplayUI("Adminbus")
 
-/obj/vehicle/ridden/adminbus/proc/remove_HUD(var/mob/M)
+/obj/vehicle/ridden/adminbus/proc/remove_HUD(mob/M)
 	M.HideUI("Adminbus")
 
 /obj/vehicle/ridden/adminbus/proc/update_rearview()
@@ -374,7 +374,7 @@
 	pixel_x = -32
 	pixel_y = -32
 
-/obj/structure/hookshot/claw/proc/hook_throw(var/toward)
+/obj/structure/hookshot/claw/proc/hook_throw(toward)
 	max_distance--
 	var/obj/singularity/S = locate(/obj/singularity) in src.loc
 	if(S)
@@ -456,7 +456,7 @@
 /obj/structure/singulo_chain/ex_act(severity)
 	return
 
-/obj/structure/singulo_chain/proc/move_child(var/turf/parent)
+/obj/structure/singulo_chain/proc/move_child(turf/parent)
 	var/turf/T = get_turf(src)
 	if(parent)//I don't see how this could be null but a sanity check won't hurt
 		forceMove(parent)
@@ -467,7 +467,7 @@
 	else
 		dir = get_dir(T, src)
 
-/obj/structure/singulo_chain/anchor/move_child(var/turf/parent)
+/obj/structure/singulo_chain/anchor/move_child(turf/parent)
 	var/turf/T = get_turf(src)
 	if(parent)
 		forceMove(parent)

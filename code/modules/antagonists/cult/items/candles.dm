@@ -77,7 +77,7 @@
 	if(W.heat)
 		light(span_notice("[user] lights [src] with [W].") )
 
-/obj/item/candle/proc/light(var/flavor_text = span_notice("[usr] lights [src].") , var/quiet = 0)
+/obj/item/candle/proc/light(flavor_text = span_notice("[usr] lights [src].") , quiet = 0)
 	if(!lit)
 		lit = 1
 		if(!quiet)
@@ -88,7 +88,7 @@
 		START_PROCESSING(SSobj, src)
 		update_icon()
 
-/obj/item/candle/proc/flicker(var/amount = rand(5, 15))
+/obj/item/candle/proc/flicker(amount = rand(5, 15))
 	if(flickering)
 		return
 	flickering = 1

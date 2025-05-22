@@ -550,10 +550,6 @@
 /obj/abstract/mind_ui_element/hoverable/adminbus_jukebox/Click()
 	flick("[base_icon_state]-push", src)
 
-	var/mob/M = GetUser()
-	if (M && istype(M.buckled, /obj/vehicle/ridden/adminbus))
-		var/obj/vehicle/ridden/adminbus/A = M.buckled
-
 //------------------------------------------------------------
 
 /obj/abstract/mind_ui_element/hoverable/adminbus_teleport

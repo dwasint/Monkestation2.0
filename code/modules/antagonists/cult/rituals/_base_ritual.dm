@@ -51,7 +51,7 @@ GLOBAL_LIST_INIT(bloodcult_personal_rituals, list(
 	return
 
 //Perform custom ritual validation checks here
-/datum/bloodcult_ritual/proc/key_found(var/extra)
+/datum/bloodcult_ritual/proc/key_found(extra)
 	return TRUE
 
 /datum/bloodcult_ritual/proc/complete()

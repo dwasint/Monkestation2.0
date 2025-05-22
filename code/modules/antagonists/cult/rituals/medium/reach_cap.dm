@@ -20,7 +20,7 @@
 		return TRUE
 	return FALSE
 
-/datum/bloodcult_ritual/reach_cap/key_found(var/extra)
+/datum/bloodcult_ritual/reach_cap/key_found(extra)
 	var/datum/team/cult/cult = locate_team(/datum/team/cult)
 	if (!cult.CanConvert())
 		return TRUE

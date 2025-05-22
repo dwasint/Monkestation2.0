@@ -40,7 +40,7 @@
 	qdel(src)
 
 
-/datum/rune_spell/astraljourney/abort(var/cause)
+/datum/rune_spell/astraljourney/abort(cause)
 	qdel(astral)
 	..()
 

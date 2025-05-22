@@ -33,7 +33,7 @@
 					i++
 					valid_tomes["[i] - Tome carried by [M.real_name] ([T.talismans.len]/[MAX_TALISMAN_PER_TOME])"] = T
 
-			for (var/datum/action/cooldown/spell/cult/arcane_dimension/A in arcane_pockets)
+			for (var/datum/action/cooldown/spell/cult/arcane_dimension/A in GLOB.arcane_pockets)
 				if (A.owner && A.owner.loc && ismob(A.owner) && A.stored_tome)
 					i++
 					var/mob/M = A.owner
@@ -116,7 +116,7 @@
 	R.trigger(add_cultist)
 	qdel(src)
 
-/datum/rune_spell/paraphernalia/abort(var/cause)
+/datum/rune_spell/paraphernalia/abort(cause)
 	spell_holder.overlays -= image('monkestation/code/modules/bloody_cult/icons/cult.dmi', "runetrigger-build")
 	..()
 

@@ -61,9 +61,9 @@ GLOBAL_LIST_INIT(confusion_victims, list())
 			if (!U.density)
 				I_turf = image(icon = 'icons/turf/floors.dmi', loc = U, icon_state = "cult")
 				//if it's a floor, give it a chance to have some runes written on top
-				if (rune_appearances_cache.len > 0 && prob(7))
-					var/lookup = pick(rune_appearances_cache)//finally a good use for that cache
-					var/image/I = rune_appearances_cache[lookup]
+				if (GLOB.rune_appearances_cache.len > 0 && prob(7))
+					var/lookup = pick(GLOB.rune_appearances_cache)//finally a good use for that cache
+					var/image/I = GLOB.rune_appearances_cache[lookup]
 					I_turf.overlays += I
 			hallucinated_turfs.Add(I_turf)
 

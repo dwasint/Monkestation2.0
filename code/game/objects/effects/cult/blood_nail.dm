@@ -10,7 +10,7 @@
 	pixel_x = rand(-4, 4)
 	pixel_y = rand(-4, 4)
 
-/obj/effect/rooting_trap/bloodnail/stick_to(var/atom/A, side = null)
+/obj/effect/rooting_trap/bloodnail/stick_to(atom/A, side = null)
 	pixel_x = rand(-4, 4)
 	pixel_y = rand(-4, 4)
 	var/turf/T = get_turf(A)

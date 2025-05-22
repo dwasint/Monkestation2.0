@@ -69,7 +69,7 @@
 	new /obj/effect/cult_ritual/seer(activator, activator, null, TRUE, talisman_duration)
 	qdel(src)
 
-var/list/seer_rituals = list()
+GLOBAL_LIST_EMPTY(seer_rituals)
 
 /obj/effect/cult_ritual/seer
 	anchored = 1
@@ -94,7 +94,7 @@ var/list/seer_rituals = list()
 	proximity_monitor = new(src, 1)
 	if(user)
 		ADD_TRAIT(user, TRAIT_SEER, REF(src))
-	seer_rituals.Add(src)
+	LAZYADD(GLOB.seer_rituals, src)
 	talisman = talisman_ritual
 	caster = user
 	caster.see_invisible = SEE_INVISIBLE_OBSERVER
@@ -111,7 +111,7 @@ var/list/seer_rituals = list()
 
 
 /obj/effect/cult_ritual/seer/Destroy()
-	seer_rituals.Remove(src)
+	LAZYREMOVE(GLOB.seer_rituals, src)
 	if(caster)
 		REMOVE_TRAIT(caster, TRAIT_SEER, REF(src))
 		to_chat(caster, span_notice("You can no longer discern through the veil."))
@@ -122,7 +122,7 @@ var/list/seer_rituals = list()
 	source = null
 	..()
 
-/obj/effect/cult_ritual/seer/HasProximity(var/atom/movable/AM)
+/obj/effect/cult_ritual/seer/HasProximity(atom/movable/AM)
 	if (!talisman)
 		if (!caster || caster.loc != loc)
 			qdel(src)

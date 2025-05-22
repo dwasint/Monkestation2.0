@@ -32,7 +32,7 @@
 	var/datum/team/cult/cult = locate_team(/datum/team/cult)
 	desc = "more blood...need more...<br>on the floors...on the walls...<br>at least [target_bloodspill - cult.bloody_floors.len] more..."
 
-/datum/bloodcult_ritual/bloodspill/key_found(var/extra)
+/datum/bloodcult_ritual/bloodspill/key_found(extra)
 	if(extra > max_bloodspill)
 		max_bloodspill = extra
 	if(max_bloodspill >= target_bloodspill)

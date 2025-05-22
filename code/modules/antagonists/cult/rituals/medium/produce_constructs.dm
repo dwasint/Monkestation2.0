@@ -14,7 +14,7 @@
 /datum/bloodcult_ritual/produce_constructs/init_ritual()
 	types_to_build = list("Artificer", "Wraith", "Juggernaut")
 
-/datum/bloodcult_ritual/produce_constructs/key_found(var/extra)
+/datum/bloodcult_ritual/produce_constructs/key_found(extra)
 	var/datum/team/cult/cult = locate_team(/datum/team/cult)
 	for (var/datum/mind/mind in cult.members)
 		var/mob/M = mind.current
