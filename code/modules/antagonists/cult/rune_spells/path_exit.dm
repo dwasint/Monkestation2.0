@@ -93,7 +93,7 @@ GLOBAL_LIST_INIT(bloodcult_exitportals, list())
 /datum/rune_spell/portalexit/midcast(mob/add_cultist)
 	to_chat(add_cultist, span_notice("You may teleport to this rune by using a Path Entrance, or a talisman attuned to it.") )
 
-/datum/rune_spell/portalexit/midcast_talisman(var/mob/add_cultist)
+/datum/rune_spell/portalexit/midcast_talisman(mob/add_cultist)
 	var/turf/T = get_turf(add_cultist)
 	invoke(add_cultist, invocation, 1)
 	anim(target = T, a_icon = 'monkestation/code/modules/bloody_cult/icons/effects.dmi', flick_anim = "rune_teleport")
@@ -125,7 +125,7 @@ GLOBAL_LIST_INIT(bloodcult_exitportals, list())
 	T.attuned_rune = PE.spell_holder
 	T.word_pulse(GLOB.rune_words[network])
 
-/datum/rune_spell/portalexit/salt_act(var/turf/T)
+/datum/rune_spell/portalexit/salt_act(turf/T)
 	if (T != spell_holder.loc)
 		var/turf/destination = null
 		for (var/datum/rune_spell/portalexit/P in GLOB.bloodcult_exitportals)

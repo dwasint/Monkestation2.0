@@ -38,7 +38,7 @@ GLOBAL_LIST_INIT(bloodcult_personal_rituals, list(
 	var/list/keys = list()
 
 //Needs to be TRUE for the Ritual to be assigned
-/datum/bloodcult_ritual/proc/pre_conditions(var/datum/antagonist/cult/potential)
+/datum/bloodcult_ritual/proc/pre_conditions(datum/antagonist/cult/potential)
 	if (potential)
 		owner = potential
 	return TRUE

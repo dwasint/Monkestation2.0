@@ -110,7 +110,7 @@
 	if(!length(members))
 		qdel(src)
 
-/datum/team/cult/proc/replace_rituals(var/slot)
+/datum/team/cult/proc/replace_rituals(slot)
 	if (!slot)
 		return
 
@@ -183,7 +183,7 @@
 	return (cultist_count < cultist_cap)
 
 
-/datum/team/cult/proc/check_ritual(var/key, var/extra)
+/datum/team/cult/proc/check_ritual(key, extra)
 	switch(stage)
 		if (BLOODCULT_STAGE_DEFEATED)//no more devotion gains if the bloodstone has been destroyed
 			return
@@ -208,7 +208,7 @@
 							if (!rituals[ritual_slot])
 								replace_rituals(ritual_slot)
 
-/datum/team/cult/proc/stage(var/value)
+/datum/team/cult/proc/stage(value)
 	stage = value
 	switch(stage)
 		if (BLOODCULT_STAGE_READY)

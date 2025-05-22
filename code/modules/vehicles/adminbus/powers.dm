@@ -287,39 +287,6 @@
 		to_chat(M, span_notice("You're a god alright, but you don't seem to have your Adminbus driver license!") )
 		return
 	. = ..()
-/*
-/obj/vehicle/ridden/adminbus/manual_unbuckle(mob/user, var/resisting = FALSE)
-	if(occupant && occupant == user)	//Are you the driver?
-		var/mob/living/M = occupant
-		M.visible_message(
-			span_notice("[M.name] unbuckles \himself!") ,
-			"You unbuckle yourself from \the [src].")
-		unlock_atom(M)
-		src.add_fingerprint(user)
-	else
-		if(door_mode)
-			if(locate(user) in passengers)
-				freed(user)
-				return
-			else
-				capture_mob(user, 1)
-				return
-		else
-			if(istype(user, /mob/living/carbon/human/dummy) || istype(user, /mob/living/simple_animal/corgi/Ian))
-				if(locate(user) in passengers)
-					freed(user)
-					return
-				else
-					capture_mob(user, 1)
-					return
-			else
-				if(locate(user) in passengers)
-					to_chat(user, span_notice("You may not leave the Adminbus at the current time.") )
-					return
-				else
-					to_chat(user, span_notice("You may not climb into \the [src] while its door is closed.") )
-					return
-*/
 
 /obj/vehicle/ridden/adminbus/proc/add_HUD(mob/user)
 	user.DisplayUI("Adminbus")
@@ -523,29 +490,6 @@
 
 /obj/structure/teleportwarp/singularity_pull()
 	return 0
-
-/*
-/datum/locking_category/adminbus/lock(var/atom/movable/AM)
-	. = ..()
-	if (isliving(AM))
-		var/mob/living/M = AM
-		var/obj/vehicle/ridden/adminbus/bus = owner
-		M.flags |= INDESTRUCTIBLE
-		bus.add_HUD(M)
-		M.register_event(/event/living_login, bus, /obj/vehicle/ridden/adminbus/proc/add_HUD)
-
-/datum/locking_category/adminbus/unlock(var/atom/movable/AM)
-	. = ..()
-	if (isliving(AM))
-		var/mob/living/M = AM
-		var/obj/vehicle/ridden/adminbus/bus = owner
-		M.flags &= ~INDESTRUCTIBLE
-		bus.remove_HUD(M)
-		M.unregister_event(/event/living_login, bus, /obj/vehicle/ridden/adminbus/proc/add_HUD)
-
-/obj/vehicle/ridden/adminbus/dissolvable()
-	return 0
-*/
 
 /obj/vehicle/ridden/adminbus/add_occupant(mob/M, control_flags)
 	. = ..()

@@ -59,17 +59,6 @@
 			icon_state = "soulbullet-empty"
 	. = ..()
 
-/*
-/obj/projectile/soulbullet/bresenham_step(var/distA, var/distB, var/dA, var/dB)
-	if (shade && leave_shadows >= 0)
-		leave_shadows++
-		if ((leave_shadows%3) =  = 0)
-			anim(target = loc, a_icon = 'monkestation/code/modules/bloody_cult/icons/cult_64x64.dmi', flick_anim = "soulblade-shadow", lay = NARSIE_GLOW, offX = pixel_x, offY = pixel_y, plane = ABOVE_LIGHTING_PLANE, trans = shadow_matrix)
-	if(..())
-		return 2
-	else
-		return 0
-*/
 
 /obj/projectile/soulbullet/on_hit(atom/target, blocked, pierce_hit)
 	. = ..()

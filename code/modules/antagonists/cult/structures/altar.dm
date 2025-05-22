@@ -114,7 +114,7 @@
 					if (IS_CULTIST(M))
 						var/datum/antagonist/cult/cultist = M.mind?.has_antag_datum(/datum/antagonist/cult)
 						if (cultist.second_chance)
-							to_chat(M, span_bolddanger("\The [user] has planted a Soul Blade on an altar, opening a small crack in the veil that allows you to become the blade's resident shade. (<a href = '?src = \ref[src];signup = \ref[M]'>Possess now!</a>)") )
+							to_chat(M, span_bolddanger("\The [user] has planted a Soul Blade on an altar, opening a small crack in the veil that allows you to become the blade's resident shade. (<a href = 'byond://?src = \ref[src];signup = \ref[M]'>Possess now!</a>)") )
 		return 1
 	if (user.pulling)
 		if (blade)

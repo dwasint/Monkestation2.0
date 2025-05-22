@@ -14,7 +14,7 @@
 		"soulstone_prisoner",
 		)
 
-/datum/bloodcult_ritual/reach_cap/pre_conditions(var/datum/antagonist/cult/potential)
+/datum/bloodcult_ritual/reach_cap/pre_conditions(datum/antagonist/cult/potential)
 	var/datum/team/cult/cult = locate_team(/datum/team/cult)
 	if (cult.CanConvert())
 		return TRUE

@@ -114,8 +114,38 @@ GLOBAL_LIST_INIT(astral_projections, list())
 
 /mob/living/basic/astral_projection/Destroy()
 	if (!projection_destroyed)
-		direct_delete = TRUE
-		INVOKE_ASYNC(src, PROC_REF(destroy_projection))
+		incorporeal_appearance = null
+		tangible_appearance = null
+		astral_return.Remove(src)
+		astral_toggle.Remove(src)
+		projection_destroyed = TRUE
+		GLOB.astral_projections -= src
+		//the projection has ended, let's return to our body
+		if (anchor && anchor.stat != DEAD && client)
+			if (key)
+				if (tangibility)
+					var/obj/effect/afterimage/A = new (loc, anchor, 10)
+					A.dir = dir
+					for(var/mob/M in dview(world.view, loc, INVISIBILITY_MAXIMUM))
+						if (M.client)
+							M.playsound_local(loc, get_sfx("disappear_sound"), 75, 0, -2)
+				anchor.key = key
+				to_chat(anchor, span_notice("You reconnect with your body.") )
+				anchor.ajourn = null
+		//if our body was somehow already destroyed however, we'll become a shade right here
+		else if(client)
+			var/turf/T = get_turf(src)
+			if (T)
+				var/mob/living/basic/shade/shade = new (T)
+				playsound(T, 'sound/hallucinations/growl1.ogg', 50, 1)
+				shade.name = "[real_name] the Shade"
+				shade.real_name = "[real_name]"
+				mind.transfer_to(shade)
+				shade.key = key
+				to_chat(shade, span_cult("It appears your body was unfortunately destroyed. The remains of your soul made their way to your astral projection where they merge together, forming a shade.") )
+		invisibility = 101
+		set_density(FALSE)
+		anchor = null
 	..()
 
 /mob/living/basic/astral_projection/Life()
@@ -139,8 +169,7 @@ GLOBAL_LIST_INIT(astral_projections, list())
 
 
 /mob/living/basic/astral_projection/death(gibbed = FALSE)
-	spawn()
-		destroy_projection(src)
+	INVOKE_ASYNC(src, PROC_REF(destroy_projection))
 
 /mob/living/basic/astral_projection/examine(mob/user)
 	if (!tangibility)

@@ -114,7 +114,7 @@
 
 
 
-/datum/action/cooldown/spell/pointed/conjure/door/conjure_animation(obj/effect/abstract/animation, var/turf/target)
+/datum/action/cooldown/spell/pointed/conjure/door/conjure_animation(obj/effect/abstract/animation, turf/target)
 	animation.icon_state = ""
 	flick("", animation)
 	shadow(target, owner.loc, "artificer_convert")

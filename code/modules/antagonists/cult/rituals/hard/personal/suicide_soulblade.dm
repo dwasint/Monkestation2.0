@@ -12,14 +12,14 @@
 
 	keys = list("suicide_tome")
 
-/datum/bloodcult_ritual/suicide_soulblade/pre_conditions(var/datum/antagonist/cult/potential)
+/datum/bloodcult_ritual/suicide_soulblade/pre_conditions(datum/antagonist/cult/potential)
 	if (potential)
 		owner = potential
 	if (potential.devotion > DEVOTION_TIER_3)
 		return TRUE
 	return FALSE
 
-/datum/bloodcult_ritual/suicide_soulblade/key_found(var/mob/living/extra)
+/datum/bloodcult_ritual/suicide_soulblade/key_found(mob/living/extra)
 	for(var/mob/M in dview(world.view, get_turf(extra), INVISIBILITY_MAXIMUM))
 		if (!M.client)
 			continue

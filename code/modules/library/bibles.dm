@@ -505,7 +505,7 @@ GLOBAL_LIST_INIT(bibleitemstates, list(
 	var/distance_amplitude = 24
 	var/spin_speed = 30
 
-/obj/effect/bible_spin/New(var/turf/loc, var/_owner, var/_source)
+/obj/effect/bible_spin/New(turf/loc, _owner, _source)
 	..()
 	if (!_owner || !_source)
 		qdel(src)

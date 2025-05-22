@@ -70,13 +70,13 @@ GLOBAL_LIST_INIT(acceptance_lines_by_specific_race,  list(
 
 GLOBAL_LIST_INIT(acceptance_lines_few_cultists, list(
 	"Be the hand I need in these times." = 3,
-    "You have been chosen." = 3,
+	"You have been chosen." = 3,
 ))
 
 GLOBAL_LIST_INIT(acceptance_lines_numerous_cultists, list(
 	"Our numbers are limitless." = 3,
-    "We get stronger with each soul." = 3,
-    "Nothing will resist our might." = 3,
+	"We get stronger with each soul." = 3,
+	"Nothing will resist our might." = 3,
 ))
 
 
@@ -92,8 +92,8 @@ GLOBAL_LIST_INIT(acceptance_lines_numerous_cultists, list(
 	// Default lines
 	var/list/valid_lines = list(
 		"Another one joins the fold." = 1,
-        "With each new one, the veil gets thinner." = 1,
-        "All are welcome." = 1,
+		"With each new one, the veil gets thinner." = 1,
+		"All are welcome." = 1,
 	)
 	// The departement
 	var/datum/job/victim_job = victim?.mind.assigned_role
