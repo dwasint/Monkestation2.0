@@ -66,7 +66,7 @@
 		src.fibers = LAZY_LISTS_OR(src.fibers, fibers)
 	check_blood()
 
-/datum/forensics/Destroy(force, ...)
+/datum/forensics/Destroy(force)
 	var/atom/parent_atom = parent.resolve()
 	if (!isnull(parent_atom))
 		UnregisterSignal(parent_atom, list(COMSIG_COMPONENT_CLEAN_ACT))
@@ -121,6 +121,10 @@
 	if(ishuman(suspect))
 		var/mob/living/carbon/human/human_suspect = suspect
 		add_fibers(human_suspect)
+		// MONKESTATION ADDITION START
+		if(HAS_TRAIT(human_suspect, TRAIT_NO_FINGERPRINTS))
+			return
+		// MONKESTATION ADDITION END
 		var/obj/item/gloves = human_suspect.gloves
 		if(gloves) //Check if the gloves (if any) hide fingerprints
 			if(!(gloves.body_parts_covered & HANDS) || HAS_TRAIT(gloves, TRAIT_FINGERPRINT_PASSTHROUGH) || HAS_TRAIT(human_suspect, TRAIT_FINGERPRINT_PASSTHROUGH))

@@ -4,12 +4,6 @@
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-// Prevents Bloodsuckers from getting affected by blood
-/mob/living/carbon/human/handle_blood(seconds_per_tick, times_fired)
-	if(mind && IS_BLOODSUCKER(src))
-		return FALSE
-	return ..()
-
 /datum/reagent/blood/expose_mob(mob/living/exposed_mob, methods=TOUCH, reac_volume, show_message=TRUE, touch_protection=0)
 	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(exposed_mob)
 	if(!bloodsuckerdatum)
@@ -20,12 +14,8 @@
 /mob/living/carbon/transfer_blood_to(atom/movable/AM, amount, forced)
 	. = ..()
 
-	if(!mind)
-		return
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum = mind.has_antag_datum(/datum/antagonist/bloodsucker)
-	if(!bloodsuckerdatum)
-		return
-	bloodsuckerdatum.bloodsucker_blood_volume -= amount
+	var/datum/antagonist/bloodsucker/bloodsuckerdatum = mind?.has_antag_datum(/datum/antagonist/bloodsucker)
+	bloodsuckerdatum?.bloodsucker_blood_volume -= amount
 
 /// Prevents using a Memento Mori
 /obj/item/clothing/neck/necklace/memento_mori/memento(mob/living/carbon/human/user)
@@ -34,18 +24,18 @@
 		return
 	return ..()
 
-/mob/living/carbon/human/natural_bodytemperature_stabilization(datum/gas_mixture/environment, seconds_per_tick, times_fired)
-	// Return 0 as your natural temperature. Species proc handle_environment() will adjust your temperature based on this.
-	if(HAS_TRAIT(src, TRAIT_COLDBLOODED))
-		return 0
+/obj/item/clothing/neck/necklace/memento_mori/check_health(mob/living/source)
+	if(source.health <= HEALTH_THRESHOLD_DEAD && IS_BLOODSUCKER(source))
+		to_chat(source, span_warning("The Memento notices your undead soul and is enraged by your trickery"))
+		mori()
+		return
 	return ..()
 
 // Used when analyzing a Bloodsucker, Masquerade will hide brain traumas (Unless you're a Beefman)
-/mob/living/carbon/get_traumas()
-	if(!mind)
+/mob/living/carbon/get_traumas(ignore_flags = NONE)
+	if(QDELETED(mind))
 		return ..()
-	var/datum/antagonist/bloodsucker/bloodsuckerdatum = IS_BLOODSUCKER(src)
-	if(bloodsuckerdatum && HAS_TRAIT(src, TRAIT_MASQUERADE))
+	if(IS_BLOODSUCKER(src) && HAS_TRAIT(src, TRAIT_MASQUERADE))
 		return
 	return ..()
 
@@ -58,6 +48,8 @@
 	if(bloodsuckerdatum)
 		. += ""
 		. += "Blood Drank: [bloodsuckerdatum.total_blood_drank]"
+		. += "Maximum blood: [bloodsuckerdatum.max_blood_volume]"
+		. += "Blood Thickening: [bloodsuckerdatum.blood_level_gain] / [bloodsuckerdatum.get_level_cost()]"
 
 /datum/outfit/bloodsucker_outfit
 	name = "Bloodsucker outfit (Preview only)"

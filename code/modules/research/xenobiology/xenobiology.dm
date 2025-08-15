@@ -56,7 +56,7 @@
 * * arg2 - The valid species for the absorbtion. Should always be a Luminescent unless something very major has changed.
 * * arg3 - Whether or not the activation is major or minor. Major activations have large, complex effects, minor are simple.
 */
-/obj/item/slime_extract/proc/activate(mob/living/carbon/human/user, datum/species/jelly/luminescent/species, activation_type)
+/obj/item/slime_extract/proc/activate(mob/living/carbon/human/user, datum/species/oozeling/luminescent/species, activation_type)
 	to_chat(user, span_warning("Nothing happened... This slime extract cannot be activated this way."))
 	return FALSE
 
@@ -66,7 +66,7 @@
 	effectmod = "reproductive"
 	activate_reagents = list(/datum/reagent/blood,/datum/reagent/toxin/plasma,/datum/reagent/water)
 
-/obj/item/slime_extract/grey/activate(mob/living/carbon/human/user, datum/species/jelly/luminescent/species, activation_type)
+/obj/item/slime_extract/grey/activate(mob/living/carbon/human/user, datum/species/oozeling/luminescent/species, activation_type)
 	switch(activation_type)
 		if(SLIME_ACTIVATE_MINOR)
 			var/obj/item/stack/biomass/M = new
@@ -94,7 +94,7 @@
 
 
 
-/obj/item/slime_extract/gold/activate(mob/living/carbon/human/user, datum/species/jelly/luminescent/species, activation_type)
+/obj/item/slime_extract/gold/activate(mob/living/carbon/human/user, datum/species/oozeling/luminescent/species, activation_type)
 	switch(activation_type)
 		if(SLIME_ACTIVATE_MINOR)
 			user.visible_message(span_warning("[user] starts shaking!"),span_notice("Your [name] starts pulsing gently..."))
@@ -126,7 +126,7 @@
 
 
 
-/obj/item/slime_extract/silver/activate(mob/living/carbon/human/user, datum/species/jelly/luminescent/species, activation_type)
+/obj/item/slime_extract/silver/activate(mob/living/carbon/human/user, datum/species/oozeling/luminescent/species, activation_type)
 	switch(activation_type)
 		if(SLIME_ACTIVATE_MINOR)
 			var/food_type = get_random_food()
@@ -152,7 +152,7 @@
 	effectmod = "industrial"
 	activate_reagents = list(/datum/reagent/toxin/plasma,/datum/reagent/water)
 
-/obj/item/slime_extract/metal/activate(mob/living/carbon/human/user, datum/species/jelly/luminescent/species, activation_type)
+/obj/item/slime_extract/metal/activate(mob/living/carbon/human/user, datum/species/oozeling/luminescent/species, activation_type)
 	switch(activation_type)
 		if(SLIME_ACTIVATE_MINOR)
 			var/obj/item/stack/sheet/glass/O = new(null, 5)
@@ -176,7 +176,7 @@
 	effectmod = "regenerative"
 	activate_reagents = list(/datum/reagent/blood,/datum/reagent/toxin/plasma)
 
-/obj/item/slime_extract/purple/activate(mob/living/carbon/human/user, datum/species/jelly/luminescent/species, activation_type)
+/obj/item/slime_extract/purple/activate(mob/living/carbon/human/user, datum/species/oozeling/luminescent/species, activation_type)
 	switch(activation_type)
 		if(SLIME_ACTIVATE_MINOR)
 			user.adjust_nutrition(50)
@@ -196,7 +196,7 @@
 	activate_reagents = list(/datum/reagent/toxin/plasma)
 	tier = 2
 
-/obj/item/slime_extract/darkpurple/activate(mob/living/carbon/human/user, datum/species/jelly/luminescent/species, activation_type)
+/obj/item/slime_extract/darkpurple/activate(mob/living/carbon/human/user, datum/species/oozeling/luminescent/species, activation_type)
 	switch(activation_type)
 		if(SLIME_ACTIVATE_MINOR)
 			var/obj/item/stack/sheet/mineral/plasma/O = new(null, 1)
@@ -219,7 +219,7 @@
 	effectmod = "burning"
 	activate_reagents = list(/datum/reagent/blood,/datum/reagent/toxin/plasma,/datum/reagent/water)
 
-/obj/item/slime_extract/orange/activate(mob/living/carbon/human/user, datum/species/jelly/luminescent/species, activation_type)
+/obj/item/slime_extract/orange/activate(mob/living/carbon/human/user, datum/species/oozeling/luminescent/species, activation_type)
 	switch(activation_type)
 		if(SLIME_ACTIVATE_MINOR)
 			to_chat(user, span_notice("You activate [src]. You start feeling hot!"))
@@ -240,14 +240,14 @@
 	activate_reagents = list(/datum/reagent/blood,/datum/reagent/toxin/plasma,/datum/reagent/water)
 	tier = 2
 
-/obj/item/slime_extract/yellow/activate(mob/living/carbon/human/user, datum/species/jelly/luminescent/species, activation_type)
+/obj/item/slime_extract/yellow/activate(mob/living/carbon/human/user, datum/species/oozeling/luminescent/species, activation_type)
 	switch(activation_type)
 		if(SLIME_ACTIVATE_MINOR)
 			if(species.glow_intensity != LUMINESCENT_DEFAULT_GLOW)
 				to_chat(user, span_warning("Your glow is already enhanced!"))
 				return
 			species.update_glow(user, 5)
-			addtimer(CALLBACK(species, TYPE_PROC_REF(/datum/species/jelly/luminescent, update_glow), user, LUMINESCENT_DEFAULT_GLOW), 600)
+			addtimer(CALLBACK(species, TYPE_PROC_REF(/datum/species/oozeling/luminescent, update_glow), user, LUMINESCENT_DEFAULT_GLOW), 600)
 			to_chat(user, span_notice("You start glowing brighter."))
 
 		if(SLIME_ACTIVATE_MAJOR)
@@ -264,7 +264,7 @@
 	activate_reagents = list(/datum/reagent/blood,/datum/reagent/toxin/plasma,/datum/reagent/water)
 	tier = 3
 
-/obj/item/slime_extract/red/activate(mob/living/carbon/human/user, datum/species/jelly/luminescent/species, activation_type)
+/obj/item/slime_extract/red/activate(mob/living/carbon/human/user, datum/species/oozeling/luminescent/species, activation_type)
 	switch(activation_type)
 		if(SLIME_ACTIVATE_MINOR)
 			to_chat(user, span_notice("You activate [src]. You start feeling fast!"))
@@ -284,7 +284,7 @@
 	effectmod = "stabilized"
 	activate_reagents = list(/datum/reagent/blood,/datum/reagent/toxin/plasma,/datum/reagent/water)
 
-/obj/item/slime_extract/blue/activate(mob/living/carbon/human/user, datum/species/jelly/luminescent/species, activation_type)
+/obj/item/slime_extract/blue/activate(mob/living/carbon/human/user, datum/species/oozeling/luminescent/species, activation_type)
 	switch(activation_type)
 		if(SLIME_ACTIVATE_MINOR)
 			to_chat(user, span_notice("You activate [src]. Your genome feels more stable!"))
@@ -305,7 +305,7 @@
 	activate_reagents = list(/datum/reagent/toxin/plasma,/datum/reagent/water)
 	tier = 2
 
-/obj/item/slime_extract/darkblue/activate(mob/living/carbon/human/user, datum/species/jelly/luminescent/species, activation_type)
+/obj/item/slime_extract/darkblue/activate(mob/living/carbon/human/user, datum/species/oozeling/luminescent/species, activation_type)
 	switch(activation_type)
 		if(SLIME_ACTIVATE_MINOR)
 			to_chat(user, span_notice("You activate [src]. You start feeling colder!"))
@@ -329,7 +329,7 @@
 	activate_reagents = list(/datum/reagent/blood,/datum/reagent/toxin/plasma)
 	tier = 4
 
-/obj/item/slime_extract/pink/activate(mob/living/carbon/human/user, datum/species/jelly/luminescent/species, activation_type)
+/obj/item/slime_extract/pink/activate(mob/living/carbon/human/user, datum/species/oozeling/luminescent/species, activation_type)
 	switch(activation_type)
 		if(SLIME_ACTIVATE_MINOR)
 			if(user.gender != MALE && user.gender != FEMALE)
@@ -358,7 +358,7 @@
 	activate_reagents = list(/datum/reagent/blood,/datum/reagent/toxin/plasma,/datum/reagent/uranium/radium)
 	tier = 4
 
-/obj/item/slime_extract/green/activate(mob/living/carbon/human/user, datum/species/jelly/luminescent/species, activation_type)
+/obj/item/slime_extract/green/activate(mob/living/carbon/human/user, datum/species/oozeling/luminescent/species, activation_type)
 	switch(activation_type)
 		if(SLIME_ACTIVATE_MINOR)
 			to_chat(user, span_warning("You feel yourself reverting to human form..."))
@@ -372,7 +372,7 @@
 			to_chat(user, span_warning("You feel yourself radically changing your slime type..."))
 			if(do_after(user, 120, target = user))
 				to_chat(user, span_warning("You feel different!"))
-				user.set_species(pick(/datum/species/jelly/slime, /datum/species/jelly/stargazer))
+				user.set_species(pick(/datum/species/oozeling/slime, /datum/species/oozeling/stargazer))
 				return
 			to_chat(user, span_notice("You stop the transformation."))
 
@@ -383,7 +383,7 @@
 	activate_reagents = list(/datum/reagent/toxin/plasma)
 	tier = 5
 
-/obj/item/slime_extract/lightpink/activate(mob/living/carbon/human/user, datum/species/jelly/luminescent/species, activation_type)
+/obj/item/slime_extract/lightpink/activate(mob/living/carbon/human/user, datum/species/oozeling/luminescent/species, activation_type)
 	switch(activation_type)
 		if(SLIME_ACTIVATE_MINOR)
 			var/obj/item/slimepotion/slime/renaming/O = new(null, 1)
@@ -408,7 +408,7 @@
 	activate_reagents = list(/datum/reagent/toxin/plasma)
 	tier = 5
 
-/obj/item/slime_extract/black/activate(mob/living/carbon/human/user, datum/species/jelly/luminescent/species, activation_type)
+/obj/item/slime_extract/black/activate(mob/living/carbon/human/user, datum/species/oozeling/luminescent/species, activation_type)
 	switch(activation_type)
 		if(SLIME_ACTIVATE_MINOR)
 			user.infect_disease_predefined(DISEASE_SLIME, TRUE, "[ROUND_TIME()] Black slime extract Infection [key_name(user)]")
@@ -429,7 +429,7 @@
 	activate_reagents = list(/datum/reagent/blood,/datum/reagent/toxin/plasma)
 	tier = 5
 
-/obj/item/slime_extract/oil/activate(mob/living/carbon/human/user, datum/species/jelly/luminescent/species, activation_type)
+/obj/item/slime_extract/oil/activate(mob/living/carbon/human/user, datum/species/oozeling/luminescent/species, activation_type)
 	switch(activation_type)
 		if(SLIME_ACTIVATE_MINOR)
 			to_chat(user, span_warning("You vomit slippery oil."))
@@ -454,7 +454,7 @@
 	activate_reagents = list(/datum/reagent/toxin/plasma)
 	tier = 5
 
-/obj/item/slime_extract/adamantine/activate(mob/living/carbon/human/user, datum/species/jelly/luminescent/species, activation_type)
+/obj/item/slime_extract/adamantine/activate(mob/living/carbon/human/user, datum/species/oozeling/luminescent/species, activation_type)
 	switch(activation_type)
 		if(SLIME_ACTIVATE_MINOR)
 			if(species.armor > 0)
@@ -473,7 +473,7 @@
 				return
 			to_chat(user, span_notice("You stop feeding [src], and your body returns to its slimelike state."))
 
-/obj/item/slime_extract/adamantine/proc/reset_armor(datum/species/jelly/luminescent/species)
+/obj/item/slime_extract/adamantine/proc/reset_armor(datum/species/oozeling/luminescent/species)
 	if(istype(species))
 		species.armor -= 25
 
@@ -488,7 +488,7 @@
 	var/teleport_z = 0
 	tier = 6
 
-/obj/item/slime_extract/bluespace/activate(mob/living/carbon/human/user, datum/species/jelly/luminescent/species, activation_type)
+/obj/item/slime_extract/bluespace/activate(mob/living/carbon/human/user, datum/species/oozeling/luminescent/species, activation_type)
 	switch(activation_type)
 		if(SLIME_ACTIVATE_MINOR)
 			to_chat(user, span_warning("You feel your body vibrating..."))
@@ -521,7 +521,7 @@
 	activate_reagents = list(/datum/reagent/blood,/datum/reagent/toxin/plasma)
 	tier = 3
 
-/obj/item/slime_extract/pyrite/activate(mob/living/carbon/human/user, datum/species/jelly/luminescent/species, activation_type)
+/obj/item/slime_extract/pyrite/activate(mob/living/carbon/human/user, datum/species/oozeling/luminescent/species, activation_type)
 	switch(activation_type)
 		if(SLIME_ACTIVATE_MINOR)
 			var/chosen = pick(difflist(subtypesof(/obj/item/toy/crayon),typesof(/obj/item/toy/crayon/spraycan)))
@@ -549,7 +549,7 @@
 	activate_reagents = list(/datum/reagent/blood,/datum/reagent/toxin/plasma)
 	tier = 3
 
-/obj/item/slime_extract/cerulean/activate(mob/living/carbon/human/user, datum/species/jelly/luminescent/species, activation_type)
+/obj/item/slime_extract/cerulean/activate(mob/living/carbon/human/user, datum/species/oozeling/luminescent/species, activation_type)
 	switch(activation_type)
 		if(SLIME_ACTIVATE_MINOR)
 			user.reagents.add_reagent(/datum/reagent/medicine/salbutamol,15)
@@ -570,7 +570,7 @@
 	activate_reagents = list(/datum/reagent/blood,/datum/reagent/toxin/plasma,/datum/reagent/water)
 	tier = 3
 
-/obj/item/slime_extract/sepia/activate(mob/living/carbon/human/user, datum/species/jelly/luminescent/species, activation_type)
+/obj/item/slime_extract/sepia/activate(mob/living/carbon/human/user, datum/species/oozeling/luminescent/species, activation_type)
 	switch(activation_type)
 		if(SLIME_ACTIVATE_MINOR)
 			var/obj/item/camera/O = new(null, 1)
@@ -593,11 +593,11 @@
 	activate_reagents = list(/datum/reagent/blood,/datum/reagent/toxin/plasma,"lesser plasma",/datum/reagent/toxin/slimejelly,"holy water and uranium") //Curse this snowflake reagent list.
 	tier = 6
 
-/obj/item/slime_extract/rainbow/activate(mob/living/carbon/human/user, datum/species/jelly/luminescent/species, activation_type)
+/obj/item/slime_extract/rainbow/activate(mob/living/carbon/human/user, datum/species/oozeling/luminescent/species, activation_type)
 	switch(activation_type)
 		if(SLIME_ACTIVATE_MINOR)
-			user.dna.features["mcolor"] = "#[pick("7F", "FF")][pick("7F", "FF")][pick("7F", "FF")]"
-			user.dna.update_uf_block(DNA_MUTANT_COLOR_BLOCK)
+			var/datum/color_palette/generic_colors/located = user.dna.color_palettes[/datum/color_palette/generic_colors]
+			located.mutant_color = "#[pick("7F", "FF")][pick("7F", "FF")][pick("7F", "FF")]"
 			user.updateappearance(mutcolor_update=1)
 			species.update_glow(user)
 			to_chat(user, span_notice("You feel different..."))
@@ -672,11 +672,10 @@
 	desc = "A miraculous chemical mix that grants human like intelligence to living beings."
 	icon = 'icons/obj/medical/chemical.dmi'
 	icon_state = "potpink"
-	var/list/not_interested = list()
 	var/being_used = FALSE
 	var/sentience_type = SENTIENCE_ORGANIC
 
-/obj/item/slimepotion/slime/sentience/attack(mob/living/dumb_mob, mob/user)
+/obj/item/slimepotion/slime/sentience/attack(mob/living/dumb_mob, mob/living/user)
 	if(being_used || !isliving(dumb_mob))
 		return
 	if(dumb_mob.ckey) //only works on animals that aren't player controlled
@@ -688,31 +687,38 @@
 	if(!dumb_mob.compare_sentience_type(sentience_type)) // Will also return false if not a basic or simple mob, which are the only two we want anyway
 		balloon_alert(user, "invalid creature!")
 		return
-
+	var/potion_reason = tgui_input_text(user, "For what reason?", "Intelligence Potion", multiline = TRUE, timeout = 2 MINUTES)
+	if(isnull(potion_reason))
+		return
 	balloon_alert(user, "offering...")
 	being_used = TRUE
-
-	var/list/mob/dead/observer/candidates = SSpolling.poll_ghost_candidates_for_mob(
-		"Do you want to play as [dumb_mob.name]",
-		role = ROLE_SENTIENCE,
-		poll_time = 5 SECONDS,
-		target_mob = dumb_mob,
+	var/mob/chosen_one = SSpolling.poll_ghosts_for_target(
+		question = "[span_danger("[user.real_name || user.name]")] is offering [span_notice("[dumb_mob.real_name || dumb_mob.name]")] an intelligence potion! Reason: [span_boldnotice(potion_reason)]",
+		check_jobban = ROLE_SENTIENCE,
+		poll_time = 20 SECONDS,
+		checked_target = dumb_mob,
 		ignore_category = POLL_IGNORE_SENTIENCE_POTION,
-		pic_source = dumb_mob,
-		role_name_text = "sentient mob"
+		alert_pic = dumb_mob,
+		role_name_text = "intelligence potion",
+		chat_text_border_icon = src,
 	)
-	if(!LAZYLEN(candidates))
+	on_poll_concluded(user, dumb_mob, chosen_one)
+
+/// Assign the chosen ghost to the mob
+/obj/item/slimepotion/slime/sentience/proc/on_poll_concluded(mob/user, mob/living/dumb_mob, mob/dead/observer/ghost)
+	if(isnull(ghost))
 		balloon_alert(user, "try again later!")
 		being_used = FALSE
-		return ..()
+		return
 
-	var/mob/dead/observer/C = pick(candidates)
-	dumb_mob.key = C.key
+	dumb_mob.PossessByPlayer(ghost.key)
 	dumb_mob.mind.enslave_mind_to_creator(user)
 	SEND_SIGNAL(dumb_mob, COMSIG_SIMPLEMOB_SENTIENCEPOTION, user)
+
 	if(isanimal(dumb_mob))
 		var/mob/living/simple_animal/smart_animal = dumb_mob
 		smart_animal.sentience_act()
+
 	dumb_mob.mind.add_antag_datum(/datum/antagonist/sentient_creature)
 	balloon_alert(user, "success")
 	after_success(user, dumb_mob)
@@ -784,22 +790,24 @@
 
 /obj/item/slimepotion/slime/steroid
 	name = "slime steroid"
-	desc = "A potent chemical mix that will cause a baby slime to generate more extract."
+	desc = "A potent chemical mix that will cause slimes to make more ooze."
 	icon = 'icons/obj/medical/chemical.dmi'
 	icon_state = "potred"
 
 /obj/item/slimepotion/slime/steroid/attack(mob/living/basic/slime/M, mob/user)
 	if(!isslime(M))//If target is not a slime.
-		to_chat(user, span_warning("The steroid only works on baby slimes!"))
+		to_chat(user, span_warning("The steroid only works on slimes!")) // monkestation edit: not baby slimes only, no
 		return ..()
 	if(M.stat)
 		to_chat(user, span_warning("The slime is dead!"))
 		return
+	// monkestation start: xenobio rework
 	if(M.ooze_production >= 50)
 		to_chat(user, span_warning("The slime is already producing too much ooze!"))
 		return
 	to_chat(user, span_notice("You feed the slime the steroid. It will now produce more ooze."))
-	M.ooze_production++
+	M.ooze_production = min(M.ooze_production + 20, 50)
+	// monkestation end
 	qdel(src)
 
 /obj/item/slimepotion/enhancer
@@ -872,7 +880,7 @@
 		return
 	if(isitem(C))
 		var/obj/item/I = C
-		if(I.slowdown <= 0 || I.obj_flags & IMMUTABLE_SLOW)
+		if(I.slowdown <= 0 || (I.item_flags & IMMUTABLE_SLOW))
 			to_chat(user, span_warning("The [C] can't be made any faster!"))
 			return ..()
 		I.slowdown = 0
@@ -899,6 +907,11 @@
 	resistance_flags = FIRE_PROOF
 	var/uses = 3
 
+// monkestation start: allow using on storage items via right clicking or combat mode
+/obj/item/slimepotion/fireproof/attackby_storage_insert(datum/storage, atom/storage_holder, mob/living/user)
+	return !(user?.istate & (ISTATE_HARM | ISTATE_SECONDARY))
+// monkestation end
+
 /obj/item/slimepotion/fireproof/afterattack(obj/item/clothing/clothing, mob/user, proximity)
 	. = ..()
 	if(!proximity)
@@ -918,7 +931,6 @@
 	clothing.remove_atom_colour(WASHABLE_COLOUR_PRIORITY)
 	clothing.add_atom_colour("#000080", FIXED_COLOUR_PRIORITY)
 	clothing.max_heat_protection_temperature = FIRE_IMMUNITY_MAX_TEMP_PROTECT
-	clothing.heat_protection = clothing.body_parts_covered
 	clothing.resistance_flags |= FIRE_PROOF
 	uses --
 	if(!uses)
@@ -1045,9 +1057,10 @@
 
 /obj/item/areaeditor/blueprints/slime/edit_area()
 	..()
-	var/area/A = get_area(src)
-	for(var/turf/T in A)
-		T.remove_atom_colour(WASHABLE_COLOUR_PRIORITY)
-		T.add_atom_colour("#2956B2", FIXED_COLOUR_PRIORITY)
-	A.area_flags |= XENOBIOLOGY_COMPATIBLE
+	var/area/area = get_area(src)
+	for (var/list/zlevel_turfs as anything in area.get_zlevel_turf_lists())
+		for(var/turf/area_turf as anything in zlevel_turfs)
+			area_turf.remove_atom_colour(WASHABLE_COLOUR_PRIORITY)
+			area_turf.add_atom_colour("#2956B2", FIXED_COLOUR_PRIORITY)
+	area.area_flags |= XENOBIOLOGY_COMPATIBLE
 	qdel(src)

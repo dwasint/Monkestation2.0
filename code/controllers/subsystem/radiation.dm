@@ -1,12 +1,18 @@
 SUBSYSTEM_DEF(radiation)
 	name = "Radiation"
-	flags = SS_BACKGROUND | SS_NO_INIT
+	flags = SS_BACKGROUND | SS_NO_INIT | SS_HIBERNATE
 
 	wait = 0.5 SECONDS
 
 	/// A list of radiation sources (/datum/radiation_pulse_information) that have yet to process.
 	/// Do not interact with this directly, use `radiation_pulse` instead.
 	var/list/datum/radiation_pulse_information/processing = list()
+
+/datum/controller/subsystem/radiation/PreInit()
+	. = ..()
+	hibernate_checks = list(
+		NAMEOF(src, processing),
+	)
 
 /datum/controller/subsystem/radiation/fire(resumed)
 	while (processing.len)
@@ -74,7 +80,7 @@ SUBSYSTEM_DEF(radiation)
 
 			if(pulse_information.chance < 100) // Prevents log(0) runtime if chance is 100%
 				intensity = -log(1 - pulse_information.chance / 100) * (1 + pulse_information.max_range / 2) ** 2
-				perceived_intensity = intensity * INVERSE((1 + get_dist_euclidian(source, target)) ** 2) // Diminishes over range.
+				perceived_intensity = intensity * INVERSE((1 + get_dist_euclidean(source, target)) ** 2) // Diminishes over range.
 				perceived_intensity *= (current_insulation - pulse_information.threshold) * INVERSE(1 - pulse_information.threshold) // Perceived intensity decreases as objects that absorb radiation block its trajectory.
 				perceived_chance = 100 * (1 - NUM_E ** -perceived_intensity)
 			else
@@ -124,6 +130,14 @@ SUBSYSTEM_DEF(radiation)
 
 	if (HAS_TRAIT(target, TRAIT_IRRADIATED) && !HAS_TRAIT(target, TRAIT_BYPASS_EARLY_IRRADIATED_CHECK))
 		return FALSE
+
+	// MONKESTATION ADDITION START -- Is this what they call "jank"?
+	var/mob/living/living_target = target
+	if(istype(living_target))
+		if(HAS_TRAIT(target, TRAIT_RADHEALING))
+			living_target.adjustBruteLoss(-5)
+			living_target.adjustFireLoss(-5)
+	// MONKESTATION ADDITION END
 
 	if (HAS_TRAIT(target, TRAIT_RADIMMUNE))
 		return FALSE

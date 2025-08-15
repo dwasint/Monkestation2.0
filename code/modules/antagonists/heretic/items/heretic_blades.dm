@@ -19,7 +19,8 @@
 	toolspeed = 0.375
 	demolition_mod = 0.8
 	hitsound = 'sound/weapons/bladeslice.ogg'
-	armour_penetration = 35
+	armour_penetration = 60
+	armour_ignorance = 5
 	attack_verb_continuous = list("attacks", "slashes", "stabs", "slices", "tears", "lacerates", "rips", "dices", "rends")
 	attack_verb_simple = list("attack", "slash", "stab", "slice", "tear", "lacerate", "rip", "dice", "rend")
 	var/after_use_message = ""
@@ -90,6 +91,23 @@
 	inhand_icon_state = "flesh_blade"
 	after_use_message = "The Marshal hears your call..."
 
+/obj/item/melee/sickly_blade/flesh/Initialize(mapload)
+	. = ..()
+
+	AddComponent(
+		/datum/component/blood_walk,\
+		blood_type = /obj/effect/decal/cleanable/blood,\
+		blood_spawn_chance = 66.6,\
+		max_blood = INFINITY,\
+	)
+
+	AddComponent(
+		/datum/component/bloody_spreader,\
+		blood_left = INFINITY,\
+		blood_dna = list("Unknown DNA" = "X*"),\
+		diseases = null,\
+	)
+
 // Path of Void's blade
 /obj/item/melee/sickly_blade/void
 	name = "\improper void blade"
@@ -128,3 +146,12 @@
 	after_use_message = "The Mother of Ants hears your call..."
 	tool_behaviour = TOOL_CROWBAR
 	toolspeed = 1.3
+
+// Path of Moon's blade
+/obj/item/melee/sickly_blade/moon
+	name = "\improper moon blade"
+	desc = "A blade of iron, reflecting the truth of the earth: All join the troupe one day. \
+		A troupe bringing joy, carving smiles on their faces if they want one or not."
+	icon_state = "moon_blade"
+	inhand_icon_state = "moon_blade"
+	after_use_message = "The Moon hears your call..."

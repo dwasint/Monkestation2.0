@@ -80,6 +80,9 @@ GLOBAL_LIST_INIT(name2reagent, build_name2reagent())
 	var/burning_volume = 0.5
 	///Assoc list with key type of addiction this reagent feeds, and value amount of addiction points added per unit of reagent metabolzied (which means * REAGENTS_METABOLISM every life())
 	var/list/addiction_types = null
+	/// The affected organ_flags, if the reagent damages/heals organ damage of an affected mob.
+	/// See "Organ defines for carbon mobs" in /code/_DEFINES/surgery.dm
+	var/affected_organ_flags = ORGAN_ORGANIC
 	/// The affected bodytype, if the reagent damages/heals bodyparts (Brute/Fire) of an affected mob.
 	/// See "Bodytype defines" in /code/_DEFINES/mobs.dm
 	var/affected_bodytype = BODYTYPE_ORGANIC
@@ -89,9 +92,6 @@ GLOBAL_LIST_INIT(name2reagent, build_name2reagent())
 	/// The affected respiration type, if the reagent damages/heals oxygen damage of an affected mob.
 	/// See "Mob bio-types flags" in /code/_DEFINES/mobs.dm
 	var/affected_respiration_type = ALL
-	/// The affected organtype, if the reagent damages/heals organ damage of an affected mob.
-	/// See "Organ defines for carbon mobs" in /code/_DEFINES/mobs.dm
-	var/affected_organtype = ORGAN_ORGANIC
 
 	///The default reagent container for the reagent, used for icon generation
 	var/obj/item/reagent_containers/default_container = /obj/item/reagent_containers/cup/bottle
@@ -118,11 +118,6 @@ GLOBAL_LIST_INIT(name2reagent, build_name2reagent())
 	var/opacity = 175
 	///The rate of evaporation in units per call
 	var/evaporation_rate = 1
-
-	///is this chemical exempt from istype restrictions
-	var/bypass_restriction = FALSE
-	///chemicals that aren't typepathed but are useless so we remove
-	var/restricted = FALSE
 	/// do we have a turf exposure (used to prevent liquids doing un-needed processes)
 	var/turf_exposure = FALSE
 	/// are we slippery?
@@ -131,6 +126,10 @@ GLOBAL_LIST_INIT(name2reagent, build_name2reagent())
 	var/list/metabolized_traits
 	/// A list of traits to apply while the reagent is in a mob.
 	var/list/added_traits
+	///are we able to merge
+	var/can_merge = TRUE
+	///does it intoxicate IPCs and if so how much
+	var/synthetic_boozepwr
 
 /datum/reagent/New()
 	SHOULD_CALL_PARENT(TRUE)
@@ -209,7 +208,9 @@ Primarily used in reagents/reaction_agents
 /// Called when this reagent is first added to a mob
 /datum/reagent/proc/on_mob_add(mob/living/L, amount)
 	SHOULD_CALL_PARENT(TRUE)
-	overdose_threshold /= max(normalise_creation_purity(), 1) //Maybe??? Seems like it would help pure chems be even better but, if I normalised this to 1, then everything would take a 25% reduction
+	// MONKESTATION REMOVAL START - Purity is disabled and we shouldn't change the overdose thresholds for things behind people's backs.
+	// overdose_threshold /= max(normalise_creation_purity(), 1) //Maybe??? Seems like it would help pure chems be even better but, if I normalised this to 1, then everything would take a 25% reduction
+	// MONKESTATION REMOVAL END
 	if(added_traits)
 		L.add_traits(added_traits, "added:[type]")
 
@@ -266,26 +267,9 @@ Primarily used in reagents/reaction_agents
 	M.add_mood_event("[type]_overdose", /datum/mood_event/overdose, name)
 	return
 
-/**
- * New, standardized method for chemicals to affect hydroponics trays.
- * Defined on a per-chem level as opposed to by the tray.
- * Can affect plant's health, stats, or cause the plant to react in certain ways.
- */
-/datum/reagent/proc/on_hydroponics_apply(obj/item/seeds/myseed, datum/reagents/chems, obj/machinery/hydroponics/mytray, mob/user)
-	mytray.adjustNutri(round(chems.get_reagent_amount(src.type) * 0.1))
-
 /datum/reagent/proc/generate_infusion_values(datum/reagents/chems)
 	if(!chems)
 		return
-
-/// Proc is used by [/datum/reagent/proc/on_hydroponics_apply] to see if the tray and the reagents inside is in a valid state to apply reagent effects
-/datum/reagent/proc/check_tray(datum/reagents/chems, obj/machinery/hydroponics/mytray)
-	ASSERT(mytray)
-	// Check if we have atleast a single amount of the reagent
-	if(!chems.has_reagent(type, 1))
-		return FALSE
-
-	return TRUE
 
 /**
  * Specifically made for mutation reagent reactions
@@ -365,5 +349,5 @@ Primarily used in reagents/reaction_agents
 
 	return reagent_strings.Join(join_text)
 
-/datum/reagent/proc/feed_interaction(mob/living/basic/chicken/target, volume)
+/datum/reagent/proc/feed_interaction(mob/living/basic/chicken/target, volume, mob/user)
 	return

@@ -54,7 +54,7 @@
 	actions_types = list()
 	mag_display = TRUE
 	empty_indicator = TRUE
-	mag_type = /obj/item/ammo_box/magazine/smgm9mm
+	accepted_magazine_type = /obj/item/ammo_box/magazine/smgm9mm
 	pin = null
 	bolt_type = BOLT_TYPE_LOCKING
 	show_bolt_icon = FALSE
@@ -72,7 +72,7 @@
 	icon_state = "c20r"
 	inhand_icon_state = "c20r"
 	selector_switch_icon = TRUE
-	mag_type = /obj/item/ammo_box/magazine/smgm45
+	accepted_magazine_type = /obj/item/ammo_box/magazine/smgm45
 	fire_delay = 2
 	burst_size = 3
 	pin = /obj/item/firing_pin/implant/pindicate
@@ -105,7 +105,7 @@
 	icon_state = "wt550"
 	w_class = WEIGHT_CLASS_BULKY
 	inhand_icon_state = "arg"
-	mag_type = /obj/item/ammo_box/magazine/wt550m9
+	accepted_magazine_type = /obj/item/ammo_box/magazine/wt550m9
 	fire_delay = 2
 	can_suppress = FALSE
 	burst_size = 1
@@ -126,7 +126,7 @@
 	desc = "An ancient 9mm submachine gun pattern updated and simplified to lower costs, though perhaps simplified too much."
 	icon_state = "plastikov"
 	inhand_icon_state = "plastikov"
-	mag_type = /obj/item/ammo_box/magazine/plastikov9mm
+	accepted_magazine_type = /obj/item/ammo_box/magazine/plastikov9mm
 	burst_size = 5
 	spread = 25
 	can_suppress = FALSE
@@ -134,13 +134,58 @@
 	projectile_damage_multiplier = 0.35 //It's like 10.5 damage per bullet, it's close enough to 10 shots
 	mag_display = TRUE
 	empty_indicator = TRUE
+	special_mags = TRUE
 	fire_sound = 'sound/weapons/gun/smg/shot_alt.ogg'
+
+/obj/item/gun/ballistic/automatic/plastikov/refurbished //forgive me lord for i have sinned
+	name = "\improper PP-96 SMG"
+	desc = "An ancient 9mm submachine gun pattern updated and simplified to lower costs. This one has been refurbished for better performance."
+	spread = 10
+	burst_size = 3
+	icon_state = "plastikov_refurbished"
+	inhand_icon_state = "plastikov_refurbished"
+	accepted_magazine_type = /obj/item/ammo_box/magazine/plastikov9mm
+	spawn_magazine_type = /obj/item/ammo_box/magazine/plastikov9mm/red
+	projectile_damage_multiplier = 0.5 //15 damage
+	can_suppress = TRUE
+	suppressor_x_offset = 4
+	pin = /obj/item/firing_pin/implant/pindicate
+
+/obj/item/gun/ballistic/automatic/plastikov/refurbished/unrestricted
+	pin = /obj/item/firing_pin
+
+/obj/item/gun/ballistic/automatic/rostokov
+	name = "\improper Rostokov carbine"
+	desc = "A bullpup fully automatic 9mm carbine. Has a 'Scarborough Arms - Per falcis, per pravitas' buttstamp."
+	icon_state = "rostokov"
+	w_class = WEIGHT_CLASS_BULKY
+	inhand_icon_state = "rostokov"
+	accepted_magazine_type = /obj/item/ammo_box/magazine/rostokov9mm
+	projectile_damage_multiplier = 0.66 //20 damage
+	fire_delay = 1
+	spread = 5
+	can_suppress = FALSE
+	burst_size = 1
+	slot_flags = null
+	worn_icon_state = "rostokov"
+	actions_types = list()
+	pin = /obj/item/firing_pin/implant/pindicate
+	mag_display = TRUE
+	empty_indicator = TRUE
+	fire_sound = 'monkestation/code/modules/blueshift/sounds/smg_heavy.ogg'
+
+/obj/item/gun/ballistic/automatic/rostokov/Initialize(mapload)
+	. = ..()
+	AddComponent(/datum/component/automatic_fire, 0.2 SECONDS)
+
+/obj/item/gun/ballistic/automatic/rostokov/unrestricted
+	pin = /obj/item/firing_pin
 
 /obj/item/gun/ballistic/automatic/mini_uzi
 	name = "\improper Type U3 Uzi"
 	desc = "A lightweight, burst-fire submachine gun, for when you really want someone dead. Uses 9mm rounds."
 	icon_state = "miniuzi"
-	mag_type = /obj/item/ammo_box/magazine/uzim9mm
+	accepted_magazine_type = /obj/item/ammo_box/magazine/uzim9mm
 	burst_size = 2
 	bolt_type = BOLT_TYPE_OPEN
 	show_bolt_icon = FALSE
@@ -149,13 +194,13 @@
 
 /obj/item/gun/ballistic/automatic/m90
 	name = "\improper M-90gl Carbine"
-	desc = "A three-round burst 5.56 toploading carbine, designated 'M-90gl'. Has an attached underbarrel grenade launcher."
+	desc = "A three-round burst 5.56 toploading carbine, designated 'M-90gl'. Has an attached underbarrel grenade launcher." //monkestation edit: reverted back from .223 to original 556 as ported from nova
 	desc_controls = "Right-click to use grenade launcher."
 	icon_state = "m90"
 	w_class = WEIGHT_CLASS_BULKY
 	inhand_icon_state = "m90"
 	selector_switch_icon = TRUE
-	mag_type = /obj/item/ammo_box/magazine/m556
+	accepted_magazine_type = /obj/item/ammo_box/magazine/m556 //monkestation edit: reverted back from .223 to original 556 as ported from nova
 	can_suppress = FALSE
 	var/obj/item/gun/ballistic/revolver/grenadelauncher/underbarrel
 	burst_size = 3
@@ -211,7 +256,7 @@
 	selector_switch_icon = TRUE
 	w_class = WEIGHT_CLASS_BULKY
 	slot_flags = 0
-	mag_type = /obj/item/ammo_box/magazine/tommygunm45
+	accepted_magazine_type = /obj/item/ammo_box/magazine/tommygunm45
 	can_suppress = FALSE
 	burst_size = 1
 	actions_types = list()
@@ -230,11 +275,10 @@
 	icon_state = "arg"
 	inhand_icon_state = "arg"
 	slot_flags = 0
-	mag_type = /obj/item/ammo_box/magazine/m556
+	accepted_magazine_type = /obj/item/ammo_box/magazine/m556
 	can_suppress = FALSE
 	burst_size = 3
 	fire_delay = 1
-
 
 // L6 SAW //
 
@@ -246,7 +290,7 @@
 	base_icon_state = "l6"
 	w_class = WEIGHT_CLASS_HUGE
 	slot_flags = 0
-	mag_type = /obj/item/ammo_box/magazine/mm712x82
+	accepted_magazine_type = /obj/item/ammo_box/magazine/mm712x82
 	weapon_weight = WEAPON_HEAVY
 	burst_size = 1
 	actions_types = list()
@@ -316,7 +360,7 @@
 	..()
 
 /obj/item/gun/ballistic/automatic/l6_saw/attackby(obj/item/A, mob/user, params)
-	if(!cover_open && istype(A, mag_type))
+	if(!cover_open && istype(A, accepted_magazine_type))
 		balloon_alert(user, "open the cover!")
 		return
 	..()
@@ -330,7 +374,7 @@
 	inhand_icon_state = "moistnugget"
 	worn_icon_state = null
 	weapon_weight = WEAPON_HEAVY
-	mag_type = /obj/item/ammo_box/magazine/m10mm/rifle
+	accepted_magazine_type = /obj/item/ammo_box/magazine/m10mm/rifle
 	fire_delay = 30
 	burst_size = 1
 	can_unsuppress = TRUE
@@ -348,11 +392,57 @@
 	icon_state = "oldrifle"
 	w_class = WEIGHT_CLASS_BULKY
 	inhand_icon_state = "arg"
-	mag_type = /obj/item/ammo_box/magazine/recharge
+	accepted_magazine_type = /obj/item/ammo_box/magazine/recharge
 	empty_indicator = TRUE
 	fire_delay = 2
 	can_suppress = FALSE
 	burst_size = 0
 	actions_types = list()
-	fire_sound = 'sound/weapons/laser.ogg'
+	fire_sound = 'monkestation/sound/weapons/gun/energy/Laser1.ogg'
 	casing_ejector = FALSE
+
+/obj/item/gun/ballistic/automatic/minigun22
+	name = "\improper Miniaturized Minigun"
+	desc = "A Miniaturized Multibarrel rotary gun that fires .22 LR \"peashooter\" ammunition"
+	icon = 'icons/obj/weapons/guns/minigun.dmi'
+	icon_state = "minigun_spin"
+	inhand_icon_state = "minigun"
+	slowdown = 0.4
+	fire_sound = 'sound/weapons/gun/minigun10burst.ogg'
+	fire_sound_volume = 50
+	w_class = WEIGHT_CLASS_BULKY
+	weapon_weight = WEAPON_HEAVY
+	accepted_magazine_type = /obj/item/ammo_box/magazine/minigun22
+	fire_delay = 0.5
+	can_suppress = FALSE
+	burst_size = 1
+	actions_types = list()
+	item_flags = SLOWS_WHILE_IN_HAND
+	recoil = 1.2
+	spread = 20
+
+/obj/item/gun/ballistic/automatic/minigun22/Initialize(mapload)
+	. = ..()
+	AddComponent(/datum/component/automatic_fire, 0.1 SECONDS)
+
+/**
+ * Weak uzi for syndicate chimps. It comes in a 4 TC kit.
+ * Roughly 9 damage per bullet every 0.2 seconds, equaling out to downing an opponent in a bit over a second, if they have no armor.
+ */
+/obj/item/gun/ballistic/automatic/mini_uzi/chimpgun
+	name = "\improper MONK-10"
+	desc = "Developed by Syndicate monkeys, for syndicate Monkeys. Despite the name, this weapon resembles an Uzi significantly more than a MAC-10. Uses 9mm rounds. There's a label on the other side of the gun that says \"Do what comes natural.\""
+	projectile_damage_multiplier = 0.4
+	projectile_wound_bonus = -25
+	pin = /obj/item/firing_pin/monkey
+
+/**
+ * Weak tommygun for syndicate chimps. It comes in a 4 TC kit.
+ * Roughly 9 damage per bullet every 0.2 seconds, equaling out to downing an opponent in a bit over a second, if they have no armor.
+ */
+/obj/item/gun/ballistic/automatic/tommygun/chimpgun
+	name = "\improper Typewriter"
+	desc = "It was the best of times, it was the BLURST of times!? You stupid monkeys!"
+	projectile_damage_multiplier = 0.4
+	projectile_wound_bonus = -25
+	pin = /obj/item/firing_pin/monkey

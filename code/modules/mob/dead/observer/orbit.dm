@@ -37,7 +37,8 @@ GLOBAL_DATUM_INIT(orbit_menu, /datum/orbit_menu, new)
 			user.ManualFollow(poi)
 			user.reset_perspective(null)
 			if (auto_observe)
-				user.do_observe(poi)
+				if (poi != user)
+					user.do_observe(poi)
 			return TRUE
 		if ("refresh")
 			update_static_data(usr, ui)
@@ -176,6 +177,7 @@ GLOBAL_DATUM_INIT(orbit_menu, /datum/orbit_menu, new)
 				/mob/living/basic/regal_rat,
 				/mob/living/simple_animal/bot,
 				/mob/living/simple_animal/hostile/megafauna,
+				/mob/living/basic/chicken/gary, // monkestation edit: gary
 			))
 		if(!is_type_in_typecache(potential_mob_poi, mob_allowed_typecache) && !potential_mob_poi.GetComponent(/datum/component/deadchat_control))
 			return FALSE

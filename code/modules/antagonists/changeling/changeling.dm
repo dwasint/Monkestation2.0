@@ -13,6 +13,7 @@
 	suicide_cry = "FOR THE HIVE!!"
 	can_assign_self_objectives = TRUE
 	default_custom_objective = "Consume the station's most valuable genomes."
+	hardcore_random_bonus = TRUE
 	/// Whether to give this changeling objectives or not
 	var/give_objectives = TRUE
 	/// Weather we assign objectives which compete with other lings
@@ -28,7 +29,7 @@
 	/// The original profile of this changeling.
 	var/datum/changeling_profile/first_profile = null
 	/// How many DNA strands the changeling can store for transformation.
-	var/dna_max = 6
+	var/dna_max = 60 //Monkestation edit: 6 => 60
 	/// The amount of DNA gained. Includes DNA sting.
 	var/absorbed_count = 0
 	/// The amount of DMA gained using absorb, not DNA sting. Start with one (your original DNA)
@@ -53,6 +54,8 @@
 	var/list/innate_powers = list()
 	/// Associated list of all powers we have evolved / bought from the emporium. [path] = [instance of path]
 	var/list/purchased_powers = list()
+	/// The amount of offspring spawned from the changling. To prevent refreshing the amount by buying the power again.
+	var/births = 0
 
 	/// The voice we're mimicing via the changeling voice ability.
 	var/mimicing = ""
@@ -102,6 +105,8 @@
 
 	///	Keeps track of the currently selected profile.
 	var/datum/changeling_profile/current_profile
+	/// the amount of oozeling revives we have left
+	var/oozeling_revives = 3
 
 /datum/antagonist/changeling/New()
 	. = ..()
@@ -145,12 +150,10 @@
 	if(living_mob.hud_used)
 		var/datum/hud/hud_used = living_mob.hud_used
 
-		lingchemdisplay = new /atom/movable/screen/ling/chems()
-		lingchemdisplay.hud = hud_used
+		lingchemdisplay = new /atom/movable/screen/ling/chems(null, hud_used)
 		hud_used.infodisplay += lingchemdisplay
 
-		lingstingdisplay = new /atom/movable/screen/ling/sting()
-		lingstingdisplay.hud = hud_used
+		lingstingdisplay = new /atom/movable/screen/ling/sting(null, hud_used)
 		hud_used.infodisplay += lingstingdisplay
 
 		hud_used.show_hud(hud_used.hud_version)
@@ -158,10 +161,11 @@
 		RegisterSignal(living_mob, COMSIG_MOB_HUD_CREATED, PROC_REF(on_hud_created))
 
 	// Brains are optional for lings.
-	var/obj/item/organ/internal/brain/our_ling_brain = living_mob.get_organ_slot(ORGAN_SLOT_BRAIN)
-	if(our_ling_brain)
-		our_ling_brain.organ_flags &= ~ORGAN_VITAL
-		our_ling_brain.decoy_override = TRUE
+	if(!isoozeling(living_mob))
+		var/obj/item/organ/internal/brain/our_ling_brain = living_mob.get_organ_slot(ORGAN_SLOT_BRAIN)
+		if(our_ling_brain)
+			our_ling_brain.organ_flags &= ~ORGAN_VITAL
+			our_ling_brain.decoy_override = TRUE
 
 /datum/antagonist/changeling/proc/generate_name()
 	var/honorific
@@ -184,12 +188,10 @@
 
 	var/datum/hud/ling_hud = owner.current.hud_used
 
-	lingchemdisplay = new
-	lingchemdisplay.hud = ling_hud
+	lingchemdisplay = new(null, ling_hud)
 	ling_hud.infodisplay += lingchemdisplay
 
-	lingstingdisplay = new
-	lingstingdisplay.hud = ling_hud
+	lingstingdisplay = new(null, ling_hud)
 	ling_hud.infodisplay += lingstingdisplay
 
 	ling_hud.show_hud(ling_hud.hud_version)
@@ -264,13 +266,15 @@
 /datum/antagonist/changeling/proc/on_life(datum/source, seconds_per_tick, times_fired)
 	SIGNAL_HANDLER
 
+	var/delta_time = DELTA_WORLD_TIME(SSmobs)
+
 	// If dead, we only regenerate up to half chem storage.
 	if(owner.current.stat == DEAD)
-		adjust_chemicals((chem_recharge_rate - chem_recharge_slowdown) * seconds_per_tick, total_chem_storage * 0.5)
+		adjust_chemicals((chem_recharge_rate - chem_recharge_slowdown) * delta_time, total_chem_storage * 0.5)
 
 	// If we're not dead - we go up to the full chem cap.
 	else
-		adjust_chemicals((chem_recharge_rate - chem_recharge_slowdown) * seconds_per_tick)
+		adjust_chemicals((chem_recharge_rate - chem_recharge_slowdown) * delta_time)
 
 /**
  * Signal proc for [COMSIG_LIVING_POST_FULLY_HEAL], getting admin-healed restores our chemicals.
@@ -484,7 +488,7 @@
 		if(verbose)
 			to_chat(user, span_warning("We already have this DNA in storage!"))
 		return FALSE
-	if(NO_DNA_COPY in target.dna.species?.species_traits)
+	if(HAS_TRAIT(target, TRAIT_NO_DNA_COPY))
 		if(verbose)
 			to_chat(user, span_warning("[target] is not compatible with our biology."))
 		return FALSE
@@ -686,16 +690,21 @@
 		else
 			var/datum/objective/maroon/maroon_objective = new
 			maroon_objective.owner = owner
-			maroon_objective.find_target()
-			objectives += maroon_objective
+
 
 			if (!(locate(/datum/objective/escape) in objectives) && escape_objective_possible)
 				var/datum/objective/escape/escape_with_identity/identity_theft = new
 				identity_theft.owner = owner
-				identity_theft.target = maroon_objective.target
+				identity_theft.find_target()
 				identity_theft.update_explanation_text()
-				objectives += identity_theft
 				escape_objective_possible = FALSE
+				maroon_objective.target = identity_theft.target || maroon_objective.find_target()
+				maroon_objective.update_explanation_text()
+				objectives += maroon_objective
+				objectives += identity_theft
+			else
+				maroon_objective.find_target()
+				objectives += maroon_objective
 
 	if (!(locate(/datum/objective/escape) in objectives) && escape_objective_possible)
 		if(prob(50))
@@ -723,7 +732,7 @@
 		return
 
 	var/mob/living/carbon/carbon_owner = owner.current
-	first_profile.dna.transfer_identity(carbon_owner, transfer_SE = TRUE)
+	first_profile.dna.copy_dna(carbon_owner.dna, COPY_DNA_SE|COPY_DNA_SPECIES)
 	carbon_owner.real_name = first_profile.name
 	carbon_owner.updateappearance(mutcolor_update = TRUE)
 	carbon_owner.domutcheck()
@@ -760,11 +769,10 @@
 	user.grad_style = LAZYLISTDUPLICATE(chosen_profile.grad_style)
 	user.grad_color = LAZYLISTDUPLICATE(chosen_profile.grad_color)
 
-	chosen_dna.transfer_identity(user, TRUE)
+	chosen_dna.copy_dna(user.dna, COPY_DNA_SE|COPY_DNA_SPECIES)
 
 	for(var/obj/item/bodypart/limb as anything in user.bodyparts)
-		if(IS_ORGANIC_LIMB(limb))
-			limb.update_limb(is_creating = TRUE)
+		limb.update_limb(is_creating = TRUE)
 
 	user.updateappearance(mutcolor_update = TRUE)
 	user.domutcheck()
@@ -975,7 +983,9 @@
 
 	return parts.Join("<br>")
 
-/datum/antagonist/changeling/get_preview_icon()
+// monkestation start: refactor to use [get_base_preview_icon] for better midround polling images
+/datum/antagonist/changeling/get_base_preview_icon()
+	RETURN_TYPE(/icon)
 	var/icon/final_icon = render_preview_outfit(/datum/outfit/changeling)
 	var/icon/split_icon = render_preview_outfit(/datum/outfit/job/engineer)
 
@@ -987,7 +997,11 @@
 
 	final_icon.Blend(split_icon, ICON_OVERLAY)
 
-	return finish_preview_icon(final_icon)
+	return final_icon
+
+/datum/antagonist/changeling/get_preview_icon()
+	return finish_preview_icon(get_base_preview_icon())
+// monkestation end
 
 /datum/antagonist/changeling/ui_data(mob/user)
 	var/list/data = list()

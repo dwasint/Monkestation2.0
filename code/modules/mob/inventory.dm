@@ -1,4 +1,4 @@
-//These procs handle putting s tuff in your hands
+//These procs handle putting stuff in your hands
 //as they handle all relevant stuff like adding it to the player's screen and updating their overlays.
 
 ///Returns the thing we're currently holding
@@ -187,7 +187,7 @@
 	return FALSE //nonliving mobs don't have hands
 
 /mob/living/put_in_hand_check(obj/item/I)
-	if(istype(I) && (((mobility_flags & MOBILITY_PICKUP) || ((stat >= SOFT_CRIT && (stat != DEAD && stat != UNCONSCIOUS)))) || (I.item_flags & ABSTRACT)) \
+	if(istype(I) && (((mobility_flags & MOBILITY_PICKUP) || ((stat >= SOFT_CRIT && (stat != DEAD && stat != UNCONSCIOUS && stat != HARD_CRIT)))) || (I.item_flags & ABSTRACT)) \
 		&& !(SEND_SIGNAL(src, COMSIG_LIVING_TRY_PUT_IN_HAND, I) & COMPONENT_LIVING_CANT_PUT_IN_HAND))
 		return TRUE
 	return FALSE
@@ -218,13 +218,13 @@
 			return FALSE
 
 		if (merge_stacks)
-			if (istype(active_stack) && active_stack.can_merge(item_stack))
+			if (istype(active_stack) && active_stack.can_merge(item_stack, inhand = TRUE))
 				if (item_stack.merge(active_stack))
 					to_chat(usr, span_notice("Your [active_stack.name] stack now contains [active_stack.get_amount()] [active_stack.singular_name]\s."))
 					return TRUE
 			else
 				var/obj/item/stack/inactive_stack = get_inactive_held_item()
-				if (istype(inactive_stack) && inactive_stack.can_merge(item_stack))
+				if (istype(inactive_stack) && inactive_stack.can_merge(item_stack, inhand = TRUE))
 					if (item_stack.merge(inactive_stack))
 						to_chat(usr, span_notice("Your [inactive_stack.name] stack now contains [inactive_stack.get_amount()] [inactive_stack.singular_name]\s."))
 						return TRUE
@@ -252,10 +252,10 @@
 /mob/proc/is_holding_items()
 	return !!locate(/obj/item) in held_items
 
-/mob/proc/drop_all_held_items()
+/mob/proc/drop_all_held_items(force = FALSE)
 	. = FALSE
 	for(var/obj/item/I in held_items)
-		. |= dropItemToGround(I)
+		. |= dropItemToGround(I, force)
 
 //Here lie drop_from_inventory and before_item_take, already forgotten and not missed.
 
@@ -285,7 +285,7 @@
  * * Will pass FALSE if the item can not be dropped due to TRAIT_NODROP via doUnEquip()
  * If the item can be dropped, it will be forceMove()'d to the ground and the turf's Entered() will be called.
 */
-/mob/proc/dropItemToGround(obj/item/I, force = FALSE, silent = FALSE, invdrop = TRUE)
+/mob/proc/dropItemToGround(obj/item/I, force = FALSE, silent = FALSE, invdrop = TRUE, violent = FALSE)
 	if (isnull(I))
 		return TRUE
 
@@ -299,6 +299,11 @@
 		I.pixel_x = I.base_pixel_x + rand(-6, 6)
 		I.pixel_y = I.base_pixel_y + rand(-6, 6)
 	I.do_drop_animation(src)
+
+	if(violent)
+		var/turf/drop = drop_location()
+		I.launch_item(drop)
+
 
 //for when the item will be immediately placed in a loc other than the ground
 /mob/proc/transferItemToLoc(obj/item/I, newloc = null, force = FALSE, silent = TRUE)
@@ -351,9 +356,10 @@
  *
  * Argument(s):
  * * Optional - include_pockets (TRUE/FALSE), whether or not to include the pockets and suit storage in the returned list
+ * * Optional - include_accessories (TRUE/FALSE), whether or not to include the accessories in the returned list
  */
 
-/mob/living/proc/get_equipped_items(include_pockets = FALSE)
+/mob/living/proc/get_equipped_items(include_pockets = FALSE, include_accessories = FALSE)
 	var/list/items = list()
 	for(var/obj/item/item_contents in contents)
 		if(item_contents.item_flags & IN_INVENTORY)
@@ -366,17 +372,21 @@
  *
  * Argument(s):
  * * Optional - include_pockets (TRUE/FALSE), whether or not to include the pockets and suit storage in the returned list
+ * * Optional - include_accessories (TRUE/FALSE), whether or not to include the accessories in the returned list
  */
 
-/mob/living/carbon/human/get_equipped_items(include_pockets = FALSE)
+/mob/living/carbon/human/get_equipped_items(include_pockets = FALSE, include_accessories = FALSE)
 	var/list/items = ..()
 	if(!include_pockets)
 		items -= list(l_store, r_store, s_store)
+	if(include_accessories && w_uniform)
+		var/obj/item/clothing/under/worn_under = w_uniform
+		items += worn_under.attached_accessories
 	return items
 
 /mob/living/proc/unequip_everything()
 	var/list/items = list()
-	items |= get_equipped_items(TRUE)
+	items |= get_equipped_items(include_pockets = TRUE)
 	for(var/I in items)
 		dropItemToGround(I)
 	drop_all_held_items()
@@ -413,26 +423,35 @@
 	return obscured
 
 
-/obj/item/proc/equip_to_best_slot(mob/M)
-	if(M.equip_to_appropriate_slot(src))
-		M.update_held_items()
+/obj/item/proc/equip_to_best_slot(mob/equipper)
+	var/should_prioritize_storage = !isclothing(src) && !(slot_flags & ITEM_SLOT_ON_BODY)
+
+	// if it's not clothing / something that fits into a slot, then prioritize active storage first
+	if(should_prioritize_storage)
+		if(equipper.active_storage?.attempt_insert(src, equipper))
+			return TRUE
+
+	if(equipper.equip_to_appropriate_slot(src))
+		equipper.update_held_items()
 		return TRUE
 	else
 		if(equip_delay_self)
 			return
 
-	if(M.active_storage?.attempt_insert(src, M))
-		return TRUE
+	// if it IS clothing / something that fits into a slot, prioritize inv slots first, then active storage.
+	if(!should_prioritize_storage)
+		if(equipper.active_storage?.attempt_insert(src, equipper))
+			return TRUE
 
-	var/list/obj/item/possible = list(M.get_inactive_held_item(), M.get_item_by_slot(ITEM_SLOT_BELT), M.get_item_by_slot(ITEM_SLOT_DEX_STORAGE), M.get_item_by_slot(ITEM_SLOT_BACK))
+	var/list/obj/item/possible = list(equipper.get_inactive_held_item(), equipper.get_item_by_slot(ITEM_SLOT_BELT), equipper.get_item_by_slot(ITEM_SLOT_DEX_STORAGE), equipper.get_item_by_slot(ITEM_SLOT_BACK))
 	for(var/i in possible)
 		if(!i)
 			continue
 		var/obj/item/I = i
-		if(I.atom_storage?.attempt_insert(src, M))
+		if(I.atom_storage?.attempt_insert(src, equipper))
 			return TRUE
 
-	to_chat(M, span_warning("You are unable to equip that!"))
+	to_chat(equipper, span_warning("You are unable to equip that!"))
 	return FALSE
 
 
@@ -502,13 +521,13 @@
 
 //GetAllContents that is reasonable and not stupid
 /mob/living/carbon/proc/get_all_gear()
-	var/list/processing_list = get_equipped_items(include_pockets = TRUE) + held_items
+	var/list/processing_list = get_equipped_items(include_pockets = TRUE, include_accessories = TRUE) + held_items
 	list_clear_nulls(processing_list) // handles empty hands
 	var/i = 0
-	while(i < length(processing_list) )
+	while(i < length(processing_list))
 		var/atom/A = processing_list[++i]
 		if(A.atom_storage)
 			var/list/item_stuff = list()
-			A.atom_storage.return_inv(item_stuff)
+			item_stuff = A.atom_storage.return_inv()
 			processing_list += item_stuff
 	return processing_list

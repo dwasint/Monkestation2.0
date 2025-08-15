@@ -15,7 +15,7 @@
 	RegisterSignal(parent, COMSIG_ATOM_EXAMINE, PROC_REF(examine))
 	RegisterSignal(parent, COMSIG_ATOM_ATTACKBY, PROC_REF(applyplate))
 	RegisterSignal(parent, COMSIG_QDELETING, PROC_REF(dropplates))
-	if(istype(parent, /obj/vehicle/sealed/mecha/working/ripley))
+	if(istype(parent, /obj/vehicle/sealed/mecha/ripley))
 		RegisterSignal(parent, COMSIG_ATOM_UPDATE_OVERLAYS, PROC_REF(apply_mech_overlays))
 
 	if(_maxamount)
@@ -23,7 +23,10 @@
 	if(_upgrade_item)
 		upgrade_item = _upgrade_item
 	if(_added_armor)
-		armor_mod = _added_armor
+		if(ispath(_added_armor))
+			armor_mod = _added_armor
+		else
+			stack_trace("Invalid armor mod given ([_added_armor])")
 	var/obj/item/typecast = upgrade_item
 	upgrade_name = initial(typecast.name)
 

@@ -118,11 +118,14 @@
 /obj/machinery/computer/shuttle/proc/get_valid_destinations()
 	var/list/destination_list = params2list(possible_destinations)
 	var/obj/docking_port/mobile/mobile_docking_port = SSshuttle.getShuttle(shuttleId)
+	var/obj/docking_port/stationary/current_destination = mobile_docking_port.destination
 	var/list/valid_destinations = list()
 	for(var/obj/docking_port/stationary/stationary_docking_port in SSshuttle.stationary_docking_ports)
 		if(!destination_list.Find(stationary_docking_port.port_destinations))
 			continue
 		if(!mobile_docking_port.check_dock(stationary_docking_port, silent = TRUE))
+			continue
+		if(stationary_docking_port == current_destination)
 			continue
 		var/list/location_data = list(
 			id = stationary_docking_port.shuttle_id,
@@ -210,7 +213,7 @@
 				return
 			COOLDOWN_START(src, request_cooldown, 1 MINUTES)
 			to_chat(usr, span_notice("Your request has been received by CentCom."))
-			to_chat(GLOB.admins, "<b>SHUTTLE: <font color='#3d5bc3'>[ADMIN_LOOKUPFLW(usr)] (<A HREF='?_src_=holder;[HrefToken()];move_shuttle=[shuttleId]'>Move Shuttle</a>)(<A HREF='?_src_=holder;[HrefToken()];unlock_shuttle=[REF(src)]'>Lock/Unlock Shuttle</a>)</b> is requesting to move or unlock the shuttle.</font>")
+			to_chat(GLOB.admins, "<b>SHUTTLE: <font color='#3d5bc3'>[ADMIN_LOOKUPFLW(usr)] (<A HREF='byond://?_src_=holder;[HrefToken()];move_shuttle=[shuttleId]'>Move Shuttle</a>)(<A HREF='byond://?_src_=holder;[HrefToken()];unlock_shuttle=[REF(src)]'>Lock/Unlock Shuttle</a>)</b> is requesting to move or unlock the shuttle.</font>")
 			return TRUE
 
 /obj/machinery/computer/shuttle/emag_act(mob/user, obj/item/card/emag/emag_card)

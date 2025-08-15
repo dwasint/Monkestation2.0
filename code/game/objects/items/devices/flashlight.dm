@@ -19,10 +19,13 @@
 	slot_flags = ITEM_SLOT_BELT
 	custom_materials = list(/datum/material/iron= SMALL_MATERIAL_AMOUNT * 0.5, /datum/material/glass= SMALL_MATERIAL_AMOUNT * 0.2)
 	actions_types = list(/datum/action/item_action/toggle_light)
-	light_system = MOVABLE_LIGHT_DIRECTIONAL
+	action_slots = ALL
+	light_system = OVERLAY_LIGHT_DIRECTIONAL
 	light_outer_range = 4
 	light_power = 1
 	light_on = FALSE
+	/// If we've been forcibly disabled for a temporary amount of time.
+	COOLDOWN_DECLARE(disabled_time)
 	/// Can we toggle this light on and off (used for contexual screentips only)
 	var/toggle_context = TRUE
 	/// The sound the light makes when it's turned on
@@ -31,9 +34,12 @@
 	var/sound_off = 'sound/weapons/magout.ogg'
 	/// Is the light turned on or off currently
 	var/on = FALSE
+	var/start_on = FALSE
 
 /obj/item/flashlight/Initialize(mapload)
 	. = ..()
+	if(start_on)
+		set_light_on(TRUE)
 	if(icon_state == "[initial(icon_state)]-on")
 		on = TRUE
 	update_brightness()
@@ -61,18 +67,24 @@
 		if(!isnull(inhand_icon_state))
 			inhand_icon_state = initial(inhand_icon_state)
 	set_light_on(on)
-	if(light_system == STATIC_LIGHT)
+	if(light_system == COMPLEX_LIGHT)
 		update_light()
 
-/obj/item/flashlight/proc/toggle_light()
+/obj/item/flashlight/proc/toggle_light(mob/user)
+	var/disrupted = FALSE
 	on = !on
 	playsound(src, on ? sound_on : sound_off, 40, TRUE)
+	if(!COOLDOWN_FINISHED(src, disabled_time))
+		if(user)
+			balloon_alert(user, "disrupted!")
+			on = FALSE
+			disrupted = TRUE
 	update_brightness()
 	update_item_action_buttons()
-	return TRUE
+	return !disrupted
 
 /obj/item/flashlight/attack_self(mob/user)
-	toggle_light()
+	toggle_light(user)
 
 /obj/item/flashlight/attack_hand_secondary(mob/user, list/modifiers)
 	attack_self(user)
@@ -140,11 +152,11 @@
 					else
 						render_list += "<span class='notice ml-1'>[M.p_their(TRUE)] pupils narrow.</span>\n"//they're okay :D
 
-					if(M.dna && M.dna.check_mutation(/datum/mutation/human/xray))
+					if(M.dna && M.dna.check_mutation(/datum/mutation/xray))
 						render_list += "<span class='danger ml-1'>[M.p_their(TRUE)] pupils give an eerie glow!</span>\n"//mob has X-ray vision
 
 				//display our packaged information in an examine block for easy reading
-				to_chat(user, examine_block(jointext(render_list, "")), type = MESSAGE_TYPE_INFO)
+				to_chat(user, boxed_message(jointext(render_list, "")), type = MESSAGE_TYPE_INFO)
 
 			if(BODY_ZONE_PRECISE_MOUTH)
 
@@ -237,7 +249,7 @@
 					render_list += "<span class='notice ml-1'>Color returns quickly.</span>\n"//they're okay :D
 
 				//display our packaged information in an examine block for easy reading
-				to_chat(user, examine_block(jointext(render_list, "")), type = MESSAGE_TYPE_INFO)
+				to_chat(user, boxed_message(jointext(render_list, "")), type = MESSAGE_TYPE_INFO)
 
 	else
 		return ..()
@@ -253,6 +265,14 @@
 	. = ..()
 	if(istype(user) && dir != user.dir)
 		setDir(user.dir)
+
+/// when hit by a light disruptor - turns the light off, forces the light to be disabled for a few seconds
+/obj/item/flashlight/on_saboteur(datum/source, disrupt_duration)
+	. = ..()
+	if(on)
+		toggle_light()
+	COOLDOWN_START(src, disabled_time, disrupt_duration)
+	return TRUE
 
 /obj/item/flashlight/pen
 	name = "penlight"
@@ -325,7 +345,7 @@
 	righthand_file = 'icons/mob/inhands/items_righthand.dmi'
 	force = 10
 	light_outer_range = 3.5
-	light_system = STATIC_LIGHT
+	light_system = COMPLEX_LIGHT
 	light_color = LIGHT_COLOR_FAINT_BLUE
 	w_class = WEIGHT_CLASS_BULKY
 	flags_1 = CONDUCT_1
@@ -358,7 +378,7 @@
 	actions_types = list()
 	heat = 1000
 	light_color = LIGHT_COLOR_FLARE
-	light_system = MOVABLE_LIGHT
+	light_system = OVERLAY_LIGHT
 	grind_results = list(/datum/reagent/sulfur = 15)
 	sound_on = 'sound/items/match_strike.ogg'
 	toggle_context = FALSE
@@ -623,7 +643,7 @@
 	righthand_file = 'icons/mob/inhands/equipment/mining_righthand.dmi'
 	desc = "A mining lantern."
 	light_outer_range = 6 // luminosity when on
-	light_system = MOVABLE_LIGHT
+	light_system = OVERLAY_LIGHT
 
 /obj/item/flashlight/lantern/heirloom_moth
 	name = "old lantern"
@@ -654,7 +674,7 @@
 	slot_flags = ITEM_SLOT_BELT
 	custom_materials = null
 	light_outer_range = 7 //luminosity when on
-	light_system = MOVABLE_LIGHT
+	light_system = OVERLAY_LIGHT
 
 /obj/item/flashlight/emp
 	var/emp_max_charges = 4
@@ -718,7 +738,7 @@
 	custom_price = PAYCHECK_LOWER
 	w_class = WEIGHT_CLASS_SMALL
 	light_outer_range = 4
-	light_system = MOVABLE_LIGHT
+	light_system = OVERLAY_LIGHT
 	color = LIGHT_COLOR_GREEN
 	icon_state = "glowstick"
 	base_icon_state = "glowstick"
@@ -825,7 +845,7 @@
 	name = "disco light"
 	desc = "Groovy..."
 	icon_state = null
-	light_system = MOVABLE_LIGHT
+	light_system = OVERLAY_LIGHT
 	light_outer_range = 4
 	light_power = 10
 	alpha = 0
@@ -853,7 +873,7 @@
 	desc = "A strange device manufactured with mysterious elements that somehow emits darkness. Or maybe it just sucks in light? Nobody knows for sure."
 	icon_state = "flashdark"
 	inhand_icon_state = "flashdark"
-	light_system = STATIC_LIGHT //The overlay light component is not yet ready to produce darkness.
+	light_system = COMPLEX_LIGHT //The overlay light component is not yet ready to produce darkness.
 	light_outer_range = 0
 	///Variable to preserve old lighting behavior in flashlights, to handle darkness.
 	var/dark_light_outer_range = 2.5
@@ -871,7 +891,7 @@
 /obj/item/flashlight/eyelight
 	name = "eyelight"
 	desc = "This shouldn't exist outside of someone's head, how are you seeing this?"
-	light_system = MOVABLE_LIGHT
+	light_system = OVERLAY_LIGHT
 	light_outer_range = 15
 	light_power = 1
 	flags_1 = CONDUCT_1

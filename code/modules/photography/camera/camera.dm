@@ -10,7 +10,7 @@
 	worn_icon_state = "camera"
 	lefthand_file = 'icons/mob/inhands/items/devices_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/items/devices_righthand.dmi'
-	light_system = MOVABLE_LIGHT //Used as a flash here.
+	light_system = OVERLAY_LIGHT //Used as a flash here.
 	light_outer_range = 8
 	light_color = COLOR_WHITE
 	light_power = FLASH_LIGHT_POWER
@@ -204,6 +204,9 @@
 			if(locate(/obj/item/areaeditor/blueprints) in placeholder)
 				blueprints = TRUE
 
+	// do this before picture is taken so we can reveal revenants for the photo
+	steal_souls(mobs)
+
 	for(var/mob/mob as anything in mobs)
 		mobs_spotted += mob
 		if(mob.stat == DEAD)
@@ -225,6 +228,8 @@
 /obj/item/camera/proc/flash_end()
 	set_light_on(FALSE)
 
+/obj/item/camera/proc/steal_souls(list/victims)
+	return
 
 /obj/item/camera/proc/after_picture(mob/user, datum/picture/picture)
 	if(print_picture_on_snap)

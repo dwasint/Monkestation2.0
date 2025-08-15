@@ -30,7 +30,7 @@
 
 /obj/machinery/corral_corner
 	name = "corral fencepost"
-	desc = "One of the corners of a corral"
+	desc = "One of the corners of a corral."
 
 	icon = 'monkestation/code/modules/slimecore/icons/machinery.dmi'
 	icon_state = "corral_corner"
@@ -74,7 +74,7 @@
 	if(!multitool_check_buffer(user, tool))
 		return
 	var/obj/item/multitool/multitool = tool
-	multitool.buffer = src
+	multitool.set_buffer(src)
 	to_chat(user, span_notice("You save the data in the [multitool.name]'s buffer."))
 	return TOOL_ACT_TOOLTYPE_SUCCESS
 
@@ -178,7 +178,7 @@
 	. = ..()
 	if(mover.pulledby)
 		return TRUE
-	if((istype(mover, /mob/living/basic/slime) || ismonkey(mover) || istype(mover, /mob/living/basic/xenofauna)) && !HAS_TRAIT(mover, VACPACK_THROW))
+	if((istype(mover, /mob/living/basic/slime) || ismonkey(mover) || istype(mover, /mob/living/basic/cockroach) || istype(mover, /mob/living/basic/xenofauna)) && !HAS_TRAIT(mover, VACPACK_THROW))
 		return FALSE
 	return TRUE
 

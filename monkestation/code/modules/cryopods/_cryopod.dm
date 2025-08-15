@@ -35,6 +35,7 @@ GLOBAL_LIST_EMPTY(valid_cryopods)
 	verb_say = "coldly states"
 	verb_ask = "queries"
 	verb_exclaim = "alarms"
+	can_language_malfunction = FALSE
 
 	/// Used for logging people entering cryosleep and important items they are carrying.
 	var/list/frozen_crew = list()
@@ -52,6 +53,7 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/computer/cryopod, 32)
 	. = ..()
 	GLOB.cryopod_computers += src
 	radio = new radio(src)
+	radio.lossless = TRUE
 
 /obj/machinery/computer/cryopod/Destroy()
 	GLOB.cryopod_computers -= src
@@ -180,6 +182,7 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/computer/cryopod, 32)
 
 /obj/machinery/cryopod/Initialize(mapload)
 	..()
+	REGISTER_REQUIRED_MAP_ITEM(1, INFINITY)
 	if(!quiet)
 		GLOB.valid_cryopods += src
 	return INITIALIZE_HINT_LATELOAD //Gotta populate the cryopod computer GLOB first
@@ -217,7 +220,7 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/computer/cryopod, 32)
 		..(target)
 		var/mob/living/mob_occupant = occupant
 		if(mob_occupant && mob_occupant.stat != DEAD)
-			to_chat(occupant, span_notice("<b>You feel cool air surround you. You go numb as your senses turn inward.</b>"))
+			to_chat(occupant, span_boldnotice("You feel cool air surround you. You go numb as your senses turn inward."))
 			stored_ckey = mob_occupant.ckey
 			stored_name = mob_occupant.name
 
@@ -226,8 +229,8 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/computer/cryopod, 32)
 				if(isnull(stored_ckey))
 					stored_ckey = mob_occupant.mind.key // if mob does not have a ckey and was placed in cryo by someone else, we can get the key this way
 
-		var/mob/living/carbon/human/human_occupant = occupant
-		if(human_occupant && human_occupant.mind)
+		var/mob/living/carbon/human/human_occupant = astype(occupant)
+		if(human_occupant?.mind)
 			human_occupant.save_individual_persistence(stored_ckey)
 
 		COOLDOWN_START(src, despawn_world_time, time_till_despawn)
@@ -313,6 +316,7 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/computer/cryopod, 32)
 /// Handles despawning the player.
 /obj/machinery/cryopod/proc/despawn_occupant()
 	var/mob/living/mob_occupant = occupant
+	var/mob/living/carbon/human/human_occupant = astype(occupant)
 
 	SSjob.FreeRole(stored_rank)
 
@@ -336,26 +340,23 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/computer/cryopod, 32)
 			reset_religion()
 
 	// Delete them from datacore and ghost records.
-	var/announce_rank = null
-
-	for(var/list/record in GLOB.ghost_records)
-		if(record["name"] == stored_name)
-			announce_rank = record["rank"]
-			GLOB.ghost_records.Remove(list(record))
-			break
-
-	if(!announce_rank) // No need to loop over all of those if we already found it beforehand.
-		for(var/datum/record/crew/possible_target_record as anything in GLOB.manifest.general)
-			if(possible_target_record.name == stored_name && (stored_rank == "N/A" || possible_target_record.trim == stored_rank))
-				announce_rank = possible_target_record.rank
-				//qdel(possible_target_record) <- we allow people to exit and i dont wanna deal with recreating manifest records
-				break
+	var/datum/record/crew/crewfile = mob_occupant.mind?.crewfile
+	var/datum/record/locked/lockfile = mob_occupant.mind?.lockfile
+	var/announce_rank = crewfile?.rank
 
 	var/obj/machinery/computer/cryopod/control_computer = control_computer_weakref?.resolve()
 	if(!control_computer)
 		control_computer_weakref = null
 	else
-		control_computer.frozen_crew += list(list("name" = stored_name, "job" = stored_rank, "items" = list(), "ckey" = stored_ckey, "entered_time" = world.time))
+		control_computer.frozen_crew += list(list(
+			"name" = stored_name,
+			"job" = stored_rank,
+			"items" = list(),
+			"ckey" = stored_ckey,
+			"entered_time" = world.time,
+			"crewfile" = crewfile,
+			"lockfile" = lockfile
+		))
 
 	// Make an announcement and log the person entering storage. If set to quiet, does not make an announcement.
 	if(!quiet)
@@ -363,10 +364,17 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/computer/cryopod, 32)
 
 	visible_message(span_notice("[src] hums and hisses as it moves [mob_occupant.real_name] into storage."))
 
-	for(var/obj/item/item_content as anything in mob_occupant)
-		if(!istype(item_content) || HAS_TRAIT(item_content, TRAIT_NODROP))
+	if(human_occupant)
+		human_occupant.save_persistent_scars(target_ckey = human_occupant.ckey || stored_ckey)
+
+	mob_occupant.ghostize(can_reenter_corpse = FALSE)
+	ADD_TRAIT(mob_occupant, TRAIT_NO_TRANSFORM, REF(src))
+	var/list/items = mob_occupant.get_equipped_items(include_pockets = TRUE)
+	items |= mob_occupant.held_items
+	for(var/obj/item/item_content as anything in items)
+		if(!isitem(item_content) || QDELING(item_content))
 			continue
-		if (issilicon(mob_occupant) && istype(item_content, /obj/item/mmi))
+		if(issilicon(mob_occupant) && istype(item_content, /obj/item/mmi))
 			continue
 		if(control_computer)
 			if(istype(item_content, /obj/item/modular_computer))
@@ -374,7 +382,6 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/computer/cryopod, 32)
 				for(var/datum/computer_file/program/messenger/message_app in computer.stored_files)
 					message_app.invisible = TRUE
 			mob_occupant.transferItemToLoc(item_content, control_computer, force = TRUE, silent = TRUE)
-			item_content.dropped(mob_occupant)
 			control_computer.frozen_item += item_content
 			for(var/list/stored as anything in control_computer.frozen_crew)
 				if(!istype(stored))
@@ -384,10 +391,23 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/computer/cryopod, 32)
 		else
 			mob_occupant.transferItemToLoc(item_content, drop_location(), force = TRUE, silent = TRUE)
 
+	if(iscarbon(mob_occupant))
+		var/mob/living/carbon/carbon_occupant = mob_occupant
+		for(var/obj/item/organ/organ as anything in carbon_occupant.organs)
+			if(QDELETED(organ))
+				continue
+			organ.Remove(carbon_occupant, special = TRUE)
+			SSwardrobe.stash_object(organ)
+
 	GLOB.joined_player_list -= stored_ckey
+	GLOB.manifest.general -= crewfile
+
+	if(human_occupant?.account_id)
+		var/datum/bank_account/account = SSeconomy.bank_accounts_by_id["[human_occupant.account_id]"]
+		if(account)
+			GLOB.lottery_ticket_owners -= account
 
 	handle_objectives()
-	mob_occupant.ghostize()
 	QDEL_NULL(occupant)
 	open_machine()
 	name = initial(name)
@@ -400,7 +420,7 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/computer/cryopod, 32)
 		if(target.ckey != listed["ckey"])
 			continue
 
-		if(world.time < listed["entered_time"] + 15 MINUTES)
+		if(world.time < (listed["entered_time"] + 15 MINUTES))
 			to_chat(target, span_notice("You need to wait atleast 15 minutes before you can return from cryosleep."))
 			return
 
@@ -410,6 +430,15 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/computer/cryopod, 32)
 				if(!newmob.equip_to_appropriate_slot(listed_item))
 					listed_item.forceMove(get_turf(newmob))
 				control_computer.frozen_item -= listed_item
+
+		var/datum/record/crew/crewfile = listed["crewfile"]
+		if(crewfile)
+			GLOB.manifest.general += crewfile
+			newmob.mind?.crewfile ||= crewfile
+		var/datum/record/locked/lockfile = listed["lockfile"]
+		if(lockfile)
+			newmob.mind?.lockfile ||= lockfile
+
 
 		listed["ckey"] = null //incase we fuck up down below
 		control_computer.frozen_crew -= list(listed)
@@ -502,7 +531,11 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/machinery/computer/cryopod, 32)
 		return
 
 	if(target.stat == DEAD)
-		to_chat(user, span_notice("Dead people can not be put into cryo."))
+		to_chat(user, span_warning("Dead people can not be put into cryo."))
+		return
+
+	if(target.GetComponent(/datum/component/previous_body))
+		to_chat(user, span_warning("[src] seems to reject [target]."))
 		return
 
 // Allows admins to enable players to override SSD Time check.

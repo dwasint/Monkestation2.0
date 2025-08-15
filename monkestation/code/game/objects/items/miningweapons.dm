@@ -17,7 +17,8 @@
 	slot_flags = ITEM_SLOT_BELT
 	throwforce = 5
 	throw_speed = 4
-	armour_penetration = 10
+	armour_penetration = 0
+	armour_ignorance = 10
 	custom_materials = list(/datum/material/iron=1150, /datum/material/glass=2075)
 	hitsound = 'sound/weapons/bladeslice.ogg'
 	attack_verb_continuous = list("slashes", "cuts", "cleaves", "chops", "swipes")
@@ -25,7 +26,7 @@
 	sharpness = SHARP_EDGED
 	actions_types = list(/datum/action/item_action/toggle_light)
 	obj_flags = NONE
-	light_system = MOVABLE_LIGHT
+	light_system = OVERLAY_LIGHT
 	light_outer_range = 5
 	light_on = FALSE
 	charged = TRUE
@@ -35,6 +36,7 @@
 	overrides_main = TRUE
 	overrides_twohandrequired = TRUE
 	override_twohandedsprite = TRUE
+	force_wielded = 15
 
 /obj/item/kinetic_crusher/machete/Initialize(mapload)
 	. = ..()
@@ -60,7 +62,8 @@
 	slot_flags = ITEM_SLOT_BACK
 	throwforce = 5
 	throw_speed = 4
-	armour_penetration = 15
+	armour_penetration = 20
+	armour_ignorance = 10
 	custom_materials = list(/datum/material/iron=1150, /datum/material/glass=2075)
 	hitsound = 'sound/weapons/bladeslice.ogg'
 	attack_verb_continuous = list("pierces", "stabs", "impales", "pokes", "jabs")
@@ -68,7 +71,7 @@
 	sharpness = SHARP_EDGED
 	actions_types = list(/datum/action/item_action/toggle_light)
 	obj_flags = UNIQUE_RENAME
-	light_system = MOVABLE_LIGHT
+	light_system = OVERLAY_LIGHT
 	light_outer_range = 8
 	light_on = FALSE
 	charged = TRUE
@@ -79,10 +82,11 @@
 	overrides_main = TRUE
 	overrides_twohandrequired = FALSE
 	override_twohandedsprite = TRUE
+	force_wielded = 15
 
 /obj/item/kinetic_crusher/spear/Initialize(mapload)
 	. = ..()
-	AddComponent(/datum/component/two_handed, force_unwielded=0, force_wielded=15)
+	AddComponent(/datum/component/two_handed, force_unwielded=0, force_wielded=force_wielded)
 	AddComponent(/datum/component/butchering, \
 		speed = 6 SECONDS, \
 		effectiveness = 90, \
@@ -117,7 +121,7 @@
 	sharpness = NONE
 	actions_types = list(/datum/action/item_action/toggle_light)
 	obj_flags = UNIQUE_RENAME
-	light_system = MOVABLE_LIGHT
+	light_system = OVERLAY_LIGHT
 	light_outer_range = 5
 	light_on = FALSE
 	charged = TRUE
@@ -127,10 +131,11 @@
 	overrides_main = TRUE
 	overrides_twohandrequired = FALSE
 	override_twohandedsprite = TRUE
+	force_wielded = 20
 
 /obj/item/kinetic_crusher/hammer/Initialize(mapload)
 		. = ..()
-		AddComponent(/datum/component/two_handed, force_unwielded=0, force_wielded=20)
+		AddComponent(/datum/component/two_handed, force_unwielded=0, force_wielded=force_wielded)
 
 /obj/item/kinetic_crusher/hammer/attack(mob/living/target, mob/living/user)
 	var/relative_direction = get_cardinal_dir(src, target)
@@ -170,7 +175,7 @@
 	sharpness = SHARP_POINTY
 	actions_types = list(/datum/action/item_action/toggle_light)
 	obj_flags = UNIQUE_RENAME
-	light_system = MOVABLE_LIGHT
+	light_system = OVERLAY_LIGHT
 	light_outer_range = 4
 	light_on = FALSE
 	charged = TRUE
@@ -180,6 +185,7 @@
 	overrides_main = TRUE
 	overrides_twohandrequired = TRUE
 	override_twohandedsprite = TRUE
+	force_wielded = 5
 
 /obj/item/kinetic_crusher/claw/Initialize(mapload)
 	. = ..()

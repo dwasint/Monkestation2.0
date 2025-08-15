@@ -65,7 +65,7 @@
 	echolocator.overlay_fullscreen("echo", /atom/movable/screen/fullscreen/echo, echo_icon)
 	START_PROCESSING(SSfastprocess, src)
 
-/datum/component/echolocation/Destroy(force, silent)
+/datum/component/echolocation/Destroy(force)
 	STOP_PROCESSING(SSfastprocess, src)
 	var/mob/living/echolocator = parent
 	QDEL_NULL(client_color)
@@ -173,10 +173,10 @@
 	layer = ECHO_LAYER
 	show_when_dead = TRUE
 
-/atom/movable/screen/fullscreen/echo/Initialize(mapload)
+/atom/movable/screen/fullscreen/echo/Initialize(mapload, datum/hud/hud_owner)
 	. = ..()
 	particles = new /particles/echo()
 
 /atom/movable/screen/fullscreen/echo/Destroy()
-	QDEL_NULL(particles)
+	particles = null
 	return ..()

@@ -20,12 +20,15 @@
 	item_flags = NEEDS_PERMIT
 	attack_verb_continuous = list("strikes", "hits", "bashes")
 	attack_verb_simple = list("strike", "hit", "bash")
+	action_slots = ALL
 
+	var/super_throw = FALSE
 	var/gun_flags = NONE
 	var/fire_sound = 'sound/weapons/gun/pistol/shot.ogg'
 	var/vary_fire_sound = TRUE
 	var/fire_sound_volume = 50
 	var/dry_fire_sound = 'sound/weapons/gun/general/dry_fire.ogg'
+	var/dry_fire_sound_volume = 30
 	var/suppressed = null //whether or not a message is displayed when fired
 	var/can_suppress = FALSE
 	var/suppressed_sound = 'sound/weapons/gun/general/heavy_shot_suppressed.ogg'
@@ -49,6 +52,9 @@
 	/// Just 'slightly' snowflakey way to modify projectile damage for projectiles fired from this gun.
 	var/projectile_damage_multiplier = 1
 
+	/// Even snowflakier way to modify projectile wounding bonus/potential for projectiles fired from this gun.
+	var/projectile_wound_bonus = 0
+
 	var/spread = 0 //Spread induced by the gun itself.
 	var/randomspread = 1 //Set to 0 for shotguns. This is used for weapons that don't fire all their bullets at once.
 
@@ -60,6 +66,7 @@
 	var/pinless = FALSE
 
 	var/can_bayonet = FALSE //if a bayonet can be added or removed if it already has one.
+	var/has_manufacturer = TRUE // Set to true by default. This didn't exist until Brad needed to make a new pipe-gun esque weapon.
 	var/obj/item/knife/bayonet
 	var/knife_x_offset = 0
 	var/knife_y_offset = 0
@@ -68,6 +75,7 @@
 	var/ammo_y_offset = 0
 
 	var/pb_knockback = 0
+	var/pbk_gentle = FALSE
 
 /obj/item/gun/Initialize(mapload)
 	. = ..()
@@ -75,6 +83,9 @@
 		pin = new pin(src)
 
 	add_seclight_point()
+
+	if(has_manufacturer)
+		give_manufacturer_examine()
 
 /obj/item/gun/Destroy()
 	if(isobj(pin)) //Can still be the initial path, then we skip
@@ -159,7 +170,7 @@
 
 /obj/item/gun/proc/shoot_with_empty_chamber(mob/living/user as mob|obj)
 	balloon_alert_to_viewers("*click*")
-	playsound(src, dry_fire_sound, 30, TRUE)
+	playsound(src, dry_fire_sound, dry_fire_sound_volume, TRUE)
 
 /obj/item/gun/proc/fire_sounds()
 	if(suppressed)
@@ -168,8 +179,11 @@
 		playsound(src, fire_sound, fire_sound_volume, vary_fire_sound)
 
 /obj/item/gun/proc/shoot_live_shot(mob/living/user, pointblank = 0, atom/pbtarget = null, message = 1)
+	var/angle = get_angle(user, pbtarget)+rand(-recoil_deviation, recoil_deviation) + 180
+	if(angle > 360)
+		angle -= 360
 	if(recoil && !tk_firing(user))
-		shake_camera(user, recoil + 1, recoil)
+		recoil_camera(user, recoil+1, (recoil*recoil_backtime_multiplier) + 1, recoil, angle)
 	fire_sounds()
 	if(!suppressed)
 		if(message)
@@ -189,7 +203,7 @@
 				if(pb_knockback > 0 && ismob(pbtarget))
 					var/mob/PBT = pbtarget
 					var/atom/throw_target = get_edge_target_turf(PBT, user.dir)
-					PBT.throw_at(throw_target, pb_knockback, 2)
+					PBT.throw_at(throw_target, pb_knockback, 2, gentle = pbk_gentle)
 			else if(!tk_firing(user))
 				user.visible_message(
 						span_danger("[user] fires [src]!"),
@@ -215,6 +229,8 @@
 /obj/item/gun/afterattack_secondary(mob/living/victim, mob/living/user, params)
 	if(!isliving(victim) || !IN_GIVEN_RANGE(user, victim, GUNPOINT_SHOOTER_STRAY_RANGE))
 		return ..() //if they're out of range, just shootem.
+	if (user.istate & ISTATE_HARM)
+		return SECONDARY_ATTACK_CALL_NORMAL //continue attack chain for melee attack, we dont want to hold up
 	if(!can_hold_up)
 		return ..()
 	var/datum/component/gunpoint/gunpoint_component = user.GetComponent(/datum/component/gunpoint)
@@ -232,6 +248,10 @@
 
 /obj/item/gun/afterattack(atom/target, mob/living/user, flag, params)
 	..()
+	if(HAS_TRAIT(user, TRAIT_THROW_GUNS))
+		super_throw = TRUE
+		user.throw_item(target)
+		return
 	return fire_gun(target, user, flag, params) | AFTERATTACK_PROCESSED_ITEM
 
 /obj/item/gun/proc/fire_gun(atom/target, mob/living/user, flag, params)
@@ -244,7 +264,7 @@
 	if(flag) //It's adjacent, is the user, or is on the user's person
 		if(target in user.contents) //can't shoot stuff inside us.
 			return
-		if(!ismob(target) || (user.istate & ISTATE_HARM)) //melee attack
+		if(!ismob(target) || (user.istate & ISTATE_HARM && user.istate & ISTATE_SECONDARY)) //melee attack
 			return
 		if(target == user && user.zone_selected != BODY_ZONE_PRECISE_MOUTH) //so we can't shoot ourselves (unless mouth selected)
 			return
@@ -266,6 +286,7 @@
 			return
 
 	if(!can_shoot()) //Just because you can pull the trigger doesn't mean it can shoot.
+
 		shoot_with_empty_chamber(user)
 		return
 
@@ -274,8 +295,9 @@
 
 	var/obj/item/bodypart/other_hand = user.has_hand_for_held_index(user.get_inactive_hand_index()) //returns non-disabled inactive hands
 	if(weapon_weight == WEAPON_HEAVY && (user.get_inactive_held_item() || !other_hand))
-		balloon_alert(user, "use both hands!")
-		return
+		if(!istype(user.get_inactive_held_item(), /obj/item/offhand))
+			balloon_alert(user, "use both hands!")
+			return
 	//DUAL (or more!) WIELDING
 	var/bonus_spread = 0
 	var/loop_counter = 0
@@ -285,7 +307,8 @@
 			if(gun == src || gun.weapon_weight >= WEAPON_MEDIUM)
 				continue
 			else if(gun.can_trigger_gun(user, akimbo_usage = TRUE))
-				bonus_spread += dual_wield_spread
+				if(!(HAS_TRAIT(H, TRAIT_AKIMBO)))
+					bonus_spread += dual_wield_spread
 				loop_counter++
 				addtimer(CALLBACK(gun, TYPE_PROC_REF(/obj/item/gun, process_fire), target, user, TRUE, params, null, bonus_spread), loop_counter)
 
@@ -304,6 +327,17 @@
 				if(!tk_firing(user) && !HAS_TRAIT(src, TRAIT_NODROP))
 					user.dropItemToGround(src, TRUE)
 				return TRUE
+
+
+
+/obj/item/gun/throw_impact(mob/living/carbon/target, datum/thrownthing/throwing_datum)
+	. = ..()
+	if(super_throw && istype(target))
+		target.apply_damage((src.w_class * 7.5), BRUTE, attacking_item = src)
+		target.Knockdown((w_class) SECONDS)
+		target.visible_message(span_warning("[target] is hit by [src], the force breaks apart the gun and forces them to the ground!"), COMBAT_MESSAGE_RANGE)
+		do_sparks(5, FALSE, src)
+		qdel(src)
 
 /obj/item/gun/can_trigger_gun(mob/living/user, akimbo_usage)
 	. = ..()
@@ -422,7 +456,7 @@
 
 	if(user)
 		user.update_held_items()
-	SSblackbox.record_feedback("tally", "gun_fired", 1, type)
+	SSblackbox.record_feedback("tally", "gun_fired", 1, initial(name))
 
 	return TRUE
 
@@ -430,7 +464,7 @@
 	semicd = FALSE
 
 /obj/item/gun/attack(mob/M, mob/living/user)
-	if((user.istate & ISTATE_HARM)) //Flogging
+	if((user.istate & ISTATE_HARM && user.istate & ISTATE_SECONDARY)) //Flogging
 		if(bayonet)
 			M.attackby(bayonet, user)
 			return
@@ -439,7 +473,7 @@
 	return
 
 /obj/item/gun/attack_atom(obj/O, mob/living/user, params)
-	if((user.istate & ISTATE_HARM))
+	if((user.istate & ISTATE_HARM && user.istate & ISTATE_SECONDARY))
 		if(bayonet)
 			O.attackby(bayonet, user)
 			return
@@ -539,7 +573,7 @@
 	if(bayonet)
 		var/mutable_appearance/knife_overlay
 		var/state = "bayonet" //Generic state.
-		if(bayonet.icon_state in icon_states('icons/obj/weapons/guns/bayonets.dmi')) //Snowflake state?
+		if(icon_exists('icons/obj/weapons/guns/bayonets.dmi', bayonet.icon_state)) //Snowflake state? //MONKESTATION EDIT - Refactored to `icon_exists`.
 			state = bayonet.icon_state
 		var/icon/bayonet_icons = 'icons/obj/weapons/guns/bayonets.dmi'
 		knife_overlay = mutable_appearance(bayonet_icons, state)

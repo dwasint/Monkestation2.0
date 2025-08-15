@@ -61,9 +61,17 @@
 			balloon_alert(user, "need ten lengths of cable!")
 			return
 
+		var/terminal_cable_layer
+		if(LAZYACCESS(params2list(params), RIGHT_CLICK))
+			var/choice = tgui_input_list(user, "Select Power Input Cable Layer", "Select Cable Layer", GLOB.cable_name_to_layer)
+			if(isnull(choice) || QDELETED(src) || QDELETED(user) || QDELETED(installing_cable) || !user.Adjacent(src) || !user.is_holding(installing_cable))
+				return
+			terminal_cable_layer = GLOB.cable_name_to_layer[choice]
+
 		user.visible_message(span_notice("[user.name] adds cables to the APC frame."))
 		balloon_alert(user, "adding cables to the frame...")
 		playsound(loc, 'sound/items/deconstruct.ogg', 50, TRUE)
+
 		if(!do_after(user, 20, target = src))
 			return
 		if(installing_cable.get_amount() < 10 || !installing_cable)
@@ -77,7 +85,7 @@
 			return
 		installing_cable.use(10)
 		balloon_alert(user, "cables added to the frame")
-		make_terminal()
+		make_terminal(terminal_cable_layer)
 		terminal.connect_to_network()
 		return
 
@@ -208,13 +216,13 @@
 		if(cell.charge <= (cell.maxcharge / 2)) // ethereals can't drain APCs under half charge, this is so that they are forced to look to alternative power sources if the station is running low
 			addtimer(CALLBACK(src, TYPE_PROC_REF(/atom, balloon_alert), ethereal, "safeties prevent draining!"), alert_timer_duration)
 			return
-		if(stomach.crystal_charge > charge_limit)
+		if(ethereal.blood_volume > charge_limit) //Monkestation Edit
 			addtimer(CALLBACK(src, TYPE_PROC_REF(/atom, balloon_alert), ethereal, "charge is full!"), alert_timer_duration)
 			return
 		stomach.drain_time = world.time + APC_DRAIN_TIME
 		addtimer(CALLBACK(src, TYPE_PROC_REF(/atom, balloon_alert), ethereal, "draining power"), alert_timer_duration)
 		if(do_after(user, APC_DRAIN_TIME, target = src))
-			if(cell.charge <= (cell.maxcharge / 2) || (stomach.crystal_charge > charge_limit))
+			if(cell.charge <= (cell.maxcharge / 2) || (ethereal.blood_volume > charge_limit)) //Monkestation Edit
 				return
 			balloon_alert(ethereal, "received charge")
 			stomach.adjust_charge(APC_POWER_GAIN)
@@ -224,14 +232,14 @@
 	if(cell.charge >= cell.maxcharge - APC_POWER_GAIN)
 		addtimer(CALLBACK(src, TYPE_PROC_REF(/atom, balloon_alert), ethereal, "APC can't receive more power!"), alert_timer_duration)
 		return
-	if(stomach.crystal_charge < APC_POWER_GAIN)
+	if(ethereal.blood_volume < APC_POWER_GAIN) //Monkestation Edit
 		addtimer(CALLBACK(src, TYPE_PROC_REF(/atom, balloon_alert), ethereal, "charge is too low!"), alert_timer_duration)
 		return
 	stomach.drain_time = world.time + APC_DRAIN_TIME
 	addtimer(CALLBACK(src, TYPE_PROC_REF(/atom, balloon_alert), ethereal, "transfering power"), alert_timer_duration)
 	if(!do_after(user, APC_DRAIN_TIME, target = src))
 		return
-	if((cell.charge >= (cell.maxcharge - APC_POWER_GAIN)) || (stomach.crystal_charge < APC_POWER_GAIN))
+	if((cell.charge >= (cell.maxcharge - APC_POWER_GAIN)) || (ethereal.blood_volume < APC_POWER_GAIN)) //Monkestation Edit
 		balloon_alert(ethereal, "can't transfer power!")
 		return
 	if(istype(stomach))

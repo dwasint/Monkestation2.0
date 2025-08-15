@@ -427,7 +427,7 @@
 /turf/open/floor/eighties/red,
 /area/station/service/bar)
 "LA" = (
-/obj/machinery/jukebox/disco,
+/obj/machinery/dance_machine/disco,
 /turf/open/floor/light/colour_cycle/dancefloor_b,
 /area/station/commons/lounge)
 "Mb" = (
@@ -673,6 +673,7 @@
 /area/station/commons/lounge)
 "ZK" = (
 /obj/structure/table/wood/fancy/blue,
+/mob/living/carbon/human/species/monkey/punpun,
 /turf/open/floor/eighties,
 /area/station/service/bar)
 

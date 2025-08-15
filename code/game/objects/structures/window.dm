@@ -26,7 +26,6 @@
 	var/fulltile = FALSE
 	var/glass_type = /obj/item/stack/sheet/glass
 	var/glass_amount = 1
-	var/mutable_appearance/crack_overlay
 	var/real_explosion_block //ignore this, just use explosion_block
 	var/break_sound = SFX_SHATTER
 	var/knock_sound = 'sound/effects/glassknock.ogg'
@@ -105,7 +104,7 @@
 /obj/structure/window/rcd_vals(mob/user, obj/item/construction/rcd/the_rcd)
 	switch(the_rcd.mode)
 		if(RCD_DECONSTRUCT)
-			return list("mode" = RCD_DECONSTRUCT, "delay" = 20, "cost" = 5)
+			return list("mode" = RCD_DECONSTRUCT, "delay" = 2 SECONDS, "cost" = 5)
 	return FALSE
 
 /obj/structure/window/rcd_act(mob/user, obj/item/construction/rcd/the_rcd)
@@ -427,15 +426,21 @@
 	if((updates & UPDATE_SMOOTHING) && (smoothing_flags & (SMOOTH_CORNERS|SMOOTH_BITMASK)))
 		QUEUE_SMOOTH(src)
 
-
-	var/ratio = atom_integrity / max_integrity
-	ratio = CEILING(ratio*4, 1) * 25
-	cut_overlay(crack_overlay)
-	if(ratio > 75)
-		return
-	crack_overlay = mutable_appearance('icons/obj/structures.dmi', "damage[ratio]", -(layer+0.1))
-	. += crack_overlay
-
+	// this always rounds up - you can change CEILING to round if you want to round to the nearest 25.
+	var/ratio = CEILING((atom_integrity / max_integrity) * 100, 25)
+	if(ratio <= 75)
+		var/cracks_alpha = 100
+		// lighter colored windows need the alpha higher so it can be seen better
+		if(isnull(color) || !is_color_dark(color, 55))
+			cracks_alpha = 200
+		. += mutable_appearance(
+			icon = 'icons/obj/structures.dmi',
+			icon_state = "damage[ratio]",
+			layer = layer + 0.1,
+			offset_spokesman = src,
+			alpha = cracks_alpha,
+			appearance_flags = RESET_COLOR,
+		)
 /obj/structure/window/should_atmos_process(datum/gas_mixture/air, exposed_temperature)
 	return exposed_temperature > T0C + heat_resistance
 
@@ -457,6 +462,8 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/structure/window/spawner, 0)
 
 /obj/structure/window/unanchored
 	anchored = FALSE
+
+MAPPING_DIRECTIONAL_HELPERS(/obj/structure/window/unanchored/spawner, 0)
 
 /obj/structure/window/reinforced
 	name = "reinforced window"
@@ -489,7 +496,7 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/structure/window/spawner, 0)
 /obj/structure/window/reinforced/rcd_vals(mob/user, obj/item/construction/rcd/the_rcd)
 	switch(the_rcd.mode)
 		if(RCD_DECONSTRUCT)
-			return list("mode" = RCD_DECONSTRUCT, "delay" = 30, "cost" = 15)
+			return list("mode" = RCD_DECONSTRUCT, "delay" = 3 SECONDS, "cost" = 15)
 	return FALSE
 
 /obj/structure/window/reinforced/attackby_secondary(obj/item/tool, mob/user, params)
@@ -589,6 +596,8 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/structure/window/reinforced/spawner, 0)
 	anchored = FALSE
 	state = WINDOW_OUT_OF_FRAME
 
+MAPPING_DIRECTIONAL_HELPERS(/obj/structure/window/reinforced/unanchored/spawner, 0)
+
 /obj/structure/window/plasma
 	name = "plasma window"
 	desc = "A window made out of a plasma-silicate alloy. It looks insanely tough to break and burn through."
@@ -651,9 +660,14 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/structure/window/reinforced/plasma/spawner, 0)
 /obj/structure/window/reinforced/tinted
 	name = "tinted window"
 	icon_state = "twindow"
+
+MAPPING_DIRECTIONAL_HELPERS(/obj/structure/window/reinforced/tinted/spawner, 0)
+
 /obj/structure/window/reinforced/tinted/frosted
 	name = "frosted window"
 	icon_state = "fwindow"
+
+MAPPING_DIRECTIONAL_HELPERS(/obj/structure/window/reinforced/tinted/frosted/spawner, 0)
 
 /* Full Tile Windows (more atom_integrity) */
 
@@ -673,7 +687,7 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/structure/window/reinforced/plasma/spawner, 0)
 /obj/structure/window/fulltile/rcd_vals(mob/user, obj/item/construction/rcd/the_rcd)
 	switch(the_rcd.mode)
 		if(RCD_DECONSTRUCT)
-			return list("mode" = RCD_DECONSTRUCT, "delay" = 25, "cost" = 10)
+			return list("mode" = RCD_DECONSTRUCT, "delay" = 2.5 SECONDS, "cost" = 10)
 	return FALSE
 
 /obj/structure/window/fulltile/unanchored
@@ -730,7 +744,7 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/structure/window/reinforced/plasma/spawner, 0)
 /obj/structure/window/reinforced/fulltile/rcd_vals(mob/user, obj/item/construction/rcd/the_rcd)
 	switch(the_rcd.mode)
 		if(RCD_DECONSTRUCT)
-			return list("mode" = RCD_DECONSTRUCT, "delay" = 40, "cost" = 20)
+			return list("mode" = RCD_DECONSTRUCT, "delay" = 4 SECONDS, "cost" = 20)
 	return FALSE
 
 /obj/structure/window/reinforced/fulltile/unanchored
@@ -929,7 +943,7 @@ MAPPING_DIRECTIONAL_HELPERS(/obj/structure/window/reinforced/plasma/spawner, 0)
 	icon = 'icons/obj/smooth_structures/clockwork_window.dmi'
 	icon_state = "clockwork_window_single"
 	glass_type = /obj/item/stack/sheet/bronze
-	uses_color // monkestation edit
+	//uses_color // monkestation edit
 
 /obj/structure/window/bronze/unanchored
 	anchored = FALSE

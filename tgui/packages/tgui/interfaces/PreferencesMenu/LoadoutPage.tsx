@@ -1,6 +1,14 @@
 // @ts-nocheck
 import { useBackend, useSharedState, useLocalState } from '../../backend';
-import { Box, Button, Section, Stack, Dropdown, FitText } from '../../components';
+import {
+  Box,
+  Button,
+  Section,
+  Stack,
+  FitText,
+  Tabs,
+  Table,
+} from '../../components';
 import { CharacterPreview } from '../common/CharacterPreview';
 import { PreferencesMenuData, createSetPreference } from './data';
 import { NameInput } from './names';
@@ -42,8 +50,8 @@ const CharacterControls = (props: {
   );
 };
 
-export const LoadoutManager = (props, context) => {
-  const { act, data } = useBackend<PreferencesMenuData>(context);
+export const LoadoutManager = (props) => {
+  const { act, data } = useBackend<PreferencesMenuData>();
   const {
     selected_loadout,
     loadout_tabs,
@@ -52,14 +60,12 @@ export const LoadoutManager = (props, context) => {
     selected_unusuals,
   } = data;
   const [multiNameInputOpen, setMultiNameInputOpen] = useLocalState(
-    context,
     'multiNameInputOpen',
-    false
+    false,
   );
   const [selectedTabName, setSelectedTab] = useSharedState(
-    context,
     'tabs',
-    loadout_tabs[0]?.name
+    loadout_tabs[0]?.name,
   );
   const selectedTab = loadout_tabs.find((curTab) => {
     return curTab.name === selectedTabName;
@@ -70,7 +76,7 @@ export const LoadoutManager = (props, context) => {
       <Stack.Item fill>
         <Stack vertical fill>
           <Stack.Item>
-            <Stack horiztonal fill>
+            <Stack fill>
               <Stack.Item>
                 <CharacterControls
                   handleRotate={() => {
@@ -88,7 +94,8 @@ export const LoadoutManager = (props, context) => {
                   fontSize="22px"
                   icon="fa-solid fa-coins"
                   align="center"
-                  tooltip="This is your total Monkecoin amount.">
+                  tooltip="This is your total Monkecoin amount."
+                >
                   <FitText maxFontSize={22} maxWidth={CLOTHING_CELL_SIZE * 1}>
                     {total_coins}
                   </FitText>
@@ -125,7 +132,8 @@ export const LoadoutManager = (props, context) => {
                   content="Tutorial"
                   onClick={() => act('toggle_tutorial')}
                 />
-              }>
+              }
+            >
               <Button
                 icon="check-double"
                 color="good"
@@ -133,144 +141,142 @@ export const LoadoutManager = (props, context) => {
                 tooltip="Confirm loadout and exit UI."
                 onClick={() => act('close_ui', { revert: 0 })}
               />
-              <Dropdown
-                width="100%"
-                selected={selectedTabName}
-                displayText={selectedTabName}
-                options={loadout_tabs.map((curTab) => ({
-                  value: curTab,
-                  displayText: curTab.name,
-                }))}
-                onSelected={(curTab) => setSelectedTab(curTab.name)}
-              />
+              <Tabs>
+                {loadout_tabs.map((curTab) => (
+                  <Tabs.Tab
+                    key={curTab.name}
+                    selected={selectedTabName === curTab.name}
+                    onClick={() => setSelectedTab(curTab.name)}
+                  >
+                    {curTab.name}
+                  </Tabs.Tab>
+                ))}
+              </Tabs>
             </Section>
           </Stack.Item>
           <Stack.Item grow>
-            <Stack fill>
-              <Stack.Item grow>
-                {selectedTab && selectedTab.contents ? (
-                  <Section
-                    title={selectedTab.title}
-                    fill
-                    scrollable
-                    buttons={
-                      <Button.Confirm
-                        icon="times"
-                        color="red"
-                        align="center"
-                        content="Clear All Items"
-                        tooltip="Clears ALL selected items from all categories."
-                        width={10}
-                        onClick={() => act('clear_all_items')}
-                      />
-                    }>
-                    <Stack grow vertical>
-                      {selectedTab.contents.map((item) => (
-                        <Stack.Item key={item.name}>
-                          <Stack fontSize="15px">
-                            <Stack.Item grow align="left">
-                              {item.name}
-                            </Stack.Item>
-                            {!!item.is_greyscale && (
-                              <Stack.Item>
-                                <Button
-                                  icon="palette"
-                                  onClick={() =>
-                                    act('select_color', {
-                                      path: item.path,
-                                    })
-                                  }
-                                />
-                              </Stack.Item>
-                            )}
-                            {!!item.is_renamable && (
-                              <Stack.Item>
-                                <Button
-                                  icon="pen"
-                                  onClick={() =>
-                                    act('set_name', {
-                                      path: item.path,
-                                    })
-                                  }
-                                />
-                              </Stack.Item>
-                            )}
-                            {!!item.is_job_restricted && (
-                              <Stack.Item>
-                                <Button
-                                  icon="lock"
-                                  onClick={() =>
-                                    act('display_restrictions', {
-                                      path: item.path,
-                                    })
-                                  }
-                                />
-                              </Stack.Item>
-                            )}
-                            {!!item.is_donator_only && (
-                              <Stack.Item>
-                                <Button
-                                  icon="heart"
-                                  color="pink"
-                                  onClick={() =>
-                                    act('donator_explain', {
-                                      path: item.path,
-                                    })
-                                  }
-                                />
-                              </Stack.Item>
-                            )}
-                            {!!item.is_ckey_whitelisted && (
-                              <Stack.Item>
-                                <Button
-                                  icon="user-lock"
-                                  onClick={() =>
-                                    act('ckey_explain', {
-                                      path: item.path,
-                                    })
-                                  }
-                                />
-                              </Stack.Item>
-                            )}
-                            <Stack.Item>
-                              <Button.Checkbox
-                                checked={
-                                  selected_loadout.includes(item.path) ||
-                                  (selected_unusuals.includes(
-                                    item.unusual_placement
-                                  ) &&
-                                    item.unusual_spawning_requirements)
-                                }
-                                content="Select"
-                                disabled={
-                                  item.is_donator_only && !user_is_donator
-                                }
-                                fluid
-                                onClick={() =>
-                                  act('select_item', {
-                                    path: item.path,
-                                    unusual_spawning_requirements:
-                                      item.unusual_spawning_requirements,
-                                    unusual_placement: item.unusual_placement,
-                                    deselect: selected_loadout.includes(
-                                      item.path
-                                    ),
-                                  })
-                                }
-                              />
-                            </Stack.Item>
-                          </Stack>
+            {selectedTab && selectedTab.contents ? (
+              <Section
+                title={selectedTab.title}
+                fill
+                scrollable
+                buttons={
+                  <Button.Confirm
+                    icon="times"
+                    color="red"
+                    align="center"
+                    content="Clear All Items"
+                    tooltip="Clears ALL selected items from all categories."
+                    width={10}
+                    onClick={() => act('clear_all_items')}
+                  />
+                }
+              >
+                <Table grow vertical>
+                  {selectedTab.contents.map((item, index) => (
+                    <Table.Row
+                      header
+                      key={item.name}
+                      backgroundColor={index % 2 === 0 ? '#19181e' : '#16151b'}
+                    >
+                      <Stack fontSize="15px">
+                        <Stack.Item grow align="left">
+                          {item.name}
                         </Stack.Item>
-                      ))}
-                    </Stack>
-                  </Section>
-                ) : (
-                  <Section fill>
-                    <Box>No contents for selected tab.</Box>
-                  </Section>
-                )}
-              </Stack.Item>
-            </Stack>
+                        {!!item.is_greyscale && (
+                          <Stack.Item>
+                            <Button
+                              icon="palette"
+                              onClick={() =>
+                                act('select_color', {
+                                  path: item.path,
+                                })
+                              }
+                            />
+                          </Stack.Item>
+                        )}
+                        {!!item.is_renamable && (
+                          <Stack.Item>
+                            <Button
+                              icon="pen"
+                              onClick={() =>
+                                act('set_name', {
+                                  path: item.path,
+                                })
+                              }
+                            />
+                          </Stack.Item>
+                        )}
+                        {!!item.is_job_restricted && (
+                          <Stack.Item>
+                            <Button
+                              icon="lock"
+                              onClick={() =>
+                                act('display_restrictions', {
+                                  path: item.path,
+                                })
+                              }
+                            />
+                          </Stack.Item>
+                        )}
+                        {!!item.is_donator_only && (
+                          <Stack.Item>
+                            <Button
+                              icon="heart"
+                              color="pink"
+                              onClick={() =>
+                                act('donator_explain', {
+                                  path: item.path,
+                                })
+                              }
+                            />
+                          </Stack.Item>
+                        )}
+                        {!!item.is_ckey_whitelisted && (
+                          <Stack.Item>
+                            <Button
+                              icon="user-lock"
+                              onClick={() =>
+                                act('ckey_explain', {
+                                  path: item.path,
+                                })
+                              }
+                            />
+                          </Stack.Item>
+                        )}
+                        <Stack.Item>
+                          <Button.Checkbox
+                            checked={
+                              selected_loadout.includes(item.path) ||
+                              (selected_unusuals.includes(
+                                item.unusual_placement,
+                              ) &&
+                                item.unusual_spawning_requirements)
+                            }
+                            content="Select"
+                            disabled={item.is_donator_only && !user_is_donator}
+                            fluid
+                            onClick={() =>
+                              act('select_item', {
+                                path: item.path,
+                                unusual_spawning_requirements:
+                                  item.unusual_spawning_requirements,
+                                unusual_placement: item.unusual_placement,
+                                deselect: selected_loadout.includes(item.path),
+                              })
+                            }
+                          />
+                        </Stack.Item>
+                      </Stack>
+                    </Table.Row>
+                  ))}
+                </Table>
+              </Section>
+            ) : (
+              <Section fill>
+                <Box>No contents for selected tab.</Box>
+              </Section>
+            )}
           </Stack.Item>
         </Stack>
       </Stack.Item>

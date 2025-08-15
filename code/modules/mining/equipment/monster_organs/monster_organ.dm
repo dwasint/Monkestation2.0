@@ -42,7 +42,7 @@
 	visual = FALSE
 	item_flags = NOBLUDGEON
 	slot = ORGAN_SLOT_MONSTER_CORE
-	organ_flags = NONE
+	organ_flags = ORGAN_ORGANIC
 	force = 0
 	/// Set to true if this organ has decayed into uselessness.
 	var/inert = FALSE
@@ -65,7 +65,7 @@
 	. = ..()
 	decay_timer = addtimer(CALLBACK(src, PROC_REF(go_inert)), time_to_decay, TIMER_STOPPABLE)
 
-/obj/item/organ/internal/monster_core/Destroy(force, silent)
+/obj/item/organ/internal/monster_core/Destroy(force)
 	deltimer(decay_timer)
 	return ..()
 

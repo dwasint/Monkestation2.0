@@ -8,25 +8,45 @@ GLOBAL_LIST_INIT(biomass_unlocks, list())
 	layer = BELOW_OBJ_LAYER
 	density = TRUE
 	circuit = /obj/item/circuitboard/machine/biomass_recycler
-	var/stored_matter = 0
-	var/cube_production = 0.2
 
-	var/static/list/recyclable_types = list(/mob/living/carbon/human/species/monkey = 1)
+	/// How much biomass is currently stores in the recycler
+	var/stored_matter = 0
+	/// Multiplier that affects how much biomass is gained when recycling
+	var/cube_production = 0.2
+	/// List of all creatures that the biomass recycler can grind down for biomass
+	var/static/list/recyclable_types = list(
+		/mob/living/carbon/human/species/monkey = 1,
+		/mob/living/basic/cockroach/rockroach = 1,
+		/mob/living/basic/cockroach/iceroach = 1,
+		/mob/living/basic/xenofauna/meatbeast = 2,
+		/mob/living/basic/xenofauna/diyaab = 1,
+		/mob/living/basic/xenofauna/thinbug = 1,
+		/mob/living/basic/cockroach/recursive = 1,
+		/mob/living/basic/xenofauna/thoom = 2,
+		/mob/living/basic/xenofauna/greeblefly = 2,
+		/mob/living/basic/xenofauna/lavadog = 1,
+		/mob/living/basic/xenofauna/voxslug = 1,
+		/mob/living/basic/xenofauna/possum = 1,
+		/mob/living/basic/xenofauna/dron = 1,
+	)
+	/// List of things you can print at the biomass recycler
 	var/list/printable_types = list(/obj/item/stack/biomass = 1, /obj/item/food/monkeycube = 1)
+	/// List of things you can generate with the right click of a linked vacuum
 	var/list/vacuum_printable_types = list(/mob/living/carbon/human/species/monkey = 1)
 
 /obj/machinery/biomass_recycler/RefreshParts() //Ranges from 0.2 to 0.8 per monkey recycled
 	. = ..()
-	cube_production = 0.2
-	for(var/obj/item/stock_parts/manipulator/B in component_parts)
-		cube_production += B.rating * 0.1
-	for(var/obj/item/stock_parts/matter_bin/M in component_parts)
-		cube_production += M.rating * 0.1
+	cube_production = 0
+	for(var/datum/stock_part/manipulator/manipulator in component_parts)
+		cube_production += manipulator.tier * 0.04
+	for(var/datum/stock_part/matter_bin/bin in component_parts)
+		cube_production += bin.tier * 0.04
 
 /obj/machinery/biomass_recycler/examine(mob/user)
 	. = ..()
 	if(in_range(user, src) || isobserver(user))
 		. += span_notice("The status display reads: Recycles <b>[cube_production]</b> biomass units per unit inserted.")
+		. += span_info("It currently has [stored_matter] unit\s of biomass.")
 
 /obj/machinery/biomass_recycler/wrench_act(mob/living/user, obj/item/tool)
 	. = ..()
@@ -34,37 +54,38 @@ GLOBAL_LIST_INIT(biomass_unlocks, list())
 		power_change()
 	return TOOL_ACT_TOOLTYPE_SUCCESS
 
-/obj/machinery/biomass_recycler/attackby(obj/item/O, mob/user, params)
-	if(default_deconstruction_screwdriver(user, "grinder_open", "grinder", O))
+/obj/machinery/biomass_recycler/attackby(obj/item/item, mob/user, params)
+	. = ..()
+	if(. || default_deconstruction_screwdriver(user, "grinder_open", "grinder", item) || default_pry_open(item) || default_deconstruction_crowbar(item) || machine_stat)
 		return
-
-	if(default_pry_open(O))
+	if(istype(item, /obj/item/storage/bag/xeno))
+		var/total_biomass = 0
+		for(var/obj/item/stack/biomass/biomass in item)
+			total_biomass += biomass.amount
+			stored_matter += biomass.amount
+			qdel(biomass)
+		if(total_biomass > 0)
+			to_chat(user, span_notice("You dump [total_biomass] cube\s of biomass from [item] into [src]."))
+			user.balloon_alert_to_viewers("inserted biomass")
 		return
-
-	if(default_deconstruction_crowbar(O))
+	else if(HAS_TRAIT(item, TRAIT_NODROP))
 		return
-
-	if(machine_stat) //NOPOWER etc
-		return
-
-	if(HAS_TRAIT(O, TRAIT_NODROP))
-		return
-
-	if(istype(O, /obj/item/stack/biomass))
-		var/obj/item/stack/biomass/biomass = O
+	else if(istype(item, /obj/item/stack/biomass))
+		var/obj/item/stack/biomass/biomass = item
 		to_chat(user, span_notice("You insert [biomass.amount] cube\s of biomass into [src]."))
+		user.balloon_alert_to_viewers("inserted biomass")
 		stored_matter += biomass.amount
 		qdel(biomass)
 		return
 
 	var/can_recycle
 	for(var/recycable_type in recyclable_types)
-		if(istype(O, recycable_type))
+		if(istype(item, recycable_type))
 			can_recycle = recycable_type
 			break
 
 	if(can_recycle)
-		recycle(O, user, can_recycle)
+		recycle(item, user, can_recycle)
 
 /obj/machinery/biomass_recycler/MouseDrop_T(mob/living/target, mob/living/user)
 	if(!istype(target))
@@ -125,6 +146,7 @@ GLOBAL_LIST_INIT(biomass_unlocks, list())
 	var/spawn_type = item_names[pick]
 	if(stored_matter < printable_types[spawn_type])
 		to_chat(user, span_warning("[src] does not have enough stored biomass for that! It currently has [stored_matter] out of [printable_types[spawn_type]] unit\s required."))
+		balloon_alert(user, "not enough biomass")
 		return
 
 	var/spawned = new spawn_type(user.loc)
@@ -139,7 +161,7 @@ GLOBAL_LIST_INIT(biomass_unlocks, list())
 	icon = 'monkestation/code/modules/slimecore/icons/stack_objects.dmi'
 	icon_state = "biomass"
 	base_icon_state = "biomass"
-	max_amount = 5
+	max_amount = 15
 	singular_name = "biomass cube"
 	merge_type = /obj/item/stack/biomass
 	flags_1 = CONDUCT_1
@@ -179,3 +201,8 @@ GLOBAL_LIST_INIT(biomass_unlocks, list())
 	name = "\"Rockroach\" biomass recycler upgrade disk"
 	printable_types = list(/mob/living/basic/cockroach/rockroach = 0.4)
 	vacuum_printable_types = list(/mob/living/basic/cockroach/rockroach = 0.4)
+
+/datum/slime_store_item/rockroach
+	name = "\"Rockroach\" biomass recycler upgrade disk"
+	desc = "An upgrade disk for the biomass recycler that allows for the printing of Rockroaches."
+	item_path = /obj/item/disk/biomass_upgrade/rockroach

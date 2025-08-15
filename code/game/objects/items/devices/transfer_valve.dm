@@ -181,7 +181,7 @@
 		if(attached_device)
 			if(issignaler(attached_device))
 				var/obj/item/assembly/signaler/attached_signaller = attached_device
-				attachment = "<A HREF='?_src_=holder;[HrefToken()];secrets=list_signalers'>[attached_signaller]</A>"
+				attachment = "<A HREF='byond://?_src_=holder;[HrefToken()];secrets=list_signalers'>[attached_signaller]</A>"
 				attachment_signal_log = attached_signaller.last_receive_signal_log ? "The following log entry is the last one associated with the attached signaller<br>[attached_signaller.last_receive_signal_log]" : "There is no signal log entry."
 			else
 				attachment = attached_device
@@ -292,3 +292,11 @@
  */
 /obj/item/transfer_valve/proc/ready()
 	return tank_one && tank_two
+
+/obj/item/transfer_valve/fake/Initialize(mapload)
+	. = ..()
+
+	tank_one = new /obj/item/tank/internals/plasma (src)
+	tank_two = new /obj/item/tank/internals/oxygen (src)
+
+	update_appearance()

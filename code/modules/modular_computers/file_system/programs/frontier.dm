@@ -38,7 +38,7 @@
 /datum/computer_file/program/scipaper_program/proc/recheck_file_presence()
 	if(selected_file in computer.stored_files)
 		return FALSE
-	UnregisterSignal(selected_file, COMSIG_MODULAR_COMPUTER_FILE_DELETED)
+	UnregisterSignal(selected_file, COMSIG_COMPUTER_FILE_DELETE)
 	selected_file = null
 	paper_to_be.set_experiment()
 
@@ -68,9 +68,9 @@
 		singular_partner["path"] = partner.type
 		singular_partner["boostedNodes"] = list()
 		singular_partner["acceptedExperiments"] = list()
-		for (var/node_id in partner.boosted_nodes)
+		for (var/node_id in partner.boostable_nodes)
 			var/datum/techweb_node/node = SSresearch.techweb_node_by_id(node_id)
-			singular_partner["boostedNodes"] += list(list("name" = node.display_name, "discount" = partner.boosted_nodes[node_id], "id"=node_id))
+			singular_partner["boostedNodes"] += list(list("name" = node.display_name, "discount" = partner.boostable_nodes[node_id], "id" = node_id))
 		for (var/datum/experiment/ordnance/ordnance_experiment as anything in partner.accepted_experiments)
 			singular_partner["acceptedExperiments"] += initial(ordnance_experiment.name)
 		parsed_partners += list(singular_partner)
@@ -157,7 +157,7 @@
 				data["purchaseableBoosts"][partner.type] = list()
 				for(var/node_id in linked_techweb.get_available_nodes())
 					// Not from our partner
-					if(!(node_id in partner.boosted_nodes))
+					if(!(node_id in partner.boostable_nodes))
 						continue
 					if(!partner.allowed_to_boost(linked_techweb, node_id))
 						continue
@@ -189,12 +189,12 @@
 			return TRUE
 		if("select_file") // Selecting new file will necessitate a change in paper type. This will be done on select_experiment and not here.
 			if(selected_file)
-				UnregisterSignal(selected_file, COMSIG_MODULAR_COMPUTER_FILE_DELETED)
+				UnregisterSignal(selected_file, COMSIG_COMPUTER_FILE_DELETE)
 			paper_to_be.set_experiment() // Clears the paper info.
 			for(var/datum/computer_file/data/ordnance/ordnance_data in computer.stored_files)
 				if(ordnance_data.uid == params["selected_uid"])
 					selected_file = ordnance_data
-					RegisterSignal(selected_file, COMSIG_MODULAR_COMPUTER_FILE_DELETED, PROC_REF(recheck_file_presence))
+					RegisterSignal(selected_file, COMSIG_COMPUTER_FILE_DELETE, PROC_REF(recheck_file_presence))
 					return TRUE
 		if("select_experiment")
 			var/ex_path = text2path(params["selected_expath"])
@@ -229,7 +229,7 @@
 	if(linked_techweb.add_scientific_paper(paper_to_be))
 		computer.say("\"[paper_to_be.title]\" has been published!")
 		paper_to_be = new
-		UnregisterSignal(selected_file, COMSIG_MODULAR_COMPUTER_FILE_DELETED)
+		UnregisterSignal(selected_file, COMSIG_COMPUTER_FILE_DELETE)
 		selected_file = null
 		SStgui.update_uis(src)
 		playsound(computer, 'sound/machines/ping.ogg', 25)

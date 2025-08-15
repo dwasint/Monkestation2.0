@@ -180,7 +180,7 @@
 		flags_1 |= PREVENT_CONTENTS_EXPLOSION_1
 	}
 
-	if(HAS_TRAIT(SSstation, STATION_TRAIT_BOTS_GLITCHED))
+	if(HAS_TRAIT(SSstation, STATION_TRAIT_BOTS_GLITCHED) && !SSticker.HasRoundStarted()) // monkestation edit: only glitch roundstart bots
 		randomize_language_if_on_station()
 	SEND_GLOBAL_SIGNAL(COMSIG_GLOB_NEW_MACHINE, src)
 
@@ -188,11 +188,7 @@
 
 /obj/machinery/LateInitialize()
 	. = ..()
-	power_change()
-	if(use_power == NO_POWER_USE)
-		return
-	update_current_power_usage()
-	setup_area_power_relationship()
+	post_machine_initialize()
 
 /obj/machinery/Destroy()
 	GLOB.machines.Remove(src)
@@ -210,6 +206,21 @@
 	QDEL_NULL(circuit)
 	unset_static_power()
 	return ..()
+
+/**
+ * Called in LateInitialize meant to be the machine replacement to it
+ * This sets up power for the machine and requires parent be called,
+ * ensuring power works on all machines unless exempted with NO_POWER_USE.
+ * This is the proc to override if you want to do anything in LateInitialize.
+ */
+/obj/machinery/proc/post_machine_initialize()
+	SHOULD_CALL_PARENT(TRUE)
+	power_change()
+	if(use_power == NO_POWER_USE)
+		return
+	update_current_power_usage()
+	setup_area_power_relationship()
+
 
 /**
  * proc to call when the machine starts to require power after a duration of not requiring power
@@ -256,7 +267,7 @@
 		return
 	update_current_power_usage()
 	power_change()
-	RegisterSignal(area_to_register, COMSIG_AREA_POWER_CHANGE, PROC_REF(power_change))
+	RegisterSignal(area_to_register, COMSIG_AREA_POWER_CHANGE, PROC_REF(power_change), override = TRUE) // we can re-enter the same area due to shuttles and shit
 
 /obj/machinery/proc/on_exit_area(datum/source, area/area_to_unregister)
 	SIGNAL_HANDLER
@@ -399,6 +410,9 @@
 /obj/machinery/proc/close_machine(atom/movable/target, density_to_set = TRUE)
 	state_open = FALSE
 	set_density(density_to_set)
+	if (!density)
+		update_appearance()
+		return
 	if(!target)
 		for(var/atom in loc)
 			if (!(can_be_occupant(atom)))
@@ -512,19 +526,24 @@
 	return TRUE
 
 ///Get a valid powered area to reference for power use, mainly for wall-mounted machinery that isn't always mapped directly in a powered location.
-/obj/machinery/proc/get_room_area(area/machine_room)
+/obj/machinery/proc/get_room_area()
 	var/area/machine_area = get_area(src)
-	if(!machine_area.always_unpowered) ///check our loc first to see if its a powered area
-		machine_room = machine_area
-		return machine_room
-	var/turf/mounted_wall = get_step(src,dir)
-	if (mounted_wall && istype(mounted_wall, /turf/closed))
+	if(isnull(machine_area))
+		return null // ??
+
+	// check our own loc first to see if its a powered area
+	if(!machine_area.always_unpowered)
+		return machine_area
+
+	// loc area wasn't good, checking adjacent wall for a good area to use
+	var/turf/mounted_wall = get_step(src, dir)
+	if(isclosedturf(mounted_wall))
 		var/area/wall_area = get_area(mounted_wall)
-		if(!wall_area.always_unpowered) //loc area wasn't good, checking adjacent wall for a good area to use
-			machine_room = wall_area
-			return machine_room
-	machine_room = machine_area ///couldn't find a proper powered area on loc or adjacent wall, defaulting back to loc and blaming mappers
-	return machine_room
+		if(!wall_area.always_unpowered)
+			return wall_area
+
+	// couldn't find a proper powered area on loc or adjacent wall, defaulting back to loc and blaming mappers
+	return machine_area
 
 ///makes this machine draw power from its area according to which use_power mode it is set to
 /obj/machinery/proc/update_current_power_usage()
@@ -760,6 +779,7 @@
 /obj/machinery/proc/RefreshParts()
 	SHOULD_CALL_PARENT(TRUE)
 	//reset to baseline
+	/*
 	idle_power_usage = initial(idle_power_usage)
 	active_power_usage = initial(active_power_usage)
 	if(!component_parts || !component_parts.len)
@@ -774,10 +794,13 @@
 
 	idle_power_usage = initial(idle_power_usage) * (1 + parts_energy_rating)
 	active_power_usage = initial(active_power_usage) * (1 + parts_energy_rating)
+	*/
 	update_current_power_usage()
 	SEND_SIGNAL(src, COMSIG_MACHINERY_REFRESH_PARTS)
 
 /obj/machinery/proc/default_pry_open(obj/item/crowbar, close_after_pry = FALSE, open_density = FALSE, closed_density = TRUE)
+	if(ismob(crowbar)) // monkestation edit: make certain issues clearer with an explicit runtime
+		CRASH("The user should not be passed to /obj/machinery/proc/default_pry_open, only the tool being used.")
 	. = !(state_open || panel_open || is_operational || (flags_1 & NODECONSTRUCT_1)) && crowbar.tool_behaviour == TOOL_CROWBAR
 	if(!.)
 		return
@@ -788,6 +811,8 @@
 		close_machine(density_to_set = closed_density)
 
 /obj/machinery/proc/default_deconstruction_crowbar(obj/item/crowbar, ignore_panel = 0, custom_deconstruct = FALSE)
+	if(ismob(crowbar)) // monkestation edit: make certain issues clearer with an explicit runtime
+		CRASH("The user should not be passed to /obj/machinery/proc/default_deconstruction_crowbar, only the tool being used.")
 	. = (panel_open || ignore_panel) && !(flags_1 & NODECONSTRUCT_1) && crowbar.tool_behaviour == TOOL_CROWBAR
 	if(!. || custom_deconstruct)
 		return
@@ -804,12 +829,23 @@
 	spawn_frame(disassembled)
 
 	for(var/part in component_parts)
+		var/area/space/shipbreak/A = get_area(src)
 		if(istype(part, /datum/stock_part))
 			var/datum/stock_part/datum_part = part
-			new datum_part.physical_object_type(loc)
+			var/obj/item/item = new datum_part.physical_object_type(loc)
+			if(istype(A) && item.get_shipbreaking_reward()) //shipbreaking
+				var/obj/item/reward = item.get_shipbreaking_reward()
+				if(reward)
+					new reward(loc)
+					qdel(item)
 		else
 			var/obj/item/obj_part = part
 			obj_part.forceMove(loc)
+			if(istype(A) && obj_part.get_shipbreaking_reward()) //shipbreaking
+				var/obj/item/reward = obj_part.get_shipbreaking_reward()
+				if(reward)
+					new reward(loc)
+					qdel(obj_part)
 			if(istype(obj_part, /obj/item/circuitboard/machine))
 				var/obj/item/circuitboard/machine/board = obj_part
 				for(var/component in board.req_components) //loop through all stack components and spawn them
@@ -907,6 +943,7 @@
 	wrench.play_tool_sound(src, 50)
 	setDir(turn(dir,-90))
 	to_chat(user, span_notice("You rotate [src]."))
+	SEND_SIGNAL(src, COMSIG_MACHINERY_DEFAULT_ROTATE_WRENCH, user, wrench)
 	return TRUE
 
 /obj/machinery/proc/exchange_parts(mob/user, obj/item/storage/part_replacer/replacer_tool)
@@ -1096,7 +1133,9 @@
 	return
 
 /obj/machinery/proc/can_be_overridden()
-	. = 1
+	if(resistance_flags & INDESTRUCTIBLE)
+		return FALSE
+	return TRUE
 
 /obj/machinery/zap_act(power, zap_flags)
 	if(prob(85) && (zap_flags & ZAP_MACHINE_EXPLOSIVE) && !(resistance_flags & INDESTRUCTIBLE))

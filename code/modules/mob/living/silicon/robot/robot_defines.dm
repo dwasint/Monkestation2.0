@@ -23,7 +23,7 @@
 	radio = /obj/item/radio/borg
 
 	blocks_emissive = EMISSIVE_BLOCK_UNIQUE
-	light_system = MOVABLE_LIGHT_DIRECTIONAL
+	light_system = OVERLAY_LIGHT_DIRECTIONAL
 	light_on = FALSE
 
 
@@ -43,6 +43,8 @@
 	///If this is a path, this gets created as an object in Initialize.
 	var/obj/item/stock_parts/cell/cell = /obj/item/stock_parts/cell/high
 
+	///If we've been forcibly disabled for a temporary amount of time.
+	COOLDOWN_DECLARE(disabled_time)
 	///If the lamp isn't broken.
 	var/lamp_functional = TRUE
 	///If the lamp is turned on
@@ -144,6 +146,7 @@
 	cell = null
 
 /mob/living/silicon/robot/shell
+	name = "AI Shell"
 	shell = TRUE
 	cell = null
 
@@ -211,8 +214,7 @@
 /mob/living/silicon/robot/model/syndicate/create_modularInterface()
 	if(!modularInterface)
 		modularInterface = new /obj/item/modular_computer/pda/silicon/cyborg/syndicate(src)
-		modularInterface.saved_identification = real_name
-		modularInterface.saved_job = "Cyborg"
+		modularInterface.imprint_id(job_name = "Cyborg")
 	return ..()
 
 /mob/living/silicon/robot/model/syndicate/proc/show_playstyle()

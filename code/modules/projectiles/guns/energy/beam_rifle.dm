@@ -78,7 +78,7 @@
 	. = ..()
 	delay = modify_fantasy_variable("delay", delay, -bonus * 2)
 	aiming_time = modify_fantasy_variable("aiming_time", aiming_time, -bonus * 2)
-	recoil = modify_fantasy_variable("aiming_time", aiming_time, round(-bonus / 2))
+	recoil = modify_fantasy_variable("recoil", recoil, round(-bonus / 2))
 
 /obj/item/gun/energy/beam_rifle/remove_fantasy_bonuses(bonus)
 	delay = reset_fantasy_variable("delay", delay)
@@ -173,7 +173,6 @@
 	. = ..()
 	fire_delay = delay
 	current_tracers = list()
-	START_PROCESSING(SSfastprocess, src)
 
 /obj/item/gun/energy/beam_rifle/Destroy()
 	STOP_PROCESSING(SSfastprocess, src)
@@ -280,6 +279,13 @@
 		current_user = user
 		RegisterSignal(user, COMSIG_MOVABLE_MOVED, PROC_REF(on_mob_move))
 		listeningTo = user
+	if(current_user)
+		if(!(datum_flags & DF_ISPROCESSING))
+			last_process = world.time
+			START_PROCESSING(SSfastprocess, src)
+	else
+		STOP_PROCESSING(SSfastprocess, src)
+		last_process = world.time
 
 /obj/item/gun/energy/beam_rifle/onMouseDrag(src_object, over_object, src_location, over_location, params, mob)
 	if(aiming)

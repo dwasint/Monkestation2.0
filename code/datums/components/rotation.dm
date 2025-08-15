@@ -32,7 +32,8 @@
 
 /datum/component/simple_rotation/RegisterWithParent()
 	AddSignals()
-	. = ..()
+	ADD_TRAIT(parent, TRAIT_ALT_CLICK_BLOCKER, REF(src))
+	return ..()
 
 /datum/component/simple_rotation/PostTransfer()
 	//Because of the callbacks which we don't track cleanly we can't transfer this
@@ -42,12 +43,13 @@
 
 /datum/component/simple_rotation/UnregisterFromParent()
 	RemoveSignals()
-	. = ..()
+	REMOVE_TRAIT(parent, TRAIT_ALT_CLICK_BLOCKER, REF(src))
+	return ..()
 
 /datum/component/simple_rotation/Destroy()
-	QDEL_NULL(AfterRotation)
+	AfterRotation = null
 	//Signals + verbs removed via UnRegister
-	. = ..()
+	return ..()
 
 /datum/component/simple_rotation/ClearFromParent()
 	return ..()

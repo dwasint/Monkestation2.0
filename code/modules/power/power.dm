@@ -18,7 +18,9 @@
 	///The powernet our machine is connected to.
 	var/datum/powernet/powernet
 	///Cable layer to which the machine is connected.
-	var/machinery_layer = MACHINERY_LAYER_1
+	var/cable_layer = CABLE_LAYER_2
+	///Can the cable_layer be tweked with a multi tool
+	var/can_change_cable_layer = FALSE
 
 /obj/machinery/power/Initialize(mapload)
 	. = ..()
@@ -43,6 +45,34 @@
 //override this if the machine needs special functionality for making wire nodes appear, ie emitters, generators, etc.
 /obj/machinery/power/proc/should_have_node()
 	return FALSE
+
+/obj/machinery/power/examine(mob/user)
+	. = ..()
+	if(can_change_cable_layer)
+		if(!QDELETED(powernet))
+			. += span_notice("It's operating on the [LOWER_TEXT(GLOB.cable_layer_to_name["[cable_layer]"])].")
+		else
+			. += span_warning("It's disconnected from the [LOWER_TEXT(GLOB.cable_layer_to_name["[cable_layer]"])].")
+		. += span_notice("It's power line can be changed with a [EXAMINE_HINT("multitool")].")
+
+///does the required checks to see if this machinery layer can be changed
+/obj/machinery/power/proc/cable_layer_change_checks(mob/living/user, obj/item/tool)
+	return can_change_cable_layer
+
+/obj/machinery/power/multitool_act(mob/living/user, obj/item/tool)
+	if(!can_change_cable_layer || !cable_layer_change_checks(user, tool))
+		return TOOL_ACT_TOOLTYPE_SUCCESS
+
+	var/choice = tgui_input_list(user, "Select Power Line For Operation", "Select Cable Layer", GLOB.cable_name_to_layer)
+	if(isnull(choice) || QDELETED(src) || QDELETED(user) || QDELETED(tool) || !user.Adjacent(src) || !user.is_holding(tool))
+		return TOOL_ACT_TOOLTYPE_SUCCESS
+
+	cable_layer = GLOB.cable_name_to_layer[choice]
+	balloon_alert(user, "now operating on the [choice]")
+	return TOOL_ACT_TOOLTYPE_SUCCESS
+
+/obj/machinery/power/multitool_act_secondary(mob/living/user, obj/item/tool)
+	return multitool_act(user, tool)
 
 /obj/machinery/power/proc/add_avail(amount)
 	if(powernet)
@@ -203,7 +233,7 @@
 	if(!T || !istype(T))
 		return FALSE
 
-	var/obj/structure/cable/C = T.get_cable_node(machinery_layer) //check if we have a node cable on the machine turf, the first found is picked
+	var/obj/structure/cable/C = T.get_cable_node(cable_layer) //check if we have a node cable on the machine turf, the first found is picked
 	if(!C || !C.powernet)
 		var/obj/machinery/power/terminal/term = locate(/obj/machinery/power/terminal) in T
 		if(!term || !term.powernet)
@@ -376,7 +406,8 @@
 //siemens_coeff - layman's terms, conductivity
 //dist_check - set to only shock mobs within 1 of source (vendors, airlocks, etc.)
 //No animations will be performed by this proc.
-/proc/electrocute_mob(mob/living/carbon/victim, power_source, obj/source, siemens_coeff = 1, dist_check = FALSE)
+//proc/electrocute_mob(mob/living/carbon/victim, power_source, obj/source, siemens_coeff = 1, dist_check = FALSE) // MONKESTATION EDIT OLD
+/proc/electrocute_mob(mob/living/carbon/victim, power_source, obj/source, siemens_coeff = 1, dist_check = FALSE, always_shock = FALSE) // MONKESTATION EDIT NEW
 	if(!istype(victim) || ismecha(victim.loc))
 		return FALSE //feckin mechs are dumb
 
@@ -391,7 +422,8 @@
 	var/datum/powernet/PN = powernet_info["powernet"]
 	var/obj/item/stock_parts/cell/cell = powernet_info["cell"]
 
-	if(victim.wearing_shock_proof_gloves() && (PN && PN?.netexcess < 100 MW))
+	// MONKESTATION ADDITION -- This whole proc is basically polluted because long ago we didnt care for modularization
+	if(victim.wearing_shock_proof_gloves() && (PN && PN?.netexcess < 100 MW) && !always_shock)
 		SEND_SIGNAL(victim, COMSIG_LIVING_SHOCK_PREVENTED, power_source, source, siemens_coeff, dist_check)
 		return FALSE //to avoid spamming with insulated gloves on
 
@@ -442,11 +474,12 @@
 ///////////////////////////////////////////////
 
 // return a cable able connect to machinery on layer if there's one on the turf, null if there isn't one
-/turf/proc/get_cable_node(machinery_layer = MACHINERY_LAYER_1)
+/turf/proc/get_cable_node(cable_layer = CABLE_LAYER_1)
 	if(!can_have_cabling())
 		return null
 	for(var/obj/structure/cable/C in src)
-		if(C.machinery_layer & machinery_layer)
+		if(C.cable_layer & cable_layer)
 			C.update_appearance() // I hate this. it's here because update_icon_state SCANS nearby turfs for objects to connect to. Wastes cpu time
 			return C
 	return null
+

@@ -92,7 +92,7 @@
 		role = ROLE_TRAITOR,
 		poll_time = 10 SECONDS,
 		ignore_category = POLL_IGNORE_CONTRACTOR_SUPPORT,
-		pic_source = user,
+		alert_pic = user,
 		role_name_text = "contractor support unit",
 	)
 
@@ -124,7 +124,7 @@
 		free_location = get_turf(user)
 
 	partner.forceMove(arrival_pod)
-	partner.ckey = key
+	partner.PossessByPlayer(key)
 
 	/// We give a reference to the mind that'll be the support unit
 	partner_mind = partner.mind

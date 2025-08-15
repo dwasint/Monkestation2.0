@@ -54,10 +54,13 @@ GLOBAL_LIST_EMPTY(antagonists)
 	/// The typepath for the outfit to show in the preview for the preferences menu.
 	var/preview_outfit
 	/// Flags for antags to turn on or off and check!
-	var/antag_flags = NONE	/// If true, this antagonist can assign themself a new objective
+	var/antag_flags = FLAG_CAN_SEE_EXPOITABLE_INFO // monkestation edit: allow antags to see exploitable info.
+	/// If true, this antagonist can assign themself a new objective
 	var/can_assign_self_objectives = FALSE
 	/// Default to fill in when entering a custom objective.
 	var/default_custom_objective = "Cause chaos on the space station."
+	/// Whether we give a hardcore random bonus for greentexting as this antagonist while playing hardcore random
+	var/hardcore_random_bonus = FALSE
 
 	//ANTAG UI
 
@@ -222,11 +225,11 @@ GLOBAL_LIST_EMPTY(antagonists)
 		return
 	var/mob/living/carbon/human/human_override = mob_override
 	if(removing) // They're a clown becoming an antag, remove clumsy
-		human_override.dna.remove_mutation(/datum/mutation/human/clumsy)
+		human_override.dna.remove_mutation(/datum/mutation/clumsy, MUTATION_SOURCE_CLOWN_CLUMSINESS)
 		if(!silent && message)
 			to_chat(human_override, span_boldnotice("[message]"))
 	else
-		human_override.dna.add_mutation(/datum/mutation/human/clumsy) // We're removing their antag status, add back clumsy
+		human_override.dna.add_mutation(/datum/mutation/clumsy, MUTATION_SOURCE_CLOWN_CLUMSINESS) // We're removing their antag status, add back clumsy
 
 
 //Assign default team and creates one for one of a kind team antagonists
@@ -266,6 +269,9 @@ GLOBAL_LIST_EMPTY(antagonists)
 	if(count_against_dynamic_roll_chance && owner.current.stat != DEAD && owner.current.client)
 		owner.current.add_to_current_living_antags()
 
+	for (var/datum/atom_hud/alternate_appearance/basic/antag_hud as anything in GLOB.active_alternate_appearances)
+		antag_hud.apply_to_new_mob(owner.current)
+
 	SEND_SIGNAL(owner, COMSIG_ANTAGONIST_GAINED, src)
 
 /**
@@ -285,20 +291,15 @@ GLOBAL_LIST_EMPTY(antagonists)
 /datum/antagonist/proc/replace_banned_player()
 	set waitfor = FALSE
 
-	var/list/mob/dead/observer/candidates = SSpolling.poll_ghost_candidates_for_mob(
-		"Do you want to play as a [name]?",
-		check_jobban = job_rank || "[name]",
-		role = job_rank,
-		poll_time = 5 SECONDS,
-		target_mob = owner.current,
-		role_name_text = name
-	)
-	if(LAZYLEN(candidates))
-		var/mob/dead/observer/C = pick(candidates)
+	var/mob/chosen_one = SSpolling.poll_ghosts_for_target(check_jobban = job_rank, role = job_rank, poll_time = 5 SECONDS, checked_target = owner.current, alert_pic = owner.current, role_name_text = name)
+	if(chosen_one)
 		to_chat(owner, "Your mob has been taken over by a ghost! Appeal your job ban if you want to avoid this in the future!")
-		message_admins("[key_name_admin(C)] has taken control of ([key_name_admin(owner)]) to replace a jobbanned player.")
+		message_admins("[key_name_admin(chosen_one)] has taken control of ([key_name_admin(owner)]) to replace antagonist banned player.")
+		log_game("[key_name(chosen_one)] has taken control of ([key_name(owner)]) to replace antagonist banned player.")
 		owner.current.ghostize(FALSE)
-		owner.current.key = C.key
+		owner.current.PossessByPlayer(chosen_one.key)
+	else
+		log_game("Couldn't find antagonist ban replacement for ([key_name(owner)]).")
 
 /**
  * Called by the remove_antag_datum() and remove_all_antag_datums() mind procs for the antag datum to handle its own removal and deletion.
@@ -312,23 +313,19 @@ GLOBAL_LIST_EMPTY(antagonists)
 	clear_antag_moodies()
 	LAZYREMOVE(owner.antag_datums, src)
 	if(!LAZYLEN(owner.antag_datums))
-		owner.current.remove_from_current_living_antags()
+		owner.current?.remove_from_current_living_antags()
 	if(info_button_ref)
 		QDEL_NULL(info_button_ref)
 	if(!silent && owner.current)
 		farewell()
 	UnregisterSignal(owner, COMSIG_PRE_MINDSHIELD_IMPLANT)
 	UnregisterSignal(owner, COMSIG_MINDSHIELD_IMPLANTED)
-	var/datum/team/team = get_team()
-	if(team)
-		team.remove_member(owner)
+	get_team()?.remove_member(owner)
 	SEND_SIGNAL(owner, COMSIG_ANTAGONIST_REMOVED, src)
 
 	// Remove HUDs that they should no longer see
-	var/mob/living/current = owner.current
-	for (var/datum/atom_hud/alternate_appearance/basic/has_antagonist/antag_hud as anything in GLOB.has_antagonist_huds)
-		if (!antag_hud.mobShouldSee(current))
-			antag_hud.hide_from(current)
+	if(owner.current)
+		SEND_SIGNAL(owner.current, COMSIG_MOB_ANTAGONIST_REMOVED, src)
 
 	qdel(src)
 
@@ -367,7 +364,8 @@ GLOBAL_LIST_EMPTY(antagonists)
 /**
  * Proc that will return the team this antagonist belongs to, when called. Helpful with antagonists that may belong to multiple potential teams in a single round.
  */
-/datum/antagonist/proc/get_team()
+/datum/antagonist/proc/get_team() as /datum/team
+	RETURN_TYPE(/datum/team) // it's right there, dreamchecker, come on
 	return
 
 /**
@@ -452,13 +450,18 @@ GLOBAL_LIST_EMPTY(antagonists)
 /datum/antagonist/proc/get_admin_commands()
 	. = list()
 
+GLOBAL_LIST_EMPTY(cached_antag_previews)
+
 /// Creates an icon from the preview outfit.
 /// Custom implementors of `get_preview_icon` should use this, as the
 /// result of `get_preview_icon` is expected to be the completed version.
 /datum/antagonist/proc/render_preview_outfit(datum/outfit/outfit, mob/living/carbon/human/dummy)
-	dummy = dummy || new /mob/living/carbon/human/dummy/consistent
+	if(!isnull(GLOB.cached_antag_previews[outfit]))
+		return icon(GLOB.cached_antag_previews[outfit])
+	dummy ||= new /mob/living/carbon/human/dummy/consistent
 	dummy.equipOutfit(outfit, visualsOnly = TRUE)
 	var/icon = getFlatIcon(dummy)
+	GLOB.cached_antag_previews[outfit] = icon(icon)
 
 	// We don't want to qdel the dummy right away, since its items haven't initialized yet.
 	SSatoms.prepare_deletion(dummy)
@@ -516,8 +519,7 @@ GLOBAL_LIST_EMPTY(antagonists)
 
 	// Add HUDs that they couldn't see before
 	for (var/datum/atom_hud/alternate_appearance/basic/has_antagonist/antag_hud as anything in GLOB.has_antagonist_huds)
-		if (antag_hud.mobShouldSee(owner.current))
-			antag_hud.show_to(owner.current)
+		antag_hud.apply_to_new_mob(owner.current)
 
 /// Takes a location, returns an image drawing "on" it that matches this antag datum's hud icon
 /datum/antagonist/proc/hud_image_on(mob/hud_loc)
@@ -525,20 +527,23 @@ GLOBAL_LIST_EMPTY(antagonists)
 	SET_PLANE_EXPLICIT(hud, ABOVE_GAME_PLANE, hud_loc)
 	return hud
 
-///generic helper to send objectives as data through tgui.
-/datum/antagonist/proc/get_objectives()
+/// Generic helper to send objectives as data through tgui.
+///
+/// If the `full_checks` argument is true,
+/// then it will use the objective's `check_completion` proc instead of the `completed` var
+/// to check to see if the objective is complete.
+/datum/antagonist/proc/get_objectives(full_checks = FALSE)
+	. = list()
 	var/objective_count = 1
-	var/list/objective_data = list()
 	//all obj
 	for(var/datum/objective/objective in objectives)
-		objective_data += list(list(
+		. += list(list(
 			"count" = objective_count,
 			"name" = objective.objective_name,
 			"explanation" = objective.explanation_text,
-			"complete" = objective.completed,
+			"complete" = full_checks ? objective.check_completion() : objective.completed,
 		))
 		objective_count++
-	return objective_data
 
 /// Used to create objectives for the antagonist.
 /datum/antagonist/proc/forge_objectives()

@@ -6,7 +6,7 @@
 	inhand_icon_state = "srnlauncher"
 	lefthand_file = 'monkestation/icons/mob/inhands/weapons/guns_lefthand.dmi'
 	righthand_file = 'monkestation/icons/mob/inhands/weapons/guns_righthand.dmi'
-	mag_type = /obj/item/ammo_box/magazine/internal/SRN_rocket
+	accepted_magazine_type = /obj/item/ammo_box/magazine/internal/SRN_rocket
 	fire_sound = 'sound/weapons/gun/general/rocket_launch.ogg'
 	bolt_type = BOLT_TYPE_NO_BOLT
 	fire_sound_volume = 80
@@ -154,6 +154,8 @@
 		M.ghostize(FALSE)
 	else if(istype(AM, /obj/singularity))
 		investigate_log("([key_name(A)]) has been consumed by the Spatial rift at [AREACOORD(T)].", INVESTIGATE_ENGINE)
+		return
+	else if(!isobj(AM) || istype(AM, /obj/effect/abstract))
 		return
 	AM.forceMove(src)
 

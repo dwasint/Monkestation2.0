@@ -32,6 +32,8 @@
 #define COMSIG_MACHINERY_STOP_PROCESSING_AIR "stop_processing_air"
 ///from /obj/machinery/RefreshParts: ()
 #define COMSIG_MACHINERY_REFRESH_PARTS "machine_refresh_parts"
+///from /obj/machinery/default_change_direction_wrench: (mob/user, obj/item/wrench)
+#define COMSIG_MACHINERY_DEFAULT_ROTATE_WRENCH "machinery_default_rotate_wrench"
 
 ///from /obj/machinery/can_interact(mob/user): Called on user when attempting to interact with a machine (obj/machinery/machine)
 #define COMSIG_TRY_USE_MACHINE "try_use_machine"
@@ -133,6 +135,8 @@
 #define COMSIG_ITEM_EQUIPPED_AS_OUTFIT "item_equip_as_outfit"
 ///from base of datum/storage/attempt_insert(): ()
 #define COMSIG_ITEM_STORED "item_stored"
+///from base of datum/storage/handle_exit(): (datum/storage/storage)
+#define COMSIG_ITEM_UNSTORED "item_unstored"
 
 ///from base of obj/item/apply_fantasy_bonuses(): (bonus)
 #define COMSIG_ITEM_APPLY_FANTASY_BONUSES "item_apply_fantasy_bonuses"
@@ -143,6 +147,10 @@
 #define COMSIG_ITEM_UI_ACTION_CLICK "item_action_click"
 	/// Return to prevent the default behavior (attack_selfing) from ocurring.
 	#define COMPONENT_ACTION_HANDLED (1<<0)
+
+#define COMSIG_ITEM_UI_ACTION_SLOT_CHECKED "item_action_slot_checked"
+	/// Return to prevent the default behavior (attack_selfing) from occurring.
+	#define COMPONENT_ITEM_ACTION_SLOT_INVALID (1<<0)
 
 ///from base of mob/living/carbon/attacked_by(): (mob/living/carbon/target, mob/living/user, hit_zone)
 #define COMSIG_ITEM_ATTACK_ZONE "item_attack_zone"
@@ -292,6 +300,8 @@
 #define COMSIG_RADIO_NEW_FREQUENCY "radio_new_frequency"
 ///called from base of /obj/item/radio/proc/talk_into(): (atom/movable/M, message, channel)
 #define COMSIG_RADIO_NEW_MESSAGE "radio_new_message"
+///called from base of /obj/item/radio/proc/on_receive_messgae(): (list/data)
+#define COMSIG_RADIO_RECEIVE_MESSAGE "radio_receive_message"
 
 // /obj/item/pen signals
 
@@ -311,6 +321,12 @@
 #define COMSIG_GUN_CHAMBER_PROCESSED "gun_chamber_processed"
 ///called in /obj/item/gun/ballistic/process_chamber (casing)
 #define COMSIG_CASING_EJECTED "casing_ejected"
+///sent to targets during the process_hit proc of projectiles
+#define COMSIG_FIRE_CASING "fire_casing"
+///from the base of /obj/item/ammo_casing/ready_proj() : (atom/target, mob/living/user, quiet, zone_override, atom/fired_from)
+#define COMSIG_CASING_READY_PROJECTILE "casing_ready_projectile"
+///sent to the projectile after an item is spawned by the projectile_drop element: (new_item)
+#define COMSIG_PROJECTILE_ON_SPAWN_DROP "projectile_on_spawn_drop"
 
 // Jetpack things
 // Please kill me
@@ -321,10 +337,10 @@
 //called in /obj/item/tank/jetpack/proc/turn_off() : ()
 #define COMSIG_JETPACK_DEACTIVATED "jetpack_deactivated"
 
-//called in /obj/item/organ/cyberimp/chest/thrusters/proc/toggle() : ()
+//called in /obj/item/organ/internal/cyberimp/chest/thrusters/proc/toggle() : ()
 #define COMSIG_THRUSTER_ACTIVATED "jetmodule_activated"
 	#define THRUSTER_ACTIVATION_FAILED (1<<0)
-//called in /obj/item/organ/cyberimp/chest/thrusters/proc/toggle() : ()
+//called in /obj/item/organ/internal/cyberimp/chest/thrusters/proc/toggle() : ()
 #define COMSIG_THRUSTER_DEACTIVATED "jetmodule_deactivated"
 
 // /obj/item/camera signals
@@ -343,9 +359,9 @@
 
 // /obj/projectile signals (sent to the firer)
 
-///from base of /obj/projectile/proc/on_hit(), like COMSIG_PROJECTILE_ON_HIT but on the projectile itself and with the hit limb (if any): (atom/movable/firer, atom/target, Angle, hit_limb)
+///from base of /obj/projectile/proc/on_hit(), like COMSIG_PROJECTILE_ON_HIT but on the projectile itself and with the hit limb (if any): (atom/movable/firer, atom/target, angle, hit_limb)
 #define COMSIG_PROJECTILE_SELF_ON_HIT "projectile_self_on_hit"
-///from base of /obj/projectile/proc/on_hit(): (atom/movable/firer, atom/target, Angle)
+///from base of /obj/projectile/proc/on_hit(): (atom/movable/firer, atom/target, angle, hit_limb)
 #define COMSIG_PROJECTILE_ON_HIT "projectile_on_hit"
 ///from base of /obj/projectile/proc/fire(): (obj/projectile, atom/original_target)
 #define COMSIG_PROJECTILE_BEFORE_FIRE "projectile_before_fire"
@@ -446,3 +462,27 @@
 #define COMSIG_ORM_COLLECTED_ORE "orm_collected_ore"
 
 #define COMSIG_RADIATION_RECIEVED "radiation_recieved"
+/// from /obj/plunger_act when an object is being plungered
+#define COMSIG_PLUNGER_ACT "plunger_act"
+
+/// from /obj/structure/cursed_slot_machine/handle_status_effect() when someone pulls the handle on the slot machine
+#define COMSIG_CURSED_SLOT_MACHINE_USE "cursed_slot_machine_use"
+	#define SLOT_MACHINE_USE_CANCEL (1<<0) //! we've used up the number of times we may use this slot machine. womp womp.
+	#define SLOT_MACHINE_USE_POSTPONE (1<<1) //! we haven't used up all our attempts to gamble away our life but we should chill for a few seconds
+
+/// from /obj/structure/cursed_slot_machine/determine_victor() when someone loses.
+#define COMSIG_CURSED_SLOT_MACHINE_LOST "cursed_slot_machine_lost"
+
+/// from /obj/structure/cursed_slot_machine/determine_victor() when someone finally wins.
+#define COMSIG_GLOB_CURSED_SLOT_MACHINE_WON "cursed_slot_machine_won"
+
+/// Sent from /obj/item/update_weight_class(). (old_w_class, new_w_class)
+#define COMSIG_ITEM_WEIGHT_CLASS_CHANGED "item_weight_class_changed"
+/// Sent from /obj/item/update_weight_class(), to its loc. (obj/item/changed_item, old_w_class, new_w_class)
+#define COMSIG_ATOM_CONTENTS_WEIGHT_CLASS_CHANGED "atom_contents_weight_class_changed"
+
+///Sent from /obj/item/skillchip/on_implant()
+#define COMSIG_SKILLCHIP_IMPLANTED "skillchip_implanted"
+
+///Sent from /obj/item/skillchip/on_remove()
+#define COMSIG_SKILLCHIP_REMOVED "skillchip_removed"

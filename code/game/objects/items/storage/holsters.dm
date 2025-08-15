@@ -26,6 +26,7 @@
 		/obj/item/gun/ballistic/revolver,
 		/obj/item/gun/energy/e_gun/mini,
 		/obj/item/gun/energy/disabler,
+		/obj/item/gun/energy/taser,
 		/obj/item/gun/energy/dueling,
 		/obj/item/food/grown/banana,
 		/obj/item/gun/energy/laser/thermal,
@@ -45,6 +46,7 @@
 	atom_storage.set_holdable(list(
 		/obj/item/gun/energy/e_gun/mini,
 		/obj/item/gun/energy/disabler,
+		/obj/item/gun/energy/taser,
 		/obj/item/gun/energy/dueling,
 		/obj/item/food/grown/banana,
 		/obj/item/gun/energy/laser/thermal,
@@ -92,16 +94,23 @@
 		/obj/item/gun/ballistic/automatic/pistol,
 		/obj/item/ammo_box/magazine/m9mm, // Pistol magazines.
 		/obj/item/ammo_box/magazine/m9mm_aps,
+		/obj/item/ammo_box/magazine/r10mm,
 		/obj/item/ammo_box/magazine/m10mm,
+		/obj/item/ammo_box/magazine/m35,
 		/obj/item/ammo_box/magazine/m45,
 		/obj/item/ammo_box/magazine/m50,
+		/obj/item/ammo_box/magazine/c35sol_pistol,
+		/obj/item/ammo_box/magazine/c585trappiste_pistol,
+		/obj/item/ammo_box/magazine/whispering_jester_45_magazine,
 		/obj/item/gun/ballistic/revolver,
+		/obj/item/gun/ballistic/modular/mk_58,
 		/obj/item/ammo_box/c38, // Revolver speedloaders.
 		/obj/item/ammo_box/a357,
 		/obj/item/ammo_box/a762,
 		/obj/item/ammo_box/magazine/toy/pistol,
 		/obj/item/gun/energy/e_gun/mini,
 		/obj/item/gun/energy/disabler,
+		/obj/item/gun/energy/taser,
 		/obj/item/gun/energy/dueling,
 		/obj/item/gun/energy/laser/thermal,
 		/obj/item/gun/energy/laser/captain,
@@ -112,6 +121,12 @@
 /obj/item/storage/belt/holster/detective/full/PopulateContents()
 	generate_items_inside(list(
 		/obj/item/gun/ballistic/revolver/c38/detective = 1,
+		/obj/item/ammo_box/c38 = 2,
+	), src)
+
+/obj/item/storage/belt/holster/detective/bis/full/PopulateContents()
+	generate_items_inside(list(
+		/obj/item/gun/ballistic/revolver/c38 = 1,
 		/obj/item/ammo_box/c38 = 2,
 	), src)
 
@@ -179,6 +194,7 @@
 		/obj/item/gun/energy/recharge/ebow,
 		/obj/item/gun/energy/e_gun/mini,
 		/obj/item/gun/energy/disabler,
+		/obj/item/gun/energy/taser,
 		/obj/item/gun/energy/dueling,
 		/obj/item/gun/energy/laser/captain,
 		/obj/item/gun/energy/e_gun/hos,
@@ -225,3 +241,18 @@
 		/obj/item/ammo_casing, // For shotgun shells, rockets, launcher grenades, and a few other things.
 		/obj/item/grenade, // All regular grenades, the big grenade launcher fires these.
 		))
+
+
+/obj/item/storage/belt/holster/nukie/cowboy
+	desc = "A deep shoulder holster capable of holding almost any form of small firearm and its ammo. This one's specialized for handguns."
+
+/obj/item/storage/belt/holster/nukie/cowboy/Initialize(mapload)
+	. = ..()
+	atom_storage.max_slots = 3
+	atom_storage.max_specific_storage = WEIGHT_CLASS_NORMAL
+
+/obj/item/storage/belt/holster/nukie/cowboy/full/PopulateContents()
+	generate_items_inside(list(
+		/obj/item/gun/ballistic/revolver/syndicate/cowboy = 1,
+		/obj/item/ammo_box/a357 = 2,
+	), src)

@@ -135,15 +135,15 @@
 	departmental_flags = DEPARTMENT_BITFLAG_ENGINEERING | DEPARTMENT_BITFLAG_SCIENCE
 
 /datum/design/board/botpad
-	name = "Machine Design (Bot launchpad)"
+	name = "Bot launchpad" // Monkesation edit:
 	desc = "The circuit board for a bot launchpad."
 	id = "botpad"
 	build_type = IMPRINTER
 	build_path = /obj/item/circuitboard/machine/botpad
 	category = list(
-		RND_CATEGORY_MACHINE + RND_SUBCATEGORY_MACHINE_RESEARCH
+		RND_CATEGORY_MACHINE + RND_SUBCATEGORY_MACHINE_CARGO
 	)
-	departmental_flags = DEPARTMENT_BITFLAG_SCIENCE
+	departmental_flags = DEPARTMENT_BITFLAG_SCIENCE | DEPARTMENT_BITFLAG_ENGINEERING //Monkestation edit: Engi circuit
 
 /datum/design/board/launchpad
 	name = "Bluespace Launchpad Board"
@@ -228,6 +228,16 @@
 	)
 	departmental_flags = DEPARTMENT_BITFLAG_ENGINEERING | DEPARTMENT_BITFLAG_SCIENCE
 
+/datum/design/board/sleeper
+	name = "Sleeper Board"
+	desc = "The circuit board for a sleeper."
+	id = "sleeper"
+	build_path = /obj/item/circuitboard/machine/sleeper
+	category = list(
+		RND_CATEGORY_MACHINE + RND_SUBCATEGORY_MACHINE_MEDICAL
+	)
+	departmental_flags = DEPARTMENT_BITFLAG_ENGINEERING | DEPARTMENT_BITFLAG_MEDICAL
+
 /datum/design/board/cryotube
 	name = "Cryotube Board"
 	desc = "The circuit board for a cryotube."
@@ -286,7 +296,7 @@
 	category = list(
 		RND_CATEGORY_MACHINE + RND_SUBCATEGORY_MACHINE_CHEMISTRY
 	)
-	departmental_flags = DEPARTMENT_BITFLAG_MEDICAL
+	departmental_flags = DEPARTMENT_BITFLAG_MEDICAL | DEPARTMENT_BITFLAG_ENGINEERING //Monkestation edit: Engi circuit
 
 /datum/design/board/reagentgrinder
 	name = "All-In-One Grinder Board"
@@ -296,7 +306,7 @@
 	category = list(
 		RND_CATEGORY_MACHINE + RND_SUBCATEGORY_MACHINE_CHEMISTRY
 	)
-	departmental_flags = DEPARTMENT_BITFLAG_MEDICAL | DEPARTMENT_BITFLAG_SERVICE
+	departmental_flags = DEPARTMENT_BITFLAG_MEDICAL | DEPARTMENT_BITFLAG_SERVICE | DEPARTMENT_BITFLAG_ENGINEERING //Monkestation edit: Engi circuit
 
 /datum/design/board/hypnochair
 	name = "Enhanced Interrogation Chamber Board"
@@ -308,6 +318,26 @@
 	)
 	departmental_flags = DEPARTMENT_BITFLAG_SECURITY
 
+/datum/design/board/photobooth
+	name = "Photobooth Board"
+	desc = "The circuit board for a photobooth."
+	id = "photobooth"
+	build_path = /obj/item/circuitboard/machine/photobooth
+	category = list(
+		RND_CATEGORY_MACHINE + RND_SUBCATEGORY_MACHINE_SERVICE
+	)
+	departmental_flags = DEPARTMENT_BITFLAG_SERVICE | DEPARTMENT_BITFLAG_ENGINEERING //Monkestation edit: Engi circuit
+
+/datum/design/board/security_photobooth
+	name = "Security Photobooth Board"
+	desc = "The circuit board for a security photobooth."
+	id = "security_photobooth"
+	build_path = /obj/item/circuitboard/machine/photobooth/security
+	category = list(
+		RND_CATEGORY_MACHINE + RND_SUBCATEGORY_MACHINE_SECURITY
+	)
+	departmental_flags = DEPARTMENT_BITFLAG_SECURITY | DEPARTMENT_BITFLAG_ENGINEERING //Monkestation edit: Engi circuit
+
 /datum/design/board/biogenerator
 	name = "Biogenerator Board"
 	desc = "The circuit board for a biogenerator."
@@ -316,7 +346,7 @@
 	category = list(
 		RND_CATEGORY_MACHINE + RND_SUBCATEGORY_MACHINE_BOTANY
 	)
-	departmental_flags = DEPARTMENT_BITFLAG_SERVICE
+	departmental_flags = DEPARTMENT_BITFLAG_SERVICE | DEPARTMENT_BITFLAG_ENGINEERING //Monkestation edit: Engi circuit
 
 /datum/design/board/hydroponics
 	name = "Hydroponics Tray Board"
@@ -326,7 +356,7 @@
 	category = list(
 		RND_CATEGORY_MACHINE + RND_SUBCATEGORY_MACHINE_BOTANY
 	)
-	departmental_flags = DEPARTMENT_BITFLAG_SERVICE
+	departmental_flags = DEPARTMENT_BITFLAG_SERVICE | DEPARTMENT_BITFLAG_ENGINEERING //Monkestation edit: Engi circuit
 
 /datum/design/board/destructive_analyzer
 	name = "Destructive Analyzer Board"
@@ -336,7 +366,7 @@
 	category = list(
 		RND_CATEGORY_MACHINE + RND_SUBCATEGORY_MACHINE_RESEARCH
 	)
-	departmental_flags = DEPARTMENT_BITFLAG_SCIENCE
+	departmental_flags = DEPARTMENT_BITFLAG_SCIENCE | DEPARTMENT_BITFLAG_ENGINEERING //Monkestation edit: Engi circuit
 
 /datum/design/board/protolathe
 	name = "Protolathe Board"
@@ -347,7 +377,7 @@
 	category = list(
 		RND_CATEGORY_MACHINE + RND_SUBCATEGORY_MACHINE_FAB
 	)
-	departmental_flags = DEPARTMENT_BITFLAG_SCIENCE
+	departmental_flags = DEPARTMENT_BITFLAG_SCIENCE | DEPARTMENT_BITFLAG_ENGINEERING //Monkestation edit: Engi circuit
 
 /datum/design/board/protolathe/offstation
 	name = "Ancient Protolathe Board"
@@ -358,7 +388,7 @@
 	category = list(
 		RND_CATEGORY_MACHINE + RND_SUBCATEGORY_MACHINE_FAB
 	)
-	departmental_flags = DEPARTMENT_BITFLAG_SCIENCE
+	departmental_flags = DEPARTMENT_BITFLAG_SCIENCE | DEPARTMENT_BITFLAG_ENGINEERING //Monkestation edit: Engi circuit
 
 /datum/design/board/circuit_imprinter
 	name = "Circuit Imprinter Board"
@@ -369,7 +399,7 @@
 	category = list(
 		RND_CATEGORY_MACHINE + RND_SUBCATEGORY_MACHINE_FAB
 	)
-	departmental_flags = DEPARTMENT_BITFLAG_SCIENCE
+	departmental_flags = DEPARTMENT_BITFLAG_SCIENCE | DEPARTMENT_BITFLAG_ENGINEERING
 
 /datum/design/board/circuit_imprinter/offstation
 	name = "Ancient Circuit Imprinter Board"
@@ -380,7 +410,7 @@
 	category = list(
 		RND_CATEGORY_MACHINE + RND_SUBCATEGORY_MACHINE_FAB
 	)
-	departmental_flags = DEPARTMENT_BITFLAG_SCIENCE
+	departmental_flags = DEPARTMENT_BITFLAG_SCIENCE | DEPARTMENT_BITFLAG_ENGINEERING //Monkestation edit: Engi circuit
 
 /datum/design/board/rdservercontrol
 	name = "R&D Server Control Console Board"
@@ -390,7 +420,7 @@
 	category = list(
 		RND_CATEGORY_MACHINE + RND_SUBCATEGORY_MACHINE_RESEARCH
 	)
-	departmental_flags = DEPARTMENT_BITFLAG_SCIENCE
+	departmental_flags = DEPARTMENT_BITFLAG_SCIENCE | DEPARTMENT_BITFLAG_ENGINEERING //Monkestation edit: Engi circuit
 
 /datum/design/board/rdserver
 	name = "R&D Server Board"
@@ -400,7 +430,7 @@
 	category = list(
 		RND_CATEGORY_MACHINE + RND_SUBCATEGORY_MACHINE_RESEARCH
 	)
-	departmental_flags = DEPARTMENT_BITFLAG_SCIENCE
+	departmental_flags = DEPARTMENT_BITFLAG_SCIENCE | DEPARTMENT_BITFLAG_ENGINEERING //Monkestation edit: Engi circuit
 
 /datum/design/board/mechfab
 	name = "Exosuit Fabricator Board"
@@ -410,7 +440,7 @@
 	category = list(
 		RND_CATEGORY_MACHINE + RND_SUBCATEGORY_MACHINE_ROBOTICS
 	)
-	departmental_flags = DEPARTMENT_BITFLAG_SCIENCE
+	departmental_flags = DEPARTMENT_BITFLAG_SCIENCE | DEPARTMENT_BITFLAG_ENGINEERING //Monkestation edit: Engi circuit
 
 /datum/design/board/cyborgrecharger
 	name = "Cyborg Recharger Board"
@@ -420,7 +450,7 @@
 	category = list(
 		RND_CATEGORY_MACHINE + RND_SUBCATEGORY_MACHINE_ROBOTICS
 	)
-	departmental_flags = DEPARTMENT_BITFLAG_SCIENCE
+	departmental_flags = DEPARTMENT_BITFLAG_SCIENCE | DEPARTMENT_BITFLAG_ENGINEERING //Monkestation edit: Engi circuit
 
 /datum/design/board/mech_recharger
 	name = "Mechbay Recharger Board"
@@ -430,7 +460,7 @@
 	category = list(
 		RND_CATEGORY_MACHINE + RND_SUBCATEGORY_MACHINE_ROBOTICS
 	)
-	departmental_flags = DEPARTMENT_BITFLAG_SCIENCE
+	departmental_flags = DEPARTMENT_BITFLAG_SCIENCE | DEPARTMENT_BITFLAG_ENGINEERING //Monkestation edit: Engi circuit
 
 /datum/design/board/dnascanner
 	name = "DNA Scanner Board"
@@ -440,17 +470,27 @@
 	category = list(
 		RND_CATEGORY_MACHINE + RND_SUBCATEGORY_MACHINE_GENETICS
 	)
-	departmental_flags = DEPARTMENT_BITFLAG_SCIENCE
+	departmental_flags = DEPARTMENT_BITFLAG_SCIENCE | DEPARTMENT_BITFLAG_ENGINEERING //Monkestation edit: Engi circuit
+
+/datum/design/board/dnainfuser
+	name = "DNA Infuser Board"
+	desc = "The circuit board for a DNA Infuser."
+	id = "dnainfuser"
+	build_path = /obj/item/circuitboard/machine/dna_infuser
+	category = list(
+		RND_CATEGORY_MACHINE + RND_SUBCATEGORY_MACHINE_GENETICS
+	)
+	departmental_flags = DEPARTMENT_BITFLAG_SCIENCE | DEPARTMENT_BITFLAG_ENGINEERING //Monkestation edit: Engi circuit
 
 /datum/design/board/scan_console
 	name = "DNA Console Board"
 	desc = "Allows for the construction of circuit boards used to build a new DNA console."
 	id = "scan_console"
-	build_path = /obj/item/circuitboard/computer/scan_consolenew
+	build_path = /obj/item/circuitboard/computer/dna_console
 	category = list(
-		RND_CATEGORY_MACHINE + RND_SUBCATEGORY_MACHINE_GENETICS
+		RND_CATEGORY_COMPUTER + RND_SUBCATEGORY_COMPUTER_GENETICS // Monkestation edit:
 	)
-	departmental_flags = DEPARTMENT_BITFLAG_SCIENCE
+	departmental_flags = DEPARTMENT_BITFLAG_SCIENCE | DEPARTMENT_BITFLAG_ENGINEERING //Monkestation edit: Engi circuit
 
 /datum/design/board/destructive_scanner
 	name = "Destructive Scanner Board"
@@ -460,7 +500,7 @@
 	category = list(
 		RND_CATEGORY_MACHINE + RND_SUBCATEGORY_MACHINE_RESEARCH
 	)
-	departmental_flags = DEPARTMENT_BITFLAG_SCIENCE
+	departmental_flags = DEPARTMENT_BITFLAG_SCIENCE | DEPARTMENT_BITFLAG_ENGINEERING //Monkestation edit: Engi circuit
 
 /datum/design/board/doppler_array
 	name = "Tachyon-Doppler Research Array Board"
@@ -470,7 +510,7 @@
 	category = list(
 		RND_CATEGORY_MACHINE + RND_SUBCATEGORY_MACHINE_RESEARCH
 	)
-	departmental_flags = DEPARTMENT_BITFLAG_SCIENCE
+	departmental_flags = DEPARTMENT_BITFLAG_SCIENCE | DEPARTMENT_BITFLAG_ENGINEERING //Monkestation edit: Engi circuit
 
 /datum/design/board/anomaly_refinery
 	name = "Anomaly Refinery Board"
@@ -480,7 +520,7 @@
 	category = list(
 		RND_CATEGORY_MACHINE + RND_SUBCATEGORY_MACHINE_RESEARCH
 	)
-	departmental_flags = DEPARTMENT_BITFLAG_SCIENCE
+	departmental_flags = DEPARTMENT_BITFLAG_SCIENCE | DEPARTMENT_BITFLAG_ENGINEERING //Monkestation edit: Engi circuit
 
 /datum/design/board/tank_compressor
 	name = "Tank Compressor Board"
@@ -490,7 +530,7 @@
 	category = list(
 		RND_CATEGORY_MACHINE + RND_SUBCATEGORY_MACHINE_RESEARCH
 	)
-	departmental_flags = DEPARTMENT_BITFLAG_SCIENCE
+	departmental_flags = DEPARTMENT_BITFLAG_SCIENCE | DEPARTMENT_BITFLAG_ENGINEERING //Monkestation edit: Engi circuit
 
 /datum/design/board/microwave
 	name = "Microwave Board"
@@ -500,7 +540,7 @@
 	category = list(
 		RND_CATEGORY_MACHINE + RND_SUBCATEGORY_MACHINE_KITCHEN
 	)
-	departmental_flags = DEPARTMENT_BITFLAG_SERVICE
+	departmental_flags = DEPARTMENT_BITFLAG_SERVICE | DEPARTMENT_BITFLAG_ENGINEERING //Monkestation edit: Engi circuit
 
 /datum/design/board/gibber
 	name = "Gibber Board"
@@ -510,7 +550,7 @@
 	category = list(
 		RND_CATEGORY_MACHINE + RND_SUBCATEGORY_MACHINE_KITCHEN
 	)
-	departmental_flags = DEPARTMENT_BITFLAG_SERVICE
+	departmental_flags = DEPARTMENT_BITFLAG_SERVICE | DEPARTMENT_BITFLAG_ENGINEERING //Monkestation edit: Engi circuit
 
 /datum/design/board/smartfridge
 	name = "Smartfridge Board"
@@ -520,7 +560,7 @@
 	category = list(
 		RND_CATEGORY_MACHINE + RND_SUBCATEGORY_MACHINE_KITCHEN
 	)
-	departmental_flags = DEPARTMENT_BITFLAG_SERVICE | DEPARTMENT_BITFLAG_MEDICAL | DEPARTMENT_BITFLAG_SCIENCE
+	departmental_flags = DEPARTMENT_BITFLAG_SERVICE | DEPARTMENT_BITFLAG_MEDICAL | DEPARTMENT_BITFLAG_SCIENCE | DEPARTMENT_BITFLAG_ENGINEERING //Monkestation edit: Engi circuit
 
 /datum/design/board/seed_extractor
 	name = "Seed Extractor Board"
@@ -530,7 +570,7 @@
 	category = list(
 		RND_CATEGORY_MACHINE + RND_SUBCATEGORY_MACHINE_BOTANY
 	)
-	departmental_flags = DEPARTMENT_BITFLAG_SERVICE
+	departmental_flags = DEPARTMENT_BITFLAG_SERVICE | DEPARTMENT_BITFLAG_ENGINEERING //Monkestation edit: Engi circuit
 
 /datum/design/board/processor
 	name = "Food/Slime Processor Board"
@@ -540,7 +580,7 @@
 	category = list(
 		RND_CATEGORY_MACHINE + RND_SUBCATEGORY_MACHINE_KITCHEN
 	)
-	departmental_flags = DEPARTMENT_BITFLAG_SCIENCE | DEPARTMENT_BITFLAG_SERVICE
+	departmental_flags = DEPARTMENT_BITFLAG_SCIENCE | DEPARTMENT_BITFLAG_SERVICE | DEPARTMENT_BITFLAG_ENGINEERING //Monkestation edit: Engi circuit
 
 /datum/design/board/soda_dispenser
 	name = "Portable Soda Dispenser Board"
@@ -550,7 +590,7 @@
 	category = list(
 		RND_CATEGORY_MACHINE + RND_SUBCATEGORY_MACHINE_BAR
 	)
-	departmental_flags = DEPARTMENT_BITFLAG_SERVICE
+	departmental_flags = DEPARTMENT_BITFLAG_SERVICE | DEPARTMENT_BITFLAG_ENGINEERING //Monkestation edit: Engi circuit
 
 /datum/design/board/beer_dispenser
 	name = "Portable Booze Dispenser Board"
@@ -560,13 +600,23 @@
 	category = list(
 		RND_CATEGORY_MACHINE + RND_SUBCATEGORY_MACHINE_BAR
 	)
-	departmental_flags = DEPARTMENT_BITFLAG_SERVICE
+	departmental_flags = DEPARTMENT_BITFLAG_SERVICE | DEPARTMENT_BITFLAG_ENGINEERING //Monkestation edit: Engi circuit
 
 /datum/design/board/recycler
 	name = "Recycler Board"
 	desc = "The circuit board for a recycler."
 	id = "recycler"
 	build_path = /obj/item/circuitboard/machine/recycler
+	category = list(
+		RND_CATEGORY_MACHINE + RND_SUBCATEGORY_MACHINE_ENGINEERING
+	)
+	departmental_flags = DEPARTMENT_BITFLAG_ENGINEERING
+
+/datum/design/board/shipbreaker
+	name = "Shipbreaking Recycler Board"
+	desc = "The circuit board for a shipbreaking recycler."
+	id = "shipbreaker_recycler"
+	build_path = /obj/item/circuitboard/machine/shipbreaker
 	category = list(
 		RND_CATEGORY_MACHINE + RND_SUBCATEGORY_MACHINE_ENGINEERING
 	)
@@ -621,7 +671,7 @@
 	category = list(
 		RND_CATEGORY_MACHINE + RND_SUBCATEGORY_MACHINE_SERVICE
 	)
-	departmental_flags = DEPARTMENT_BITFLAG_SERVICE | DEPARTMENT_BITFLAG_CARGO
+	departmental_flags = DEPARTMENT_BITFLAG_SERVICE | DEPARTMENT_BITFLAG_CARGO | DEPARTMENT_BITFLAG_ENGINEERING //Monkestation edit: Engi circuit
 
 /datum/design/board/ore_redemption
 	name = "Ore Redemption Machine Board"
@@ -641,7 +691,7 @@
 	category = list(
 		RND_CATEGORY_MACHINE + RND_SUBCATEGORY_MACHINE_CARGO
 	)
-	departmental_flags = DEPARTMENT_BITFLAG_CARGO
+	departmental_flags = DEPARTMENT_BITFLAG_CARGO | DEPARTMENT_BITFLAG_ENGINEERING //Monkestation edit: Engi circuit
 
 /datum/design/board/suit_storage_unit
 	name = "Suit Storage Unit"
@@ -674,7 +724,7 @@
 	departmental_flags = DEPARTMENT_BITFLAG_ENGINEERING | DEPARTMENT_BITFLAG_SCIENCE
 
 /datum/design/board/rad_collector
-	name = "Machine Design (Radiation Collector Board)"
+	name = "Radiation Collector Board" // Monkestation edit:
 	desc = "The circuit board for a radiation collector array."
 	id = "rad_collector"
 	build_path = /obj/item/circuitboard/machine/rad_collector
@@ -684,12 +734,12 @@
 	departmental_flags = DEPARTMENT_BITFLAG_ENGINEERING | DEPARTMENT_BITFLAG_SCIENCE
 
 /datum/design/board/plantgenes
-	name = "Machine Design (Plant DNA Manipulator Board)"
+	name = "Plant DNA Manipulator Board" // Monkestation edit:
 	desc = "The circuit board for a plant DNA manipulator."
 	id = "plantgenes"
 	build_path = /obj/item/circuitboard/machine/plantgenes
 	category = list (RND_CATEGORY_MACHINE + RND_SUBCATEGORY_MACHINE_BOTANY)
-	departmental_flags = DEPARTMENT_BITFLAG_SERVICE
+	departmental_flags = DEPARTMENT_BITFLAG_SERVICE | DEPARTMENT_BITFLAG_ENGINEERING //Monkestation edit: Engi circuit
 
 /datum/design/board/ntnet_relay
 	name = "NTNet Relay Board"
@@ -710,7 +760,7 @@
 	category = list(
 		RND_CATEGORY_MACHINE + RND_SUBCATEGORY_MACHINE_MEDICAL
 	)
-	departmental_flags = DEPARTMENT_BITFLAG_MEDICAL
+	departmental_flags = DEPARTMENT_BITFLAG_MEDICAL | DEPARTMENT_BITFLAG_ENGINEERING //Monkestation edit: Engi circuit
 
 /datum/design/board/harvester
 	name = "Organ Harvester Board"
@@ -720,7 +770,7 @@
 	category = list(
 		RND_CATEGORY_MACHINE + RND_SUBCATEGORY_MACHINE_MEDICAL
 	)
-	departmental_flags = DEPARTMENT_BITFLAG_MEDICAL
+	departmental_flags = DEPARTMENT_BITFLAG_MEDICAL | DEPARTMENT_BITFLAG_ENGINEERING //Monkestation edit: Engi circuit
 
 /datum/design/board/deepfryer
 	name = "Deep Fryer Board"
@@ -730,7 +780,7 @@
 	category = list(
 		RND_CATEGORY_MACHINE + RND_SUBCATEGORY_MACHINE_KITCHEN
 	)
-	departmental_flags = DEPARTMENT_BITFLAG_SERVICE
+	departmental_flags = DEPARTMENT_BITFLAG_SERVICE | DEPARTMENT_BITFLAG_ENGINEERING //Monkestation edit: Engi circuit
 
 /datum/design/board/griddle
 	name = "Griddle Board"
@@ -740,7 +790,7 @@
 	category = list(
 		RND_CATEGORY_MACHINE + RND_SUBCATEGORY_MACHINE_KITCHEN
 	)
-	departmental_flags = DEPARTMENT_BITFLAG_SERVICE
+	departmental_flags = DEPARTMENT_BITFLAG_SERVICE | DEPARTMENT_BITFLAG_ENGINEERING //Monkestation edit: Engi circuit
 
 /datum/design/board/oven
 	name = "Oven Board"
@@ -750,7 +800,7 @@
 	category = list(
 		RND_CATEGORY_MACHINE + RND_SUBCATEGORY_MACHINE_KITCHEN
 	)
-	departmental_flags = DEPARTMENT_BITFLAG_SERVICE
+	departmental_flags = DEPARTMENT_BITFLAG_SERVICE | DEPARTMENT_BITFLAG_ENGINEERING //Monkestation edit: Engi circuit
 
 /datum/design/board/stove
 	name = "Stove Board"
@@ -760,7 +810,7 @@
 	category = list(
 		RND_CATEGORY_MACHINE + RND_SUBCATEGORY_MACHINE_KITCHEN
 	)
-	departmental_flags = DEPARTMENT_BITFLAG_SERVICE
+	departmental_flags = DEPARTMENT_BITFLAG_SERVICE | DEPARTMENT_BITFLAG_ENGINEERING //Monkestation edit: Engi circuit
 
 /datum/design/board/range
 	name = "Range Board"
@@ -770,7 +820,7 @@
 	category = list(
 		RND_CATEGORY_MACHINE + RND_SUBCATEGORY_MACHINE_KITCHEN
 	)
-	departmental_flags = DEPARTMENT_BITFLAG_SERVICE
+	departmental_flags = DEPARTMENT_BITFLAG_SERVICE | DEPARTMENT_BITFLAG_ENGINEERING //Monkestation edit: Engi circuit
 
 /datum/design/board/donksofttoyvendor
 	name = "Donksoft Toy Vendor Board"
@@ -780,7 +830,7 @@
 	category = list(
 		RND_CATEGORY_MACHINE + RND_SUBCATEGORY_MACHINE_SERVICE
 	)
-	departmental_flags = DEPARTMENT_BITFLAG_SERVICE
+	departmental_flags = DEPARTMENT_BITFLAG_SERVICE | DEPARTMENT_BITFLAG_ENGINEERING //Monkestation edit: Engi circuit
 
 /datum/design/board/cell_charger
 	name = "Cell Charger Board"
@@ -800,7 +850,7 @@
 	category = list(
 		RND_CATEGORY_MACHINE + RND_SUBCATEGORY_MACHINE_KITCHEN
 	)
-	departmental_flags = DEPARTMENT_BITFLAG_SERVICE
+	departmental_flags = DEPARTMENT_BITFLAG_SERVICE | DEPARTMENT_BITFLAG_ENGINEERING //Monkestation edit: Engi circuit
 
 /datum/design/board/stacking_unit_console
 	name = "Stacking Machine Console Board"
@@ -840,7 +890,7 @@
 	category = list(
 		RND_CATEGORY_MACHINE + RND_SUBCATEGORY_MACHINE_SERVICE
 	)
-	departmental_flags = DEPARTMENT_BITFLAG_SERVICE | DEPARTMENT_BITFLAG_MEDICAL
+	departmental_flags = DEPARTMENT_BITFLAG_SERVICE | DEPARTMENT_BITFLAG_MEDICAL | DEPARTMENT_BITFLAG_ENGINEERING //Monkestation edit: Engi circuit
 
 /datum/design/board/stasis
 	name = "Lifeform Stasis Unit Board"
@@ -850,7 +900,7 @@
 	category = list(
 		RND_CATEGORY_MACHINE + RND_SUBCATEGORY_MACHINE_MEDICAL
 	)
-	departmental_flags = DEPARTMENT_BITFLAG_MEDICAL
+	departmental_flags = DEPARTMENT_BITFLAG_MEDICAL | DEPARTMENT_BITFLAG_ENGINEERING //Monkestation edit: Engi circuit
 
 /datum/design/board/spaceship_navigation_beacon
 	name = "Bluespace Navigation Gigabeacon Board"
@@ -871,7 +921,7 @@
 	category = list(
 		RND_CATEGORY_MACHINE + RND_SUBCATEGORY_MACHINE_MEDICAL
 	)
-	departmental_flags = DEPARTMENT_BITFLAG_MEDICAL
+	departmental_flags = DEPARTMENT_BITFLAG_MEDICAL | DEPARTMENT_BITFLAG_ENGINEERING //Monkestation edit: Engi circuit
 
 /datum/design/board/medipen_refiller
 	name = "Medipen Refiller Board"
@@ -881,7 +931,7 @@
 	category = list(
 		RND_CATEGORY_MACHINE + RND_SUBCATEGORY_MACHINE_MEDICAL
 	)
-	departmental_flags = DEPARTMENT_BITFLAG_MEDICAL
+	departmental_flags = DEPARTMENT_BITFLAG_MEDICAL | DEPARTMENT_BITFLAG_ENGINEERING //Monkestation edit: Engi circuit
 
 /datum/design/board/plumbing_receiver
 	name = "Chemical Recipient Board"
@@ -891,7 +941,7 @@
 	category = list(
 		RND_CATEGORY_MACHINE + RND_SUBCATEGORY_MACHINE_CHEMISTRY
 	)
-	departmental_flags = DEPARTMENT_BITFLAG_MEDICAL | DEPARTMENT_BITFLAG_SERVICE
+	departmental_flags = DEPARTMENT_BITFLAG_MEDICAL | DEPARTMENT_BITFLAG_SERVICE | DEPARTMENT_BITFLAG_ENGINEERING //Monkestation edit: Engi circuit
 
 /datum/design/board/sheetifier
 	name = "Sheet-meister 2000 Board"
@@ -911,7 +961,7 @@
 	category = list(
 		RND_CATEGORY_MACHINE + RND_SUBCATEGORY_MACHINE_KITCHEN
 	)
-	departmental_flags = DEPARTMENT_BITFLAG_SERVICE
+	departmental_flags = DEPARTMENT_BITFLAG_SERVICE | DEPARTMENT_BITFLAG_ENGINEERING //Monkestation edit: Engi circuit
 
 /datum/design/board/vendatray
 	name = "Vend-a-Tray Board"
@@ -921,7 +971,7 @@
 	category = list(
 		RND_CATEGORY_MACHINE + RND_SUBCATEGORY_MACHINE_SERVICE
 	)
-	departmental_flags = DEPARTMENT_BITFLAG_SERVICE
+	departmental_flags = DEPARTMENT_BITFLAG_SERVICE | DEPARTMENT_BITFLAG_ENGINEERING //Monkestation edit: Engi circuit
 
 /datum/design/board/bountypad
 	name = "Civilian Bounty Pad Board"
@@ -931,7 +981,7 @@
 	category = list(
 		RND_CATEGORY_MACHINE + RND_SUBCATEGORY_MACHINE_CARGO
 	)
-	departmental_flags = DEPARTMENT_BITFLAG_CARGO
+	departmental_flags = DEPARTMENT_BITFLAG_CARGO | DEPARTMENT_BITFLAG_ENGINEERING //Monkestation edit: Engi circuit
 
 /datum/design/board/skill_station
 	name = "Skill Station Board"
@@ -941,7 +991,7 @@
 	category = list(
 		RND_CATEGORY_MACHINE + RND_SUBCATEGORY_MACHINE_SERVICE
 	)
-	departmental_flags = DEPARTMENT_BITFLAG_SERVICE
+	departmental_flags = DEPARTMENT_BITFLAG_SERVICE | DEPARTMENT_BITFLAG_ENGINEERING //Monkestation edit: Engi circuit
 
 /datum/design/board/fax
 	name = "Fax Machine Board"
@@ -951,7 +1001,7 @@
 	category = list(
 		RND_CATEGORY_MACHINE + RND_SUBCATEGORY_MACHINE_SERVICE
 	)
-	departmental_flags = DEPARTMENT_BITFLAG_SERVICE | DEPARTMENT_BITFLAG_CARGO
+	departmental_flags = DEPARTMENT_BITFLAG_SERVICE | DEPARTMENT_BITFLAG_CARGO | DEPARTMENT_BITFLAG_ENGINEERING //Monkestation edit: Engi circuit
 
 //Hypertorus fusion reactor designs
 
@@ -1033,7 +1083,7 @@
 	category = list(
 		RND_CATEGORY_MACHINE + RND_SUBCATEGORY_MACHINE_RESEARCH
 	)
-	departmental_flags = DEPARTMENT_BITFLAG_CARGO
+	departmental_flags = DEPARTMENT_BITFLAG_CARGO | DEPARTMENT_BITFLAG_ENGINEERING //Monkestation edit: Engi circuit
 
 /datum/design/board/exodrone_launcher
 	name = "Exploration Drone Launcher Board"
@@ -1043,7 +1093,7 @@
 	category = list(
 		RND_CATEGORY_MACHINE + RND_SUBCATEGORY_MACHINE_RESEARCH
 	)
-	departmental_flags = DEPARTMENT_BITFLAG_CARGO
+	departmental_flags = DEPARTMENT_BITFLAG_CARGO | DEPARTMENT_BITFLAG_ENGINEERING //Monkestation edit: Engi circuit
 
 /datum/design/board/component_printer
 	name = "Component Printer Board"
@@ -1053,7 +1103,7 @@
 	category = list(
 		RND_CATEGORY_MACHINE + RND_SUBCATEGORY_MACHINE_RESEARCH
 	)
-	departmental_flags = DEPARTMENT_BITFLAG_SCIENCE
+	departmental_flags = DEPARTMENT_BITFLAG_SCIENCE | DEPARTMENT_BITFLAG_ENGINEERING //Monkestation edit: Engi circuit
 
 /datum/design/board/module_printer
 	name = "Module Duplicator Board"
@@ -1063,7 +1113,7 @@
 	category = list(
 		RND_CATEGORY_MACHINE + RND_SUBCATEGORY_MACHINE_RESEARCH
 	)
-	departmental_flags = DEPARTMENT_BITFLAG_SCIENCE
+	departmental_flags = DEPARTMENT_BITFLAG_SCIENCE | DEPARTMENT_BITFLAG_ENGINEERING //Monkestation edit: Engi circuit
 
 /datum/design/board/coffeemaker
 	name = "Coffeemaker Board"
@@ -1076,7 +1126,7 @@
 	departmental_flags = DEPARTMENT_BITFLAG_SERVICE | DEPARTMENT_BITFLAG_ENGINEERING | DEPARTMENT_BITFLAG_SCIENCE
 
 /datum/design/board/navbeacon
-	name = "Machine Design (Bot Navigational Beacon)"
+	name = "Bot Navigational Beacon" // Monkestation edit:
 	desc = "The circuit board for a beacon that aids bot navigation."
 	id = "botnavbeacon"
 	build_type = IMPRINTER
@@ -1095,7 +1145,7 @@
 	category = list(
 		RND_CATEGORY_MACHINE + RND_SUBCATEGORY_MACHINE_RESEARCH
 	)
-	departmental_flags = DEPARTMENT_BITFLAG_SCIENCE
+	departmental_flags = DEPARTMENT_BITFLAG_SCIENCE | DEPARTMENT_BITFLAG_ENGINEERING //Monkestation edit: Engi circuit
 
 /datum/design/board/artifact_heater
 	name = "Artifact Heating Pad Board"
@@ -1105,7 +1155,17 @@
 	category = list(
 		RND_CATEGORY_MACHINE + RND_SUBCATEGORY_MACHINE_RESEARCH
 	)
-	departmental_flags = DEPARTMENT_BITFLAG_SCIENCE
+	departmental_flags = DEPARTMENT_BITFLAG_SCIENCE | DEPARTMENT_BITFLAG_ENGINEERING //Monkestation edit: Engi circuit
+
+/datum/design/board/artifact_zapper
+	name = "Artifact Zapper Board"
+	desc = "The circuit board for a machine designed to induce electric current in artifacts"
+	id = "artifact_zapper"
+	build_path = /obj/item/circuitboard/machine/artifactzapper
+	category = list(
+		RND_CATEGORY_MACHINE + RND_SUBCATEGORY_MACHINE_RESEARCH
+	)
+	departmental_flags = DEPARTMENT_BITFLAG_SCIENCE | DEPARTMENT_BITFLAG_ENGINEERING //Monkestation edit: Engi circuit
 
 /datum/design/board/fishing_portal_generator
 	name = "Fishing Portal Generator Board"
@@ -1115,4 +1175,34 @@
 	category = list(
 		RND_CATEGORY_MACHINE + RND_SUBCATEGORY_MACHINE_SERVICE
 	)
-	departmental_flags = DEPARTMENT_BITFLAG_SERVICE | DEPARTMENT_BITFLAG_CARGO | DEPARTMENT_BITFLAG_SCIENCE
+	departmental_flags = DEPARTMENT_BITFLAG_SERVICE | DEPARTMENT_BITFLAG_CARGO | DEPARTMENT_BITFLAG_SCIENCE | DEPARTMENT_BITFLAG_ENGINEERING //Monkestation edit: Engi circuit
+
+/datum/design/board/scrubber
+	name = "Portable Air Scrubber Board"
+	desc = "The circuit board for a portable air scrubber."
+	id = "scrubber"
+	build_path = /obj/item/circuitboard/machine/scrubber
+	category = list(
+		RND_CATEGORY_MACHINE + RND_SUBCATEGORY_MACHINE_ATMOS
+	)
+	departmental_flags = DEPARTMENT_BITFLAG_SCIENCE | DEPARTMENT_BITFLAG_ENGINEERING
+
+/datum/design/board/pump
+	name = "Portable Air Pump Board"
+	desc = "The circuit board for a portable air pump."
+	id = "pump"
+	build_path = /obj/item/circuitboard/machine/pump
+	category = list(
+		RND_CATEGORY_MACHINE + RND_SUBCATEGORY_MACHINE_ATMOS
+	)
+	departmental_flags = DEPARTMENT_BITFLAG_SCIENCE | DEPARTMENT_BITFLAG_ENGINEERING
+
+/datum/design/board/pipe_scrubber
+	name = "Portable Pipe Scrubber Board"
+	desc = "The circuit board for a portable pipe scrubber."
+	id = "pipe_scrubber"
+	build_path = /obj/item/circuitboard/machine/pipe_scrubber
+	category = list(
+		RND_CATEGORY_MACHINE + RND_SUBCATEGORY_MACHINE_ATMOS
+	)
+	departmental_flags = DEPARTMENT_BITFLAG_SCIENCE | DEPARTMENT_BITFLAG_ENGINEERING

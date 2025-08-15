@@ -67,6 +67,8 @@
 /// For wiremod/integrated circuits. Uses various minerals.
 #define COMPONENT_PRINTER (1<<10)
 //Note: More than one of these can be added to a design but imprinter and lathe designs are incompatable.
+/// Can be made by the orderable colony fabricator
+#define COLONY_FABRICATOR (1<<11)
 
 #define FIREDOOR_OPEN 1
 #define FIREDOOR_CLOSED 2
@@ -143,6 +145,15 @@
 
 /// Max length of a status line in the status display
 #define MAX_STATUS_LINE_LENGTH 40
+
+///Define for automated system arrival announcement
+#define AUTO_ANNOUNCE_ARRIVAL "ARRIVAL"
+///Define for automated system announcement when a head of staff arrives
+#define AUTO_ANNOUNCE_NEWHEAD "NEWHEAD"
+///Define for automated system announcement for when the arrival shuttle is broken
+#define AUTO_ANNOUNCE_ARRIVALS_BROKEN "ARRIVALS_BROKEN"
+///Define for automated system announcement for researched nodes
+#define AUTO_ANNOUNCE_NODE "NODE"
 
 /// Blank Status Display
 #define SD_BLANK 0

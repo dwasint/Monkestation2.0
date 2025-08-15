@@ -41,12 +41,12 @@
 		return
 
 	opening = TRUE
-	update_appearance()
 	if(!density)
 		var/srcturf = get_turf(src)
 		for(var/mob/living/obstacle in srcturf) //Stop people from using this as a shield
 			opening = FALSE
 			return
+	update_appearance()
 	addtimer(CALLBACK(src, TYPE_PROC_REF(/obj/structure/falsewall, toggle_open)), 5)
 
 /obj/structure/falsewall/proc/toggle_open()
@@ -66,7 +66,7 @@
 		smoothing_flags = NONE
 		clear_smooth_overlays()
 	else
-		smoothing_flags = SMOOTH_BITMASK
+		smoothing_flags = SMOOTH_BITMASK | SMOOTH_OBJ
 		QUEUE_SMOOTH(src)
 
 /obj/structure/falsewall/update_icon_state()

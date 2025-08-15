@@ -14,6 +14,10 @@ GLOBAL_LIST_INIT(used_sound_channels, list(
 	CHANNEL_INSTRUMENTS,
 	CHANNEL_INSTRUMENTS_ROBOT,
 	CHANNEL_MOB_SOUNDS,
+	CHANNEL_PRUDE,
+	CHANNEL_SQUEAK,
+	CHANNEL_MOB_EMOTES,
+	CHANNEL_SILICON_EMOTES,
 ))
 
 GLOBAL_LIST_INIT(proxy_sound_channels, list(
@@ -25,8 +29,12 @@ GLOBAL_LIST_INIT(proxy_sound_channels, list(
 	CHANNEL_INSTRUMENTS_ROBOT,
 	CHANNEL_MOB_SOUNDS,
 	CHANNEL_PRUDE,
+	CHANNEL_SQUEAK,
+	CHANNEL_MOB_EMOTES,
+	CHANNEL_SILICON_EMOTES,
 ))
 
+GLOBAL_DATUM_INIT(cached_mixer_channels, /alist, alist())
 
 /proc/guess_mixer_channel(soundin)
 	var/sound_text_string
@@ -35,21 +43,36 @@ GLOBAL_LIST_INIT(proxy_sound_channels, list(
 		sound_text_string = "[bleh.file]"
 	else
 		sound_text_string = "[soundin]"
-	if(findtext(sound_text_string, "effects/"))
-		return CHANNEL_SOUND_EFFECTS
-	if(findtext(sound_text_string, "machines/"))
-		return CHANNEL_MACHINERY
-	if(findtext(sound_text_string, "creatures/"))
-		return CHANNEL_MOB_SOUNDS
-	if(findtext(sound_text_string, "/ai/"))
-		return CHANNEL_VOX
-	if(findtext(sound_text_string, "chatter/"))
-		return CHANNEL_MOB_SOUNDS
-	if(findtext(sound_text_string, "items/"))
-		return CHANNEL_SOUND_EFFECTS
-	if(findtext(sound_text_string, "weapons/"))
-		return CHANNEL_SOUND_EFFECTS
-	return FALSE
+	if(GLOB.cached_mixer_channels[sound_text_string])
+		return GLOB.cached_mixer_channels[sound_text_string]
+	else if(findtext(sound_text_string, "effects/"))
+		. = GLOB.cached_mixer_channels[sound_text_string] = CHANNEL_SOUND_EFFECTS
+	else if(findtext(sound_text_string, "machines/"))
+		. = GLOB.cached_mixer_channels[sound_text_string] = CHANNEL_MACHINERY
+	else if(findtext(sound_text_string, "creatures/"))
+		. = GLOB.cached_mixer_channels[sound_text_string] = CHANNEL_MOB_SOUNDS
+	else if(findtext(sound_text_string, "/ai/"))
+		. = GLOB.cached_mixer_channels[sound_text_string] = CHANNEL_VOX
+	else if(findtext(sound_text_string, "chatter/"))
+		. = GLOB.cached_mixer_channels[sound_text_string] = CHANNEL_MOB_SOUNDS
+	else if(findtext(sound_text_string, "items/"))
+		. = GLOB.cached_mixer_channels[sound_text_string] = CHANNEL_SOUND_EFFECTS
+	else if(findtext(sound_text_string, "weapons/"))
+		. = GLOB.cached_mixer_channels[sound_text_string] = CHANNEL_SOUND_EFFECTS
+	else
+		return FALSE
+
+/// Calculates the "adjusted" volume for a user's volume mixer
+/proc/calculate_mixed_volume(user, volume, mixer_channel)
+	. = volume
+	var/client/client = CLIENT_FROM_VAR(user)
+	var/list/channels = client?.prefs?.channel_volume
+	if(!channels)
+		return volume
+	if("[CHANNEL_MASTER_VOLUME]" in channels)
+		. *= channels["[CHANNEL_MASTER_VOLUME]"] * 0.01
+	if(mixer_channel && ("[mixer_channel]" in channels))
+		. *= channels["[mixer_channel]"] * 0.01
 
 ///Default override for echo
 /sound
@@ -94,6 +117,9 @@ GLOBAL_LIST_INIT(proxy_sound_channels, list(
 	if(isarea(source))
 		CRASH("playsound(): source is an area")
 
+	if(islist(soundin))
+		CRASH("playsound(): soundin attempted to pass a list! Consider using pick()")
+
 	var/turf/turf_source = get_turf(source)
 
 	if (!turf_source || !soundin || !vol)
@@ -102,40 +128,50 @@ GLOBAL_LIST_INIT(proxy_sound_channels, list(
 	if(!mixer_channel)
 		mixer_channel = guess_mixer_channel(soundin)
 
+	if(vol < SOUND_AUDIBLE_VOLUME_MIN) // never let sound go below SOUND_AUDIBLE_VOLUME_MIN or bad things will happen
+		return
+
 	//allocate a channel if necessary now so its the same for everyone
 	channel = channel || SSsounds.random_available_channel()
 
 	var/sound/S = sound(get_sfx(soundin))
 	var/maxdistance = SOUND_RANGE + extrarange
 	var/source_z = turf_source.z
-	var/list/listeners = SSmobs.clients_by_zlevel[source_z].Copy()
 
-	. = list()//output everything that successfully heard the sound
+	if(vary && !frequency)
+		frequency = get_rand_frequency() // skips us having to do it per-sound later. should just make this a macro tbh
+
+	var/list/listeners
 
 	var/turf/above_turf = GET_TURF_ABOVE(turf_source)
 	var/turf/below_turf = GET_TURF_BELOW(turf_source)
 
-	if(ignore_walls)
+	var/audible_distance = falloff_exponent ? CALCULATE_MAX_SOUND_AUDIBLE_DISTANCE(vol, maxdistance, falloff_distance, falloff_exponent) : maxdistance
 
+	if(ignore_walls)
+		listeners = get_hearers_in_range(audible_distance, turf_source, RECURSIVE_CONTENTS_CLIENT_MOBS)
 		if(above_turf && istransparentturf(above_turf))
-			listeners += SSmobs.clients_by_zlevel[above_turf.z]
+			listeners += get_hearers_in_range(audible_distance, above_turf, RECURSIVE_CONTENTS_CLIENT_MOBS)
 
 		if(below_turf && istransparentturf(turf_source))
-			listeners += SSmobs.clients_by_zlevel[below_turf.z]
+			listeners += get_hearers_in_range(audible_distance, below_turf, RECURSIVE_CONTENTS_CLIENT_MOBS)
 
 	else //these sounds don't carry through walls
-		listeners = get_hearers_in_view(maxdistance, turf_source)
+		listeners = get_hearers_in_view(audible_distance, turf_source, RECURSIVE_CONTENTS_CLIENT_MOBS)
 
 		if(above_turf && istransparentturf(above_turf))
-			listeners += get_hearers_in_view(maxdistance, above_turf)
+			listeners += get_hearers_in_view(audible_distance, above_turf, RECURSIVE_CONTENTS_CLIENT_MOBS)
 
 		if(below_turf && istransparentturf(turf_source))
-			listeners += get_hearers_in_view(maxdistance, below_turf)
+			listeners += get_hearers_in_view(audible_distance, below_turf, RECURSIVE_CONTENTS_CLIENT_MOBS)
+		for(var/mob/listening_ghost as anything in SSmobs.dead_players_by_zlevel[source_z])
+			if(get_dist(listening_ghost, turf_source) <= audible_distance)
+				listeners += listening_ghost
 
-	for(var/mob/listening_mob in listeners | SSmobs.dead_players_by_zlevel[source_z])//observers always hear through walls
-		if(get_dist(listening_mob, turf_source) <= maxdistance)
-			listening_mob.playsound_local(turf_source, soundin, vol, vary, frequency, falloff_exponent, channel, pressure_affected, S, maxdistance, falloff_distance, 1, use_reverb, mixer_channel)
-			. += listening_mob
+	for(var/mob/listening_mob in listeners)//had nulls sneak in here, hence the typecheck
+		listening_mob.playsound_local(turf_source, soundin, vol, vary, frequency, falloff_exponent, channel, pressure_affected, S, maxdistance, falloff_distance, 1, use_reverb, mixer_channel)
+
+	return listeners
 
 /mob/proc/playsound_local(turf/turf_source, soundin, vol as num, vary, frequency, falloff_exponent = SOUND_FALLOFF_EXPONENT, channel = 0, pressure_affected = TRUE, sound/sound_to_use, max_distance, falloff_distance = SOUND_DEFAULT_FALLOFF_DISTANCE, distance_multiplier = 1, use_reverb = TRUE, mixer_channel = 0)
 	if(!client || !can_hear())
@@ -147,11 +183,9 @@ GLOBAL_LIST_INIT(proxy_sound_channels, list(
 	sound_to_use.wait = 0 //No queue
 	sound_to_use.channel = channel || SSsounds.random_available_channel()
 	sound_to_use.volume = vol
-	if("[CHANNEL_MASTER_VOLUME]" in client?.prefs?.channel_volume)
-		sound_to_use.volume *= client.prefs.channel_volume["[CHANNEL_MASTER_VOLUME]"] * 0.01
 
-	if((mixer_channel == CHANNEL_PRUDE) && client?.prefs.read_preference(/datum/preference/toggle/prude_mode))
-		sound_to_use.volume *= 0
+	if((mixer_channel == CHANNEL_PRUDE) && client?.prefs?.read_preference(/datum/preference/toggle/prude_mode))
+		return
 
 	if(vary)
 		if(frequency)
@@ -159,15 +193,16 @@ GLOBAL_LIST_INIT(proxy_sound_channels, list(
 		else
 			sound_to_use.frequency = get_rand_frequency()
 
+	var/distance = 0
+
 	if(isturf(turf_source))
 		var/turf/turf_loc = get_turf(src)
 
 		//sound volume falloff with distance
-		var/distance = get_dist(turf_loc, turf_source) * distance_multiplier
+		distance = get_dist(turf_loc, turf_source) * distance_multiplier
 
-		if(max_distance && falloff_exponent) //If theres no max_distance we're not a 3D sound, so no falloff. MONKESTATION EDIT
-			sound_to_use.volume -= (max(distance - falloff_distance, 0) ** (1 / falloff_exponent)) / ((max(max_distance, distance) - falloff_distance) ** (1 / falloff_exponent)) * sound_to_use.volume
-			//https://www.desmos.com/calculator/sqdfl8ipgf
+		if(max_distance && falloff_exponent) //If theres no max_distance we're not a 3D sound, so no falloff.
+			sound_to_use.volume -= CALCULATE_SOUND_VOLUME(vol, distance, max_distance, falloff_distance, falloff_exponent)
 
 		if(pressure_affected)
 			//Atmosphere affects sound
@@ -188,22 +223,7 @@ GLOBAL_LIST_INIT(proxy_sound_channels, list(
 			sound_to_use.volume *= pressure_factor
 			//End Atmosphere affecting sound
 
-		if((channel in GLOB.used_sound_channels) || (mixer_channel in GLOB.used_sound_channels))
-			var/used_channel = 0
-			if(channel in GLOB.used_sound_channels)
-				used_channel = channel
-				mixer_channel = channel
-			else
-				used_channel = mixer_channel
-			if("[used_channel]" in client.prefs.channel_volume)
-				sound_to_use.volume *= (client.prefs.channel_volume["[used_channel]"] * 0.01)
-
-		else if(!mixer_channel)
-			mixer_channel = guess_mixer_channel(soundin)
-			if("[mixer_channel]" in client.prefs.channel_volume)
-				sound_to_use.volume *= (client.prefs.channel_volume["[mixer_channel]"] * 0.01)
-
-		if(sound_to_use.volume <= 0)
+		if(sound_to_use.volume < SOUND_AUDIBLE_VOLUME_MIN)
 			return //No sound
 
 		var/dx = turf_source.x - turf_loc.x // Hearing from the right/left
@@ -224,9 +244,25 @@ GLOBAL_LIST_INIT(proxy_sound_channels, list(
 			var/area/A = get_area(src)
 			sound_to_use.environment = A.sound_environment
 
-		if(use_reverb && sound_to_use.environment != SOUND_ENVIRONMENT_NONE) //We have reverb, reset our echo setting
-			sound_to_use.echo[3] = 0 //Room setting, 0 means normal reverb
-			sound_to_use.echo[4] = 0 //RoomHF setting, 0 means normal reverb.
+		if(turf_source != get_turf(src))
+			sound_to_use.echo = list(0,0,0,0,0,0,-10000,1.0,1.5,1.0,0,1.0,0,0,0,0,1.0,7)
+		else
+			sound_to_use.echo = list(0,0,0,0,0,0,0,0.25,1.5,1.0,0,1.0,0,0,0,0,1.0,7)
+
+		if(!use_reverb)
+			sound_to_use.echo[3] = -10000
+			sound_to_use.echo[4] = -10000
+
+	if(HAS_TRAIT(src, TRAIT_SOUND_DEBUGGED))
+		to_chat(src, span_admin("Max Range-[max_distance] Distance-[distance] Vol-[round(sound_to_use.volume, 0.01)] Sound-[sound_to_use.file]"))
+
+	if(!mixer_channel)
+		if(channel in GLOB.used_sound_channels)
+			mixer_channel = channel
+		else
+			mixer_channel = guess_mixer_channel(soundin)
+
+	sound_to_use.volume = calculate_mixed_volume(src, sound_to_use.volume, mixer_channel)
 
 	SEND_SOUND(src, sound_to_use)
 
@@ -246,33 +282,38 @@ GLOBAL_LIST_INIT(proxy_sound_channels, list(
 	S.status = SOUND_UPDATE
 	SEND_SOUND(src, S)
 
-/client/proc/playtitlemusic(vol = 0.85)
+/client/proc/playtitlemusic(vol = 85)
 	set waitfor = FALSE
-	UNTIL(SSticker.login_music) //wait for SSticker init to set the login music
+	UNTIL(SSticker.login_music_done) //wait for SSticker init to set the login music // monkestation edit: fix-lobby-music
 	UNTIL(fully_created)
-	if("[CHANNEL_LOBBYMUSIC]" in prefs.channel_volume)
-		if(prefs.channel_volume["[CHANNEL_LOBBYMUSIC]"] != 0)
-			vol *= prefs.channel_volume["[CHANNEL_LOBBYMUSIC]"] * 0.01
-			vol *= prefs.channel_volume["[CHANNEL_MASTER_VOLUME]"] * 0.01
-
-	if((prefs && (!prefs.read_preference(/datum/preference/toggle/sound_lobby))) || CONFIG_GET(flag/disallow_title_music))
+	var/list/channel_volume = prefs?.channel_volume
+	if("[CHANNEL_LOBBYMUSIC]" in channel_volume)
+		vol = channel_volume["[CHANNEL_LOBBYMUSIC]"]
+	if("[CHANNEL_MASTER_VOLUME]" in channel_volume)
+		vol *= channel_volume["[CHANNEL_MASTER_VOLUME]"] * 0.01
+	if(vol <= 0 || (prefs && (!prefs.read_preference(/datum/preference/toggle/sound_lobby))) || CONFIG_GET(flag/disallow_title_music))
 		return
 
-	if(!media) ///media is set on creation thats weird
-		media = new /datum/media_manager(src)
-		media.open()
-		media.update_music()
+	if(QDELETED(media_player)) ///media is set on creation thats weird
+		media_player = new(src)
 
 	if(!length(SSmedia_tracks.lobby_tracks))
 		return
 
 	if(SSmedia_tracks.first_lobby_play)
 		SSmedia_tracks.current_lobby_track = pick(SSmedia_tracks.lobby_tracks)
+		// monkestation edit start: fix-lobby-music
+		if (fexists("data/last_round_lobby_music.txt"))
+			fdel("data/last_round_lobby_music.txt")
+		text2file(SSmedia_tracks.current_lobby_track.url, "data/last_round_lobby_music.txt")
+		// monkestation edit end
 		SSmedia_tracks.first_lobby_play = FALSE
+		GLOB.lobby_media.current_track = SSmedia_tracks.current_lobby_track
+		GLOB.lobby_media.update_for_all_listeners()
 
-	var/datum/media_track/T = SSmedia_tracks.current_lobby_track
-	media.push_music(T.url, world.time, vol)
-	to_chat(src,"<span class='notice'>Lobby music: <b>[T.title]</b> by <b>[T.artist]</b>.</span>")
+	GLOB.lobby_media.add_listener(mob)
+	var/datum/media_track/track = SSmedia_tracks.current_lobby_track
+	to_chat(src, span_notice("Lobby music: <b>[track.title]</b> by <b>[track.artist]</b>."))
 
 /proc/get_rand_frequency()
 	return rand(32000, 55000) //Frequency stuff only works with 45kbps oggs.
@@ -510,4 +551,37 @@ GLOBAL_LIST_INIT(proxy_sound_channels, list(
 				soundin = pick('sound/effects/treechop1.ogg', 'sound/effects/treechop2.ogg', 'sound/effects/treechop3.ogg')
 			if(SFX_ROCK_TAP)
 				soundin = pick('sound/effects/rocktap1.ogg', 'sound/effects/rocktap2.ogg', 'sound/effects/rocktap3.ogg')
+			if(SFX_MUFFLED_SPEECH)
+				soundin = pick(
+					'sound/effects/muffspeech/muffspeech1.ogg',
+					'sound/effects/muffspeech/muffspeech2.ogg',
+					'sound/effects/muffspeech/muffspeech3.ogg',
+					'sound/effects/muffspeech/muffspeech4.ogg',
+					'sound/effects/muffspeech/muffspeech5.ogg',
+					'sound/effects/muffspeech/muffspeech6.ogg',
+					'sound/effects/muffspeech/muffspeech7.ogg',
+					'sound/effects/muffspeech/muffspeech8.ogg',
+					'sound/effects/muffspeech/muffspeech9.ogg',
+				)
+			// monkestation start: more sound effects
+			if(SFX_BUTTON_CLICK)
+				soundin = 'monkestation/sound/effects/hl2/button-click.ogg'
+			if(SFX_BUTTON_FAIL)
+				soundin = 'monkestation/sound/effects/hl2/button-fail.ogg'
+			if(SFX_LIGHTSWITCH)
+				soundin = 'monkestation/sound/effects/hl2/lightswitch.ogg'
+			if(SFX_MEOW)
+				if(prob(98))
+					soundin = pick(
+						'monkestation/sound/voice/feline/meow1.ogg',
+						'monkestation/sound/voice/feline/meow2.ogg',
+						'monkestation/sound/voice/feline/meow3.ogg',
+						'monkestation/sound/voice/feline/meow4.ogg',
+					)
+				else
+					soundin = pick(
+						'monkestation/sound/voice/feline/mggaow.ogg',
+						'monkestation/sound/voice/feline/funnymeow.ogg',
+					)
+			// monkestation end
 	return soundin

@@ -10,7 +10,9 @@
 			"Flushed" = "flushed",
 			"Pensive" = "pensive",
 			"Angry" = "angry",
-			"Pleading" = "pleading"
+			"Pleading" = "pleading",
+			"Epic" = "epicface",
+			"Smile" = "smile"
 	)
 
 /obj/item/clothing/mask/joy/Initialize(mapload)
@@ -40,3 +42,49 @@
 	icon_state = "scarecrow_sack"
 	inhand_icon_state = null
 	flags_inv = HIDEFACE|HIDEHAIR|HIDEFACIALHAIR|HIDESNOUT
+
+/obj/item/clothing/mask/kitsune
+	name = "kitsune mask"
+	desc = "Porcelain mask made in the style of the Sol-3 region. It is painted to look like a kitsune."
+	icon_state = "kitsune"
+	inhand_icon_state = null
+	w_class = WEIGHT_CLASS_SMALL
+	adjusted_flags = ITEM_SLOT_HEAD
+	flags_inv = HIDEFACE|HIDEFACIALHAIR
+	flags_cover = MASKCOVERSMOUTH
+	visor_flags_inv = HIDEFACE|HIDEFACIALHAIR
+	visor_flags_cover = MASKCOVERSMOUTH
+	custom_price = PAYCHECK_CREW
+	greyscale_colors = "#EEEEEE#AA0000"
+	greyscale_config = /datum/greyscale_config/kitsune
+	greyscale_config_worn = /datum/greyscale_config/kitsune/worn
+	flags_1 = IS_PLAYER_COLORABLE_1
+
+/obj/item/clothing/mask/kitsune/examine(mob/user)
+	. = ..()
+	if(up)
+		. += "Use in-hand to wear as a mask!"
+		return
+	else
+		. += "Use in-hand to tie it up to wear as a hat!"
+
+/obj/item/clothing/mask/kitsune/attack_self(mob/user)
+	weldingvisortoggle(user)
+	alternate_worn_layer = up ? ABOVE_BODY_FRONT_HEAD_LAYER : null
+
+/obj/item/clothing/mask/kitsune/AltClick(mob/user)
+	. = ..()
+	weldingvisortoggle(user)
+	return TRUE
+
+/obj/item/clothing/mask/joy/manhunt
+	name = "smiley mask"
+	desc = "A happy mask! Doesn't seem like there is anything wrong with it...right?"
+	icon_state = "happy"
+	unique_reskin = list(
+			"Happy" = "happy",
+			"Bloodied" = "bloodied",
+			"Stop me" = "stop_me",
+			"Cracked bloodied" = "cracked_bloodied",
+			"Cracked" = "cracked",
+	)

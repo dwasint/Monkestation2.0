@@ -222,9 +222,6 @@
 				if(!istype(id_card))
 					computer.say("No ID card detected.")
 					return
-				if(istype(id_card, /obj/item/card/id/departmental_budget))
-					computer.say("[id_card] cannot be used to make purchases.")
-					return
 				account = id_card.registered_account
 				if(!istype(account))
 					computer.say("Invalid bank account.")
@@ -291,6 +288,14 @@
 			. = TRUE
 		if("toggleprivate")
 			self_paid = !self_paid
+			. = TRUE
+		if("company_import_window")
+			var/datum/component/armament/company_imports/gun_comp = computer.GetComponent(/datum/component/armament/company_imports)
+			if(!gun_comp)
+				computer.AddComponent(/datum/component/armament/company_imports, subtypesof(/datum/armament_entry/company_import), 0)
+			gun_comp = computer.GetComponent(/datum/component/armament/company_imports)
+			gun_comp.parent_prog ||= src
+			gun_comp.ui_interact(usr)
 			. = TRUE
 	if(.)
 		post_signal(cargo_shuttle)

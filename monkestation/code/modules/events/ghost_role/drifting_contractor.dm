@@ -10,6 +10,7 @@
 	track = EVENT_TRACK_MAJOR
 	tags = list(TAG_OUTSIDER_ANTAG, TAG_SPACE, TAG_COMBAT)
 	checks_antag_cap = TRUE
+	dont_spawn_near_roundend = TRUE
 
 /datum/round_event/ghost_role/contractor
 	minimum_required = 1
@@ -21,7 +22,7 @@
 		check_jobban = ROLE_DRIFTING_CONTRACTOR,
 		role = ROLE_DRIFTING_CONTRACTOR,
 		poll_time = 20 SECONDS,
-		pic_source = /datum/antagonist/traitor/contractor,
+		alert_pic = /datum/antagonist/traitor/contractor,
 		role_name_text = "drifting contractor"
 	)
 	if(!length(candidates))

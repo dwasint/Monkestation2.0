@@ -4,9 +4,24 @@
 	for(var/mob/living/occupant as anything in occupants)
 		occupant.setDir(newdir)
 
+///Called when the mech moves
+/obj/vehicle/sealed/mecha/proc/on_move()
+	SIGNAL_HANDLER
+
+	collect_ore()
+	play_stepsound()
+
+///Collects ore when we move, if there is an orebox and it is functional
+/obj/vehicle/sealed/mecha/proc/collect_ore()
+	if(isnull(ore_box) || !HAS_TRAIT(src, TRAIT_OREBOX_FUNCTIONAL))
+		return
+	for(var/obj/item/stack/ore/ore in range(1, src))
+		//we can reach it and it's in front of us? grab it!
+		if(ore.Adjacent(src) && ((get_dir(src, ore) & dir) || ore.loc == loc))
+			ore.forceMove(ore_box)
+
 ///Plays the mech step sound effect. Split from movement procs so that other mechs (HONK) can override this one specific part.
 /obj/vehicle/sealed/mecha/proc/play_stepsound()
-	SIGNAL_HANDLER
 	if(mecha_flags & QUIET_STEPS)
 		return
 	playsound(src, stepsound, 40, TRUE)
@@ -40,6 +55,11 @@
 		step_silent = TRUE
 		return TRUE
 	return FALSE
+
+///Called when the driver turns with the movement lock key
+/obj/vehicle/sealed/mecha/proc/on_turn(mob/living/driver, direction)
+	SIGNAL_HANDLER
+	return COMSIG_IGNORE_MOVEMENT_LOCK
 
 /obj/vehicle/sealed/mecha/relaymove(mob/living/user, direction)
 	. = TRUE
@@ -113,11 +133,12 @@
 				break
 
 	//if we're not facing the way we're going rotate us
-	if(dir != direction && !strafe || forcerotate || keyheld)
+	if(dir != direction && (!strafe || forcerotate || keyheld))
 		if(dir != direction && !(mecha_flags & QUIET_TURNS) && !step_silent)
 			playsound(src,turnsound,40,TRUE)
 		setDir(direction)
-		return TRUE
+		if(keyheld || !pivot_step) //If we pivot step, we don't return here so we don't just come to a stop
+			return TRUE
 
 	set_glide_size(DELAY_TO_GLIDE_SIZE(get_movedelay()))
 	//Otherwise just walk normally

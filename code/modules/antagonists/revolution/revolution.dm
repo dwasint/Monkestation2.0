@@ -26,7 +26,7 @@
 	if(.)
 		if(new_owner.assigned_role.departments_bitflags & DEPARTMENT_BITFLAG_COMMAND)
 			return FALSE
-		if(new_owner.unconvertable)
+		if(HAS_TRAIT(new_owner, TRAIT_UNCONVERTABLE)) // monkestation edit: mind.unconvertable -> TRAIT_UNCONVERTABLE
 			return FALSE
 		if(new_owner.current && HAS_TRAIT(new_owner.current, TRAIT_MINDSHIELD))
 			return FALSE
@@ -187,6 +187,7 @@
 	job_rank = ROLE_REV_HEAD
 
 	preview_outfit = /datum/outfit/revolutionary
+	hardcore_random_bonus = TRUE
 
 	var/remove_clumsy = FALSE
 	var/give_flash = FALSE
@@ -206,21 +207,14 @@
 /datum/antagonist/rev/head/apply_innate_effects(mob/living/mob_override)
 	. = ..()
 	var/mob/living/real_mob = mob_override || owner.current
-	RegisterSignal(real_mob, COMSIG_MOB_PRE_FLASHED_CARBON, PROC_REF(on_flash))
+	real_mob.AddComponentFrom(REF(src), /datum/component/can_flash_from_behind)
 	RegisterSignal(real_mob, COMSIG_MOB_SUCCESSFUL_FLASHED_CARBON, PROC_REF(on_flash_success))
 
 /datum/antagonist/rev/head/remove_innate_effects(mob/living/mob_override)
 	. = ..()
 	var/mob/living/real_mob = mob_override || owner.current
-	UnregisterSignal(real_mob, list(COMSIG_MOB_PRE_FLASHED_CARBON, COMSIG_MOB_SUCCESSFUL_FLASHED_CARBON))
-
-/// Signal proc for [COMSIG_MOB_PRE_FLASHED_CARBON].
-/// Flashes will always result in partial success even if it's from behind someone
-/datum/antagonist/rev/head/proc/on_flash(mob/living/source, mob/living/carbon/flashed, obj/item/assembly/flash/flash, deviation)
-	SIGNAL_HANDLER
-
-	// Always partial flash at the very least
-	return (deviation == DEVIATION_FULL) ? DEVIATION_OVERRIDE_PARTIAL : NONE
+	real_mob.RemoveComponentSource(REF(src), /datum/component/can_flash_from_behind)
+	UnregisterSignal(real_mob, COMSIG_MOB_SUCCESSFUL_FLASHED_CARBON)
 
 /// Signal proc for [COMSIG_MOB_SUCCESSFUL_FLASHED_CARBON].
 /// Bread and butter of revolution conversion, successfully flashing a carbon will make them a revolutionary
@@ -276,8 +270,7 @@
 
 /datum/antagonist/rev/head/proc/make_assistant_icon(hairstyle)
 	var/mob/living/carbon/human/dummy/consistent/assistant = new
-	assistant.hairstyle = hairstyle
-	assistant.update_body_parts()
+	assistant.set_hairstyle(hairstyle, update = TRUE)
 
 	var/icon/assistant_icon = render_preview_outfit(/datum/outfit/job/assistant/consistent, assistant)
 	assistant_icon.ChangeOpacity(0.5)
@@ -389,32 +382,27 @@
 		. = ..()
 		if(re_antag)
 			old_owner.add_antag_datum(/datum/antagonist/enemy_of_the_state) //needs to be post ..() so old antag status is cleaned up
+
 /datum/antagonist/rev/head/equip_rev()
-	var/mob/living/carbon/C = owner.current
-	if(!ishuman(C))
+	var/mob/living/carbon/carbon_owner = owner.current
+	if(!ishuman(carbon_owner))
 		return
 
 	if(give_flash)
-		var/obj/item/assembly/flash/handheld/T = new(C)
-		var/list/slots = list (
-			"backpack" = ITEM_SLOT_BACKPACK,
-			"left pocket" = ITEM_SLOT_LPOCKET,
-			"right pocket" = ITEM_SLOT_RPOCKET
-		)
-		var/where = C.equip_in_one_of_slots(T, slots)
-		if (!where)
-			to_chat(C, "The Syndicate were unfortunately unable to get you a flash.")
+		var/where = carbon_owner.equip_conspicuous_item(new /obj/item/assembly/flash/handheld)
+		if (where)
+			to_chat(carbon_owner, "The flash in your [where] will help you to persuade the crew to join your cause.")
 		else
-			to_chat(C, "The flash in your [where] will help you to persuade the crew to join your cause.")
+			to_chat(carbon_owner, "The Syndicate were unfortunately unable to get you a flash.")
 
 	if(give_hud)
-		var/obj/item/organ/internal/cyberimp/eyes/hud/security/syndicate/S = new()
-		S.Insert(C)
-		if(C.get_quirk(/datum/quirk/body_purist))
-			to_chat(C, "Being a body purist, you would never accept cybernetic implants. Upon hearing this, your employers signed you up for a special program, which... for \
+		var/obj/item/organ/internal/cyberimp/eyes/hud/security/syndicate/hud = new()
+		hud.Insert(carbon_owner)
+		if(carbon_owner.get_quirk(/datum/quirk/body_purist))
+			to_chat(carbon_owner, "Being a body purist, you would never accept cybernetic implants. Upon hearing this, your employers signed you up for a special program, which... for \
 			some odd reason, you just can't remember... either way, the program must have worked, because you have gained the ability to keep track of who is mindshield-implanted, and therefore unable to be recruited.")
 		else
-			to_chat(C, "Your eyes have been implanted with a cybernetic security HUD which will help you keep track of who is mindshield-implanted, and therefore unable to be recruited.")
+			to_chat(carbon_owner, "Your eyes have been implanted with a cybernetic security HUD which will help you keep track of who is mindshield-implanted, and therefore unable to be recruited.")
 
 /datum/team/revolution
 	name = "\improper Revolution"
@@ -553,7 +541,7 @@
 		if (!(player_mind.assigned_role.departments_bitflags & (DEPARTMENT_BITFLAG_SECURITY|DEPARTMENT_BITFLAG_COMMAND)))
 			continue
 
-		if (player_mind in ex_revs + ex_headrevs)
+		if (player_mind in (ex_revs + ex_headrevs))
 			continue
 
 		if (!istype(player))
@@ -726,14 +714,14 @@
 	for(var/datum/mind/N as anything in SSjob.get_living_heads())
 		var/mob/M = N.current
 		if(M)
-			heads_report += "<tr><td><a href='?_src_=holder;[HrefToken()];adminplayeropts=[REF(M)]'>[M.real_name]</a>[M.client ? "" : " <i>(No Client)</i>"][M.stat == DEAD ? " <b><font color=red>(DEAD)</font></b>" : ""]</td>"
-			heads_report += "<td><A href='?priv_msg=[M.ckey]'>PM</A></td>"
-			heads_report += "<td><A href='?_src_=holder;[HrefToken()];adminplayerobservefollow=[REF(M)]'>FLW</a></td>"
+			heads_report += "<tr><td><a href='byond://?_src_=holder;[HrefToken()];adminplayeropts=[REF(M)]'>[M.real_name]</a>[M.client ? "" : " <i>(No Client)</i>"][M.stat == DEAD ? " <b><font color=red>(DEAD)</font></b>" : ""]</td>"
+			heads_report += "<td><A href='byond://?priv_msg=[M.ckey]'>PM</A></td>"
+			heads_report += "<td><A href='byond://?_src_=holder;[HrefToken()];adminplayerobservefollow=[REF(M)]'>FLW</a></td>"
 			var/turf/mob_loc = get_turf(M)
 			heads_report += "<td>[mob_loc.loc]</td></tr>"
 		else
-			heads_report += "<tr><td><a href='?_src_=vars;[HrefToken()];Vars=[REF(N)]'>[N.name]([N.key])</a><i>Head body destroyed!</i></td>"
-			heads_report += "<td><A href='?priv_msg=[N.key]'>PM</A></td></tr>"
+			heads_report += "<tr><td><a href='byond://?_src_=vars;[HrefToken()];Vars=[REF(N)]'>[N.name]([N.key])</a><i>Head body destroyed!</i></td>"
+			heads_report += "<td><A href='byond://?priv_msg=[N.key]'>PM</A></td></tr>"
 	heads_report += "</table>"
 	return common_part + heads_report
 

@@ -78,8 +78,10 @@
 			take_bodypart_damage(10 + 5 * extra_speed, check_armor = TRUE, wound_bonus = extra_speed * 5)
 			victim.Paralyze(2 SECONDS)
 			Paralyze(2 SECONDS)
-			visible_message(span_danger("[src] crashes into [victim][extra_speed ? " really hard" : ""], knocking them both over!"),\
-				span_userdanger("You violently crash into [victim][extra_speed ? " extra hard" : ""]!"))
+			visible_message(
+				span_danger("[src] crashes into [hit_atom][extra_speed ? " really hard" : ""]!"),
+				span_userdanger("You[extra_speed ? " violently" : ""] crash into [hit_atom][extra_speed ? " extra hard" : ""]!"),
+			)
 		playsound(src,'sound/weapons/punch1.ogg',50,TRUE)
 		log_combat(src, victim, "crashed into")
 
@@ -144,15 +146,26 @@
 		var/turf/end_T = get_turf(target)
 		if(start_T && end_T)
 			log_combat(src, thrown_thing, "thrown", addition="grab from tile in [AREACOORD(start_T)] towards tile at [AREACOORD(end_T)]")
+	//MONKESTATION EDIT START
+	var/feeble = HAS_TRAIT(src, TRAIT_FEEBLE)
+	var/leg_aid = HAS_TRAIT(src, TRAIT_NO_LEG_AID)
+	if (feeble && !leg_aid && prob(buckled ? 45 : 15))
+		return fumble_throw_item(target, thrown_thing)
+	//MONKESTATION EDIT START
 	var/power_throw = 0
 	if(HAS_TRAIT(src, TRAIT_HULK))
 		power_throw++
-	if(HAS_TRAIT(src, TRAIT_DWARF))
+//	if(HAS_TRAIT(src, TRAIT_DWARF)) // MONKESTATION EDIT OLD
+	if(HAS_TRAIT(src, TRAIT_DWARF) && !HAS_TRAIT(src, TRAIT_STABLE_DWARF)) // MONKESTATION EDIT NEW
 		power_throw--
 	if(HAS_TRAIT(thrown_thing, TRAIT_DWARF))
 		power_throw++
 	if(neckgrab_throw)
 		power_throw++
+	//MONKESTATION EDIT START
+	if (feeble)
+		power_throw = 0
+	//MONKESTATION EDIT END
 	if(isitem(thrown_thing))
 		var/obj/item/thrown_item = thrown_thing
 		if(thrown_item.throw_verb)
@@ -162,7 +175,28 @@
 	log_message("has thrown [thrown_thing] [power_throw > 0 ? "really hard" : ""]", LOG_ATTACK)
 	var/extra_throw_range = HAS_TRAIT(src, TRAIT_THROWINGARM) ? 2 : 0
 	newtonian_move(get_dir(target, src))
-	thrown_thing.safe_throw_at(target, thrown_thing.throw_range + extra_throw_range, max(1,thrown_thing.throw_speed + power_throw), src, null, null, null, move_force)
+	//MONKESTATION EDIT START
+	var/total_throw_range = thrown_thing.throw_range + extra_throw_range
+	if (feeble)
+		total_throw_range = ceil(total_throw_range / (buckled ? 3 : 2))
+	// thrown_thing.safe_throw_at(target, thrown_thing.throw_range + extra_throw_range, max(1,thrown_thing.throw_speed + power_throw), src, null, null, null, move_force) - MONKESTATION EDIT ORIGINAL
+	thrown_thing.safe_throw_at(target, total_throw_range, max(1,thrown_thing.throw_speed + power_throw), src, null, null, null, move_force)
+	if (!feeble || body_position == LYING_DOWN || buckled)
+		return
+	var/bulky = FALSE
+	var/obj/item/I = thrown_thing
+	if (istype(I))
+		if (I.w_class > WEIGHT_CLASS_NORMAL || (thrown_thing.throwforce && !leg_aid))
+			bulky = I.w_class > WEIGHT_CLASS_NORMAL
+		else
+			return
+	if (!bulky && prob(50))
+		return
+	visible_message(span_danger("[src] looses [src.p_their()] balance."), \
+		span_danger("You lose your balance."))
+	Knockdown(2 SECONDS)
+
+	//MONKESTATION EDIT END
 
 /mob/living/carbon/proc/canBeHandcuffed()
 	return FALSE
@@ -183,6 +217,14 @@
 		if(!I || I.loc != src) //no item, no limb, or item is not in limb or in the person anymore
 			return
 		SEND_SIGNAL(src, COMSIG_CARBON_EMBED_RIP, I, L)
+		return
+
+	if(href_list["gauze_limb"])
+		var/obj/item/bodypart/gauzed = locate(href_list["gauze_limb"]) in bodyparts
+		if(isnull(gauzed?.current_gauze))
+			return
+		// rest of the sanity is handled in the proc itself
+		gauzed.help_remove_gauze(usr)
 		return
 
 	if(href_list["show_paper_note"])
@@ -364,7 +406,45 @@
 		return 0
 	return ..()
 
-/mob/living/carbon/proc/vomit(lost_nutrition = 10, blood = FALSE, stun = TRUE, distance = 1, message = TRUE, vomit_type = VOMIT_TOXIC, harm = TRUE, force = FALSE, purge_ratio = 0.1)
+/mob/living/proc/vomit(lost_nutrition = 10, blood = FALSE, stun = TRUE, distance = 1, message = TRUE, vomit_type = VOMIT_TOXIC, harm = TRUE, force = FALSE, purge_ratio = 0.1)
+	if((HAS_TRAIT(src, TRAIT_NOHUNGER) || HAS_TRAIT(src, TRAIT_TOXINLOVER)) && !force)
+		return TRUE
+	var/starting_dir = dir
+	if(nutrition < 100 && !blood && !force)
+		if(message)
+			visible_message(span_warning("[src] dry heaves!"), \
+							span_userdanger("You try to throw up, but there's nothing in your stomach!"))
+		if(stun)
+			Stun(20 SECONDS)
+		return TRUE
+	if(message)
+		visible_message(span_danger("[src] throws up!"), span_userdanger("You throw up!"))
+		if(!isflyperson(src))
+			add_mood_event("vomit", /datum/mood_event/vomit)
+
+	if(stun)
+		Stun(8 SECONDS)
+
+	playsound(get_turf(src), 'sound/effects/splat.ogg', 50, TRUE)
+	var/turf/T = get_turf(src)
+	if(!blood)
+		adjust_nutrition(-lost_nutrition)
+		adjustToxLoss(-3)
+	for(var/i=0 to distance)
+		if(blood)
+			if(T)
+				add_splatter_floor(T)
+			if(harm)
+				adjustBruteLoss(3)
+		else
+			if(T)
+				T.add_vomit_floor(src, vomit_type, purge_ratio) //toxic barf looks different || call purge when doing detoxicfication to pump more chems out of the stomach.
+		T = get_step(T, starting_dir)
+		if (T?.is_blocked_turf())
+			break
+	return TRUE
+
+/mob/living/carbon/vomit(lost_nutrition = 10, blood = FALSE, stun = TRUE, distance = 1, message = TRUE, vomit_type = VOMIT_TOXIC, harm = TRUE, force = FALSE, purge_ratio = 0.1)
 	if((HAS_TRAIT(src, TRAIT_NOHUNGER) || HAS_TRAIT(src, TRAIT_TOXINLOVER)) && !force)
 		return TRUE
 
@@ -432,7 +512,7 @@
 
 	var/turf/floor = get_turf(src)
 	var/obj/effect/decal/cleanable/vomit/spew = new(floor, get_static_viruses())
-	bite.reagents.trans_to(spew, amount, transfered_by = src)
+	bite.reagents?.trans_to(spew, amount, transfered_by = src)
 
 /mob/living/carbon/proc/spew_organ(power = 5, amt = 1)
 	for(var/i in 1 to amt)
@@ -447,9 +527,12 @@
 
 
 /mob/living/carbon/fully_replace_character_name(oldname,newname)
-	..()
+	. = ..()
 	if(dna)
 		dna.real_name = real_name
+	var/obj/item/bodypart/head/my_head = get_bodypart(BODY_ZONE_HEAD)
+	if(my_head)
+		my_head.real_name = real_name
 
 
 /mob/living/carbon/set_body_position(new_value)
@@ -457,12 +540,12 @@
 	if(isnull(.))
 		return
 	if(new_value == LYING_DOWN)
-		if(HAS_TRAIT(src, FOOD_SLIDE))
+		if(HAS_TRAIT(src, TRAIT_FOOD_SLIDE))
 			add_movespeed_modifier(/datum/movespeed_modifier/belly_slide)
 		else
 			add_movespeed_modifier(/datum/movespeed_modifier/carbon_crawling)
 	else
-		if(HAS_TRAIT(src, FOOD_SLIDE))
+		if(HAS_TRAIT(src, TRAIT_FOOD_SLIDE))
 			remove_movespeed_modifier(/datum/movespeed_modifier/belly_slide)
 		else
 			remove_movespeed_modifier(/datum/movespeed_modifier/carbon_crawling)
@@ -470,7 +553,7 @@
 
 //Updates the mob's health from bodyparts and mob damage variables
 /mob/living/carbon/updatehealth()
-	if(status_flags & GODMODE)
+	if(HAS_TRAIT(src, TRAIT_GODMODE))
 		return
 	var/total_burn = 0
 	var/total_brute = 0
@@ -500,12 +583,21 @@
 	if((stam < max * STAMINA_EXHAUSTION_THRESHOLD_MODIFIER) && !is_exhausted)
 		ADD_TRAIT(src, TRAIT_EXHAUSTED, STAMINA)
 		ADD_TRAIT(src, TRAIT_NO_SPRINT, STAMINA)
+		add_movespeed_modifier(/datum/movespeed_modifier/exhaustion)
+
 	if((stam < max * STAMINA_STUN_THRESHOLD_MODIFIER) && !is_stam_stunned && stat <= SOFT_CRIT)
 		stamina_stun()
-	if(is_exhausted && (stam > max * STAMINA_EXHAUSTION_THRESHOLD_MODIFIER))
+
+	if(is_exhausted && (stam > max * STAMINA_EXHAUSTION_THRESHOLD_MODIFIER_EXIT))
 		REMOVE_TRAIT(src, TRAIT_EXHAUSTED, STAMINA)
 		REMOVE_TRAIT(src, TRAIT_NO_SPRINT, STAMINA)
+		remove_movespeed_modifier(/datum/movespeed_modifier/exhaustion)
+
 	update_stamina_hud()
+
+/datum/movespeed_modifier/exhaustion
+	id = "exhaustion"
+	multiplicative_slowdown = STAMINA_EXHAUSTION_MOVESPEED_SLOWDOWN
 
 /mob/living/carbon/update_sight()
 	if(!client)
@@ -546,7 +638,7 @@
 			set_invis_see(min(glasses.invis_view, see_invisible))
 		if(!isnull(glasses.lighting_cutoff))
 			lighting_cutoff = max(lighting_cutoff, glasses.lighting_cutoff)
-		if(!isnull(glasses.color_cutoffs))
+		if(length(glasses.color_cutoffs))
 			lighting_color_cutoffs = blend_cutoff_colors(lighting_color_cutoffs, glasses.color_cutoffs)
 
 
@@ -604,7 +696,7 @@
 
 //this handles hud updates
 /mob/living/carbon/update_damage_hud()
-
+	..() // monkestation edit
 	if(!client)
 		return
 
@@ -678,7 +770,7 @@
 
 	//Fire and Brute damage overlay (BSSR)
 	var/hurtdamage = getBruteLoss() + getFireLoss() + damageoverlaytemp
-	if(hurtdamage)
+	if(hurtdamage && !HAS_TRAIT(src, TRAIT_NO_DAMAGE_OVERLAY))
 		var/severity = 0
 		switch(hurtdamage)
 			if(5 to 15)
@@ -732,33 +824,30 @@
 	else
 		hud_used.healths.icon_state = "health6"
 
-/mob/living/carbon/update_stamina_hud(shown_stamina_loss)
+/mob/living/carbon/update_stamina_hud() //monkestation edit
 	if(!client || !hud_used?.stamina)
 		return
 
-	var/stam_crit_threshold = maxHealth - crit_threshold
+	//MONKESTATION EDIT START
+	var/current_stamina = stamina.current
 
-	if(stat == DEAD)
+	if(stamina.current <= (0.20 * STAMINA_MAX)) //stamina stun threshold
 		hud_used.stamina.icon_state = "stamina_dead"
+	else if(current_stamina <= (0.30 * STAMINA_MAX)) //exhaustion threshold
+		hud_used.stamina.icon_state = "stamina_crit"
+	else if(current_stamina <= (0.40 * STAMINA_MAX))
+		hud_used.stamina.icon_state = "stamina_5"
+	else if(current_stamina <= (0.60 * STAMINA_MAX))
+		hud_used.stamina.icon_state = "stamina_4"
+	else if(current_stamina <= (0.70 * STAMINA_MAX))
+		hud_used.stamina.icon_state = "stamina_3"
+	else if(current_stamina <= (0.80 * STAMINA_MAX))
+		hud_used.stamina.icon_state = "stamina_2"
+	else if(current_stamina <= (0.90 * STAMINA_MAX))
+		hud_used.stamina.icon_state = "stamina_1"
 	else
-
-		if(shown_stamina_loss == null)
-			shown_stamina_loss = stamina.loss
-
-		if(shown_stamina_loss >= stam_crit_threshold)
-			hud_used.stamina.icon_state = "stamina_crit"
-		else if(shown_stamina_loss > maxHealth*0.8)
-			hud_used.stamina.icon_state = "stamina_5"
-		else if(shown_stamina_loss > maxHealth*0.6)
-			hud_used.stamina.icon_state = "stamina_4"
-		else if(shown_stamina_loss > maxHealth*0.4)
-			hud_used.stamina.icon_state = "stamina_3"
-		else if(shown_stamina_loss > maxHealth*0.2)
-			hud_used.stamina.icon_state = "stamina_2"
-		else if(shown_stamina_loss > 0)
-			hud_used.stamina.icon_state = "stamina_1"
-		else
-			hud_used.stamina.icon_state = "stamina_full"
+		hud_used.stamina.icon_state = "stamina_full"
+	//MONKESTATION EDIT STOP
 
 /mob/living/carbon/proc/update_spacesuit_hud_icon(cell_state = "empty")
 	if(hud_used?.spacesuit)
@@ -781,7 +870,7 @@
 
 
 /mob/living/carbon/update_stat()
-	if(status_flags & GODMODE)
+	if(HAS_TRAIT(src, TRAIT_GODMODE))
 		return
 	if(stat != DEAD)
 		if(health <= HEALTH_THRESHOLD_DEAD && !HAS_TRAIT(src, TRAIT_NODEATH))
@@ -821,8 +910,6 @@
 			blood_volume += (excess_healing * 2) //1 excess = 10 blood
 
 		for(var/obj/item/organ/organ as anything in organs)
-			if(organ.organ_flags & ORGAN_SYNTHETIC)
-				continue
 			organ.apply_organ_damage(excess_healing * -1) //1 excess = 5 organ damage healed
 
 	return ..()
@@ -837,7 +924,7 @@
 		return FALSE
 
 	// And we can't heal them if they're missing their liver
-	if(!HAS_TRAIT(src, TRAIT_NOMETABOLISM) && !isnull(dna?.species.mutantliver) && !get_organ_slot(ORGAN_SLOT_LIVER))
+	if(!HAS_TRAIT(src, TRAIT_LIVERLESS_METABOLISM) && !isnull(dna?.species.mutantliver) && !get_organ_slot(ORGAN_SLOT_LIVER))
 		return FALSE
 
 	return ..()
@@ -851,6 +938,11 @@
 	if(heal_flags & HEAL_NEGATIVE_DISEASES)
 		for(var/datum/disease/disease as anything in diseases)
 			if(disease.severity != DISEASE_SEVERITY_POSITIVE)
+				disease.cure(FALSE)
+
+	if(heal_flags & HEAL_POSTIVE_DISEASES)
+		for(var/datum/disease/disease as anything in diseases)
+			if(disease.severity == DISEASE_SEVERITY_POSITIVE)
 				disease.cure(FALSE)
 
 	if(heal_flags & HEAL_WOUNDS)
@@ -876,7 +968,7 @@
 		set_handcuffed(null)
 		update_handcuffed()
 
-	stamina.adjust(stamina.maximum, TRUE)
+	stamina.revitalize(forced = TRUE)
 	return ..()
 
 /mob/living/carbon/can_be_revived()
@@ -946,6 +1038,7 @@
 		var/obj/item/bodypart/bodypart_instance = new real_body_part_path()
 		bodypart_instance.set_owner(src)
 		bodyparts.Remove(bodypart_path)
+		bodypart_instance.check_adding_composition(src)
 		add_bodypart(bodypart_instance)
 		switch(bodypart_instance.body_part)
 			if(ARM_LEFT)
@@ -991,6 +1084,13 @@
 			if(!old_bodypart.bodypart_disabled)
 				set_usable_hands(usable_hands - 1)
 
+
+///Updates the bodypart speed modifier based on our bodyparts.
+/mob/living/carbon/proc/update_bodypart_speed_modifier()
+	var/final_modification = 0
+	for(var/obj/item/bodypart/bodypart as anything in bodyparts)
+		final_modification += bodypart.speed_modifier
+	add_or_update_variable_movespeed_modifier(/datum/movespeed_modifier/bodypart, TRUE, final_modification)
 
 /mob/living/carbon/proc/create_internal_organs()
 	for(var/obj/item/organ/internal/internal_organ in organs)
@@ -1048,20 +1148,20 @@
 				if("remove")
 					if(BP)
 						BP.drop_limb()
-						admin_ticket_log("[key_name_admin(usr)] has removed [src]'s [parse_zone(BP.body_zone)]")
+						admin_ticket_log("[key_name(usr)] has removed [src]'s [parse_zone(BP.body_zone)]") // MONKESTATION EDIT - tgui tickets
 					else
 						to_chat(usr, span_boldwarning("[src] doesn't have such bodypart."))
-						admin_ticket_log("[key_name_admin(usr)] has attempted to modify the bodyparts of [src]")
+						admin_ticket_log("[key_name(usr)] has attempted to modify the bodyparts of [src]") // MONKESTATION EDIT - tgui tickets
 				if("replace")
 					var/limb2add = input(usr, "Select a bodypart type to add", "Add/Replace Bodypart") as null|anything in sort_list(limbtypes)
 					var/obj/item/bodypart/new_bp = new limb2add()
 
 					if(new_bp.replace_limb(src, special = TRUE))
-						admin_ticket_log("key_name_admin(usr)] has replaced [src]'s [BP.type] with [new_bp.type]")
+						admin_ticket_log("[key_name(usr)] has replaced [src]'s [BP.type] with [new_bp.type]") // MONKESTATION EDIT - tgui tickets
 						qdel(BP)
 					else
 						to_chat(usr, "Failed to replace bodypart! They might be incompatible.")
-						admin_ticket_log("[key_name_admin(usr)] has attempted to modify the bodyparts of [src]")
+						admin_ticket_log("[key_name(usr)] has attempted to modify the bodyparts of [src]") // MONKESTATION EDIT - tgui tickets
 
 	if(href_list[VV_HK_MAKE_AI])
 		if(!check_rights(R_SPAWN))
@@ -1070,9 +1170,7 @@
 			return
 		usr.client.holder.Topic("vv_override", list("makeai"=href_list[VV_HK_TARGET]))
 	if(href_list[VV_HK_MODIFY_ORGANS])
-		if(!check_rights(NONE))
-			return
-		usr.client.manipulate_organs(src)
+		return SSadmin_verbs.dynamic_invoke_verb(usr, /datum/admin_verb/manipulate_organs, src)
 	if(href_list[VV_HK_MARTIAL_ART])
 		if(!check_rights(NONE))
 			return
@@ -1177,15 +1275,19 @@
 
 /// if any of our bodyparts are bleeding
 /mob/living/carbon/proc/is_bleeding()
+	if(HAS_TRAIT(src, TRAIT_NOBLOOD))
+		return FALSE
 	for(var/obj/item/bodypart/part as anything in bodyparts)
-		if(part.get_modified_bleed_rate())
+		if(part.cached_bleed_rate)
 			return TRUE
 
 /// get our total bleedrate
 /mob/living/carbon/proc/get_total_bleed_rate()
+	if(HAS_TRAIT(src, TRAIT_NOBLOOD))
+		return 0
 	var/total_bleed_rate = 0
 	for(var/obj/item/bodypart/part as anything in bodyparts)
-		total_bleed_rate += part.get_modified_bleed_rate()
+		total_bleed_rate += part.cached_bleed_rate
 
 	return total_bleed_rate
 
@@ -1283,7 +1385,6 @@
 	else
 		set_lying_angle(new_lying_angle)
 
-
 /mob/living/carbon/vv_edit_var(var_name, var_value)
 	switch(var_name)
 		if(NAMEOF(src, disgust))
@@ -1299,17 +1400,18 @@
 
 	return ..()
 
-
 /mob/living/carbon/get_attack_type()
 	if(has_active_hand())
 		var/obj/item/bodypart/arm/active_arm = get_active_hand()
 		return active_arm.attack_type
 	return ..()
 
-
 /mob/living/carbon/proc/attach_rot()
-	if(mob_biotypes & (MOB_ORGANIC|MOB_UNDEAD))
-		AddComponent(/datum/component/rot, 6 MINUTES, 10 MINUTES, 1)
+	if(flags_1 & HOLOGRAM_1)
+		return
+	if(!(mob_biotypes & (MOB_ORGANIC|MOB_UNDEAD)))
+		return
+	AddComponent(/datum/component/rot, 6 MINUTES, 10 MINUTES, 1)
 
 /mob/living/carbon/proc/disarm_precollide(datum/source, mob/living/carbon/shover, mob/living/carbon/target)
 	SIGNAL_HANDLER
@@ -1329,20 +1431,12 @@
 	log_combat(shover, target, "shoved", addition = "into [name]")
 	return COMSIG_CARBON_SHOVE_HANDLED
 
-/**
- * This proc is a helper for spraying blood for things like slashing/piercing wounds and dismemberment.
- *
- * The strength of the splatter in the second argument determines how much it can dirty and how far it can go
- *
- * Arguments:
- * * splatter_direction: Which direction the blood is flying
- * * splatter_strength: How many tiles it can go, and how many items it can pass over and dirty
- */
-/mob/living/carbon/proc/spray_blood(splatter_direction, splatter_strength = 3)
-	if(!isturf(loc))
+/mob/living/carbon/ominous_nosebleed()
+	var/obj/item/bodypart/head = get_bodypart(BODY_ZONE_HEAD)
+	if(isnull(head))
+		return ..()
+	if(HAS_TRAIT(src, TRAIT_NOBLOOD))
+		to_chat(src, span_notice("You get a headache."))
 		return
-	var/obj/effect/decal/cleanable/blood/hitsplatter/our_splatter = new(loc)
-	our_splatter.add_blood_DNA(GET_ATOM_BLOOD_DNA(src))
-	our_splatter.blood_dna_info = get_blood_dna_list()
-	var/turf/targ = get_ranged_target_turf(src, splatter_direction, splatter_strength)
-	our_splatter.fly_towards(targ, splatter_strength)
+	head.adjustBleedStacks(5)
+	visible_message(span_notice("[src] gets a nosebleed."), span_warning("You get a nosebleed."))

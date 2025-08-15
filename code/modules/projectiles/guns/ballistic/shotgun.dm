@@ -16,7 +16,7 @@
 	force = 10
 	flags_1 = CONDUCT_1
 	slot_flags = ITEM_SLOT_BACK
-	mag_type = /obj/item/ammo_box/magazine/internal/shot
+	accepted_magazine_type = /obj/item/ammo_box/magazine/internal/shot
 	semi_auto = FALSE
 	internal_magazine = TRUE
 	casing_ejector = FALSE
@@ -35,7 +35,7 @@
 		. = 1
 
 /obj/item/gun/ballistic/shotgun/lethal
-	mag_type = /obj/item/ammo_box/magazine/internal/shot/lethal
+	accepted_magazine_type = /obj/item/ammo_box/magazine/internal/shot/lethal
 
 // RIOT SHOTGUN //
 
@@ -45,7 +45,7 @@
 	icon_state = "riotshotgun"
 	inhand_icon_state = "shotgun"
 	fire_delay = 8
-	mag_type = /obj/item/ammo_box/magazine/internal/shot/riot
+	accepted_magazine_type = /obj/item/ammo_box/magazine/internal/shot/riot
 	sawn_desc = "Come with me if you want to live."
 	can_be_sawn_off = TRUE
 
@@ -60,9 +60,19 @@
 	desc = "A semi automatic shotgun with tactical furniture and a six-shell capacity underneath."
 	icon_state = "cshotgun"
 	inhand_icon_state = "shotgun_combat"
-	fire_delay = 5
-	mag_type = /obj/item/ammo_box/magazine/internal/shot/com
+	fire_delay = 8
+	accepted_magazine_type = /obj/item/ammo_box/magazine/internal/shot/com
 	w_class = WEIGHT_CLASS_HUGE
+	pbk_gentle = TRUE
+
+/obj/item/gun/ballistic/shotgun/automatic/combat/compact
+	name = "compact shotgun"
+	desc = "A compact version of the semi automatic combat shotgun. For close encounters."
+	icon_state = "cshotgunc"
+	slot_flags = ITEM_SLOT_BELT | ITEM_SLOT_BACK
+	accepted_magazine_type = /obj/item/ammo_box/magazine/internal/shot/com/compact
+	w_class = WEIGHT_CLASS_BULKY
+
 
 //Dual Feed Shotgun
 
@@ -78,9 +88,10 @@
 	worn_icon_state = "cshotgun"
 	w_class = WEIGHT_CLASS_HUGE
 	semi_auto = TRUE
-	mag_type = /obj/item/ammo_box/magazine/internal/shot/tube
+	projectile_damage_multiplier = 1.2
+	accepted_magazine_type = /obj/item/ammo_box/magazine/internal/shot/tube
 	/// If defined, the secondary tube is this type, if you want different shell loads
-	var/alt_mag_type
+	var/alt_accepted_magazine_type
 	/// If TRUE, we're drawing from the alternate_magazine
 	var/toggled = FALSE
 	/// The B tube
@@ -89,7 +100,7 @@
 /obj/item/gun/ballistic/shotgun/automatic/dual_tube/bounty
 	name = "bounty cycler shotgun"
 	desc = "An advanced shotgun with two separate magazine tubes. This one shows signs of bounty hunting customization, meaning it likely has a dual rubber shot/fire slug load."
-	alt_mag_type = /obj/item/ammo_box/magazine/internal/shot/tube/fire
+	//alt_accepted_magazine_type = /obj/item/ammo_box/magazine/internal/shot/tube/fire   monkestation edit
 
 /obj/item/gun/ballistic/shotgun/automatic/dual_tube/examine(mob/user)
 	. = ..()
@@ -97,8 +108,8 @@
 
 /obj/item/gun/ballistic/shotgun/automatic/dual_tube/Initialize(mapload)
 	. = ..()
-	alt_mag_type = alt_mag_type || mag_type
-	alternate_magazine = new alt_mag_type(src)
+	alt_accepted_magazine_type = alt_accepted_magazine_type || accepted_magazine_type
+	alternate_magazine = new alt_accepted_magazine_type(src)
 
 /obj/item/gun/ballistic/shotgun/automatic/dual_tube/Destroy()
 	QDEL_NULL(alternate_magazine)
@@ -139,7 +150,7 @@
 	inhand_x_dimension = 32
 	inhand_y_dimension = 32
 	weapon_weight = WEAPON_MEDIUM
-	mag_type = /obj/item/ammo_box/magazine/m12g
+	accepted_magazine_type = /obj/item/ammo_box/magazine/m12g
 	can_suppress = FALSE
 	burst_size = 1
 	fire_delay = 0
@@ -154,6 +165,8 @@
 	semi_auto = TRUE
 	internal_magazine = FALSE
 	tac_reloads = TRUE
+	projectile_damage_multiplier = 1.2
+	casing_ejector = TRUE
 	///the type of secondary magazine for the bulldog
 	var/secondary_magazine_type
 	///the secondary magazine
@@ -161,9 +174,9 @@
 
 /obj/item/gun/ballistic/shotgun/bulldog/Initialize(mapload)
 	. = ..()
-	secondary_magazine_type = secondary_magazine_type || mag_type
+	secondary_magazine_type = secondary_magazine_type || accepted_magazine_type
 	secondary_magazine = new secondary_magazine_type(src)
-	update_appearance()
+	update_appearance(UPDATE_OVERLAYS)
 
 /obj/item/gun/ballistic/shotgun/bulldog/Destroy()
 	QDEL_NULL(secondary_magazine)
@@ -209,6 +222,7 @@
 /obj/item/gun/ballistic/shotgun/bulldog/afterattack_secondary(mob/living/victim, mob/living/user, params)
 	if(secondary_magazine)
 		toggle_magazine()
+		return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 	return SECONDARY_ATTACK_CALL_NORMAL
 
 /obj/item/gun/ballistic/shotgun/bulldog/attackby_secondary(obj/item/weapon, mob/user, params)
@@ -222,9 +236,10 @@
 	secondary_magazine = weapon
 	if(old_mag)
 		user.put_in_hands(old_mag)
+		old_mag.update_appearance()
 	balloon_alert(user, "secondary [magazine_wording] loaded")
 	playsound(src, load_empty_sound, load_sound_volume, load_sound_vary)
-	update_appearance()
+	update_appearance(UPDATE_OVERLAYS)
 	return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 
 /obj/item/gun/ballistic/shotgun/bulldog/alt_click_secondary(mob/user)
@@ -232,20 +247,32 @@
 		var/obj/item/ammo_box/magazine/old_mag = secondary_magazine
 		secondary_magazine = null
 		user.put_in_hands(old_mag)
-		update_appearance()
+		old_mag.update_appearance()
+		update_appearance(UPDATE_OVERLAYS)
 		playsound(src, load_empty_sound, load_sound_volume, load_sound_vary)
 	return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
 
 /obj/item/gun/ballistic/shotgun/bulldog/proc/toggle_magazine()
+	var/rechamber = FALSE
+	if(magazine && chambered)
+		if(chambered.loaded_projectile && magazine.stored_ammo.len < magazine.max_ammo)
+			magazine.give_round(chambered, 0)
+			chambered = null
+			rechamber = TRUE
+
 	var/primary_magazine = magazine
 	var/alternative_magazine = secondary_magazine
+
 	magazine = alternative_magazine
 	secondary_magazine = primary_magazine
 	playsound(src, load_empty_sound, load_sound_volume, load_sound_vary)
-	update_appearance()
+	if(rechamber && magazine)
+		chamber_round()
+	update_appearance(UPDATE_OVERLAYS)
 
 /obj/item/gun/ballistic/shotgun/bulldog/unrestricted
 	pin = /obj/item/firing_pin
+
 /////////////////////////////
 // DOUBLE BARRELED SHOTGUN //
 /////////////////////////////
@@ -260,7 +287,7 @@
 	force = 10
 	flags_1 = CONDUCT_1
 	slot_flags = ITEM_SLOT_BACK
-	mag_type = /obj/item/ammo_box/magazine/internal/shot/dual
+	accepted_magazine_type = /obj/item/ammo_box/magazine/internal/shot/dual
 	sawn_desc = "Omar's coming!"
 	obj_flags = UNIQUE_RENAME
 	rack_sound_volume = 0
@@ -290,7 +317,13 @@
 	name = "hunting shotgun"
 	desc = "A hunting shotgun used by the wealthy to hunt \"game\"."
 	sawn_desc = "A sawn-off hunting shotgun. In its new state, it's remarkably less effective at hunting... anything."
-	mag_type = /obj/item/ammo_box/magazine/internal/shot/dual/slugs
+	accepted_magazine_type = /obj/item/ammo_box/magazine/internal/shot/dual/slugs
+
+/obj/item/gun/ballistic/shotgun/doublebarrel/breacherslug
+	name = "breaching shotgun"
+	desc = "A normal double-barrel shotgun that has been rechambered to fit breaching shells. Useful in breaching airlocks and windows, not much else."
+	sawn_desc = "A sawn-off breaching shotgun, making for a more compact configuration while still having the same capability as before."
+	accepted_magazine_type = /obj/item/ammo_box/magazine/internal/shot/dual/breacherslug
 
 /obj/item/gun/ballistic/shotgun/hook
 	name = "hook modified sawn-off shotgun"
@@ -301,7 +334,7 @@
 	righthand_file = 'icons/mob/inhands/weapons/guns_righthand.dmi'
 	inhand_x_dimension = 32
 	inhand_y_dimension = 32
-	mag_type = /obj/item/ammo_box/magazine/internal/shot/bounty
+	accepted_magazine_type = /obj/item/ammo_box/magazine/internal/shot/bounty
 	weapon_weight = WEAPON_MEDIUM
 	semi_auto = TRUE
 	flags_1 = CONDUCT_1
@@ -328,3 +361,4 @@
 /obj/item/gun/ballistic/shotgun/hook/afterattack_secondary(atom/target, mob/user, proximity_flag, click_parameters)
 	hook.afterattack(target, user, proximity_flag, click_parameters)
 	return SECONDARY_ATTACK_CANCEL_ATTACK_CHAIN
+

@@ -26,6 +26,7 @@
 	pressure_resistance = 0
 	slot_flags = ITEM_SLOT_HEAD
 	body_parts_covered = HEAD
+	flags_inv = HIDEHAIR //monkestation addition
 	resistance_flags = FLAMMABLE
 	max_integrity = 50
 	dog_fashion = /datum/dog_fashion/head
@@ -56,6 +57,9 @@
 	/// Default raw text to fill this paper with on init.
 	var/default_raw_text
 
+	/// Checks to see if the paper can be folded
+	var/can_be_folded = TRUE
+
 	/// The number of input fields
 	var/input_field_count = 0
 
@@ -71,6 +75,7 @@
 
 /obj/item/paper/Initialize(mapload)
 	. = ..()
+	AddComponent(/datum/component/customizable_reagent_holder, /obj/item/clothing/mask/cigarette/rollie, CUSTOM_INGREDIENT_ICON_NOCHANGE, ingredient_type=CUSTOM_INGREDIENT_TYPE_DRYABLE, max_ingredients=2, job_xp = 1, job = JOB_BOTANIST)
 	pixel_x = base_pixel_x + rand(-9, 9)
 	pixel_y = base_pixel_y + rand(-8, 8)
 
@@ -358,25 +363,31 @@
 		return TRUE
 	return ..()
 
-/obj/item/proc/burn_paper_product_attackby_check(obj/item/I, mob/living/user, bypass_clumsy)
-	var/ignition_message = I.ignition_effect(src, user)
+/obj/item/proc/burn_paper_product_attackby_check(obj/item/attacking_item, mob/living/user, bypass_clumsy = FALSE)
+	//can't be put on fire!
+	if((resistance_flags & FIRE_PROOF) || !(resistance_flags & FLAMMABLE))
+		return FALSE
+	//already on fire!
+	if(resistance_flags & ON_FIRE)
+		return FALSE
+	var/ignition_message = attacking_item.ignition_effect(src, user)
 	if(!ignition_message)
-		return
-	. = TRUE
+		return FALSE
 	if(!bypass_clumsy && HAS_TRAIT(user, TRAIT_CLUMSY) && prob(10) && Adjacent(user))
 		user.visible_message(span_warning("[user] accidentally ignites [user.p_them()]self!"), \
 							span_userdanger("You miss [src] and accidentally light yourself on fire!"))
-		if(user.is_holding(I)) //checking if they're holding it in case TK is involved
-			user.dropItemToGround(I)
-		user.adjust_fire_stacks(1)
+		if(user.is_holding(attacking_item)) //checking if they're holding it in case TK is involved
+			user.dropItemToGround(attacking_item)
+		user.adjust_fire_stacks(attacking_item)
 		user.ignite_mob()
-		return
+		return TRUE
 
 	if(user.is_holding(src)) //no TK shit here.
 		user.dropItemToGround(src)
 	user.visible_message(ignition_message)
 	add_fingerprint(user)
-	fire_act(I.get_temperature())
+	fire_act(attacking_item.get_temperature())
+	return TRUE
 
 /obj/item/paper/attackby(obj/item/attacking_item, mob/living/user, params)
 	if(burn_paper_product_attackby_check(attacking_item, user))
@@ -408,8 +419,8 @@
 	// Handle stamping items.
 	if(writing_stats["interaction_mode"] == MODE_STAMPING)
 		if(!user.can_read(src) || user.is_blind())
-			//The paper's stampable window area is assumed approx 400x500
-			add_stamp(writing_stats["stamp_class"], rand(0, 400), rand(0, 500), rand(0, 360), writing_stats["stamp_icon_state"])
+			//The paper's stampable window area is assumed approx 300x400
+			add_stamp(writing_stats["stamp_class"], rand(0, 300), rand(0, 400), rand(0, 360), writing_stats["stamp_icon_state"])
 			user.visible_message(span_notice("[user] blindly stamps [src] with \the [attacking_item]!"))
 			to_chat(user, span_notice("You stamp [src] with \the [attacking_item] the best you can!"))
 			playsound(src, 'sound/items/handling/standard_stamp.ogg', 50, vary = TRUE)
@@ -421,6 +432,25 @@
 	ui_interact(user)
 	return ..()
 
+/// Secondary right click interaction to quickly stamp things
+/obj/item/paper/attackby_secondary(obj/item/attacking_item, mob/living/user, params)
+	var/list/writing_stats = attacking_item.get_writing_implement_details()
+
+	if(!length(writing_stats))
+		return NONE
+	if(writing_stats["interaction_mode"] != MODE_STAMPING)
+		return NONE
+	if(!user.can_read(src) || user.is_blind()) // Just leftclick instead
+		return NONE
+
+	add_stamp(writing_stats["stamp_class"], rand(1, 300), rand(1, 400), stamp_icon_state = writing_stats["stamp_icon_state"])
+	user.visible_message(
+		span_notice("[user] quickly stamps [src] with [attacking_item] without looking."),
+		span_notice("You quickly stamp [src] with [attacking_item] without looking."),
+	)
+	playsound(src, 'sound/items/handling/standard_stamp.ogg', 50, vary = TRUE)
+
+	return TOOL_ACT_SIGNAL_BLOCKING // Stop the UI from opening.
 /**
  * Attempts to ui_interact the paper to the given user, with some sanity checking
  * to make sure the camera still exists via the weakref and that this paper is still
@@ -782,3 +812,59 @@
 
 /obj/item/paper/crumpled/muddy
 	icon_state = "scrap_mud"
+
+/obj/item/paper/selfdestruct
+	name = "Self-Incinerating Note"
+	desc = "A note that will incinerate itself after being read."
+	can_be_folded = FALSE
+	var/has_been_read = FALSE
+	var/armed = FALSE
+
+/obj/item/paper/selfdestruct/examine(mob/user)
+	. = ..()
+
+	if(!has_been_read)
+		return
+
+	. += span_warning("This feels warm to the touch.")
+
+
+/obj/item/paper/selfdestruct/ui_interact(mob/user, datum/tgui/ui)
+	. = ..()
+
+	if(ui && armed && !has_been_read)
+		playsound(user, 'sound/machines/click.ogg', 25)
+		to_chat(user, span_warning("You hear a faint click as you open the note. It feels strangely warm."))
+
+		has_been_read = TRUE
+
+		addtimer(CALLBACK(src, PROC_REF(combust_now)), 20 SECONDS, TIMER_UNIQUE)
+	return
+
+/obj/item/paper/selfdestruct/proc/combust_now(mob/user_who_initiated)
+	if(!src || QDELETED(src))
+		return
+
+	SStgui.close_uis(src)
+
+	var/mob/living/holder = null
+	if(ismob(loc))
+		holder = loc
+
+	if(holder)
+		to_chat(holder, span_warning("[src] suddenly bursts into flames in your hands!"))
+	else if(get_turf(src))
+		var/atom/turf_location = get_turf(src)
+		turf_location.visible_message(span_warning("[src] suddenly bursts into flames on the ground!"))
+	else if(loc)
+		loc.visible_message(span_warning("[src] suddenly bursts into flames!"))
+
+	fire_act(100)
+
+/obj/item/paper/selfdestruct/AltClick(mob/living/user, obj/item/used_item)
+	if(!armed)
+		to_chat(user, span_warning("You arm the incineration mechanism."))
+		armed = TRUE
+		return
+
+	return

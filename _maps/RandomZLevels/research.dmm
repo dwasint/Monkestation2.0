@@ -1831,7 +1831,7 @@
 /turf/open/floor/iron/freezer,
 /area/awaymission/research/interior/bathroom)
 "iK" = (
-/obj/structure/window/reinforced/tinted,
+/obj/structure/window/reinforced/tinted/spawner/directional/south,
 /turf/open/floor/iron/freezer,
 /area/awaymission/research/interior/bathroom)
 "iL" = (
@@ -1846,9 +1846,7 @@
 /turf/open/floor/iron/freezer,
 /area/awaymission/research/interior/bathroom)
 "iO" = (
-/obj/structure/window/reinforced/tinted{
-	dir = 8
-	},
+/obj/structure/window/reinforced/tinted/spawner/directional/west,
 /turf/open/floor/iron/freezer,
 /area/awaymission/research/interior/bathroom)
 "iP" = (
@@ -3080,7 +3078,7 @@
 /turf/open/floor/plating,
 /area/awaymission/research/interior/maint)
 "sf" = (
-/obj/machinery/computer/scan_consolenew{
+/obj/machinery/computer/dna_console{
 	dir = 1
 	},
 /obj/machinery/light/directional/south,
@@ -3492,7 +3490,7 @@
 /turf/open/floor/iron/white,
 /area/awaymission/research/interior/engineering)
 "FZ" = (
-/obj/machinery/computer/scan_consolenew,
+/obj/machinery/computer/dna_console,
 /obj/machinery/light/directional/north,
 /obj/effect/turf_decal/tile/purple/fourcorners,
 /turf/open/floor/iron/dark,

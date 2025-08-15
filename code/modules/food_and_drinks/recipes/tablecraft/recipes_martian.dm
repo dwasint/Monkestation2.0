@@ -141,6 +141,7 @@
 		/obj/item/food/boiledrice = 1,
 		/obj/item/food/egg = 1,
 		/datum/reagent/consumable/soysauce = 3,
+		/obj/item/reagent_containers/cup/bowl = 1,
 	)
 	result = /obj/item/food/salad/egg_fried_rice
 	category = CAT_MARTIAN
@@ -188,7 +189,7 @@
 	name = "Martian fried noodles"
 	reqs = list(
 		/obj/item/food/spaghetti/boilednoodles = 1,
-		/obj/item/food/peanuts/salted = 1,
+		/obj/item/food/grown/peanut = 2,
 		/obj/item/food/meat/cutlet = 1,
 		/obj/item/food/onion_slice = 1,
 		/obj/item/food/egg = 1,
@@ -669,7 +670,7 @@
 	reqs = list(
 		/obj/item/food/cake/plain = 1,
 		/obj/item/food/grown/ambrosia/vulgaris = 1,
-		/obj/item/food/butter = 1, //monkestation edit: no butterslices yet, is intended to be 2 slices
+		/obj/item/food/butterslice = 2,
 	)
 	result = /obj/item/food/cake/spekkoek
 	category = CAT_MARTIAN
@@ -700,7 +701,7 @@
 	name = "Boh loh yah"
 	reqs = list(
 		/obj/item/food/doughslice = 1,
-		/obj/item/food/butter = 1, //monkestation edit: no butterslices yet, is intended to be 1 slice
+		/obj/item/food/butterslice = 1,
 		/datum/reagent/consumable/sugar = 5,
 	)
 	result = /obj/item/food/boh_loh_yah

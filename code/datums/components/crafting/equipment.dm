@@ -198,3 +198,25 @@
 	tool_paths = list(/obj/item/bikehorn)
 	time = 40 SECONDS
 	category = CAT_EQUIPMENT
+
+/datum/crafting_recipe/rebar_quiver
+	name = "Rebar Storage Quiver"
+	result = /obj/item/storage/bag/rebar_quiver
+	time = 10
+	reqs = list(
+		/obj/item/tank/internals/oxygen = 1,
+		/obj/item/stack/cable_coil = 15,
+	)
+	category = CAT_EQUIPMENT
+	tool_behaviors = list(TOOL_WELDER, TOOL_WIRECUTTER)
+
+/datum/crafting_recipe/umbrella
+	name = "Umbrella"
+	result = /obj/item/umbrella
+	reqs = list(
+		/obj/item/stack/sheet/cloth = 3,
+		/obj/item/stack/rods = 1,
+	)
+	tool_behaviors = list(TOOL_CROWBAR)
+	time = 5 SECONDS
+	category = CAT_EQUIPMENT

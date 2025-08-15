@@ -174,7 +174,7 @@
 /obj/item/gun/energy/plasmacutter/use(amount)
 	return (!QDELETED(cell) && cell.use(amount ? amount * charge_weld : charge_weld))
 
-/obj/item/gun/energy/plasmacutter/use_tool(atom/target, mob/living/user, delay, amount=1, volume=0, datum/callback/extra_checks)
+/obj/item/gun/energy/plasmacutter/use_tool(atom/target, mob/living/user, delay, amount=1, volume=0, datum/callback/extra_checks, interaction_key)
 
 	if(amount)
 		var/mutable_appearance/sparks = mutable_appearance('icons/effects/welding_effect.dmi', "welding_sparks", GASFIRE_LAYER, src, ABOVE_LIGHTING_PLANE)
@@ -331,20 +331,19 @@
 	icon_state = "freezegun"
 	desc = "A gun that changes temperatures. Comes with a collapsible stock."
 	w_class = WEIGHT_CLASS_NORMAL
-	ammo_type = list(/obj/item/ammo_casing/energy/temp, /obj/item/ammo_casing/energy/temp/hot)
+	ammo_type = list(/obj/item/ammo_casing/energy/temp, /obj/item/ammo_casing/energy/temp/hot, /obj/item/ammo_casing/energy/temp/cryo)
 	cell_type = /obj/item/stock_parts/cell/high
-	pin = null
+	pin = /obj/item/firing_pin
 
 /obj/item/gun/energy/temperature/security
 	name = "security temperature gun"
 	desc = "A weapon that can only be used to its full potential by the truly robust."
-	pin = /obj/item/firing_pin
+	ammo_type = list(/obj/item/ammo_casing/energy/temp, /obj/item/ammo_casing/energy/temp/hot)
 
 /obj/item/gun/energy/temperature/freeze
 	name = "cryogenic temperature gun"
 	desc = "A gun that reduces temperatures. Only for those with ice in their veins."
-	pin = /obj/item/firing_pin
-	ammo_type = list(/obj/item/ammo_casing/energy/temp)
+	ammo_type = list(/obj/item/ammo_casing/energy/temp, /obj/item/ammo_casing/energy/temp/cryo)
 
 /obj/item/gun/energy/gravity_gun
 	name = "one-point gravitational manipulator"

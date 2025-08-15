@@ -71,9 +71,6 @@
 	if(gathered_ore.refined_type == null)
 		return
 
-	if(gathered_ore?.refined_type)
-		points += gathered_ore.points * point_upgrade * gathered_ore.amount
-
 	var/material_amount = mat_container.get_item_material_amount(gathered_ore, BREAKDOWN_FLAGS_ORM)
 
 	if(!material_amount)
@@ -85,10 +82,14 @@
 	else
 		var/list/stack_mats = gathered_ore.get_material_composition(BREAKDOWN_FLAGS_ORM)
 		var/mats = stack_mats & mat_container.materials
-		var/amount = gathered_ore.amount
-		mat_container.insert_item(gathered_ore, ore_multiplier, breakdown_flags=BREAKDOWN_FLAGS_ORM) //insert it
-		materials.silo_log(src, "smelted", amount, "someone", mats)
-		qdel(gathered_ore)
+		var/ore_amount = gathered_ore.amount
+		var/ore_points= gathered_ore.points
+		var/ore_name = gathered_ore.name
+		var/refined_type = gathered_ore?.refined_type
+		if(mat_container.insert_item(gathered_ore, ore_multiplier, breakdown_flags = BREAKDOWN_FLAGS_ORM) > 0) //increase points only if insertion was successfull
+			if(refined_type)
+				points += ore_points * point_upgrade * ore_amount
+			materials.silo_log(src, "smelted", ore_amount, ore_name, mats)
 
 	SEND_SIGNAL(src, COMSIG_ORM_COLLECTED_ORE)
 
@@ -236,29 +237,37 @@
 		for(var/datum/material/material as anything in mat_container.materials)
 			var/amount = mat_container.materials[material]
 			var/sheet_amount = amount / SHEET_MATERIAL_AMOUNT
+			var/obj/sheet_type = material.sheet_type
 			data["materials"] += list(list(
 				"name" = material.name,
 				"id" = REF(material),
 				"amount" = sheet_amount,
 				"category" = "material",
 				"value" = ore_values[material.type],
+				"icon" = text_ref(sheet_type::icon),
+				"icon_state" = sheet_type::icon_state,
 			))
 
 		for(var/research in stored_research.researched_designs)
 			var/datum/design/alloy = SSresearch.techweb_design_by_id(research)
+			var/obj/alloy_type = alloy.build_path
 			data["materials"] += list(list(
 				"name" = alloy.name,
 				"id" = alloy.id,
 				"category" = "alloy",
 				"amount" = can_smelt_alloy(alloy),
+				"icon" = text_ref(alloy_type::icon),
+				"icon_state" = alloy_type::icon_state,
 			))
-
+	data["disconnected"] = null
 	if (!mat_container)
-		data["disconnected"] = "local mineral storage is unavailable"
+		data["disconnected"] = "Local mineral storage is unavailable"
 	else if (!materials.silo)
-		data["disconnected"] = "no ore silo connection is available; storing locally"
+		data["disconnected"] = "No ore silo connection is available; storing locally"
+	else if (!materials.check_z_level())
+		data["disconnected"] = "Unable to connect to ore silo, too far away"
 	else if (materials.on_hold())
-		data["disconnected"] = "mineral withdrawal is on hold"
+		data["disconnected"] = "Mineral withdrawal is on hold"
 
 	var/obj/item/card/id/card
 	if(isliving(user))
@@ -278,29 +287,6 @@
 			)
 	return data
 
-/obj/machinery/mineral/ore_redemption/ui_static_data(mob/user)
-	var/list/data = list()
-
-	var/datum/component/material_container/mat_container = materials.mat_container
-	if (mat_container)
-		for(var/datum/material/material as anything in mat_container.materials)
-			var/obj/material_display = initial(material.sheet_type)
-			data["material_icons"] += list(list(
-				"id" = REF(material),
-				"product_icon" = icon2base64(getFlatIcon(image(icon = initial(material_display.icon), icon_state = initial(material_display.icon_state)), no_anim=TRUE)),
-			))
-
-	for(var/research in stored_research.researched_designs)
-		var/datum/design/alloy = SSresearch.techweb_design_by_id(research)
-		var/obj/alloy_display = initial(alloy.build_path)
-		data["material_icons"] += list(list(
-			"id" = alloy.id,
-			"product_icon" = icon2base64(getFlatIcon(image(icon = initial(alloy_display.icon), icon_state = initial(alloy_display.icon_state)), no_anim=TRUE)),
-		))
-
-	return data
-
-
 /obj/machinery/mineral/ore_redemption/ui_act(action, params)
 	. = ..()
 	if(.)
@@ -312,6 +298,8 @@
 			if(isliving(usr))
 				var/mob/living/user = usr
 				user_id_card = user.get_idcard(TRUE)
+			if(!materials.check_z_level())
+				return TRUE
 			if(points)
 				if(user_id_card)
 					user_id_card.registered_account.mining_points += points

@@ -7,6 +7,10 @@
 	var/releasedelay = 10
 	aSignal = /obj/item/assembly/signaler/anomaly/pyro
 
+/obj/effect/anomaly/pyro/Initialize(mapload, new_lifespan, drops_core)
+	. = ..()
+	apply_wibbly_filters(src)
+
 /obj/effect/anomaly/pyro/anomalyEffect(seconds_per_tick)
 	..()
 	ticks += seconds_per_tick
@@ -30,24 +34,12 @@
 	var/new_colour = pick(/datum/slime_color/red, /datum/slime_color/orange)
 	var/mob/living/basic/slime/pyro = new(tile, new_colour)
 	ADD_TRAIT(pyro, TRAIT_SLIME_RABID, "pyro")
-	pyro.maximum_survivable_temperature = INFINITY
-	pyro.apply_temperature_requirements()
 
-	var/list/mob/dead/observer/candidates = SSpolling.poll_ghost_candidates_for_mob(
-		"Do you want to play as a pyroclastic anomaly slime?",
-		check_jobban = ROLE_SENTIENCE,
-		role = ROLE_SENTIENCE,
-		poll_time = 10 SECONDS,
-		target_mob = pyro,
-		ignore_category = POLL_IGNORE_PYROSLIME,
-		pic_source = pyro,
-		role_name_text = "pyroclastic anomaly slime"
-	)
-	if(!LAZYLEN(candidates))
+	var/mob/chosen_one = SSpolling.poll_ghosts_for_target(check_jobban = ROLE_SENTIENCE, poll_time = 10 SECONDS, checked_target = pyro, ignore_category = POLL_IGNORE_PYROSLIME, alert_pic = pyro, role_name_text = "pyroclastic anomaly slime")
+	if(isnull(chosen_one))
+		pyro.recompile_ai_tree()
 		return
-
-	var/mob/dead/observer/chosen = pick(candidates)
-	pyro.key = chosen.key
+	pyro.PossessByPlayer(chosen_one.key)
 	pyro.mind.special_role = ROLE_PYROCLASTIC_SLIME
 	pyro.mind.add_antag_datum(/datum/antagonist/pyro_slime)
 	pyro.log_message("was made into a slime by pyroclastic anomaly", LOG_GAME)

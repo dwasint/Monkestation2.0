@@ -19,7 +19,7 @@
 	power_explanation = "Level 1: Dominate:\n\
 		Click any person to, after a 4 second timer, Mesmerize them.\n\
 		This will completely immobilize them for the next 10.5 seconds."
-	check_flags = BP_CANT_USE_IN_TORPOR|BP_CANT_USE_IN_FRENZY|BP_CANT_USE_WHILE_UNCONSCIOUS
+	check_flags = BP_CANT_USE_IN_TORPOR | BP_CANT_USE_IN_FRENZY | BP_CANT_USE_WHILE_UNCONSCIOUS | BP_CANT_USE_DURING_SOL
 	bloodcost = 15
 	constant_bloodcost = 2
 	cooldown_time = 50 SECONDS
@@ -176,6 +176,7 @@
 	target.revive(ADMIN_HEAL_ALL)
 	var/datum/antagonist/vassal/vassaldatum = target.mind.has_antag_datum(/datum/antagonist/vassal)
 	vassaldatum.special_type = TREMERE_VASSAL //don't turn them into a favorite please
+	vassaldatum.ui_interact(target) // make sure they see the UI!!
 	var/living_time
 	if(level_current == 4)
 		living_time = 5 MINUTES

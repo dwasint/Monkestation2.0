@@ -17,7 +17,7 @@
 	var/mob/dead/observer/selected
 
 
-/datum/scripture/marauder/Destroy(force, ...)
+/datum/scripture/marauder/Destroy(force)
 	selected = null
 	return ..()
 
@@ -29,7 +29,7 @@
 		role = ROLE_CLOCK_CULTIST,
 		poll_time = 10 SECONDS,
 		ignore_category = POLL_IGNORE_CONSTRUCT,
-		pic_source = /mob/living/basic/clockwork_marauder,
+		alert_pic = /mob/living/basic/clockwork_marauder,
 		role_name_text = "clockwork marauder"
 	)
 	if(length(candidates))
@@ -51,7 +51,7 @@
 /datum/scripture/marauder/invoke_success()
 	var/mob/living/basic/clockwork_marauder/new_mob = new (get_turf(invoker))
 	new_mob.visible_message(span_notice("[new_mob] flashes into existance!"))
-	new_mob.key = selected.key
+	new_mob.PossessByPlayer(selected.key)
 	new_mob.mind.add_antag_datum(/datum/antagonist/clock_cultist)
 	to_chat(new_mob, span_brass("You are a Clockwork Marauder! You have a [new_mob.shield_health]-hit shield that will protect you against any damage taken. \
 								Have a servant repair you with a welder, should you or your shield become too damaged."))

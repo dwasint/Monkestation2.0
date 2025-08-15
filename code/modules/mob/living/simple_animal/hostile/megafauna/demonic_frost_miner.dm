@@ -253,7 +253,7 @@ Difficulty: Extremely Hard
 	var/typepath = user.type
 	var/mob/living/carbon/clone = new typepath(user.loc)
 	clone.real_name = user.real_name
-	INVOKE_ASYNC(user.dna, TYPE_PROC_REF(/datum/dna, transfer_identity), clone)
+	INVOKE_ASYNC(user.dna, TYPE_PROC_REF(/datum/dna, copy_dna), clone.dna, COPY_DNA_SE|COPY_DNA_SPECIES)
 	clone.updateappearance(mutcolor_update=1)
 	var/turf/T = find_safe_turf()
 	user.forceMove(T)
@@ -313,7 +313,7 @@ Difficulty: Extremely Hard
 	AddElement(/datum/element/knockback, 4, TRUE, FALSE)
 	AddElement(/datum/element/lifesteal, 5)
 
-/obj/item/pickaxe/drill/jackhammer/demonic/use_tool(atom/target, mob/living/user, delay, amount=0, volume=0, datum/callback/extra_checks)
+/obj/item/pickaxe/drill/jackhammer/demonic/use_tool(atom/target, mob/living/user, delay, amount=0, volume=0, datum/callback/extra_checks, interaction_key)
 	var/turf/T = get_turf(target)
 	mineral_scan_pulse(T, world.view + 1)
 	. = ..()

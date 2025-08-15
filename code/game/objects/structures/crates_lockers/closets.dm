@@ -1,5 +1,11 @@
 #define LOCKER_FULL -1
 
+/// A comprehensive list of all roundstart closets (NOT CRATES)
+GLOBAL_LIST_EMPTY_TYPED(roundstart_station_closets, /obj/structure/closet)
+
+/// A comprehensive list of all roundstart closets in the game world
+GLOBAL_LIST_EMPTY_TYPED(closets, /obj/structure/closet)
+
 /obj/structure/closet
 	name = "closet"
 	desc = "It's a basic storage unit."
@@ -11,7 +17,7 @@
 	integrity_failure = 0.25
 	armor_type = /datum/armor/structure_closet
 	blocks_emissive = EMISSIVE_BLOCK_GENERIC
-	pass_flags_self = LETPASSCLICKS
+	pass_flags_self = PASSSTRUCTURE | LETPASSCLICKS
 
 	/// The overlay for the closet's door
 	var/obj/effect/overlay/closet_door/door_obj
@@ -25,6 +31,8 @@
 	var/door_hinge_x = -6.5
 	/// Amount of time it takes for the door animation to play
 	var/door_anim_time = 1.5 // set to 0 to make the door not animate at all
+	/// Chance for an item inside to get ashed upon the destruction of the lock
+	var/ash_chance = 0
 
 	/// Controls whether a door overlay should be applied using the icon_door value as the icon state
 	var/enable_door_overlay = TRUE
@@ -82,6 +90,10 @@
 /obj/structure/closet/Initialize(mapload)
 	. = ..()
 
+	GLOB.closets += src
+	if(is_station_level(z) && mapload)
+		add_to_roundstart_list()
+
 	// if closed, any item at the crate's loc is put in the contents
 	if (mapload && !opened)
 		. = INITIALIZE_HINT_LATELOAD
@@ -112,6 +124,8 @@
 /obj/structure/closet/Destroy()
 	QDEL_NULL(door_obj)
 	QDEL_NULL(electronics)
+	GLOB.closets -= src
+	GLOB.roundstart_station_closets -= src
 	return ..()
 
 /obj/structure/closet/update_appearance(updates=ALL)
@@ -699,6 +713,14 @@
 	welded = FALSE //applies to all lockers
 	locked = FALSE //applies to critter crates and secure lockers only
 	broken = TRUE //applies to secure lockers only
+	for(var/obj/item/broken as anything in src.contents)
+		if(!istype(broken, /mob))
+			if(prob(ash_chance))
+				QDEL_NULL(broken)
+				new /obj/effect/decal/cleanable/ash(src.loc)
+				if(istype(broken, /obj/item/ammo_box))
+					if(prob(25))
+						explosion(src, 0, 0, 2, 0, 2)
 	open()
 
 /obj/structure/closet/attack_hand_secondary(mob/user, modifiers)
@@ -806,10 +828,14 @@
 	return COMSIG_CARBON_SHOVE_HANDLED
 
 /// Signal proc for [COMSIG_ATOM_MAGICALLY_UNLOCKED]. Unlock and open up when we get knock casted.
-/obj/structure/closet/proc/on_magic_unlock(datum/source, datum/action/cooldown/spell/aoe/knock/spell, mob/living/caster)
+/obj/structure/closet/proc/on_magic_unlock(datum/source, datum/action/cooldown/spell/aoe/knock/spell, atom/caster)
 	SIGNAL_HANDLER
 
 	locked = FALSE
 	INVOKE_ASYNC(src, PROC_REF(open))
+
+///Adds the closet to a global list. Placed in its own proc so that crates may be excluded.
+/obj/structure/closet/proc/add_to_roundstart_list()
+	GLOB.roundstart_station_closets += src
 
 #undef LOCKER_FULL

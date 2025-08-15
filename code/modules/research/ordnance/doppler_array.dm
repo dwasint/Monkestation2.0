@@ -18,7 +18,7 @@
 	var/obj/item/computer_disk/inserted_disk
 
 	// Lighting system to better communicate the directions.
-	light_system = MOVABLE_LIGHT_DIRECTIONAL
+	light_system = OVERLAY_LIGHT_DIRECTIONAL
 	light_outer_range = 4
 	light_power = 1
 	light_color = COLOR_RED
@@ -243,7 +243,7 @@
 
 /obj/machinery/doppler_array/Destroy()
 	inserted_disk = null
-	QDEL_NULL(records) //We only want the list nuked, not the contents.
+	records.Cut() //We only want the list nuked, not the contents.
 	. = ..()
 
 /obj/machinery/doppler_array/proc/update_doppler_light()

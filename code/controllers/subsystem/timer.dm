@@ -4,8 +4,6 @@
 #define BUCKET_POS(timer) (((ROUND_UP((timer.timeToRun - timer.timer_subsystem.head_offset) / world.tick_lag)+1) % BUCKET_LEN) || BUCKET_LEN)
 /// Gets the maximum time at which timers will be invoked from buckets, used for deferring to secondary queue
 #define TIMER_MAX(timer_ss) (timer_ss.head_offset + TICKS2DS(BUCKET_LEN + timer_ss.practical_offset - 1))
-/// Max float with integer precision
-#define TIMER_ID_MAX (2**24)
 
 /**
  * # Timer Subsystem
@@ -612,8 +610,8 @@ SUBSYSTEM_DEF(timer)
  * * timer_subsystem the subsystem to insert this timer into
  */
 /proc/_addtimer(datum/callback/callback, wait = 0, flags = 0, datum/controller/subsystem/timer/timer_subsystem, file, line)
-	if (!callback)
-		CRASH("addtimer called without a callback")
+	ASSERT(istype(callback), "addtimer called [callback ? "with an invalid callback ([callback])" : "without a callback"]")
+	ASSERT(isnum(wait), "addtimer called with a non-numeric wait ([wait])")
 
 	if (wait < 0)
 		stack_trace("addtimer called with a negative wait. Converting to [world.tick_lag]")
@@ -731,4 +729,3 @@ SUBSYSTEM_DEF(timer)
 #undef BUCKET_LEN
 #undef BUCKET_POS
 #undef TIMER_MAX
-#undef TIMER_ID_MAX

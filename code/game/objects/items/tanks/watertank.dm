@@ -8,6 +8,7 @@
 	lefthand_file = 'icons/mob/inhands/equipment/backpack_lefthand.dmi'
 	righthand_file = 'icons/mob/inhands/equipment/backpack_righthand.dmi'
 	w_class = WEIGHT_CLASS_BULKY
+	alternate_worn_layer = ABOVE_HEAD_LAYER //monkestation addition
 	slot_flags = ITEM_SLOT_BACK
 	slowdown = 1
 	actions_types = list(/datum/action/item_action/toggle_mister)
@@ -35,10 +36,6 @@
 
 /obj/item/watertank/ui_action_click(mob/user)
 	toggle_mister(user)
-
-/obj/item/watertank/item_action_slot_check(slot, mob/user)
-	if(slot & user.getBackSlot())
-		return 1
 
 /obj/item/watertank/proc/toggle_mister(mob/living/user)
 	if(!istype(user))
@@ -181,6 +178,7 @@
 	inhand_icon_state = "pepperbackpacksec"
 	custom_price = PAYCHECK_CREW * 2
 	volume = 1000
+	slowdown = 0 //monkestation edit
 
 /obj/item/watertank/pepperspray/Initialize(mapload)
 	. = ..()
@@ -309,7 +307,7 @@
 			balloon_alert(user, "still recharging!")
 			return
 		COOLDOWN_START(src, resin_cooldown, 10 SECONDS)
-		R.remove_any(100)
+		R.remove_all(100)
 		var/obj/effect/resin_container/resin = new (get_turf(src))
 		user.log_message("used Resin Launcher", LOG_GAME)
 		playsound(src,'sound/items/syringeproj.ogg',40,TRUE)
@@ -404,10 +402,6 @@
 
 /obj/item/reagent_containers/chemtank/ui_action_click()
 	toggle_injection()
-
-/obj/item/reagent_containers/chemtank/item_action_slot_check(slot, mob/user)
-	if(slot & ITEM_SLOT_BACK)
-		return 1
 
 /obj/item/reagent_containers/chemtank/proc/toggle_injection()
 	var/mob/living/carbon/human/user = usr

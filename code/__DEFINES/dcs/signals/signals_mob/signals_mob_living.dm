@@ -5,13 +5,15 @@
 
 // Organ signals
 /// Called on the organ when it is implanted into someone (mob/living/carbon/receiver)
-#define COMSIG_ORGAN_IMPLANTED "comsig_organ_implanted"
-/// Called when using the *wag emote
-#define COMSIG_ORGAN_WAG_TAIL "comsig_wag_tail"
+#define COMSIG_ORGAN_IMPLANTED "organ_implanted"
 /// Called on the organ when it is removed from someone (mob/living/carbon/old_owner)
-#define COMSIG_ORGAN_REMOVED "comsig_organ_removed"
+#define COMSIG_ORGAN_REMOVED "organ_removed"
 /// Called when an organ is being regenerated with a new copy in species regenerate_organs (obj/item/organ/replacement)
 #define COMSIG_ORGAN_BEING_REPLACED "organ_being_replaced"
+/// Called when an organ gets surgically removed (mob/living/user, mob/living/carbon/old_owner, target_zone, obj/item/tool)
+#define COMSIG_ORGAN_SURGICALLY_REMOVED "organ_surgically_removed"
+/// Called when using the *wag emote
+#define COMSIG_ORGAN_WAG_TAIL "wag_tail"
 
 ///from base of mob/update_transform()
 #define COMSIG_LIVING_POST_UPDATE_TRANSFORM "living_post_update_transform"
@@ -133,6 +135,8 @@
 #define COMSIG_LIVING_SLAM_TABLE "living_slam_table"
 ///from /obj/item/hand_item/slapper/attack(): (source=mob/living/slapper, mob/living/slapped)
 #define COMSIG_LIVING_SLAP_MOB "living_slap_mob"
+/// from /mob/living/*/UnarmedAttack(), before sending [COMSIG_LIVING_UNARMED_ATTACK]: (mob/living/source, atom/target, proximity, modifiers)
+#define COMSIG_LIVING_EARLY_UNARMED_ATTACK "human_pre_attack_hand"
 ///(NOT on humans) from mob/living/*/UnarmedAttack(): (mob/living/source, atom/target, proximity, modifiers)
 #define COMSIG_LIVING_UNARMED_ATTACK "living_unarmed_attack"
 ///From base of mob/living/MobBump() (mob/living)
@@ -219,3 +223,11 @@
 #define COMSIG_MOB_LOST_CHAIN_TAIL "living_detached_chain_tail"
 /// Sent from a 'contract chain' button on a mob chain
 #define COMSIG_MOB_CHAIN_CONTRACT "living_chain_contracted"
+
+#define COMSIG_LIVING_BODY_TEMPERATURE_CHANGE "living_body_temperature_change"
+
+#define COMSIG_LIVING_HOMEOSTASIS "living_homeostasis"
+	/// Return to do no homeostasis at all
+	#define HOMEOSTASIS_HANDLED (1<<0)
+	/// Return to not reduce hunger at all
+	#define HOMEOSTASIS_NO_HUNGER (1<<1)

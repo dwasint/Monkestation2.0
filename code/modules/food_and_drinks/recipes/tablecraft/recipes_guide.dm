@@ -37,7 +37,6 @@
 	non_craftable = TRUE
 
 /datum/crafting_recipe/food/reaction/New()
-	. = ..()
 	if(!ispath(reaction, /datum/chemical_reaction))
 		return
 
@@ -48,6 +47,7 @@
 		var/datum/chemical_reaction/chemical_reaction = new reaction()
 		setup_chemical_reaction_details(chemical_reaction)
 		qdel(chemical_reaction)
+	..()
 
 /**
  * Sets up information for our recipe based on the chemical reaction we have set.
@@ -79,6 +79,14 @@
 
 /datum/crafting_recipe/food/reaction/vanillapudding
 	reaction = /datum/chemical_reaction/food/vanillapudding
+	category = CAT_PASTRY
+
+/datum/crafting_recipe/food/reaction/flan
+	reaction = /datum/chemical_reaction/food/flan
+	category = CAT_PASTRY
+
+/datum/crafting_recipe/food/reaction/cherrypudding
+	reaction = /datum/chemical_reaction/food/cherrypudding
 	category = CAT_PASTRY
 
 /datum/crafting_recipe/food/reaction/chocolatebar
@@ -270,6 +278,10 @@
 	result = /obj/item/food/pastrybase
 	category = CAT_BREAD
 
+/datum/crafting_recipe/food/knife/butterslice
+	reqs = list(/obj/item/food/butter = 1)
+	result = /obj/item/food/butterslice
+
 /datum/crafting_recipe/food/knife/doughball
 	reqs = list(/obj/item/food/doughslice = 1)
 	result = /obj/item/food/bait/doughball
@@ -440,8 +452,8 @@
 	category = CAT_BREAD
 
 /datum/crafting_recipe/food/grill/grilled_cheese_sandwich
-	reqs = list(/obj/item/food/cheese_sandwich = 1)
-	result = /obj/item/food/grilled_cheese_sandwich
+	reqs = list(/obj/item/food/sandwich/cheese = 1)
+	result = /obj/item/food/sandwich/cheese/grilled
 	category = CAT_BREAD
 
 /datum/crafting_recipe/food/grill/grilled_cheese
@@ -552,7 +564,7 @@
 	result = /datum/reagent/consumable/flour
 
 /datum/crafting_recipe/food/grinder/butter
-	reqs = list(/datum/reagent/consumable/milk = 15)
+	reqs = list(/datum/reagent/consumable/milk = MILK_TO_BUTTER_COEFF)
 	result = /obj/item/food/butter
 	steps = list("Put into grinder and mix")
 
@@ -644,10 +656,6 @@
 /datum/crafting_recipe/food/processor/tempeh
 	reqs = list(/obj/item/food/tempehstarter = 1)
 	result = /obj/item/food/tempeh
-
-/datum/crafting_recipe/food/processor/yakiimo
-	reqs = list(/obj/item/food/grown/potato/sweet = 1)
-	result = /obj/item/food/yakiimo
 
 /datum/crafting_recipe/food/processor/popsicle_stick
 	reqs = list(/obj/item/grown/log = 1)
@@ -796,7 +804,7 @@
 /datum/crafting_recipe/food/oven/yakiimo
 	reqs = list(/obj/item/food/grown/potato/sweet = 1)
 	result = /obj/item/food/yakiimo
-	category = CAT_SALAD
+	category = CAT_MISCFOOD
 
 /datum/crafting_recipe/food/oven/reispan
 	reqs = list(/obj/item/food/rice_dough = 1)

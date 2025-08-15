@@ -406,7 +406,7 @@ GLOBAL_VAR_INIT(library_table_modified, 0)
 	return data
 
 /obj/machinery/computer/libraryconsole/bookmanagement/ui_assets(mob/user)
-	return list(get_asset_datum(/datum/asset/spritesheet/bibles))
+	return list(get_asset_datum(/datum/asset/spritesheet_batched/bibles))
 
 /obj/machinery/computer/libraryconsole/bookmanagement/proc/load_nearby_books()
 	for(var/datum/book_info/book as anything in SSlibrary.get_area_books(get_area(src)))
@@ -633,7 +633,7 @@ GLOBAL_VAR_INIT(library_table_modified, 0)
 	return TRUE
 
 /obj/machinery/computer/libraryconsole/bookmanagement/proc/print_bible()
-	var/obj/item/storage/book/bible/holy_book = new(loc)
+	var/obj/item/book/bible/holy_book = new(loc)
 	if(!GLOB.bible_icon_state || !GLOB.bible_inhand_icon_state)
 		return
 	holy_book.icon_state = GLOB.bible_icon_state

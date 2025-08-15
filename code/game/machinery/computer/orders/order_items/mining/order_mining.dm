@@ -17,6 +17,10 @@
 	item_path = /obj/item/fulton_core
 	cost_per_order = 400
 
+/datum/orderable_item/mining/ashsuit //MONKE EDIT
+	item_path = /obj/item/clothing/suit/hooded/ashsuit
+	cost_per_order = 100
+
 /datum/orderable_item/mining/mining_modsuit
 	item_path = /obj/item/mod/control/pre_equipped/mining
 	desc = "A mining-themed MODsuit that works best when in a mining environment."
@@ -65,6 +69,10 @@
 /datum/orderable_item/mining/mining_scanner
 	item_path = /obj/item/t_scanner/adv_mining_scanner
 	cost_per_order = 800
+
+/datum/orderable_item/mining/advanced_gps
+	item_path = /obj/item/gps/advanced
+	cost_per_order = 500
 
 /datum/orderable_item/mining/fulton
 	item_path = /obj/item/extraction_pack
@@ -117,3 +125,11 @@
 /datum/orderable_item/mining/style_meter
 	item_path = /obj/item/style_meter
 	cost_per_order = 1500
+
+/datum/orderable_item/mining/eva_kit
+	item_path = /obj/item/storage/box/emergency_eva/explorer
+	cost_per_order = 1000
+
+/datum/orderable_item/mining/hardsuit_jetpack_upgrade
+	item_path = /obj/item/jetpack_module
+	cost_per_order = 250

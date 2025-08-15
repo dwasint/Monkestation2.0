@@ -27,6 +27,7 @@
 	light_color = LIGHT_COLOR_DIM_YELLOW
 	light_power = 3
 	anchored_tabletop_offset = 6
+	var/held_state = "microwave_standard"
 	var/wire_disabled = FALSE // is its internal wire cut?
 	var/operating = FALSE
 	/// How dirty is it?
@@ -55,6 +56,8 @@
 	create_reagents(100)
 	soundloop = new(src, FALSE)
 	update_appearance(UPDATE_ICON)
+	AddComponent(/datum/component/throwable_structure, held_state = held_state, held_force = 14, \
+											throw_force = 20, throw_knockdown = 1.5 SECONDS, held_slowdown = 1, impact_sound = 'sound/effects/bang.ogg')
 
 /obj/machinery/microwave/Exited(atom/movable/gone, direction)
 	if(gone in ingredients)
@@ -68,7 +71,7 @@
 
 
 /obj/machinery/microwave/on_deconstruction()
-	eject()
+	// eject() // monkestation edit: overrided in module
 	return ..()
 
 /obj/machinery/microwave/Destroy()
@@ -144,7 +147,20 @@
 	var/ingredient_count = 0
 
 	for (var/atom/movable/ingredient as anything in ingredients)
+		//MONKESTATION EDIT START
+		// quick hack to make any living mobs in the microwave be drawn lying down
+		// hopefully this wont't break anything
+		var/mob/living/L = ingredient
+		var/lying_angle
+		if(istype(L))
+			lying_angle = L.get_lying_angle()
+			L.set_lying_angle(90)
+		//MONKESTATION EDIT END
 		var/image/ingredient_overlay = image(ingredient, src)
+		//MONKESTATION EDIT START
+		if(istype(L))
+			L.set_lying_angle(lying_angle)
+		//MONKESTATION EDIT END
 
 		var/icon/ingredient_icon = icon(ingredient.icon, ingredient.icon_state)
 
@@ -324,6 +340,11 @@
 		update_appearance()
 		return
 
+	//MONKESTATION EDIT START
+	if (istype(O, /obj/item/riding_offhand))
+		var/obj/item/riding_offhand/riding = O
+		return stuff_mob_in(riding.rider, user)
+	//MONKESTATION EDIT END
 	return ..()
 
 /obj/machinery/microwave/attack_hand_secondary(mob/user, list/modifiers)
@@ -360,6 +381,11 @@
 	usr.set_machine(src)
 	switch(choice)
 		if("eject")
+			// monkestation edit start: microwave "enhancements"
+			if (!can_eject)
+				balloon_alert(user, "the lock is stuck!")
+				return
+			// monkestation end
 			eject()
 		if("use")
 			cook(user)
@@ -373,7 +399,11 @@
 	open()
 	playsound(loc, 'sound/machines/click.ogg', 15, TRUE, -3)
 
-
+/**
+ * Begins the process of cooking the included ingredients.
+ *
+ * * cooker - The mob that initiated the cook cycle, can be null if no apparent mob triggered it (such as via emp)
+ */
 /obj/machinery/microwave/proc/cook(mob/cooker)
 	if(machine_stat & (NOPOWER|BROKEN))
 		return
@@ -385,7 +415,7 @@
 		playsound(src, 'sound/machines/buzz-sigh.ogg', 50, FALSE)
 		return
 
-	if(HAS_TRAIT(cooker, TRAIT_CURSED) && prob(7))
+	if(cooker && HAS_TRAIT(cooker, TRAIT_CURSED) && prob(7))
 		muck()
 		return
 	if(prob(max((5 / efficiency) - 5, dirty * 5))) //a clean unupgraded microwave has no risk of failure
@@ -397,6 +427,16 @@
 	for(var/atom/movable/potential_fooditem as anything in ingredients)
 		if(IS_EDIBLE(potential_fooditem))
 			non_food_ingedients--
+		/* monkestation: uncomment whenever this is ported
+		if(istype(potential_fooditem, /obj/item/modular_computer/pda) && prob(75))
+			pda_failure = TRUE
+			notify_ghosts(
+				"[cooker] has overheated their PDA!",
+				source = src,
+				notify_flags = NOTIFY_CATEGORY_NOFLASH,
+				header = "Hunger Games: Catching Fire",
+			)
+		*/
 
 	// If we're cooking non-food items we can fail randomly
 	if(length(non_food_ingedients) && prob(min(dirty * 5, 100)))
@@ -419,10 +459,20 @@
 	s.set_up(2, 1, src)
 	s.start()
 
+/**
+ * The start of the cook loop
+ *
+ * * cooker - The mob that initiated the cook cycle, can be null if no apparent mob triggered it (such as via emp)
+ */
 /obj/machinery/microwave/proc/start(mob/cooker)
 	wzhzhzh()
 	loop(MICROWAVE_NORMAL, 10, cooker = cooker)
 
+/**
+ * The start of the cook loop, but can fail (result in a splat / dirty microwave)
+ *
+ * * cooker - The mob that initiated the cook cycle, can be null if no apparent mob triggered it (such as via emp)
+ */
 /obj/machinery/microwave/proc/start_can_fail(mob/cooker)
 	wzhzhzh()
 	loop(MICROWAVE_PRE, 4, cooker = cooker)
@@ -434,12 +484,20 @@
 	update_appearance()
 	loop(MICROWAVE_MUCK, 4)
 
+/**
+ * The actual cook loop started via [proc/start] or [proc/start_can_fail]
+ *
+ * * type - the type of cooking, determined via how this iteration of loop is called, and determines the result
+ * * time - how many loops are left, base case for recursion
+ * * wait - deciseconds between loops
+ * * cooker - The mob that initiated the cook cycle, can be null if no apparent mob triggered it (such as via emp)
+ */
 /obj/machinery/microwave/proc/loop(type, time, wait = max(12 - 2 * efficiency, 2), mob/cooker) // standard wait is 10
 	if((machine_stat & BROKEN) && type == MICROWAVE_PRE)
 		pre_fail()
 		return
 
-	if(!time || !length(ingredients))
+	if(time <= 0 || !length(ingredients))
 		switch(type)
 			if(MICROWAVE_NORMAL)
 				loop_finish(cooker)
@@ -456,24 +514,48 @@
 	. = ..()
 	if((machine_stat & NOPOWER) && operating)
 		pre_fail()
-		eject()
+		eject(force = TRUE) // monkestation edit: microwave "enhancements"
 
+/**
+ * Called when the loop is done successfully, no dirty mess or whatever
+ *
+ * * cooker - The mob that initiated the cook cycle, can be null if no apparent mob triggered it (such as via emp)
+ */
 /obj/machinery/microwave/proc/loop_finish(mob/cooker)
 	operating = FALSE
 
+	var/cursed_chef = cooker && HAS_TRAIT(cooker, TRAIT_CURSED)
 	var/metal_amount = 0
+	var/shouldnt_open = FALSE // monkestation edit: microwave "enhancements"
+	var/dont_eject = FALSE // monkestation edit: microwave "enhancements"
 	for(var/obj/item/cooked_item in ingredients)
+		// monkestation original start
+			// var/sigreturn = cooked_item.microwave_act(src, cooker, randomize_pixel_offset = ingredients.len)
+			// if(sigreturn & COMPONENT_MICROWAVE_SUCCESS)
+			// 	if(isstack(cooked_item))
+			// 		var/obj/item/stack/cooked_stack = cooked_item
+			// 		dirty += cooked_stack.amount
+			// 	else
+			// 		dirty++
+		// monkestation original end
+		// monkestation start: microwave "enhancements"
 		var/sigreturn = cooked_item.microwave_act(src, cooker, randomize_pixel_offset = ingredients.len)
 		if(sigreturn & COMPONENT_MICROWAVE_SUCCESS)
+			var/should_dirty = !(sigreturn & COMPONENT_MICROWAVE_DONTDIRTY)
 			if(isstack(cooked_item))
 				var/obj/item/stack/cooked_stack = cooked_item
-				dirty += cooked_stack.amount
+				if (should_dirty) dirty += cooked_stack.amount
 			else
-				dirty++
+				if (should_dirty) dirty++
+		if (sigreturn & COMPONENT_MICROWAVE_DONTEJECT)
+			dont_eject = TRUE
+		if (sigreturn & COMPONENT_MICROWAVE_DONTOPEN)
+			shouldnt_open = TRUE
+		// monkestation end
 
 		metal_amount += (cooked_item.custom_materials?[GET_MATERIAL_REF(/datum/material/iron)] || 0)
 
-	if(HAS_TRAIT(cooker, TRAIT_CURSED) && prob(5))
+	if(cursed_chef && prob(5))
 		spark()
 		broken = REALLY_BROKEN
 		explosion(src, light_impact_range = 2, flame_range = 1)
@@ -481,12 +563,12 @@
 	if(metal_amount)
 		spark()
 		broken = REALLY_BROKEN
-		if(HAS_TRAIT(cooker, TRAIT_CURSED) || prob(max(metal_amount / 2, 33))) // If we're unlucky and have metal, we're guaranteed to explode
+		if(cursed_chef || prob(max(metal_amount / 2, 33))) // If we're unlucky and have metal, we're guaranteed to explode
 			explosion(src, heavy_impact_range = 1, light_impact_range = 2)
-	else
+	else if (!dont_eject) // monkestation edit: microwave "enhancements" - + if (!dont_eject)
 		dump_inventory_contents()
 
-	after_finish_loop()
+	after_finish_loop(dontopen = shouldnt_open) // monkestation edit: microwave "enhancements" - () -> (dontopen = shouldnt_open)
 
 /obj/machinery/microwave/proc/pre_fail()
 	broken = REALLY_BROKEN

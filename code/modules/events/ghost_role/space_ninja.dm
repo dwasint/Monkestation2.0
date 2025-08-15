@@ -19,7 +19,7 @@
 		return MAP_ERROR
 
 	//selecting a candidate player
-	var/list/candidates = SSpolling.poll_ghost_candidates(check_jobban = ROLE_NINJA, role = ROLE_NINJA, pic_source = /obj/item/energy_katana)
+	var/list/candidates = SSpolling.poll_ghost_candidates(check_jobban = ROLE_NINJA, role = ROLE_NINJA, alert_pic = /obj/item/energy_katana)
 	if(!length(candidates))
 		return NOT_ENOUGH_PLAYERS
 
@@ -28,7 +28,7 @@
 
 	//spawn the ninja and assign the candidate
 	var/mob/living/carbon/human/ninja = create_space_ninja(spawn_location)
-	ninja.key = key
+	ninja.PossessByPlayer(key)
 	ninja.mind.add_antag_datum(/datum/antagonist/ninja)
 	spawned_mobs += ninja
 	message_admins("[ADMIN_LOOKUPFLW(ninja)] has been made into a space ninja by an event.")

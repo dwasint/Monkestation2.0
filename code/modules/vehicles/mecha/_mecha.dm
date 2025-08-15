@@ -29,7 +29,7 @@
 	move_force = MOVE_FORCE_VERY_STRONG
 	move_resist = MOVE_FORCE_EXTREMELY_STRONG
 	COOLDOWN_DECLARE(mecha_bump_smash)
-	light_system = MOVABLE_LIGHT_DIRECTIONAL
+	light_system = OVERLAY_LIGHT_DIRECTIONAL
 	light_on = FALSE
 	light_outer_range = 8
 	generic_canpass = FALSE
@@ -66,7 +66,9 @@
 	///Just stop the mech from doing anything
 	var/completely_disabled = FALSE
 	///Whether this mech is allowed to move diagonally
-	var/allow_diagonal_movement = FALSE
+	var/allow_diagonal_movement = TRUE
+	///Whether this mech moves into a direct as soon as it goes to move. Basically, turn and step in the same key press.
+	var/pivot_step = FALSE
 	///Whether or not the mech destroys walls by running into it.
 	var/bumpsmash = FALSE
 
@@ -130,6 +132,9 @@
 	)
 	///flat equipment for iteration
 	var/list/flat_equipment
+
+	///Handles an internal ore box for mining mechs
+	var/obj/structure/ore_box/ore_box
 
 	///Whether our steps are silent due to no gravity
 	var/step_silent = FALSE
@@ -223,7 +228,7 @@
 	if(enclosed)
 		internal_tank = new (src)
 		RegisterSignal(src, COMSIG_MOVABLE_PRE_MOVE , PROC_REF(disconnect_air))
-	RegisterSignal(src, COMSIG_MOVABLE_MOVED, PROC_REF(play_stepsound))
+	RegisterSignal(src, COMSIG_MOVABLE_MOVED, PROC_REF(on_move))
 	RegisterSignal(src, COMSIG_LIGHT_EATER_ACT, PROC_REF(on_light_eater))
 
 	spark_system = new
@@ -276,6 +281,7 @@
 			equip_by_category[key] -= path
 
 	AddElement(/datum/element/falling_hazard, damage = 80, wound_bonus = 10, hardhat_safety = FALSE, crushes = TRUE)
+	AddElement(/datum/element/hostile_machine)
 
 /obj/vehicle/sealed/mecha/Destroy()
 	for(var/ejectee in occupants)
@@ -290,6 +296,8 @@
 	STOP_PROCESSING(SSobj, src)
 	LAZYCLEARLIST(flat_equipment)
 
+	QDEL_NULL(ore_box)
+
 	QDEL_NULL(cell)
 	QDEL_NULL(scanmod)
 	QDEL_NULL(capacitor)
@@ -298,7 +306,7 @@
 	QDEL_NULL(spark_system)
 	QDEL_NULL(smoke_system)
 	QDEL_NULL(ui_view)
-	QDEL_NULL(trackers)
+	QDEL_LIST(trackers)
 	QDEL_NULL(chassis_camera)
 
 	GLOB.mechas_list -= src //global mech list
@@ -745,3 +753,9 @@
 	for(var/occupant in occupants)
 		remove_action_type_from_mob(/datum/action/vehicle/sealed/mecha/mech_toggle_lights, occupant)
 	return COMPONENT_BLOCK_LIGHT_EATER
+
+/obj/vehicle/sealed/mecha/on_saboteur(datum/source, disrupt_duration)
+	. = ..()
+	if(mecha_flags &= HAS_LIGHTS && light_on)
+		set_light_on(FALSE)
+		return COMSIG_SABOTEUR_SUCCESS

@@ -25,33 +25,36 @@
 		var/list/types = bitfield_to_list(drink_type, FOOD_FLAGS)
 		. += span_notice("It is [lowertext(english_list(types))].")
 
-/obj/item/reagent_containers/cup/proc/checkLiked(fraction, mob/M)
-	if(last_check_time + 50 >= world.time)
-		return
-	if(!ishuman(M))
-		return
-	var/mob/living/carbon/human/H = M
-	if(HAS_TRAIT(H, TRAIT_AGEUSIA))
-		if(drink_type & H.dna.species.toxic_food)
-			to_chat(H, span_warning("You don't feel so good..."))
-			H.adjust_disgust(25 + 30 * fraction)
-	else
-		if(drink_type & H.dna.species.toxic_food)
-			to_chat(H,span_warning("What the hell was that thing?!"))
-			H.adjust_disgust(25 + 30 * fraction)
-			H.add_mood_event("toxic_food", /datum/mood_event/disgusting_food)
-		else if(drink_type & H.dna.species.disliked_food)
-			to_chat(H,span_notice("That didn't taste very good..."))
-			H.adjust_disgust(11 + 15 * fraction)
-			H.add_mood_event("gross_food", /datum/mood_event/gross_food)
-		else if(drink_type & H.dna.species.liked_food)
-			to_chat(H,span_notice("I love this taste!"))
-			H.adjust_disgust(-5 + -2.5 * fraction)
-			H.add_mood_event("fav_food", /datum/mood_event/favorite_food)
-
+/**
+ * Checks if the mob actually liked drinking this cup.
+ *
+ * This is a bunch of copypaste from the edible component, consider reworking this to use it!
+ */
+/obj/item/reagent_containers/cup/proc/checkLiked(fraction, mob/eater)
+	if(last_check_time + 5 SECONDS > world.time)
+		return FALSE
+	if(!ishuman(eater))
+		return FALSE
+	var/mob/living/carbon/human/gourmand = eater
+	//Bruh this breakfast thing is cringe and shouldve been handled separately from food-types, remove this in the future (Actually, just kill foodtypes in general)
 	if((drink_type & BREAKFAST) && world.time - SSticker.round_start_time < STOP_SERVING_BREAKFAST)
-		H.add_mood_event("breakfast", /datum/mood_event/breakfast)
+		gourmand.add_mood_event("breakfast", /datum/mood_event/breakfast)
 	last_check_time = world.time
+
+	var/food_taste_reaction = gourmand.get_food_taste_reaction(src, drink_type)
+	switch(food_taste_reaction)
+		if(FOOD_TOXIC)
+			to_chat(gourmand,span_warning("What the hell was that thing?!"))
+			gourmand.adjust_disgust(25 + 30 * fraction)
+			gourmand.add_mood_event("toxic_food", /datum/mood_event/disgusting_food)
+		if(FOOD_DISLIKED)
+			to_chat(gourmand,span_notice("That didn't taste very good..."))
+			gourmand.adjust_disgust(11 + 15 * fraction)
+			gourmand.add_mood_event("gross_food", /datum/mood_event/gross_food)
+		if(FOOD_LIKED)
+			to_chat(gourmand,span_notice("I love this taste!"))
+			gourmand.adjust_disgust(-5 + -2.5 * fraction)
+			gourmand.add_mood_event("fav_food", /datum/mood_event/favorite_food)
 
 /obj/item/reagent_containers/cup/attack(mob/living/target_mob, mob/living/user, obj/target)
 	if(!canconsume(target_mob, user))
@@ -87,7 +90,9 @@
 		contained_bladder.consume_act(reagents, gulp_size * 0.2)
 	reagents.trans_to(target_mob, gulp_size, transfered_by = user, methods = INGEST)
 	checkLiked(fraction, target_mob)
-	playsound(target_mob.loc,'sound/items/drink.ogg', rand(10,50), TRUE)
+	////playsound(target_mob.loc,'sound/items/drink.ogg', rand(10,50), TRUE) // monkestation edit original
+	playsound(target_mob.loc,get_drink_sound(target_mob), rand(10,50), TRUE) // monkestation edit: synthesized drink sounds
+	SEND_SIGNAL(target_mob.reagents, COMSIG_DRANK_REAGENT, reagents, gulp_size)
 	if(!iscarbon(target_mob))
 		return
 	var/mob/living/carbon/carbon_drinker = target_mob
@@ -101,9 +106,61 @@
 	if(LAZYLEN(diseases_to_add))
 		AddComponent(/datum/component/infective, diseases_to_add)
 
+/obj/item/reagent_containers/cup/MouseDrop(atom/over, src_location, over_location, src_control, over_control, params)
+	. = ..()
+	if(!isliving(over))
+		return
+
+	if(!isliving(usr) && !check_rights(R_FUN)) // monkestation edit: a bug? nah, its a feature!
+		return
+
+	if(!spillable)
+		return
+
+	var/mob/living/chugger = over
+	var/chugging = TRUE //guys this is literally so fucking epic. We are really chugging shit
+	var/chug_time = 2 SECONDS /// guys we are literally chugging
+	while(chugging)
+		if(!reagents.total_volume)
+			chugging = FALSE
+			return
+
+		if(!do_after(chugger, chug_time, src))
+			chugging = FALSE
+			return
+		chug_time = max(0.5 SECONDS, chug_time - 0.2 SECONDS)
+
+		to_chat(chugger, span_notice("You swallow a gulp of [src]."))
+
+		SEND_SIGNAL(src, COMSIG_GLASS_DRANK, chugger, chugger)
+		var/fraction = min(gulp_size/reagents.total_volume, 1)
+		var/obj/item/organ/internal/bladder/contained_bladder = chugger.get_organ_slot(ORGAN_SLOT_BLADDER)
+		if(contained_bladder)
+			contained_bladder.consume_act(reagents, gulp_size * 0.2)
+		reagents.trans_to(chugger, gulp_size, transfered_by = chugger, methods = INGEST)
+		checkLiked(fraction, chugger)
+		playsound(chugger.loc,get_drink_sound(chugger), rand(10,50), TRUE)
+		SEND_SIGNAL(chugger.reagents, COMSIG_DRANK_REAGENT, reagents, gulp_size)
+		if(!iscarbon(chugger))
+			continue
+		var/mob/living/carbon/carbon_drinker = chugger
+		var/list/diseases = carbon_drinker.get_static_viruses()
+		if(!LAZYLEN(diseases))
+			continue
+		var/list/datum/disease/diseases_to_add = list()
+		for(var/datum/disease/malady as anything in diseases)
+			if(malady.spread_flags & DISEASE_SPREAD_CONTACT_FLUIDS)
+				diseases_to_add += malady
+		if(LAZYLEN(diseases_to_add))
+			AddComponent(/datum/component/infective, diseases_to_add)
+
+
 /obj/item/reagent_containers/cup/afterattack(atom/target, mob/user, proximity_flag, click_parameters)
 	. = ..()
 	if(!proximity_flag)
+		return
+
+	if(SEND_SIGNAL(src, COMSIG_TRY_EAT_TRAIT, target))
 		return
 
 	. |= AFTERATTACK_PROCESSED_ITEM
@@ -124,7 +181,10 @@
 			return
 
 		var/trans = reagents.trans_to(target, amount_per_transfer_from_this, transfered_by = user)
-		to_chat(user, span_notice("You transfer [trans] unit\s of the solution to [target]."))
+		if(trans)
+			to_chat(user, span_notice("You transfer [trans] unit\s of the solution to [target]."))
+			after_pour(trans, target, user) // monkestation addition: pouring sounds
+			SEND_SIGNAL(src, COMSIG_REAGENTS_CUP_TRANSFER_TO, target)
 
 	else if(target.is_drainable()) //A dispenser. Transfer FROM it TO us.
 		if(!target.reagents.total_volume)
@@ -137,6 +197,7 @@
 
 		var/trans = target.reagents.trans_to(src, amount_per_transfer_from_this, transfered_by = user)
 		to_chat(user, span_notice("You fill [src] with [trans] unit\s of the contents of [target]."))
+		SEND_SIGNAL(src, COMSIG_REAGENTS_CUP_TRANSFER_FROM, target)
 
 	target.update_appearance()
 
@@ -566,3 +627,86 @@
 	volume = 240
 	icon_state = "coffeepot_bluespace"
 	fill_icon_thresholds = list(0)
+
+/obj/item/reagent_containers/cup/coffeepot/bluespace/synthesiser
+	name = "johnson and co bluespace coffee synthesiser"
+	desc = "An incredibly complicated, incredibly expensive piece of machinery patented by a certain architecture firm, based off the bluespace coffeepot. Synthesises fresh coffee with an internal dispenser element."
+	volume = 140 //less space than the regular bluespace coffeepot but still has more space than the original design. most of the space is the chem dispenser inside
+
+	var/refill_enabled = TRUE //stolen from the advanced mop
+	var/refill_rate = 1
+	var/refill_reagent = /datum/reagent/consumable/coffee
+	w_class = WEIGHT_CLASS_NORMAL //its got literally infinite coffee
+
+/obj/item/reagent_containers/cup/coffeepot/bluespace/synthesiser/Initialize(mapload)
+	. = ..()
+	START_PROCESSING(SSobj, src)
+
+/obj/item/reagent_containers/cup/coffeepot/bluespace/synthesiser/attack_self(mob/user)
+	refill_enabled = !refill_enabled
+	if(refill_enabled)
+		START_PROCESSING(SSobj, src)
+	else
+		STOP_PROCESSING(SSobj,src)
+	to_chat(user, span_notice("You set the synthesiser switch to the '[refill_enabled ? "ON" : "OFF"]' position."))
+	playsound(user, 'sound/machines/click.ogg', 30, TRUE)
+
+/obj/item/reagent_containers/cup/coffeepot/bluespace/synthesiser/process(seconds_per_tick)
+	var/amadd = min(volume - reagents.total_volume, refill_rate * seconds_per_tick)
+	if(amadd > 0)
+		reagents.add_reagent(refill_reagent, amadd)
+
+/obj/item/reagent_containers/cup/coffeepot/bluespace/synthesiser/examine(mob/user)
+	. = ..()
+	. += span_notice("The synthesiser switch is set to <b>[refill_enabled ? "ON" : "OFF"]</b>.")
+	. += span_notice("You can <b>examine closer</b> to learn a little more about this device.")
+	if(obj_flags & EMAGGED)
+		. += span_notice("A light on the side with the words 'tea mode' under it is flashing.")
+
+/obj/item/reagent_containers/cup/coffeepot/bluespace/synthesiser/examine_more(mob/user)
+	. = ..()
+
+	. += "This contraption, in essence the synthesiser from a portable chemical dispenser in a coffeepot, \
+		was designed by Johnson & Co for the explicit purpose of keeping their staff and clients awake. \
+		Due to the vast amounts of electricity the average dispenser consumes, this device is powered by bluespace link to multiple fusion reactors to save weight. \
+		Even with the many space-saving modifications, the bulk and design of the internal components give it a capacity only marginally better than the standard coffeepot, \
+		and the size of the synthesiser element makes it a bit trickier to store. \
+		Rumours abound of some of these devices being modified to produce tea, but Johnson & Co has refused to make a public statement. \
+		The fact this thing is in your hands is a miracle given how rare it is, as its production run was incredibly small and new units are only produced on-order for the company's high-ranking staff or Nanotrasen officials. \
+		Cherish it. You may never hold one again."
+
+	return .
+
+/obj/item/reagent_containers/cup/coffeepot/bluespace/synthesiser/Destroy()
+	STOP_PROCESSING(SSobj, src)
+	return ..()
+
+/obj/item/reagent_containers/cup/coffeepot/bluespace/synthesiser/emag_act(mob/user, obj/item/card/emag/emag_card)
+	if(obj_flags & EMAGGED)
+		balloon_alert(user, "tea mode disabled")
+		name = "johnson and co bluespace coffee synthesiser"
+		if (emag_card)
+			to_chat(user, span_notice("You swipe \the [src] with [emag_card]. The 'tea mode' light stops flashing."))
+		refill_reagent = /datum/reagent/consumable/coffee
+		obj_flags -= EMAGGED
+		return FALSE
+	obj_flags |= EMAGGED
+	refill_reagent = /datum/reagent/consumable/tea //bri'ish innit
+	name = "johnson and co bluespace tea synthesiser"
+	balloon_alert(user, "tea mode enabled")
+	if (emag_card)
+		to_chat(user, span_notice("You swipe \the [src] with [emag_card]. A light on the side with 'tea mode' written under it starts to flash."))
+	return TRUE
+
+
+///Test tubes created by chem master and pandemic and placed in racks
+/obj/item/reagent_containers/cup/tube
+	name = "tube"
+	desc = "A small test tube."
+	icon_state = "test_tube"
+	fill_icon_state = "tube"
+	inhand_icon_state = "atoxinbottle"
+	worn_icon_state = "test_tube"
+	possible_transfer_amounts = list(5, 10, 15, 30)
+	volume = 30
+	fill_icon_thresholds = list(0, 1, 20, 40, 60, 80, 100)

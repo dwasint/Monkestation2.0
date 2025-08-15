@@ -15,6 +15,8 @@ GLOBAL_DATUM(current_test, /datum/unit_test)
 GLOBAL_VAR_INIT(failed_any_test, FALSE)
 /// When unit testing, all logs sent to log_mapping are stored here and retrieved in log_mapping unit test.
 GLOBAL_LIST_EMPTY(unit_test_mapping_logs)
+/// Global assoc list of required mapping items, [item typepath] to [required item datum].
+GLOBAL_LIST_EMPTY(required_map_items)
 
 /// A list of every test that is currently focused.
 /// Use the PERFORM_ALL_TESTS macro instead.
@@ -124,15 +126,18 @@ GLOBAL_VAR_INIT(focused_tests, focused_tests())
 		var/data_filename = "data/screenshots/[path_prefix]_[name].png"
 		fcopy(icon, data_filename)
 		log_test("\t[path_prefix]_[name] was found, putting in data/screenshots")
-	else if (fexists("code"))
-		// We are probably running in a local build
-		fcopy(icon, filename)
-		TEST_FAIL("Screenshot for [name] did not exist. One has been created.")
 	else
-		// We are probably running in real CI, so just pretend it worked and move on
+#ifdef CIBUILDING
+		// We are runing in real CI, so just pretend it worked and move on
 		fcopy(icon, "data/screenshots_new/[path_prefix]_[name].png")
 
 		log_test("\t[path_prefix]_[name] was put in data/screenshots_new")
+#else
+		// We are probably running in a local build
+		fcopy(icon, filename)
+		TEST_FAIL("Screenshot for [name] did not exist. One has been created.")
+#endif
+
 
 /// Helper for screenshot tests to take an image of an atom from all directions and insert it into one icon
 /datum/unit_test/proc/get_flat_icon_for_all_directions(atom/thing, no_anim = TRUE)
@@ -146,7 +151,7 @@ GLOBAL_VAR_INIT(focused_tests, focused_tests())
 
 /// Logs a test message. Will use GitHub action syntax found at https://docs.github.com/en/actions/using-workflows/workflow-commands-for-github-actions
 /datum/unit_test/proc/log_for_test(text, priority, file, line)
-	var/map_name = SSmapping.config.map_name
+	var/map_name = SSmapping.current_map.map_name
 
 	// Need to escape the text to properly support newlines.
 	var/annotation_text = replacetext(text, "%", "%25")
@@ -165,47 +170,60 @@ GLOBAL_VAR_INIT(focused_tests, focused_tests())
 
 	GLOB.current_test = test
 	var/duration = REALTIMEOFDAY
+	var/skip_test = (test_path in SSmapping.current_map.skipped_tests)
+	var/test_output_desc = "[test_path]"
+	var/message = ""
 
 	log_world("::group::[test_path]")
-	test.Run()
 
-	duration = REALTIMEOFDAY - duration
-	GLOB.current_test = null
-	GLOB.failed_any_test |= !test.succeeded
+	if(skip_test)
+		log_world("[TEST_OUTPUT_YELLOW("SKIPPED")] Skipped run on map [SSmapping.current_map.map_name].")
 
-	var/list/log_entry = list()
-	var/list/fail_reasons = test.fail_reasons
+	else
 
-	for(var/reasonID in 1 to LAZYLEN(fail_reasons))
-		var/text = fail_reasons[reasonID][1]
-		var/file = fail_reasons[reasonID][2]
-		var/line = fail_reasons[reasonID][3]
+		test.Run()
 
-		test.log_for_test(text, "error", file, line)
+		duration = REALTIMEOFDAY - duration
+		GLOB.current_test = null
+		GLOB.failed_any_test |= !test.succeeded
 
-		// Normal log message
-		log_entry += "\tFAILURE #[reasonID]: [text] at [file]:[line]"
+		var/list/log_entry = list()
+		var/list/fail_reasons = test.fail_reasons
 
-	var/message = log_entry.Join("\n")
-	log_test(message)
+		for(var/reasonID in 1 to LAZYLEN(fail_reasons))
+			var/text = fail_reasons[reasonID][1]
+			var/file = fail_reasons[reasonID][2]
+			var/line = fail_reasons[reasonID][3]
 
-	var/test_output_desc = "[test_path] [duration / 10]s"
-	if (test.succeeded)
-		log_world("[TEST_OUTPUT_GREEN("PASS")] [test_output_desc]")
+			test.log_for_test(text, "error", file, line)
+
+			// Normal log message
+			log_entry += "\tFAILURE #[reasonID]: [text] at [file]:[line]"
+
+		if(length(log_entry))
+			message = log_entry.Join("\n")
+			log_test(message)
+
+		test_output_desc += " [duration / 10]s"
+		if (test.succeeded)
+			log_world("[TEST_OUTPUT_GREEN("PASS")] [test_output_desc]")
 
 	log_world("::endgroup::")
 
-	if (!test.succeeded)
+	if (!test.succeeded && !skip_test)
 		log_world("::error::[TEST_OUTPUT_RED("FAIL")] [test_output_desc]")
 
-	test_results[test_path] = list("status" = test.succeeded ? UNIT_TEST_PASSED : UNIT_TEST_FAILED, "message" = message, "name" = test_path)
+	var/final_status = skip_test ? UNIT_TEST_SKIPPED : (test.succeeded ? UNIT_TEST_PASSED : UNIT_TEST_FAILED)
+	test_results[test_path] = list("status" = final_status, "message" = message, "name" = test_path)
 
 	qdel(test)
+
 
 /// Builds (and returns) a list of atoms that we shouldn't initialize in generic testing, like Create and Destroy.
 /// It is appreciated to add the reason why the atom shouldn't be initialized if you add it to this list.
 /datum/unit_test/proc/build_list_of_uncreatables()
 	RETURN_TYPE(/list)
+	// The following are just generic, singular types.
 	var/list/ignore = list(
 		//Never meant to be created, errors out the ass for mobcode reasons
 		/mob/living/carbon,
@@ -232,14 +250,22 @@ GLOBAL_VAR_INIT(focused_tests, focused_tests())
 		//Both are abstract types meant to scream bloody murder if spawned in raw
 		/obj/item/organ/external,
 		/obj/item/organ/external/wings,
+		// monkestation start
 		/obj/effect/spawner/random_engines,
 		/obj/effect/spawner/random_bar,
-		///this instant starts a timer, and if its being instantly deleted it can cause issues
-		/obj/machinery/atm,
-		/datum/hotspot,
+		/obj/machinery/atm, // starts a timer, and if its being instantly deleted it can cause issues
 		/obj/machinery/ocean_elevator,
 		/atom/movable/outdoor_effect,
 		/turf/closed/mineral/random/regrowth,
+		/obj/effect/abstract/signboard_holder, // shouldn't exist outside of signboards
+		/obj/effect/transmission_beam, // relies on the existence of a PTL
+		/obj/item/radio/entertainment/speakers/pda, // shouldn't outside of a modular computer
+		/mob/living/carbon/human/dummy/mechcomp, // shouldn't outside of an interaction component
+		/obj/effect/ghost_arena_corner, // this is used to mark two corners of the ghost arena at centcom, and should never be created outside of the two instances mapped in there
+		// THESE WILL EAT OTHER ITEMS AND ALSO LAZYLOAD AN AREA
+		/obj/structure/bingle_hole,
+		/obj/structure/bingle_pit_overlay,
+		// monkestation end
 	)
 	//Say it with me now, type template
 	ignore += typesof(/obj/effect/mapping_helpers)
@@ -310,13 +336,14 @@ GLOBAL_VAR_INIT(focused_tests, focused_tests())
 	ignore += subtypesof(/atom/movable/screen/escape_menu)
 	///we generate mobs in these and create destroy does this in null space
 	ignore += typesof(/obj/item/loot_table_maker)
+
+	// monkestation start
 	///we need to use json_decode to run randoms properly
 	ignore += typesof(/obj/item/device/cassette_tape)
-	ignore += typesof(/datum/cassette/cassette_tape)
 	///we also dont want weathers or weather events as they will hold refs to alot of stuff as they shouldn't be deleted
-	ignore += typesof(/datum/weather_event)
-	ignore += typesof(/datum/particle_weather)
 	ignore += typesof(/mob/living/basic/aquatic)
+	ignore += typesof(/obj/machinery/station_map)
+	// monkestation end
 
 	return ignore
 
@@ -332,13 +359,16 @@ GLOBAL_VAR_INIT(focused_tests, focused_tests())
 	if(length(focused_tests))
 		tests_to_run = focused_tests
 
-	tests_to_run = sortTim(tests_to_run, GLOBAL_PROC_REF(cmp_unit_test_priority))
+	sortTim(tests_to_run, GLOBAL_PROC_REF(cmp_unit_test_priority))
 
 	var/list/test_results = list()
 
+	//Hell code, we're bound to end the round somehow so let's stop if from ending while we work
+	SSticker.delay_end = TRUE
 	for(var/unit_path in tests_to_run)
 		CHECK_TICK //We check tick first because the unit test we run last may be so expensive that checking tick will lock up this loop forever
 		RunUnitTest(unit_path, test_results)
+	SSticker.delay_end = FALSE
 
 	var/file_name = "data/unit_tests.json"
 	fdel(file_name)

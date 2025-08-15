@@ -185,7 +185,8 @@
 					label.remove_label()
 					label.apply_label()
 				to_chat(user, span_notice("You have successfully renamed \the [oldname] to [O]."))
-				O.renamedByPlayer = TRUE
+				// monkestation removal ADD_TRAIT(O, TRAIT_WAS_RENAMED, PEN_LABEL_TRAIT)
+				O.update_appearance(UPDATE_ICON)
 
 		if(penchoice == "Description")
 			var/input = tgui_input_text(user, "Describe [O]", "Description", "[O.desc]", 140)
@@ -197,7 +198,8 @@
 			else
 				O.AddComponent(/datum/component/rename, O.name, input)
 				to_chat(user, span_notice("You have successfully changed [O]'s description."))
-				O.renamedByPlayer = TRUE
+				// monkestation removal ADD_TRAIT(O, TRAIT_WAS_RENAMED, PEN_LABEL_TRAIT)
+				O.update_appearance(UPDATE_ICON)
 
 		if(penchoice == "Reset")
 			if(QDELETED(O) || !user.can_perform_action(O))
@@ -212,7 +214,8 @@
 				label.apply_label()
 
 			to_chat(user, span_notice("You have successfully reset [O]'s name and description."))
-			O.renamedByPlayer = FALSE
+			// monkestation removal REMOVE_TRAIT(O, TRAIT_WAS_RENAMED, PEN_LABEL_TRAIT)
+			O.update_appearance(UPDATE_ICON)
 
 /obj/item/pen/get_writing_implement_details()
 	return list(
@@ -254,7 +257,7 @@
 	armour_penetration = 20
 	bare_wound_bonus = 10
 	item_flags = NO_BLOOD_ON_ITEM
-	light_system = MOVABLE_LIGHT
+	light_system = OVERLAY_LIGHT
 	light_outer_range = 1.5
 	light_power = 0.75
 	light_color = COLOR_SOFT_RED
@@ -359,6 +362,9 @@
 	desc = "A pen with an extendable screwdriver tip. This one has a yellow cap."
 	icon_state = "pendriver"
 	toolspeed = 1.2  // gotta have some downside
+
+/obj/item/pen/screwdriver/get_all_tool_behaviours()
+	return list(TOOL_SCREWDRIVER)
 
 /obj/item/pen/screwdriver/Initialize(mapload)
 	. = ..()

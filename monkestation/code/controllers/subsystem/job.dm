@@ -65,18 +65,25 @@
 		mass_adjust_antag_rep(cliented_list, 1)
 
 	var/list/weighted_candidates = return_antag_rep_weight(candidates)
-
 	var/antag_selection_loops = SSgamemode.current_roundstart_event.get_antag_amount()
-	for(var/i in 1 to antag_selection_loops)
+	var/iter = 0
+	while(iter < antag_selection_loops)
+		iter++
 		if(antag_selection_loops >= 100)
 			log_storyteller("h_r_a failed, antag_selection_loops went over 100")
 			return FALSE
-		if(!length(candidates))
+		if(!length(weighted_candidates))
+			if((EVENT_TRACK_ROLESET in SSgamemode.forced_next_events))
+				break
 			if(length(SSgamemode.roundstart_antag_minds) < SSgamemode.current_roundstart_event.base_antags) //we got below our min antags, reroll
 				log_storyteller("h_r_a failed, below required candidates for selected roundstart event")
 				return FALSE
 			break
-		var/client/dead_client = pick_n_take_weighted(weighted_candidates)
+		var/candidate_ckey = pick_n_take_weighted(weighted_candidates)
+		var/client/dead_client = GLOB.directory[candidate_ckey]
+		if(QDELETED(dead_client))
+			antag_selection_loops++
+			continue
 		var/mob/dead/new_player/candidate = dead_client.mob
 		if(!candidate.mind || !istype(candidate))
 			antag_selection_loops++
@@ -103,12 +110,16 @@
 				continue
 			var/mob/dead/new_player/candidate
 			var/sanity = 0
-			while(!candidate && length(weighted_candidates) && !sanity >= 100)
+			while(QDELETED(candidate) && length(weighted_candidates) && sanity < 100)
 				sanity++
-				candidate = pick_n_take_weighted(weighted_candidates)
-				if(!candidate.mind || !istype(candidate))
+				var/candidate_ckey = pick_n_take_weighted(weighted_candidates)
+				var/client/candidate_client = GLOB.directory[candidate_ckey]
+				if(QDELETED(candidate_client))
+					continue
+				candidate = candidate_client.mob
+				if(!isnewplayer(candidate) || QDELING(candidate) || QDELETED(candidate.mind))
 					candidate = null
-			if(!candidate)
+			if(QDELETED(candidate))
 				if(length(SSgamemode.roundstart_antag_minds) < SSgamemode.current_roundstart_event.base_antags)
 					log_storyteller("h_r_a failed, removing unassigned antag player put us below current event minimum candidates and we were unable to find a replacement")
 					return FALSE
@@ -167,12 +178,17 @@
 
 //// Attempt to pick a roundstart ruleset to be our desired ruleset
 /datum/controller/subsystem/job/proc/pick_desired_roundstart()
+	if((EVENT_TRACK_ROLESET in SSgamemode.forced_next_events) && (SSgamemode.forced_next_events[EVENT_TRACK_ROLESET]))
+		SSgamemode.current_roundstart_event = SSgamemode.forced_next_events[EVENT_TRACK_ROLESET]
+		log_storyteller("p_d_r pass, Forced Selected Roleset: [SSgamemode.current_roundstart_event]")
+		return
+
 	var/static/list/valid_rolesets
 	if(!valid_rolesets)
 		valid_rolesets = list()
 		valid_rolesets += SSgamemode.event_pools[EVENT_TRACK_ROLESET]
 
-	log_storyteller("p_d_r valid_rolesets", list("rolesets" = english_list(valid_rolesets)))
+	log_storyteller("p_d_r valid_rolesets: [english_list(valid_rolesets)]")
 	valid_rolesets -= SSgamemode.current_roundstart_event
 	var/player_count = 0
 	for(var/job in assigned_players_by_job)
@@ -183,9 +199,11 @@
 		if(!roleset.roundstart || !roleset.can_spawn_event(player_count))
 			valid_rolesets -= roleset
 		else
-			actual_valid_rolesets[roleset] = roleset.weight
+			var/weight = roleset.get_weight()
+			log_storyteller("p_d_r [roleset] weight: [weight][roleset.weight != weight ? " (base: [roleset.weight])" : ""]")
+			actual_valid_rolesets[roleset] = weight
 	valid_rolesets = actual_valid_rolesets
-	log_storyteller("p_d_r actual_valid_rolesets", list("rolesets" = english_list(actual_valid_rolesets)))
+	log_storyteller("p_d_r actual_valid_rolesets: [english_list(actual_valid_rolesets)]")
 
 	if(SSgamemode.current_roundstart_event && (SSgamemode.current_roundstart_event in valid_rolesets))
 		log_storyteller("p_d_r failed, SSgamemode.current_roundstart_event in valid_rolesets")
@@ -197,3 +215,13 @@
 
 	SSgamemode.current_roundstart_event = pick_weight(valid_rolesets)
 	log_storyteller("p_d_r pass, Selected Roleset: [SSgamemode.current_roundstart_event]")
+
+///trys to free up a job slot via the rank
+/datum/controller/subsystem/job/proc/FreeRole(rank)
+	if(!rank)
+		return
+	JobDebug("Freeing role: [rank]")
+	var/datum/job/job = GetJob(rank)
+	if(!job)
+		return FALSE
+	job.current_positions = max(0, job.current_positions - 1)

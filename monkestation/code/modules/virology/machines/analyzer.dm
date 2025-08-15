@@ -20,6 +20,8 @@
 	var/last_scan_name = ""
 	var/last_scan_info = ""
 
+	var/processing = FALSE
+
 	var/mob/scanner = null
 
 /obj/machinery/disease2/diseaseanalyser/RefreshParts()
@@ -97,8 +99,9 @@
 		return
 
 	scanner = user
-	icon_state = "analyser_processing"
-	flick("analyser_turnon",src)
+	icon_state = "analyzer_processing"
+	processing = TRUE
+	update_appearance()
 
 	spawn (1)
 		var/mutable_appearance/I = mutable_appearance(icon,"analyser_light",src)
@@ -110,10 +113,17 @@
 
 	if(do_after(user, 5 SECONDS, src))
 		if(machine_stat & (BROKEN|NOPOWER))
+			processing = FALSE // Make sure to return the machine to normal operation if power outage
+			update_appearance()
+			scanner = null
 			return
-		if(!istype(dish.contained_virus, /datum/disease/advanced))
+		if(!istype(dish.contained_virus, /datum/disease/acute))
 			QDEL_NULL(dish)
 			say("ERROR:Bad Pathogen detected PURGING")
+			processing = FALSE // Make sure to return the machine to normal operation after purge
+			update_appearance()
+			scanner = null
+			return
 		if (dish.contained_virus.addToDB())
 			say("Added new pathogen to database.")
 		var/datum/data/record/v = GLOB.virusDB["[dish.contained_virus.uniqueID]-[dish.contained_virus.subID]"]
@@ -125,23 +135,27 @@
 
 		dish.name = "growth dish ([last_scan_name])"
 		last_scan_info = dish.info
+		dish.contained_virus.Refresh_Acute()
 		var/datum/browser/popup = new(user, "\ref[dish]", dish.name, 600, 500, src)
 		popup.set_content(dish.info)
 		popup.open()
 		dish.analysed = TRUE
+		dish.contained_virus.disease_flags |= DISEASE_ANALYZED
 		dish.update_appearance()
 		dish.forceMove(loc)
 		dish = null
 	else
 		playsound(src, 'sound/machines/buzz-sigh.ogg', 25)
 
+	processing = FALSE
 	update_appearance()
-	flick("analyser_turnoff",src)
 	scanner = null
 
 /obj/machinery/disease2/diseaseanalyser/update_icon()
 	. = ..()
 	icon_state = "analyser"
+	if(processing)
+		icon_state = "analyzer-processing"
 
 	if (machine_stat & (NOPOWER))
 		icon_state = "analyser0"
@@ -157,6 +171,13 @@
 
 /obj/machinery/disease2/diseaseanalyser/update_overlays()
 	. = ..()
+	if(processing)
+		. += emissive_appearance(icon, "analyzer-processing-emissive", src)
+
+		. += mutable_appearance(icon,"analyser_light",src)
+		. += emissive_appearance(icon,"analyser_light",src)
+
+	. += emissive_appearance(icon, "analyzer-emissive", src)
 	if (dish)
 		.+= mutable_appearance(icon, "smalldish-outline",src)
 		if (dish.contained_virus)
@@ -183,7 +204,8 @@
 
 	var/turf/T = get_turf(src)
 	playsound(T, "sound/effects/fax.ogg", 50, 1)
-	flick_overlay("analyser-paper", src)
+	var/image/paper = image(icon, src, "analyser-paper")
+	flick_overlay_global(paper, GLOB.clients, 3 SECONDS)
 	visible_message("\The [src] prints a sheet of paper.")
 	spawn(1 SECONDS)
 		var/obj/item/paper/P = new(T)
@@ -200,7 +222,7 @@
 
 	if (scanner && !(scanner in range(src,1)))
 		update_appearance()
-		flick("analyser_turnoff",src)
+		processing = FALSE
 		scanner = null
 
 
@@ -213,3 +235,23 @@
 		dish.forceMove(loc)
 		dish = null
 		update_appearance()
+
+/obj/machinery/disease2/diseaseanalyser/fullupgrade
+	circuit = /obj/item/circuitboard/machine/diseaseanalyser/fullupgrade
+
+
+/obj/machinery/disease2/diseaseanalyser/screwdriver_act(mob/living/user, obj/item/I)
+	if(..())
+		return TRUE
+	if(processing)
+		to_chat(user, span_warning("\The [src] is currently processing! Please wait for process to finish"))
+		return FALSE
+	return default_deconstruction_screwdriver(user, "analyseru", "analyser", I)
+
+/obj/machinery/disease2/diseaseanalyser/crowbar_act(mob/living/user, obj/item/I)
+	if(..())
+		return TRUE
+	if(processing)
+		to_chat(user, span_warning("\The [src] is currently processing! Please wait until completion."))
+		return FALSE
+	return default_deconstruction_crowbar(I)

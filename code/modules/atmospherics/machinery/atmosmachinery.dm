@@ -25,7 +25,7 @@
 	///Check if the object can be unwrenched
 	var/can_unwrench = FALSE
 	///Bitflag of the initialized directions (NORTH | SOUTH | EAST | WEST)
-	var/initialize_directions = 0
+	var/initialize_directions = NONE
 	///The color of the pipe
 	var/pipe_color = COLOR_VERY_LIGHT_GRAY
 	///What layer the pipe is in (from 1 to 5, default 3)
@@ -40,7 +40,7 @@
 	var/image/pipe_vision_img = null
 
 	///The type of the device (UNARY, BINARY, TRINARY, QUATERNARY)
-	var/device_type = 0
+	var/device_type = NONE
 	///The lists of nodes that a pipe/device has, depends on the device_type var (from 1 to 4)
 	var/list/obj/machinery/atmospherics/nodes
 
@@ -118,11 +118,30 @@
 	SSair.stop_processing_machine(src)
 	SSair.rebuild_queue -= src
 
-	if(pipe_vision_img)
-		qdel(pipe_vision_img)
+	pipe_vision_img = null
 
 	return ..()
 	//return QDEL_HINT_FINDREFERENCE
+
+/**
+ * Run when you update the conditions in which an /atom might want to start reacting to its turf's air
+ */
+/atom/proc/atmos_conditions_changed()
+	return
+
+/atom/movable/atmos_conditions_changed()
+	var/turf/open/open_loc = loc
+	if(!isopenturf(open_loc))
+		return
+	var/datum/gas_mixture/turf_gas = open_loc.air
+	if(isnull(turf_gas))
+		return
+	check_atmos_process(open_loc, turf_gas, turf_gas.temperature)
+
+/turf/open/atmos_conditions_changed()
+	if(isnull(air))
+		return
+	check_atmos_process(src, air, air.temperature)
 
 /**
  * Called by the machinery disconnect(), custom for each type
@@ -207,8 +226,7 @@
  * Return a list of the nodes that can connect to other machines, get called by atmos_init()
  */
 /obj/machinery/atmospherics/proc/get_node_connects()
-	var/list/node_connects = list()
-	node_connects.len = device_type
+	var/list/node_connects[device_type] //empty list of size device_type
 
 	var/init_directions = get_init_directions()
 	for(var/i in 1 to device_type)
@@ -369,7 +387,7 @@
 	add_fingerprint(user)
 
 	var/unsafe_wrenching = FALSE
-	var/internal_pressure = int_air.return_pressure()-env_air.return_pressure()
+	var/internal_pressure = int_air.return_pressure() - env_air.return_pressure()
 	var/empty_pipe = FALSE
 	if(istype(src, /obj/machinery/atmospherics/components))
 		var/list/datum/gas_mixture/all_gas_mixes = return_analyzable_air()
@@ -386,12 +404,12 @@
 	if(!empty_pipe)
 		to_chat(user, span_notice("You begin to unfasten \the [src]..."))
 
-	if (internal_pressure > 2*ONE_ATMOSPHERE)
+	if (internal_pressure > 2 * ONE_ATMOSPHERE)
 		to_chat(user, span_warning("As you begin unwrenching \the [src] a gush of air blows in your face... maybe you should reconsider?"))
 		unsafe_wrenching = TRUE //Oh dear oh dear
 
 	var/time_taken = empty_pipe ? 0 : 20
-	if(I.use_tool(src, user, time_taken, volume=50))
+	if(I.use_tool(src, user, time_taken, volume = 50))
 		user.visible_message( \
 			"[user] unfastens \the [src].", \
 			span_notice("You unfasten \the [src]."), \
@@ -402,7 +420,8 @@
 		if(unsafe_wrenching)
 			unsafe_pressure_release(user, internal_pressure)
 		return deconstruct(TRUE)
-	return TRUE
+
+	return ..()
 
 /**
  * Getter for can_unwrench
@@ -488,7 +507,7 @@
 	SSair.add_to_rebuild_queue(src)
 
 /obj/machinery/atmospherics/update_name()
-	if(!override_naming)
+	if(!override_naming && !HAS_TRAIT(src, TRAIT_WAS_RENAMED))
 		name = "[GLOB.pipe_color_name[pipe_color]] [initial(name)]"
 	return ..()
 

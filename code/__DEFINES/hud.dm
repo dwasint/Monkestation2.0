@@ -34,10 +34,12 @@
 	Therefore, the top right corner (except during admin shenanigans) is at "15,15"
 */
 
-/proc/ui_hand_position(i) //values based on old hand ui positions (CENTER:-/+16,SOUTH:5)
-	var/x_off = i % 2 ? 0 : -1
-	var/y_off = round((i-1) / 2)
-	return"CENTER+[x_off]:16,SOUTH+[y_off]:5"
+//Monkestation EDIT: START - CYBERNETICS
+/proc/ui_hand_position(i,y_offset = 0,y_pixel_offset = 0) //values based on old hand ui positions (CENTER:-/+16,SOUTH:5)
+	var/x_off = -(!(i % 2))
+	var/y_off = round((i-1) / 2) + y_offset
+	return"CENTER+[x_off]:16,SOUTH+[y_off]:[5 + y_pixel_offset]"
+//Monkestation EDIT: END - CYBERNETICS
 
 /proc/ui_equip_position(mob/M)
 	var/y_off = round((M.held_items.len-1) / 2) //values based on old equip ui position (CENTER: +/-16,SOUTH+1:5)
@@ -47,6 +49,9 @@
 	var/x_off = which == 1 ? -1 : 0
 	var/y_off = round((M.held_items.len-1) / 2)
 	return "CENTER+[x_off]:16,SOUTH+[y_off+1]:5"
+
+// Middle
+#define around_player "CENTER-1,CENTER-1"
 
 //Lower left, persistent menu
 #define ui_inventory "WEST:6,SOUTH:5"
@@ -78,13 +83,6 @@
 #define ui_language_menu "EAST-4:6,SOUTH:21"
 #define ui_navigate_menu "EAST-4:22,SOUTH:5"
 
-//Upper-middle right (alerts)
-#define ui_alert1 "EAST-1:28,CENTER+5:27"
-#define ui_alert2 "EAST-1:28,CENTER+4:25"
-#define ui_alert3 "EAST-1:28,CENTER+3:23"
-#define ui_alert4 "EAST-1:28,CENTER+2:21"
-#define ui_alert5 "EAST-1:28,CENTER+1:19"
-
 //Upper left (action buttons)
 #define ui_action_palette "WEST+0:23,NORTH-1:5"
 #define ui_action_palette_offset(north_offset) ("WEST+0:23,NORTH-[1+north_offset]:5")
@@ -97,6 +95,7 @@
 #define ui_health "EAST-1:28,CENTER-1:19"
 #define ui_internal "EAST-1:28,CENTER+1:21"
 #define ui_mood "EAST-1:28,CENTER:21"
+#define ui_hunger "EAST-1:2,CENTER:21"
 #define ui_spacesuit "EAST-1:28,CENTER-4:14"
 #define ui_stamina "EAST-1:28,CENTER-3:14"
 

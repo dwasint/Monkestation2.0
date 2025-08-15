@@ -194,7 +194,7 @@ GLOBAL_LIST_EMPTY(blob_nodes)
 		if(isnull(guy_turf) || !is_station_level(guy_turf.z))
 			continue
 
-		if(live_guy in GLOB.overminds || (live_guy.pass_flags & PASSBLOB))
+		if((live_guy in GLOB.overminds) || (live_guy.pass_flags & PASSBLOB))
 			continue
 
 		var/area/blob_area = get_area(guy_turf)
@@ -206,7 +206,7 @@ GLOBAL_LIST_EMPTY(blob_nodes)
 			if(live_guy.stat != DEAD)
 				live_guy.investigate_log("has died from blob takeover.", INVESTIGATE_DEATHS)
 			live_guy.death()
-			create_spore(guy_turf)
+			create_spore(guy_turf, spore_type = /mob/living/basic/blob_minion/spore)
 		else
 			live_guy.fully_heal()
 

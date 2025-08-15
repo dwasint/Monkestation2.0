@@ -59,66 +59,97 @@
 	return pick(GLOB.backpacklist)
 
 /proc/random_features()
-	if(!GLOB.tails_list.len)
+	if(!length(GLOB.tails_list))
 		init_sprite_accessory_subtypes(/datum/sprite_accessory/tails/, GLOB.tails_list,  add_blank = TRUE)
-	if(!GLOB.tails_list_human.len)
+	if(!length(GLOB.tails_list_human))
 		init_sprite_accessory_subtypes(/datum/sprite_accessory/tails/human, GLOB.tails_list_human,  add_blank = TRUE)
-	if(!GLOB.tails_list_lizard.len)
+	if(!length(GLOB.tails_list_lizard))
 		init_sprite_accessory_subtypes(/datum/sprite_accessory/tails/lizard, GLOB.tails_list_lizard, add_blank = TRUE)
-	if(!GLOB.snouts_list.len)
+	if(!length(GLOB.snouts_list))
 		init_sprite_accessory_subtypes(/datum/sprite_accessory/snouts, GLOB.snouts_list)
-	if(!GLOB.horns_list.len)
+	if(!length(GLOB.horns_list))
 		init_sprite_accessory_subtypes(/datum/sprite_accessory/horns, GLOB.horns_list)
-	if(!GLOB.ears_list.len)
+	if(!length(GLOB.tails_list_monkey))
+		init_sprite_accessory_subtypes(/datum/sprite_accessory/tails/monkey, GLOB.tails_list_monkey)
+	if(!length(GLOB.ears_list))
 		init_sprite_accessory_subtypes(/datum/sprite_accessory/ears, GLOB.horns_list)
-	if(!GLOB.frills_list.len)
+	if(!length(GLOB.frills_list))
 		init_sprite_accessory_subtypes(/datum/sprite_accessory/frills, GLOB.frills_list)
-	if(!GLOB.spines_list.len)
+	if(!length(GLOB.spines_list))
 		init_sprite_accessory_subtypes(/datum/sprite_accessory/spines, GLOB.spines_list)
-	if(!GLOB.legs_list.len)
+	if(!length(GLOB.legs_list))
 		init_sprite_accessory_subtypes(/datum/sprite_accessory/legs, GLOB.legs_list)
-	if(!GLOB.body_markings_list.len)
+	if(!length(GLOB.body_markings_list))
 		init_sprite_accessory_subtypes(/datum/sprite_accessory/body_markings, GLOB.body_markings_list)
-	if(!GLOB.wings_list.len)
+	if(!length(GLOB.wings_list))
 		init_sprite_accessory_subtypes(/datum/sprite_accessory/wings, GLOB.wings_list)
-	if(!GLOB.moth_wings_list.len)
+	if(!length(GLOB.moth_wings_list))
 		init_sprite_accessory_subtypes(/datum/sprite_accessory/moth_wings, GLOB.moth_wings_list)
-	if(!GLOB.moth_antennae_list.len)
+	if(!length(GLOB.moth_antennae_list))
 		init_sprite_accessory_subtypes(/datum/sprite_accessory/moth_antennae, GLOB.moth_antennae_list)
-	if(!GLOB.moth_markings_list.len)
+	if(!length(GLOB.moth_markings_list))
 		init_sprite_accessory_subtypes(/datum/sprite_accessory/moth_markings, GLOB.moth_markings_list)
-	if(!GLOB.pod_hair_list.len)
+	if(!length(GLOB.pod_hair_list))
+		init_sprite_accessory_subtypes(/datum/sprite_accessory/pod_hair, GLOB.pod_hair_list)
+	if(!length(GLOB.pod_hair_list))
+		init_sprite_accessory_subtypes(/datum/sprite_accessory/pod_hair, GLOB.pod_hair_list)
+	if(!length(GLOB.pod_hair_list))
 		init_sprite_accessory_subtypes(/datum/sprite_accessory/pod_hair, GLOB.pod_hair_list)
 //Monkestation Addition Start
-	if(!GLOB.ipc_screens_list.len)
+	if(!length(GLOB.ethereal_horns_list))
+		init_sprite_accessory_subtypes(/datum/sprite_accessory/ethereal_horns, GLOB.ethereal_horns_list)
+	if(!length(GLOB.ethereal_tail_list))
+		init_sprite_accessory_subtypes(/datum/sprite_accessory/tails/ethereal, GLOB.ethereal_tail_list)
+	if(!length(GLOB.apid_antenna_list))
+		init_sprite_accessory_subtypes(/datum/sprite_accessory/apid_antenna, GLOB.apid_antenna_list)
+	if(!length(GLOB.apid_wings_list))
+		init_sprite_accessory_subtypes(/datum/sprite_accessory/apid_wings, GLOB.apid_wings_list)
+	if(!length(GLOB.ipc_screens_list))
 		init_sprite_accessory_subtypes(/datum/sprite_accessory/ipc_screens, GLOB.ipc_screens_list)
-	if(!GLOB.ipc_antennas_list.len)
+	if(!length(GLOB.ipc_antennas_list))
 		init_sprite_accessory_subtypes(/datum/sprite_accessory/ipc_antennas, GLOB.ipc_antennas_list)
-	if(!GLOB.ipc_chassis_list.len)
+	if(!length(GLOB.ipc_chassis_list))
 		init_sprite_accessory_subtypes(/datum/sprite_accessory/ipc_chassis, GLOB.ipc_chassis_list)
-	if(!GLOB.tails_list_monkey.len)
-		init_sprite_accessory_subtypes(/datum/sprite_accessory/tails/monkey, GLOB.tails_list_monkey)
-	if(!GLOB.anime_top_list.len)
+	if(!length(GLOB.anime_top_list))
 		init_sprite_accessory_subtypes(/datum/sprite_accessory/anime_head, GLOB.anime_top_list)
-	if(!GLOB.anime_middle_list.len)
+	if(!length(GLOB.anime_middle_list))
 		init_sprite_accessory_subtypes(/datum/sprite_accessory/anime_middle, GLOB.anime_middle_list)
-	if(!GLOB.anime_top_list.len)
+	if(!length(GLOB.anime_top_list))
 		init_sprite_accessory_subtypes(/datum/sprite_accessory/anime_bottom, GLOB.anime_bottom_list)
-	if(!GLOB.arachnid_appendages_list.len)
+	if(!length(GLOB.arachnid_appendages_list))
 		init_sprite_accessory_subtypes(/datum/sprite_accessory/arachnid_appendages, GLOB.arachnid_appendages_list)
-	if(!GLOB.arachnid_chelicerae_list.len)
+	if(!length(GLOB.arachnid_chelicerae_list))
 		init_sprite_accessory_subtypes(/datum/sprite_accessory/arachnid_chelicerae, GLOB.arachnid_chelicerae_list)
-	if(!GLOB.goblin_ears_list.len)
+	if(!length(GLOB.goblin_ears_list))
 		init_sprite_accessory_subtypes(/datum/sprite_accessory/goblin_ears, GLOB.goblin_ears_list)
-	if(!GLOB.floran_leaves_list.len)
+	if(!length(GLOB.goblin_nose_list))
+		init_sprite_accessory_subtypes(/datum/sprite_accessory/goblin_nose, GLOB.goblin_nose_list)
+	if(!length(GLOB.floran_leaves_list))
 		init_sprite_accessory_subtypes(/datum/sprite_accessory/floran_leaves, GLOB.floran_leaves_list)
+	if(!GLOB.satyr_fluff_list.len)
+		init_sprite_accessory_subtypes(/datum/sprite_accessory/satyr_fluff, GLOB.satyr_fluff_list)
+	if(!GLOB.satyr_tail_list.len)
+		init_sprite_accessory_subtypes(/datum/sprite_accessory/satyr_tail, GLOB.satyr_tail_list)
+	if(!GLOB.satyr_horns_list.len)
+		init_sprite_accessory_subtypes(/datum/sprite_accessory/satyr_horns, GLOB.satyr_horns_list)
+	if(!length(GLOB.arm_wings_list))
+		init_sprite_accessory_subtypes(/datum/sprite_accessory/arm_wings, GLOB.arm_wings_list)
+	if(!length(GLOB.arm_wingsopen_list))
+		init_sprite_accessory_subtypes(/datum/sprite_accessory/arm_wingsopen, GLOB.arm_wingsopen_list)
+	if(!length(GLOB.tails_list_avian))
+		init_sprite_accessory_subtypes(/datum/sprite_accessory/tails/avian, GLOB.tails_list_avian)
+	if(!length(GLOB.avian_ears_list))
+		init_sprite_accessory_subtypes(/datum/sprite_accessory/plumage, GLOB.avian_ears_list)
+	if(!GLOB.oni_tail_list.len)
+		init_sprite_accessory_subtypes(/datum/sprite_accessory/oni_tail, GLOB.oni_tail_list)
+	if(!GLOB.oni_wings_list.len)
+		init_sprite_accessory_subtypes(/datum/sprite_accessory/oni_tail, GLOB.oni_wings_list)
+	if(!GLOB.oni_horns_list.len)
+		init_sprite_accessory_subtypes(/datum/sprite_accessory/oni_horns, GLOB.oni_horns_list)
 //Monkestation Addition End
 
 	//For now we will always return none for tail_human and ears. | "For now" he says.
 	return(list(
-		"mcolor" = "#[pick("7F","FF")][pick("7F","FF")][pick("7F","FF")]",
-		"mcolor_secondary" = "#[pick("7F","FF")][pick("7F","FF")][pick("7F","FF")]",
-		"ethcolor" = GLOB.color_list_ethereal[pick(GLOB.color_list_ethereal)],
 		"tail_cat" = "None",
 		"tail_lizard" = "Smooth",
 		"wings" = "None",
@@ -133,10 +164,14 @@
 		"moth_wings" = pick(GLOB.moth_wings_list),
 		"moth_antennae" = pick(GLOB.moth_antennae_list),
 		"moth_markings" = pick(GLOB.moth_markings_list),
+		"ethereal_horns" = pick(GLOB.ethereal_horns_list), //Monkestation Addition
+		"ethereal_tail" = pick(GLOB.ethereal_tail_list), //Monkestation Addition
+		"apid_antenna" = pick(GLOB.apid_antenna_list), //Monkestation Addition
+		"apid_wings" = pick(GLOB.apid_wings_list), //Monkestation Addition
 		"ipc_screen" = pick(GLOB.ipc_screens_list), //Monkestation Addition
 		"ipc_antenna" = pick(GLOB.ipc_antennas_list), //Monkestation Addition
 		"ipc_chassis" = pick(GLOB.ipc_chassis_list), //Monkestation Addition
-		"tail_monkey" = "Chimp", //Monkestation Addition
+		"tail_monkey" = "Monkey", //Monkestation change: Default to monkey tail.
 		"pod_hair" = pick(GLOB.pod_hair_list),
 		"anime_top" = pick(GLOB.anime_top_list), //Monkestation Addition
 		"anime_middle" = pick(GLOB.anime_middle_list), //Monkestation Addition
@@ -145,7 +180,17 @@
 		"arachnid_chelicerae" = pick(GLOB.arachnid_chelicerae_list), //Monkestation Addition
 		"animecolor" = "#[pick("7F","FF")][pick("7F","FF")][pick("7F","FF")]", //Monkestation Addition
 		"goblin_ears" = pick(GLOB.goblin_ears_list), //Monkestation Addition
+		"goblin_nose" = pick(GLOB.goblin_nose_list), //Monkestation Addition
 		"floran_leaves" = pick(GLOB.floran_leaves_list), //Monkestation Addition
+		"satyr_fluff" = pick(GLOB.satyr_fluff_list), //Monkestation Addition
+		"satyr_tail" = pick(GLOB.satyr_tail_list), //Monkestation Addition
+		"satyr_horns" = pick(GLOB.satyr_horns_list), //Monkestation Addition
+		"arm_wings" = pick(GLOB.arm_wings_list),
+		"ears_avian" = pick(GLOB.avian_ears_list),
+		"tail_avian" = pick(GLOB.tails_list_avian),
+		"oni_tail" = pick(GLOB.oni_tail_list), //Monkestation Addition
+		"oni_wings" = pick(GLOB.oni_wings_list), //Monkestation Addition
+		"oni_horns" = pick(GLOB.oni_horns_list), //Monkestation Addition
 	))
 
 /proc/random_hairstyle(gender)
@@ -352,14 +397,26 @@ GLOBAL_LIST_EMPTY(species_list)
 		progbar.end_progress()
 
 	if(interaction_key)
+		var/reduced_interaction_count = (LAZYACCESS(user.do_afters, interaction_key) || 0) - 1
+		if(reduced_interaction_count > 0) // Not done yet!
+			LAZYSET(user.do_afters, interaction_key, reduced_interaction_count)
+			return
+		// all out, let's clear er out fully
 		LAZYREMOVE(user.do_afters, interaction_key)
 	SEND_SIGNAL(user, COMSIG_DO_AFTER_ENDED)
+
+/// Returns the total amount of do_afters this mob is taking part in
+/mob/proc/do_after_count()
+	var/count = 0
+	for(var/key in do_afters)
+		count += do_afters[key]
+	return count
 
 /proc/is_species(A, species_datum)
 	. = FALSE
 	if(ishuman(A))
 		var/mob/living/carbon/human/H = A
-		if(H.dna && istype(H.dna.species, species_datum))
+		if(istype(H.dna?.species, species_datum))
 			. = TRUE
 
 /// Returns if the given target is a human. Like, a REAL human.
@@ -423,6 +480,10 @@ GLOBAL_LIST_EMPTY(species_list)
 // Automatically gives the class deadsay to the whole message (message + source)
 /proc/deadchat_broadcast(message, source=null, mob/follow_target=null, turf/turf_target=null, speaker_key=null, message_type=DEADCHAT_REGULAR, admin_only=FALSE)
 	message = span_deadsay("[source][span_linkify(message)]")
+#ifndef DISABLE_DEMOS
+	if(!admin_only)
+		SSdemo.write_chat_global(message)
+#endif
 
 	for(var/mob/M in GLOB.player_list)
 		var/chat_toggles = TOGGLES_DEFAULT_CHAT
@@ -434,12 +495,12 @@ GLOBAL_LIST_EMPTY(species_list)
 			toggles = prefs.toggles
 			ignoring = prefs.ignoring
 		if(admin_only)
-			if (!M.client?.holder)
+			if (!M.client?.holder?.check_for_rights(R_ADMIN)) // monkestation edit: only include admins with the +ADMIN permission
 				return
 			else
 				message += span_deadsay(" (This is viewable to admins only).")
 		var/override = FALSE
-		if(M.client?.holder && (chat_toggles & CHAT_DEAD))
+		if(M.client?.holder?.check_for_rights(R_ADMIN) && (chat_toggles & CHAT_DEAD)) // monkestation edit: only include admins with the +ADMIN permission
 			override = TRUE
 		if(HAS_TRAIT(M, TRAIT_SIXTHSENSE) && message_type == DEADCHAT_REGULAR)
 			override = TRUE
@@ -514,7 +575,7 @@ GLOBAL_LIST_EMPTY(species_list)
 
 /proc/passtable_on(target, source)
 	var/mob/living/L = target
-	if (!HAS_TRAIT(L, TRAIT_PASSTABLE) && L.pass_flags & PASSTABLE)
+	if (!HAS_TRAIT(L, TRAIT_PASSTABLE) && (L.pass_flags & PASSTABLE))
 		ADD_TRAIT(L, TRAIT_PASSTABLE, INNATE_TRAIT)
 	ADD_TRAIT(L, TRAIT_PASSTABLE, source)
 	L.pass_flags |= PASSTABLE
@@ -596,20 +657,6 @@ GLOBAL_LIST_EMPTY(species_list)
 			. = pick(ais)
 	return .
 
-/**
- * Used to get the amount of change between two body temperatures
- *
- * When passed the difference between two temperatures returns the amount of change to temperature to apply.
- * The change rate should be kept at a low value tween 0.16 and 0.02 for optimal results.
- * vars:
- * * temp_diff (required) The differance between two temperatures
- * * change_rate (optional)(Default: 0.06) The rate of range multiplyer
- */
-/proc/get_temp_change_amount(temp_diff, change_rate = 0.06)
-	if(temp_diff < 0)
-		return -(BODYTEMP_AUTORECOVERY_DIVISOR / 2) * log(1 - (temp_diff * change_rate))
-	return (BODYTEMP_AUTORECOVERY_DIVISOR / 2) * log(1 + (temp_diff * change_rate))
-
 #define ISADVANCEDTOOLUSER(mob) (HAS_TRAIT(mob, TRAIT_ADVANCEDTOOLUSER) && !HAS_TRAIT(mob, TRAIT_DISCOORDINATED_TOOL_USER))
 
 /// Gets the client of the mob, allowing for mocking of the client.
@@ -647,14 +694,19 @@ GLOBAL_LIST_EMPTY(species_list)
 		moblist += mob_to_sort
 	for(var/mob/living/basic/mob_to_sort in sortmob)
 		moblist += mob_to_sort
+	for(var/mob/living/soulcatcher_soul/mob_to_sort in sortmob)
+		moblist += mob_to_sort
 	return moblist
 
 ///returns a mob type controlled by a specified ckey
 /proc/get_mob_by_ckey(key)
 	if(!key)
 		return
-	var/list/mobs = sort_mobs()
-	for(var/mob/mob in mobs)
+	var/mob/persistent_mob = GLOB.persistent_clients_by_ckey[key]?.mob
+	if(persistent_mob)
+		return persistent_mob
+	// hopefully the above will always handle it, but any time a coder thinks "no way this will happen", murphy's law guarantees it somehow will
+	for(var/mob/mob as anything in GLOB.mob_list)
 		if(mob.ckey == key)
 			return mob
 

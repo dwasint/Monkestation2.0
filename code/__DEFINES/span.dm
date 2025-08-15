@@ -48,12 +48,14 @@
 #define span_drone(str) ("<span class='drone'>" + str + "</span>")
 #define span_engradio(str) ("<span class='engradio'>" + str + "</span>")
 #define span_extremelybig(str) ("<span class='extremelybig'>" + str + "</span>")
+#define span_enteradio(str) ("<span class='enteradio'>" + str + "</span>")
 #define span_ghostalert(str) ("<span class='ghostalert'>" + str + "</span>")
 #define span_green(str) ("<span class='green'>" + str + "</span>")
 #define span_greenannounce(str) ("<span class='greenannounce'>" + str + "</span>")
 #define span_greenteamradio(str) ("<span class='greenteamradio'>" + str + "</span>")
 #define span_greentext(str) ("<span class='greentext'>" + str + "</span>")
 #define span_grey(str) ("<span class='grey'>" + str + "</span>")
+#define span_header(str) ("<span class='header'>" + str + "</span>")
 #define span_hear(str) ("<span class='hear'>" + str + "</span>")
 #define span_hidden(str) ("<span class='hidden'>" + str + "</span>")
 #define span_hierophant(str) ("<span class='hierophant'>" + str + "</span>")
@@ -111,10 +113,12 @@
 #define span_secradio(str) ("<span class='secradio'>" + str + "</span>")
 #define span_servradio(str) ("<span class='servradio'>" + str + "</span>")
 #define span_singing(str) ("<span class='singing'>" + str + "</span>")
+#define span_slightly_larger(str) ("<span class='slightly_larger'>" + str + "</span>")
 #define span_slime(str) ("<span class='slime'>" + str + "</span>")
 #define span_small(str) ("<span class='small'>" + str + "</span>")
 #define span_smallnotice(str) ("<span class='smallnotice'>" + str + "</span>")
 #define span_smallnoticeital(str) ("<span class='smallnoticeital'>" + str + "</span>")
+#define span_soapbox(str) ("<span class='soapbox'>" + str + "</span>")
 #define span_spiderbroodmother(str) ("<span class='spiderbroodmother'>" + str + "</span>")
 #define span_spiderscout(str) ("<span class='spiderscout'>" + str + "</span>")
 #define span_suicide(str) ("<span class='suicide'>" + str + "</span>")
@@ -124,6 +128,7 @@
 #define span_tinynotice(str) ("<span class='tinynotice'>" + str + "</span>")
 #define span_tinynoticeital(str) ("<span class='tinynoticeital'>" + str + "</span>")
 #define span_unconscious(str) ("<span class='unconscious'>" + str + "</span>")
+#define span_uncommonradio(str) ("<span class='uncommonradio'>" + str + "</span>")
 #define span_userdanger(str) ("<span class='userdanger'>" + str + "</span>")
 #define span_warning(str) ("<span class='warning'>" + str + "</span>")
 #define span_yell(str) ("<span class='yell'>" + str + "</span>")
@@ -132,5 +137,7 @@
 // Spans that use embedded tgui components:
 // Sorted alphabetically
 #define span_tooltip(tip, main_text) ("<span data-component=\"Tooltip\" data-content=\"" + tip + "\" class=\"tooltip\">" + main_text + "</span>")
+// No italics
+#define span_tooltip_alt(tip, main_text) ("<span data-component=\"Tooltip\" data-content=\"" + tip + "\" class=\"tooltip_alt\">" + main_text + "</span>")
 
 #define span_doyourjobidiot(str) ("<span class='doyourjobidiot'>" + str + "</span>")

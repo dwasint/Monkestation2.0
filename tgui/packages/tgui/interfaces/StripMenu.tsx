@@ -2,7 +2,7 @@ import { range } from 'common/collections';
 import { BooleanLike } from 'common/react';
 import { resolveAsset } from '../assets';
 import { useBackend } from '../backend';
-import { Box, Button, Icon, Stack } from '../components';
+import { Box, Button, Icon, Stack, DmIcon } from '../components';
 import { Window } from '../layouts';
 import type { InfernoNode } from 'inferno';
 
@@ -30,7 +30,8 @@ const CornerText = (props: {
         left: align === 'left' ? '2px' : '-2px',
         'text-align': align,
         'text-shadow': '1px 1px 1px #555',
-      }}>
+      }}
+    >
       {children}
     </Box>
   );
@@ -234,6 +235,7 @@ type StripMenuItem =
   | ((
       | {
           icon: string;
+          icon_state: string;
           name: string;
           alternate?: string;
         }
@@ -248,8 +250,8 @@ type StripMenuData = {
   name: string;
 };
 
-export const StripMenu = (props, context) => {
-  const { act, data } = useBackend<StripMenuData>(context);
+export const StripMenu = (props) => {
+  const { act, data } = useBackend<StripMenuData>();
 
   const gridSpots = new Map<GridSpotKey, string>();
   for (const key of Object.keys(data.items)) {
@@ -295,13 +297,14 @@ export const StripMenu = (props, context) => {
                     }
 
                     content = (
-                      <Box
-                        as="img"
-                        src={`data:image/jpeg;base64,${item.icon}`}
+                      <DmIcon
+                        icon={item.icon}
+                        icon_state={item.icon_state}
                         height="100%"
                         width="100%"
                         style={{
                           '-ms-interpolation-mode': 'nearest-neighbor',
+                          'image-rendering': 'pixelated',
                           'vertical-align': 'middle',
                         }}
                       />
@@ -336,13 +339,15 @@ export const StripMenu = (props, context) => {
                       style={{
                         width: BUTTON_DIMENSIONS,
                         height: BUTTON_DIMENSIONS,
-                      }}>
+                      }}
+                    >
                       <Box
                         style={{
                           position: 'relative',
                           width: '100%',
                           height: '100%',
-                        }}>
+                        }}
+                      >
                         <Button
                           onClick={() => {
                             act('use', {
@@ -359,7 +364,8 @@ export const StripMenu = (props, context) => {
                             width: '100%',
                             height: '100%',
                             padding: 0,
-                          }}>
+                          }}
+                        >
                           {slot.image && (
                             <Box
                               as="img"
@@ -388,7 +394,8 @@ export const StripMenu = (props, context) => {
                               bottom: 0,
                               right: 0,
                               'z-index': 2,
-                            }}>
+                            }}
+                          >
                             <Icon name={alternateAction.icon} />
                           </Button>
                         )}

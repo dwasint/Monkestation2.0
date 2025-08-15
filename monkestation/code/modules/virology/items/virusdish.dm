@@ -10,12 +10,11 @@ GLOBAL_LIST_INIT(virusdishes, list())
 	var/growth = 0
 	var/info = ""
 	var/analysed = FALSE
-	var/datum/disease/advanced/contained_virus
+	var/datum/disease/acute/contained_virus
 	var/open = FALSE
 	var/cloud_delay = 8 SECONDS//similar to a mob's breathing
-	var/last_cloud_time = 0
 	var/mob/last_openner
-	var/takes_left = 2
+	COOLDOWN_DECLARE(cloud_cooldown)
 
 /obj/item/weapon/virusdish/New(loc)
 	..()
@@ -34,8 +33,8 @@ GLOBAL_LIST_INIT(virusdishes, list())
 	RegisterSignals(src.reagents, reagent_change_signals, PROC_REF(on_reagent_change))
 
 /obj/item/weapon/virusdish/Destroy()
-	contained_virus = null
 	STOP_PROCESSING(SSobj, src)
+	contained_virus = null
 	GLOB.virusdishes.Remove(src)
 	. = ..()
 
@@ -89,12 +88,11 @@ GLOBAL_LIST_INIT(virusdishes, list())
 	open = !open
 	update_appearance()
 	to_chat(user,span_notice("You [open?"open":"close"] dish's lid."))
-	update_desc()
 	if (open)
 		last_openner = user
 		if (contained_virus)
 			contained_virus.log += "<br />[ROUND_TIME()] Containment Dish opened by [key_name(user)]."
-		START_PROCESSING(SSobj, src)
+			START_PROCESSING(SSobj, src)
 	else
 		if (contained_virus)
 			contained_virus.log += "<br />[ROUND_TIME()] Containment Dish closed by [key_name(user)]."
@@ -105,13 +103,16 @@ GLOBAL_LIST_INIT(virusdishes, list())
 	..()
 	if(istype(I,/obj/item/hand_labeler))
 		return
-	if(istype(I, /obj/item/reagent_containers/syringe) && takes_left)
-		takes_left--
-		var/obj/item/reagent_containers/syringe/B = I
-		var/list/data = list("viruses"=null,"blood_DNA"=null,"blood_type"=null,"resistances"=null,"trace_chem"=null,"viruses"=list(),"immunity"=list())
-		data["viruses"] |= list(contained_virus)
-		B.reagents.add_reagent(/datum/reagent/blood, B.volume, data)
-		to_chat(user, span_notice("You take some blood from the [src]"))
+	if(istype(I, /obj/item/reagent_containers/syringe))
+		if(growth < 50)
+			to_chat(user, span_warning("There isn't enough growth in the [src]."))
+		else
+			growth = growth - 50
+			var/obj/item/reagent_containers/syringe/B = I
+			var/list/data = list("viruses"=null,"blood_DNA"=null,"blood_type"="O-","resistances"=null,"trace_chem"=null,"viruses"=list(),"immunity"=list())
+			data["viruses"] |= list(contained_virus)
+			B.reagents.add_reagent(/datum/reagent/blood, B.volume, data)
+			to_chat(user, span_notice("You take some blood from the [src]."))
 	if (open)
 		if (istype(I,/obj/item/reagent_containers))
 			var/success = 0
@@ -164,21 +165,28 @@ GLOBAL_LIST_INIT(virusdishes, list())
 	reagents.clear_reagents()
 
 /obj/item/weapon/virusdish/process()
-	if (!contained_virus || !(contained_virus.spread_flags & DISEASE_SPREAD_AIRBORNE))
-		STOP_PROCESSING(SSobj, src)
-		return
-	if(world.time - last_cloud_time >= cloud_delay)
-		last_cloud_time = world.time
-		var/list/L = list()
-		L += contained_virus
-		new /obj/effect/pathogen_cloud/core(get_turf(src), last_openner, virus_copylist(L), FALSE)
+	if(!contained_virus || !open)
+		return PROCESS_KILL
+	if(isliving(loc))
+		var/mob/living/holder = loc
+		if(holder.is_holding(src))
+			infection_attempt(holder, contained_virus)
+	else if(isopenturf(loc))
+		for(var/mob/living/potential_victim in loc.contents)
+			infection_attempt(potential_victim, contained_virus)
+	if(contained_virus.spread_flags & DISEASE_SPREAD_AIRBORNE)
+		if(COOLDOWN_FINISHED(src, cloud_cooldown))
+			COOLDOWN_START(src, cloud_cooldown, cloud_delay)
+			var/list/L = list(contained_virus)
+			new /obj/effect/pathogen_cloud/core(get_turf(src), last_openner, virus_copylist(L), FALSE)
 
 /obj/item/weapon/virusdish/random
 	name = "growth dish"
+
 /obj/item/weapon/virusdish/random/New(loc)
 	..(loc)
 	if (loc)//because fuck you /datum/subsystem/supply_shuttle/Initialize()
-		var/virus_choice = pick(subtypesof(/datum/disease/advanced)- typesof(/datum/disease/advanced/premade))
+		var/virus_choice = pick(WILD_ACUTE_DISEASES)
 		contained_virus = new virus_choice
 		var/list/anti = list(
 			ANTIGEN_BLOOD	= 2,
@@ -195,6 +203,7 @@ GLOBAL_LIST_INIT(virusdishes, list())
 			EFFECT_DANGER_DEADLY	= 0,
 			)
 		contained_virus.makerandom(list(50,90),list(10,100),anti,bad,src)
+		contained_virus.Refresh_Acute()
 		growth = rand(5, 50)
 		name = "growth dish (Unknown [contained_virus.form])"
 		update_appearance()
@@ -265,7 +274,7 @@ GLOBAL_LIST_INIT(virusdishes, list())
 	else
 		desc += "\nIts lid is closed!"
 	if(info)
-		desc += "\nThere is a sticker with some printed information on it. <a href ='?src=\ref[src];examine=1'>(Read it)</a>"
+		desc += "\nThere is a sticker with some printed information on it. <a href='byond://?src=\ref[src];examine=1'>(Read it)</a>"
 
 
 /obj/item/weapon/virusdish/Topic(href, href_list)

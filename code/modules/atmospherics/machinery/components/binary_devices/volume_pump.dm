@@ -31,6 +31,7 @@
 	AddComponent(/datum/component/usb_port, list(
 		/obj/item/circuit_component/atmos_volume_pump,
 	))
+	ADD_TRAIT(src, TRAIT_ALT_CLICK_BLOCKER, INNATE_TRAIT)
 	register_context()
 
 /obj/machinery/atmospherics/components/binary/volume_pump/CtrlClick(mob/user)
@@ -75,9 +76,12 @@
 	if((input_starting_pressure < 0.01) || ((output_starting_pressure > 9000)) && !overclocked)
 		return
 
+///Monkestation edit begin
+/*  Volume pumps can now pump infinitely while overclocked -
 	if(overclocked && (output_starting_pressure-input_starting_pressure > 1000))//Overclocked pumps can only force gas a certain amount.
 		return
-
+*/
+///Monkestation edit end
 
 	var/transfer_ratio = transfer_rate / air1.volume
 

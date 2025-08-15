@@ -1,12 +1,3 @@
-/obj/structure/nestbox
-	name = "Nesting Box"
-	desc = "A warm box perfect for a chicken"
-	density = FALSE
-	icon = 'monkestation/icons/obj/structures.dmi'
-	icon_state = "nestbox"
-	anchored = FALSE
-
-
 /obj/item/chicken_scanner
 	name = "Chicken Scanner"
 	desc = "Scans chickens to give you information about possible mutations that chicken can have"
@@ -42,7 +33,7 @@
 /obj/item/chicken_scanner/proc/chicken_scan(mob/living/carbon/human/user, mob/living/basic/chicken/scanned_chicken)
 	if(scan_mode)
 		for(var/mutation in scanned_chicken.mutation_list)
-			var/datum/mutation/ranching/chicken/held_mutation = new mutation
+			var/datum/ranching_mutation/chicken/held_mutation = new mutation
 			var/list/combined_msg = list()
 			combined_msg += "\t<span class='notice'>[initial(held_mutation.egg_type.name)]</span>"
 			if(held_mutation.happiness)
@@ -65,6 +56,13 @@
 					reagents += "[initial(listed_reagent.name)]"
 				var/reagent_string = reagents.Join(" , ")
 				combined_msg += "\t<span class='info'>Required Reagents: [reagent_string]</span>"
+			if(held_mutation.nearby_items.len)
+				var/list/items = list()
+				for(var/item in held_mutation.nearby_items)
+					var/obj/item/listed_item = item
+					items += "[initial(listed_item.name)]"
+				var/item_string = items.Join(" , ")
+				combined_msg += "\t<span class='info'>Required items: [item_string]</span>"
 			if(held_mutation.needed_turfs.len)
 				var/list/turfs = list()
 				for(var/tile in held_mutation.needed_turfs)
@@ -108,12 +106,14 @@
 						depth_name = "above head height"
 				combined_msg += "\t<span class='info'>Requires liquid that is atleast [depth_name]</span>"
 
-			to_chat(user, examine_block(combined_msg.Join("\n")))
+			to_chat(user, boxed_message(combined_msg.Join("\n")))
 	else
 		var/list/combined_msg = list()
-		combined_msg += "\t <span class='info'>Age:[scanned_chicken.age]</span>"
-		combined_msg += "\t <span class='info'>Happiness:[round(scanned_chicken.happiness, 1)]</span>"
-		to_chat(user, examine_block(combined_msg.Join("\n")))
+		var/datum/component/happiness_container/container = scanned_chicken.GetComponent(/datum/component/happiness_container)
+
+		combined_msg += "\t <span class='info'>Age:[SEND_SIGNAL(scanned_chicken, COMSIG_AGE_RETURN_AGE)]</span>"
+		combined_msg += "\t <span class='info'>Happiness:[round(container.current_happiness, 1)]</span>"
+		to_chat(user, boxed_message(combined_msg.Join("\n")))
 
 /datum/design/chicken_scanner
 	name = "Chicken Scanner"
@@ -146,6 +146,10 @@
 	var/obj/item/food/first_food
 	///number of food inserted
 	var/food_inserted = 0
+
+/obj/machinery/feed_machine/Initialize(mapload)
+	. = ..()
+	ADD_TRAIT(src, TRAIT_ALT_CLICK_BLOCKER, INNATE_TRAIT)
 
 /obj/machinery/feed_machine/attacked_by(obj/item/I, mob/living/user)
 	. = ..()
@@ -346,91 +350,3 @@
 			return TRUE
 	else
 		return ..()
-
-/obj/machinery/chicken_grinder
-	name = "The Grinder"
-	desc = "This is how chicken nuggets are made boys and girls. \nAlt-Clicking will let you create eggs out of the dead bodies of chickens.\nUses 40 chicken essence per egg, grinded chickens give 20 essence."
-	density = TRUE
-	use_power = IDLE_POWER_USE
-	idle_power_usage = 2
-	active_power_usage = 500
-
-	///placeholder
-	icon = 'icons/obj/kitchen.dmi'
-	icon_state = "grinder"
-
-	max_integrity = 300
-	circuit = /obj/item/circuitboard/machine/chicken_grinder
-	///the amount of chicken soul stored
-	var/stored_chicken_soul = 0
-
-	var/static/list/grinded_types = list()
-
-/obj/machinery/chicken_grinder/attack_hand(mob/user)
-	if(machine_stat & (NOPOWER|BROKEN))
-		return
-
-	if(!anchored)
-		to_chat(user, "<span class='notice'>[src] cannot be used unless bolted to the ground.</span>")
-		return
-
-	if(user.pulling && istype(user.pulling, /mob/living/basic/chicken))
-		var/mob/living/L = user.pulling
-		var/mob/living/basic/chicken/C = L
-		if(C.buckled ||C.has_buckled_mobs())
-			to_chat(user, "<span class='warning'>[C] is attached to something!</span>")
-			return
-
-		user.visible_message("<span class='danger'>[user] starts to put [C] into the gibber!</span>")
-
-		add_fingerprint(user)
-
-		if(do_after(user, 1 SECONDS, target = src))
-			if(C && user.pulling == C && !C.buckled && !C.has_buckled_mobs() && !occupant)
-				user.visible_message("<span class='danger'>[user] stuffs [C] into the gibber!</span>")
-				C.forceMove(src)
-				set_occupant(C)
-				update_icon()
-	else
-		startgibbing(user)
-
-/obj/machinery/chicken_grinder/proc/startgibbing(mob/user)
-	if(!occupant)
-		visible_message("<span class='italics'>You hear a loud metallic grinding sound.</span>")
-		return
-	use_power(1000)
-	visible_message("<span class='italics'>You hear a loud squelchy grinding sound.</span>")
-	playsound(loc, 'sound/machines/juicer.ogg', 50, 1)
-	update_icon()
-
-	var/offset = prob(50) ? -2 : 2
-	animate(src, pixel_x = pixel_x + offset, time = 0.2, loop = 200) //start shaking
-
-	var/mob/living/basic/chicken/mob_occupant = occupant
-
-	if(!(mob_occupant.chicken_path in grinded_types))
-		grinded_types |= mob_occupant.type
-	log_combat(user, occupant, "gibbed")
-	mob_occupant.death(1)
-	mob_occupant.ghostize()
-	set_occupant(null)
-	qdel(mob_occupant)
-	stored_chicken_soul += 20
-	desc = "This is how chicken nuggets are made boys and girls. \nAlt-Clicking will let you create eggs out of the dead bodies of chickens.\nUses 40 chicken essence per egg, grinded chickens give 20 essence. Current stored chicken essense:[stored_chicken_soul]"
-
-/obj/machinery/chicken_grinder/AltClick(mob/user)
-	. = ..()
-	var/list/input_list = list()
-	for(var/listed_item in grinded_types)
-		var/mob/living/basic/chicken/listed_chicken = new listed_item (src.loc)
-		input_list += listed_chicken.egg_type
-		qdel(listed_chicken)
-
-	var/choice = input(user, "Choose an eggtype, Egg Creation") as null|anything in input_list
-	if(!choice)
-		return
-	if(stored_chicken_soul >= 40)
-		new choice (src.loc)
-		stored_chicken_soul -= 40
-	else
-		to_chat(user, span_notice("You don't have enough chicken essence to produce an egg"))

@@ -12,6 +12,7 @@
 	check_flags = BP_CANT_USE_IN_TORPOR|BP_CANT_USE_IN_FRENZY|BP_CANT_USE_WHILE_INCAPACITATED|BP_CANT_USE_WHILE_UNCONSCIOUS
 	purchase_flags = BLOODSUCKER_CAN_BUY|VASSAL_CAN_BUY
 	bloodcost = 8
+	sol_multiplier = 5
 	cooldown_time = 9 SECONDS
 	target_range = 1
 	power_activates_immediately = TRUE
@@ -67,6 +68,7 @@
 			span_warning("[user] rips straight through the [user.p_their()] [straightjacket]!"),
 			span_warning("We tear through our [straightjacket]!"),
 		)
+		user.temporarilyRemoveItemFromInventory(straightjacket, force = TRUE)
 		if(straightjacket && user.wear_suit == straightjacket)
 			qdel(straightjacket)
 		used = TRUE
@@ -78,11 +80,7 @@
 
 // This is its own proc because its done twice, to repeat code copypaste.
 /datum/action/cooldown/bloodsucker/targeted/brawn/proc/break_closet(mob/living/carbon/human/user, obj/structure/closet/closet)
-	if(closet)
-		closet.welded = FALSE
-		closet.locked = FALSE
-		closet.broken = TRUE
-		closet.open()
+	closet?.bust_open()
 
 /datum/action/cooldown/bloodsucker/targeted/brawn/proc/escape_puller()
 	if(!owner.pulledby) // || owner.pulledby.grab_state <= GRAB_PASSIVE)
@@ -141,7 +139,9 @@
 		if(issilicon(target))
 			target.emp_act(EMP_HEAVY)
 	// Target Type: Locker
-	else if(istype(target_atom, /obj/structure/closet) && level_current >= 3)
+	else if(istype(target_atom, /obj/structure/closet))
+		if(!check_level(3, "bash open closets"))
+			return
 		var/obj/structure/closet/target_closet = target_atom
 		user.balloon_alert(user, "you prepare to bash [target_closet] open...")
 		if(!do_after(user, 2.5 SECONDS, target_closet))
@@ -151,7 +151,9 @@
 		addtimer(CALLBACK(src, PROC_REF(break_closet), user, target_closet), 1)
 		playsound(get_turf(user), 'sound/effects/grillehit.ogg', 80, TRUE, -1)
 	// Target Type: Door
-	else if(istype(target_atom, /obj/machinery/door) && level_current >= 4)
+	else if(istype(target_atom, /obj/machinery/door))
+		if(!check_level(3, "tear open doors"))
+			return
 		var/obj/machinery/door/target_airlock = target_atom
 		playsound(get_turf(user), 'sound/machines/airlock_alien_prying.ogg', 40, TRUE, -1)
 		owner.balloon_alert(owner, "you prepare to tear open [target_airlock]...")
@@ -160,10 +162,16 @@
 			return FALSE
 		if(target_airlock.Adjacent(user))
 			target_airlock.visible_message(span_danger("[target_airlock] breaks open as [user] bashes it!"))
-			user.Stun(10)
+			user.Stun(1 SECONDS)
 			user.do_attack_animation(target_airlock, ATTACK_EFFECT_SMASH)
 			playsound(get_turf(target_airlock), 'sound/effects/bang.ogg', 30, 1, -1)
-			target_airlock.open(2) // open(2) is like a crowbar or jaws of life.
+			target_airlock.open(BYPASS_DOOR_CHECKS) // open(2) is like a crowbar or jaws of life.
+
+/datum/action/cooldown/bloodsucker/targeted/brawn/proc/check_level(needed_level, action)
+	if(needed_level > level_current)
+		owner.balloon_alert(owner, "[needed_level - level_current] more level\s needed to [action]")
+		return FALSE
+	return TRUE
 
 /datum/action/cooldown/bloodsucker/targeted/brawn/CheckValidTarget(atom/target_atom)
 	. = ..()

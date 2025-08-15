@@ -221,6 +221,12 @@
 		disconnect_terminal()
 	return ..()
 
+/obj/machinery/power/apc/on_saboteur(datum/source, disrupt_duration)
+	. = ..()
+	disrupt_duration *= 0.1 // so, turns out, failure timer is in seconds, not deciseconds; without this, disruptions last 10 times as long as they probably should
+	energy_fail(disrupt_duration)
+	return TRUE
+
 /obj/machinery/power/apc/proc/assign_to_area(area/target_area = get_area(src))
 	if(area == target_area)
 		return
@@ -453,11 +459,13 @@
 			update()
 		if("emergency_lighting")
 			emergency_lights = !emergency_lights
-			for(var/obj/machinery/light/L in area)
-				if(!initial(L.no_low_power)) //If there was an override set on creation, keep that override
-					L.no_low_power = emergency_lights
-					INVOKE_ASYNC(L, TYPE_PROC_REF(/obj/machinery/light/, update), FALSE)
-				CHECK_TICK
+			for (var/list/zlevel_turfs as anything in area.get_zlevel_turf_lists())
+				for(var/turf/area_turf as anything in zlevel_turfs)
+					for(var/obj/machinery/light/area_light in area_turf)
+						if(!initial(area_light.no_low_power)) //If there was an override set on creation, keep that override
+							area_light.no_low_power = emergency_lights
+							INVOKE_ASYNC(area_light, TYPE_PROC_REF(/obj/machinery/light/, update), FALSE)
+					CHECK_TICK
 	return TRUE
 
 /obj/machinery/power/apc/ui_close(mob/user)
@@ -657,10 +665,12 @@
 		INVOKE_ASYNC(src, PROC_REF(break_lights))
 
 /obj/machinery/power/apc/proc/break_lights()
-	for(var/obj/machinery/light/breaked_light in area)
-		breaked_light.on = TRUE
-		breaked_light.break_light_tube()
-		stoplag()
+	for (var/list/zlevel_turfs as anything in area.get_zlevel_turf_lists())
+		for(var/turf/area_turf as anything in zlevel_turfs)
+			for(var/obj/machinery/light/breaked_light in area_turf)
+				breaked_light.on = TRUE
+				breaked_light.break_light_tube()
+				stoplag()
 
 /obj/machinery/power/apc/should_atmos_process(datum/gas_mixture/air, exposed_temperature)
 	return (exposed_temperature > 2000)
@@ -712,7 +722,7 @@
 
 /// Used for full_charge apc helper, which sets apc charge to 100%.
 /obj/machinery/power/apc/proc/set_full_charge()
-	cell.charge = 100
+	cell.charge = cell.maxcharge
 
 /*Power module, used for APC construction*/
 /obj/item/electronics/apc

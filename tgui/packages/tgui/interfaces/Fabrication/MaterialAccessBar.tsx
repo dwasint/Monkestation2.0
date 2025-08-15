@@ -9,17 +9,17 @@ import { Material } from './Types';
 // by popular demand of discord people (who are always right and never wrong)
 // this is completely made up
 const MATERIAL_RARITY: Record<string, number> = {
-  'glass': 0,
-  'iron': 1,
-  'plastic': 2,
-  'titanium': 3,
-  'plasma': 4,
-  'silver': 5,
-  'gold': 6,
-  'uranium': 7,
-  'diamond': 8,
+  glass: 0,
+  iron: 1,
+  plastic: 2,
+  titanium: 3,
+  plasma: 4,
+  silver: 5,
+  gold: 6,
+  uranium: 7,
+  diamond: 8,
   'bluespace crystal': 9,
-  'bananium': 10,
+  bananium: 10,
 };
 
 export type MaterialAccessBarProps = {
@@ -44,7 +44,7 @@ const LABEL_FORMAT = (value: number) => formatSiUnit(value, 0);
  * the ore silo. Has pop-out docks for each material type for ejecting up to
  * fifty sheets.
  */
-export const MaterialAccessBar = (props: MaterialAccessBarProps, context) => {
+export const MaterialAccessBar = (props: MaterialAccessBarProps) => {
   const { availableMaterials, onEjectRequested } = props;
 
   return (
@@ -59,7 +59,7 @@ export const MaterialAccessBar = (props: MaterialAccessBarProps, context) => {
               }
             />
           </Flex.Item>
-        )
+        ),
       )}
     </Flex>
   );
@@ -70,16 +70,13 @@ type MaterialCounterProps = {
   onEjectRequested: (quantity: number) => void;
 };
 
-const MaterialCounter = (props: MaterialCounterProps, context) => {
+const MaterialCounter = (props: MaterialCounterProps) => {
   const { material, onEjectRequested } = props;
 
   const [hovering, setHovering] = useLocalState(
-    context,
     `MaterialCounter__${material.name}`,
-    false
+    false,
   );
-
-  const canEject = material.amount > 2_000;
 
   return (
     <div
@@ -88,22 +85,27 @@ const MaterialCounter = (props: MaterialCounterProps, context) => {
       className={classes([
         'MaterialDock',
         hovering && 'MaterialDock--active',
-        !canEject && 'MaterialDock--disabled',
-      ])}>
+        !material.removable && 'MaterialDock--disabled',
+      ])}
+    >
       <Stack vertial direction={'column-reverse'}>
         <Flex
           direction="column"
           textAlign="center"
           onClick={() => onEjectRequested(1)}
-          className="MaterialDock__Label">
+          className="MaterialDock__Label"
+        >
           <Flex.Item>
             <MaterialIcon
               materialName={material.name}
-              amount={material.amount}
+              sheets={material.sheets}
             />
           </Flex.Item>
           <Flex.Item>
-            <AnimatedNumber value={material.amount} format={LABEL_FORMAT} />
+            <AnimatedNumber
+              value={material.amount / 100}
+              format={LABEL_FORMAT}
+            />
           </Flex.Item>
         </Flex>
         {hovering && (
@@ -111,25 +113,21 @@ const MaterialCounter = (props: MaterialCounterProps, context) => {
             <Flex vertical direction={'column-reverse'}>
               <EjectButton
                 material={material}
-                available={material.amount}
                 amount={5}
                 onEject={onEjectRequested}
               />
               <EjectButton
                 material={material}
-                available={material.amount}
                 amount={10}
                 onEject={onEjectRequested}
               />
               <EjectButton
                 material={material}
-                available={material.amount}
                 amount={25}
                 onEject={onEjectRequested}
               />
               <EjectButton
                 material={material}
-                available={material.amount}
                 amount={50}
                 onEject={onEjectRequested}
               />
@@ -143,13 +141,13 @@ const MaterialCounter = (props: MaterialCounterProps, context) => {
 
 type EjectButtonProps = {
   material: Material;
-  available: number;
   amount: number;
   onEject: (quantity: number) => void;
 };
 
-const EjectButton = (props: EjectButtonProps, context) => {
-  const { amount, available, material, onEject } = props;
+const EjectButton = (props: EjectButtonProps) => {
+  const { amount, material, onEject } = props;
+  const { sheets } = material;
 
   return (
     <Button
@@ -157,9 +155,10 @@ const EjectButton = (props: EjectButtonProps, context) => {
       color={'transparent'}
       className={classes([
         'Fabricator__PrintAmount',
-        amount * 2_000 > available && 'Fabricator__PrintAmount--disabled',
+        amount > sheets && 'Fabricator__PrintAmount--disabled',
       ])}
-      onClick={() => onEject(amount)}>
+      onClick={() => onEject(amount)}
+    >
       &times;{amount}
     </Button>
   );
