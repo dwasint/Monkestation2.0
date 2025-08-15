@@ -11542,9 +11542,7 @@
 /area/station/maintenance/central/greater)
 "euJ" = (
 /obj/effect/spawner/random/vending/snackvend,
-/obj/machinery/atm{
-	pixel_y = -30
-	},
+/obj/machinery/atm/directional/south,
 /turf/open/floor/iron,
 /area/station/hallway/primary/central/fore)
 "euM" = (
@@ -14862,9 +14860,7 @@
 /turf/open/floor/wood/parquet,
 /area/station/hallway/primary/central)
 "fHq" = (
-/obj/machinery/atm{
-	pixel_x = -30
-	},
+/obj/machinery/atm/directional/west,
 /turf/open/floor/eighties,
 /area/station/hallway/secondary/exit/departure_lounge)
 "fHJ" = (
@@ -15801,7 +15797,7 @@
 /area/station/command/teleporter)
 "fYd" = (
 /obj/effect/turf_decal/siding/wood,
-/obj/machinery/atm,
+/obj/machinery/atm/directional/north,
 /turf/open/floor/wood/parquet,
 /area/station/hallway/primary/central)
 "fYf" = (
@@ -19117,9 +19113,7 @@
 /area/station/science/xenobiology)
 "hpi" = (
 /obj/machinery/light/directional/west,
-/obj/machinery/atm{
-	pixel_x = -30
-	},
+/obj/machinery/atm/directional/west,
 /turf/open/floor/grass,
 /area/station/biodome/fore)
 "hpl" = (
@@ -19286,7 +19280,7 @@
 	pixel_x = 1;
 	pixel_y = 5
 	},
-/obj/machinery/atm,
+/obj/machinery/atm/directional/north,
 /turf/open/floor/bronze,
 /area/station/service/library)
 "htc" = (
@@ -19686,9 +19680,7 @@
 /obj/effect/turf_decal/trimline/yellow/line{
 	dir = 8
 	},
-/obj/machinery/atm{
-	pixel_x = -30
-	},
+/obj/machinery/atm/directional/west,
 /turf/open/floor/iron,
 /area/station/commons/fitness)
 "hDB" = (
@@ -22776,7 +22768,7 @@
 /obj/effect/turf_decal/tile/purple/half/contrasted{
 	dir = 1
 	},
-/obj/machinery/atm,
+/obj/machinery/atm/directional/north,
 /turf/open/floor/iron,
 /area/station/hallway/primary/central/fore)
 "iQO" = (
@@ -28457,9 +28449,7 @@
 /area/station/command/gateway)
 "kYU" = (
 /obj/machinery/hydroponics/soil,
-/obj/machinery/atm{
-	pixel_x = 30
-	},
+/obj/machinery/atm/directional/east,
 /turf/open/floor/grass,
 /area/station/service/hydroponics/garden)
 "kYY" = (
@@ -29175,9 +29165,7 @@
 /turf/open/floor/fake_snow/safe,
 /area/station/medical/break_room)
 "lnW" = (
-/obj/machinery/atm{
-	pixel_x = 30
-	},
+/obj/machinery/atm/directional/east,
 /turf/open/floor/eighties/red,
 /area/station/hallway/secondary/exit/departure_lounge)
 "lnY" = (
@@ -30426,7 +30414,7 @@
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/structure/cable,
-/obj/machinery/atm,
+/obj/machinery/atm/directional/north,
 /turf/open/floor/iron/diagonal,
 /area/station/hallway/primary/central)
 "lIK" = (
@@ -36714,7 +36702,7 @@
 /obj/structure/disposalpipe/segment{
 	dir = 4
 	},
-/obj/machinery/atm,
+/obj/machinery/atm/directional/north,
 /turf/open/floor/stone,
 /area/station/hallway/primary/starboard)
 "odW" = (
@@ -37341,9 +37329,7 @@
 "opy" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
-/obj/machinery/atm{
-	pixel_x = 30
-	},
+/obj/machinery/atm/directional/east,
 /turf/open/floor/iron,
 /area/station/hallway/secondary/entry)
 "opC" = (
@@ -38729,9 +38715,7 @@
 /obj/item/storage/medkit/regular{
 	pixel_x = 4
 	},
-/obj/machinery/atm{
-	pixel_x = 30
-	},
+/obj/machinery/atm/directional/east,
 /turf/open/floor/wood,
 /area/station/commons/storage/primary)
 "oQg" = (
@@ -43390,9 +43374,7 @@
 /area/station/engineering/main)
 "qHy" = (
 /obj/machinery/light/small/directional/south,
-/obj/machinery/atm{
-	pixel_y = -30
-	},
+/obj/machinery/atm/directional/south,
 /turf/open/floor/grass,
 /area/station/biodome/fore)
 "qHA" = (
@@ -43492,7 +43474,7 @@
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/effect/landmark/event_spawn,
-/obj/machinery/atm,
+/obj/machinery/atm/directional/north,
 /turf/open/floor/iron/freezer,
 /area/station/commons/toilet/auxiliary)
 "qJE" = (
@@ -44906,9 +44888,7 @@
 	id = "hopqueue";
 	name = "HoP Queue Shutters"
 	},
-/obj/machinery/atm{
-	pixel_y = -30
-	},
+/obj/machinery/atm/directional/south,
 /turf/open/floor/iron,
 /area/station/command/heads_quarters/hop)
 "rjO" = (
@@ -48996,7 +48976,7 @@
 /obj/effect/turf_decal/tile/blue{
 	dir = 8
 	},
-/obj/machinery/atm,
+/obj/machinery/atm/directional/north,
 /turf/open/floor/iron/white,
 /area/station/medical/medbay/lobby)
 "sOG" = (
@@ -54158,9 +54138,7 @@
 	dir = 8
 	},
 /obj/structure/disposalpipe/segment,
-/obj/machinery/atm{
-	pixel_x = -30
-	},
+/obj/machinery/atm/directional/west,
 /turf/open/floor/iron/terracotta/small,
 /area/station/biodome)
 "uVp" = (
@@ -54172,7 +54150,7 @@
 	dir = 1
 	},
 /obj/machinery/light/directional/north,
-/obj/machinery/atm,
+/obj/machinery/atm/directional/north,
 /turf/open/floor/stone,
 /area/station/commons/lounge)
 "uVv" = (
@@ -56828,9 +56806,7 @@
 /obj/effect/turf_decal/tile/neutral/half{
 	dir = 4
 	},
-/obj/machinery/atm{
-	pixel_x = 30
-	},
+/obj/machinery/atm/directional/east,
 /turf/open/floor/iron,
 /area/station/commons/locker)
 "vVu" = (
