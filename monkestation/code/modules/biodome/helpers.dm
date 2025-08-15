@@ -39,7 +39,7 @@
 //Used to turn off lights with lightswitch in areas.
 /obj/effect/mapping_helpers/turn_off_lights_with_lightswitch
 	name = "area turned off lights helper"
-	icon_state = "lights_off"
+	icon_state = "blocker"
 
 /obj/effect/mapping_helpers/turn_off_lights_with_lightswitch/Initialize(mapload)
 	. = ..()
