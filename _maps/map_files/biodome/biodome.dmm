@@ -3798,6 +3798,11 @@
 	dir = 4
 	},
 /area/station/service/hydroponics/garden)
+"bwm" = (
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
+/obj/structure/fans/tiny,
+/turf/open/floor/plating,
+/area/station/maintenance/department/security)
 "bwr" = (
 /obj/effect/spawner/random/entertainment/wallet_storage,
 /turf/open/floor/plating,
@@ -5193,6 +5198,7 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
 	},
+/obj/structure/fans/tiny,
 /turf/open/floor/plating,
 /area/station/maintenance/solars/port/aft)
 "bYo" = (
@@ -5812,6 +5818,10 @@
 /obj/effect/mapping_helpers/airlock/access/all/medical/cmo,
 /turf/open/floor/iron/white,
 /area/station/command/heads_quarters/cmo)
+"cjY" = (
+/obj/structure/fans/tiny,
+/turf/open/floor/plating,
+/area/station/maintenance/port/central)
 "ckd" = (
 /obj/machinery/telecomms/broadcaster/preset_right,
 /turf/open/floor/iron/dark/telecomms,
@@ -12234,6 +12244,7 @@
 /turf/open/floor/plating,
 /area/station/maintenance/department/science)
 "eHy" = (
+/obj/structure/fans/tiny,
 /turf/open/floor/plating,
 /area/station/hallway/secondary/entry)
 "eHD" = (
@@ -13895,6 +13906,7 @@
 /turf/open/floor/carpet/orange,
 /area/station/security/prison)
 "fnm" = (
+/obj/structure/fans/tiny,
 /turf/open/floor/iron/dark,
 /area/station/security/processing)
 "fnr" = (
@@ -15054,6 +15066,7 @@
 	name = "Escape Airlock";
 	space_dir = 4
 	},
+/obj/structure/fans/tiny,
 /turf/open/floor/plating,
 /area/station/hallway/secondary/exit/departure_lounge)
 "fLX" = (
@@ -20577,6 +20590,7 @@
 /area/station/medical/virology)
 "hWN" = (
 /obj/machinery/light/small/directional/east,
+/obj/structure/fans/tiny,
 /turf/open/floor/iron/smooth_half,
 /area/station/security/lockers)
 "hWQ" = (
@@ -21556,6 +21570,7 @@
 "ipY" = (
 /obj/machinery/light/small/directional/west,
 /obj/effect/turf_decal/stripes/line,
+/obj/structure/fans/tiny,
 /turf/open/floor/plating,
 /area/station/hallway/secondary/entry)
 "iqp" = (
@@ -25496,6 +25511,7 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 8
 	},
+/obj/structure/fans/tiny,
 /turf/open/floor/plating,
 /area/station/hallway/secondary/entry)
 "jWH" = (
@@ -30632,6 +30648,11 @@
 /obj/machinery/firealarm/directional/north,
 /turf/open/floor/iron,
 /area/station/cargo/lobby)
+"lNQ" = (
+/obj/structure/cable,
+/obj/structure/fans/tiny,
+/turf/open/floor/plating,
+/area/station/maintenance/solars/starboard/fore)
 "lOb" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
@@ -35270,6 +35291,7 @@
 	},
 /obj/machinery/light/small/directional/south,
 /obj/structure/sign/warning/gas_mask/directional/south,
+/obj/structure/fans/tiny,
 /turf/open/floor/plating,
 /area/station/engineering/supermatter/room)
 "nBE" = (
@@ -35992,6 +36014,7 @@
 	space_dir = 4
 	},
 /obj/effect/mapping_helpers/airlock/access/all/security/brig,
+/obj/structure/fans/tiny,
 /turf/open/floor/plating,
 /area/station/hallway/secondary/exit/departure_lounge)
 "nPS" = (
@@ -41221,6 +41244,7 @@
 /area/station/hallway/primary/central/aft)
 "pQe" = (
 /obj/machinery/light/floor/has_bulb,
+/obj/structure/fans/tiny,
 /turf/open/floor/plating,
 /area/station/cargo/storage)
 "pQp" = (
@@ -43146,6 +43170,7 @@
 /turf/open/floor/engine,
 /area/station/engineering/supermatter/room)
 "qCz" = (
+/obj/structure/fans/tiny,
 /turf/open/floor/plating,
 /area/station/hallway/primary/aft)
 "qCC" = (
@@ -56951,6 +56976,7 @@
 	name = "Cargo Escape Airlock";
 	space_dir = 4
 	},
+/obj/structure/fans/tiny,
 /turf/open/floor/plating,
 /area/station/hallway/secondary/exit/departure_lounge)
 "vXZ" = (
@@ -56990,6 +57016,11 @@
 	},
 /turf/open/floor/iron,
 /area/station/science/xenobiology)
+"vYT" = (
+/obj/structure/cable,
+/obj/structure/fans/tiny,
+/turf/open/floor/plating,
+/area/station/maintenance/solars/port/fore)
 "vZj" = (
 /obj/machinery/suit_storage_unit/medical,
 /turf/open/floor/iron/dark,
@@ -57106,6 +57137,7 @@
 /obj/effect/mapping_helpers/airlock/cyclelink_helper{
 	dir = 8
 	},
+/obj/structure/fans/tiny,
 /turf/open/floor/plating,
 /area/station/cargo/miningdock)
 "wbN" = (
@@ -57200,6 +57232,7 @@
 /obj/effect/turf_decal/stripes/line{
 	dir = 1
 	},
+/obj/structure/fans/tiny,
 /turf/open/floor/plating,
 /area/station/hallway/secondary/entry)
 "wdE" = (
@@ -59787,6 +59820,7 @@
 /obj/machinery/door/airlock/external{
 	name = "Escape Airlock"
 	},
+/obj/structure/fans/tiny,
 /turf/open/floor/plating,
 /area/station/hallway/secondary/exit/departure_lounge)
 "wYd" = (
@@ -62027,6 +62061,7 @@
 /area/station/security/brig)
 "xQr" = (
 /obj/effect/turf_decal/stripes/line,
+/obj/structure/fans/tiny,
 /turf/open/floor/plating,
 /area/station/hallway/secondary/entry)
 "xQt" = (
@@ -80050,7 +80085,7 @@ hNy
 hNy
 hNy
 pKF
-cJU
+cjY
 pKF
 hNy
 hNy
@@ -106247,7 +106282,7 @@ eRk
 eRk
 eRk
 iGe
-oDT
+lNQ
 lQy
 qhS
 oDT
@@ -157374,7 +157409,7 @@ rKS
 rKS
 oYs
 ajw
-bOc
+vYT
 ajw
 rRv
 hNy
@@ -172120,7 +172155,7 @@ cEV
 kDK
 cEV
 nQl
-hnk
+bwm
 uEl
 cEV
 hNy
