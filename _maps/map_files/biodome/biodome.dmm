@@ -31761,6 +31761,8 @@
 /obj/effect/turf_decal/bot_red,
 /obj/machinery/power/apc/auto_name/directional/north,
 /obj/structure/cable,
+/obj/effect/mapping_helpers/apc/full_charge,
+/obj/effect/mapping_helpers/apc/cell_10k,
 /turf/open/floor/iron,
 /area/station/science/xenobiology)
 "mhJ" = (
