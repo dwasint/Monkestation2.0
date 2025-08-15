@@ -5690,11 +5690,11 @@
 /turf/open/water/jungle/biodome,
 /area/station/biodome/fore)
 "chZ" = (
-/obj/structure/statue/snow/snowman,
 /obj/machinery/light/directional/south,
 /obj/effect/turf_decal/tile/blue{
 	dir = 4
 	},
+/obj/machinery/medipen_refiller,
 /turf/open/floor/iron/white,
 /area/station/medical/medbay/lobby)
 "cin" = (
