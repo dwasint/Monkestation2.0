@@ -7959,8 +7959,8 @@
 /area/station/hallway/primary/aft)
 "cZA" = (
 /obj/structure/destructible/cult/item_dispenser/archives/library,
-/obj/item/book/codex_gigas,
 /obj/machinery/newscaster/directional/west,
+/obj/item/book/kindred,
 /turf/open/floor/engine/cult,
 /area/station/service/library)
 "cZC" = (
@@ -14470,16 +14470,6 @@
 /obj/structure/bookcase{
 	name = "Forbidden Knowledge"
 	},
-/obj/item/device/cassette_tape/random,
-/obj/item/device/cassette_tape/random,
-/obj/item/device/cassette_tape/random,
-/obj/item/device/cassette_tape/random,
-/obj/item/device/cassette_tape/random,
-/obj/item/device/cassette_tape/random,
-/obj/item/device/cassette_tape/random,
-/obj/item/device/cassette_tape/random,
-/obj/item/device/cassette_tape/random,
-/obj/item/device/cassette_tape/random,
 /obj/structure/cassette_rack/prefilled,
 /turf/open/floor/engine/cult,
 /area/station/service/library)
