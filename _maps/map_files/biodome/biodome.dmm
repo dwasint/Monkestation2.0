@@ -634,9 +634,6 @@
 /area/station/engineering/main)
 "alI" = (
 /obj/structure/table/reinforced,
-/obj/structure/desk_bell{
-	pixel_x = -7
-	},
 /obj/machinery/door/poddoor/shutters/preopen{
 	dir = 4;
 	id = "hop";
@@ -649,6 +646,9 @@
 /obj/machinery/door/window/brigdoor/left/directional/west{
 	name = "Access Desk";
 	req_access = list("hop")
+	},
+/obj/structure/desk_bell/departmental/command/hop{
+	pixel_x = -7
 	},
 /turf/open/floor/wood,
 /area/station/command/heads_quarters/hop)
@@ -5581,6 +5581,10 @@
 	},
 /turf/open/floor/iron/freezer,
 /area/station/commons/toilet)
+"cgh" = (
+/obj/effect/landmark/start/blueshield,
+/turf/open/floor/wood,
+/area/station/command/bridge)
 "cgt" = (
 /obj/structure/table/bronze,
 /turf/open/floor/carpet/royalblack,
@@ -14500,9 +14504,6 @@
 "fzQ" = (
 /obj/structure/table/reinforced,
 /obj/machinery/door/firedoor,
-/obj/structure/desk_bell{
-	pixel_x = 7
-	},
 /obj/machinery/door/window/right/directional/north{
 	name = "Research and Development Desk";
 	req_access = list("science")
@@ -14520,6 +14521,9 @@
 /obj/machinery/door/poddoor/shutters/preopen{
 	id = "rnd";
 	name = "Research Lab Shutters"
+	},
+/obj/structure/desk_bell/departmental/science{
+	pixel_x = 7
 	},
 /turf/open/floor/iron,
 /area/station/science/lab)
@@ -15735,6 +15739,7 @@
 	dir = 8;
 	name = "Crew Station"
 	},
+/obj/effect/landmark/start/bridge_assistant,
 /turf/open/floor/iron,
 /area/station/command/bridge)
 "fWD" = (
@@ -17559,14 +17564,14 @@
 /area/station/command/heads_quarters/qm)
 "gIC" = (
 /obj/structure/table/reinforced,
-/obj/structure/desk_bell{
-	pixel_x = 7
-	},
 /obj/machinery/door/poddoor/shutters/preopen{
 	id = "kitchencounter";
 	name = "Kitchen Counter Shutters"
 	},
 /obj/effect/turf_decal/tile/dark_green/opposingcorners,
+/obj/structure/desk_bell/departmental/service{
+	pixel_x = 7
+	},
 /turf/open/floor/iron/white/smooth_large,
 /area/station/service/kitchen)
 "gIS" = (
@@ -18746,6 +18751,7 @@
 /obj/structure/chair{
 	name = "Engineering Station"
 	},
+/obj/effect/landmark/start/bridge_assistant,
 /turf/open/floor/iron,
 /area/station/command/bridge)
 "hiv" = (
@@ -32139,12 +32145,15 @@
 "mpc" = (
 /obj/structure/table,
 /obj/item/storage/box/bodybags{
-	pixel_x = 3;
+	pixel_x = 6;
 	pixel_y = 2
 	},
 /obj/machinery/airalarm/directional/south,
 /obj/effect/turf_decal/tile/blue/half/contrasted{
 	dir = 1
+	},
+/obj/structure/desk_bell/departmental/medical{
+	pixel_x = -7
 	},
 /turf/open/floor/iron/white,
 /area/station/medical/medbay/lobby)
@@ -32632,6 +32641,9 @@
 	dir = 4;
 	id = "briggate";
 	name = "Security Shutters"
+	},
+/obj/structure/desk_bell/departmental/security{
+	pixel_x = 8
 	},
 /turf/open/floor/iron/dark,
 /area/station/security/brig/entrance)
@@ -33603,7 +33615,7 @@
 /area/station/hallway/primary/starboard)
 "mUl" = (
 /obj/structure/table/wood,
-/obj/structure/desk_bell{
+/obj/structure/desk_bell/departmental/service{
 	pixel_x = 7
 	},
 /turf/open/floor/stone,
@@ -47201,12 +47213,12 @@
 	name = "Engineering Desk";
 	req_access = list("engineering")
 	},
-/obj/structure/desk_bell{
-	pixel_x = 7
-	},
 /obj/machinery/door/poddoor/preopen{
 	id = "Engineering";
 	name = "Engineering Security Door"
+	},
+/obj/structure/desk_bell/departmental/engineering{
+	pixel_x = 7
 	},
 /turf/open/floor/iron,
 /area/station/engineering/lobby)
@@ -49096,6 +49108,10 @@
 	},
 /turf/open/floor/glass/reinforced,
 /area/station/ai_monitored/turret_protected/ai)
+"sQD" = (
+/obj/effect/landmark/start/nanotrasen_representative,
+/turf/open/floor/wood,
+/area/station/command/bridge)
 "sQE" = (
 /obj/structure/table,
 /obj/item/folder/blue,
@@ -49114,6 +49130,7 @@
 	dir = 1;
 	name = "Logistics Station"
 	},
+/obj/effect/landmark/start/bridge_assistant,
 /turf/open/floor/iron,
 /area/station/command/bridge)
 "sQN" = (
@@ -57608,9 +57625,8 @@
 	},
 /obj/machinery/door/firedoor,
 /obj/item/papercutter,
-/obj/structure/desk_bell{
-	pixel_x = 7;
-	pixel_y = 8
+/obj/structure/desk_bell/departmental/supply{
+	pixel_x = 7
 	},
 /turf/open/floor/iron,
 /area/station/cargo/office)
@@ -61237,6 +61253,7 @@
 	dir = 8;
 	name = "Security Station"
 	},
+/obj/effect/landmark/start/bridge_assistant,
 /turf/open/floor/iron,
 /area/station/command/bridge)
 "xDW" = (
@@ -167933,11 +167950,11 @@ sQM
 iuT
 qWj
 qWj
-qWj
-qWj
+cgh
+sQD
 uGr
-qWj
-qWj
+sQD
+cgh
 qWj
 qWj
 rOP
