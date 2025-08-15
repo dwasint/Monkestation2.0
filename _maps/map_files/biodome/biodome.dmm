@@ -2082,7 +2082,7 @@
 /turf/open/floor/noslip,
 /area/station/service/janitor)
 "aMB" = (
-/obj/machinery/hydroponics/soil,
+/obj/machinery/growing/soil,
 /turf/open/floor/grass,
 /area/station/service/hydroponics/garden)
 "aME" = (
@@ -3445,6 +3445,10 @@
 /obj/machinery/door/firedoor,
 /turf/open/floor/iron,
 /area/station/hallway/primary/central/fore)
+"boc" = (
+/obj/effect/landmark/start/gary,
+/turf/open/floor/plating,
+/area/station/maintenance/central/greater)
 "boi" = (
 /obj/structure/railing{
 	dir = 8
@@ -4789,7 +4793,7 @@
 /turf/open/floor/iron/white,
 /area/station/medical/medbay/central)
 "bQg" = (
-/obj/machinery/hydroponics/constructable,
+/obj/machinery/growing/tray,
 /obj/structure/sign/clock/directional/north,
 /turf/open/floor/grass,
 /area/station/service/hydroponics)
@@ -7675,7 +7679,7 @@
 /turf/open/floor/iron/white,
 /area/station/medical/medbay/central)
 "cTv" = (
-/obj/machinery/hydroponics/constructable,
+/obj/machinery/growing/tray,
 /obj/machinery/light/directional/north,
 /turf/open/floor/grass,
 /area/station/service/hydroponics)
@@ -8686,10 +8690,9 @@
 /turf/open/floor/plating,
 /area/station/cargo/sorting)
 "dnm" = (
-/obj/effect/spawner/structure/window/reinforced,
-/obj/structure/cable,
-/turf/open/floor/plating,
-/area/station/maintenance/solars/starboard/fore)
+/obj/machinery/station_map/engineering/directional/north,
+/turf/open/floor/iron,
+/area/station/hallway/primary/central/aft)
 "dnp" = (
 /obj/structure/table/reinforced,
 /obj/item/storage/secure/briefcase,
@@ -8903,10 +8906,6 @@
 /obj/machinery/light/directional/north,
 /turf/open/floor/iron/dark,
 /area/station/engineering/engine_smes)
-"drX" = (
-/obj/machinery/station_map/engineering/directional/south,
-/turf/open/floor/iron,
-/area/station/hallway/primary/central/fore)
 "drZ" = (
 /obj/structure/sign/warning/gas_mask/directional/north,
 /turf/open/floor/plating,
@@ -10536,10 +10535,6 @@
 /obj/effect/turf_decal/tile/green/full,
 /turf/open/floor/iron/smooth_large,
 /area/station/medical/virology)
-"dWC" = (
-/obj/machinery/station_map/engineering/directional/north,
-/turf/open/floor/iron,
-/area/station/hallway/primary/central/aft)
 "dWP" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/structure/cable,
@@ -18340,7 +18335,7 @@
 /turf/open/floor/bronze,
 /area/station/service/library/lounge)
 "gZP" = (
-/obj/machinery/hydroponics/constructable,
+/obj/machinery/growing/tray,
 /obj/structure/window/reinforced/spawner/directional/south,
 /obj/structure/window/reinforced/spawner/directional/east,
 /turf/open/floor/grass,
@@ -21384,6 +21379,10 @@
 /obj/item/radio/intercom/directional/south,
 /turf/open/floor/iron/dark,
 /area/station/security/checkpoint/engineering)
+"imU" = (
+/obj/machinery/station_map/engineering/directional/south,
+/turf/open/floor/iron,
+/area/station/hallway/primary/central/fore)
 "imZ" = (
 /obj/structure/table,
 /obj/machinery/light/small/directional/north,
@@ -22119,10 +22118,6 @@
 	},
 /turf/open/floor/iron/dark,
 /area/station/hallway/secondary/exit/departure_lounge)
-"iCi" = (
-/obj/effect/landmark/start/gary,
-/turf/open/floor/plating,
-/area/station/maintenance/central/greater)
 "iCj" = (
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
@@ -23444,7 +23439,7 @@
 /turf/open/floor/iron/smooth_half,
 /area/station/security/brig)
 "jew" = (
-/obj/machinery/hydroponics/soil,
+/obj/machinery/growing/soil,
 /obj/effect/spawner/random/food_or_drink/seed,
 /turf/open/misc/asteroid,
 /area/station/maintenance/central/greater)
@@ -27172,6 +27167,11 @@
 /obj/machinery/duct,
 /turf/open/floor/iron/dark,
 /area/station/science/research)
+"kAu" = (
+/obj/effect/spawner/structure/window/reinforced,
+/obj/structure/cable,
+/turf/open/floor/plating,
+/area/station/maintenance/solars/starboard/fore)
 "kAI" = (
 /obj/effect/spawner/random/structure/grille,
 /turf/open/space/openspace,
@@ -28105,7 +28105,7 @@
 /turf/open/openspace,
 /area/station/biodome)
 "kRr" = (
-/obj/machinery/hydroponics/constructable,
+/obj/machinery/growing/tray,
 /turf/open/floor/grass,
 /area/station/service/hydroponics)
 "kRv" = (
@@ -28464,7 +28464,7 @@
 /turf/open/floor/iron/dark,
 /area/station/command/gateway)
 "kYU" = (
-/obj/machinery/hydroponics/soil,
+/obj/machinery/growing/soil,
 /obj/machinery/atm/directional/east,
 /turf/open/floor/grass,
 /area/station/service/hydroponics/garden)
@@ -29892,7 +29892,7 @@
 /turf/open/floor/wood/tile,
 /area/station/command/heads_quarters/captain)
 "lzO" = (
-/obj/machinery/hydroponics/soil,
+/obj/machinery/growing/soil,
 /obj/item/shovel/spade,
 /turf/open/misc/asteroid,
 /area/station/security/prison/garden)
@@ -29921,6 +29921,13 @@
 	},
 /turf/open/floor/plating,
 /area/station/science/robotics/lab)
+"lAb" = (
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer2{
+	dir = 1
+	},
+/obj/machinery/station_map/engineering/directional/south,
+/turf/open/floor/iron,
+/area/station/hallway/primary/central/fore)
 "lAe" = (
 /obj/structure/marker_beacon/jade,
 /turf/open/floor/plating/airless,
@@ -36979,7 +36986,7 @@
 /turf/open/misc/ashplanet/wateryrock/biodome,
 /area/station/biodome/aft)
 "ohr" = (
-/obj/machinery/hydroponics/soil,
+/obj/machinery/growing/soil,
 /obj/machinery/light/directional/east,
 /turf/open/misc/asteroid,
 /area/station/security/prison/garden)
@@ -37687,7 +37694,7 @@
 /turf/open/floor/plating,
 /area/station/maintenance/department/cargo)
 "owr" = (
-/obj/machinery/hydroponics/soil,
+/obj/machinery/growing/soil,
 /turf/open/misc/asteroid,
 /area/station/maintenance/central/greater)
 "owx" = (
@@ -37898,7 +37905,7 @@
 /turf/open/floor/iron/white/smooth_corner,
 /area/station/science/robotics/lab)
 "ozO" = (
-/obj/machinery/hydroponics/soil,
+/obj/machinery/growing/soil,
 /obj/machinery/light/directional/west,
 /turf/open/misc/asteroid,
 /area/station/security/prison/garden)
@@ -40106,7 +40113,7 @@
 /turf/open/floor/iron/diagonal,
 /area/station/hallway/primary/central)
 "psT" = (
-/obj/machinery/hydroponics/soil,
+/obj/machinery/growing/soil,
 /obj/item/plant_analyzer,
 /turf/open/misc/asteroid,
 /area/station/security/prison/garden)
@@ -41853,7 +41860,7 @@
 /turf/open/floor/bamboo,
 /area/station/command/heads_quarters/qm)
 "qef" = (
-/obj/machinery/hydroponics/constructable,
+/obj/machinery/growing/tray,
 /obj/machinery/camera{
 	c_tag = "Service- Botany Center";
 	dir = 9
@@ -42766,7 +42773,7 @@
 /turf/open/floor/iron,
 /area/station/maintenance/disposal/incinerator)
 "qvC" = (
-/obj/machinery/hydroponics/soil,
+/obj/machinery/growing/soil,
 /turf/open/misc/asteroid,
 /area/station/security/prison/garden)
 "qvF" = (
@@ -44038,7 +44045,7 @@
 /turf/open/floor/wood,
 /area/station/commons/storage/primary)
 "qUt" = (
-/obj/machinery/hydroponics/soil,
+/obj/machinery/growing/soil,
 /obj/item/cultivator,
 /turf/open/misc/asteroid,
 /area/station/security/prison/garden)
@@ -44830,7 +44837,7 @@
 /turf/open/floor/stone,
 /area/station/science/xenobiology)
 "riD" = (
-/obj/machinery/hydroponics/constructable,
+/obj/machinery/growing/tray,
 /obj/structure/window/reinforced/spawner/directional/east,
 /turf/open/floor/grass,
 /area/station/service/hydroponics)
@@ -50135,7 +50142,7 @@
 /turf/open/floor/engine,
 /area/station/science/xenobiology)
 "tkA" = (
-/obj/machinery/hydroponics/constructable,
+/obj/machinery/growing/tray,
 /obj/effect/landmark/event_spawn,
 /turf/open/floor/grass,
 /area/station/service/hydroponics)
@@ -50186,7 +50193,7 @@
 /turf/open/floor/circuit/red,
 /area/station/ai_monitored/turret_protected/ai_upload)
 "tlz" = (
-/obj/machinery/hydroponics/constructable,
+/obj/machinery/growing/tray,
 /obj/effect/spawner/random/food_or_drink/seed,
 /turf/open/misc/asteroid,
 /area/station/maintenance/central/greater)
@@ -61579,13 +61586,6 @@
 /obj/machinery/computer/mech_bay_power_console,
 /turf/open/floor/iron,
 /area/station/science/robotics/mechbay)
-"xIV" = (
-/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer2{
-	dir = 1
-	},
-/obj/machinery/station_map/engineering/directional/south,
-/turf/open/floor/iron,
-/area/station/hallway/primary/central/fore)
 "xJc" = (
 /obj/structure/cable,
 /obj/item/wrench,
@@ -85472,7 +85472,7 @@ rdw
 nwe
 oAe
 vUn
-iCi
+boc
 oAe
 oAe
 oAe
@@ -89359,7 +89359,7 @@ hNy
 bqj
 wAM
 dSk
-iCi
+boc
 hNy
 hNy
 cCZ
@@ -105970,7 +105970,7 @@ cCZ
 cCZ
 pfy
 pfy
-dnm
+kAu
 cgz
 quv
 dDE
@@ -158457,7 +158457,7 @@ pkB
 fQs
 fQs
 jpN
-dWC
+dnm
 swn
 neH
 dST
@@ -160463,7 +160463,7 @@ xpM
 phW
 jzd
 kME
-xIV
+lAb
 pGm
 pnK
 dIi
@@ -165910,7 +165910,7 @@ oxa
 fQt
 fQs
 jpN
-dWC
+dnm
 wEM
 pQc
 rVR
@@ -166888,7 +166888,7 @@ czJ
 czJ
 jfX
 pqA
-drX
+imU
 pGm
 sZD
 sZD
