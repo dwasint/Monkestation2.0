@@ -6879,7 +6879,6 @@
 #include "monkestation\code\modules\biodome\turfs.dm"
 #include "monkestation\code\modules\biodome\vending.dm"
 #include "monkestation\code\modules\biodome\weapons.dm"
-#include "monkestation\code\modules\biodome\datum\animate_holder.dm"
 #include "monkestation\code\modules\biodome\mobs\amogus.dm"
 #include "monkestation\code\modules\biodome\mobs\generic_mobs.dm"
 #include "monkestation\code\modules\biodome\mobs\isaac.dm"
