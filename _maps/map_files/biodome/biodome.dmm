@@ -5385,7 +5385,7 @@
 /obj/structure/chair/comfy/black{
 	dir = 8
 	},
-/obj/effect/landmark/start/scientist,
+/obj/effect/landmark/start/xenobiologist,
 /turf/open/floor/iron,
 /area/station/science/xenobiology)
 "ccE" = (
@@ -6227,6 +6227,7 @@
 /area/station/maintenance/port/central)
 "ctr" = (
 /obj/structure/table/wood,
+/obj/machinery/cassette/adv_cassette_deck,
 /turf/open/floor/carpet/royalblack,
 /area/station/service/library)
 "ctt" = (
@@ -8686,8 +8687,9 @@
 /area/station/cargo/sorting)
 "dnm" = (
 /obj/effect/spawner/structure/window/reinforced,
-/turf/open/space/basic,
-/area/station/hallway/secondary/entry)
+/obj/structure/cable,
+/turf/open/floor/plating,
+/area/station/maintenance/solars/starboard/fore)
 "dnp" = (
 /obj/structure/table/reinforced,
 /obj/item/storage/secure/briefcase,
@@ -8901,6 +8903,10 @@
 /obj/machinery/light/directional/north,
 /turf/open/floor/iron/dark,
 /area/station/engineering/engine_smes)
+"drX" = (
+/obj/machinery/station_map/engineering/directional/south,
+/turf/open/floor/iron,
+/area/station/hallway/primary/central/fore)
 "drZ" = (
 /obj/structure/sign/warning/gas_mask/directional/north,
 /turf/open/floor/plating,
@@ -9721,6 +9727,7 @@
 /obj/structure/chair/comfy/black{
 	dir = 4
 	},
+/obj/effect/landmark/start/xenobiologist,
 /turf/open/floor/iron,
 /area/station/science/xenobiology)
 "dHv" = (
@@ -10529,6 +10536,10 @@
 /obj/effect/turf_decal/tile/green/full,
 /turf/open/floor/iron/smooth_large,
 /area/station/medical/virology)
+"dWC" = (
+/obj/machinery/station_map/engineering/directional/north,
+/turf/open/floor/iron,
+/area/station/hallway/primary/central/aft)
 "dWP" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/structure/cable,
@@ -12463,6 +12474,7 @@
 /obj/effect/spawner/random/entertainment/plushie_delux{
 	pixel_y = 21
 	},
+/obj/effect/landmark/start/gary/rare,
 /turf/open/floor/iron/dark,
 /area/station/maintenance/fore/greater)
 "eLE" = (
@@ -14115,7 +14127,7 @@
 /turf/open/floor/wood,
 /area/station/hallway/secondary/service)
 "frU" = (
-/obj/structure/bookcase/random/fiction,
+/obj/machinery/cassette/mailbox,
 /turf/open/floor/bronze,
 /area/station/service/library)
 "frW" = (
@@ -14473,6 +14485,7 @@
 /obj/item/device/cassette_tape/random,
 /obj/item/device/cassette_tape/random,
 /obj/item/device/cassette_tape/random,
+/obj/structure/cassette_rack/prefilled,
 /turf/open/floor/engine/cult,
 /area/station/service/library)
 "fzl" = (
@@ -19630,7 +19643,6 @@
 /turf/open/floor/wood/parquet,
 /area/station/hallway/primary/central)
 "hBD" = (
-/obj/structure/cable,
 /obj/structure/table,
 /obj/effect/landmark/generic_maintenance_landmark,
 /obj/machinery/cell_charger,
@@ -22107,6 +22119,10 @@
 	},
 /turf/open/floor/iron/dark,
 /area/station/hallway/secondary/exit/departure_lounge)
+"iCi" = (
+/obj/effect/landmark/start/gary,
+/turf/open/floor/plating,
+/area/station/maintenance/central/greater)
 "iCj" = (
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
@@ -31887,6 +31903,7 @@
 "mjF" = (
 /obj/effect/turf_decal/tile/yellow/diagonal_edge,
 /obj/machinery/light/directional/east,
+/obj/machinery/station_map/engineering/directional/east,
 /turf/open/floor/iron,
 /area/station/engineering/main)
 "mjR" = (
@@ -42010,7 +42027,6 @@
 /area/station/maintenance/department/science)
 "qhS" = (
 /obj/effect/landmark/generic_maintenance_landmark,
-/obj/structure/cable,
 /turf/open/floor/plating,
 /area/station/maintenance/solars/starboard/fore)
 "qia" = (
@@ -61563,6 +61579,13 @@
 /obj/machinery/computer/mech_bay_power_console,
 /turf/open/floor/iron,
 /area/station/science/robotics/mechbay)
+"xIV" = (
+/obj/machinery/atmospherics/components/unary/vent_scrubber/on/layer2{
+	dir = 1
+	},
+/obj/machinery/station_map/engineering/directional/south,
+/turf/open/floor/iron,
+/area/station/hallway/primary/central/fore)
 "xJc" = (
 /obj/structure/cable,
 /obj/item/wrench,
@@ -85449,7 +85472,7 @@ rdw
 nwe
 oAe
 vUn
-gRN
+iCi
 oAe
 oAe
 oAe
@@ -89336,7 +89359,7 @@ hNy
 bqj
 wAM
 dSk
-gRN
+iCi
 hNy
 hNy
 cCZ
@@ -105947,7 +105970,7 @@ cCZ
 cCZ
 pfy
 pfy
-pfy
+dnm
 cgz
 quv
 dDE
@@ -139373,7 +139396,7 @@ vwy
 pNg
 fDn
 xpD
-dnm
+gUy
 hHc
 hHc
 hHc
@@ -139630,7 +139653,7 @@ fdp
 pNg
 fDn
 xpD
-dnm
+gUy
 hHc
 hHc
 hHc
@@ -158434,7 +158457,7 @@ pkB
 fQs
 fQs
 jpN
-neH
+dWC
 swn
 neH
 dST
@@ -160440,7 +160463,7 @@ xpM
 phW
 jzd
 kME
-uck
+xIV
 pGm
 pnK
 dIi
@@ -165887,7 +165910,7 @@ oxa
 fQt
 fQs
 jpN
-neH
+dWC
 wEM
 pQc
 rVR
@@ -166865,7 +166888,7 @@ czJ
 czJ
 jfX
 pqA
-jzd
+drX
 pGm
 sZD
 sZD
