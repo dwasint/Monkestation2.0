@@ -32822,10 +32822,6 @@
 	luminosity = 2
 	},
 /area/station/ai_monitored/command/nuke_storage)
-"mEp" = (
-/obj/structure/lattice,
-/turf/closed/wall/r_wall,
-/area/station/science/xenobiology)
 "mEJ" = (
 /obj/structure/cable,
 /obj/effect/turf_decal/trimline/red/filled/line,
@@ -92581,16 +92577,16 @@ oYs
 oYs
 oYs
 oYs
-mEp
 oYs
 oYs
-mEp
-mEp
-mEp
-mEp
-mEp
-mEp
-mEp
+oYs
+oYs
+oYs
+oYs
+oYs
+oYs
+oYs
+oYs
 oYs
 cAp
 rLZ
