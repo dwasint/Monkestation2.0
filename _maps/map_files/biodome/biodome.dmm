@@ -13726,6 +13726,10 @@
 "fjt" = (
 /turf/open/floor/iron,
 /area/station/hallway/primary/fore)
+"fjw" = (
+/obj/machinery/vending/wardrobe/xeno_wardrobe,
+/turf/open/floor/iron,
+/area/station/science/xenobiology)
 "fjN" = (
 /obj/item/radio/intercom/directional/east,
 /obj/machinery/atmospherics/components/unary/vent_pump/on/layer4,
@@ -158638,7 +158642,7 @@ rRv
 rRv
 rRv
 oYs
-xJH
+fjw
 rlY
 rlY
 rlY
