@@ -26052,6 +26052,11 @@
 "khd" = (
 /turf/closed/wall/mineral/wood,
 /area/station/hallway/primary/central)
+"khj" = (
+/mob/living/basic/pet/potty,
+/obj/item/reagent_containers/cup/watering_can,
+/turf/open/floor/grass,
+/area/station/service/hydroponics)
 "khm" = (
 /obj/structure/cable,
 /obj/machinery/duct,
@@ -62344,6 +62349,8 @@
 	dir = 1
 	},
 /obj/machinery/airalarm/directional/west,
+/mob/living/basic/pet/potty,
+/obj/item/reagent_containers/cup/watering_can,
 /turf/open/floor/grass,
 /area/station/service/hydroponics/garden)
 "xVv" = (
@@ -93918,7 +93925,7 @@ sBz
 fsz
 kFI
 cTv
-mnM
+khj
 kRr
 mnM
 kRr
