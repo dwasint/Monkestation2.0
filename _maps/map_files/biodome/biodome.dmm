@@ -9785,6 +9785,9 @@
 /obj/structure/flora/bush/flowers_br/style_random,
 /turf/open/floor/grass,
 /area/station/biodome)
+"dHL" = (
+/turf/open/space/basic,
+/area/station/asteroid)
 "dHO" = (
 /obj/structure/disposalpipe/segment{
 	dir = 6
@@ -13873,10 +13876,6 @@
 /obj/item/stack/spacecash/c100,
 /turf/open/floor/iron/checker,
 /area/station/service/bar/backroom)
-"fls" = (
-/obj/machinery/light/small/directional/south,
-/turf/open/floor/plating,
-/area/station/maintenance/department/crew_quarters/dorms)
 "flx" = (
 /obj/effect/spawner/structure/window/reinforced,
 /obj/structure/cable,
@@ -18752,6 +18751,13 @@
 	},
 /turf/open/floor/iron/terracotta,
 /area/station/hallway/secondary/construction/engineering)
+"hha" = (
+/obj/structure/cable,
+/obj/structure/closet/crate{
+	icon_state = "crateopen"
+	},
+/turf/open/floor/catwalk_floor,
+/area/station/maintenance/department/crew_quarters/dorms)
 "hhr" = (
 /obj/machinery/door/window/left/directional/south{
 	name = "Medbay Delivery";
@@ -19902,6 +19908,9 @@
 /obj/effect/landmark/blobstart,
 /turf/open/floor/iron,
 /area/station/maintenance/disposal/incinerator)
+"hGh" = (
+/turf/closed/wall/r_wall,
+/area/space)
 "hGq" = (
 /obj/structure/window/reinforced/spawner/directional/south{
 	pixel_y = 2
@@ -21642,11 +21651,16 @@
 /turf/open/openspace,
 /area/station/service/hydroponics/garden)
 "iqE" = (
-/obj/structure/closet/crate{
-	icon_state = "crateopen"
+/obj/structure/chair/comfy/beige{
+	dir = 4
+	},
+/obj/item/paper{
+	default_raw_text = "<img src='https://rsc.monkestation.com/other/loss.jpg'>";
+	name = "an important note";
+	resistance_flags = 371
 	},
 /turf/open/floor/plating,
-/area/station/maintenance/department/crew_quarters/dorms)
+/area/station/commons/dorms)
 "iqP" = (
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
@@ -33760,6 +33774,10 @@
 /obj/effect/turf_decal/delivery,
 /turf/open/floor/plating,
 /area/station/maintenance/port/central)
+"mUF" = (
+/obj/effect/spawner/structure/window/reinforced/tinted,
+/turf/open/floor/plating,
+/area/station/commons/dorms)
 "mUN" = (
 /obj/structure/lattice/catwalk,
 /obj/structure/cable,
@@ -34988,6 +35006,9 @@
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/iron,
 /area/station/maintenance/disposal/incinerator)
+"ntY" = (
+/turf/open/space/basic,
+/area/station/security/prison)
 "nug" = (
 /obj/machinery/atmospherics/pipe/smart/simple/dark/visible/layer1{
 	dir = 5
@@ -46772,19 +46793,10 @@
 /turf/open/floor/engine,
 /area/station/science/xenobiology)
 "rSO" = (
-/obj/item/mod/core/standard{
-	pixel_x = -4
-	},
-/obj/item/mod/core/standard{
-	pixel_x = 4
-	},
-/obj/item/mod/core/standard{
-	pixel_y = 4
-	},
-/obj/structure/table,
 /obj/effect/turf_decal/tile/dark_red/half/contrasted{
 	dir = 8
 	},
+/obj/structure/closet/crate/mod,
 /turf/open/floor/iron/white/smooth_edge{
 	dir = 4
 	},
@@ -59467,10 +59479,6 @@
 	name = "Holodeck Projector Floor"
 	},
 /area/station/holodeck/rec_center)
-"wOY" = (
-/obj/machinery/light/small/directional/north,
-/turf/closed/mineral/random/stationside/asteroid/porus,
-/area/station/asteroid)
 "wPj" = (
 /obj/effect/decal/cleanable/blood/gibs/up,
 /turf/open/misc/dirt/jungle/wasteland,
@@ -61294,10 +61302,6 @@
 /obj/machinery/light/warm/directional/north,
 /turf/open/floor/iron/dark,
 /area/station/medical/virology)
-"xAJ" = (
-/obj/machinery/light/directional/south,
-/turf/closed/mineral/random/stationside/asteroid/porus,
-/area/station/asteroid)
 "xAY" = (
 /obj/structure/disposalpipe/segment{
 	dir = 4
@@ -92101,7 +92105,7 @@ xsA
 bTO
 vtU
 hNy
-wOY
+hNy
 bqj
 xwg
 fTB
@@ -113695,9 +113699,9 @@ scm
 jjc
 lIL
 nEZ
-nEZ
 cBC
 nEZ
+cBC
 hnv
 chz
 ike
@@ -113953,7 +113957,7 @@ mtY
 kVg
 tZU
 tZU
-tZU
+ntY
 tZU
 tZU
 tZU
@@ -114208,11 +114212,11 @@ kVg
 hbq
 hbq
 kVg
-hNy
-hNy
-hNy
-hNy
-hNy
+dHL
+dHL
+dHL
+dHL
+dHL
 tZU
 tZU
 tZU
@@ -114465,12 +114469,12 @@ kVg
 kVg
 kVg
 kVg
-hNy
-hNy
-hNy
-hNy
-hNy
-hNy
+dHL
+dHL
+dHL
+dHL
+dHL
+qgt
 hNy
 hNy
 hNy
@@ -114721,13 +114725,13 @@ hNy
 hNy
 hNy
 hNy
-hNy
-hNy
-hNy
+qgt
+dHL
+dHL
 cCZ
-hNy
-hNy
-hNy
+dHL
+dHL
+qgt
 hNy
 hNy
 hNy
@@ -114978,13 +114982,13 @@ cCZ
 hNy
 hNy
 hNy
-hNy
-hNy
+qgt
+dHL
 cCZ
 cCZ
 cCZ
 cCZ
-cCZ
+hGh
 cCZ
 hNy
 cCZ
@@ -115235,13 +115239,13 @@ cCZ
 cCZ
 hNy
 cCZ
-hNy
-hNy
+qgt
+dHL
 cCZ
 cCZ
 cCZ
 cCZ
-cCZ
+hGh
 cCZ
 cCZ
 cCZ
@@ -115492,13 +115496,13 @@ cCZ
 cCZ
 cCZ
 cCZ
+hGh
 cCZ
 cCZ
 cCZ
 cCZ
 cCZ
-cCZ
-cCZ
+hGh
 cCZ
 cCZ
 cCZ
@@ -115749,13 +115753,13 @@ cCZ
 cCZ
 cCZ
 cCZ
-cCZ
-cCZ
-cCZ
-cCZ
-cCZ
-cCZ
-cCZ
+hGh
+hGh
+hGh
+hGh
+hGh
+hGh
+hGh
 cCZ
 cCZ
 cCZ
@@ -152918,9 +152922,9 @@ hHc
 jJi
 rps
 rxV
-cdP
-fls
-jJi
+phJ
+phJ
+phJ
 yhC
 dSP
 irB
@@ -153174,10 +153178,10 @@ hHc
 hHc
 jJi
 rxV
-rxV
-cdP
+hha
+phJ
 iqE
-jJi
+phJ
 xXs
 mIm
 wAG
@@ -153433,7 +153437,7 @@ jJi
 rxV
 jJi
 phJ
-phJ
+mUF
 phJ
 phJ
 phJ
@@ -177373,7 +177377,7 @@ lWc
 qYc
 xvk
 xvk
-xAJ
+hNy
 hNy
 eZB
 eZB
