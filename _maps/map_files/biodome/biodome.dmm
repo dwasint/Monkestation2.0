@@ -1431,6 +1431,7 @@
 /obj/effect/turf_decal/trimline/red/filled/line{
 	dir = 8
 	},
+/obj/machinery/light/directional/west,
 /turf/open/floor/iron/white,
 /area/station/security/medical)
 "aAj" = (
@@ -4958,13 +4959,12 @@
 /area/station/science/ordnance)
 "bSX" = (
 /obj/structure/window/spawner/directional/south,
-/obj/structure/bed,
-/obj/item/bedsheet,
 /obj/machinery/power/apc/auto_name/directional/east,
 /obj/structure/cable,
 /obj/effect/turf_decal/trimline/red/filled/line{
 	dir = 6
 	},
+/obj/structure/bed/medical/emergency,
 /turf/open/floor/iron/white,
 /area/station/security/medical)
 "bSY" = (
@@ -5919,6 +5919,7 @@
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/structure/cable,
+/obj/effect/landmark/start/brig_physician,
 /turf/open/floor/iron/white,
 /area/station/security/medical)
 "cmb" = (
@@ -16443,6 +16444,10 @@
 /obj/structure/floodlight_frame,
 /turf/open/floor/engine/hull,
 /area/station/asteroid)
+"gkh" = (
+/obj/machinery/computer/records/medical/laptop,
+/turf/closed/wall,
+/area/station/security/warden)
 "gkC" = (
 /obj/structure/table,
 /turf/open/floor/plating,
@@ -20214,8 +20219,9 @@
 /obj/machinery/door/airlock/security/glass{
 	name = "N2O Storage"
 	},
-/obj/effect/mapping_helpers/airlock/access/all/security/armory,
 /obj/structure/cable,
+/obj/effect/mapping_helpers/airlock/access/any/security/brig_physician,
+/obj/effect/mapping_helpers/airlock/access/any/security/armory,
 /turf/open/floor/plating,
 /area/station/maintenance/department/security)
 "hMo" = (
@@ -21463,7 +21469,6 @@
 /area/station/hallway/primary/central/fore)
 "imZ" = (
 /obj/structure/table,
-/obj/machinery/light/small/directional/north,
 /obj/item/folder/red{
 	pixel_x = 3
 	},
@@ -25267,12 +25272,11 @@
 /turf/open/floor/grass,
 /area/station/service/hydroponics/garden)
 "jQf" = (
-/obj/structure/bed,
-/obj/item/bedsheet,
-/obj/machinery/airalarm/directional/east,
 /obj/effect/turf_decal/trimline/red/filled/line{
 	dir = 4
 	},
+/obj/structure/table/optable,
+/obj/machinery/defibrillator_mount/loaded/directional/east,
 /turf/open/floor/iron/white,
 /area/station/security/medical)
 "jQx" = (
@@ -32084,10 +32088,11 @@
 /obj/machinery/door/airlock/security/glass{
 	name = "N2O Storage"
 	},
-/obj/effect/mapping_helpers/airlock/access/all/security/armory,
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
+/obj/effect/mapping_helpers/airlock/access/any/security/armory,
+/obj/effect/mapping_helpers/airlock/access/any/security/brig_physician,
 /turf/open/floor/plating,
 /area/station/maintenance/department/security)
 "mkq" = (
@@ -40450,6 +40455,13 @@
 /obj/effect/decal/cleanable/dirt,
 /turf/open/floor/iron/dark/side,
 /area/station/medical/morgue)
+"pwB" = (
+/obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
+/obj/structure/cable,
+/obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
+/obj/effect/landmark/start/brig_physician,
+/turf/open/floor/iron/white,
+/area/station/security/medical)
 "pwC" = (
 /obj/machinery/light/blacklight/directional/north,
 /turf/open/floor/eighties/red,
@@ -41531,9 +41543,14 @@
 /area/station/commons/dorms)
 "pTm" = (
 /obj/structure/window/spawner/directional/south,
-/obj/structure/bed/medical/emergency,
 /obj/effect/turf_decal/trimline/red/filled/line{
 	dir = 10
+	},
+/obj/structure/table,
+/obj/machinery/computer/records/medical/laptop{
+	dir = 4;
+	pixel_y = 3;
+	pixel_x = 3
 	},
 /turf/open/floor/iron/white,
 /area/station/security/medical)
@@ -41563,11 +41580,13 @@
 /turf/open/openspace,
 /area/station/maintenance/port/greater)
 "pTY" = (
-/obj/structure/table,
-/obj/machinery/computer/records/medical/laptop,
 /obj/effect/turf_decal/trimline/red/filled/line{
 	dir = 4
 	},
+/obj/machinery/computer/operating{
+	dir = 8
+	},
+/obj/machinery/airalarm/directional/east,
 /turf/open/floor/iron/white,
 /area/station/security/medical)
 "pUc" = (
@@ -46434,10 +46453,11 @@
 /obj/machinery/door/airlock/maintenance{
 	name = "Brig Infirmary Maintenance"
 	},
-/obj/effect/mapping_helpers/airlock/access/all/security/general,
 /obj/structure/cable,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /obj/machinery/atmospherics/pipe/smart/manifold4w/supply/hidden/layer4,
+/obj/effect/mapping_helpers/airlock/access/any/security/brig_physician,
+/obj/effect/mapping_helpers/airlock/access/any/security/general,
 /turf/open/floor/plating,
 /area/station/security/medical)
 "rKN" = (
@@ -60739,6 +60759,7 @@
 /obj/effect/turf_decal/trimline/red/filled/line{
 	dir = 4
 	},
+/obj/structure/closet/secure_closet/brig_physician,
 /turf/open/floor/iron/white,
 /area/station/security/medical)
 "xnT" = (
@@ -169225,7 +169246,7 @@ rWM
 kZP
 gmK
 gmK
-gmK
+pwB
 clX
 fRk
 cOx
@@ -172051,7 +172072,7 @@ cEV
 kHf
 kHf
 eCA
-aUu
+gkh
 aUu
 cxC
 ftS
