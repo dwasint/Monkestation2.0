@@ -13998,6 +13998,10 @@
 	},
 /turf/open/floor/plating,
 /area/station/maintenance/fore/greater)
+"foz" = (
+/obj/machinery/cryopod,
+/turf/open/floor/iron,
+/area/station/security/prison)
 "foC" = (
 /obj/machinery/portable_atmospherics/canister/nitrous_oxide,
 /turf/open/floor/iron/dark/textured,
@@ -46877,6 +46881,11 @@
 	},
 /turf/open/floor/iron/showroomfloor,
 /area/station/security/warden)
+"rTE" = (
+/obj/machinery/cryopod,
+/obj/machinery/computer/cryopod/directional/north,
+/turf/open/floor/iron,
+/area/station/security/prison)
 "rTI" = (
 /obj/structure/chair/comfy/lime{
 	dir = 4
@@ -109378,7 +109387,7 @@ jwc
 brQ
 eMc
 sbe
-cJs
+foz
 qsd
 cJs
 cgU
@@ -109635,7 +109644,7 @@ yaE
 yaE
 yaE
 yaE
-cJs
+rTE
 qsd
 hHq
 pYu
@@ -109892,7 +109901,7 @@ vls
 wmB
 fcL
 wtP
-cJs
+foz
 qsd
 cJs
 cJs
