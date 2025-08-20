@@ -5419,6 +5419,7 @@
 /obj/effect/turf_decal/tile/dark_red/half/contrasted{
 	dir = 8
 	},
+/obj/machinery/autolathe,
 /turf/open/floor/iron/white/smooth_edge{
 	dir = 4
 	},
