@@ -24898,6 +24898,7 @@
 /obj/structure/disposalpipe/trunk{
 	dir = 4
 	},
+/obj/structure/extinguisher_cabinet/directional/north,
 /turf/open/floor/iron,
 /area/station/service/hydroponics/garden)
 "jHc" = (
@@ -31535,7 +31536,7 @@
 /obj/effect/turf_decal/siding/green{
 	dir = 1
 	},
-/obj/structure/extinguisher_cabinet/directional/north,
+/obj/machinery/vending/hydronutrients/wall/directional/north,
 /turf/open/floor/iron,
 /area/station/service/hydroponics/garden)
 "mbl" = (
@@ -35259,6 +35260,7 @@
 /obj/structure/railing{
 	dir = 4
 	},
+/obj/machinery/status_display/evac/directional/north,
 /turf/open/floor/grass,
 /area/station/service/hydroponics/garden)
 "nxW" = (
@@ -42440,8 +42442,8 @@
 /obj/effect/turf_decal/siding/green{
 	dir = 1
 	},
-/obj/machinery/status_display/evac/directional/north,
 /obj/machinery/splicer,
+/obj/machinery/vending/hydroseeds/wall/directional/north,
 /turf/open/floor/iron,
 /area/station/service/hydroponics/garden)
 "qlC" = (
