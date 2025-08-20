@@ -19592,6 +19592,10 @@
 /obj/machinery/atmospherics/pipe/smart/manifold4w/scrubbers/hidden/layer2,
 /turf/open/floor/iron/smooth_half,
 /area/station/security/brig)
+"hyw" = (
+/obj/effect/landmark/navigate_destination/common/cryogenics,
+/turf/open/floor/carpet/executive,
+/area/station/commons/locker)
 "hyx" = (
 /obj/item/shovel/spade,
 /turf/open/misc/asteroid/dug,
@@ -37072,6 +37076,10 @@
 /obj/machinery/light/directional/east,
 /turf/open/floor/iron/dark,
 /area/station/science/ordnance/testlab)
+"ofB" = (
+/obj/item/toy/plush/admin/shion,
+/turf/open/floor/engine,
+/area/station/science/xenobiology)
 "ofD" = (
 /obj/effect/turf_decal/bot,
 /obj/machinery/disposal/bin,
@@ -45549,7 +45557,6 @@
 /area/station/science/robotics/lab)
 "rsd" = (
 /obj/machinery/door/firedoor,
-/obj/effect/landmark/navigate_destination,
 /obj/structure/cable,
 /turf/open/floor/iron,
 /area/station/commons/locker)
@@ -93322,7 +93329,7 @@ tkz
 tkz
 tkz
 tkz
-tkz
+ofB
 tkz
 tkz
 tkz
@@ -152725,7 +152732,7 @@ rxV
 rxV
 jJi
 yhC
-dnJ
+hyw
 irB
 ftd
 ftd
