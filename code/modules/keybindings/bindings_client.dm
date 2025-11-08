@@ -4,6 +4,11 @@
 	set instant = TRUE
 	set hidden = TRUE
 
+	if(mob.focus && istype(mob.focus, /obj/abstract/visual_ui_element/console_input))
+		var/obj/abstract/visual_ui_element/console_input/console_input = mob.focus
+		if(console_input.handle_keydown(_key))
+			return
+
 	client_keysend_amount += 1
 
 	var/cache = client_keysend_amount
@@ -84,6 +89,12 @@
 /client/verb/keyUp(_key as text)
 	set instant = TRUE
 	set hidden = TRUE
+
+	// Check if the mob's focus is a console input
+	if(mob.focus && istype(mob.focus, /obj/abstract/visual_ui_element/console_input))
+		var/obj/abstract/visual_ui_element/console_input/console_input = mob.focus
+		if(console_input.handle_keyup(_key))
+			return
 
 	var/key_combo = key_combos_held[_key]
 	if(key_combo)

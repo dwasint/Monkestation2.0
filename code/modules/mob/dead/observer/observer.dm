@@ -102,6 +102,7 @@ GLOBAL_VAR_INIT(observer_default_invisibility, INVISIBILITY_OBSERVER)
 				name = random_unique_name(gender)
 
 		mind = body.mind //we don't transfer the mind but we keep a reference to it.
+		mind?.current_ghost = src
 
 		if(HAS_TRAIT_FROM_ONLY(body, TRAIT_SUICIDED, REF(body))) // transfer if the body was killed due to suicide
 			ADD_TRAIT(src, TRAIT_SUICIDED, REF(body))
@@ -162,6 +163,7 @@ GLOBAL_VAR_INIT(observer_default_invisibility, INVISIBILITY_OBSERVER)
 	addtimer(CALLBACK(src, TYPE_PROC_REF(/atom, update_atom_colour)), 10)
 
 /mob/dead/observer/Destroy()
+	mind?.current_ghost = null
 	if(data_huds_on)
 		remove_data_huds()
 
@@ -363,6 +365,7 @@ This is the proc mobs get to turn into a ghost. Forked from ghostize due to comp
 		return
 	client.view_size.setDefault(getScreenSize(client.prefs.read_preference(/datum/preference/toggle/widescreen)))//Let's reset so people can't become allseeing gods
 	SStgui.on_transfer(src, mind.current) // Transfer NanoUIs.
+	mind.current_ghost = null
 	if(mind.current.stat == DEAD && SSlag_switch.measures[DISABLE_DEAD_KEYLOOP])
 		to_chat(src, span_warning("To leave your body again use the Ghost verb."))
 	mind.current.PossessByPlayer(key)

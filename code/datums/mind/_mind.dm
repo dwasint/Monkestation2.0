@@ -38,6 +38,8 @@
 	var/ghostname
 	/// Current mob this mind datum is attached to
 	var/mob/living/current
+	///the ghost we currently have
+	var/mob/dead/observer/current_ghost
 	/// Is this mind active?
 	var/active = FALSE
 

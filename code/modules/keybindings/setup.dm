@@ -19,7 +19,7 @@
 		erase_output = "[erase_output];[macro_name].parent=null"
 	winset(src, null, erase_output)
 
-/client/proc/set_macros()
+/client/proc/set_macros(blocks_chat)
 	set waitfor = FALSE
 
 	//Reset the buffer
@@ -39,7 +39,8 @@
 			window.mouse_event_macro_set = FALSE
 			window.set_mouse_macro()
 
-	update_special_keybinds()
+	if(!blocks_chat)
+		update_special_keybinds()
 
 /// Manually clears any held keys, in case due to lag or other undefined behavior a key gets stuck.
 /client/proc/reset_held_keys()
